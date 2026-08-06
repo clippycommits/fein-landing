@@ -1,0 +1,28 @@
+# fein
+
+> fein is the fund graph for venture capital. It connects a fund's inbox, calendar, and CRM into one live relationship graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history. Live in 14 days, self-hosted on the fund's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
+
+## What fein does
+- Find the warmest introduction to any founder, LP, or operator, and who should make it.
+- Prepare for meetings: who is in the room, how you know them, what you last discussed.
+- Recall every company the fund has seen, and exactly why it passed.
+- Flag relationships going cold, judged by each contact's own cadence.
+
+## How it works
+- fein reads your existing systems (email, calendar, Google Drive, CRMs like Attio) and builds a relationship graph automatically — no CRM to keep updated by hand.
+- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, or Cursor.
+- Delivered forward-deployed: live in 14 days, two short calls from your team.
+
+## Pricing
+- $5,000 one-time build.
+- $1,000 per month maintenance (connectors kept working, graph kept current, new answers built on request).
+- About $17,000 in the first year.
+
+## Security and data
+- Self-hosted in the fund's own environment; data never leaves it.
+- Open source and auditable end to end.
+- Per-person access, enforced on every query.
+
+## Contact
+- Get started: https://fein.vc/#get-started
+- Email: hello@fein.vc
