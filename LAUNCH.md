@@ -1,57 +1,54 @@
 # Launch checklist — fein.vc
 
-## 1. DNS cutover (blocks everything — needs Namecheap login)
+## The one command
 
-As of 2026-08-06, fein.vc does **not** serve the site: the apex uses Namecheap's
-URL-redirect to `www.fein.vc`, and `www` is a CNAME to `parkingpage.namecheap.com`
-(a parking page). HTTPS on the apex times out. GitHub Pages is configured and built
-(`CNAME` = fein.vc) — only DNS is wrong.
+```bash
+bash scripts/funnel-wizard.sh
+```
 
-In Namecheap → Domain List → fein.vc → **Advanced DNS**:
+The wizard walks every remaining human step in order: Namecheap DNS (site +
+api subdomain), Resend domain + API key, cal.com event type + webhook, pushes
+the config to the VPS, enforces Pages HTTPS, activates the FormSubmit
+fallback, and smoke-tests the funnel end to end. Re-runnable; it remembers
+values already captured (in `~/.config/fein/funnel.env`).
 
-1. **Delete** the "URL Redirect Record" on `@` and the CNAME on `www` pointing at
-   `parkingpage.namecheap.com`.
-2. **Add** four A records on host `@`:
-   - `185.199.108.153`
-   - `185.199.109.153`
-   - `185.199.110.153`
-   - `185.199.111.153`
-3. **Add** CNAME on host `www` → `clippycommits.github.io.`
-4. Leave the existing **MX (smtp.google.com)** and **TXT (google-site-verification)**
-   records untouched — mail keeps working.
+## The booking funnel (live once the wizard finishes)
 
-Then, once DNS propagates (minutes to ~1h):
+```
+contact-sales wizard on fein.vc
+   └─ POST https://api.fein.vc/enquiry     (lead service on the Hostinger VPS)
+        ├─ notification → team@commixcapital.com   (Reply-To: the lead)
+        ├─ welcome email → lead, "Pick a time" → cal.com (prefilled)
+        ├─ nudge email scheduled +72h (Resend scheduled send)
+        └─ success screen shows "Pick a time" too (api.fein.vc/call redirect)
+cal.com BOOKING_CREATED webhook → api.fein.vc/webhooks/calcom
+        ├─ cancels the scheduled nudge
+        └─ "fein call booked" notification → team@commixcapital.com
+```
 
-5. GitHub → clippycommits/fein-site → Settings → Pages: confirm the fein.vc custom
-   domain shows a green check, wait for the certificate, then tick **Enforce HTTPS**.
-   (Or: `gh api -X PUT repos/clippycommits/fein-site/pages --field https_enforced=true`)
+- Service: `/opt/fein-leads` on root@167.88.38.87 (systemd unit `fein-leads`,
+  Caddy terminates TLS for api.fein.vc). Logs: `journalctl -u fein-leads`.
+- Leads are an append-only event log: `/opt/fein-leads/leads.jsonl`
+  (enquiries, sends, bookings, call clicks).
+- The cal.com link lives only in the VPS `.env` (`CAL_LINK`) — emails and the
+  site both go through `api.fein.vc/call`, so changing the link is an `.env`
+  edit + `systemctl restart fein-leads`, no site rebuild.
+- Code + tests: `server/leads.js`, `server/test.js` (`node server/test.js`,
+  fully offline against a stub Resend).
+- FormSubmit remains as the fallback relay if the lead service is down
+  (partial/abandoned leads also go there, deliberately: they must not
+  trigger the booking funnel emails).
 
-Verify: `curl -I https://fein.vc/` returns `200` with `server: GitHub.com`.
+## Analytics (done — 2026-08-07)
 
-## 2. Lead delivery activation (one click, in team@commixcapital.com inbox)
+GoatCounter: https://fein.goatcounter.com (credentials in
+`~/.config/fein/goatcounter.txt`). Page views, hash routes, `lead-submitted`
+and `call-click` events. Server-side, `call-click` events are also in
+leads.jsonl.
 
-The contact-sales flow posts leads to FormSubmit (formsubmit.co) addressed to
-team@commixcapital.com (base64-encoded in `index.html` to keep it off scrapers).
-A test submission has been sent to trigger FormSubmit's **activation email** —
-open the inbox, click **Activate**, and every future lead arrives as an email
-with a table of the answers. Until activation, submissions are not forwarded.
+## Remaining nice-to-haves (not blocking)
 
-Optional hardening afterwards: FormSubmit's dashboard gives a random alias string
-for the address — swap it into `ENDPOINT` in `index.html` (see the
-`atob("…")` line) so the raw address never appears in page source, and consider
-pointing it at hello@fein.vc instead.
-
-## 3. Analytics (done — 2026-08-07)
-
-GoatCounter is live: dashboard at https://fein.goatcounter.com (login
-credentials in `~/.config/fein/goatcounter.txt` on the laptop — change the
-password if you like). The site counts page views, hash routes (so
-`/#get-started` funnel views show up as pages), and a `lead-submitted` event
-on successful contact-form sends. Privacy-friendly, no cookie banner needed.
-The snippet is added by `src/build.js` to the standalone site only — the
-claude.ai artifact copy never loads it (CSP would block it anyway).
-
-## 4. Remaining nice-to-haves (not blocking)
-
-- `hello@fein.vc` is advertised in the footer, JSON-LD, and the flow's
-  fallback mailto — confirm the mailbox actually exists in Google Workspace.
+- `hello@fein.vc` is advertised in the footer, JSON-LD, and the mailto
+  fallback — confirm the mailbox exists in Google Workspace.
+- After FormSubmit activation, swap the base64 address in `index.html` for
+  the random alias FormSubmit issues.
