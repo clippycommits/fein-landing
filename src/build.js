@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE = "https://fein.vc";
-const TITLE = "fein — the fund graph for venture capital";
-const DESC = "fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.";
+const TITLE = "fein · the graph for venture capital teams";
+const DESC = "fein is the relationship layer AI acts on for your venture capital team. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query: the warmest intro, meeting prep, or why you passed, grounded in your own data. Live in 14 days, self-hosted.";
 const LASTMOD = "2026-08-06";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
@@ -49,10 +49,10 @@ const rest = body.slice(sEnd);
 
 // ---- FAQ (mirrors the visible section) ----
 const faqs = [
-  ["What is fein?", "One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."],
+  ["What is fein?", "One relationship graph for your venture capital team. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."],
   ["How is this different from a CRM like Affinity or Attio?", "A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."],
   ["What does it cost?", "$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."],
-  ["What happens if we cancel?", "fein keeps running. It's open source and lives on your servers, so the graph, the connectors, and every answer stay yours. The monthly buys upkeep and new capability — never access to your own data."],
+  ["What happens if we cancel?", "fein keeps running. It's open source and lives on your servers, so the graph, the connectors, and every answer stay yours. The monthly buys upkeep and new capability, never access to your own data."],
   ["How long until it's live, and what do we do?", "Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between."],
   ["Where does our data live, and who can see what?", "On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query."],
   ["What does it connect to, and how do we use it?", "Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open."]
@@ -67,7 +67,7 @@ const ld = {
     {
       "@type": "SoftwareApplication", name: "fein", applicationCategory: "BusinessApplication",
       operatingSystem: "Web (self-hosted)", description: DESC, url: SITE + "/", provider: { "@id": SITE + "/#org" },
-      audience: { "@type": "Audience", audienceType: "Venture capital funds" },
+      audience: { "@type": "Audience", audienceType: "Venture capital teams" },
       offers: [
         { "@type": "Offer", name: "Build", price: "5000", priceCurrency: "USD", description: "One-time setup and build" },
         { "@type": "Offer", name: "Maintenance", priceCurrency: "USD", description: "Monthly maintenance and updates", priceSpecification: { "@type": "UnitPriceSpecification", price: "1000", priceCurrency: "USD", unitText: "MONTH" } }
@@ -87,7 +87,7 @@ const headMeta = `<meta charset="utf-8">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#000000">
 <meta name="author" content="fein">
-<meta name="keywords" content="fund graph, relationship intelligence, venture capital, warm intros, VC CRM, Attio, MCP, Claude, ChatGPT, deal sourcing, meeting prep">
+<meta name="keywords" content="relationship graph, relationship intelligence, venture capital, warm intros, VC CRM, Attio, MCP, Claude, ChatGPT, deal sourcing, meeting prep">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
@@ -98,7 +98,7 @@ const headMeta = `<meta charset="utf-8">
 <meta property="og:image" content="${SITE}/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein — the fund graph for venture capital">
+<meta property="og:image:alt" content="fein · the graph for venture capital teams">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
@@ -149,16 +149,16 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // llms.txt — structured summary for AI crawlers
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
-> fein is the fund graph for venture capital. It connects a fund's inbox, calendar, and CRM into one live relationship graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history. Live in 14 days, self-hosted on the fund's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
+> fein is the graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live relationship graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
 
 ## What fein does
 - Find the warmest introduction to any founder, LP, or operator, and who should make it.
 - Prepare for meetings: who is in the room, how you know them, what you last discussed.
-- Recall every company the fund has seen, and exactly why it passed.
+- Recall every company the team has seen, and exactly why it passed.
 - Flag relationships going cold, judged by each contact's own cadence.
 
 ## How it works
-- fein reads your existing systems (email, calendar, Google Drive, CRMs like Attio) and builds a relationship graph automatically — no CRM to keep updated by hand.
+- fein reads your existing systems (email, calendar, Google Drive, CRMs like Attio) and builds a relationship graph automatically, with no CRM to keep updated by hand.
 - It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, or Cursor.
 - Delivered forward-deployed: live in 14 days, two short calls from your team.
 
@@ -169,7 +169,7 @@ fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 - Month to month, no lock-in: cancel and the self-hosted software and graph remain yours.
 
 ## Security and data
-- Self-hosted in the fund's own environment; data never leaves it.
+- Self-hosted in the team's own environment; data never leaves it.
 - Open source and auditable end to end.
 - Per-person access, enforced on every query.
 
@@ -188,7 +188,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
-  name: "fein", short_name: "fein", description: "The fund graph for venture capital.",
+  name: "fein", short_name: "fein", description: "The graph for venture capital teams.",
   start_url: "/", display: "standalone", background_color: "#000000", theme_color: "#000000",
   icons: [{ src: "/favicon.svg", sizes: "any", type: "image/svg+xml" }]
 }, null, 2));
@@ -210,10 +210,10 @@ text{font-family:'Geist','Helvetica Neue',Arial,sans-serif}
 <line x1="960" y1="150" x2="1068" y2="248"/><line x1="1068" y1="248" x2="998" y2="382"/><line x1="1068" y1="248" x2="1132" y2="340"/><line x1="998" y1="382" x2="1086" y2="486"/><line x1="1132" y1="340" x2="1086" y2="486"/>
 <circle cx="960" cy="150" r="7"/><circle cx="1068" cy="248" r="10" fill="#ffffff" stroke="#ffffff"/><circle cx="998" cy="382" r="6"/><circle cx="1132" cy="340" r="5"/><circle cx="1086" cy="486" r="6"/>
 </g>
-<text x="92" y="150" fill="#8f8f8f" font-size="22" font-weight="500" letter-spacing="4">THE FUND GRAPH FOR VC</text>
+<text x="92" y="150" fill="#8f8f8f" font-size="22" font-weight="500" letter-spacing="4">THE GRAPH FOR VC TEAMS</text>
 <text x="84" y="330" fill="#ffffff" font-size="200" font-weight="600" letter-spacing="-8">fein</text>
 <text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The relationship layer your AI acts on.</text>
-<text x="92" y="458" fill="#7d7d7d" font-size="25" font-weight="400">Warm intros · meeting prep · deal memory — inside Claude &amp; ChatGPT</text>
+<text x="92" y="458" fill="#7d7d7d" font-size="25" font-weight="400">Warm intros · meeting prep · deal memory, inside Claude &amp; ChatGPT</text>
 <text x="92" y="560" fill="#ededed" font-size="26" font-weight="500">fein.vc</text>
 </g>
 </svg>

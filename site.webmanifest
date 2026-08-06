@@ -1,7 +1,7 @@
 {
   "name": "fein",
   "short_name": "fein",
-  "description": "The fund graph for venture capital.",
+  "description": "The graph for venture capital teams.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
