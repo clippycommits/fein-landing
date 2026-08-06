@@ -60,7 +60,7 @@ const faqs = [
 const ld = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", url: SITE + "/", description: DESC, email: "hello@fein.vc", logo: SITE + "/favicon.svg" },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", url: SITE + "/", description: DESC, email: "hello@fein.vc", logo: SITE + "/favicon.svg", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "hello@fein.vc", url: SITE + "/#get-started" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#org" }, inLanguage: "en" },
     {

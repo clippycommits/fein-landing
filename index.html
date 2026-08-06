@@ -264,6 +264,7 @@
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
   .field{display:flex;flex-direction:column;gap:.4rem}
   .form-row+.field,.field+.field,.field+.form-row{margin-top:1rem}
+  .form-row .field+.field{margin-top:0}
   .field label{font-size:.82rem;font-weight:550;color:var(--fg)}
   .field input,.field select,.field textarea{font-family:var(--font);font-size:.98rem;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:.72rem .85rem;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
   .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
@@ -274,8 +275,40 @@
   .card .submit{margin-top:1.3rem;width:100%;justify-content:center;font-size:1rem;padding:.75rem 1.1rem}
   .success{text-align:center;padding:1.5rem .5rem}
   .success .tick2{width:46px;height:46px;border-radius:50%;background:#141417;border:1px solid var(--line-2);color:#fff;display:grid;place-items:center;margin:0 auto 1.1rem}
-  .success h3{font-size:1.3rem}
+  .success h3,.success h2{font-size:1.3rem}
   .success p{margin-top:.6rem;color:var(--fg-3)}
+  .success .esc{margin-top:1.2rem;font-size:.92rem}
+  .success .esc a{color:var(--fg);font-weight:550;transition:color .18s ease}
+  .success .esc a:hover{color:#fff}
+  .success .btn{margin-top:1.5rem}
+
+  /* ---- contact-sales wizard: three steps, hairline progress, quiet blue current ---- */
+  .wizbar{display:flex;gap:1.15rem;list-style:none;margin:0 0 1.5rem;padding:0 0 1.05rem;border-bottom:1px solid var(--line)}
+  .wizbar li{display:inline-flex;align-items:baseline;gap:.45rem;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)}
+  .wizbar li .n{font-size:.62rem}
+  .wizbar li[aria-current="step"]{color:var(--fg)}
+  .wizbar li[aria-current="step"] .n,.wizbar li.done .n{color:var(--blue-l)}
+  .wizbar li.done{color:var(--fg-3)}
+  .wstep h2{font-size:1.28rem;letter-spacing:-.02em;margin-bottom:1.2rem;text-wrap:balance}
+  .wstep h2:focus{outline:none}
+  .wstep{animation:stepIn .4s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes stepIn{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+  .err{display:none;font-size:.84rem;color:#ff8a85;margin:0}
+  .field .err{margin-top:-.05rem}
+  .field.invalid input,.field.invalid select{border-color:rgba(255,138,133,.65)}
+  .field.invalid .err{display:block}
+  .consent.invalid{color:#ff8a85}
+  .chip{display:inline-flex;align-items:center;gap:.55rem;max-width:100%;margin:0 0 1.15rem;background:#000;border:1px solid var(--line-2);border-radius:9999px;padding:.3rem .5rem .3rem .85rem;font-size:.86rem;color:var(--fg-2)}
+  .chip strong{color:var(--fg);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chip button{background:none;border:0;padding:.1rem .45rem;font:inherit;font-size:.8rem;font-weight:550;color:var(--blue-l);cursor:pointer;border-radius:9999px;transition:color .15s ease}
+  .chip button:hover{color:#fff}
+  .wback{display:inline-flex;align-items:center;gap:.4rem;background:none;border:0;padding:0;margin:0 0 1rem;font:inherit;font-size:.88rem;font-weight:500;color:var(--fg-2);cursor:pointer;transition:color .18s ease}
+  .wback:hover{color:#fff}
+  .wback .barw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
+  .wback:hover .barw{transform:translateX(-3px)}
+  .form-err{display:none;margin-top:1.1rem;font-size:.9rem;line-height:1.5;color:var(--fg-2);border:1px solid rgba(255,138,133,.35);border-radius:var(--r-sm);padding:.8rem .95rem;background:rgba(255,138,133,.06)}
+  .form-err.show{display:block}
+  .form-err a{color:#fff;font-weight:550;text-decoration:underline;text-underline-offset:3px}
 
   /* ============ scroll-reveal (translate, so it never fights hover transforms) ============ */
   .reveal{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.22,.61,.36,1),translate .6s cubic-bezier(.22,.61,.36,1);will-change:opacity,translate}
@@ -308,9 +341,10 @@
     .reveal{opacity:1;translate:0 0;transition:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","url":"https://fein.vc/","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","email":"hello@fein.vc","logo":"https://fein.vc/favicon.svg"},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein — the fund graph for venture capital","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#org"},"inLanguage":"en"},{"@type":"SoftwareApplication","name":"fein","applicationCategory":"BusinessApplication","operatingSystem":"Web (self-hosted)","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"audience":{"@type":"Audience","audienceType":"Venture capital funds"},"offers":[{"@type":"Offer","name":"Build","price":"5000","priceCurrency":"USD","description":"One-time setup and build"},{"@type":"Offer","name":"Maintenance","priceCurrency":"USD","description":"Monthly maintenance and updates","priceSpecification":{"@type":"UnitPriceSpecification","price":"1000","priceCurrency":"USD","unitText":"MONTH"}}]},{"@type":"FAQPage","@id":"https://fein.vc/#faq","mainEntity":[{"@type":"Question","name":"What is fein?","acceptedAnswer":{"@type":"Answer","text":"One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."}},{"@type":"Question","name":"How is this different from a CRM like Affinity or Attio?","acceptedAnswer":{"@type":"Answer","text":"A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."}},{"@type":"Question","name":"How long until it's live, and what do we do?","acceptedAnswer":{"@type":"Answer","text":"Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between."}},{"@type":"Question","name":"Where does our data live, and who can see what?","acceptedAnswer":{"@type":"Answer","text":"On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query."}},{"@type":"Question","name":"What does it connect to, and how do we use it?","acceptedAnswer":{"@type":"Answer","text":"Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","url":"https://fein.vc/","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","email":"hello@fein.vc","logo":"https://fein.vc/favicon.svg","contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"hello@fein.vc","url":"https://fein.vc/#get-started"}},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein — the fund graph for venture capital","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#org"},"inLanguage":"en"},{"@type":"SoftwareApplication","name":"fein","applicationCategory":"BusinessApplication","operatingSystem":"Web (self-hosted)","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"audience":{"@type":"Audience","audienceType":"Venture capital funds"},"offers":[{"@type":"Offer","name":"Build","price":"5000","priceCurrency":"USD","description":"One-time setup and build"},{"@type":"Offer","name":"Maintenance","priceCurrency":"USD","description":"Monthly maintenance and updates","priceSpecification":{"@type":"UnitPriceSpecification","price":"1000","priceCurrency":"USD","unitText":"MONTH"}}]},{"@type":"FAQPage","@id":"https://fein.vc/#faq","mainEntity":[{"@type":"Question","name":"What is fein?","acceptedAnswer":{"@type":"Answer","text":"One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."}},{"@type":"Question","name":"How is this different from a CRM like Affinity or Attio?","acceptedAnswer":{"@type":"Answer","text":"A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."}},{"@type":"Question","name":"How long until it's live, and what do we do?","acceptedAnswer":{"@type":"Answer","text":"Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between."}},{"@type":"Question","name":"Where does our data live, and who can see what?","acceptedAnswer":{"@type":"Answer","text":"On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query."}},{"@type":"Question","name":"What does it connect to, and how do we use it?","acceptedAnswer":{"@type":"Answer","text":"Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open."}}]}]}</script>
 </head>
 <body>
+
 
 
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-gmail" viewBox="0 0 256 193">
@@ -542,34 +576,66 @@
   <header><div class="bar"><a class="brand" href="#home" aria-label="fein home">fein</a></div></header>
   <div class="wrap start-wrap">
     <div class="start-left">
-      <span class="eyebrow">Get started</span>
+      <span class="eyebrow">Contact sales</span>
       <h1>See your fund's graph in two weeks.</h1>
-      <p class="sub">Tell us your stack. We'll map it on a 30-minute call and show you the first answers.</p>
+      <p class="sub">Two short steps. We'll map your stack on a 30-minute call and show you the first answers from your own data.</p>
+      <p class="fine" style="margin-top:1.2rem">We reply within one business day.</p>
       <a class="back" href="#home"><span class="barw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="M12 6L6 12L12 18"/></svg></span> Back to home</a>
     </div>
-    <div class="card spot">
-      <form id="lead" novalidate>
-        <div class="form-row">
-          <div class="field"><label for="fn">First name</label><input id="fn" name="fn" autocomplete="given-name" required></div>
-          <div class="field"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name" required></div>
+    <div class="card">
+      <ol class="wizbar" aria-label="Progress">
+        <li id="wiz-1" aria-current="step"><span class="n">01</span> Email</li>
+        <li id="wiz-2"><span class="n">02</span> About you</li>
+        <li id="wiz-3"><span class="n">03</span> Done</li>
+      </ol>
+
+      <section class="wstep" id="wstep-1" aria-labelledby="wh-1">
+        <h2 id="wh-1" tabindex="-1">Start with your work email.</h2>
+        <form id="lead-1" novalidate>
+          <div class="field" id="f-em"><label for="em">Work email</label><input id="em" name="em" type="email" autocomplete="email" placeholder="you@fund.com" required aria-describedby="em-err"><p class="err" id="em-err" role="alert">Enter a valid work email, like you@fund.com.</p></div>
+          <div class="field" id="f-size"><label for="size">Fund size</label>
+            <select id="size" name="size" required aria-describedby="size-err">
+              <option value="" selected disabled>Select</option>
+              <option>Under $50M</option><option>$50M – $250M</option><option>$250M – $1B</option><option>Over $1B</option>
+            </select>
+            <p class="err" id="size-err" role="alert">Select your fund size.</p>
+          </div>
+          <button type="submit" class="btn btn-primary submit">Continue <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
+        </form>
+      </section>
+
+      <section class="wstep" id="wstep-2" hidden aria-labelledby="wh-2">
+        <button type="button" class="wback" id="wback-1"><span class="barw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="M12 6L6 12L12 18"/></svg></span> Back</button>
+        <h2 id="wh-2" tabindex="-1">Tell us about your fund.</h2>
+        <p class="chip"><strong id="chip-em">you@fund.com</strong><button type="button" id="chip-edit">Edit</button></p>
+        <form id="lead-2" novalidate>
+          <div class="form-row">
+            <div class="field" id="f-fn"><label for="fn">First name</label><input id="fn" name="fn" autocomplete="given-name" required aria-describedby="fn-err"><p class="err" id="fn-err" role="alert">Enter your first name.</p></div>
+            <div class="field" id="f-ln"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name" required aria-describedby="ln-err"><p class="err" id="ln-err" role="alert">Enter your last name.</p></div>
+          </div>
+          <div class="field" id="f-fund"><label for="fund">Fund</label><input id="fund" name="fund" autocomplete="organization" required aria-describedby="fund-err"><p class="err" id="fund-err" role="alert">Enter your fund's name.</p></div>
+          <div class="field"><label for="crm">Where does your pipeline live? <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+            <select id="crm" name="crm">
+              <option value="" selected>Select</option>
+              <option>Attio</option><option>Affinity</option><option>Airtable</option><option>Notion</option><option>Sheets / docs</option><option>Somewhere else</option><option>Nowhere yet</option>
+            </select>
+          </div>
+          <div class="field"><label for="ask">What would you ask it first? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="ask" name="ask" placeholder="e.g. Who's our warmest path to a Series A fintech founder?"></textarea></div>
+          <label class="consent" id="f-ok"><input type="checkbox" id="ok" required> I agree to be contacted about fein. No list, no spam.</label>
+          <div class="form-err" id="send-err" role="alert">Something went wrong on our end. Email <a id="mailto-fb" href="mailto:hello@fein.vc">hello@fein.vc</a> instead — your details are in the draft.</div>
+          <button type="submit" class="btn btn-primary submit" id="send-btn">Request the call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
+        </form>
+      </section>
+
+      <section class="wstep" id="wstep-3" hidden aria-labelledby="wh-3">
+        <div class="success">
+          <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
+          <h2 id="wh-3" tabindex="-1">Thanks — we've got it.</h2>
+          <p>We'll reach out to <strong id="done-em">you</strong> within one business day to book your 30-minute setup call.</p>
+          <p class="esc">Want it sooner? <a id="mailto-fast" href="mailto:hello@fein.vc">Email us directly</a>.</p>
+          <a class="btn btn-ghost" href="#home">Back to home</a>
         </div>
-        <div class="field"><label for="em">Work email</label><input id="em" name="em" type="email" autocomplete="email" placeholder="you@fund.com" required></div>
-        <div class="field"><label for="fund">Fund</label><input id="fund" name="fund" autocomplete="organization" required></div>
-        <div class="field"><label for="size">Fund size</label>
-          <select id="size" name="size" required>
-            <option value="" selected disabled>Select</option>
-            <option>Under $50M</option><option>$50M – $250M</option><option>$250M – $1B</option><option>Over $1B</option>
-          </select>
-        </div>
-        <div class="field"><label for="ask">What would you ask it first? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="ask" name="ask" placeholder="e.g. Who's our warmest path to a Series A fintech founder?"></textarea></div>
-        <label class="consent"><input type="checkbox" id="ok" required> I agree to be contacted about fein. No list, no spam.</label>
-        <button type="submit" class="btn btn-primary submit">Book the setup call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
-      </form>
-      <div id="done" class="success" hidden>
-        <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
-        <h3>Thanks — you're on the list.</h3>
-        <p>We'll be in touch within one business day to book your call.</p>
-      </div>
+      </section>
     </div>
   </div>
 </main>
@@ -579,8 +645,106 @@
   var home=document.getElementById("view-home"),start=document.getElementById("view-start"),current=null;
   function route(){var isStart=location.hash==="#get-started";home.hidden=isStart;start.hidden=!isStart;var n=isStart?"start":"home";if(n!==current){current=n;if(isStart)window.scrollTo(0,0);}}
   window.addEventListener("hashchange",route);route();
-  var form=document.getElementById("lead");
-  if(form)form.addEventListener("submit",function(e){e.preventDefault();if(!form.checkValidity()){form.reportValidity();return;}form.hidden=true;document.getElementById("done").hidden=false;});
+  /* contact-sales wizard: one decision per screen; email lands first so a
+     half-finished form still tells us who came knocking */
+  (function(){
+    var steps=[1,2,3].map(function(n){return document.getElementById("wstep-"+n);});
+    if(!steps[0]||!steps[1]||!steps[2])return;
+    var tabs=[1,2,3].map(function(n){return document.getElementById("wiz-"+n);});
+    var lead={},sent=false,partialSent=false;
+    /* formsubmit.co inbox, base64 to keep it off scrapers; swap for the alias once activated */
+    var ENDPOINT="https://formsubmit.co/ajax/"+atob("dGVhbUBjb21taXhjYXBpdGFsLmNvbQ==");
+    function show(n){
+      steps.forEach(function(s,i){s.hidden=i!==n-1;});
+      tabs.forEach(function(t,i){
+        if(i===n-1)t.setAttribute("aria-current","step");else t.removeAttribute("aria-current");
+        t.classList.toggle("done",i<n-1);
+      });
+      window.scrollTo(0,0);
+      var h=document.getElementById("wh-"+n);
+      if(h)h.focus({preventScroll:true});
+    }
+    function bad(id,is){
+      var f=document.getElementById(id);if(!f)return;
+      f.classList.toggle("invalid",is);
+      var inp=f.querySelector("input,select");
+      if(inp)inp.setAttribute("aria-invalid",is?"true":"false");
+    }
+    var em=document.getElementById("em"),size=document.getElementById("size");
+    var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    document.getElementById("lead-1").addEventListener("submit",function(e){
+      e.preventDefault();
+      var okEm=EMAIL_RE.test(em.value.trim()),okSz=!!size.value;
+      bad("f-em",!okEm);bad("f-size",!okSz);
+      if(!okEm){em.focus();return;}
+      if(!okSz){size.focus();return;}
+      lead.email=em.value.trim();lead.size=size.value;
+      document.getElementById("chip-em").textContent=lead.email;
+      show(2);
+    });
+    em.addEventListener("input",function(){bad("f-em",false);});
+    size.addEventListener("change",function(){bad("f-size",false);});
+    document.getElementById("wback-1").addEventListener("click",function(){show(1);});
+    document.getElementById("chip-edit").addEventListener("click",function(){show(1);em.focus();});
+    var fn=document.getElementById("fn"),ln=document.getElementById("ln"),
+        fund=document.getElementById("fund"),ok=document.getElementById("ok");
+    ["fn","ln","fund"].forEach(function(id){
+      document.getElementById(id).addEventListener("input",function(){bad("f-"+id,false);});
+    });
+    ok.addEventListener("change",function(){document.getElementById("f-ok").classList.remove("invalid");});
+    function payload(){
+      return {
+        _subject:"fein.vc lead — "+(lead.fund||lead.email),
+        _template:"table",_captcha:"false",
+        email:lead.email,name:(lead.first||"")+" "+(lead.last||""),
+        fund:lead.fund||"",fund_size:lead.size||"",
+        pipeline:lead.crm||"",first_question:lead.ask||"",
+        source:"fein.vc contact-sales"
+      };
+    }
+    function mailtoHref(){
+      var s="fein — talk to sales ("+(lead.fund||lead.email)+")";
+      var b="Name: "+(lead.first||"")+" "+(lead.last||"")+"\nEmail: "+(lead.email||"")+
+            "\nFund: "+(lead.fund||"")+"\nFund size: "+(lead.size||"")+
+            "\nPipeline: "+(lead.crm||"")+"\nFirst question: "+(lead.ask||"");
+      return "mailto:hello@fein.vc?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);
+    }
+    document.getElementById("lead-2").addEventListener("submit",function(e){
+      e.preventDefault();
+      var okFn=!!fn.value.trim(),okLn=!!ln.value.trim(),okFund=!!fund.value.trim(),okOk=ok.checked;
+      bad("f-fn",!okFn);bad("f-ln",!okLn);bad("f-fund",!okFund);
+      document.getElementById("f-ok").classList.toggle("invalid",!okOk);
+      var first=[!okFn&&fn,!okLn&&ln,!okFund&&fund,!okOk&&ok].filter(Boolean)[0];
+      if(first){first.focus();return;}
+      lead.first=fn.value.trim();lead.last=ln.value.trim();lead.fund=fund.value.trim();
+      lead.crm=document.getElementById("crm").value;lead.ask=document.getElementById("ask").value.trim();
+      var btn=document.getElementById("send-btn"),err=document.getElementById("send-err");
+      err.classList.remove("show");
+      var was=btn.innerHTML;btn.disabled=true;btn.textContent="Sending…";
+      fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload())})
+        .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+        .then(function(){
+          sent=true;
+          document.getElementById("done-em").textContent=lead.email;
+          document.getElementById("mailto-fast").href=mailtoHref();
+          show(3);
+        })
+        .catch(function(){
+          document.getElementById("mailto-fb").href=mailtoHref();
+          err.classList.add("show");
+        })
+        .then(function(){btn.disabled=false;btn.innerHTML=was;});
+    });
+    /* abandoned mid-flow: send what we have, best effort */
+    function partial(){
+      if(sent||partialSent||!lead.email)return;
+      partialSent=true;
+      var p=payload();p._subject="fein.vc partial lead — "+lead.email;p.note="left before finishing step 2";
+      try{fetch(ENDPOINT,{method:"POST",keepalive:true,headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(p)});}catch(_){}
+    }
+    window.addEventListener("pagehide",partial);
+    document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")partial();});
+  })();
 
   var REDUCE=window.matchMedia("(prefers-reduced-motion: reduce)");
   function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -1091,6 +1255,7 @@
   live.forEach(function(el){ io.observe(el); });
 })();
 </script>
+
 
 </body>
 </html>
