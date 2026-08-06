@@ -41,9 +41,17 @@ for the address — swap it into `ENDPOINT` in `index.html` (see the
 `atob("…")` line) so the raw address never appears in page source, and consider
 pointing it at hello@fein.vc instead.
 
-## 3. Nice-to-haves (not blocking)
+## 3. Analytics (done — 2026-08-07)
 
-- Analytics: the page has no tracker. GoatCounter or Plausible are the
-  restrained options; add the script tag before `</body>`.
+GoatCounter is live: dashboard at https://fein.goatcounter.com (login
+credentials in `~/.config/fein/goatcounter.txt` on the laptop — change the
+password if you like). The site counts page views, hash routes (so
+`/#get-started` funnel views show up as pages), and a `lead-submitted` event
+on successful contact-form sends. Privacy-friendly, no cookie banner needed.
+The snippet is added by `src/build.js` to the standalone site only — the
+claude.ai artifact copy never loads it (CSP would block it anyway).
+
+## 4. Remaining nice-to-haves (not blocking)
+
 - `hello@fein.vc` is advertised in the footer, JSON-LD, and the flow's
   fallback mailto — confirm the mailbox actually exists in Google Workspace.

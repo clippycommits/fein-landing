@@ -655,6 +655,7 @@ __LOGO_SPRITE__
         .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
         .then(function(){
           sent=true;
+          if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"lead-submitted",event:true});
           document.getElementById("done-em").textContent=lead.email;
           document.getElementById("mailto-fast").href=mailtoHref();
           show(3);

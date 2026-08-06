@@ -103,6 +103,12 @@ const headMeta = `<meta charset="utf-8">
 <meta name="twitter:description" content="${DESC}">
 <meta name="twitter:image" content="${SITE}/og.png">`;
 
+// GoatCounter (fein.goatcounter.com) — standalone site only, never the artifact
+// copy: claude.ai's CSP blocks external scripts. Hash routes count as pages so
+// the #get-started funnel is visible.
+const analytics = `<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>`;
+
 const indexHtml = `<!doctype html>
 <html lang="en">
 <head>
@@ -112,6 +118,7 @@ ${ldScript}
 </head>
 <body>
 ${rest}
+${analytics}
 </body>
 </html>`;
 

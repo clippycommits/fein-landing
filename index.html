@@ -725,6 +725,7 @@
         .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
         .then(function(){
           sent=true;
+          if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"lead-submitted",event:true});
           document.getElementById("done-em").textContent=lead.email;
           document.getElementById("mailto-fast").href=mailtoHref();
           show(3);
@@ -1257,5 +1258,7 @@
 </script>
 
 
+<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
 </body>
 </html>
