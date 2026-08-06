@@ -51,10 +51,14 @@
   [hidden]{display:none!important}
   ::selection{background:#d7d4ff}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  .eyebrow{font-size:.82rem;font-weight:600;letter-spacing:.01em;color:var(--blurple);text-transform:none}
+  .eyebrow{font-size:.82rem;font-weight:600;letter-spacing:.01em;color:var(--blurple)}
   h1,h2,h3{color:var(--navy);letter-spacing:-.025em;font-weight:570}
 
-  /* buttons — Stripe pills */
+  /* two-tone heading — bold statement + MUTED GREY continuation (never purple) */
+  .th{font-size:clamp(1.7rem,3.3vw,2.4rem);font-weight:580;letter-spacing:-.03em;line-height:1.2;color:var(--navy);max-width:30ch;text-wrap:balance}
+  .th .cont{color:var(--slate-2);font-weight:580}
+  .th.center{margin:0 auto;text-align:center;max-width:22ch}
+
   .btn{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--font);font-weight:590;font-size:.98rem;padding:.58rem 1.05rem;border-radius:9999px;cursor:pointer;border:0;transition:background .15s,transform .15s,box-shadow .15s;white-space:nowrap;line-height:1.2}
   .btn .arw{transition:transform .15s}
   .btn:hover .arw{transform:translateX(3px)}
@@ -69,14 +73,10 @@
   .arrowlink:hover .arw{transform:translateX(3px)}
   a:focus-visible,.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blurple);outline-offset:2px}
 
-  /* ---------- HERO + gradient ---------- */
-  .hero{position:relative;overflow:hidden;padding-bottom:clamp(3rem,6vw,5rem)}
-  .hero-gradient{position:absolute;top:-220px;left:0;right:0;height:880px;z-index:0;pointer-events:none;
-    transform:skewY(-7deg);transform-origin:top left;
-    background:
-      linear-gradient(180deg,#ffffff 0%,rgba(255,255,255,.55) 20%,rgba(255,255,255,0) 46%),
-      linear-gradient(102deg,#8CE7FF 0%,#7FA0FF 30%,#A987F2 54%,#FF93C1 78%,#FFC488 100%);}
-
+  /* HERO + gradient */
+  .hero{position:relative;overflow:hidden;padding-bottom:clamp(2rem,4vw,3rem)}
+  .hero-gradient{position:absolute;top:-220px;left:0;right:0;height:880px;z-index:0;pointer-events:none;transform:skewY(-7deg);transform-origin:top left;
+    background:linear-gradient(180deg,#ffffff 0%,rgba(255,255,255,.55) 20%,rgba(255,255,255,0) 46%),linear-gradient(102deg,#8CE7FF 0%,#7FA0FF 30%,#A987F2 54%,#FF93C1 78%,#FFC488 100%);}
   header{position:relative;z-index:5}
   .bar{display:flex;align-items:center;gap:1.4rem;height:74px;max-width:var(--maxw);margin:0 auto;padding:0 24px}
   .brand{font-weight:600;font-size:1.45rem;letter-spacing:-.035em;color:var(--navy)}
@@ -86,7 +86,6 @@
   .bar .right{margin-left:auto;display:flex;align-items:center;gap:1.25rem}
   .bar .right a.link{color:var(--navy);font-weight:530;font-size:.98rem}
   .bar .right a.link:hover{color:var(--blurple)}
-
   .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.5rem,4vw,3rem);align-items:center;padding-top:clamp(2.5rem,6vw,4.5rem)}
   .pill{display:inline-flex;align-items:center;gap:.5rem;background:#fff;border:1px solid var(--line-2);box-shadow:var(--shadow-soft);border-radius:9999px;padding:.34rem .8rem .34rem .7rem;font-size:.82rem;font-weight:540;color:var(--navy)}
   .pill .pill-dot{width:7px;height:7px;border-radius:50%;background:var(--blurple)}
@@ -95,8 +94,6 @@
   .hero .sub{margin-top:1.35rem;font-size:clamp(1.08rem,1.5vw,1.28rem);line-height:1.5;color:var(--slate);max-width:34ch}
   .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:1.9rem}
   .hero .fine{margin-top:1.2rem;font-size:.86rem;color:var(--slate-2)}
-
-  /* floating graph card */
   .glass{background:#fff;border-radius:18px;box-shadow:var(--shadow-card);overflow:hidden}
   .glass-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1.1rem;border-bottom:1px solid var(--line)}
   .glass-top .label{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
@@ -109,32 +106,53 @@
   .canvas-hold{position:relative;height:clamp(280px,32vw,360px)}
   .canvas-hold canvas{display:block;width:100%;height:100%}
 
-  /* ---------- sections ---------- */
+  /* works-with strip */
+  .works{padding:clamp(2rem,4vw,2.8rem) 0 0;text-align:center}
+  .works .lab{font-size:.82rem;color:var(--muted);font-weight:560;letter-spacing:.02em}
+  .works .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.5rem 1.5rem;margin-top:1.1rem;color:var(--slate);font-weight:560}
+  .works .row span{opacity:.9}
+  .works .row b{color:var(--line-2);font-weight:400}
+
+  /* sections */
   section{scroll-margin-top:20px}
   .band{padding:clamp(4rem,8vw,6.5rem) 0}
   .band.soft{background:var(--soft)}
-  .head{max-width:44ch}
+  .head{max-width:60ch}
   .head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:580;text-wrap:balance;margin-top:.7rem}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--slate);max-width:52ch}
 
-  /* infra / tech split */
+  /* DARK band + orchestration */
+  .band.dark{background:var(--dark);color:#c7d2e4;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:24px 24px}
+  .band.dark .eyebrow{color:#8ea3c6}
+  .band.dark .th{color:#fff}
+  .band.dark .th .cont{color:#8ea3c6}
+  .band.dark .infra-points{color:#b9c6dc}
+  .band.dark .infra-points b{color:#fff}
+  .band.dark .infra-points .tick{background:rgba(255,255,255,.12);color:#cdd9ff}
   .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:center}
-  .infra-points{list-style:none;padding:0;margin:1.8rem 0 0;display:grid;gap:1rem}
-  .infra-points li{display:flex;gap:.7rem;color:var(--slate)}
+  .infra-points{list-style:none;padding:0;margin:0;display:grid;gap:1rem}
+  .infra-points li{display:flex;gap:.7rem}
   .infra-points .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(99,91,255,.12);color:var(--blurple);display:grid;place-items:center;font-size:.7rem;margin-top:.15rem}
   .infra-points b{color:var(--navy);font-weight:560}
-
-  /* Stripe-style dark code card */
-  .code-card{background:var(--dark);border-radius:14px;box-shadow:var(--shadow-card);overflow:hidden;font-family:var(--mono)}
+  .code-card{background:#081a36;border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:var(--shadow-card);overflow:hidden;font-family:var(--mono)}
   .code-top{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-bottom:1px solid rgba(255,255,255,.08)}
   .code-top i{width:11px;height:11px;border-radius:50%;display:inline-block}
   .code-top .r{background:#ff5f57}.code-top .y{background:#febc2e}.code-top .g{background:#28c840}
   .code-top .name{margin-left:.5rem;font-size:.72rem;color:#8496b0;letter-spacing:.04em}
   .code-card pre{margin:0;padding:1.15rem 1.25rem;font-size:.82rem;line-height:1.75;color:#c4d0e0;overflow-x:auto}
-  .c-com{color:#6b7f9e}
-  .c-key{color:#9d8cff}.c-fn{color:#63e0c9}.c-usr{color:#ffffff}.c-out{color:#7ee0b8}.c-hl{color:#fff;font-weight:500;background:rgba(157,140,255,.16);padding:0 .2em;border-radius:3px}
+  .c-com{color:#6b7f9e}.c-key{color:#9d8cff}.c-fn{color:#63e0c9}.c-usr{color:#ffffff}.c-out{color:#7ee0b8}.c-hl{color:#fff;font-weight:500;background:rgba(157,140,255,.16);padding:0 .2em;border-radius:3px}
+  .diagram{margin-top:clamp(2.5rem,5vw,3.5rem);overflow-x:auto;padding-bottom:.5rem}
+  .diagram svg{display:block;min-width:720px;width:100%;height:auto;font-family:var(--font)}
 
-  /* feature grid (outcomes) */
+  /* backbone stats */
+  .backbone{text-align:center}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem;margin-top:2.8rem}
+  .stat .num{font-size:clamp(2rem,4.4vw,3rem);font-weight:600;letter-spacing:-.03em;color:var(--navy);line-height:1}
+  .stat .lab{margin-top:.6rem;color:var(--slate);font-size:.98rem;line-height:1.4}
+  .burst-hold{margin-top:1.5rem;height:clamp(170px,24vw,280px);position:relative}
+  #burst{width:100%;height:100%;display:block}
+
+  /* feature grid */
   .grid3{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.1rem,2.5vw,1.6rem);margin-top:2.6rem}
   .feat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.6rem;box-shadow:var(--shadow-soft);transition:transform .16s,box-shadow .16s}
   .feat:hover{transform:translateY(-2px);box-shadow:var(--shadow-card)}
@@ -155,7 +173,7 @@
   .plan-foot span{color:var(--muted);font-weight:400}
 
   /* security */
-  .sec-list{list-style:none;padding:0;margin:1.7rem 0 0;display:grid;gap:1rem}
+  .sec-list{list-style:none;padding:0;margin:0;display:grid;gap:1rem}
   .sec-list li{display:flex;gap:.7rem;color:var(--slate)}
   .sec-list b{color:var(--navy);font-weight:560}
   .sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(99,91,255,.12);color:var(--blurple);display:grid;place-items:center;font-size:.7rem;margin-top:.15rem}
@@ -166,7 +184,6 @@
   .fig .amt{font-size:clamp(2.2rem,5vw,3rem);font-weight:600;letter-spacing:-.03em;color:var(--navy)}
   .fig .u{font-size:.9rem;color:var(--muted)}
   .fig .plus{font-size:1.4rem;color:var(--muted)}
-  .price-note{margin-top:.9rem;color:var(--slate);font-size:.98rem}
   .price-covers{margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid var(--line);color:var(--slate);font-size:.96rem;line-height:1.5}
   .price-card .btn{margin-top:1.5rem}
 
@@ -187,7 +204,6 @@
   .cta-dark p{margin:1rem auto 0;color:#b9c4d6;max-width:40ch}
   .cta-dark .hero-actions{justify-content:center;margin-top:2rem}
 
-  /* footer */
   footer{background:var(--navy);color:#9fb0c6;padding:3rem 0 2.5rem;border-top:1px solid rgba(255,255,255,.08)}
   .foot{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;align-items:center;justify-content:space-between;font-size:.9rem}
   .foot .brand{color:#fff}
@@ -219,14 +235,14 @@
   @media (max-width:900px){
     nav.links,.bar .right a.link{display:none}
     .hero-inner,.split,.start-wrap{grid-template-columns:1fr;gap:2.2rem}
-    .grid3{grid-template-columns:1fr}
+    .grid3,.stats{grid-template-columns:1fr 1fr}
     .plan{grid-template-columns:1fr;gap:0}
     .pstep{border-top:none;border-left:2px solid var(--line-2);padding-top:0;padding-left:1.5rem;padding-bottom:1.7rem}
     .pstep:last-child{padding-bottom:0}
     .pstep .node{top:3px;left:-7px}
     .start-wrap{min-height:0}
   }
-  @media (max-width:560px){.form-row{grid-template-columns:1fr}}
+  @media (max-width:560px){.form-row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
   @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","url":"https://fein.vc/","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","email":"hello@fein.vc","logo":"https://fein.vc/favicon.svg"},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein — the fund graph for venture capital","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#org"},"inLanguage":"en"},{"@type":"SoftwareApplication","name":"fein","applicationCategory":"BusinessApplication","operatingSystem":"Web (self-hosted)","description":"fein is the relationship layer for AI to act on your fund. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query — the warmest intro, meeting prep, or why you passed — grounded in your own data. Live in 14 days, self-hosted.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"audience":{"@type":"Audience","audienceType":"Venture capital funds"},"offers":[{"@type":"Offer","name":"Build","price":"5000","priceCurrency":"USD","description":"One-time setup and build"},{"@type":"Offer","name":"Maintenance","priceCurrency":"USD","description":"Monthly maintenance and updates","priceSpecification":{"@type":"UnitPriceSpecification","price":"1000","priceCurrency":"USD","unitText":"MONTH"}}]},{"@type":"FAQPage","@id":"https://fein.vc/#faq","mainEntity":[{"@type":"Question","name":"What is fein?","acceptedAnswer":{"@type":"Answer","text":"One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."}},{"@type":"Question","name":"How is this different from a CRM like Affinity or Attio?","acceptedAnswer":{"@type":"Answer","text":"A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."}},{"@type":"Question","name":"How long until it's live, and what do we do?","acceptedAnswer":{"@type":"Answer","text":"Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between."}},{"@type":"Question","name":"Where does our data live, and who can see what?","acceptedAnswer":{"@type":"Answer","text":"On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query."}},{"@type":"Question","name":"What does it connect to, and how do we use it?","acceptedAnswer":{"@type":"Answer","text":"Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open."}}]}]}</script>
@@ -275,23 +291,28 @@
         </div>
       </div>
     </div>
+
+    <div class="wrap works">
+      <div class="lab">Works with the tools your fund already runs</div>
+      <div class="row">
+        <span>Gmail</span><b>·</b><span>Google Calendar</span><b>·</b><span>Drive</span><b>·</b><span>Attio</span><b>·</b><span>Granola</span><b>·</b><span>Claude</span><b>·</b><span>ChatGPT</span><b>·</b><span>Cursor</span>
+      </div>
+    </div>
   </section>
 
-  <!-- INFRASTRUCTURE / TECH -->
-  <section id="infra" class="band">
-    <div class="wrap split">
-      <div>
-        <span class="eyebrow">Infrastructure</span>
-        <h2 style="font-size:clamp(1.9rem,3.6vw,2.7rem);margin-top:.7rem;text-wrap:balance">The layer your agents act on.</h2>
-        <p class="lead" style="margin-top:1rem">Vector search guesses. fein gives your AI a real map — every person, company, and relationship in your fund, resolved and kept current. Agents query it over one endpoint and get answers grounded in your own data, each linked to its source.</p>
+  <!-- DARK: INFRASTRUCTURE + ORCHESTRATION -->
+  <section id="infra" class="band dark">
+    <div class="wrap">
+      <span class="eyebrow">Infrastructure</span>
+      <h2 class="th" style="margin-top:.7rem">The layer your agents act on. <span class="cont">Vector search guesses. fein gives your AI a real map of your fund — resolved, current, and grounded in your own data.</span></h2>
+      <div class="split" style="margin-top:clamp(2rem,4vw,3rem);align-items:start">
         <ul class="infra-points">
           <li><span class="tick">✓</span><span><b>One endpoint.</b> Connect fein to Claude, ChatGPT, or Cursor over MCP. No new app.</span></li>
           <li><span class="tick">✓</span><span><b>Grounded, not guessed.</b> Every answer comes from your data, not a model's memory.</span></li>
           <li><span class="tick">✓</span><span><b>Sourced.</b> Each fact links back to the email, meeting, or doc it came from.</span></li>
         </ul>
-      </div>
-      <div class="code-card">
-        <div class="code-top"><i class="r"></i><i class="y"></i><i class="g"></i><span class="name">agent · fein over MCP</span></div>
+        <div class="code-card">
+          <div class="code-top"><i class="r"></i><i class="y"></i><i class="g"></i><span class="name">agent · fein over MCP</span></div>
 <pre><span class="c-com">// your AI, connected to fein</span>
 <span class="c-key">tools</span>: [ <span class="c-fn">fein</span> ]
 
@@ -301,7 +322,55 @@
       best intro: <span class="c-hl">Dana K.</span> — last spoke 6d ago
       backup:    <span class="c-hl">Marcus L.</span> (3 hops)
       source:    calendar, 14 shared meetings</pre>
+        </div>
       </div>
+
+      <h3 class="th" style="font-size:clamp(1.4rem,2.7vw,1.95rem);margin-top:clamp(3rem,6vw,4.5rem)">Connect to your stack. <span class="cont">fein reads the systems you already run and answers from the tools your team lives in — over one endpoint.</span></h3>
+      <div class="diagram">
+        <svg viewBox="0 0 960 400" role="img" aria-label="Diagram: your systems flow into fein, which answers from your AI tools over one MCP endpoint">
+          <text x="44" y="30" font-size="12" font-weight="600" letter-spacing="2" fill="#6b80a6">YOUR SYSTEMS</text>
+          <text x="916" y="30" text-anchor="end" font-size="12" font-weight="600" letter-spacing="2" fill="#6b80a6">YOUR AI TOOLS</text>
+          <!-- connectors in -->
+          <g stroke="rgba(255,255,255,.26)" stroke-width="1.6" stroke-dasharray="1 6" stroke-linecap="round">
+            <line x1="196" y1="80" x2="404" y2="188"/><line x1="196" y1="150" x2="404" y2="188"/><line x1="196" y1="220" x2="404" y2="188"/><line x1="196" y1="290" x2="404" y2="188"/>
+          </g>
+          <!-- connectors out -->
+          <g stroke="rgba(99,91,255,.55)" stroke-width="1.7" stroke-dasharray="1 6" stroke-linecap="round">
+            <line x1="556" y1="188" x2="764" y2="114"/><line x1="556" y1="188" x2="764" y2="192"/><line x1="556" y1="188" x2="764" y2="270"/>
+          </g>
+          <!-- left boxes -->
+          <g font-size="15" font-weight="500" fill="#d3ddef">
+            <rect x="44" y="58" width="152" height="44" rx="10" fill="#16294a" stroke="rgba(255,255,255,.16)"/><text x="120" y="80" text-anchor="middle" dominant-baseline="middle">Inbox</text>
+            <rect x="44" y="128" width="152" height="44" rx="10" fill="#16294a" stroke="rgba(255,255,255,.16)"/><text x="120" y="150" text-anchor="middle" dominant-baseline="middle">Calendar</text>
+            <rect x="44" y="198" width="152" height="44" rx="10" fill="#16294a" stroke="rgba(255,255,255,.16)"/><text x="120" y="220" text-anchor="middle" dominant-baseline="middle">Google Drive</text>
+            <rect x="44" y="268" width="152" height="44" rx="10" fill="#16294a" stroke="rgba(255,255,255,.16)"/><text x="120" y="290" text-anchor="middle" dominant-baseline="middle">Attio CRM</text>
+          </g>
+          <!-- fein node -->
+          <rect x="404" y="136" width="152" height="104" rx="16" fill="#635BFF"/>
+          <text x="480" y="182" text-anchor="middle" font-size="24" font-weight="600" fill="#fff">fein</text>
+          <text x="480" y="208" text-anchor="middle" font-size="10.5" letter-spacing="1.5" fill="rgba(255,255,255,.88)">ONE ENDPOINT · MCP</text>
+          <!-- right boxes -->
+          <g font-size="15" font-weight="500" fill="#e7ecfb">
+            <rect x="764" y="92" width="152" height="44" rx="10" fill="#1d2f57" stroke="rgba(99,91,255,.5)"/><text x="840" y="114" text-anchor="middle" dominant-baseline="middle">Claude</text>
+            <rect x="764" y="170" width="152" height="44" rx="10" fill="#1d2f57" stroke="rgba(99,91,255,.5)"/><text x="840" y="192" text-anchor="middle" dominant-baseline="middle">ChatGPT</text>
+            <rect x="764" y="248" width="152" height="44" rx="10" fill="#1d2f57" stroke="rgba(99,91,255,.5)"/><text x="840" y="270" text-anchor="middle" dominant-baseline="middle">Cursor</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- BACKBONE STATS -->
+  <section class="band backbone">
+    <div class="wrap">
+      <h2 class="th center">Built to run your fund's memory.</h2>
+      <div class="stats">
+        <div class="stat"><div class="num">14 days</div><div class="lab">from kickoff to live</div></div>
+        <div class="stat"><div class="num">2 calls</div><div class="lab">your entire lift</div></div>
+        <div class="stat"><div class="num">1 endpoint</div><div class="lab">Claude, ChatGPT, and Cursor</div></div>
+        <div class="stat"><div class="num">100%</div><div class="lab">on your own servers</div></div>
+      </div>
+      <div class="burst-hold"><canvas id="burst" aria-hidden="true"></canvas></div>
     </div>
   </section>
 
@@ -310,8 +379,7 @@
     <div class="wrap">
       <div class="head">
         <span class="eyebrow">What you get</span>
-        <h2>Your network, working for the whole team.</h2>
-        <p class="lead">Ask in plain words, inside the tools you already use.</p>
+        <h2 class="th" style="margin-top:.7rem">Your network, working for the whole team. <span class="cont">Ask in plain words, inside the tools you already use.</span></h2>
       </div>
       <div class="grid3">
         <div class="feat"><div class="ic">↗</div><h3>Find the warm path</h3><p>Ask who at your fund is closest to a founder. fein names the path and the best person to make the intro.</p></div>
@@ -327,8 +395,7 @@
     <div class="wrap">
       <div class="head">
         <span class="eyebrow">How it works</span>
-        <h2>Live in 14 days. Two calls from you.</h2>
-        <p class="lead">No data hire. Nothing to learn. We build it around your stack and hand you the answers.</p>
+        <h2 class="th" style="margin-top:.7rem">Live in 14 days. <span class="cont">Two calls from you. No data hire, nothing to learn — we build it around your stack.</span></h2>
       </div>
       <div class="plan">
         <div class="pstep"><span class="node"></span><div class="meta"><span class="num">01</span><span>Day 0</span></div><h3>The setup call</h3><p>Thirty minutes. We map your inbox, calendar, Drive, and CRM together, then we take it from there.</p></div>
@@ -344,8 +411,7 @@
     <div class="wrap split">
       <div>
         <span class="eyebrow">Security</span>
-        <h2 style="font-size:clamp(1.9rem,3.6vw,2.7rem);margin-top:.7rem">It runs on your infrastructure.</h2>
-        <p class="lead" style="margin-top:1rem">fein installs in your own environment. Your data never leaves your systems. The code is open, so you can read exactly what touches it.</p>
+        <h2 class="th" style="margin-top:.7rem">It runs on your infrastructure. <span class="cont">Installed in your own environment. Your data never leaves your systems, and the code is open to audit.</span></h2>
       </div>
       <div>
         <ul class="sec-list">
@@ -362,8 +428,7 @@
     <div class="wrap">
       <div class="head">
         <span class="eyebrow">Pricing</span>
-        <h2>One build fee. One monthly line.</h2>
-        <p class="lead">No per-seat pricing. About $17,000 your first year, less than one month of a data hire.</p>
+        <h2 class="th" style="margin-top:.7rem">One build fee. One monthly line. <span class="cont">No per-seat pricing. About $17,000 your first year, less than one month of a data hire.</span></h2>
       </div>
       <div class="price-card">
         <div class="fig">
@@ -380,7 +445,7 @@
   <!-- FAQ -->
   <section id="faq" class="band soft">
     <div class="wrap">
-      <div class="head"><span class="eyebrow">FAQ</span><h2>Questions, answered.</h2></div>
+      <div class="head"><span class="eyebrow">FAQ</span><h2 style="margin-top:.5rem">Questions, answered.</h2></div>
       <div class="faq-list">
         <details><summary>What is fein?</summary><p>One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time.</p></details>
         <details><summary>How is this different from a CRM like Affinity or Attio?</summary><p>A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing.</p></details>
@@ -392,7 +457,6 @@
     </div>
   </section>
 
-  <!-- DARK CTA -->
   <section class="cta-dark">
     <div class="wrap">
       <h2>Give your AI your fund's memory.</h2>
@@ -408,11 +472,7 @@
     <div class="wrap foot">
       <a class="brand" href="#home" style="font-weight:600;font-size:1.15rem">fein</a>
       <nav class="fnav" aria-label="Footer">
-        <a href="#infra">Product</a>
-        <a href="#security">Security</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#get-started">Contact sales</a>
-        <a href="mailto:hello@fein.vc">hello@fein.vc</a>
+        <a href="#infra">Product</a><a href="#security">Security</a><a href="#pricing">Pricing</a><a href="#get-started">Contact sales</a><a href="mailto:hello@fein.vc">hello@fein.vc</a>
       </nav>
       <span>The fund graph for venture capital.</span>
     </div>
@@ -420,9 +480,7 @@
 </main>
 
 <main id="view-start" hidden>
-  <header>
-    <div class="bar"><a class="brand" href="#home" aria-label="fein home">fein</a></div>
-  </header>
+  <header><div class="bar"><a class="brand" href="#home" aria-label="fein home">fein</a></div></header>
   <div class="wrap start-wrap">
     <div class="start-left">
       <span class="eyebrow">Get started</span>
@@ -462,10 +520,25 @@
   var home=document.getElementById("view-home"),start=document.getElementById("view-start"),current=null;
   function route(){var isStart=location.hash==="#get-started";home.hidden=isStart;start.hidden=!isStart;var n=isStart?"start":"home";if(n!==current){current=n;if(isStart)window.scrollTo(0,0);}}
   window.addEventListener("hashchange",route);route();
-
   var form=document.getElementById("lead");
   if(form)form.addEventListener("submit",function(e){e.preventDefault();if(!form.checkValidity()){form.reportValidity();return;}form.hidden=true;document.getElementById("done").hidden=false;});
 
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+  /* radial burst */
+  var burst=document.getElementById("burst");
+  if(burst){var bx=burst.getContext("2d"),bz;
+    function drawBurst(){var r=burst.getBoundingClientRect(),w=r.width,h=r.height,dp=Math.min(window.devicePixelRatio||1,2);burst.width=w*dp;burst.height=h*dp;bx.setTransform(dp,0,0,dp,0,0);bx.clearRect(0,0,w,h);
+      var cx=w/2,cy=h*1.04,rng=mulberry32(4242),lines=Math.round(Math.min(120,w/8));
+      for(var i=0;i<lines;i++){var ang=-Math.PI/2+(i/(lines-1)-0.5)*Math.PI*1.02,len=h*(0.55+rng()*0.5),ex=cx+Math.cos(ang)*len,ey=cy+Math.sin(ang)*len;
+        var g=bx.createLinearGradient(cx,cy,ex,ey);g.addColorStop(0,"rgba(99,91,255,0.02)");g.addColorStop(1,"rgba(99,91,255,0.45)");
+        bx.strokeStyle=g;bx.lineWidth=1;bx.beginPath();bx.moveTo(cx,cy);bx.lineTo(ex,ey);bx.stroke();
+        bx.fillStyle="rgba(99,91,255,0.65)";bx.beginPath();bx.arc(ex,ey,1.4,0,7);bx.fill();}
+    }
+    drawBurst();window.addEventListener("resize",function(){clearTimeout(bz);bz=setTimeout(drawBurst,150);});
+  }
+
+  /* hero graph */
   var canvas=document.getElementById("graph");
   if(!canvas)return;
   var ctx=canvas.getContext("2d");
@@ -473,7 +546,6 @@
   var C={};
   function refreshColors(){var cs=getComputedStyle(document.documentElement);C.edge=cs.getPropertyValue("--g-edge").trim()||"#e1e7f0";C.node=cs.getPropertyValue("--g-node").trim()||"#aab4c4";C.active=cs.getPropertyValue("--g-active").trim()||"#635BFF";C.halo=cs.getPropertyValue("--g-halo").trim()||"#fff";}
   refreshColors();
-  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
   var N=32,rng=mulberry32(918273),nodes=[];
   for(var i=0;i<N;i++)nodes.push({nx:0.08+rng()*0.84,ny:0.12+rng()*0.76});
   for(var pass=0;pass<4;pass++)for(var a=0;a<N;a++)for(var b=a+1;b<N;b++){var dx=nodes[b].nx-nodes[a].nx,dy=nodes[b].ny-nodes[a].ny,d=Math.hypot(dx,dy)||0.001;if(d<0.14){var pu=(0.14-d)/2,ux=dx/d,uy=dy/d;nodes[a].nx-=ux*pu;nodes[a].ny-=uy*pu;nodes[b].nx+=ux*pu;nodes[b].ny+=uy*pu;}}
@@ -500,7 +572,7 @@
       for(var s2=0;s2<segs.length;s2++){var sg=segs[s2];if(sg.acc>reach)break;var fr=Math.min(1,(reach-sg.acc)/sg.L),ex=sg.A.x+(sg.B.x-sg.A.x)*fr,ey=sg.A.y+(sg.B.y-sg.A.y)*fr;ctx.strokeStyle=rgba(C.active,0.95*fade);ctx.beginPath();ctx.moveTo(sg.A.x,sg.A.y);ctx.lineTo(ex,ey);ctx.stroke();if(fr<1){ctx.fillStyle=rgba(C.active,0.95*fade);ctx.beginPath();ctx.arc(ex,ey,2.8,0,7);ctx.fill();}}
       var tp=P(path[path.length-1]);ctx.strokeStyle=rgba(C.active,0.85*fade*grow);ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(tp.x,tp.y,7,0,7);ctx.stroke();}
     var rp=P(due),per=2600,ph=(t%per)/per;ctx.strokeStyle=rgba(C.active,(1-ph)*0.4*intro);ctx.lineWidth=1.3;ctx.beginPath();ctx.arc(rp.x,rp.y,4+ph*22,0,7);ctx.stroke();
-    for(var n=0;n<N;n++){if(n===you)continue;var p=P(n);ctx.fillStyle=rgba(n===due?C.active:C.node,(n===due?0.9:0.9)*intro);ctx.beginPath();ctx.arc(p.x,p.y,n===due?3:2.3,0,7);ctx.fill();}
+    for(var n=0;n<N;n++){if(n===you)continue;var p=P(n);ctx.fillStyle=rgba(n===due?C.active:C.node,0.9*intro);ctx.beginPath();ctx.arc(p.x,p.y,n===due?3:2.3,0,7);ctx.fill();}
     var yp=P(you);ctx.fillStyle=rgba(C.active,0.12*intro);ctx.beginPath();ctx.arc(yp.x,yp.y,9,0,7);ctx.fill();ctx.fillStyle=rgba(C.active,intro);ctx.beginPath();ctx.arc(yp.x,yp.y,4.2,0,7);ctx.fill();ctx.strokeStyle=rgba(C.halo,intro);ctx.lineWidth=1.6;ctx.stroke();
     ctx.font='10px "Geist Mono",ui-monospace,Menlo,monospace';ctx.fillStyle=rgba("#425466",0.8*intro);ctx.textBaseline="middle";ctx.fillText("you",yp.x+9,yp.y);ctx.fillStyle=rgba(C.active,0.9*intro);ctx.fillText("◎ due",rp.x+7,rp.y-9);
   }
