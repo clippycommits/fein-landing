@@ -185,10 +185,14 @@
   .dlive{position:relative;width:960px;height:400px;margin:0 auto;font-family:var(--font)}
   .dlive canvas{position:absolute;inset:0;width:960px;height:400px;display:block}
   .dlab{position:absolute;top:18px;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.16em;color:var(--fg-3)}
-  .dbox{position:absolute;display:flex;align-items:center;gap:.6rem;width:160px;height:46px;padding:0 14px;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:12px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);color:#d6d9de;font-size:15px;font-weight:500;transition:transform .22s cubic-bezier(.22,.61,.36,1),border-color .35s ease,box-shadow .45s ease;cursor:default}
-  .dbox svg{width:22px;height:22px;flex:none}
-  .dbox:hover{transform:translateY(-1px);border-color:var(--line-2)}
-  .dbox.lit{border-color:rgba(82,168,255,.55);box-shadow:var(--hl-top),0 0 22px -6px rgba(0,112,243,.6)}
+  .dfield{position:absolute;inset:0;overflow:hidden;border-radius:18px}
+  .drift{position:absolute;left:0;top:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
+  .dico{width:46px;height:46px;justify-content:center;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:12px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4)}
+  .dico svg{width:22px;height:22px;flex:none}
+  .ico-attio svg{width:30px;height:30px}
+  .dpill{gap:.5rem;height:40px;padding:0 9px 0 12px;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:10px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);font-size:13px;font-weight:500;white-space:nowrap}
+  .dpill svg{width:15px;height:15px;flex:none}
+  .dpill b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:2.5px 6px}
   .dcore{position:absolute;left:404px;top:146px;width:152px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;background:rgba(14,14,19,.82);border:1px solid rgba(82,168,255,.4);border-radius:18px;box-shadow:var(--hl-top),0 0 40px -12px rgba(0,112,243,.35)}
   .dcore b{font-size:25px;font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1}
   .dcore span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:rgba(255,255,255,.55)}
@@ -493,18 +497,12 @@
         <h2 class="th" style="margin-top:.7rem">Connect to your stack. <span class="cont">fein reads the systems you already run and answers from the tools your team lives in — over one endpoint.</span></h2>
       </div>
       <div class="diagram reveal">
-        <div class="dlive" id="dlive" role="img" aria-label="Diagram: your systems — Gmail, Calendar, Drive, and Attio — flow into fein, one MCP endpoint, which answers inside Claude, ChatGPT, and Cursor">
+        <div class="dlive" id="dlive" role="img" aria-label="Animation: your systems — Gmail, Calendar, Drive, and Attio — stream into fein, one MCP endpoint, and sourced answers stream out to Claude, ChatGPT, and Cursor">
           <canvas id="dcanvas" aria-hidden="true"></canvas>
           <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
-          <span class="dlab" style="right:44px">YOUR AI TOOLS</span>
-          <div class="dbox src" style="left:44px;top:58px"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail</div>
-          <div class="dbox src" style="left:44px;top:128px"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar</div>
-          <div class="dbox src" style="left:44px;top:198px"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#l-gdrive"/></svg>Drive</div>
-          <div class="dbox src" style="left:44px;top:268px"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#l-attio"/></svg>Attio</div>
+          <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
+          <div class="dfield" id="dfield" aria-hidden="true"></div>
           <div class="dcore"><b>fein</b><span>ONE ENDPOINT · MCP</span></div>
-          <div class="dbox dst" style="left:756px;top:92px"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#l-claude"/></svg>Claude</div>
-          <div class="dbox dst" style="left:756px;top:170px"><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#fff"><use href="#l-openai"/></svg>ChatGPT</div>
-          <div class="dbox dst" style="left:756px;top:248px"><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#fff"><use href="#l-cursor"/></svg>Cursor</div>
         </div>
       </div>
       <ul class="sec-list" data-reveal-group="90">
@@ -1009,87 +1007,123 @@
     wstart();
   }
 
-  /* ===== the loom — the stack diagram, alive =====
-     Each connection is a loose bundle of three filaments converging on the
-     core. Packets tell the product's causality: a system glints and emits, the
-     packet falls into the core (which blooms on arrival), and an answer packet
-     flies out to a tool, which lights up. Threads draw themselves in on first
-     view; hovering a box warms its bundle and fires a packet. Reduced motion
-     gets the finished still; offscreen pauses the loop. */
-  var dl=document.getElementById("dlive"),dc=document.getElementById("dcanvas");
-  if(dl&&dc){
-    var g=dc.getContext("2d"),DW=960,DH=400,draf=0,dvis=false,dstart=null,ignBloomed=false;
-    var CORE={x:480,y:198},bloom=0,packs=[],answerQ=[],nextEmit=1e18;
-    var srcs=[].slice.call(dl.querySelectorAll(".src")),dsts=[].slice.call(dl.querySelectorAll(".dst"));
-    var IN=[[206,81,402,178],[206,151,402,191],[206,221,402,205],[206,291,402,218]];
-    var OUT=[[558,186,754,115],[558,198,754,193],[558,210,754,271]];
+  /* ===== the belt — the stack, alive as a conveyor =====
+     Your systems drift in from the left and are absorbed by the core; sourced
+     answers surface behind it and drift out to the right. Three depth layers
+     (scale, blur, speed) give the field parallax over a faint honeycomb that
+     shimmers cell by cell. Reduced motion gets a still of the belt mid-flow;
+     offscreen pauses the loop. */
+  var dl=document.getElementById("dlive"),dc=document.getElementById("dcanvas"),df=document.getElementById("dfield");
+  if(dl&&dc&&df){
+    var g=dc.getContext("2d"),DW=960,DH=400,draf=0,dvis=false,dlast=null;
+    var CORE={x:480,y:198},SPEED=68;
     var rngD=mulberry32(2468);
-    function mkConn(seg,i,dirIn){
-      var fils=[];
-      for(var k=0;k<3;k++)fils.push({o1:k?(rngD()-0.5)*9:0,o2:k?(rngD()-0.5)*7:0,al:k?0.05:0.115,w:k?0.7:1.1});
-      return {p:seg,f:fils,ph:rngD()*6.28,fq:0.5+rngD()*0.6,hot:0,tgt:0,delay:(dirIn?0:520)+i*110,lastHover:0};
+    var LAY=[{s:.66,b:2.2,a:.30,v:.44},{s:.84,b:1.1,a:.55,v:.70},{s:1,b:0,a:1,v:1}];
+    var ICONS=["gmail","gcal","gdrive","attio"];
+    var ANSW=[["claude","Warmest path to the founder","ATTIO"],
+      ["openai","Why we passed, last March","GMAIL"],
+      ["cursor","Prep for tomorrow's board","CAL"],
+      ["claude","Who knows this LP best","ATTIO"],
+      ["openai","Deck v3 — what changed","DRIVE"],
+      ["claude","Last touch: six weeks ago","GMAIL"],
+      ["cursor","Every founder we met in Q2","CAL"],
+      ["openai","Co-invest history, three funds","ATTIO"],
+      ["claude","Intro path: two steps, warm","ATTIO"],
+      ["cursor","Series A pipeline, ranked","ATTIO"],
+      ["openai","Who met them at Slush","CAL"],
+      ["claude","The memo, summarized","DRIVE"]];
+    var pIdx=0,inUse={},items=[],ICO_END=CORE.x-64;
+    function bob(it){it.amp=4+rngD()*5;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
+    function laneY(it){it.y0=it.kind==="i"?40+rngD()*300:52+rngD()*280;}
+    function mkIco(li,i){
+      var k=ICONS[i%ICONS.length];
+      var el=document.createElement("div");el.className="drift dico ico-"+k;
+      el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+k+'"/></svg>';
+      var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
+      df.appendChild(el);
+      var it={el:el,l:li,kind:"i",x:-150+rngD()*(ICO_END+110),w:46};
+      laneY(it);bob(it);items.push(it);
     }
-    var CIN=IN.map(function(s,i){return mkConn(s,i,true);});
-    var COUT=OUT.map(function(s,i){return mkConn(s,i,false);});
-    function csize(){var dp=Math.min(window.devicePixelRatio||1,2);dc.width=DW*dp;dc.height=DH*dp;g.setTransform(dp,0,0,dp,0,0);}
-    function cpts(c,t,o1,o2){
-      var s=Math.sin(t*0.0004*c.fq+c.ph)*4,p=c.p,dx=(p[2]-p[0])*0.45;
-      return [p[0],p[1]+(o1||0),p[0]+dx,p[1]+(o1||0)+s,p[2]-dx,p[3]+(o2||0)-s,p[2],p[3]+(o2||0)];
+    function fillPill(it){
+      if(it.ai!=null)delete inUse[it.ai];
+      var idx;do{idx=pIdx%ANSW.length;pIdx++;}while(inUse[idx]);
+      inUse[idx]=1;it.ai=idx;
+      var a=ANSW[idx];
+      it.el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+a[0]+'"/></svg><span>'+a[1]+'</span><b>'+a[2]+'</b>';
     }
-    function dbez(p,u){var v=1-u;return[
-      v*v*v*p[0]+3*v*v*u*p[2]+3*v*u*u*p[4]+u*u*u*p[6],
-      v*v*v*p[1]+3*v*v*u*p[3]+3*v*u*u*p[5]+u*u*u*p[7]];}
-    function strokeBez(p,gr){
-      g.beginPath();g.moveTo(p[0],p[1]);
-      if(gr>=1){g.bezierCurveTo(p[2],p[3],p[4],p[5],p[6],p[7]);}
-      else{var st=Math.max(2,Math.round(24*gr));for(var s2=1;s2<=st;s2++){var q=dbez(p,gr*s2/st);g.lineTo(q[0],q[1]);}}
-      g.stroke();
+    function mkPill(li){
+      var el=document.createElement("div");el.className="drift dpill";
+      var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
+      df.appendChild(el);
+      var it={el:el,l:li,kind:"p",x:CORE.x-40+rngD()*(DW-CORE.x-40)};
+      fillPill(it);it.w=el.offsetWidth||220;
+      laneY(it);bob(it);items.push(it);
     }
-    function lite(el,ms){if(!el)return;el.classList.add("lit");setTimeout(function(){el.classList.remove("lit");},ms);}
-    function emit(t,i,quiet){if(i==null)i=(Math.random()*CIN.length)|0;
-      packs.push({c:CIN[i],dir:1,t0:t,dur:1250+Math.random()*450});if(!quiet)lite(srcs[i],460);}
-    function answer(t){var j=(Math.random()*COUT.length)|0;
-      packs.push({c:COUT[j],dir:2,t0:t,dur:1100+Math.random()*350,j:j});}
-    function growOf(c,t){if(dstart===null)return 1;var u=(t-dstart-c.delay)/700;return u<=0?0:u>=1?1:1-Math.pow(1-u,3);}
-    function ddraw(t){
-      g.clearRect(0,0,DW,DH);
-      bloom*=0.94;
-      var breath=0.10+0.035*Math.sin(t*0.0009);
-      var hg=g.createRadialGradient(CORE.x,CORE.y,0,CORE.x,CORE.y,185);
-      hg.addColorStop(0,"rgba(0,112,243,"+(breath+0.28*bloom).toFixed(3)+")");
-      hg.addColorStop(0.55,"rgba(0,112,243,"+(0.035+0.10*bloom).toFixed(3)+")");
-      hg.addColorStop(1,"rgba(0,112,243,0)");
-      g.fillStyle=hg;g.beginPath();g.arc(CORE.x,CORE.y,185,0,7);g.fill();
-      var all=CIN.concat(COUT);
-      for(var i=0;i<all.length;i++){var c=all[i],gr=growOf(c,t);if(gr<=0)continue;
-        c.hot+=(c.tgt-c.hot)*0.08;
-        for(var k=0;k<c.f.length;k++){var fl=c.f[k],p=cpts(c,t,fl.o1,fl.o2);
-          g.strokeStyle="rgba(206,216,233,"+((fl.al*(1+1.6*c.hot))*gr).toFixed(3)+")";
-          g.lineWidth=fl.w;strokeBez(p,gr);}}
-      for(i=packs.length-1;i>=0;i--){var pk=packs[i],u=(t-pk.t0)/pk.dur;
-        if(u>=1){if(pk.dir===1){bloom=Math.min(1,bloom+0.55);answerQ.push(t+240);}else lite(dsts[pk.j],860);packs.splice(i,1);continue;}
-        var e=u<0.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
-        var q=dbez(cpts(pk.c,t,0,0),e),vis=Math.sin(u*Math.PI);
-        g.fillStyle="rgba(82,168,255,"+(0.30*vis).toFixed(3)+")";g.beginPath();g.arc(q[0],q[1],5,0,7);g.fill();
-        g.fillStyle="rgba(238,246,255,"+(0.9*vis).toFixed(3)+")";g.beginPath();g.arc(q[0],q[1],1.7,0,7);g.fill();}
-      while(answerQ.length&&t>=answerQ[0]){answerQ.shift();answer(t);}
-      if(dstart!==null){
-        if(!ignBloomed&&t>dstart+1350){bloom=1;ignBloomed=true;nextEmit=t+400;}
-        if(t>nextEmit){emit(t,null);nextEmit=t+1500+Math.random()*1600;}
+    for(var li=0;li<3;li++){
+      for(var i=0;i<[4,4,5][li];i++)mkIco(li,li*4+i);
+      for(i=0;i<[2,3,3][li];i++)mkPill(li);
+    }
+    function respawn(it){
+      laneY(it);bob(it);
+      if(it.kind==="i")it.x=-66-rngD()*130;
+      else{it.x=CORE.x-44-rngD()*24;fillPill(it);it.w=it.el.offsetWidth||it.w;}
+    }
+    function alphaOf(it){
+      var rise,fall;
+      if(it.kind==="i"){rise=(it.x+60)/90;fall=(ICO_END-it.x)/110;}
+      else{rise=(it.x-(CORE.x-70))/90;fall=(DW-26-it.x-it.w*LAY[it.l].s)/120;}
+      var o=Math.min(rise,fall);return o<0?0:o>1?1:o;
+    }
+    function stepItems(t,dt){
+      for(var i=0;i<items.length;i++){var it=items[i],L=LAY[it.l];
+        it.x+=SPEED*L.v*dt;
+        if(it.kind==="i"?it.x>=ICO_END:it.x+it.w*L.s>=DW-26)respawn(it);
+        var y=it.y0+Math.sin(t*it.fq+it.ph)*it.amp;
+        it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+y.toFixed(1)+"px,0) scale("+L.s+")";
+        it.el.style.opacity=(alphaOf(it)*L.a).toFixed(3);
       }
     }
-    function dloop(t){if(dstart===null)dstart=t;ddraw(t);draf=requestAnimationFrame(dloop);}
-    function dstatic(){csize();dstart=null;ddraw(2600);}
-    srcs.forEach(function(el,i){el.addEventListener("pointerenter",function(){CIN[i].tgt=1;
-      var now=performance.now();if(now-CIN[i].lastHover>700&&!REDUCE.matches&&draf){CIN[i].lastHover=now;emit(now,i,true);}});
-      el.addEventListener("pointerleave",function(){CIN[i].tgt=0;});});
-    dsts.forEach(function(el,j){el.addEventListener("pointerenter",function(){COUT[j].tgt=1;});
-      el.addEventListener("pointerleave",function(){COUT[j].tgt=0;});});
-    if(REDUCE.addEventListener)REDUCE.addEventListener("change",function(){cancelAnimationFrame(draf);draf=0;if(REDUCE.matches)dstatic();else if(dvis){csize();dstart=null;draf=requestAnimationFrame(dloop);}});
+    var HEXR=54,HEXES=[];
+    (function(){
+      var dx=HEXR*Math.sqrt(3),dy=HEXR*1.5,rg=mulberry32(1113);
+      for(var row=0;row*dy<DH+HEXR;row++)for(var col=0;col*dx<DW+dx;col++){
+        var cx=col*dx+(row%2?dx/2:0),cy=row*dy;
+        var m=1.12-Math.hypot((cx-CORE.x)/1.3,cy-CORE.y)/380;
+        if(m<=0)continue;if(m>1)m=1;
+        HEXES.push({x:cx,y:cy,m:m,ph:rg()*6.28,fq:0.0004+rg()*0.0005});
+      }
+    })();
+    function hexPath(cx,cy){
+      g.beginPath();
+      for(var k=0;k<6;k++){var a=Math.PI/6+k*Math.PI/3,px=cx+HEXR*Math.cos(a),py=cy+HEXR*Math.sin(a);
+        k?g.lineTo(px,py):g.moveTo(px,py);}
+      g.closePath();
+    }
+    function ddraw(t){
+      g.clearRect(0,0,DW,DH);g.lineWidth=1;
+      for(var i=0;i<HEXES.length;i++){var h=HEXES[i],a=(0.05+0.024*Math.sin(t*h.fq+h.ph))*h.m;
+        if(a<=0.004)continue;
+        g.strokeStyle="rgba(255,255,255,"+a.toFixed(3)+")";hexPath(h.x,h.y);g.stroke();}
+      var breath=0.085+0.03*Math.sin(t*0.0009);
+      var hg=g.createRadialGradient(CORE.x,CORE.y,0,CORE.x,CORE.y,185);
+      hg.addColorStop(0,"rgba(0,112,243,"+breath.toFixed(3)+")");
+      hg.addColorStop(0.55,"rgba(0,112,243,0.03)");
+      hg.addColorStop(1,"rgba(0,112,243,0)");
+      g.fillStyle=hg;g.beginPath();g.arc(CORE.x,CORE.y,185,0,7);g.fill();
+    }
+    function csize(){var dp=Math.min(window.devicePixelRatio||1,2);dc.width=DW*dp;dc.height=DH*dp;g.setTransform(dp,0,0,dp,0,0);}
+    function dloop(t){
+      if(dlast===null)dlast=t;
+      var dt=Math.min(50,t-dlast)/1000;dlast=t;
+      ddraw(t);stepItems(t,dt);
+      draf=requestAnimationFrame(dloop);
+    }
+    function dstatic(){csize();ddraw(2600);stepItems(2600,0);}
+    if(REDUCE.addEventListener)REDUCE.addEventListener("change",function(){cancelAnimationFrame(draf);draf=0;dlast=null;if(REDUCE.matches)dstatic();else if(dvis){csize();draf=requestAnimationFrame(dloop);}});
     if(REDUCE.matches){dstatic();}
     else if("IntersectionObserver" in window){
       new IntersectionObserver(function(es){es.forEach(function(e){dvis=e.isIntersecting;
-        if(dvis&&!draf){csize();draf=requestAnimationFrame(dloop);}
+        if(dvis&&!draf){csize();dlast=null;draf=requestAnimationFrame(dloop);}
         else if(!dvis&&draf){cancelAnimationFrame(draf);draf=0;}});},{threshold:0.25}).observe(dc);
     } else {csize();draf=requestAnimationFrame(dloop);}
   }
