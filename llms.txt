@@ -1,6 +1,6 @@
 # fein
 
-> fein is the graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live relationship graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
+> fein is the open-source relationship graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live, permissioned graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
 
 ## What fein does
 - Find the warmest introduction to any founder, LP, or operator, and who should make it.
@@ -9,8 +9,8 @@
 - Flag relationships going cold, judged by each contact's own cadence.
 
 ## How it works
-- fein reads your existing systems (email, calendar, Google Drive, CRMs like Attio) and builds a relationship graph automatically, with no CRM to keep updated by hand.
-- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, or Cursor.
+- fein reads your existing systems (email, calendar, Google Drive, LinkedIn, CRMs like Attio and Affinity) and builds a relationship graph automatically, with no CRM to keep updated by hand.
+- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
 - Delivered forward-deployed: live in 14 days, two short calls from your team.
 
 ## Pricing
@@ -21,8 +21,9 @@
 
 ## Security and data
 - Self-hosted in the team's own environment; data never leaves it.
-- Open source and auditable end to end.
+- Open source and auditable end to end: teams can clone the repo and run fein themselves; the paid offer is setup and upkeep.
 - Per-person access, enforced on every query.
+- Every query logged, tied to a person.
 
 ## Contact
 - Get started: https://fein.vc/#get-started

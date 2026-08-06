@@ -152,7 +152,7 @@
   .c-com{color:#7d8490}.c-key{color:#52A8FF}.c-fn{color:#9ecbff}.c-usr{color:#ffffff}.c-out{color:#52A8FF}.c-hl{color:#fff;font-weight:500;background:rgba(0,112,243,.18);padding:0 .2em;border-radius:3px}
   .caret{display:inline-block;width:.55em;height:1.05em;margin-left:1px;background:#ededed;vertical-align:text-bottom;animation:caretB 1s steps(2,start) infinite}
   @keyframes caretB{50%{opacity:0}}
-  /* ============ the loom: live stack diagram — fiber bundles into a breathing core ============ */
+  /* ============ the funnel: live stack diagram — systems gathered in, sourced answers fanned out ============ */
   .diagram{margin-top:clamp(2.5rem,5vw,3.5rem);overflow-x:auto;padding-bottom:.5rem}
   .dlive{position:relative;width:960px;height:400px;margin:0 auto;font-family:var(--font)}
   .dlive canvas{position:absolute;inset:0;width:960px;height:400px;display:block}
@@ -372,8 +372,8 @@ __LOGO_SPRITE__
 
     <div class="wrap hero-inner" id="content" tabindex="-1">
       <div class="hero-copy">
-        <p class="ticker">From kickoff to a live relationship graph: <b>14 days</b></p>
-        <h1>Agentic infrastructure for venture capital teams. <span class="dim">fein turns your inbox, calendar, and CRM into one graph your AI tools can act on: every warm intro, meeting, and pass, one question away.</span></h1>
+        <p class="ticker">Open source, on your servers, live in <b>14 days</b></p>
+        <h1>Everything your team knows, in every AI tool you use. <span class="dim">fein reads your inbox, calendar, Drive, and CRM into one permissioned graph: every founder, intro, memo, and pass linked to its source. Claude, ChatGPT, and Cursor answer from it, grounded and cited.</span></h1>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#get-started">Get started <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           <a class="btn btn-ghost" href="#get-started">Contact sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
@@ -386,6 +386,45 @@ __LOGO_SPRITE__
       <div class="marquee reveal"><div class="row">
         <span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-gmail" width="24" height="24"/></svg>Gmail</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-gcal" width="24" height="24"/></svg>Google Calendar</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-gdrive" width="24" height="24"/></svg>Drive</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-attio" width="24" height="24"/></svg>Attio</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-granola" width="24" height="24"/></svg>Granola</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-claude" width="24" height="24"/></svg>Claude</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-openai" width="24" height="24"/></svg>ChatGPT</span><span><svg class="tlogo" viewBox="0 0 24 24" aria-hidden="true"><use href="#l-cursor" width="24" height="24"/></svg>Cursor</span>
       </div></div>
+    </div>
+  </section>
+
+  <!-- PROBLEM: the team is already improvising -->
+  <section id="already" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Already happening</span>
+        <h2 class="th" style="margin-top:.7rem">Your team got tired of waiting. <span class="cont">Someone pasted a cap table into ChatGPT before the last IC. A partner has Claude drafting the LP letter. There is a portfolio dashboard on one laptop that was right the day it was built. The instinct is right; the foundation is missing.</span></h2>
+      </div>
+      <ul class="sec-list" data-reveal-group="90">
+        <li class="reveal"><span><b>Same question, three numbers.</b> Ask twice and the answers disagree, and nobody knows which to trust.</span></li>
+        <li class="reveal"><span><b>Tools that die on one laptop.</b> Dashboards nobody else can host, update, or open.</span></li>
+        <li class="reveal"><span><b>Memory capped at one head.</b> Answers are only as good as whoever happens to remember.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOW IT CONNECTS -->
+  <section id="how" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">How it connects</span>
+        <h2 class="th" style="margin-top:.7rem">Connect to your stack. <span class="cont">fein reads the systems you already run and answers from the tools your team lives in, over one endpoint. One person, one node: the A. Chen in your CRM, your inbox, and five years of notes resolves to a single record.</span></h2>
+      </div>
+      <div class="diagram reveal">
+        <div class="dlive" id="dlive" role="img" aria-label="Animation: your systems (Gmail, Calendar, Drive, LinkedIn, and Attio) funnel into fein, one MCP endpoint, and sourced answers fan out to your AI tools: Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
+          <canvas id="dcanvas" aria-hidden="true"></canvas>
+          <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
+          <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
+          <div class="dfield" id="dfield" aria-hidden="true"></div>
+          <div class="dcore"><b>fein</b><span>ONE ENDPOINT · MCP</span></div>
+        </div>
+      </div>
+      <ul class="sec-list" data-reveal-group="90">
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>One endpoint.</b> Connect fein to Claude, ChatGPT, Gemini, Cursor, or any MCP client. No new app.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Grounded, not guessed.</b> Every answer comes from your data, not a model's memory.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Sourced.</b> Each fact links back to the email, meeting, or doc it came from.</span></li>
+      </ul>
     </div>
   </section>
 
@@ -402,6 +441,7 @@ __LOGO_SPRITE__
           <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 12.5V6.5A2 2 0 0 0 13.5 4.5H5A2 2 0 0 0 3 6.5V17A2 2 0 0 0 5 19H11.5"/><path d="M3 8.5H15.5"/><path d="M7 3V6"/><path d="M12 3V6"/><circle cx="16.5" cy="16.5" r="4.5"/><path d="M16.5 14.3V16.5H18.4"/></svg></div><div><h3>Walk in prepped</h3><p>Ask for the room before any meeting: every attendee, how your venture capital team knows them, the last threads you exchanged, and what was left open, all assembled from your calendar and inbox in seconds, not from anyone's memory.</p></div></div>
           <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 3V7.5L13.5 6.2L15 7.5V3"/><path d="M9 12.5H15"/><path d="M9 15.5H13"/></svg></div><div><h3>Never redo a pass</h3><p>When a company comes back for its next round, one question returns your full history: who met them, when, what you decided, and the exact memo or thread with the reasons, so the second look starts where the first ended.</p></div></div>
           <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><path d="M12 12L18.4 7.2"/><circle cx="16" cy="15.2" r="1.1" fill="currentColor" stroke="none"/></svg></div><div><h3>Catch the ones going cold</h3><p>fein learns each relationship's natural cadence from your history (some run weekly, some quarterly) and flags the ones drifting from it. A founder you spoke to every 10 days, now three weeks quiet, surfaces before the news does.</p></div></div>
+          <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8H15"/><path d="M9 11.5H15"/><path d="M9 15H11.5"/><path d="M13.6 16.8L15 18.2L17.4 15.4"/></svg></div><div><h3>The routine work, drafted for you</h3><p>Ask your board packs which portfolio companies slipped on plan and get the page it came from. The DDQ drafts itself from your documents, every number traced to its source. You review instead of write.</p></div></div>
         </div>
         <div class="code-card reveal">
           <div class="code-top"><i class="r"></i><i class="y"></i><i class="g"></i><span class="name">agent · fein over MCP</span></div>
@@ -419,36 +459,13 @@ __LOGO_SPRITE__
     </div>
   </section>
 
-  <!-- HOW IT CONNECTS -->
-  <section id="how" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">How it connects</span>
-        <h2 class="th" style="margin-top:.7rem">Connect to your stack. <span class="cont">fein reads the systems you already run and answers from the tools your team lives in, over one endpoint.</span></h2>
-      </div>
-      <div class="diagram reveal">
-        <div class="dlive" id="dlive" role="img" aria-label="Animation: your systems (Gmail, Calendar, Drive, and Attio) stream into fein, one MCP endpoint, and sourced answers stream out to Claude, ChatGPT, and Cursor">
-          <canvas id="dcanvas" aria-hidden="true"></canvas>
-          <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
-          <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
-          <div class="dfield" id="dfield" aria-hidden="true"></div>
-          <div class="dcore"><b>fein</b><span>ONE ENDPOINT · MCP</span></div>
-        </div>
-      </div>
-      <ul class="sec-list" data-reveal-group="90">
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>One endpoint.</b> Connect fein to Claude, ChatGPT, or Cursor over MCP. No new app.</span></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Grounded, not guessed.</b> Every answer comes from your data, not a model's memory.</span></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Sourced.</b> Each fact links back to the email, meeting, or doc it came from.</span></li>
-      </ul>
-    </div>
-  </section>
 
   <!-- THE OFFER: plan + price + the call -->
   <section id="pricing" class="band">
     <div class="wrap">
       <div class="head reveal">
         <span class="eyebrow">The offer</span>
-        <h2 class="th" style="margin-top:.7rem">Live in 14 days. <span class="cont">Two calls from you. No data hire, nothing to learn. We build it around your stack.</span></h2>
+        <h2 class="th" style="margin-top:.7rem">Live in 14 days. <span class="cont">Two calls from you. No data hire, nothing to learn. We build it around your stack, and the date is a commitment, not a target.</span></h2>
       </div>
       <div class="plan" data-reveal-group="120">
         <div class="pstep reveal"><span class="node"></span><div class="meta"><span class="num">01</span><span>Day 0</span></div><h3>The setup call</h3><p>Thirty minutes. We map your inbox, calendar, Drive, and CRM together, then we take it from there.</p></div>
@@ -476,16 +493,18 @@ __LOGO_SPRITE__
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Self-hosted.</b> Nothing leaves your systems.</span></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Open source.</b> Auditable end to end.</span></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Per-person access.</b> Checked on every query.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Logged.</b> Every query recorded, tied to a person.</span></li>
       </ul>
       </div>
       <div class="faq-list reveal">
         <details><summary>What is fein? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>One relationship graph for your venture capital team. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time.</p></details>
         <details><summary>How is this different from a CRM like Affinity or Attio? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing.</p></details>
         <details><summary>What does it cost? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing.</p></details>
+        <details><summary>Can't we build this ourselves? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Yes, literally: fein is open source, so you can clone the repo and run it yourself. The build fee and the monthly buy an engineer who does it for you and keeps it alive: connectors re-authed through every API change, entity resolution tuned to your data, permissions set with you, new answers built as your team asks. Build your edge on the graph, and leave the plumbing to us.</p></details>
         <details><summary>What happens if we cancel? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>fein keeps running. It's open source and lives on your servers, so the graph, the connectors, and every answer stay yours. The monthly buys upkeep and new capability, never access to your own data.</p></details>
-        <details><summary>How long until it's live, and what do we do? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between.</p></details>
-        <details><summary>Where does our data live, and who can see what? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query.</p></details>
-        <details><summary>What does it connect to, and how do we use it? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open.</p></details>
+        <details><summary>How long until it's live, and what do we do? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between. The first cited answers from your own data land within days; the whole team is live at the end of week two.</p></details>
+        <details><summary>Where does our data live, and who can see what? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query. When LPs ask about your AI setup, the answer is an audit trail, not a promise.</p></details>
+        <details><summary>What does it connect to, and how do we use it? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Your inbox, calendar, Google Drive, LinkedIn, and a CRM like Attio or Affinity go in. You ask from Claude, ChatGPT, Gemini, or Cursor over a single MCP endpoint. No new app to open.</p></details>
       </div>
       </div>
     </div>
@@ -565,6 +584,7 @@ __LOGO_SPRITE__
             </select>
           </div>
           <div class="field"><label for="ask">What would you ask it first? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="ask" name="ask" placeholder="e.g. Who's our warmest path to a Series A fintech founder?"></textarea></div>
+          <input type="text" name="website" id="hp-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
           <label class="consent" id="f-ok"><input type="checkbox" id="ok" required> I agree to be contacted about fein. No list, no spam.</label>
           <div class="form-err" id="send-err" role="alert">Something went wrong on our end. Email <a id="mailto-fb" href="mailto:hello@fein.vc">hello@fein.vc</a> instead; your details are in the draft.</div>
           <button type="submit" class="btn btn-primary submit" id="send-btn">Request the call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
@@ -575,8 +595,9 @@ __LOGO_SPRITE__
         <div class="success">
           <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
           <h2 id="wh-3" tabindex="-1">Thanks, we've got it.</h2>
-          <p>We'll reach out to <strong id="done-em">you</strong> within one business day to book your 30-minute setup call.</p>
-          <p class="esc">Want it sooner? <a id="mailto-fast" href="mailto:hello@fein.vc">Email us directly</a>.</p>
+          <p>A booking link is on its way to <strong id="done-em">you</strong>. Or skip the inbox and pick a time right now:</p>
+          <p><a class="btn btn-primary" id="book-btn" href="https://api.fein.vc/call" target="_blank" rel="noopener">Pick a time <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+          <p class="esc">Prefer email? <a id="mailto-fast" href="mailto:hello@fein.vc">Write to us directly</a>.</p>
           <a class="btn btn-ghost" href="#home">Back to home</a>
         </div>
       </section>
@@ -596,7 +617,9 @@ __LOGO_SPRITE__
     if(!steps[0]||!steps[1]||!steps[2])return;
     var tabs=[1,2,3].map(function(n){return document.getElementById("wiz-"+n);});
     var lead={},sent=false,partialSent=false;
-    /* formsubmit.co inbox, base64 to keep it off scrapers; swap for the alias once activated */
+    /* lead service first (sends the booking funnel); formsubmit.co is the
+       fallback inbox relay, base64 to keep the address off scrapers */
+    var API="https://api.fein.vc";
     var ENDPOINT="https://formsubmit.co/ajax/"+atob("dGVhbUBjb21taXhjYXBpdGFsLmNvbQ==");
     function show(n){
       steps.forEach(function(s,i){s.hidden=i!==n-1;});
@@ -665,18 +688,35 @@ __LOGO_SPRITE__
       var btn=document.getElementById("send-btn"),err=document.getElementById("send-err");
       err.classList.remove("show");
       var was=btn.innerHTML;btn.disabled=true;btn.textContent="Sending…";
-      fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload())})
+      function apiPayload(){
+        return {email:lead.email,size:lead.size,first:lead.first,last:lead.last,
+                fund:lead.fund,crm:lead.crm,ask:lead.ask,
+                website:document.getElementById("hp-web").value};
+      }
+      function succeed(){
+        sent=true;
+        if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"lead-submitted",event:true});
+        document.getElementById("done-em").textContent=lead.email;
+        var book=document.getElementById("book-btn");
+        book.href=API+"/call?name="+encodeURIComponent((lead.first||"")+" "+(lead.last||""))+"&email="+encodeURIComponent(lead.email);
+        book.addEventListener("click",function(){
+          if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"call-click",event:true});
+        });
+        document.getElementById("mailto-fast").href=mailtoHref();
+        show(3);
+      }
+      fetch(API+"/enquiry",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload())})
         .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
-        .then(function(){
-          sent=true;
-          if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"lead-submitted",event:true});
-          document.getElementById("done-em").textContent=lead.email;
-          document.getElementById("mailto-fast").href=mailtoHref();
-          show(3);
-        })
+        .then(succeed)
         .catch(function(){
-          document.getElementById("mailto-fb").href=mailtoHref();
-          err.classList.add("show");
+          /* lead service down: fall back to the inbox relay so no lead is lost */
+          fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload())})
+            .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+            .then(succeed)
+            .catch(function(){
+              document.getElementById("mailto-fb").href=mailtoHref();
+              err.classList.add("show");
+            });
         })
         .then(function(){btn.disabled=false;btn.innerHTML=was;});
     });
@@ -937,34 +977,41 @@ __LOGO_SPRITE__
     wstart();
   }
 
-  /* ===== the belt — the stack, alive as a conveyor =====
-     Your systems drift in from the left and are absorbed by the core; sourced
-     answers surface behind it and drift out to the right. Three depth layers
-     (scale, blur, speed) give the field parallax over a faint honeycomb that
-     shimmers cell by cell. Reduced motion gets a still of the belt mid-flow;
-     offscreen pauses the loop. */
+  /* ===== the funnel — the stack, gathered into one endpoint =====
+     Your systems enter across the whole left edge and converge on the core,
+     tracing the funnel's mouth; the core pulses as each is absorbed, and
+     sourced answers surface behind it and fan back out to the right. Two
+     hairline walls sketch the mouth. Three depth layers (scale, blur, speed)
+     give the field parallax over a faint honeycomb that shimmers cell by
+     cell. Reduced motion gets a still of the flow; offscreen pauses it. */
   var dl=document.getElementById("dlive"),dc=document.getElementById("dcanvas"),df=document.getElementById("dfield");
   if(dl&&dc&&df){
     var g=dc.getContext("2d"),DW=960,DH=400,draf=0,dvis=false,dlast=null;
     var CORE={x:480,y:198},SPEED=68;
     var rngD=mulberry32(2468);
     var LAY=[{s:.66,b:2.2,a:.30,v:.44},{s:.84,b:1.1,a:.55,v:.70},{s:1,b:0,a:1,v:1}];
-    var ICONS=["gmail","gcal","gdrive","attio"];
-    var ANSW=[["claude","Warmest path to the founder","ATTIO"],
-      ["openai","Why we passed, last March","GMAIL"],
-      ["cursor","Prep for tomorrow's board","CAL"],
-      ["claude","Who knows this LP best","ATTIO"],
-      ["openai","Deck v3: what changed","DRIVE"],
-      ["claude","Last touch: six weeks ago","GMAIL"],
-      ["cursor","Every founder we met in Q2","CAL"],
-      ["openai","Co-invest history, three firms","ATTIO"],
-      ["claude","Intro path: two steps, warm","ATTIO"],
-      ["cursor","Series A pipeline, ranked","ATTIO"],
-      ["openai","Who met them at Slush","CAL"],
-      ["claude","The memo, summarized","DRIVE"]];
-    var pIdx=0,inUse={},items=[],ICO_END=CORE.x-64;
+    var ICONS=["gmail","gcal","gdrive","attio","granola","linkedin","notion","slack"];
+    var ANSW=[["claude","Intro path: two steps, both warm","ATTIO"],
+      ["openai","Why we passed, and what changed","GMAIL"],
+      ["cursor","Brief for the 9am, ready","CAL"],
+      ["gemini","Who knows this LP best","ATTIO"],
+      ["openai","Term sheet v2: what changed","DRIVE"],
+      ["claude","Gone quiet: 3 founders this week","GMAIL"],
+      ["perplexity","Every founder you met at Slush","CAL"],
+      ["copilot","Co-invest history: three firms","ATTIO"],
+      ["claude","Mutuals with the founder: 4","LINKEDIN"],
+      ["cursor","Hiring spike: 6 eng roles open","LINKEDIN"],
+      ["openai","Call notes, decisions pulled out","GRANOLA"],
+      ["gemini","The memo, with sources","DRIVE"],
+      ["cursor","Series A pipeline, ranked by heat","ATTIO"],
+      ["openai","Last touch: six weeks ago","GMAIL"],
+      ["claude","Board pack: metrics assembled","DRIVE"],
+      ["copilot","Follow-ups from Monday's call","GRANOLA"]];
+    var pIdx=0,inUse={},items=[],ICO_END=CORE.x-64,glowK=0;
+    var SLOTS=[52,96,140,184,228,272,316],sIdx=0;
+    (function(){for(var i=SLOTS.length-1;i>0;i--){var j=(rngD()*(i+1))|0,t=SLOTS[i];SLOTS[i]=SLOTS[j];SLOTS[j]=t;}})();
     function bob(it){it.amp=4+rngD()*5;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
-    function laneY(it){it.y0=it.kind==="i"?40+rngD()*300:52+rngD()*280;}
+    function laneY(it){it.y0=it.kind==="i"?40+rngD()*300:SLOTS[(sIdx++)%SLOTS.length]+(rngD()*24-12);}
     function mkIco(li,i){
       var k=ICONS[i%ICONS.length];
       var el=document.createElement("div");el.className="drift dico ico-"+k;
@@ -989,8 +1036,9 @@ __LOGO_SPRITE__
       fillPill(it);it.w=el.offsetWidth||220;
       laneY(it);bob(it);items.push(it);
     }
+    var icoN=0;
     for(var li=0;li<3;li++){
-      for(var i=0;i<[4,4,5][li];i++)mkIco(li,li*4+i);
+      for(var i=0;i<[5,5,5][li];i++)mkIco(li,icoN++);
       for(i=0;i<[2,3,3][li];i++)mkPill(li);
     }
     function respawn(it){
@@ -1005,10 +1053,19 @@ __LOGO_SPRITE__
       var o=Math.min(rise,fall);return o<0?0:o>1?1:o;
     }
     function stepItems(t,dt){
+      glowK*=Math.exp(-dt/0.45);
       for(var i=0;i<items.length;i++){var it=items[i],L=LAY[it.l];
         it.x+=SPEED*L.v*dt;
-        if(it.kind==="i"?it.x>=ICO_END:it.x+it.w*L.s>=DW-26)respawn(it);
-        var y=it.y0+Math.sin(t*it.fq+it.ph)*it.amp;
+        if(it.kind==="i"){if(it.x>=ICO_END){respawn(it);glowK=Math.min(1,glowK+0.08+0.14*L.a);}}
+        else if(it.x+it.w*L.s>=DW-26)respawn(it);
+        var p,q,y;
+        if(it.kind==="i"){ /* hold the lane, then swoop into the throat */
+          p=(it.x+66)/(ICO_END+66);p=p<0?0:p>1?1:p;q=p*p;
+          y=it.y0+(175-it.y0)*0.9*q+Math.sin(t*it.fq+it.ph)*it.amp*(1-q*0.85);
+        }else{ /* leave the throat fast, then ride the lane out */
+          p=(it.x-(CORE.x-70))/(DW-26-(CORE.x-70));p=p<0?0:p>1?1:p;q=1-(1-p)*(1-p);
+          y=178+(it.y0-178)*q+Math.sin(t*it.fq+it.ph)*it.amp*(0.2+0.8*q);
+        }
         it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+y.toFixed(1)+"px,0) scale("+L.s+")";
         it.el.style.opacity=(alphaOf(it)*L.a).toFixed(3);
       }
@@ -1034,12 +1091,22 @@ __LOGO_SPRITE__
       for(var i=0;i<HEXES.length;i++){var h=HEXES[i],a=(0.05+0.024*Math.sin(t*h.fq+h.ph))*h.m;
         if(a<=0.004)continue;
         g.strokeStyle="rgba(255,255,255,"+a.toFixed(3)+")";hexPath(h.x,h.y);g.stroke();}
-      var breath=0.085+0.03*Math.sin(t*0.0009);
-      var hg=g.createRadialGradient(CORE.x,CORE.y,0,CORE.x,CORE.y,185);
+      /* funnel walls: two hairlines gathering the field into the throat */
+      var fw=g.createLinearGradient(0,0,392,0);
+      fw.addColorStop(0,"rgba(255,255,255,0.02)");
+      fw.addColorStop(0.7,"rgba(255,255,255,0.09)");
+      fw.addColorStop(1,"rgba(255,255,255,0.16)");
+      g.strokeStyle=fw;
+      g.beginPath();
+      g.moveTo(0,12);g.quadraticCurveTo(330,18,392,140);
+      g.moveTo(0,DH-12);g.quadraticCurveTo(330,DH-18,392,DH-140);
+      g.stroke();
+      var breath=0.085+0.03*Math.sin(t*0.0009)+0.055*glowK,R=185+14*glowK;
+      var hg=g.createRadialGradient(CORE.x,CORE.y,0,CORE.x,CORE.y,R);
       hg.addColorStop(0,"rgba(0,112,243,"+breath.toFixed(3)+")");
       hg.addColorStop(0.55,"rgba(0,112,243,0.03)");
       hg.addColorStop(1,"rgba(0,112,243,0)");
-      g.fillStyle=hg;g.beginPath();g.arc(CORE.x,CORE.y,185,0,7);g.fill();
+      g.fillStyle=hg;g.beginPath();g.arc(CORE.x,CORE.y,R,0,7);g.fill();
     }
     function csize(){var dp=Math.min(window.devicePixelRatio||1,2);dc.width=DW*dp;dc.height=DH*dp;g.setTransform(dp,0,0,dp,0,0);}
     function dloop(t){

@@ -3,7 +3,7 @@ const path = require("path");
 
 const SITE = "https://fein.vc";
 const TITLE = "fein · the graph for venture capital teams";
-const DESC = "fein is the relationship layer AI acts on for your venture capital team. It turns your inbox, calendar, and CRM into one graph Claude and ChatGPT can query: the warmest intro, meeting prep, or why you passed, grounded in your own data. Live in 14 days, self-hosted.";
+const DESC = "fein is the open-source relationship graph for venture capital teams. It reads your inbox, calendar, Drive, and CRM into one permissioned graph and answers inside Claude, ChatGPT, and Cursor: every founder, intro, memo, and pass linked to its source. Live in 14 days, on your servers.";
 const LASTMOD = "2026-08-06";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
@@ -16,8 +16,8 @@ let body = fs.readFileSync("fein.tpl.html", "utf8")
 if (body.indexOf("__GEIST") > -1) throw new Error("font placeholder left");
 
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
-const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg" };
-const MONO = { openai: 1, cursor: 1 }; // monochrome marks -> recolor via currentColor
+const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg" };
+const MONO = { openai: 1, cursor: 1, gemini: 1, perplexity: 1, copilot: 1 }; // monochrome marks -> recolor via currentColor
 function symbolFor(name, file) {
   let s = fs.readFileSync(file, "utf8").replace(/<\?xml[^>]*\?>/i, "").trim();
   const vb = (s.match(/viewBox="([^"]+)"/i) || [null, "0 0 24 24"])[1];
@@ -52,10 +52,11 @@ const faqs = [
   ["What is fein?", "One relationship graph for your venture capital team. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."],
   ["How is this different from a CRM like Affinity or Attio?", "A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."],
   ["What does it cost?", "$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."],
+  ["Can't we build this ourselves?", "Yes, literally: fein is open source, so you can clone the repo and run it yourself. The build fee and the monthly buy an engineer who does it for you and keeps it alive: connectors re-authed through every API change, entity resolution tuned to your data, permissions set with you, new answers built as your team asks. Build your edge on the graph, and leave the plumbing to us."],
   ["What happens if we cancel?", "fein keeps running. It's open source and lives on your servers, so the graph, the connectors, and every answer stay yours. The monthly buys upkeep and new capability, never access to your own data."],
-  ["How long until it's live, and what do we do?", "Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between."],
-  ["Where does our data live, and who can see what?", "On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query."],
-  ["What does it connect to, and how do we use it?", "Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open."]
+  ["How long until it's live, and what do we do?", "Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between. The first cited answers from your own data land within days; the whole team is live at the end of week two."],
+  ["Where does our data live, and who can see what?", "On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query. When LPs ask about your AI setup, the answer is an audit trail, not a promise."],
+  ["What does it connect to, and how do we use it?", "Your inbox, calendar, Google Drive, LinkedIn, and a CRM like Attio or Affinity go in. You ask from Claude, ChatGPT, Gemini, or Cursor over a single MCP endpoint. No new app to open."]
 ];
 
 const ld = {
@@ -149,7 +150,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // llms.txt — structured summary for AI crawlers
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
-> fein is the graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live relationship graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
+> fein is the open-source relationship graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live, permissioned graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
 
 ## What fein does
 - Find the warmest introduction to any founder, LP, or operator, and who should make it.
@@ -158,8 +159,8 @@ fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 - Flag relationships going cold, judged by each contact's own cadence.
 
 ## How it works
-- fein reads your existing systems (email, calendar, Google Drive, CRMs like Attio) and builds a relationship graph automatically, with no CRM to keep updated by hand.
-- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, or Cursor.
+- fein reads your existing systems (email, calendar, Google Drive, LinkedIn, CRMs like Attio and Affinity) and builds a relationship graph automatically, with no CRM to keep updated by hand.
+- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
 - Delivered forward-deployed: live in 14 days, two short calls from your team.
 
 ## Pricing
@@ -170,8 +171,9 @@ fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ## Security and data
 - Self-hosted in the team's own environment; data never leaves it.
-- Open source and auditable end to end.
+- Open source and auditable end to end: teams can clone the repo and run fein themselves; the paid offer is setup and upkeep.
 - Per-person access, enforced on every query.
+- Every query logged, tied to a person.
 
 ## Contact
 - Get started: ${SITE}/#get-started
