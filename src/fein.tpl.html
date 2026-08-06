@@ -101,6 +101,7 @@
   #view-home .bar{animation:lpBar .6s cubic-bezier(.21,.6,.35,1) both}
   .hero-copy .ticker{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .05s both}
   .hero-copy h1{animation:lpH1 .9s cubic-bezier(.21,.6,.35,1) .16s both}
+  .hero-copy .lede{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .26s both}
   .hero-copy .hero-actions{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .34s both}
 
   /* Stripe-pattern fold: ticker line, one full-width statement, actions */
@@ -108,7 +109,7 @@
   .ticker{font-size:.95rem;color:var(--fg-2)}
   .ticker b{color:#fff;font-weight:550;font-variant-numeric:tabular-nums}
   .hero h1{font-size:clamp(2.1rem,4.5vw,3.3rem);line-height:1.15;letter-spacing:-.032em;font-weight:600;text-wrap:pretty;margin-top:1.1rem;max-width:26ch}
-  .hero h1 .dim{color:var(--fg-3);font-weight:500}
+  .hero .lede{margin-top:1.2rem;color:var(--fg-2);font-size:1.08rem;line-height:1.6;max-width:56ch;text-wrap:pretty}
   .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:2rem}
 
   /* works-with strip — slow marquee behind soft masks; pauses on hover */
@@ -373,7 +374,8 @@ __LOGO_SPRITE__
     <div class="wrap hero-inner" id="content" tabindex="-1">
       <div class="hero-copy">
         <p class="ticker">Open source, on your servers, live in <b>14 days</b></p>
-        <h1>fein is a free and open source data layer for venture capital teams who are building with agents. <span class="dim">It turns your inbox, calendar, CRM, and meeting recorder into one graph of everything your team knows, so your AI can act on it: find the warm intro, prep the meeting, recall why you passed.</span></h1>
+        <h1>fein is a free and open source data layer for venture capital teams who are building with agents.</h1>
+        <p class="lede">It turns your inbox, calendar, CRM, and meeting recorder into one graph of everything your team knows, so your AI can act on it: find the warm intro, prep the meeting, recall why you passed.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#get-started">Get started <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           <a class="btn btn-ghost" href="#get-started">Contact sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>

@@ -189,59 +189,80 @@ finish() {
 # STAGES — author this section. One stage() per step the human takes.
 # Replace the example below. Set the two totals to match the stages you write.
 # ──────────────────────────────────────────────────────────────────────────
-TOTAL_STAGES=9
-TOTAL_MINUTES=40
+TOTAL_STAGES=10
+TOTAL_MINUTES=45
 
-# Values are remembered here between runs (Enter keeps a saved value), then
-# pushed to the VPS at stage 6. Matches the ~/.config/fein/ convention.
+# Values are remembered here between runs (Enter keeps a saved value); at
+# stage 8 you copy them into Vercel's env settings.
 mkdir -p "$HOME/.config/fein"
 ENV_FILE="$HOME/.config/fein/funnel.env"
 
 VPS="root@167.88.38.87"
-vps() { ssh -o BatchMode=yes "$VPS" "$@"; }
 
-banner "fein booking funnel setup"
+banner "fein on Vercel — site + booking funnel"
 
-# ── 1 · Namecheap DNS ─────────────────────────────────────────────────────
-stage "Namecheap DNS for fein.vc" 8
-say "One visit fixes everything DNS: the parked site, the api subdomain,"
-say "and (next stage) Resend's sending records."
+# ── 1 · Vercel project ────────────────────────────────────────────────────
+stage "Vercel — import the repo" 5
+say "One project serves the site and the /api lead functions."
+open_url "https://vercel.com/new"
+step "Sign up / log in with the clippycommits GitHub account."
+step "Import clippycommits/fein-site."
+step "Framework preset: 'Other'. Leave Build Command and Output Directory"
+say "  EMPTY (the site is prebuilt, static files live at the repo root)."
+step "Deploy. When it finishes, open the *.vercel.app URL it gives you and"
+say "  check /api/health on it — you should see JSON with missingConfig."
+pause "Deployed and /api/health answers? Press Enter."
+
+# ── 2 · Domain → Vercel ───────────────────────────────────────────────────
+stage "fein.vc points at Vercel" 6
+say "Vercel shows the exact DNS records; Namecheap holds them."
+open_url "https://vercel.com/dashboard"
+step "Project → Settings → Domains → Add: fein.vc (accept its suggestion to"
+say "  redirect www.fein.vc to it)."
+step "Vercel now shows the required records (an A for @ and a CNAME for www)."
 open_url "https://ap.www.namecheap.com/domains/list/"
-step "Open fein.vc → Manage → Advanced DNS."
-step "DELETE the 'URL Redirect Record' on @ and the CNAME on www that points"
-say "  at parkingpage.namecheap.com."
-step "ADD these records:"
-say "    A      @      185.199.108.153"
-say "    A      @      185.199.109.153"
-say "    A      @      185.199.110.153"
-say "    A      @      185.199.111.153"
-say "    CNAME  www    clippycommits.github.io."
-say "    A      api    167.88.38.87"
-warn "Leave the MX (smtp.google.com) and the google-site-verification TXT alone."
-pause "Done in Namecheap? Press Enter."
+step "In Namecheap: fein.vc → Manage → Advanced DNS. DELETE the 'URL Redirect"
+say "  Record' on @ and the CNAME on www pointing at parkingpage.namecheap.com."
+step "ADD the A and CNAME records exactly as Vercel showed them."
+warn "Leave the MX (smtp.google.com) and google-site-verification TXT alone."
+step "Back in Vercel Domains, wait for the checkmarks (minutes to ~1h)."
+pause "Records added? Press Enter (verification can finish in the background)."
 
-# ── 2 · Resend domain ─────────────────────────────────────────────────────
+# ── 3 · Upstash Redis ─────────────────────────────────────────────────────
+stage "Upstash — nudge state" 4
+say "Functions keep no disk, so the 'cancel the 3-day nudge when they book'"
+say "state lives in a free Upstash Redis. You already have an account."
+open_url "https://console.upstash.com/redis"
+step "Create Database → name 'fein-leads', region close to your users, free"
+say "  tier → Create."
+step "On the database page, find the REST API section: copy the"
+say "  UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN."
+ask UPSTASH_REDIS_REST_URL "Paste the REST URL:"
+ask_secret UPSTASH_REDIS_REST_TOKEN "Paste the REST token:"
+write_env UPSTASH_REDIS_REST_URL "$UPSTASH_REDIS_REST_URL"
+write_env UPSTASH_REDIS_REST_TOKEN "$UPSTASH_REDIS_REST_TOKEN"
+
+# ── 4 · Resend domain ─────────────────────────────────────────────────────
 stage "Resend — add the sending domain" 7
 say "Emails go out as daniel@fein.vc, so Resend must verify the domain."
 open_url "https://resend.com/domains"
 step "Log in (same account as Cereal Milk is fine) → Add Domain → fein.vc."
-step "Pick the region closest to you (eu-west works), then Resend shows"
-say "  three DNS records (an MX and a TXT on 'send', and a resend._domainkey TXT)."
-step "Copy each one into Namecheap Advanced DNS EXACTLY as shown — host and"
+step "Pick the region closest to you, then Resend shows three DNS records"
+say "  (an MX and a TXT on 'send', and a resend._domainkey TXT)."
+step "Copy each into Namecheap Advanced DNS EXACTLY as shown — host and"
 say "  value both. They live on subdomains, so Google mail is untouched."
-step "Back in Resend, press 'Verify DNS Records'. Propagation can take a few"
-say "  minutes; 'Pending' is fine, re-check after the wizard."
+step "Back in Resend, press 'Verify DNS Records'. 'Pending' is fine for now."
 pause "Records added and verification started? Press Enter."
 
-# ── 3 · Resend API key ────────────────────────────────────────────────────
+# ── 5 · Resend API key ────────────────────────────────────────────────────
 stage "Resend — API key" 2
 open_url "https://resend.com/api-keys"
-step "Create API Key → name it 'fein-leads', permission 'Sending access',"
+step "Create API Key → name 'fein-leads', permission 'Sending access',"
 say "  domain fein.vc → Create. Copy the key (shown once, starts re_)."
 ask_secret RESEND_API_KEY "Paste the Resend API key:"
 write_env RESEND_API_KEY "$RESEND_API_KEY"
 
-# ── 4 · cal.com event type ────────────────────────────────────────────────
+# ── 6 · cal.com event type ────────────────────────────────────────────────
 stage "cal.com — your booking page" 8
 say "This is the link every email and the site's success screen point at."
 open_url "https://app.cal.com/signup"
@@ -253,83 +274,65 @@ step "Copy the event's public link (looks like https://cal.com/<you>/fein-intro)
 ask CAL_LINK "Paste the booking link:"
 write_env CAL_LINK "$CAL_LINK"
 
-# ── 5 · cal.com webhook ───────────────────────────────────────────────────
+# ── 7 · cal.com webhook ───────────────────────────────────────────────────
 stage "cal.com — booking webhook" 4
 CALCOM_WEBHOOK_SECRET=$(_existing CALCOM_WEBHOOK_SECRET || true)
 if [[ -z "$CALCOM_WEBHOOK_SECRET" ]]; then
   CALCOM_WEBHOOK_SECRET=$(openssl rand -hex 24)
   write_env CALCOM_WEBHOOK_SECRET "$CALCOM_WEBHOOK_SECRET"
 fi
-say "When someone books, cal.com tells the lead service so the 3-day nudge"
-say "email is cancelled. The signing secret below was generated for you."
+say "When someone books, cal.com tells the function so the 3-day nudge is"
+say "cancelled. The signing secret below was generated for you."
 open_url "https://app.cal.com/settings/developer/webhooks/new"
-step "Subscriber URL:  https://api.fein.vc/webhooks/calcom"
+step "Subscriber URL:  https://fein.vc/api/webhooks/calcom"
 step "Event triggers:  tick 'Booking created' only."
 step "Secret — paste exactly this:"
 printf '\n      %s%s%s\n\n' "$BOLD" "$CALCOM_WEBHOOK_SECRET" "$RESET"
 step "Save the webhook."
 pause "Webhook saved? Press Enter."
 
-# ── 6 · Push config to the VPS ────────────────────────────────────────────
-stage "Configure the lead service" 2
-say "Writing the three values to /opt/fein-leads/.env on the VPS and"
-say "restarting the service."
-if confirm "Write config to $VPS and restart fein-leads?"; then
-  printf 'RESEND_API_KEY=%s\nCAL_LINK=%s\nCALCOM_WEBHOOK_SECRET=%s\nNOTIFY_TO=team@commixcapital.com\nMAIL_FROM=Daniel at fein <daniel@fein.vc>\n' \
-    "$RESEND_API_KEY" "$CAL_LINK" "$CALCOM_WEBHOOK_SECRET" \
-    | vps 'cat > /opt/fein-leads/.env && chmod 600 /opt/fein-leads/.env && systemctl restart fein-leads'
-  sleep 1
-  HEALTH=$(vps 'curl -s http://127.0.0.1:8787/health' || echo '{}')
-  if [[ "$HEALTH" == *'"missingConfig":[]'* ]]; then
-    printf '  %s✓ service healthy, no missing config%s\n' "$GREEN" "$RESET"
-  else
-    warn "service reports: $HEALTH"
-  fi
-else
-  SKIPPED+=("VPS config push — re-run the wizard to finish")
-fi
-pause
+# ── 8 · Vercel environment variables ──────────────────────────────────────
+stage "Vercel — environment variables" 5
+say "Add these seven in Project → Settings → Environment Variables (all"
+say "environments), then Deployments → ⋯ on the latest → Redeploy:"
+printf '\n'
+printf '      RESEND_API_KEY            = %s\n' "$RESEND_API_KEY"
+printf '      CAL_LINK                  = %s\n' "$CAL_LINK"
+printf '      CALCOM_WEBHOOK_SECRET     = %s\n' "$CALCOM_WEBHOOK_SECRET"
+printf '      NOTIFY_TO                 = team@commixcapital.com\n'
+printf '      MAIL_FROM                 = Daniel at fein <daniel@fein.vc>\n'
+printf '      UPSTASH_REDIS_REST_URL    = %s\n' "$UPSTASH_REDIS_REST_URL"
+printf '      UPSTASH_REDIS_REST_TOKEN  = %s\n' "$UPSTASH_REDIS_REST_TOKEN"
+printf '\n'
+open_url "https://vercel.com/dashboard"
+step "Paste each one, save, then REDEPLOY so the functions pick them up."
+pause "Env vars saved and redeployed? Press Enter."
 
-# ── 7 · GitHub Pages HTTPS ────────────────────────────────────────────────
-stage "fein.vc goes live" 3
-say "Once the A records propagate, GitHub Pages serves the site."
-if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-  if gh api -X PUT repos/clippycommits/fein-site/pages --field https_enforced=true >/dev/null 2>&1; then
-    printf '  %s✓ HTTPS enforcement enabled via gh%s\n' "$GREEN" "$RESET"
-  else
-    warn "couldn't enforce HTTPS yet (cert may not be issued) — check the dashboard:"
-    open_url "https://github.com/clippycommits/fein-site/settings/pages"
-    step "Wait for the fein.vc green check + certificate, then tick 'Enforce HTTPS'."
-  fi
-else
-  open_url "https://github.com/clippycommits/fein-site/settings/pages"
-  step "Wait for the fein.vc green check + certificate, then tick 'Enforce HTTPS'."
-fi
-pause "Press Enter to continue."
-
-# ── 8 · FormSubmit fallback activation ────────────────────────────────────
+# ── 9 · FormSubmit fallback ───────────────────────────────────────────────
 stage "FormSubmit fallback" 2
-say "If the lead service is ever down, the form falls back to FormSubmit,"
-say "which emails the lead to team@commixcapital.com. It needs one click."
+say "If the functions are ever unreachable, the form falls back to"
+say "FormSubmit, which emails the lead to team@commixcapital.com."
 open_url "https://mail.google.com/"
 step "In the team@commixcapital.com inbox, find the FormSubmit activation"
-say "  email and click Activate. (Nothing arrives until it's activated.)"
+say "  email and click Activate. (The fallback is dead until it's clicked.)"
 pause "Activated (or already was)? Press Enter."
 
-# ── 9 · Smoke test the funnel ─────────────────────────────────────────────
+# ── 10 · Smoke test + retire the VPS service ──────────────────────────────
 stage "Smoke test" 5
-say "End to end, with you as the lead."
-if curl -fsS --max-time 10 https://api.fein.vc/health >/dev/null 2>&1; then
-  printf '  %s✓ https://api.fein.vc is up (TLS working)%s\n' "$GREEN" "$RESET"
+if HEALTH=$(curl -fsS --max-time 10 https://fein.vc/api/health 2>/dev/null); then
+  if [[ "$HEALTH" == *'"missingConfig":[]'* ]]; then
+    printf '  %s✓ https://fein.vc/api/health — config complete%s\n' "$GREEN" "$RESET"
+  else
+    warn "live but incomplete: $HEALTH"
+  fi
 else
-  warn "api.fein.vc not reachable over HTTPS yet — DNS may still be propagating."
-  warn "Re-run this stage later; testing via the VPS directly for now."
+  warn "fein.vc not answering yet — DNS may still be propagating. Re-run later."
 fi
-ask TEST_EMAIL "Your email for the test lead (you'll get the welcome email):"
+ask TEST_EMAIL "Your email for a test lead (you'll get the welcome email):"
 if confirm "Send a test enquiry for $TEST_EMAIL now?"; then
-  PAYLOAD=$(printf '{"email":"%s","first":"Test","last":"Lead","fund":"Wizard Test","size":"Under $50M"}' "$TEST_EMAIL")
-  if curl -fsS --max-time 10 -X POST https://api.fein.vc/enquiry -H 'content-type: application/json' -d "$PAYLOAD" 2>/dev/null \
-     || printf '%s' "$PAYLOAD" | vps "curl -fsS -X POST http://127.0.0.1:8787/enquiry -H 'content-type: application/json' -d @-"; then
+  if curl -fsS --max-time 15 -X POST https://fein.vc/api/enquiry \
+       -H 'content-type: application/json' \
+       -d "{\"email\":\"$TEST_EMAIL\",\"first\":\"Test\",\"last\":\"Lead\",\"fund\":\"Wizard Test\"}"; then
     printf '\n  %s✓ enquiry accepted%s\n' "$GREEN" "$RESET"
     step "Check $TEST_EMAIL for the welcome email with the booking button."
     step "Check team@commixcapital.com for the lead notification."
@@ -337,11 +340,18 @@ if confirm "Send a test enquiry for $TEST_EMAIL now?"; then
     say "  'fein call booked' notification, and the 3-day nudge is cancelled."
     note "Delete the test booking in cal.com afterwards."
   else
-    warn "enquiry failed — check: ssh $VPS journalctl -u fein-leads -n 20"
+    warn "enquiry failed — check the function logs in the Vercel dashboard."
   fi
+fi
+if confirm "Retire the old VPS lead service (fein-leads + caddy on $VPS)?"; then
+  ssh -o BatchMode=yes "$VPS" 'systemctl disable -q --now fein-leads caddy 2>/dev/null; echo retired' \
+    && printf '  %s✓ VPS service retired%s\n' "$GREEN" "$RESET" \
+    || SKIPPED+=("retire VPS service: ssh $VPS systemctl disable --now fein-leads caddy")
+else
+  SKIPPED+=("retire VPS service when comfortable: ssh $VPS systemctl disable --now fein-leads caddy")
 fi
 pause "Press Enter to finish."
 
 finish
 note "Funnel: form → instant booking email + your notification → 3-day nudge"
-note "auto-cancelled on booking. Leads log: ssh $VPS cat /opt/fein-leads/leads.jsonl"
+note "auto-cancelled on booking. Push to main = deploy. Health: fein.vc/api/health"
