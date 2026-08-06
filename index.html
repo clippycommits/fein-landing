@@ -39,7 +39,7 @@
     --font:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --maxw:1080px;
-    --nav-h:74px;
+    --nav-h:64px;
     --r-sm:8px; --r-md:12px; --r-lg:16px;
     --hl-top:inset 0 1px 0 rgba(255,255,255,.06);
     --shadow-card:0 0 0 1px rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5),0 24px 60px -24px rgba(0,0,0,.9);
@@ -102,14 +102,18 @@
   header{position:relative;z-index:5}
   #view-home header{position:fixed;top:0;left:0;right:0;z-index:50;background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease,backdrop-filter .25s ease}
   #view-home header.scrolled{background:rgba(0,0,0,.62);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
-  .bar{display:flex;align-items:center;gap:1.4rem;height:74px;max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  .brand{font-weight:600;font-size:1.45rem;letter-spacing:-.035em;color:#fff}
-  nav.links{display:flex;gap:1.5rem;margin-left:.6rem}
-  nav.links a,.bar .right a.link{position:relative;color:var(--fg-2);font-weight:500;font-size:.98rem;transition:color .18s ease}
-  nav.links a:hover,.bar .right a.link:hover{color:#fff}
-  nav.links a::after,.bar .right a.link::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:#fff;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .26s cubic-bezier(.22,.61,.36,1)}
-  nav.links a:hover::after,.bar .right a.link:hover::after{transform:scaleX(1)}
-  .bar .right{margin-left:auto;display:flex;align-items:center;gap:1.25rem}
+  .bar{display:flex;align-items:center;gap:1.5rem;height:var(--nav-h);max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .brand{font-weight:600;font-size:1.4rem;letter-spacing:-.035em;color:#fff}
+  nav.links{display:flex;gap:1.55rem;margin-left:.5rem}
+  nav.links a{position:relative;display:inline-flex;align-items:center;gap:.28rem;color:var(--fg);font-weight:500;font-size:.95rem;transition:color .18s ease}
+  nav.links a:hover{color:#fff}
+  nav.links a .chev{display:inline-flex;margin-top:1px;color:var(--fg-3);transition:color .18s ease}
+  nav.links a:hover .chev{color:#fff}
+  nav.links a .chev svg{width:10px;height:10px;display:block}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:#fff;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .26s cubic-bezier(.22,.61,.36,1)}
+  nav.links a:hover::after{transform:scaleX(1)}
+  .bar .right{margin-left:auto;display:flex;align-items:center;gap:.7rem}
+  .bar .right .btn{font-size:.92rem;padding:.5rem 1rem}
   .menu-btn{display:none;align-items:center;justify-content:center;width:42px;height:42px;margin-left:-.2rem;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;border-radius:10px;transition:background .18s ease}
   .menu-btn:hover{background:rgba(255,255,255,.07)}
   .menu-btn svg{width:24px;height:24px;display:block}
@@ -156,16 +160,17 @@
   .head{max-width:60ch}
   .head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
-  /* ============ infra: faint violet breath top-right, code card, orchestration ============ */
-  .band.dark{background:var(--bg);color:var(--fg-2);background-image:radial-gradient(1100px 480px at 76% -8%,rgba(121,40,202,.07),transparent 62%)}
-  .band.dark>.wrap{position:relative;z-index:1}
-  .band.dark .th{color:#fff}
-  .band.dark .th .cont{color:var(--fg-3)}
-  .infra-points{list-style:none;padding:0;margin:0;display:grid;gap:1rem;color:var(--fg-2)}
-  .infra-points li{display:flex;gap:.7rem}
-  .infra-points .tick,.sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
-  .infra-points b,.sec-list b{color:#fff;font-weight:550}
-  .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:center}
+  /* ============ product: outcome list beside the live demo ============ */
+  .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:start;margin-top:clamp(2.2rem,4.5vw,3rem)}
+  .olist{display:grid}
+  .oitem{display:flex;gap:1rem;padding:1.15rem 0}
+  .oitem+.oitem{border-top:1px solid var(--line)}
+  .oitem .ic{flex:none;width:36px;height:36px;border-radius:var(--r-sm);background:#141417;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--fg)}
+  .oitem .ic svg{width:20px;height:20px;display:block}
+  .oitem h3{font-size:1.04rem;font-weight:600;letter-spacing:-.012em;color:#fff}
+  .oitem p{margin-top:.3rem;color:var(--fg-3);font-size:.94rem;line-height:1.5}
+  .sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
+  .sec-list b{color:#fff;font-weight:550}
   .code-card{position:relative;background:#0a0a0c;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
   .code-top{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-bottom:1px solid var(--line)}
   .code-top i{width:11px;height:11px;border-radius:50%;display:inline-block}
@@ -188,28 +193,13 @@
   .dcore b{font-size:25px;font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1}
   .dcore span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:rgba(255,255,255,.55)}
 
-  /* ============ stats: an editorial row, hairline-ruled ============ */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:2.6rem}
-  .stat{border-left:1px solid var(--line-2);padding-left:1.25rem}
-  .stat .num{font-size:clamp(1.9rem,4vw,2.6rem);font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
-  .stat .lab{margin-top:.6rem;color:var(--fg-3);font-size:.95rem;line-height:1.4}
-  /* the dawn: hairline threads converging on one endpoint, drawn on canvas below the stats */
-  .band.backbone{overflow:hidden;padding-bottom:clamp(2.2rem,4.5vw,3.2rem);background-image:radial-gradient(880px 400px at 50% 118%,rgba(0,112,243,.05),transparent 66%)}
-  .burst-hold{margin-top:2.4rem;height:clamp(210px,27vw,330px);position:relative}
+  /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon */
+  .burst-hold{position:absolute;left:0;right:0;bottom:0;height:clamp(200px,28vw,320px);pointer-events:none}
   #burst{width:100%;height:100%;display:block}
 
-  /* ============ feature bento: hairline cards with cursor spotlight ============ */
-  .grid3{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.1rem,2.5vw,1.6rem);margin-top:2.6rem}
   .spot{position:relative}
   .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
   .spot:hover::before{opacity:1}
-  .feat{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);padding:1.6rem;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.35);transition:transform .22s cubic-bezier(.22,.61,.36,1),border-color .22s ease,box-shadow .22s ease}
-  .feat:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:var(--hl-top),0 4px 10px rgba(0,0,0,.4),0 24px 48px -20px rgba(0,0,0,.7)}
-  .feat .ic{width:36px;height:36px;border-radius:var(--r-sm);background:#141417;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--fg);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .22s ease,border-color .22s ease,box-shadow .22s ease}
-  .feat:hover .ic{transform:translateY(-1px);color:#fff;border-color:rgba(255,255,255,.28)}
-  .feat h3{font-size:1.18rem;font-weight:600;letter-spacing:-.015em;margin-top:1rem;color:#fff}
-  .feat p{margin-top:.5rem;color:var(--fg-3);font-size:.98rem;line-height:1.5}
-
   /* ============ plan ============ */
   .plan{margin-top:3rem;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3.5vw,2.6rem)}
   .pstep{position:relative;padding-top:2.2rem;border-top:1px solid var(--line-2)}
@@ -246,7 +236,7 @@
   .faq-list details[open] p{animation:faqIn .35s cubic-bezier(.22,.61,.36,1) both}
 
   /* ============ CTA: the gradient-type moment ============ */
-  .cta-dark{position:relative;overflow:hidden;background:#000;color:#fff;padding:clamp(4rem,8vw,6rem) 0;text-align:center;border-top:1px solid var(--line)}
+  .cta-dark{position:relative;overflow:hidden;background:#000;color:#fff;padding:clamp(4rem,8vw,6rem) 0 clamp(11rem,19vw,14rem);text-align:center;border-top:1px solid var(--line)}
   .cta-dark::before{content:"";position:absolute;left:50%;top:8%;width:min(820px,90%);height:120%;transform:translateX(-50%);background:radial-gradient(50% 40% at 50% 32%,rgba(0,112,243,.10),transparent 70%),radial-gradient(44% 36% at 62% 54%,rgba(121,40,202,.06),transparent 70%);filter:blur(36px);pointer-events:none}
   .cta-dark .wrap{position:relative;z-index:1}
   .cta-dark h2{font-size:clamp(2rem,4.4vw,3rem);letter-spacing:-.03em;text-wrap:balance;max-width:18ch;margin:0 auto;line-height:1.12}
@@ -299,8 +289,8 @@
     .mmenu a{display:block;padding:.72rem .8rem;border-radius:10px;color:var(--fg);font-weight:500;font-size:1rem;transition:background .15s ease}
     .mmenu a:hover{background:rgba(255,255,255,.06)}
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
+    .bar .right .btn-ghost{display:none}
     .split,.start-wrap{grid-template-columns:1fr;gap:2.2rem}
-    .grid3,.stats{grid-template-columns:1fr 1fr}
     .sec-list{grid-template-columns:1fr}
     .plan{grid-template-columns:1fr;gap:0}
     .pstep{border-top:none;border-left:1px solid var(--line-2);padding-top:0;padding-left:1.5rem;padding-bottom:1.7rem}
@@ -308,7 +298,7 @@
     .pstep .node{top:3px;left:-7px}
     .start-wrap{min-height:0}
   }
-  @media (max-width:560px){.form-row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.form-row{grid-template-columns:1fr}}
 
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -374,15 +364,15 @@
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
         <nav class="links" aria-label="Primary">
-          <a href="#infra">Product</a>
-          <a href="#plan">How it works</a>
-          <a href="#security">Security</a>
+          <a href="#product">Products <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg></span></a>
+          <a href="#how">Solutions <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg></span></a>
+          <a href="#product">Developers <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg></span></a>
+          <a href="#faq">Resources <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg></span></a>
           <a href="#pricing">Pricing</a>
         </nav>
         <div class="right">
-          <a class="link" href="#get-started">Contact sales</a>
-          <a class="link" href="#get-started">Sign in</a>
-          <a class="btn btn-primary" href="#get-started">Get started <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          <a class="btn btn-ghost" href="#get-started">Sign in</a>
+          <a class="btn btn-primary" href="#get-started">Contact sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></span></a>
           <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7H20"/><path d="M4 12H20"/><path d="M4 17H20"/></svg>
             <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg>
@@ -390,13 +380,14 @@
         </div>
       </div>
       <div id="mobile-menu" class="mmenu" aria-label="Primary mobile">
-        <a href="#infra">Product</a>
-        <a href="#plan">How it works</a>
-        <a href="#security">Security</a>
+        <a href="#product">Products</a>
+        <a href="#how">Solutions</a>
+        <a href="#product">Developers</a>
+        <a href="#faq">Resources</a>
         <a href="#pricing">Pricing</a>
         <div class="sep" aria-hidden="true"></div>
-        <a href="#get-started">Contact sales</a>
         <a href="#get-started">Sign in</a>
+        <a href="#get-started">Contact sales</a>
       </div>
     </header>
 
@@ -419,18 +410,20 @@
     </div>
   </section>
 
-  <!-- INFRASTRUCTURE + ORCHESTRATION -->
-  <section id="infra" class="band dark">
-    <div class="grain-overlay on-dark"></div>
+  <!-- PRODUCT: what you get, beside the live demo -->
+  <section id="product" class="band">
     <div class="wrap">
-      <span class="eyebrow reveal">Infrastructure</span>
-      <h2 class="th reveal" style="margin-top:.7rem">The layer your agents act on. <span class="cont">Vector search guesses. fein gives your AI a real map of your fund — resolved, current, and grounded in your own data.</span></h2>
-      <div class="split" style="margin-top:clamp(2rem,4vw,3rem);align-items:start">
-        <ul class="infra-points" data-reveal-group="90">
-          <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>One endpoint.</b> Connect fein to Claude, ChatGPT, or Cursor over MCP. No new app.</span></li>
-          <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Grounded, not guessed.</b> Every answer comes from your data, not a model's memory.</span></li>
-          <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Sourced.</b> Each fact links back to the email, meeting, or doc it came from.</span></li>
-        </ul>
+      <div class="head reveal">
+        <span class="eyebrow">What you get</span>
+        <h2 class="th" style="margin-top:.7rem">Your network, working for the whole team. <span class="cont">Ask in plain words, inside the tools you already use.</span></h2>
+      </div>
+      <div class="split">
+        <div class="olist" data-reveal-group="90">
+          <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="18.5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="5.5" r="2.6"/><circle cx="19" cy="5.5" r="0.6" fill="currentColor" stroke="none"/><path d="M6.6 16.9Q8.2 14.9 10.4 13.4"/><path d="M13.6 10.6Q15.4 8.9 17.2 7.4"/></svg></div><div><h3>Find the warm path</h3><p>Ask who at your fund is closest to a founder. fein names the path and the best person to make the intro.</p></div></div>
+          <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 12.5V6.5A2 2 0 0 0 13.5 4.5H5A2 2 0 0 0 3 6.5V17A2 2 0 0 0 5 19H11.5"/><path d="M3 8.5H15.5"/><path d="M7 3V6"/><path d="M12 3V6"/><circle cx="16.5" cy="16.5" r="4.5"/><path d="M16.5 14.3V16.5H18.4"/></svg></div><div><h3>Walk in prepped</h3><p>Who's in the room, how you know them, what you last talked about. Ready before the meeting, not pieced together after.</p></div></div>
+          <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 3V7.5L13.5 6.2L15 7.5V3"/><path d="M9 12.5H15"/><path d="M9 15.5H13"/></svg></div><div><h3>Never redo a pass</h3><p>Every company your fund has seen, and why you passed, with the memo it came from. One question, not another diligence cycle.</p></div></div>
+          <div class="oitem reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><path d="M12 12L18.4 7.2"/><circle cx="16" cy="15.2" r="1.1" fill="currentColor" stroke="none"/></svg></div><div><h3>Catch the ones going cold</h3><p>fein flags who you're overdue with, judged by your rhythm together. Usually every 10 days, now six days overdue.</p></div></div>
+        </div>
         <div class="code-card reveal">
           <div class="code-top"><i class="r"></i><i class="y"></i><i class="g"></i><span class="name">agent · fein over MCP</span></div>
 <pre><span class="c-com">// your AI, connected to fein</span>
@@ -444,8 +437,16 @@
       source:    calendar, 14 shared meetings</pre>
         </div>
       </div>
+    </div>
+  </section>
 
-      <h3 class="th reveal" style="font-size:clamp(1.4rem,2.7vw,1.95rem);margin-top:clamp(3rem,6vw,4.5rem)">Connect to your stack. <span class="cont">fein reads the systems you already run and answers from the tools your team lives in — over one endpoint.</span></h3>
+  <!-- HOW IT CONNECTS -->
+  <section id="how" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">How it connects</span>
+        <h2 class="th" style="margin-top:.7rem">Connect to your stack. <span class="cont">fein reads the systems you already run and answers from the tools your team lives in — over one endpoint.</span></h2>
+      </div>
       <div class="diagram reveal">
         <div class="dlive" id="dlive" role="img" aria-label="Diagram: your systems — Gmail, Calendar, Drive, and Attio — flow into fein, one MCP endpoint, which answers inside Claude, ChatGPT, and Cursor">
           <canvas id="dcanvas" aria-hidden="true"></canvas>
@@ -461,44 +462,19 @@
           <div class="dbox dst" style="left:756px;top:248px"><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#fff"><use href="#l-cursor"/></svg>Cursor</div>
         </div>
       </div>
+      <ul class="sec-list" data-reveal-group="90">
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>One endpoint.</b> Connect fein to Claude, ChatGPT, or Cursor over MCP. No new app.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Grounded, not guessed.</b> Every answer comes from your data, not a model's memory.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Sourced.</b> Each fact links back to the email, meeting, or doc it came from.</span></li>
+      </ul>
     </div>
   </section>
 
-  <!-- BACKBONE STATS -->
-  <section class="band backbone">
-    <div class="wrap">
-      <h2 class="th reveal">Built to run your fund's memory.</h2>
-      <div class="stats" data-reveal-group="90">
-        <div class="stat reveal"><div class="num">14 days</div><div class="lab">from kickoff to live</div></div>
-        <div class="stat reveal"><div class="num">2 calls</div><div class="lab">your entire lift</div></div>
-        <div class="stat reveal"><div class="num">1 endpoint</div><div class="lab">Claude, ChatGPT, and Cursor</div></div>
-        <div class="stat reveal"><div class="num">100%</div><div class="lab">on your own servers</div></div>
-      </div>
-      <div class="burst-hold reveal"><canvas id="burst" aria-hidden="true"></canvas></div>
-    </div>
-  </section>
-
-  <!-- OUTCOMES -->
-  <section id="outcomes" class="band">
+  <!-- THE OFFER: plan + price + the call -->
+  <section id="pricing" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">What you get</span>
-        <h2 class="th" style="margin-top:.7rem">Your network, working for the whole team. <span class="cont">Ask in plain words, inside the tools you already use.</span></h2>
-      </div>
-      <div class="grid3" data-reveal-group="90">
-        <div class="feat spot reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="18.5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="5.5" r="2.6"/><circle cx="19" cy="5.5" r="0.6" fill="currentColor" stroke="none"/><path d="M6.6 16.9Q8.2 14.9 10.4 13.4"/><path d="M13.6 10.6Q15.4 8.9 17.2 7.4"/></svg></div><h3>Find the warm path</h3><p>Ask who at your fund is closest to a founder. fein names the path and the best person to make the intro.</p></div>
-        <div class="feat spot reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 12.5V6.5A2 2 0 0 0 13.5 4.5H5A2 2 0 0 0 3 6.5V17A2 2 0 0 0 5 19H11.5"/><path d="M3 8.5H15.5"/><path d="M7 3V6"/><path d="M12 3V6"/><circle cx="16.5" cy="16.5" r="4.5"/><path d="M16.5 14.3V16.5H18.4"/></svg></div><h3>Walk in prepped</h3><p>Who's in the room, how you know them, what you last talked about. Ready before the meeting, not pieced together after.</p></div>
-        <div class="feat spot reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 3V7.5L13.5 6.2L15 7.5V3"/><path d="M9 12.5H15"/><path d="M9 15.5H13"/></svg></div><h3>Never redo a pass</h3><p>Every company your fund has seen, and why you passed, with the memo it came from. One question, not another diligence cycle.</p></div>
-        <div class="feat spot reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><path d="M12 12L18.4 7.2"/><circle cx="16" cy="15.2" r="1.1" fill="currentColor" stroke="none"/></svg></div><h3>Catch the ones going cold</h3><p>fein flags who you're overdue with, judged by your rhythm together. Usually every 10 days, now six days overdue.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLAN -->
-  <section id="plan" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">How it works</span>
+        <span class="eyebrow">The offer</span>
         <h2 class="th" style="margin-top:.7rem">Live in 14 days. <span class="cont">Two calls from you. No data hire, nothing to learn — we build it around your stack.</span></h2>
       </div>
       <div class="plan" data-reveal-group="120">
@@ -506,47 +482,27 @@
         <div class="pstep reveal"><span class="node"></span><div class="meta"><span class="num">02</span><span>Days 1–10</span></div><h3>We build it</h3><p>Every contact matched, every relationship scored, every fact linked to its source. You do nothing.</p></div>
         <div class="pstep dest reveal"><span class="node"></span><div class="meta"><span class="num">03</span><span>Days 11–14</span></div><h3>You're live</h3><p>It's answering inside your AI tools. One call to walk your team through it, and it's yours.</p></div>
       </div>
-    </div>
-  </section>
-
-  <!-- SECURITY -->
-  <section id="security" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">Security</span>
-        <h2 class="th" style="margin-top:.7rem">It runs on your infrastructure. <span class="cont">Installed in your own environment. Your data never leaves your systems, and the code is open to audit.</span></h2>
-      </div>
-      <ul class="sec-list" data-reveal-group="90">
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Self-hosted.</b> Nothing leaves your systems.</span></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Open source.</b> Auditable end to end.</span></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Per-person access.</b> Checked on every query.</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section id="pricing" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">Pricing</span>
-        <h2 class="th" style="margin-top:.7rem">One build fee. One monthly line. <span class="cont">No per-seat pricing. About $17,000 your first year, less than one month of a data hire.</span></h2>
-      </div>
       <div class="price-card spot reveal">
         <div class="fig">
           <span class="amt" data-count>$5,000</span><span class="u">to build</span>
           <span class="plus">+</span>
           <span class="amt" data-count>$1,000</span><span class="u">/ month</span>
         </div>
-        <div class="price-covers">The monthly keeps the connectors working, the graph current, and builds new answers as your team asks for them.</div>
-        <a class="btn btn-primary" href="#get-started">Get started <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        <div class="price-covers">No per-seat pricing — about $17,000 your first year, less than one month of a data hire. The monthly keeps the connectors working, the graph current, and builds new answers as your team asks for them.</div>
+        <a class="btn btn-primary" href="#get-started">Book the setup call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- FAQ + SECURITY -->
   <section id="faq" class="band">
     <div class="wrap">
-      <div class="head reveal"><span class="eyebrow">FAQ</span><h2 class="th" style="margin-top:.7rem">Questions, answered.</h2></div>
+      <div class="head reveal"><span class="eyebrow">FAQ</span><h2 class="th" style="margin-top:.7rem">Questions, answered. <span class="cont">It runs in your own environment — your data never leaves your systems, and the code is open to audit.</span></h2></div>
+      <ul class="sec-list" data-reveal-group="90">
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Self-hosted.</b> Nothing leaves your systems.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Open source.</b> Auditable end to end.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Per-person access.</b> Checked on every query.</span></li>
+      </ul>
       <div class="faq-list reveal">
         <details><summary>What is fein? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time.</p></details>
         <details><summary>How is this different from a CRM like Affinity or Attio? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing.</p></details>
@@ -560,11 +516,12 @@
 
   <section class="cta-dark">
     <div class="grain-overlay on-dark"></div>
+    <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas></div>
     <div class="wrap" data-reveal-group="90">
       <h2 class="reveal">Give your AI your fund's memory.</h2>
       <p class="reveal">Live in 14 days, on your own servers. Then every intro you've earned is one question away.</p>
       <div class="hero-actions reveal">
-        <a class="btn btn-white" href="#get-started">Get started <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        <a class="btn btn-white" href="#get-started">Book the setup call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         <a class="arrowlink" style="color:#fff" href="#get-started">Contact sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
     </div>
@@ -574,7 +531,7 @@
     <div class="wrap foot">
       <a class="brand" href="#home" style="font-weight:600;font-size:1.15rem">fein</a>
       <nav class="fnav" aria-label="Footer">
-        <a href="#infra">Product</a><a href="#security">Security</a><a href="#pricing">Pricing</a><a href="#get-started">Contact sales</a><a href="mailto:hello@fein.vc">hello@fein.vc</a>
+        <a href="#product">Product</a><a href="#how">How it connects</a><a href="#pricing">Pricing</a><a href="#get-started">Contact sales</a><a href="mailto:hello@fein.vc">hello@fein.vc</a>
       </nav>
       <span>The fund graph for venture capital.</span>
     </div>
@@ -606,7 +563,7 @@
         </div>
         <div class="field"><label for="ask">What would you ask it first? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="ask" name="ask" placeholder="e.g. Who's our warmest path to a Series A fintech founder?"></textarea></div>
         <label class="consent"><input type="checkbox" id="ok" required> I agree to be contacted about fein. No list, no spam.</label>
-        <button type="submit" class="btn btn-primary submit">Get started <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
+        <button type="submit" class="btn btn-primary submit">Book the setup call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
       </form>
       <div id="done" class="success" hidden>
         <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
