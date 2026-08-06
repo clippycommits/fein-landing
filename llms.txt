@@ -17,6 +17,7 @@
 - $5,000 one-time build.
 - $1,000 per month maintenance (connectors kept working, graph kept current, new answers built on request).
 - About $17,000 in the first year.
+- Month to month, no lock-in: cancel and the self-hosted software and graph remain yours.
 
 ## Security and data
 - Self-hosted in the fund's own environment; data never leaves it.

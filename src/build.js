@@ -52,6 +52,7 @@ const faqs = [
   ["What is fein?", "One relationship graph for your fund. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."],
   ["How is this different from a CRM like Affinity or Attio?", "A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."],
   ["What does it cost?", "$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."],
+  ["What happens if we cancel?", "fein keeps running. It's open source and lives on your servers, so the graph, the connectors, and every answer stay yours. The monthly buys upkeep and new capability — never access to your own data."],
   ["How long until it's live, and what do we do?", "Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between."],
   ["Where does our data live, and who can see what?", "On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query."],
   ["What does it connect to, and how do we use it?", "Your inbox, calendar, Google Drive, and a CRM like Attio go in. You ask from Claude, ChatGPT, or Cursor over a single MCP endpoint. No new app to open."]
@@ -165,6 +166,7 @@ fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 - $5,000 one-time build.
 - $1,000 per month maintenance (connectors kept working, graph kept current, new answers built on request).
 - About $17,000 in the first year.
+- Month to month, no lock-in: cancel and the self-hosted software and graph remain yours.
 
 ## Security and data
 - Self-hosted in the fund's own environment; data never leaves it.

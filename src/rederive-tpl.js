@@ -15,6 +15,14 @@ const b0 = idx.indexOf("<body>") + "<body>".length;
 const b1 = idx.lastIndexOf("</body>");
 let body = idx.slice(b0, b1);
 
+// build.js appends GoatCounter to the standalone site; if it stays in the
+// template, every rederive+build cycle stacks another copy and it leaks into
+// the artifact build (which must not carry it).
+body = body.replace(/\s*<script data-goatcounter[\s\S]*?<\/script>\s*<script>[^<]*goatcounter[\s\S]*?<\/script>/g, "");
+body = body.trimEnd() + "\n";
+// build.js emits a newline after <body>; pin the seam or each cycle grows a blank line
+body = body.replace(/^\s+/, "\n\n\n");
+
 const sp0 = body.indexOf('<svg width="0" height="0"');
 if (sp0 < 0) throw new Error("no sprite");
 const sp1 = body.indexOf("</svg>", sp0) + "</svg>".length;
