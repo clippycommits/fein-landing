@@ -76,6 +76,8 @@ export async function logEvent(ev) {
 // The calendar behind CAL_LINK is Daniel's (the founder), so the copy has
 // Olivia arranging a call WITH Daniel, never offering "my calendar" — the
 // booking page showing a different name would break the persona.
+// Register: warm but unfussy. Thank them, offer a way out ("just reply"),
+// sign off "Speak soon". No exclamation marks, no "excited", no flattery.
 export const salesFrom = () => cfg("SALES_FROM") ?? "Olivia Greene <olivia.greene@fein.vc>";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
@@ -110,8 +112,8 @@ export function welcomeEmail(lead) {
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
     subject: "your interest in fein",
-    text: `${hi}\n\nNoticed that you entered your name onto the fein website. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to better understand your business's needs.\n\nDo you have any availability in the coming days? I've opened up Daniel's calendar, please feel free to throw some time on with him: ${url}\n\nHe'll happily work around your schedule.\n\nKindly,\nOlivia\n\n\n${signatureText(url)}`,
-    html: `<div dir="ltr" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222222"><p ${p}>${esc(hi)}</p><p ${p}>Noticed that you entered your name onto the fein website. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to better understand your business's needs.</p><p ${p}>Do you have any availability in the coming days? I've opened up Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, please feel free to throw some time on with him.</p><p ${p}>He'll happily work around your schedule.</p><p style="margin:0">Kindly,<br>Olivia</p>${signatureHtml(url)}</div>`,
+    text: `${hi}\n\nThanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.\n\nDo you have any availability in the coming days? I've opened up Daniel's calendar, so please feel free to grab whichever time suits you best: ${url}\n\nHe'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.\n\nSpeak soon,\nOlivia\n\n\n${signatureText(url)}`,
+    html: `<div dir="ltr" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222222"><p ${p}>${esc(hi)}</p><p ${p}>Thanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.</p><p ${p}>Do you have any availability in the coming days? I've opened up Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, so please feel free to grab whichever time suits you best.</p><p ${p}>He'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.</p><p style="margin:0">Speak soon,<br>Olivia</p>${signatureHtml(url)}</div>`,
   };
 }
 
@@ -122,7 +124,7 @@ export function followupEmail(lead) {
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
     subject: "fein: your intro call is still open",
-    text: `Hi ${lead.first || "there"},\n\nYou asked about fein a few days ago and we have not spoken yet. If it is still on your mind, pick a time with Daniel, our founder: ${url}\n\nIf the timing is wrong, reply with a week that suits and we will come back to you then.\n\nKindly,\nOlivia`,
+    text: `Hi ${lead.first || "there"},\n\nYou asked about fein a few days ago and we have not spoken yet. No rush at all, but if it is still on your mind, Daniel, our founder, would be glad to say hello: ${url}\n\nAnd if the timing is simply wrong, just reply with a week that suits you and we'll come back to you then.\n\nSpeak soon,\nOlivia`,
     scheduled_at: new Date(Date.now() + FOLLOWUP_HOURS * 3600_000).toISOString(),
   };
 }

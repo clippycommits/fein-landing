@@ -83,6 +83,11 @@ console.log("Enquiry:");
   const { welcomeEmail } = await import("./_lib.mjs");
   ok(welcomeEmail({ email: "x@y.example" }).text.startsWith("Hi there,"),
     "greeting falls back to 'there' when the form has no first name");
+  ok([welcome, nudge].every((m) => m.text.includes("Speak soon,\nOlivia")) &&
+    welcome.html.includes("Speak soon,<br>Olivia"),
+    "both lead emails sign off warmly");
+  ok(!JSON.stringify([welcome, nudge]).match(/!|excited|thrilled/i),
+    "warmth stays unfussy: no exclamation marks, no gush");
   ok(welcome.from === "Olivia Greene <olivia.greene@fein.vc>" && nudge.from === welcome.from,
     "lead-facing mail comes from the Olivia persona");
   ok(welcome.html?.includes(">calendar</a>") && welcome.html.includes("cal.com/daniel/fein-intro"),
