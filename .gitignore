@@ -1,2 +1,4 @@
 src/fein-landing.html
 .vercel/
+.vercel
+.env*
