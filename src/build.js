@@ -182,7 +182,7 @@ fs.mkdirSync(out, { recursive: true });
 fs.writeFileSync(path.join(out, "index.html"), indexHtml);
 
 // robots.txt — welcome AI answer engines explicitly
-const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Web", "anthropic-ai", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User"];
+const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
 const robots = `# fein · the graph for venture capital teams
 # AI assistants welcome. Summary: ${SITE}/llms.txt · Full page: ${SITE}/llms-full.txt
 
@@ -234,12 +234,12 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - Every query logged, tied to a person.
 
 ## Contact
-- Get started: ${SITE}/#get-started
-- Email: sales@fein.vc
+- [Get started](${SITE}/#get-started): talk to sales about a 14 day build
+- [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
-- Full page content for LLMs: ${SITE}/llms-full.txt
-- Sitemap: ${SITE}/sitemap.xml
+- [Full page content for LLMs](${SITE}/llms-full.txt): the whole page in Markdown
+- [Sitemap](${SITE}/sitemap.xml): every indexable URL
 `);
 
 // llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
@@ -312,9 +312,9 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 ## Contact
 
-- Talk to sales: ${SITE}/#get-started
-- Email: sales@fein.vc
-- Want the repo? Ask: sales@fein.vc
+- [Talk to sales](${SITE}/#get-started): the form on the site, two short calls to go live
+- [Email sales](mailto:sales@fein.vc): sales@fein.vc
+- [Ask for the repo](mailto:sales@fein.vc): the code is open source, email for access
 `);
 
 // favicon.svg — theme-adaptive graph mark

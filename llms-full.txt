@@ -88,6 +88,6 @@ Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers l
 
 ## Contact
 
-- Talk to sales: https://fein.vc/#get-started
-- Email: sales@fein.vc
-- Want the repo? Ask: sales@fein.vc
+- [Talk to sales](https://fein.vc/#get-started): the form on the site, two short calls to go live
+- [Email sales](mailto:sales@fein.vc): sales@fein.vc
+- [Ask for the repo](mailto:sales@fein.vc): the code is open source, email for access

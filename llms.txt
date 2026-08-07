@@ -28,9 +28,9 @@ Updated: 2026-08-07. Full page content in Markdown: https://fein.vc/llms-full.tx
 - Every query logged, tied to a person.
 
 ## Contact
-- Get started: https://fein.vc/#get-started
-- Email: sales@fein.vc
+- [Get started](https://fein.vc/#get-started): talk to sales about a 14 day build
+- [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
-- Full page content for LLMs: https://fein.vc/llms-full.txt
-- Sitemap: https://fein.vc/sitemap.xml
+- [Full page content for LLMs](https://fein.vc/llms-full.txt): the whole page in Markdown
+- [Sitemap](https://fein.vc/sitemap.xml): every indexable URL
