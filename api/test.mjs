@@ -75,6 +75,14 @@ console.log("Enquiry:");
   ok(welcome.text.includes("name=Priya+Nair") || welcome.text.includes("name=Priya%20Nair"),
     "booking link prefills the name");
   ok(welcome.subject === "your interest in fein", "welcome subject replicates the SDR pattern");
+  ok(welcome.text.startsWith("Hi Priya,") && welcome.html.includes(">Hi Priya,</p>"),
+    "welcome greets the lead by first name");
+  ok(!JSON.stringify([welcome, nudge]).includes("my calendar") &&
+    welcome.text.includes("Daniel's calendar") && welcome.text.includes("Daniel, our founder"),
+    "the calendar is framed as Daniel's (founder), never Olivia's");
+  const { welcomeEmail } = await import("./_lib.mjs");
+  ok(welcomeEmail({ email: "x@y.example" }).text.startsWith("Hi there,"),
+    "greeting falls back to 'there' when the form has no first name");
   ok(welcome.from === "Olivia Greene <olivia.greene@fein.vc>" && nudge.from === welcome.from,
     "lead-facing mail comes from the Olivia persona");
   ok(welcome.html?.includes(">calendar</a>") && welcome.html.includes("cal.com/daniel/fein-intro"),
