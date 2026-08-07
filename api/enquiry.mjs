@@ -42,3 +42,5 @@ export default async function handler(request) {
   }
   return json({ ok: true, mailed: true });
 }
+
+export { handler as fetch };

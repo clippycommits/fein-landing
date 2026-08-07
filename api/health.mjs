@@ -7,3 +7,5 @@ export default async function handler(request) {
     nudgeState: cfg("UPSTASH_REDIS_REST_URL") ? "redis" : "none (nudges can't be auto-cancelled)",
   });
 }
+
+export { handler as fetch };

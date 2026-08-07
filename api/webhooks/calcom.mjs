@@ -47,3 +47,5 @@ export default async function handler(request) {
   }
   return json({ ok: true });
 }
+
+export { handler as fetch };

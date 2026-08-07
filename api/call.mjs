@@ -8,3 +8,5 @@ export default async function handler(request) {
   const dest = callUrl({ first: q.get("name"), email: q.get("email") });
   return new Response(null, { status: 302, headers: { location: dest } });
 }
+
+export { handler as fetch };
