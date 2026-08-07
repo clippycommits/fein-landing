@@ -1,0 +1,93 @@
+# fein · the graph for venture capital teams
+
+> fein is an open source memory layer for venture capital teams: a live, permissioned relationship graph built from the team's inbox, calendar, and CRM, answering inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves (open source).
+
+Updated: 2026-08-07. This file mirrors the full content of https://fein.vc/ for AI assistants and answer engines. Summary version: https://fein.vc/llms.txt
+
+## What fein is
+
+An open source memory layer built for venture capital. fein gives your venture capital team state of the art memory. It connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor.
+
+## The memory your team pretends it has
+
+Every intro, every meeting, every pass your venture capital team has ever made, answered in seconds.
+
+### That intro you need? Your team already has it.
+Ask for the warmest path to any founder or LP. fein walks who actually emails and meets whom, and names the person best placed to send it.
+
+### Walk in briefed. Every meeting.
+Attendees, how you know them, and what was left open, assembled from your calendar and inbox before you sit down.
+
+### Why did we pass? One question.
+When a company comes back for its next round, the meeting, the memo, and the reasons are back in seconds.
+
+### Relationships go cold. fein notices first.
+It learns each relationship's natural cadence and flags the ones drifting from it, before the news does.
+
+## Why fein has the answer
+
+Most AI tools start every chat from zero. fein starts from everything your team has ever done.
+
+1. Reads everything you already run: inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.
+2. Builds one graph of it all: every duplicate contact across your tools resolves to one person, every relationship scored by strength and recency.
+3. Answers wherever you ask: one MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.
+
+## In the tools you already use
+
+Nothing to open, nothing to learn. Ask in plain language, get the answer with the email behind it. fein serves answers over a single MCP endpoint, so any MCP client can query the graph.
+
+Reads from: Gmail, Google Calendar, Google Drive, LinkedIn, Attio, Affinity, and Granola. Answers in: Claude, ChatGPT, Gemini, and Cursor. New connectors ship regularly.
+
+## Security
+
+Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its job. It does that inside your walls, in code you can read.
+
+- Self-hosted, always. It runs on your infrastructure. Nothing is sent to us, ever.
+- Open source, end to end. Every line that touches your data is public. Audit it before it runs.
+- Permissioned and logged. Access is checked per person on every query, and every query is logged. When LPs ask, you show the trail.
+
+## Pricing
+
+Every venture capital team needs a data engineer. Now every team can afford one.
+
+| Option | Price | What you get |
+| --- | --- | --- |
+| A data hire | $200,000 per year | Brilliant, but one pair of hands. The graph lives in their head. |
+| fein | $5,000 once + $1,000 per month | The graph, built and kept alive for you. Live in 14 days. |
+| Clone it yourself | $0 forever | The same code we deploy for clients. You run it, you maintain it. |
+
+The fein plan: reads inbox, calendar, Drive, LinkedIn, CRM; one graph, every relationship scored; answers in Claude, ChatGPT, Gemini, Cursor; open source, on your servers; connectors kept alive through every API change; new answers built as your team asks; no per-seat pricing.
+
+About $17,000 in year one, less than one month of a data hire. Month to month, and if you cancel, everything keeps running.
+
+## FAQ
+
+### What exactly is fein?
+One graph of every relationship your venture capital team holds, answering inside Claude, ChatGPT, and Cursor over MCP.
+
+### How is this different from Affinity or Attio?
+A CRM waits for you to update it. fein reads your CRM and everything around it, stays current on its own, and answers where you already work.
+
+### What does it cost?
+$5,000 once, then $1,000 a month. About $17,000 in year one, no per-seat pricing.
+
+### Can't we build this ourselves?
+Yes. It's open source, so clone away. The monthly buys the engineer who keeps it alive, so yours can build on top of it instead.
+
+### What happens if we cancel?
+Nothing stops. It runs on your servers, so the graph, the connectors, and every answer stay yours.
+
+### How long does setup take?
+Fourteen days, and the date is a commitment. Your part is two short calls; we do everything in between.
+
+### Is our data safe?
+It never leaves your infrastructure, access is checked per person, and every line of code is open to audit.
+
+### What does it connect to?
+Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers land in Claude, ChatGPT, Gemini, and Cursor, and new connectors ship regularly.
+
+## Contact
+
+- Talk to sales: https://fein.vc/#get-started
+- Email: sales@fein.vc
+- Want the repo? Ask: sales@fein.vc

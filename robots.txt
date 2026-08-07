@@ -1,3 +1,6 @@
+# fein · the graph for venture capital teams
+# AI assistants welcome. Summary: https://fein.vc/llms.txt · Full page: https://fein.vc/llms-full.txt
+
 User-agent: *
 Allow: /
 
@@ -31,6 +34,9 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Google-CloudVertexBot
+Allow: /
+
 User-agent: Applebot-Extended
 Allow: /
 
@@ -46,7 +52,22 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
+User-agent: Meta-ExternalFetcher
+Allow: /
+
 User-agent: cohere-ai
+Allow: /
+
+User-agent: AI2Bot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: MistralAI-User
 Allow: /
 
 Sitemap: https://fein.vc/sitemap.xml

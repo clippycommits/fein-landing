@@ -3,7 +3,10 @@ const path = require("path");
 
 const SITE = "https://fein.vc";
 const TITLE = "fein · the graph for venture capital teams";
-const DESC = "Everything your team knows, in every AI tool you use. fein connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor: the warm intro, the meeting brief, the reason you passed. Free and open source, on your servers, live in 14 days.";
+// DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD,
+// synced to the live hero + lede; both obey the copy rules (no em dashes, no "fund").
+const DESC = "The open source memory layer for venture capital teams. fein turns your inbox, calendar, and CRM into one graph that answers inside Claude, ChatGPT, and Cursor.";
+const DESC_LONG = "An open source memory layer built for venture capital. fein connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor: the warm intro, the meeting brief, the reason you passed. Free and open source, on your servers, live in 14 days.";
 const LASTMOD = "2026-08-07";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
@@ -59,19 +62,32 @@ const faqs = [
   ["What does it connect to?", "Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers land in Claude, ChatGPT, Gemini, and Cursor, and new connectors ship regularly."]
 ];
 
+// feature list mirrors the visible #features + #how copy; AI answer engines read this verbatim
+const FEATURES = [
+  "Warm introduction paths: the warmest path to any founder, LP, or operator, and who should send it",
+  "Meeting briefs: attendees, how you know them, and what was left open, assembled before you sit down",
+  "Deal memory: every company seen, the memo, and exactly why you passed",
+  "Cadence alerts: relationships drifting from their natural rhythm, flagged before they go cold",
+  "Entity resolution: every duplicate contact across your tools resolved to one person",
+  "One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor"
+];
+
 const ld = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", url: SITE + "/", description: DESC, email: "sales@fein.vc", logo: SITE + "/favicon.svg", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
-    { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
-    { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#org" }, inLanguage: "en" },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the graph for venture capital teams", email: "sales@fein.vc", logo: SITE + "/favicon.svg", image: SITE + "/og.png", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
+    { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
+    { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
-      "@type": "SoftwareApplication", name: "fein", applicationCategory: "BusinessApplication",
-      operatingSystem: "Web (self-hosted)", description: DESC, url: SITE + "/", provider: { "@id": SITE + "/#org" },
+      "@type": "SoftwareApplication", "@id": SITE + "/#app", name: "fein", alternateName: "Fein",
+      applicationCategory: "BusinessApplication", applicationSubCategory: "Relationship intelligence",
+      operatingSystem: "Self-hosted (Docker)", description: DESC_LONG, url: SITE + "/",
+      provider: { "@id": SITE + "/#org" }, isAccessibleForFree: true, featureList: FEATURES,
       audience: { "@type": "Audience", audienceType: "Venture capital teams" },
       offers: [
-        { "@type": "Offer", name: "Build", price: "5000", priceCurrency: "USD", description: "One-time setup and build" },
-        { "@type": "Offer", name: "Maintenance", priceCurrency: "USD", description: "Monthly maintenance and updates", priceSpecification: { "@type": "UnitPriceSpecification", price: "1000", priceCurrency: "USD", unitText: "MONTH" } }
+        { "@type": "Offer", name: "Build", price: "5000", priceCurrency: "USD", url: SITE + "/#pricing", description: "One-time setup: fein built, connected, and live on your servers in 14 days" },
+        { "@type": "Offer", name: "Maintenance", priceCurrency: "USD", url: SITE + "/#pricing", description: "Monthly upkeep: connectors kept alive, graph kept current, new answers built on request", priceSpecification: { "@type": "UnitPriceSpecification", price: "1000", priceCurrency: "USD", unitText: "MONTH" } },
+        { "@type": "Offer", name: "Clone it yourself", price: "0", priceCurrency: "USD", url: SITE + "/#pricing", description: "Free and open source: the same code we deploy for clients, run and maintained by your team" }
       ]
     },
     { "@type": "FAQPage", "@id": SITE + "/#faq", mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }
@@ -84,26 +100,38 @@ const headMeta = `<meta charset="utf-8">
 <title>${TITLE}</title>
 <meta name="description" content="${DESC}">
 <link rel="canonical" href="${SITE}/">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#000000">
 <meta name="author" content="fein">
-<meta name="keywords" content="relationship graph, relationship intelligence, venture capital, warm intros, VC CRM, Attio, MCP, Claude, ChatGPT, deal sourcing, meeting prep">
+<meta name="application-name" content="fein">
+<meta name="keywords" content="relationship graph, relationship intelligence, memory layer, venture capital, VC CRM, warm intros, deal memory, meeting prep, MCP server, Claude, ChatGPT, Cursor, Attio, Affinity, open source">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/site.webmanifest">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="fein for AI assistants (summary)">
+<link rel="alternate" type="text/plain" href="/llms-full.txt" title="fein for AI assistants (full page)">
+<link rel="preconnect" href="https://gc.zgo.at">
+<link rel="preconnect" href="https://fein.goatcounter.com">
+<link rel="dns-prefetch" href="https://widget.intercom.io">
+<link rel="dns-prefetch" href="https://js.intercomcdn.com">
+<link rel="dns-prefetch" href="https://api-iam.intercom.io">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="${TITLE}">
-<meta property="og:description" content="${DESC}">
+<meta property="og:description" content="${DESC_LONG}">
 <meta property="og:url" content="${SITE}/">
 <meta property="og:image" content="${SITE}/og.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="fein · the graph for venture capital teams">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
-<meta name="twitter:image" content="${SITE}/og.png">`;
+<meta name="twitter:image" content="${SITE}/og.png">
+<meta name="twitter:image:alt" content="fein · the graph for venture capital teams">`;
 
 // GoatCounter (fein.goatcounter.com) — standalone site only, never the artifact
 // copy: claude.ai's CSP blocks external scripts. Hash routes count as pages so
@@ -140,8 +168,11 @@ fs.mkdirSync(out, { recursive: true });
 fs.writeFileSync(path.join(out, "index.html"), indexHtml);
 
 // robots.txt — welcome AI answer engines explicitly
-const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Web", "anthropic-ai", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "cohere-ai"];
-const robots = `User-agent: *
+const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Web", "anthropic-ai", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User"];
+const robots = `# fein · the graph for venture capital teams
+# AI assistants welcome. Summary: ${SITE}/llms.txt · Full page: ${SITE}/llms-full.txt
+
+User-agent: *
 Allow: /
 
 ${aiBots.map(b => `User-agent: ${b}\nAllow: /`).join("\n\n")}
@@ -152,15 +183,18 @@ fs.writeFileSync(path.join(out, "robots.txt"), robots);
 
 // sitemap.xml
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
 </urlset>
 `);
 
-// llms.txt — structured summary for AI crawlers
+// llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
+const LLMS_SUMMARY = `> fein is an open source memory layer for venture capital teams: a live, permissioned relationship graph built from the team's inbox, calendar, and CRM, answering inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves (open source).`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
-> fein is the open-source relationship graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live, permissioned graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
+${LLMS_SUMMARY}
+
+Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 
 ## What fein does
 - Find the warmest introduction to any founder, LP, or operator, and who should make it.
@@ -188,6 +222,85 @@ fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 ## Contact
 - Get started: ${SITE}/#get-started
 - Email: sales@fein.vc
+
+## Links
+- Full page content for LLMs: ${SITE}/llms-full.txt
+- Sitemap: ${SITE}/sitemap.xml
+`);
+
+// llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
+// Every line here restates visible site copy; keep it in sync when copy changes.
+fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the graph for venture capital teams
+
+${LLMS_SUMMARY}
+
+Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assistants and answer engines. Summary version: ${SITE}/llms.txt
+
+## What fein is
+
+An open source memory layer built for venture capital. fein gives your venture capital team state of the art memory. It connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor.
+
+## The memory your team pretends it has
+
+Every intro, every meeting, every pass your venture capital team has ever made, answered in seconds.
+
+### That intro you need? Your team already has it.
+Ask for the warmest path to any founder or LP. fein walks who actually emails and meets whom, and names the person best placed to send it.
+
+### Walk in briefed. Every meeting.
+Attendees, how you know them, and what was left open, assembled from your calendar and inbox before you sit down.
+
+### Why did we pass? One question.
+When a company comes back for its next round, the meeting, the memo, and the reasons are back in seconds.
+
+### Relationships go cold. fein notices first.
+It learns each relationship's natural cadence and flags the ones drifting from it, before the news does.
+
+## Why fein has the answer
+
+Most AI tools start every chat from zero. fein starts from everything your team has ever done.
+
+1. Reads everything you already run: inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.
+2. Builds one graph of it all: every duplicate contact across your tools resolves to one person, every relationship scored by strength and recency.
+3. Answers wherever you ask: one MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.
+
+## In the tools you already use
+
+Nothing to open, nothing to learn. Ask in plain language, get the answer with the email behind it. fein serves answers over a single MCP endpoint, so any MCP client can query the graph.
+
+Reads from: Gmail, Google Calendar, Google Drive, LinkedIn, Attio, Affinity, and Granola. Answers in: Claude, ChatGPT, Gemini, and Cursor. New connectors ship regularly.
+
+## Security
+
+Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its job. It does that inside your walls, in code you can read.
+
+- Self-hosted, always. It runs on your infrastructure. Nothing is sent to us, ever.
+- Open source, end to end. Every line that touches your data is public. Audit it before it runs.
+- Permissioned and logged. Access is checked per person on every query, and every query is logged. When LPs ask, you show the trail.
+
+## Pricing
+
+Every venture capital team needs a data engineer. Now every team can afford one.
+
+| Option | Price | What you get |
+| --- | --- | --- |
+| A data hire | $200,000 per year | Brilliant, but one pair of hands. The graph lives in their head. |
+| fein | $5,000 once + $1,000 per month | The graph, built and kept alive for you. Live in 14 days. |
+| Clone it yourself | $0 forever | The same code we deploy for clients. You run it, you maintain it. |
+
+The fein plan: reads inbox, calendar, Drive, LinkedIn, CRM; one graph, every relationship scored; answers in Claude, ChatGPT, Gemini, Cursor; open source, on your servers; connectors kept alive through every API change; new answers built as your team asks; no per-seat pricing.
+
+About $17,000 in year one, less than one month of a data hire. Month to month, and if you cancel, everything keeps running.
+
+## FAQ
+
+${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
+
+## Contact
+
+- Talk to sales: ${SITE}/#get-started
+- Email: sales@fein.vc
+- Want the repo? Ask: sales@fein.vc
 `);
 
 // favicon.svg — theme-adaptive graph mark

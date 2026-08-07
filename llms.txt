@@ -1,6 +1,8 @@
 # fein
 
-> fein is the open-source relationship graph for venture capital teams. It connects a venture capital team's inbox, calendar, and CRM into one live, permissioned graph and answers questions from inside AI tools like Claude and ChatGPT: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month.
+> fein is an open source memory layer for venture capital teams: a live, permissioned relationship graph built from the team's inbox, calendar, and CRM, answering inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves (open source).
+
+Updated: 2026-08-07. Full page content in Markdown: https://fein.vc/llms-full.txt
 
 ## What fein does
 - Find the warmest introduction to any founder, LP, or operator, and who should make it.
@@ -28,3 +30,7 @@
 ## Contact
 - Get started: https://fein.vc/#get-started
 - Email: sales@fein.vc
+
+## Links
+- Full page content for LLMs: https://fein.vc/llms-full.txt
+- Sitemap: https://fein.vc/sitemap.xml
