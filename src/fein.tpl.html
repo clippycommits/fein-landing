@@ -352,14 +352,14 @@
   .recap{margin-top:1.8rem;font-size:.82rem;color:var(--dim);line-height:1.3;max-width:34ch}
   .recap a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
   .recap a:hover{color:#fff}
-  .success{text-align:center;padding:2.4rem .6rem 1.2rem}
-  .success .tick2{width:64px;height:64px;border-radius:50%;background:#141417;border:1px solid var(--line-2);color:#fff;display:grid;place-items:center;margin:0 auto 1.5rem}
-  .success .tick2 svg{width:28px;height:28px}
-  .success h2{font-size:1.45rem;letter-spacing:-.02em}
-  .success p{margin:.8rem auto 0;color:var(--fg-3);max-width:34ch;line-height:1.55}
+  .success{text-align:center;padding:3.4rem .6rem 4rem}
+  .success .aicon{display:block;width:132px;height:auto;margin:0 auto 2.6rem}
+  .success .aicon .face{fill:var(--bg-2);stroke:#cfcfd8;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+  .success .aicon .ring{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.6}
+  .success h2{font-size:1.9rem;letter-spacing:-.03em;font-weight:650}
+  .success p{margin:1rem auto 0;color:var(--fg-3);max-width:42ch;line-height:1.55;font-size:1.02rem}
   .success p a:not(.btn){color:var(--blue-l);font-weight:500;transition:color .18s ease}
   .success p a:not(.btn):hover{color:#fff}
-  .success .btn{margin-top:1.6rem}
 
   /* ---- contact-sales form: validation + failure states ---- */
   .err{display:none;font-size:.84rem;color:#ff8a85;margin:0}
@@ -840,10 +840,14 @@ __LOGO_SPRITE__
 
       <section class="cbody" id="lead-done" hidden aria-labelledby="wh-3">
         <div class="success">
-          <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
-          <h2 id="wh-3" tabindex="-1">We'll be in touch soon.</h2>
-          <p>A booking link is on its way to <strong id="done-em">you</strong>. If you have any questions, email us at <a id="mailto-fast" href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
-          <p><a class="btn btn-primary" id="book-btn" href="/api/call" target="_blank" rel="noopener">Pick a time <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+          <svg class="aicon" viewBox="0 0 156 152" aria-hidden="true">
+            <circle class="ring" cx="80" cy="96" r="50"/>
+            <path class="face" d="M6 84 L58 132 L58 148 L6 100 Z"/>
+            <path class="face" d="M58 132 L150 29 L150 45 L58 148 Z"/>
+            <path class="face" d="M22 64 L58 98 L134 14 L150 29 L58 132 L6 84 Z"/>
+          </svg>
+          <h2 id="wh-3" tabindex="-1">We'll be in touch soon!</h2>
+          <p>Our team will be in touch soon. If you have any questions, please email us at <a id="mailto-fast" href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
         </div>
       </section>
   </div>
@@ -955,12 +959,6 @@ __LOGO_SPRITE__
       function succeed(){
         sent=true;
         if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"lead-submitted",event:true});
-        document.getElementById("done-em").textContent=lead.email;
-        var book=document.getElementById("book-btn");
-        book.href=API+"/call?name="+encodeURIComponent((lead.first||"")+" "+(lead.last||""))+"&email="+encodeURIComponent(lead.email);
-        book.addEventListener("click",function(){
-          if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"call-click",event:true});
-        });
         document.getElementById("mailto-fast").href=mailtoHref();
         view.hidden=true;done.hidden=false;
         var inner=document.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
