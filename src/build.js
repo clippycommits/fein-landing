@@ -137,7 +137,13 @@ const headMeta = `<meta charset="utf-8">
 // copy: claude.ai's CSP blocks external scripts. Hash routes count as pages so
 // the #get-started funnel is visible.
 const analytics = `<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>`;
+<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>`;
+// The /_vercel/* pair is Vercel Web Analytics + Speed Insights, first-party
+// routes that only resolve on the Vercel deployment (both toggled on for
+// fein-site); anywhere else they 404 quietly. Also in 404.html by hand.
 
 // Intercom messenger — standalone site only, never the artifact (same CSP
 // reason as GoatCounter). Anonymous visitor mode: no user fields on a
