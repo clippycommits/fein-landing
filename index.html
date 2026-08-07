@@ -149,7 +149,7 @@
   .hero .lede{margin-left:auto;margin-right:auto}
   .hero-inner .hero-actions{justify-content:center;margin-top:2.4rem}
   .hero-inner h1{font-size:clamp(2.3rem,4.7vw,3.9rem);text-wrap:balance}
-  .prep-wrap{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;z-index:1;pointer-events:none}
   #prepflow{position:absolute;inset:0;width:100%;height:100%}
   .glass{background:rgba(15,15,19,.46);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.12);box-shadow:var(--hl-top),0 18px 44px -24px rgba(0,0,0,.85)}
   .orb-head{position:absolute;left:50%;top:7%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:13px;z-index:2;text-align:center;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1)}
@@ -502,22 +502,22 @@
       <div class="hero-copy">
         <p class="ticker">Free and open source · on your servers · live in <b>14 days</b></p>
         <h1 class="">An open source memory layer<br>&nbsp;built for venture capital.</h1>
-        <p class="lede">fein gives your venture capital team state of the art memory.&nbsp; connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor.</p>
+        <p class="lede">fein gives your venture capital team state of the art memory. It connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#get-started">Book the setup call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           <a class="btn btn-ghost" href="#how">See how it knows <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
-      <div class="prep-wrap" role="img" aria-label="Example: while you read, fein auto-drafts the prep for tomorrow's Pied Piper meeting with Richard Hendricks. Three findings appear in orbit around the headline: you've met four times, the warm path is Monica Hall, and the open thread is the Hooli dependency, each cited to its source.">
+      <div class="prep-wrap" role="img" aria-label="Example: while you read, fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three findings appear in orbit around the headline: you've met three times, the warm path is Anna Lindqvist, and Clara's open CFO search matches two people in your network, each cited to its source.">
         <canvas id="prepflow" aria-hidden="true"></canvas>
         <div class="orb-head glass" aria-hidden="true">
-          <b>Meeting prep · Richard Hendricks</b>
-          <span class="hsub">Pied Piper · tomorrow, 9:00</span>
+          <b>Meeting prep · Clara Voss</b>
+          <span class="hsub">Meridian · Series A · tomorrow, 9:00</span>
           <span class="orb-badge"><i class="bdot"></i><span class="btxt">Auto-drafted</span></span>
         </div>
-        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="n">01</span><p><b>You've met four times.</b> <span class="rest">Demo day '24, last spoke six days ago.</span></p><span class="src">CAL · GMAIL</span></div>
-        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="n">02</span><p><b>Warm path: Monica Hall.</b> <span class="rest">14 shared meetings. Backup: Jared Dunn, two hops.</span></p><span class="src">CAL · ATTIO</span></div>
-        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="n">03</span><p><b>Open thread.</b> <span class="rest">Hooli dependency raised again on Tuesday's call.</span></p><span class="src">GRANOLA</span></div>
+        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="n">01</span><p><b>You've met three times.</b> <span class="rest">Slush in '24, then two calls. Last spoke Tuesday.</span></p><span class="src">CAL · GMAIL</span></div>
+        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="n">02</span><p><b>Warm path: Anna Lindqvist.</b> <span class="rest">She co-led the seed; 12 shared meetings. Backup: Marc Weber, two hops.</span></p><span class="src">CAL · ATTIO</span></div>
+        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="n">03</span><p><b>Open ask.</b> <span class="rest">Clara flagged a CFO search in March: two people in your network fit.</span></p><span class="src">GRANOLA · CRM</span></div>
         <span class="orb-chip glass orb-c1" data-a="0" aria-hidden="true"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
         <span class="orb-chip glass orb-c2" data-a="1.57" aria-hidden="true"><svg class="tlogo"><use href="#l-gcal"/></svg></span>
         <span class="orb-chip glass orb-c3" data-a="3.14" aria-hidden="true"><svg class="tlogo"><use href="#l-attio"/></svg></span>
@@ -562,9 +562,9 @@
             <p>Ask for the warmest path to any founder or LP. fein walks who actually emails and meets whom, and names the person best placed to send it.</p>
           </div>
           <div class="mock" aria-hidden="true">
-            <div class="mock-title">Paths to Richard Hendricks</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Monica Hall</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Jared Dunn</b> · two hops, via Carla</span><b class="mtag">Warm</b></div>
+            <div class="mock-title">Paths to Clara Voss</div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Marc Weber</b> · two hops, via Priya</span><b class="mtag">Warm</b></div>
             <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> · not recommended</span><b class="mtag dim">Cold</b></div>
           </div>
         </div>
@@ -574,9 +574,9 @@
             <p>Attendees, how you know them, and what was left open, assembled from your calendar and inbox before you sit down.</p>
           </div>
           <div class="mock" aria-hidden="true">
-            <div class="mock-title">9:00 · Pied Piper follow-on</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Richard Hendricks</b> · 12 threads · owes you the data room</span><b class="mtag">Founder</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Monica Hall</b> · joining from your side</span><b class="mtag">Partner</b></div>
+            <div class="mock-title">9:00 · Meridian follow-on</div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Clara Voss</b> · 12 threads · owes you the data room</span><b class="mtag">Founder</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · joining from your side</span><b class="mtag">Partner</b></div>
             <div class="mrow"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, parked on the last call</span><b class="mtag strong">Prep</b></div>
           </div>
         </div>
@@ -586,9 +586,9 @@
             <p>When a company comes back for its next round, the meeting, the memo, and the reasons are back in seconds.</p>
           </div>
           <div class="mock" aria-hidden="true">
-            <div class="mock-title">Pied Piper · first seen March 2024</div>
+            <div class="mock-title">Meridian · first seen March 2024</div>
             <div class="mrow"><svg class="tlogo"><use href="#l-gdrive"/></svg><span><b>Passed</b> · single-customer risk, memo p.2</span><b class="mtag">Memo</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Who met them</b> · Monica, twice, April 2024</span><b class="mtag">Meetings</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Who met them</b> · Anna, twice, April 2024</span><b class="mtag">Meetings</b></div>
             <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>What changed</b> · three new logos since</span><b class="mtag strong">Update</b></div>
           </div>
         </div>
@@ -599,9 +599,9 @@
           </div>
           <div class="mock" aria-hidden="true">
             <div class="mock-title">Going quiet</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Richard Hendricks</b> · every 10 days · three weeks silent</span><b class="mtag strong">Flag</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Russ Hanneman</b> · monthly · six weeks silent</span><b class="mtag strong">Flag</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Laurie Bream</b> · quarterly · on cadence</span><b class="mtag dim">OK</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Jonas Keller</b> · every 10 days · three weeks silent</span><b class="mtag strong">Flag</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Priya Shah</b> · monthly · six weeks silent</span><b class="mtag strong">Flag</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Tom Aldridge</b> · quarterly · on cadence</span><b class="mtag dim">OK</b></div>
           </div>
         </div>
       </div>
@@ -1459,7 +1459,12 @@
   var ctx=cv.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2);
   var W=0,H=0,C={x:0,y:0},RX=0,RY=0,running=true,started=false,journey=null,idle=false,idleQ=0,lastHit=-1,t0=performance.now();
   var ANG=[-34,64,186],HEADA=-90,TP=ANG.map(function(a){return(a-(-90))/360;});
-  function ell(aDeg,k){var a=aDeg*Math.PI/180,f=k||1;return{x:C.x+RX*f*Math.cos(a),y:C.y+RY*f*Math.sin(a)};}
+  var ROT=0;
+  function ell(aDeg,k){
+    var a=aDeg*Math.PI/180,f=k||1,x=RX*f*Math.cos(a),y=RY*f*Math.sin(a);
+    var cr=Math.cos(ROT),sr=Math.sin(ROT);
+    return{x:C.x+x*cr-y*sr,y:C.y+x*sr+y*cr};
+  }
   var BOX=null;
   function size(){
     var r=wrap.getBoundingClientRect();W=r.width;H=r.height;
@@ -1487,21 +1492,56 @@
       t.x=Math.cos(ANG[i]*Math.PI/180)>=0?BOX.r+hw+16:BOX.l-hw-16;
     }
     t.x=Math.max(hw+14,Math.min(W-hw-14,t.x));
+    if(BOX&&t.x+hw>BOX.l&&t.x-hw<BOX.r&&t.y+hh>BOX.t&&t.y-hh<BOX.b){
+      t.y=Math.sin(ANG[i]*Math.PI/180)>=0?BOX.b+hh+16:BOX.t-hh-16;
+    }
     t.y=Math.max(hh+64,Math.min(H-hh-20,t.y));
     return t;
   }
   function qpt(q){var a=HEADA+((q%1+1)%1)*360;return ell(a);}
-  function hit(tl){tl.classList.add('hit');setTimeout(function(){tl.classList.remove('hit');},700);}
+  var TPOS=[null,null,null],RIP=[];
+  function hit(tl){
+    tl.classList.add('hit');setTimeout(function(){tl.classList.remove('hit');},700);
+    var i=tiles.indexOf(tl);
+    if(i>-1&&TPOS[i])RIP.push({x:TPOS[i].nx,y:TPOS[i].ny,t0:performance.now()});
+  }
   var CR=[.60,.66,.58,.63],CS=[.10,.125,.11,.14];
+  var DUST=[],LINKS=[],PLANE=[{f:1.16,k:1.28,ro:.24,c:'125,227,244'},{f:1.3,k:1.12,ro:-.18,c:'167,139,250'},{f:1,k:1,ro:0,c:'255,255,255'}];
+  (function(){
+    for(var i=0;i<44;i++){var pl=PLANE[i%3];
+      DUST.push({a:Math.random()*360,f:pl.f,k:pl.k,ro:pl.ro,c:pl.c,j:(Math.random()-.5)*26,p:Math.random()*6.28});}
+    for(i=0;i<9;i++)LINKS.push([(Math.random()*44)|0,(Math.random()*44)|0]);
+  })();
+  function dustPt(d){
+    var a=d.a*Math.PI/180,x=(RX*d.f+d.j)*Math.cos(a),y=(RY*d.k+d.j)*Math.sin(a);
+    var r=ROT+d.ro,cr=Math.cos(r),sr=Math.sin(r);
+    return{x:C.x+x*cr-y*sr,y:C.y+x*sr+y*cr};
+  }
   function draw(now){
     if(!running)return;requestAnimationFrame(draw);
     now=now||performance.now();ctx.clearRect(0,0,W,H);
+    ROT=Math.sin(now*.00008)*.09;
+    var g=ctx.createRadialGradient(C.x,C.y,0,C.x,C.y,Math.max(RY*.95,140));
+    g.addColorStop(0,'rgba(82,168,255,'+(0.055+0.02*Math.sin(now*.0004)).toFixed(3)+')');
+    g.addColorStop(.55,'rgba(167,139,250,'+(0.028+0.012*Math.sin(now*.0004+2)).toFixed(3)+')');
+    g.addColorStop(1,'rgba(167,139,250,0)');
+    ctx.fillStyle=g;ctx.fillRect(C.x-RX*1.4,C.y-RY*1.4,RX*2.8,RY*2.8);
     ctx.lineWidth=1;
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX,RY,0,0,6.283);ctx.strokeStyle='rgba(255,255,255,.085)';ctx.stroke();
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.18,RY*1.22,0,0,6.283);ctx.strokeStyle='rgba(255,255,255,.035)';ctx.stroke();
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*.62,RY*.56,0,0,6.283);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
+    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.16,RY*1.28,ROT+.24,0,6.283);ctx.strokeStyle='rgba(125,227,244,.05)';ctx.stroke();
+    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.3,RY*1.12,ROT-.18,0,6.283);ctx.strokeStyle='rgba(167,139,250,.045)';ctx.stroke();
+    ctx.beginPath();ctx.ellipse(C.x,C.y,RX,RY,ROT,0,6.283);ctx.strokeStyle='rgba(255,255,255,.085)';ctx.stroke();
+    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*.62,RY*.56,ROT,0,6.283);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
+    LINKS.forEach(function(l){
+      var a=dustPt(DUST[l[0]]),b=dustPt(DUST[l[1]]);
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(167,139,250,.05)';ctx.stroke();
+    });
+    DUST.forEach(function(d){
+      var p=dustPt(d),tw=.5+.5*Math.sin(now*.0005+d.p);
+      ctx.beginPath();ctx.arc(p.x,p.y,.8+.6*tw,0,6.283);
+      ctx.fillStyle='rgba('+d.c+','+(.07+.13*tw).toFixed(3)+')';ctx.fill();
+    });
     tiles.forEach(function(tl,i){
-      var tp=tilePoint(i,now);
+      var tp=tilePoint(i,now);TPOS[i]=tp;
       tl.style.left=tp.x+'px';tl.style.top=tp.y+'px';
       var on=tl.classList.contains('on');
       ctx.beginPath();ctx.moveTo(tp.nx,tp.ny);ctx.lineTo(tp.x,tp.y);
@@ -1511,9 +1551,19 @@
     });
     chips.forEach(function(ch,i){
       var b=parseFloat(ch.dataset.a)+(now-t0)/1000*CS[i];
-      var px=C.x+Math.cos(b)*RX*CR[i],py=C.y+Math.sin(b)*RY*(CR[i]-.04);
+      var ex=RX*CR[i]*Math.cos(b),ey=RY*(CR[i]-.04)*Math.sin(b);
+      var cr2=Math.cos(ROT),sr2=Math.sin(ROT);
+      var px=C.x+ex*cr2-ey*sr2,py=C.y+ex*sr2+ey*cr2;
+      var depth=.5+.5*Math.sin(b),s=.8+.2*depth;
       ch.style.left=px+'px';ch.style.top=py+'px';
-      ch.style.opacity=(BOX&&px>BOX.l-16&&px<BOX.r+16&&py>BOX.t-16&&py<BOX.b+16)?0:1;
+      ch.style.transform='translate(-50%,-50%) scale('+s.toFixed(3)+')';
+      ch.style.opacity=(BOX&&px>BOX.l-16&&px<BOX.r+16&&py>BOX.t-16&&py<BOX.b+16)?0:(.55+.45*depth).toFixed(3);
+    });
+    RIP=RIP.filter(function(rp){
+      var u=(now-rp.t0)/620;if(u>=1)return false;
+      ctx.beginPath();ctx.arc(rp.x,rp.y,6+u*26,0,6.283);
+      ctx.strokeStyle='rgba(125,227,244,'+(.35*(1-u)).toFixed(3)+')';ctx.stroke();
+      return true;
     });
     var q=null;
     if(journey){
@@ -1531,7 +1581,7 @@
       for(var j=14;j>=1;j--){
         var tq=qpt(q-j*.0065),al=.4*(1-j/15);
         ctx.beginPath();ctx.arc(tq.x,tq.y,2.3*(1-j/16)+.4,0,6.283);
-        ctx.fillStyle='rgba(125,188,255,'+al.toFixed(3)+')';ctx.fill();
+        ctx.fillStyle='rgba('+(j>7?'167,139,250':'125,188,255')+','+al.toFixed(3)+')';ctx.fill();
       }
       var p=qpt(q);ctx.beginPath();ctx.arc(p.x,p.y,2.8,0,6.283);
       ctx.fillStyle='#8ec4ff';ctx.shadowColor='rgba(82,168,255,.95)';ctx.shadowBlur=12;ctx.fill();ctx.shadowBlur=0;
@@ -1554,6 +1604,8 @@
   }
   function begin(){
     if(started)return;started=true;size();requestAnimationFrame(draw);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){size();});
+    setTimeout(size,1400);setTimeout(size,3200);
     setTimeout(function(){head.classList.add('on');},350);
     setTimeout(function(){
       send(0,TP[0],1300,function(){type(0,function(){

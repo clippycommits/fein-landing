@@ -8,6 +8,12 @@ The deployed `index.html` is generated — do not edit it by hand.
 
 Built from the fundgraph/fein project. Design: Vercel-black system (Geist, #000 ground, monochrome + one quiet blue accent), Aug 2026.
 
+**Editing copy:** run `node scripts/cms.mjs` from the repo root — it serves the
+built page at `http://127.0.0.1:4870/` with click-to-edit copy. Publish applies
+the edits to `fein.tpl.html`, reruns `build.js`, and commits the pipeline files
+(add `--push` to also push). Copy rules (no em dashes, never "fund") are
+enforced at publish.
+
 > **Note (2026-08-06):** several sessions committed straight to `../index.html`,
 > leaving this template stale. It has been re-derived from the shipped page with
 > `rederive-tpl.js` (reverses the font/sprite inlining) and `build.js` now
