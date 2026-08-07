@@ -8,9 +8,21 @@ Updated: 2026-08-07. This file mirrors the full content of https://fein.vc/ for 
 
 An open source memory layer built for venture capital. fein gives your venture capital team state of the art memory. It connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor.
 
-## The memory your team pretends it has
+## The problem: the answer is always in someone else's inbox
 
-Every intro, every meeting, every pass your venture capital team has ever made, answered in seconds.
+Who introduced us, why we passed, what was left open on the last call. All of it happened, and none of it was written down anywhere the rest of the team can reach. So the answer depends on who is around to remember it, and every AI tool your team opens starts from zero.
+
+fein sits between the systems that hold your team's work and the tools your team asks questions in. It reads one side continuously and answers on the other, with the source attached.
+
+1. Reads everything your team already runs: inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.
+2. Resolves one graph out of all of it: every duplicate contact across your tools resolves to one person, every relationship scored by strength and recency.
+3. Answers wherever your team asks: one MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.
+
+Same question, same answer, whoever asks and whichever tool they ask in. It stops depending on who is in the room.
+
+## What you get: four questions your team asks every week
+
+The warm intro, the brief before the meeting, the reason you passed, the relationship going quiet. Answered from your team's own history, in seconds.
 
 ### That intro you need? Your team already has it.
 Ask for the warmest path to any founder or LP. fein walks who actually emails and meets whom, and names the person best placed to send it.
@@ -23,14 +35,6 @@ When a company comes back for its next round, the meeting, the memo, and the rea
 
 ### Relationships go cold. fein notices first.
 It learns each relationship's natural cadence and flags the ones drifting from it, before the news does.
-
-## Why fein has the answer
-
-Most AI tools start every chat from zero. fein starts from everything your team has ever done.
-
-1. Reads everything you already run: inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.
-2. Builds one graph of it all: every duplicate contact across your tools resolves to one person, every relationship scored by strength and recency.
-3. Answers wherever you ask: one MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.
 
 ## In the tools you already use
 

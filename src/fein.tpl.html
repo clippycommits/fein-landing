@@ -229,10 +229,14 @@
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
   /* the three reasons it knows */
+  /* the turn from problem to answer: brighter than the lead above it */
+  .bridge{margin-top:clamp(1.8rem,3.2vw,2.4rem);padding-top:clamp(1.4rem,2.6vw,1.9rem);border-top:1px solid var(--line);max-width:40rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
   .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(2rem,4vw,3rem)}
   .why3 .wcard{border-top:1px solid var(--line-2);padding-top:1.2rem}
+  .why3 .wstep{display:block;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
+  .dclose{margin-top:clamp(2.2rem,4.5vw,3.2rem);padding-top:clamp(1.3rem,2.5vw,1.8rem);border-top:1px solid var(--line);max-width:40rem;font-size:clamp(1.12rem,2vw,1.38rem);line-height:1.35;letter-spacing:-.022em;color:var(--fg);text-wrap:balance}
   .sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
   .sec-list b{color:#fff;font-weight:550}
   .code-card{position:relative;background:#0a0a0c;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
@@ -467,7 +471,6 @@
     .arrowlink{padding:.55rem .2rem;margin:-.55rem -.2rem}
     .tier{padding:1.5rem 1.35rem}
     .band{padding:clamp(3.25rem,11vw,4rem) 0}
-    .cta-dark{min-height:clamp(520px,78vh,1000px);padding:clamp(3.5rem,12vw,7.5rem) 0 clamp(7.5rem,26vw,14rem)}
   }
 
   @media (max-width:560px){
@@ -650,13 +653,40 @@ __LOGO_SPRITE__
 
   </section>
 
+  <!-- THE PROBLEM, THEN THE FIX: stated first, then the layer that solves it -->
+  <section id="how" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">The problem</span>
+        <h2>The answer is always in someone else's inbox.</h2>
+        <p class="lead">Who introduced us, why we passed, what was left open on the last call. All of it happened, and none of it was written down anywhere the rest of the team can reach. So the answer depends on who is around to remember it, and every AI tool your team opens starts from zero.</p>
+      </div>
+      <p class="bridge reveal">fein sits between the systems that hold your team's work and the tools your team asks questions in. It reads one side continuously and answers on the other, with the source attached.</p>
+      <div class="diagram reveal" tabindex="0">
+        <div class="dlive" id="dlive" role="img" aria-label="Animation: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) funnel into fein, one MCP endpoint, and sourced answers fan out to your AI tools: Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
+          <canvas id="dcanvas" aria-hidden="true"></canvas>
+          <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
+          <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
+          <div class="dfield" id="dfield" aria-hidden="true"></div>
+          <div class="dcore"><svg viewBox="0 0 118 136"><path d="M50.3 6Q59 1 67.7 6L108.3 29.5Q117 34.5 117 44.5L117 91.5Q117 101.5 108.3 106.5L67.7 130Q59 135 50.3 130L9.7 106.5Q1 101.5 1 91.5L1 44.5Q1 34.5 9.7 29.5Z" fill="rgba(10,10,14,.97)" stroke="rgba(82,168,255,.45)"/></svg><b>fein</b></div>
+        </div>
+      </div>
+      <div class="why3" data-reveal-group="90">
+        <div class="wcard reveal"><span class="wstep">01 · Reads</span><h3>Everything your team already runs</h3><p>Inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.</p></div>
+        <div class="wcard reveal"><span class="wstep">02 · Resolves</span><h3>One graph out of all of it</h3><p>Every A. Chen across five tools resolves to one person, every relationship scored by strength and recency.</p></div>
+        <div class="wcard reveal"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>One MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.</p></div>
+      </div>
+      <p class="dclose reveal">Same question, same answer, whoever asks and whichever tool they ask in. It stops depending on who is in the room.</p>
+    </div>
+  </section>
+
   <!-- FEATURES: one claim, one sentence, one mock -->
   <section id="features" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">The graph</span>
-        <h2>The memory your team pretends it has.</h2>
-        <p class="lead">Every intro, every meeting, every pass your venture capital team has ever made, answered in seconds.</p>
+        <span class="eyebrow">What you get</span>
+        <h2>Four questions your team asks every week.</h2>
+        <p class="lead">The warm intro, the brief before the meeting, the reason you passed, the relationship going quiet. Answered from your team's own history, in seconds.</p>
       </div>
       <div class="feats">
         <div class="feat reveal" id="f-warm">
@@ -707,31 +737,6 @@ __LOGO_SPRITE__
             <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Tom Aldridge</b> · quarterly · on cadence</span><b class="mtag dim">OK</b></div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT KNOWS -->
-  <section id="how" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">How it knows</span>
-        <h2>Why fein has the answer.</h2>
-        <p class="lead">Most AI tools start every chat from zero. fein starts from everything your team has ever done.</p>
-      </div>
-      <div class="diagram reveal" tabindex="0">
-        <div class="dlive" id="dlive" role="img" aria-label="Animation: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) funnel into fein, one MCP endpoint, and sourced answers fan out to your AI tools: Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
-          <canvas id="dcanvas" aria-hidden="true"></canvas>
-          <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
-          <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
-          <div class="dfield" id="dfield" aria-hidden="true"></div>
-          <div class="dcore"><svg viewBox="0 0 118 136"><path d="M50.3 6Q59 1 67.7 6L108.3 29.5Q117 34.5 117 44.5L117 91.5Q117 101.5 108.3 106.5L67.7 130Q59 135 50.3 130L9.7 106.5Q1 101.5 1 91.5L1 44.5Q1 34.5 9.7 29.5Z" fill="rgba(10,10,14,.97)" stroke="rgba(82,168,255,.45)"/></svg><b>fein</b></div>
-        </div>
-      </div>
-      <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><h3>Reads everything you already run</h3><p>Inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.</p></div>
-        <div class="wcard reveal"><h3>Builds one graph of it all</h3><p>Every A. Chen across five tools resolves to one person, every relationship scored by strength and recency.</p></div>
-        <div class="wcard reveal"><h3>Answers wherever you ask</h3><p>One MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.</p></div>
       </div>
     </div>
   </section>
