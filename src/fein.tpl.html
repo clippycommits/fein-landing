@@ -493,10 +493,12 @@
     .ticker{text-wrap:balance}
   }
 
-  /* the authored break balances each half of the headline separately, so on a
-     phone it forced four lines ending on the single word "capital." 320 keeps
-     the break: there it only trades the orphan for a short line mid-block */
-  @media (min-width:340px) and (max-width:479px){
+  /* the authored break balances each half of the headline separately, which on
+     a phone leaves the second half wrapping to a stub line of its own. lifting
+     the break lets the whole sentence balance as one: three even lines from
+     365 to 479, and at 320 four lines whose last is the longest rather than a
+     93px stub. re-measure these edges whenever the headline copy changes */
+  @media (max-width:479px){
     .hero-inner h1 br{display:none}
   }
 
