@@ -45,10 +45,10 @@ globalThis.fetch = async (url, init = {}) => {
   throw new Error(`unexpected fetch: ${u}`);
 };
 
-const { default: enquiry } = await import("./enquiry.mjs");
-const { default: call } = await import("./call.mjs");
-const { default: health } = await import("./health.mjs");
-const { default: webhook } = await import("./webhooks/calcom.mjs");
+const { POST: enquiry } = await import("./enquiry.mjs");
+const { GET: call } = await import("./call.mjs");
+const { GET: health } = await import("./health.mjs");
+const { POST: webhook } = await import("./webhooks/calcom.mjs");
 
 const post = (handler, body, headers = {}) =>
   handler(new Request("https://fein.vc/api/x", {

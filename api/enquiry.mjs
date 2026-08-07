@@ -3,7 +3,7 @@ import { cfg, json, resend, redis, logEvent, welcomeEmail, followupEmail, notify
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const str = (v, max = 300) => (v == null ? null : String(v).slice(0, max).trim() || null);
 
-export default async function handler(request) {
+export async function POST(request) {
   if (request.method !== "POST") return json({ error: "POST only" }, 405);
   let lead;
   try {
@@ -42,5 +42,3 @@ export default async function handler(request) {
   }
   return json({ ok: true, mailed: true });
 }
-
-export { handler as fetch };

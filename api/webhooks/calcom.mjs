@@ -3,7 +3,7 @@ import { cfg, json, resend, redis, logEvent } from "../_lib.mjs";
 
 /** cal.com BOOKING_CREATED: cancel the scheduled nudge, tell us. The HMAC is
  * computed over the raw request body, which is why this reads text first. */
-export default async function handler(request) {
+export async function POST(request) {
   if (request.method !== "POST") return json({ error: "POST only" }, 405);
   const raw = await request.text();
   const secret = cfg("CALCOM_WEBHOOK_SECRET");
@@ -47,5 +47,3 @@ export default async function handler(request) {
   }
   return json({ ok: true });
 }
-
-export { handler as fetch };
