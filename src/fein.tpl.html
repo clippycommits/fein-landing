@@ -1,6 +1,7 @@
 <style>
   @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__GEIST_SANS_B64__) format('woff2');}
   @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:swap;src:url(data:font/woff2;base64,__GEIST_MONO_B64__) format('woff2');}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2');}
 
   :root{
     color-scheme:dark;
@@ -8,7 +9,12 @@
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --muted:#8a8f98; --dim:#63666d;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
     --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
-    --font:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    /* Inter carries the interface: body copy, sub headings, buttons, nav, forms.
+       Geist is reserved for the display line, the h1 and h2 headings only.
+       Geist sits second in the text stack so glyphs outside Inter's latin cut
+       (arrows, the play triangle) still render in a face from the same family. */
+    --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --maxw:1080px;
     --nav-h:76px;
@@ -33,8 +39,9 @@
   /* ---- display type: white statements, grey continuations, mono eyebrows ---- */
   .eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
   h1,h2,h3{color:#fff;letter-spacing:-.025em;font-weight:600}
+  h1,h2{font-family:var(--display)}
   .th{font-size:clamp(1.7rem,3.3vw,2.4rem);font-weight:600;letter-spacing:-.03em;line-height:1.14;color:#fff;max-width:34ch;text-wrap:balance}
-  .th .cont{display:block;margin-top:.75rem;font-size:1.12rem;font-weight:450;letter-spacing:-.011em;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
+  .th .cont{display:block;margin-top:.75rem;font-family:var(--font);font-size:1.12rem;font-weight:450;letter-spacing:-.011em;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
 
   /* ---- icons ---- */
   .arw,.barw{display:inline-flex;align-items:center;justify-content:center}
@@ -71,7 +78,7 @@
   .grain-overlay.on-dark{opacity:.22;mix-blend-mode:soft-light}
 
   /* ============ nav: black frost, Stripe-replica metrics ============ */
-  header{position:relative;z-index:5;--nav-font:"Söhne",sohne-var,"Helvetica Neue",Arial,sans-serif}
+  header{position:relative;z-index:5;--nav-font:var(--font)}
   #view-home header{position:fixed;top:0;left:0;right:0;z-index:50;background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease,backdrop-filter .25s ease}
   #view-home header.scrolled{background:rgba(0,0,0,.62);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
   .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1288px;margin:0 auto;padding:0 24px;box-sizing:border-box}
@@ -161,16 +168,20 @@
   .orb-badge .bdot{display:none}
   .orb-badge.live .bdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--blue-l);margin-right:5px;vertical-align:1px;animation:pcPulse 1.1s ease infinite}
   @keyframes pcPulse{50%{opacity:.3}}
-  .orb-tile{position:absolute;width:min(230px,60%);transform:translate(-50%,-50%);border-radius:14px;padding:.8rem .95rem;z-index:2;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease}
+  .orb-tile{position:absolute;width:min(238px,62%);transform:translate(-50%,-50%);border-radius:14px;padding:.8rem .95rem;z-index:2;text-align:left;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1),box-shadow .5s ease}
   .orb-t1{left:79%;top:26%}
   .orb-t2{left:74%;top:78%}
   .orb-t3{left:16%;top:48%}
-  .orb-tile .n{font-family:var(--mono);font-size:.62rem;color:var(--blue-l);letter-spacing:.1em}
-  .orb-tile p{margin:.3rem 0 0;font-size:.84rem;line-height:1.45;color:var(--fg-2)}
+  .orb-tile .ask{display:block;min-height:1.1em;font-family:var(--mono);font-size:.63rem;line-height:1.35;color:var(--fg-3)}
+  .orb-tile .ask::before{content:"›";color:var(--blue-l);font-weight:600;margin-right:.36rem}
+  .orb-tile p{margin:.36rem 0 0;font-size:.84rem;line-height:1.45;color:var(--fg-2)}
   .orb-tile p b{color:var(--fg);font-weight:550}
   .orb-tile .rest{transition:opacity .55s ease}
-  .orb-tile .src{display:block;margin-top:.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--fg-3);transition:opacity .4s ease,transform .4s ease}
-  .orb-tile.typing b::after{content:"";display:inline-block;width:6px;height:.85em;background:var(--blue-l);margin-left:3px;vertical-align:-1px;animation:pcCaret .8s steps(2,start) infinite}
+  .orb-tile .src{display:flex;align-items:center;gap:.3rem;margin-top:.6rem;padding-top:.55rem;border-top:1px solid rgba(255,255,255,.08);transition:opacity .4s ease,transform .4s ease}
+  .orb-tile .src i{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:6px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06)}
+  .orb-tile .src .tlogo{width:12px;height:12px;border-radius:2px}
+  .orb-tile.typing b::after,.orb-tile.asking .ask::after{content:"";display:inline-block;width:6px;height:.85em;background:var(--blue-l);margin-left:3px;vertical-align:-1px;animation:pcCaret .8s steps(2,start) infinite}
+  .orb-tile.asking .ask::after{width:5px;height:.8em}
   @keyframes pcCaret{50%{opacity:0}}
   .orb-tile.hit{box-shadow:var(--hl-top),0 0 0 1px rgba(82,168,255,.5),0 0 26px -6px rgba(82,168,255,.45)}
   .orb-chip{position:absolute;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);z-index:1;transition:opacity .5s ease}
@@ -257,9 +268,12 @@
   .dcore svg{position:absolute;inset:0;width:118px;height:136px}
   .dcore b{position:relative;font-size:25px;font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1}
 
-  /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon */
-  .burst-hold{position:absolute;left:0;right:0;bottom:0;height:clamp(240px,32vw,400px);pointer-events:none}
-  #burst{width:100%;height:100%;display:block}
+  /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon.
+     The canvas owns the whole section, so the fan runs off every edge instead of
+     stopping at a wall; auto pointer-events let it answer the cursor, and the copy
+     sits above it on its own stacking context so the links stay clickable. */
+  .burst-hold{position:absolute;inset:0;pointer-events:none}
+  #burst{width:100%;height:100%;display:block;pointer-events:auto}
 
   .spot{position:relative}
   .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
@@ -304,16 +318,18 @@
   @keyframes faqIn{from{opacity:0;translate:0 -6px}to{opacity:1;translate:0 0}}
   .faq-list details[open] p{animation:faqIn .35s cubic-bezier(.22,.61,.36,1) both}
 
-  /* ============ CTA: the gradient-type moment ============ */
-  .cta-dark{position:relative;overflow:hidden;background:#000;color:#fff;padding:clamp(4rem,8vw,6rem) 0 clamp(11rem,19vw,14rem);text-align:center;border-top:1px solid var(--line)}
-  .cta-dark::before{content:"";position:absolute;left:50%;top:8%;width:min(820px,90%);height:120%;transform:translateX(-50%);background:radial-gradient(50% 40% at 50% 32%,rgba(0,112,243,.10),transparent 70%);filter:blur(36px);pointer-events:none}
-  .cta-dark .wrap{position:relative;z-index:1}
+  /* ============ CTA: the finale, given the room the animation was missing ============ */
+  .cta-dark{position:relative;overflow:hidden;background:#000;color:#fff;min-height:clamp(600px,86vh,1000px);display:flex;justify-content:center;padding:clamp(4.5rem,9vh,7.5rem) 0 clamp(9rem,20vh,14rem);text-align:center;border-top:1px solid var(--line)}
+  .cta-dark .wrap{position:relative;z-index:1;align-self:flex-start}
+  /* a pool of dark under the words so the threads pass behind them, never through */
+  .cta-dark .wrap::before{content:"";position:absolute;left:50%;top:46%;translate:-50% -50%;width:min(1240px,132%);height:250%;z-index:-1;pointer-events:none;background:radial-gradient(48% 44% at 50% 50%,rgba(0,0,0,.82),rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 76%)}
   .cta-dark .eyebrow{display:block}
-  .cta-dark h2{font-size:clamp(2rem,4.4vw,3rem);letter-spacing:-.03em;text-wrap:balance;max-width:18ch;margin:.8rem auto 0;line-height:1.12}
-  .cta-dark p{margin:1rem auto 0;color:var(--fg-2);max-width:40ch}
-  .cta-dark .hero-actions{justify-content:center;margin-top:2rem}
+  .cta-dark h2{font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.033em;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
+  .cta-dark p{margin:1.15rem auto 0;color:var(--fg-2);max-width:29.5rem}
+  .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
 
-  footer{background:#000;color:var(--fg-3);padding:3.5rem 0 2.2rem;border-top:1px solid var(--line)}
+  /* no border here: the horizon hairline the threads land on is this divider */
+  footer{background:#000;color:var(--fg-3);padding:3.5rem 0 2.2rem}
   .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:2rem}
   .fbrand .brand{font-size:1.15rem}
   .fbrand p{margin-top:.6rem;font-size:.92rem;max-width:26ch}
@@ -348,6 +364,30 @@
   .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
   .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
   .field textarea{resize:vertical;min-height:70px}
+
+  /* ---- select: the native popup can't be styled, so JS layers a listbox over
+     it. The <select> stays in the DOM as the value source (form data, change
+     events, validation), the button and list are what you see. No JS = the
+     plain native select, untouched. ---- */
+  .sel{position:relative}
+  .sel-native{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .sel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;height:46px;padding:0 12px 0 14px;font-family:var(--font);font-size:1rem;font-weight:400;line-height:1;text-align:left;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:10px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+  .sel-btn:hover{border-color:rgba(255,255,255,.26)}
+  .sel-btn.empty{color:var(--dim)}
+  .sel-btn:focus-visible{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
+  .sel-btn[aria-expanded="true"]{border-color:rgba(255,255,255,.26)} /* open reads through the panel, not a ring */
+  .sel-btn .chev{width:15px;height:15px;flex:none;color:var(--fg-3);transition:transform .2s cubic-bezier(.22,.61,.36,1)}
+  .sel-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .sel-list{position:absolute;z-index:5;top:calc(100% + 6px);left:0;width:100%;max-height:240px;margin:0;padding:5px;list-style:none;overflow:auto;overscroll-behavior:contain;background:var(--bg-3);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.6),0 20px 48px -14px rgba(0,0,0,.95);animation:selIn .15s cubic-bezier(.22,.61,.36,1)}
+  .sel-list.up{top:auto;bottom:calc(100% + 6px);animation-name:selInUp}
+  @keyframes selIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  @keyframes selInUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .sel-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border-radius:8px;font-size:.98rem;color:var(--fg-2);cursor:pointer;user-select:none;transition:background .12s ease,color .12s ease}
+  .sel-opt[data-active="true"]{background:rgba(255,255,255,.07);color:#fff}
+  .sel-opt[aria-selected="true"]{color:#fff}
+  .sel-opt .tickm{width:14px;height:14px;flex:none;color:var(--fg-3);opacity:0}
+  .sel-opt[aria-selected="true"] .tickm{opacity:1}
+
   .cmodal .submit{margin-top:2.1rem;width:100%;justify-content:center;font-size:1.02rem;height:44px;padding:0 1.1rem;border-radius:12px}
   .recap{margin-top:1.8rem;font-size:.82rem;color:var(--dim);line-height:1.3;max-width:34ch}
   .recap a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
@@ -364,7 +404,7 @@
   /* ---- contact-sales form: validation + failure states ---- */
   .err{display:none;font-size:.84rem;color:#ff8a85;margin:0}
   .field .err{margin-top:-.05rem}
-  .field.invalid input,.field.invalid select{border-color:rgba(255,138,133,.65)}
+  .field.invalid input,.field.invalid select,.field.invalid .sel-btn{border-color:rgba(255,138,133,.65)}
   .field.invalid .err{display:block}
   .form-err{display:none;margin-top:1.1rem;font-size:.9rem;line-height:1.5;color:var(--fg-2);border:1px solid rgba(255,138,133,.35);border-radius:var(--r-sm);padding:.8rem .95rem;background:rgba(255,138,133,.06)}
   .form-err.show{display:block}
@@ -516,16 +556,16 @@ __LOGO_SPRITE__
           <a class="btn btn-ghost" href="#how">See how it knows <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
-      <div class="prep-wrap" role="img" aria-label="Example: while you read, fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three findings appear in orbit around the headline: you've met three times, the warm path is Anna Lindqvist, and Clara's open CFO search matches two people in your network, each cited to its source.">
+      <div class="prep-wrap" role="img" aria-label="Example: while you read, fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around the headline: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
         <canvas id="prepflow" aria-hidden="true"></canvas>
         <div class="orb-head glass" aria-hidden="true">
           <b>Meeting prep · Clara Voss</b>
           <span class="hsub">Meridian · Series A · tomorrow, 9:00</span>
           <span class="orb-badge"><i class="bdot"></i><span class="btxt">Auto-drafted</span></span>
         </div>
-        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="n">01</span><p><b>You've met three times.</b> <span class="rest">Slush in '24, then two calls. Last spoke Tuesday.</span></p><span class="src">CAL · GMAIL</span></div>
-        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="n">02</span><p><b>Warm path: Anna Lindqvist.</b> <span class="rest">She co-led the seed; 12 shared meetings. Backup: Marc Weber, two hops.</span></p><span class="src">CAL · ATTIO</span></div>
-        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="n">03</span><p><b>Open ask.</b> <span class="rest">Clara flagged a CFO search in March: two people in your network fit.</span></p><span class="src">GRANOLA · CRM</span></div>
+        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="ask">how do we know clara?</span><p><b>Three meetings.</b> <span class="rest">Slush in '24, then two calls. Last spoke Tuesday.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-gmail"/></svg></i></span></div>
+        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="ask">who can introduce us?</span><p><b>Anna Lindqvist.</b> <span class="rest">She co-led the seed; 12 shared meetings. Backup: Marc Weber, two hops.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
+        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="ask">anything still open?</span><p><b>A CFO search.</b> <span class="rest">Clara flagged it in March: two people in your network fit.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-granola"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
         <span class="orb-chip glass orb-c1" data-a="0" aria-hidden="true"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
         <span class="orb-chip glass orb-c2" data-a="1.57" aria-hidden="true"><svg class="tlogo"><use href="#l-gcal"/></svg></span>
         <span class="orb-chip glass orb-c3" data-a="3.14" aria-hidden="true"><svg class="tlogo"><use href="#l-attio"/></svg></span>
@@ -899,9 +939,115 @@ __LOGO_SPRITE__
     function bad(id,is){
       var f=document.getElementById(id);if(!f)return;
       f.classList.toggle("invalid",is);
-      var inp=f.querySelector("input,select,textarea");
+      var inp=f.querySelector("input,select,textarea"),sb=f.querySelector(".sel-btn");
       if(inp)inp.setAttribute("aria-invalid",is?"true":"false");
+      if(sb)sb.setAttribute("aria-invalid",is?"true":"false");
     }
+    /* ---- custom listbox over each native select ----
+       the <select> keeps the value and keeps firing `change`, so everything
+       above and below this block reads it exactly as before. */
+    var openSel=null;
+    function enhanceSelect(sel){
+      var opts=[].slice.call(sel.options),ph=opts[0]&&opts[0].disabled?opts[0].textContent:"Select",
+          items=opts.filter(function(o){return !o.disabled}),
+          label=sel.closest(".field").querySelector("label"),active=-1;
+      var wrap=document.createElement("div");wrap.className="sel";
+      sel.parentNode.insertBefore(wrap,sel);wrap.appendChild(sel);
+      sel.classList.add("sel-native");sel.tabIndex=-1;sel.setAttribute("aria-hidden","true");
+      var btn=document.createElement("button");
+      btn.type="button";btn.className="sel-btn empty";btn.id=sel.id+"-btn";
+      btn.setAttribute("role","combobox");btn.setAttribute("aria-haspopup","listbox");
+      btn.setAttribute("aria-expanded","false");btn.setAttribute("aria-controls",sel.id+"-list");
+      if(sel.getAttribute("aria-describedby"))btn.setAttribute("aria-describedby",sel.getAttribute("aria-describedby"));
+      btn.innerHTML='<span class="sel-val">'+ph+'</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+      var val=btn.querySelector(".sel-val");
+      var list=document.createElement("ul");
+      list.className="sel-list";list.id=sel.id+"-list";list.hidden=true;
+      list.setAttribute("role","listbox");if(label)list.setAttribute("aria-label",label.textContent);
+      items.forEach(function(o,i){
+        var li=document.createElement("li");
+        li.className="sel-opt";li.id=sel.id+"-opt-"+i;li.setAttribute("role","option");
+        li.setAttribute("aria-selected","false");li.dataset.value=o.value||o.textContent;
+        li.innerHTML='<span>'+o.textContent+'</span><svg class="tickm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+        list.appendChild(li);
+      });
+      wrap.appendChild(btn);wrap.appendChild(list);
+      if(label)label.setAttribute("for",btn.id);
+      /* validation elsewhere calls select.focus(); send that to the visible control */
+      sel.focus=function(){btn.focus();};
+      function mark(i){
+        active=i;
+        [].forEach.call(list.children,function(li,n){li.dataset.active=n===i?"true":"false";});
+        if(i>-1){btn.setAttribute("aria-activedescendant",list.children[i].id);
+          list.children[i].scrollIntoView({block:"nearest"});}
+        else btn.removeAttribute("aria-activedescendant");
+      }
+      function open(){
+        if(!list.hidden)return;
+        if(openSel&&openSel!==close)openSel();
+        list.hidden=false;btn.setAttribute("aria-expanded","true");openSel=close;
+        /* flip up when the panel would run past the bottom of the window */
+        var r=btn.getBoundingClientRect();
+        list.classList.toggle("up",window.innerHeight-r.bottom<240&&r.top>window.innerHeight-r.bottom);
+        mark(items.findIndex(function(o){return (o.value||o.textContent)===sel.value;}));
+      }
+      function close(back){
+        if(list.hidden)return;
+        list.hidden=true;list.classList.remove("up");
+        btn.setAttribute("aria-expanded","false");btn.removeAttribute("aria-activedescendant");
+        if(openSel===close)openSel=null;
+        if(back)btn.focus();
+      }
+      function pick(i){
+        var li=list.children[i];if(!li)return;
+        sel.value=li.dataset.value;
+        [].forEach.call(list.children,function(o,n){o.setAttribute("aria-selected",n===i?"true":"false");});
+        val.textContent=li.firstChild.textContent;btn.classList.remove("empty");
+        sel.dispatchEvent(new Event("change",{bubbles:true}));
+        close(true);
+      }
+      btn.addEventListener("click",function(){list.hidden?open():close();});
+      btn.addEventListener("keydown",function(e){
+        var k=e.key;
+        if(k==="ArrowDown"||k==="ArrowUp"||k==="Enter"||k===" "){
+          if(list.hidden){e.preventDefault();open();return;}
+        }
+        if(list.hidden)return;
+        if(k==="ArrowDown"){e.preventDefault();mark(Math.min(active+1,items.length-1));}
+        else if(k==="ArrowUp"){e.preventDefault();mark(Math.max(active-1,0));}
+        else if(k==="Home"){e.preventDefault();mark(0);}
+        else if(k==="End"){e.preventDefault();mark(items.length-1);}
+        else if(k==="Enter"||k===" "){e.preventDefault();pick(active);}
+        else if(k==="Escape"){e.preventDefault();e.stopPropagation();close(true);} /* Esc closes the list, not the modal */
+        else if(k==="Tab"){close();}
+        else if(k.length===1){
+          var s=k.toLowerCase(),n=items.findIndex(function(o,i){return i>active&&o.textContent.toLowerCase().indexOf(s)===0;});
+          if(n<0)n=items.findIndex(function(o){return o.textContent.toLowerCase().indexOf(s)===0;});
+          if(n>-1)mark(n);
+        }
+      });
+      list.addEventListener("mousemove",function(e){
+        var li=e.target.closest(".sel-opt");if(li)mark([].indexOf.call(list.children,li));
+      });
+      list.addEventListener("click",function(e){
+        var li=e.target.closest(".sel-opt");if(li)pick([].indexOf.call(list.children,li));
+      });
+      /* keep the button honest if anything sets the select directly */
+      sel.addEventListener("change",function(){
+        var i=items.findIndex(function(o){return (o.value||o.textContent)===sel.value;});
+        if(i>-1&&val.textContent!==items[i].textContent){
+          val.textContent=items[i].textContent;btn.classList.remove("empty");
+          [].forEach.call(list.children,function(o,n){o.setAttribute("aria-selected",n===i?"true":"false");});
+        }
+      });
+      return close;
+    }
+    [region,users].forEach(enhanceSelect);
+    document.addEventListener("mousedown",function(e){
+      if(openSel&&!e.target.closest(".sel"))openSel();
+    });
+    /* the dialog's own Esc must wait its turn while a list is open */
+    cmodal.addEventListener("cancel",function(e){if(openSel){e.preventDefault();openSel(true);}});
     ["fn","ln","em"].forEach(function(id){
       document.getElementById(id).addEventListener("input",function(){bad("f-"+id,false);});
     });
@@ -999,66 +1145,89 @@ __LOGO_SPRITE__
   function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 
   /* ===== the dawn: every thread the team holds, converging on one endpoint =====
-     Seeded hairline threads in a structured dome (cosine envelope + harmonics, not
-     noise), anchored by slightly brighter leaders. Cool-white monochrome; the one
-     accent is blue, spent only on the light packets that travel INWARD along the
-     threads into a breathing core on a horizon hairline — the "1 endpoint" the
-     stats name — and each arrival ticks the core brighter. Center-out ignition on
-     first view; after it, the steady state draws from a baked offscreen layer and
-     per-frame work is additive accents only (twinkle, packets, pointer lift). */
+     The fan is cut from an ellipse wider and taller than the section, so the outer
+     threads leave the picture instead of stopping at a wall. Nothing terminates on
+     an edge: a thread that reaches one has already faded to nothing, and only the
+     threads that end inside the frame wear a node. Brightness pools at the
+     convergence and falls away outward, which is what lets the copy sit on the
+     field rather than fight it. Cool-white monochrome; the one accent is blue,
+     spent only on the light packets that travel INWARD along the threads into a
+     breathing core on the horizon hairline — the "1 endpoint" the stats name, and
+     the divider the footer no longer draws — and each arrival ticks the core
+     brighter. Center-out ignition on first view; after it the steady state is a
+     baked offscreen layer that drifts and breathes about the core, and per-frame
+     work is additive accents only (twinkle, packets, pointer lift). */
   var burst=document.getElementById("burst");
   if(burst){var bx=burst.getContext("2d"),bz,braf=0,bw=0,bh=0,bdp=1,bvis=false;
     var FINE=window.matchMedia&&window.matchMedia("(pointer:fine)").matches;
     var rays=[],leaders=[],statc=null,ignited=false;
-    var igniteAt=-1,igElapsed=0,IG_RAY=760,IG_HOLD=170;
+    var igniteAt=-1,igElapsed=0,IG_RAY=1150,IG_HOLD=140,IG_SWEEP=980;
     var pulses=[],sparks=[],spNext=0,bloomKick=0,lastT=-1;
     var pAng=0,pTAng=-Math.PI/2,pInf=0,pTInf=0;
     function thr(al){return "rgba(206,216,233,"+al+")";}          /* thread white, slightly cool */
     function acc(al){return "rgba(82,168,255,"+al+")";}           /* the one accent */
     function oExpo(u){return u<=0?0:u>=1?1:1-Math.pow(2,-10*u);}
     function clamp01(u){return u<0?0:u>1?1:u;}
+    function unit(){return Math.min(bh,bw*0.52);}                 /* scale reference for core and bloom */
     function bsize(){var r=burst.getBoundingClientRect();bdp=Math.min(window.devicePixelRatio||1,2);bw=r.width;bh=r.height;burst.width=Math.max(1,bw*bdp);burst.height=Math.max(1,bh*bdp);bx.setTransform(bdp,0,0,bdp,0,0);}
+    function reach(){                                             /* how far each thread gets before the frame */
+      for(var i=0;i<rays.length;i++){var q=rays[i];
+        var hb=Math.abs(q.ca)>1e-4?(bw/2+4)/Math.abs(q.ca):1e9;
+        var vb=Math.abs(q.sa)>1e-4?(bh+4)/Math.abs(q.sa):1e9;
+        q.edge=Math.min(hb,vb);
+        q.end=Math.max(q.r0+10,Math.min(q.len,q.edge));
+        q.tip=q.len<q.edge*0.93;}                                 /* ends inside the frame, so it gets a node */
+    }
     function build(){
       var rng=mulberry32(4242);rays.length=0;leaders.length=0;statc=null;
-      var n=Math.round(Math.max(120,Math.min(230,bw/5.2)));
-      var NL=Math.max(8,Math.round(n/14)),la=[],j;
+      var n=Math.round(Math.max(140,Math.min(230,bw/6.2)));
+      var NL=Math.max(9,Math.round(n/13)),la=[],j;
       for(j=0;j<NL;j++)la.push((j+0.5)/NL+(rng()-0.5)*0.05);
       var s1=rng()*6.28,s2=rng()*6.28;
+      /* a wide, shallow dome: the crown of nodes sits under the copy and the
+         shoulders run off both edges, so the fan spans the section either way */
+      var A=bw*0.66,B=bh*0.47;
       for(var i=0;i<n;i++){
         var f=(i+0.5)/n,ff=clamp01(f+(rng()-0.5)*1.6/n);
-        var a=-Math.PI/2+(ff-0.5)*Math.PI*0.985,near=1e9;
+        var a=-Math.PI/2+(ff-0.5)*Math.PI*0.99,near=1e9;
         for(j=0;j<NL;j++){var d=Math.abs(f-la[j]);if(d<near)near=d;}
-        var lead=near<0.006;
-        /* dome silhouette: cosine envelope + two slow harmonics + per-thread jitter */
-        var env=0.38+0.30*Math.cos((f-0.5)*Math.PI)
-               +0.085*Math.sin(f*21.3+s1)*Math.sin(f*8.7+s2)
-               +rng()*0.14+(lead?0.10:0);
-        var lum=0.30+0.70*Math.pow(Math.cos((f-0.5)*Math.PI),0.75);
-        var r={a:a,ca:Math.cos(a),sa:Math.sin(a),r0:9+rng()*7,env:env,len:0,
-          lum:lum,lead:lead,w:lead?1.25:0.7+rng()*0.4,ph:rng()*6.28,fq:0.35+rng()*0.55,
-          dot:lead?1.6:0.85+rng()*0.55,delay:Math.abs(f-0.5)*640+rng()*240};
-        rays.push(r);if(lead)leaders.push(r);
+        var lead=near<0.006,ca=Math.cos(a),sa=Math.sin(a);
+        var el=1/Math.sqrt((ca/A)*(ca/A)+(sa/B)*(sa/B));
+        /* organic length over the ellipse: two slow harmonics + per-thread jitter */
+        var env=0.70+0.17*Math.sin(f*21.3+s1)*Math.sin(f*8.7+s2)+rng()*0.16+(lead?0.09:0);
+        var lum=0.34+0.66*Math.pow(Math.cos((f-0.5)*Math.PI),0.5);
+        /* one thread in nine is a reacher: far past the dome, thinner and fainter,
+           so the fan has depth behind it and a few threads clear the copy entirely */
+        var far=rng()<0.11;
+        var r={a:a,ca:ca,sa:sa,r0:10+rng()*9,len:el*env*(far?1.7+rng()*1.7:1),edge:0,end:0,tip:false,
+          lum:far?lum*0.5:lum,lead:lead&&!far,w:lead&&!far?1.15:(far?0.5+rng()*0.2:0.6+rng()*0.38),
+          ph:rng()*6.28,fq:0.35+rng()*0.55,
+          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*260};
+        rays.push(r);if(r.lead)leaders.push(r);
       }
-      for(i=0;i<rays.length;i++){var q=rays[i],L=bh*q.env;
-        var hb=Math.abs(q.ca)>1e-4?(bw/2-6)/Math.abs(q.ca):1e9;
-        var vb=Math.abs(q.sa)>1e-4?(bh-8)/Math.abs(q.sa):1e9;
-        q.len=Math.max(q.r0+6,Math.min(L,hb,vb));}
-      if(!pulses.length){var NP=Math.max(2,Math.min(4,Math.round(bw/340)));
-        for(i=0;i<NP;i++)pulses.push({on:false,next:i*700,r:null,t0:0,dur:0});}
+      reach();
+      if(!pulses.length){var NP=Math.max(3,Math.min(6,Math.round(bw/300)));
+        for(i=0;i<NP;i++)pulses.push({on:false,next:i*620,r:null,t0:0,dur:0});}
       else for(i=0;i<pulses.length;i++){pulses[i].on=false;pulses[i].r=null;}
       sparks.length=0;
     }
     function ray(c,r,g,boost){
-      var L=r.r0+(r.len-r.r0)*g;if(L<=r.r0+1)return;
+      var L=r.r0+(r.end-r.r0)*g;if(L<=r.r0+1)return;
       var cx=bw/2,cy=bh,x0=cx+r.ca*r.r0,y0=cy+r.sa*r.r0,x1=cx+r.ca*L,y1=cy+r.sa*L;
-      var base=0.16*r.lum+(r.lead?0.08:0)+(boost||0);
+      var base=0.21*r.lum+(r.lead?0.07:0)+(boost||0);
       var gr=c.createLinearGradient(x0,y0,x1,y1);
-      gr.addColorStop(0,thr(0));gr.addColorStop(0.28,thr(base*0.7));
-      gr.addColorStop(0.86,thr(base));gr.addColorStop(1,thr(base*0.35));
+      /* rises out of the convergence rather than blowing it out, then thins with
+         distance so the far reaches read as depth instead of bars */
+      gr.addColorStop(0,thr(0));
+      gr.addColorStop(0.22,thr(base));
+      gr.addColorStop(0.55,thr(base*0.62));
+      if(r.tip){gr.addColorStop(0.9,thr(base*0.5));gr.addColorStop(1,thr(base*0.62));}
+      else{gr.addColorStop(0.78,thr(base*0.28));gr.addColorStop(1,thr(0));}
       c.strokeStyle=gr;c.lineWidth=r.w;c.beginPath();c.moveTo(x0,y0);c.lineTo(x1,y1);c.stroke();
     }
     function dot(c,r,al,sc){
-      var x=bw/2+r.ca*r.len,y=bh+r.sa*r.len;
+      if(!r.tip)return;
+      var x=bw/2+r.ca*r.end,y=bh+r.sa*r.end;
       c.fillStyle=thr(al);c.beginPath();c.arc(x,y,r.dot*(sc||1),0,7);c.fill();
       if(r.lead){var g=c.createRadialGradient(x,y,0,x,y,4.5);
         g.addColorStop(0,thr(al*0.45));g.addColorStop(1,thr(0));
@@ -1072,45 +1241,51 @@ __LOGO_SPRITE__
       g2.addColorStop(0,thr(0));g2.addColorStop(0.5,thr(al));g2.addColorStop(1,thr(0));
       c.strokeStyle=g2;c.beginPath();c.moveTo(x,y-s);c.lineTo(x,y+s);c.stroke();
     }
-    function horizon(k,b){
+    function horizon(k,b){                                        /* the page's divider, lit where the threads land */
       if(k<=0)return;var y=bh-0.5,cx=bw/2,half=(bw/2)*k;
       var g=bx.createLinearGradient(cx-half,0,cx+half,0);
-      g.addColorStop(0,acc(0));g.addColorStop(0.22,acc(0.14));
-      g.addColorStop(0.42,thr(0.4));g.addColorStop(0.5,"rgba(255,255,255,"+(0.5+0.16*b)+")");
-      g.addColorStop(0.58,thr(0.4));g.addColorStop(0.78,acc(0.14));g.addColorStop(1,acc(0));
+      g.addColorStop(0,"rgba(255,255,255,.09)");g.addColorStop(0.24,"rgba(255,255,255,.10)");
+      g.addColorStop(0.36,acc(0.14));g.addColorStop(0.46,thr(0.4));
+      g.addColorStop(0.5,"rgba(255,255,255,"+(0.6+0.18*b)+")");
+      g.addColorStop(0.54,thr(0.4));g.addColorStop(0.64,acc(0.14));
+      g.addColorStop(0.76,"rgba(255,255,255,.10)");g.addColorStop(1,"rgba(255,255,255,.09)");
       bx.strokeStyle=g;bx.lineWidth=1;bx.beginPath();bx.moveTo(cx-half,y);bx.lineTo(cx+half,y);bx.stroke();
     }
     function bloomField(b){ /* one faint blue field behind the threads — nothing louder */
-      var cx=bw/2,cy=bh,R=bh*0.66;
+      var cx=bw/2,cy=bh,R=unit()*1.4;
       var g=bx.createRadialGradient(cx,cy,0,cx,cy,R);
-      g.addColorStop(0,"rgba(0,112,243,"+(0.085*b)+")");g.addColorStop(0.55,"rgba(0,112,243,"+(0.028*b)+")");g.addColorStop(1,"rgba(0,112,243,0)");
+      g.addColorStop(0,"rgba(0,112,243,"+(0.10*b)+")");g.addColorStop(0.45,"rgba(0,112,243,"+(0.032*b)+")");g.addColorStop(1,"rgba(0,112,243,0)");
       bx.fillStyle=g;bx.beginPath();bx.arc(cx,cy,R,0,7);bx.fill();
     }
     function core(b,kick){
-      var cx=bw/2,cy=bh,a=Math.min(0.62,0.34*b+0.34*kick);
-      var g=bx.createRadialGradient(cx,cy,0,cx,cy,bh*0.11);
+      var cx=bw/2,cy=bh,U=unit(),a=Math.min(0.62,0.34*b+0.34*kick);
+      var g=bx.createRadialGradient(cx,cy,0,cx,cy,U*0.11);
       g.addColorStop(0,"rgba(255,255,255,"+a+")");g.addColorStop(0.45,thr(a*0.35));g.addColorStop(1,thr(0));
-      bx.fillStyle=g;bx.beginPath();bx.arc(cx,cy,bh*0.11,0,7);bx.fill();
-      var g2=bx.createRadialGradient(cx,cy,0,cx,cy,bh*0.3);
+      bx.fillStyle=g;bx.beginPath();bx.arc(cx,cy,U*0.11,0,7);bx.fill();
+      var g2=bx.createRadialGradient(cx,cy,0,cx,cy,U*0.32);
       g2.addColorStop(0,acc(0.16*b+0.18*kick));g2.addColorStop(1,acc(0));
-      bx.fillStyle=g2;bx.beginPath();bx.arc(cx,cy,bh*0.3,0,7);bx.fill();
+      bx.fillStyle=g2;bx.beginPath();bx.arc(cx,cy,U*0.32,0,7);bx.fill();
     }
     function bake(){
       statc=document.createElement("canvas");statc.width=Math.max(1,bw*bdp);statc.height=Math.max(1,bh*bdp);
       var sc=statc.getContext("2d");sc.setTransform(bdp,0,0,bdp,0,0);sc.globalCompositeOperation="lighter";
-      for(var i=0;i<rays.length;i++){ray(sc,rays[i],1,0);dot(sc,rays[i],0.20*rays[i].lum+(rays[i].lead?0.10:0),1);}
+      for(var i=0;i<rays.length;i++){ray(sc,rays[i],1,0);dot(sc,rays[i],0.26*rays[i].lum+(rays[i].lead?0.10:0),1);}
     }
+    /* the sky is never quite still: a degree of sway and a slow inhale, both about
+       the core, applied to the baked layer and every accent drawn over it */
+    function drift(t){return REDUCE.matches?0:0.0062*Math.sin(t*0.000242)+0.0024*Math.sin(t*0.000101+1.7);}
+    function breath(t){return REDUCE.matches?1.012:1.012+0.010*Math.sin(t*0.00069);}
     function spawnPulse(p,t){
       var pool=Math.random()<0.5?leaders:rays;
-      p.r=pool[(Math.random()*pool.length)|0];p.t0=t;p.dur=620+p.r.len*2.2+Math.random()*320;p.on=true;
+      p.r=pool[(Math.random()*pool.length)|0];p.t0=t;p.dur=680+p.r.end*1.9+Math.random()*340;p.on=true;
     }
     function drawPulse(p,t){
       var r=p.r,u=(t-p.t0)/p.dur,cx=bw/2,cy=bh;
-      var d=r.len-(r.len-r.r0-4)*Math.pow(u,1.55);       /* eases in — falls toward the core */
+      var d=r.end-(r.end-r.r0-4)*Math.pow(u,1.55);      /* eases in — falls toward the core */
       var hx=cx+r.ca*d,hy=cy+r.sa*d;
-      if(t-p.t0<220){var k=(t-p.t0)/220,tx0=cx+r.ca*r.len,ty0=cy+r.sa*r.len; /* departure flare at the tip */
+      if(t-p.t0<220&&r.tip){var k=(t-p.t0)/220,tx0=cx+r.ca*r.end,ty0=cy+r.sa*r.end; /* departure flare at the node */
         bx.strokeStyle=thr(0.3*(1-k));bx.lineWidth=0.8;bx.beginPath();bx.arc(tx0,ty0,2+5*k,0,7);bx.stroke();}
-      var tl=Math.min(r.len-d,30+r.len*0.18),tx=cx+r.ca*(d+tl),ty=cy+r.sa*(d+tl);
+      var tl=Math.min(r.end-d,30+r.end*0.18),tx=cx+r.ca*(d+tl),ty=cy+r.sa*(d+tl);
       var g=bx.createLinearGradient(tx,ty,hx,hy);
       g.addColorStop(0,acc(0));g.addColorStop(1,acc(0.55));
       bx.strokeStyle=g;bx.lineWidth=1.2;bx.beginPath();bx.moveTo(tx,ty);bx.lineTo(hx,hy);bx.stroke();
@@ -1126,8 +1301,10 @@ __LOGO_SPRITE__
       bloomKick*=Math.exp(-dt/650);
       pInf+=(pTInf-pInf)*(1-Math.exp(-dt/140));pAng+=(pTAng-pAng)*(1-Math.exp(-dt/140));
       var ig=still?1e9:(igniteAt<0?0:t-igniteAt+igElapsed);
-      var hk=still?1:oExpo(Math.min(1,ig/650)),intro=still?1:Math.min(1,ig/900);
+      var hk=still?1:oExpo(Math.min(1,ig/900)),intro=still?1:Math.min(1,ig/1100);
+      var rot=still?0:drift(t),sk=still?1.012:breath(t),cx=bw/2,cy=bh,pa=pAng-rot;
       bx.globalCompositeOperation="lighter";
+      bx.save();bx.translate(cx,cy);bx.rotate(rot);bx.scale(sk,sk);bx.translate(-cx,-cy);
       bloomField(intro*(0.7+0.3*b));
       var i,r,tw;
       if(!ignited&&!still){                                /* ignition: threads grow center-out */
@@ -1135,28 +1312,28 @@ __LOGO_SPRITE__
         for(i=0;i<rays.length;i++){r=rays[i];
           var gp=oExpo(clamp01((ig-IG_HOLD-r.delay)/IG_RAY));if(gp<1)done=false;
           if(gp>0)ray(bx,r,gp,0);
-          if(gp>0.94)dot(bx,r,(0.20*r.lum+(r.lead?0.10:0))*clamp01((gp-0.94)/0.06),1);}
+          if(gp>0.94)dot(bx,r,(0.26*r.lum+(r.lead?0.10:0))*clamp01((gp-0.94)/0.06),1);}
         if(done){ignited=true;bake();}
       }else{
         if(!statc)bake();
         bx.drawImage(statc,0,0,bw,bh);
         for(i=0;i<leaders.length;i++){r=leaders[i];tw=0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
-          ray(bx,r,1,0.06*tw);}
+          ray(bx,r,1,0.05*tw);}
       }
       var lit=ignited||still;
       if(lit){                                            /* twinkle + pointer lift, additive only */
         for(i=0;i<rays.length;i++){r=rays[i];tw=still?0.5:0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
-          var ex=0.14*tw*r.lum;
-          if(pInf>0.01){var ad=Math.abs(r.a-pAng);if(ad<0.24){var fo=(1-ad/0.24);fo*=fo;
-            ex+=0.22*fo*pInf;if(fo>0.25)ray(bx,r,1,0.16*fo*pInf);}}
+          var ex=0.16*tw*r.lum;
+          if(pInf>0.01){var ad=Math.abs(r.a-pa);if(ad<0.26){var fo=(1-ad/0.26);fo*=fo;
+            ex+=0.22*fo*pInf;if(fo>0.2)ray(bx,r,1,0.15*fo*pInf);}}
           if(ex>0.02)dot(bx,r,ex,1);}
       }
       if(lit&&!still&&!REDUCE.matches){                   /* occasional star sparkle */
-        if(t>=spNext){if(sparks.length<2){var sr=rays[(Math.random()*rays.length)|0];sparks.push({r:sr,t0:t});}
+        if(t>=spNext){if(sparks.length<2){var sr=rays[(Math.random()*rays.length)|0];if(sr.tip)sparks.push({r:sr,t0:t});}
           spNext=t+2200+Math.random()*3200;}
         for(i=sparks.length-1;i>=0;i--){var s=sparks[i],k=(t-s.t0)/900;
           if(k>=1){sparks.splice(i,1);continue;}
-          var en=Math.sin(Math.PI*k),xx=bw/2+s.r.ca*s.r.len,yy=bh+s.r.sa*s.r.len;
+          var en=Math.sin(Math.PI*k),xx=bw/2+s.r.ca*s.r.end,yy=bh+s.r.sa*s.r.end;
           flare(bx,xx,yy,0.35*en,5+6*en);
           dot(bx,s.r,0.3*en,1.35);}
       }
@@ -1166,6 +1343,7 @@ __LOGO_SPRITE__
           if((t-p.t0)>=p.dur){p.on=false;p.next=t+900+Math.random()*2600;bloomKick=Math.min(1,bloomKick+0.35);continue;}
           drawPulse(p,t);}
       }
+      bx.restore();
       horizon(hk,b);
       core(intro*(0.72+0.28*b),bloomKick);
       bx.globalCompositeOperation="source-over";
@@ -1649,13 +1827,23 @@ __LOGO_SPRITE__
   function send(a,b,dur,cb){size();journey={a:a,b:b,t0:performance.now(),dur:dur,cb:cb};}
   function type(i,cb){
     var tl=tiles[i];tl.classList.add('on');hit(tl);
-    var b=tl.querySelector('p b'),src=tl.querySelector('.src'),full=b.textContent,k=0;
-    b.textContent='';tl.classList.add('typing');
-    var t=setInterval(function(){
-      b.textContent=full.slice(0,++k);
-      if(k>=full.length){clearInterval(t);tl.classList.remove('typing');tl.classList.add('typed');
-        setTimeout(function(){src.classList.add('on');cb&&cb();},300);}
-    },24);
+    var ask=tl.querySelector('.ask'),b=tl.querySelector('p b'),src=tl.querySelector('.src');
+    function answer(){
+      var full=b.textContent,k=0;
+      b.textContent='';tl.classList.add('typing');
+      var t=setInterval(function(){
+        b.textContent=full.slice(0,++k);
+        if(k>=full.length){clearInterval(t);tl.classList.remove('typing');tl.classList.add('typed');
+          setTimeout(function(){src.classList.add('on');cb&&cb();},300);}
+      },24);
+    }
+    if(!ask){answer();return;}
+    var q=ask.textContent,j=0;
+    ask.textContent='';tl.classList.add('asking');
+    var ti=setInterval(function(){
+      ask.textContent=q.slice(0,++j);
+      if(j>=q.length){clearInterval(ti);tl.classList.remove('asking');setTimeout(answer,240);}
+    },17);
   }
   function finish(){
     badge.classList.remove('live');btxt.textContent='Auto-drafted';

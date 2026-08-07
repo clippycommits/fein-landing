@@ -11,12 +11,16 @@ const LASTMOD = "2026-08-07";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
 const monoB64 = fs.readFileSync("GeistMono.woff2").toString("base64");
+// Inter (variable 400-600, latin cut) carries body copy, sub headings, buttons
+// and nav; Geist is the display face for h1 and h2 only.
+const interB64 = fs.readFileSync("Inter.woff2").toString("base64");
 
 // ---- inject fonts into shared body ----
 let body = fs.readFileSync("fein.tpl.html", "utf8")
   .replace("__GEIST_SANS_B64__", sansB64)
-  .replace("__GEIST_MONO_B64__", monoB64);
-if (body.indexOf("__GEIST") > -1) throw new Error("font placeholder left");
+  .replace("__GEIST_MONO_B64__", monoB64)
+  .replace("__INTER_B64__", interB64);
+if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1) throw new Error("font placeholder left");
 
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
 const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg" };
@@ -75,7 +79,7 @@ const FEATURES = [
 const ld = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the graph for venture capital teams", email: "sales@fein.vc", logo: SITE + "/favicon.svg", image: SITE + "/og.png", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the graph for venture capital teams", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -105,8 +109,12 @@ const headMeta = `<meta charset="utf-8">
 <meta name="theme-color" content="#000000">
 <meta name="author" content="fein">
 <meta name="application-name" content="fein">
+<meta name="apple-mobile-web-app-title" content="fein">
+<meta name="format-detection" content="telephone=no">
 <meta name="keywords" content="relationship graph, relationship intelligence, memory layer, venture capital, VC CRM, warm intros, deal memory, meeting prep, MCP server, Claude, ChatGPT, Cursor, Attio, Affinity, open source">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="fein for AI assistants (summary)">
@@ -321,7 +329,12 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
   name: "fein", short_name: "fein", description: "The graph for venture capital teams.",
   start_url: "/", display: "standalone", background_color: "#000000", theme_color: "#000000",
-  icons: [{ src: "/favicon.svg", sizes: "any", type: "image/svg+xml" }]
+  icons: [
+    { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    { src: "/icon-512-maskable.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+    { src: "/favicon.svg", sizes: "any", type: "image/svg+xml" }
+  ]
 }, null, 2));
 
 // GitHub Pages helpers
