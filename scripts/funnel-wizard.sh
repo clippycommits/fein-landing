@@ -302,7 +302,7 @@ printf '\n'
 printf '      RESEND_API_KEY            = %s\n' "$RESEND_API_KEY"
 printf '      CAL_LINK                  = %s\n' "$CAL_LINK"
 printf '      CALCOM_WEBHOOK_SECRET     = %s\n' "$CALCOM_WEBHOOK_SECRET"
-printf '      NOTIFY_TO                 = team@commixcapital.com\n'
+printf '      NOTIFY_TO                 = daniel@fein.vc\n'
 printf '      MAIL_FROM                 = fein site <noah@fein.vc>\n'
 printf '      UPSTASH_REDIS_REST_URL    = %s\n' "$UPSTASH_REDIS_REST_URL"
 printf '      UPSTASH_REDIS_REST_TOKEN  = %s\n' "$UPSTASH_REDIS_REST_TOKEN"
@@ -317,9 +317,9 @@ pause "Env vars saved and redeployed? Press Enter."
 # ── 9 · FormSubmit fallback ───────────────────────────────────────────────
 stage "FormSubmit fallback" 2
 say "If the functions are ever unreachable, the form falls back to"
-say "FormSubmit, which emails the lead to team@commixcapital.com."
+say "FormSubmit, which emails the lead to daniel@fein.vc."
 open_url "https://mail.google.com/"
-step "In the team@commixcapital.com inbox, find the FormSubmit activation"
+step "In the daniel@fein.vc inbox, find the FormSubmit activation"
 say "  email and click Activate. (The fallback is dead until it's clicked.)"
 pause "Activated (or already was)? Press Enter."
 
@@ -341,7 +341,7 @@ if confirm "Send a test enquiry for $TEST_EMAIL now?"; then
        -d "{\"email\":\"$TEST_EMAIL\",\"first\":\"Test\",\"last\":\"Lead\",\"fund\":\"Wizard Test\"}"; then
     printf '\n  %s✓ enquiry accepted%s\n' "$GREEN" "$RESET"
     step "Check $TEST_EMAIL for the welcome email with the booking button."
-    step "Check team@commixcapital.com for the lead notification."
+    step "Check daniel@fein.vc for the lead notification."
     step "Optional full check: book a slot from the email — you should get a"
     say "  'fein call booked' notification, and the 3-day nudge is cancelled."
     note "Delete the test booking in cal.com afterwards."

@@ -19,13 +19,13 @@ activation, end-to-end smoke test, and retiring the old VPS service.
 ```
 contact-sales wizard on fein.vc
    └─ POST /api/enquiry                    (Vercel function, same origin)
-        ├─ notification → team@commixcapital.com   (Reply-To: the lead)
+        ├─ notification → daniel@fein.vc   (Reply-To: the lead)
         ├─ welcome email → lead, "Pick a time" → cal.com (prefilled)
         ├─ nudge scheduled +72h (Resend scheduled send; id in Upstash)
         └─ success screen shows "Pick a time" too (/api/call redirect)
 cal.com BOOKING_CREATED webhook → /api/webhooks/calcom (HMAC-verified)
         ├─ cancels the scheduled nudge (id looked up in Upstash)
-        └─ "fein call booked" notification → team@commixcapital.com
+        └─ "fein call booked" notification → daniel@fein.vc
 ```
 
 - Functions: `api/enquiry.mjs`, `api/call.mjs`, `api/webhooks/calcom.mjs`,

@@ -11,7 +11,7 @@ Object.assign(process.env, {
   RESEND_BASE_URL: "https://resend.test",
   CAL_LINK: "https://cal.com/daniel/fein-intro",
   CALCOM_WEBHOOK_SECRET: SECRET,
-  NOTIFY_TO: "team@commixcapital.com",
+  NOTIFY_TO: "daniel@fein.vc",
   MAIL_FROM: "Noah Frank <noah@fein.vc>",
   UPSTASH_REDIS_REST_URL: "https://redis.test",
   UPSTASH_REDIS_REST_TOKEN: "tok_test",
@@ -68,7 +68,7 @@ console.log("Enquiry:");
   const mails = sent.filter((s) => s.path === "/emails");
   ok(mails.length === 3, `three sends (notify, welcome, nudge) — got ${mails.length}`);
   const [notify, welcome, nudge] = mails.map((s) => s.body);
-  ok(notify.to?.[0] === "team@commixcapital.com" && notify.reply_to === "priya@meridianwealth.example",
+  ok(notify.to?.[0] === "daniel@fein.vc" && notify.reply_to === "priya@meridianwealth.example",
     "notify goes to us, Reply-To the lead");
   ok(welcome.to?.[0] === "priya@meridianwealth.example" && welcome.text.includes("cal.com/daniel/fein-intro"),
     "welcome carries the booking link");

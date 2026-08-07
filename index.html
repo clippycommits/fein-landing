@@ -117,8 +117,8 @@
   .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1288px;margin:0 auto;padding:0 24px;box-sizing:border-box}
   .brand{font-weight:600;font-size:1.6rem;letter-spacing:-.035em;color:#fff}
   nav.links{display:flex;gap:28px;margin-left:0}
-  nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--fg);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;transition:color .18s ease}
-  nav.links a:hover{color:#fff}
+  nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--fg);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;padding:8px 12px;margin:-8px -12px;border-radius:999px;transition:color .18s ease,background .18s ease}
+  nav.links a:hover{color:#fff;background:rgba(255,255,255,.07)}
   nav.links a .chev{display:inline-flex;margin-top:1px;color:var(--fg-3);transition:color .18s ease}
   nav.links a:hover .chev{color:#fff}
   nav.links a .chev svg{width:10px;height:10px;display:block}
@@ -132,21 +132,30 @@
   .sbtn .arw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
   .sbtn:hover .arw{transform:translateX(3px)}
   .sbtn .arw svg{width:11px;height:11px;stroke-width:3}
-  nav.links a .chev svg{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
-  nav.links a.ddon{color:#fff}
+  nav.links a.ddon{color:#fff;background:rgba(255,255,255,.07)}
   nav.links a.ddon .chev{color:#fff}
-  nav.links a.ddon .chev svg{transform:rotate(180deg)}
-  .ddwrap{position:absolute;top:calc(var(--nav-h) - 10px);left:0;width:0;height:0;z-index:60;background:rgba(10,10,12,.92);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1),visibility 0s .18s}
+  .ddwrap{position:absolute;top:calc(var(--nav-h) - 6px);left:0;width:0;height:0;z-index:60;background:rgba(10,10,12,.94);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1),visibility 0s .18s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1)}
   .ddwrap.snap{transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1)}
-  .ddpanel{position:absolute;top:0;left:0;width:max-content;max-width:min(360px,calc(100vw - 32px));padding:.5rem;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .16s ease}
+  .ddpanel{position:absolute;top:0;left:0;display:flex;align-items:stretch;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .16s ease}
   .ddpanel.on{opacity:1;pointer-events:auto}
-  .ddpanel a{display:block;padding:.55rem .65rem;border-radius:10px;transition:background .15s ease}
-  .ddpanel a b{display:block;font-family:var(--nav-font);font-size:15px;font-weight:500;letter-spacing:0;color:var(--fg);line-height:1.3}
-  .ddpanel a span{display:block;margin-top:2px;font-size:13px;color:var(--fg-3);line-height:1.4}
-  .ddpanel a:hover{background:rgba(255,255,255,.06)}
-  .ddpanel a:hover b{color:#fff}
-  .ddsep{margin:.4rem .65rem;border-top:1px solid var(--line)}
+  .ddp-platform{width:min(1080px,calc(100vw - 48px))}
+  .ddp-resources{width:min(880px,calc(100vw - 48px))}
+  .dd-main{flex:1;min-width:0;padding:26px 34px 30px}
+  .dd-rail{flex:none;width:250px;border-left:1px solid var(--line);padding:26px 34px 30px}
+  .dd-label{font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:26px 0 12px}
+  .dd-label:first-child{margin-top:0}
+  .dd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 56px}
+  .dd-grid.one{grid-template-columns:minmax(0,1fr)}
+  .dd-item{display:flex;align-items:center;gap:16px;padding:8px 10px;margin:0 -10px;border-radius:12px;transition:background .15s ease}
+  .dd-item:hover{background:rgba(255,255,255,.05)}
+  .dd-ico{flex:none;width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:var(--fg-2);background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.2px);background-size:7px 7px;background-position:50% 50%}
+  .dd-ico svg{width:30px;height:30px;display:block}
+  .dd-item>span:last-child{min-width:0}
+  .dd-item b{display:block;font-size:16px;font-weight:550;color:var(--fg);line-height:1.4}
+  .dd-item b+span{display:block;font-size:15px;color:var(--fg-3);line-height:1.45;margin-top:1px}
+  .dd-rail a{display:block;font-size:16px;font-weight:475;color:var(--fg);padding:10px 0;transition:color .15s ease}
+  .dd-rail a:hover{color:#fff}
   .menu-btn{display:none;align-items:center;justify-content:center;width:42px;height:42px;margin-left:-.2rem;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;border-radius:10px;transition:background .18s ease}
   .menu-btn:hover{background:rgba(255,255,255,.07)}
   .menu-btn svg{width:24px;height:24px;display:block}
@@ -284,9 +293,9 @@
   .dpill{gap:.5rem;height:40px;padding:0 9px 0 12px;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:10px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);font-size:13px;font-weight:500;white-space:nowrap}
   .dpill svg{width:15px;height:15px;flex:none}
   .dpill b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:2.5px 6px}
-  .dcore{position:absolute;left:404px;top:146px;width:152px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;background:rgba(10,10,14,.97);border:1px solid rgba(82,168,255,.4);border-radius:18px;box-shadow:var(--hl-top),0 0 40px -12px rgba(0,112,243,.35)}
-  .dcore b{font-size:25px;font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1}
-  .dcore span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:rgba(255,255,255,.55)}
+  .dcore{position:absolute;left:421px;top:130px;width:118px;height:136px;display:grid;place-items:center;filter:drop-shadow(0 0 26px rgba(0,112,243,.28))}
+  .dcore svg{position:absolute;inset:0;width:118px;height:136px}
+  .dcore b{position:relative;font-size:25px;font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1}
 
   /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon */
   .burst-hold{position:absolute;left:0;right:0;bottom:0;height:clamp(240px,32vw,400px);pointer-events:none}
@@ -407,6 +416,7 @@
 
   @media (max-width:900px){
     nav.links,.bar .right a.link,.bar .right .sbtn-sec{display:none}
+    .btn,.sbtn{height:46px;gap:8px;border-radius:12px;padding:0 14px;font-size:16px}
     .menu-btn{display:inline-flex}
     .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:16px;right:16px;background:rgba(10,10,12,.88);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1);z-index:45}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto}
@@ -416,7 +426,6 @@
     .bar .right .btn-ghost{display:none}
     .split{grid-template-columns:1fr;gap:2.2rem}
     .sec-list{grid-template-columns:1fr}
-    .btn,.sbtn{height:46px;gap:8px;border-radius:12px;padding:0 14px;font-size:16px}
     .faq-grid{grid-template-columns:1fr;gap:2.4rem}
     .faq-intro{position:static}
     #faq .sec-list{max-width:none}
@@ -495,8 +504,8 @@
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
         <nav class="links" aria-label="Primary">
-          <a href="#features" data-dd="dd-features" aria-haspopup="true" aria-expanded="false" aria-controls="dd-features">Features <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
-          <a href="#security" data-dd="dd-security" aria-haspopup="true" aria-expanded="false" aria-controls="dd-security">Security <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
+          <a href="#" data-dd="dd-platform" aria-haspopup="true" aria-expanded="false" aria-controls="dd-platform">Platform <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
+          <a href="#" data-dd="dd-resources" aria-haspopup="true" aria-expanded="false" aria-controls="dd-resources">Resources <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
         </nav>
@@ -510,19 +519,62 @@
         </div>
       </div>
       <div class="ddwrap" id="ddwrap" aria-hidden="true">
-        <div class="ddpanel" id="dd-features">
-          <a href="#f-warm"><b>Warm paths</b><span>The warmest route to any founder or LP, and who should send the intro.</span></a>
-          <a href="#f-brief"><b>Meeting briefs</b><span>Walk in briefed. Every meeting.</span></a>
-          <a href="#f-pass"><b>Why we passed</b><span>The meeting, the memo, and the reasons, back in seconds.</span></a>
-          <a href="#f-cold"><b>Going cold</b><span>Relationships drifting from their cadence, flagged first.</span></a>
-          <div class="ddsep" aria-hidden="true"></div>
-          <a href="#how"><b>How it knows</b><span>Your systems, one graph, cited answers.</span></a>
-          <a href="#tools"><b>In your tools</b><span>Claude, ChatGPT, Gemini, and Cursor. One MCP endpoint.</span></a>
+        <div class="ddpanel ddp-platform" id="dd-platform">
+          <div class="dd-main">
+            <p class="dd-label">CRM platform</p>
+            <div class="dd-grid">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5L11 6l5 2.5L9 12z"/><path d="M8 14.5L15 11l5 2.5L13 17z"/></svg></span><span><b>Ask Attio</b><span>Search and create with AI</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="9" ry="4.5" stroke-dasharray="2 3"/></svg></span><span><b>AI</b><span>Native to your CRM</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l7 3.5-7 3.5-7-3.5z"/><path d="M5 11l7 3.5 7-3.5"/><path d="M5 14.5l7 3.5 7-3.5"/></svg></span><span><b>Data model</b><span>Sync and enrich your data</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l16-7-6 16-2.5-6.5z"/><path d="M11.5 14.5L20 5"/></svg></span><span><b>Universal Context</b><span>The AI context layer</span></span></a>
+            </div>
+            <p class="dd-label">Agents and automations</p>
+            <div class="dd-grid">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7l3-1.7L11 7l-3 1.7z"/><path d="M5 7v3.2l3 1.7V8.7"/><path d="M11 7v3.2l-3 1.7"/><path d="M13 14l3-1.7 3 1.7-3 1.7z"/><path d="M13 14v3.2l3 1.7v-3.2"/><path d="M19 14v3.2l-3 1.7"/><path d="M10.5 11.5l3 2" stroke-dasharray="1.5 2"/></svg></span><span><b>Workflows</b><span>Orchestrate any revenue motion</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="4" width="9" height="11" rx="2"/><rect x="6.2" y="6.5" width="9" height="11" rx="2"/><rect x="4" y="9" width="9" height="11" rx="2"/></svg></span><span><b>Sequences</b><span>Personalized outreach</span></span></a>
+            </div>
+            <p class="dd-label">Insights</p>
+            <div class="dd-grid">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="13" height="12" rx="3"/><circle cx="17.5" cy="9.5" r="2.8"/></svg></span><span><b>Call Intelligence</b><span>Record and analyze meetings</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l3-1.7 3 1.7-3 1.7z"/><path d="M4 17v2l3 1.7 3-1.7v-2"/><path d="M9.5 13l3-1.7 3 1.7-3 1.7z"/><path d="M9.5 13v2.6l3 1.7 3-1.7V13"/><path d="M15 9l3-1.7L21 9l-3 1.7z"/><path d="M15 9v4.4l3 1.7 3-1.7V9"/></svg></span><span><b>Reporting</b><span>Insights in real time</span></span></a>
+            </div>
+            <p class="dd-label">Ecosystem</p>
+            <div class="dd-grid">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 4v9l-7 4-7-4v-9z"/><path d="M5 7.5l7 4 7-4"/><path d="M12 11.5v9"/></svg></span><span><b>Developer Platform</b><span>Build with the Attio MCP, API, and SDK</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="14.5" y="14.5" width="6" height="6" rx="1.6"/></svg></span><span><b>Apps &amp; integrations</b><span>Connect all your favorite tools</span></span></a>
+            </div>
+          </div>
+          <div class="dd-rail">
+            <p class="dd-label">Get started</p>
+            <a href="#">Attio 101</a>
+            <a href="#">Hire an expert</a>
+            <a href="#">Startup program</a>
+            <a href="#">Talk to sales</a>
+          </div>
         </div>
-        <div class="ddpanel" id="dd-security">
-          <a href="#security"><b>Self-hosted, always</b><span>Runs on your infrastructure. Nothing is sent to us, ever.</span></a>
-          <a href="#security"><b>Open source, end to end</b><span>Every line that touches your data is public. Audit it before it runs.</span></a>
-          <a href="#security"><b>Permissioned and logged</b><span>Access checked per person, every query logged.</span></a>
+        <div class="ddpanel ddp-resources" id="dd-resources">
+          <div class="dd-main">
+            <p class="dd-label">Support</p>
+            <div class="dd-grid one">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11L20.5 4l-5 16-4-6.5z"/><path d="M11.5 13.5L20.5 4"/></svg></span><span><b>Help center</b><span>Learn more about Attio's features</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 5l9 4.5-9 4.5z"/><path d="M7 11.5v4.2c0 1.1 2.2 2.3 5 2.3s5-1.2 5-2.3v-4.2"/><path d="M21 9.5v5"/></svg></span><span><b>Academy</b><span>Essential Attio features explained</span></span></a>
+            </div>
+            <p class="dd-label">Developers</p>
+            <div class="dd-grid one">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2z"/><path d="M12 6.5v13"/></svg></span><span><b>Developer docs</b><span>Start building Attio apps</span></span></a>
+            </div>
+            <p class="dd-label">Partners</p>
+            <div class="dd-grid one">
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="14" height="12" rx="2"/><path d="M9.8 7V5.6a2.2 2.2 0 1 1 4.4 0V7"/></svg></span><span><b>Partner programs</b><span>Developers, creators, consultants</span></span></a>
+            </div>
+          </div>
+          <div class="dd-rail">
+            <p class="dd-label">Company</p>
+            <a href="#">Changelog</a>
+            <a href="#">Announcements</a>
+            <a href="#">Engineering blog</a>
+            <a href="#">Careers</a>
+          </div>
         </div>
       </div>
       <div id="mobile-menu" class="mmenu" aria-label="Primary mobile">
@@ -660,7 +712,7 @@
           <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
           <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
           <div class="dfield" id="dfield" aria-hidden="true"></div>
-          <div class="dcore"><b>fein</b><span>ONE ENDPOINT · MCP</span></div>
+          <div class="dcore"><svg viewBox="0 0 118 136"><path d="M50.3 6Q59 1 67.7 6L108.3 29.5Q117 34.5 117 44.5L117 91.5Q117 101.5 108.3 106.5L67.7 130Q59 135 50.3 130L9.7 106.5Q1 101.5 1 91.5L1 44.5Q1 34.5 9.7 29.5Z" fill="rgba(10,10,14,.97)" stroke="rgba(82,168,255,.45)"/></svg><b>fein</b></div>
         </div>
       </div>
       <div class="why3" data-reveal-group="90">
@@ -916,7 +968,7 @@
        formsubmit.co is the fallback inbox relay, base64 to keep the address
        off scrapers */
     var API="/api";
-    var ENDPOINT="https://formsubmit.co/ajax/"+atob("dGVhbUBjb21taXhjYXBpdGFsLmNvbQ==");
+    var ENDPOINT="https://formsubmit.co/ajax/"+atob("ZGFuaWVsQGZlaW4udmM=");
     var fn=document.getElementById("fn"),ln=document.getElementById("ln"),
         em=document.getElementById("em"),ph=document.getElementById("ph"),
         region=document.getElementById("region"),users=document.getElementById("users"),
@@ -1456,8 +1508,10 @@
     for(var k in panels){ panels[k].classList.toggle('on', panels[k]===panel); }
     var w=panel.offsetWidth, h=panel.offsetHeight;
     var r=link.getBoundingClientRect(), hr=header.getBoundingClientRect();
+    var bar=header.querySelector('.bar'), br=bar?bar.getBoundingClientRect():hr;
+    var minL=Math.max(16, br.left-hr.left+24), maxL=Math.min(hr.width-16, br.right-hr.left-24);
     var left=Math.round(r.left-hr.left+r.width/2-w/2);
-    left=Math.max(16, Math.min(left, hr.width-w-16));
+    left=Math.max(minL, Math.min(left, Math.max(minL, maxL-w)));
     if(first) wrap.classList.add('snap');
     wrap.style.left=left+'px'; wrap.style.width=w+'px'; wrap.style.height=h+'px';
     if(first){ void wrap.offsetWidth; wrap.classList.add('on'); requestAnimationFrame(function(){ wrap.classList.remove('snap'); }); }
@@ -1476,13 +1530,14 @@
     l.addEventListener('focus',function(){ show(l); });
     l.addEventListener('mouseleave',scheduleHide);
     l.addEventListener('blur',scheduleHide);
+    l.addEventListener('click',function(e){ e.preventDefault(); if(openLink===l){ hide(); } else { show(l); } });
   });
   wrap.addEventListener('mouseenter',function(){ clearTimeout(hideT); });
   wrap.addEventListener('mouseleave',scheduleHide);
   wrap.addEventListener('focusin',function(){ clearTimeout(hideT); });
   wrap.addEventListener('focusout',scheduleHide);
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
-  wrap.addEventListener('click',function(e){ if(e.target.closest('a')) hide(); });
+  wrap.addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; if(a.getAttribute('href')==='#') e.preventDefault(); hide(); });
   window.addEventListener('scroll',function(){ if(openLink&&!wrap.matches(':hover')) hide(); },{passive:true});
   window.addEventListener('resize',hide);
 })();
