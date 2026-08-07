@@ -10,8 +10,7 @@
  * Env (Vercel project settings):
  *   RESEND_API_KEY            sending
  *   CAL_LINK                  booking page the "calendar" links point at,
- *                             e.g. https://cal.com/daniel/fein-intro (a Chili
- *                             Piper booking link drops straight in here)
+ *                             e.g. https://cal.com/daniel/fein-intro
  *   CALCOM_WEBHOOK_SECRET     cal.com webhook signing secret
  *   NOTIFY_TO                 where lead notifications go
  *   MAIL_FROM                 internal notification sender, e.g. "fein site <noah@fein.vc>"
