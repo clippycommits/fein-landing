@@ -44,13 +44,13 @@
   .tick svg{width:12px;height:12px}
   .tick2 svg{width:22px;height:22px}
 
-  /* ---- buttons: white pill primary, hairline ghost, gradient-ring special ---- */
-  .btn{position:relative;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font);font-weight:550;font-size:.98rem;padding:.6rem 1.15rem;border-radius:9999px;cursor:pointer;border:0;white-space:nowrap;line-height:1.2;transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s cubic-bezier(.22,.61,.36,1),box-shadow .22s ease}
-  .btn:active{transform:translateY(0)!important}
-  .btn-primary,.btn-white{background:#fff;color:#000;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5),0 6px 22px -8px rgba(255,255,255,.3)}
-  .btn-primary:hover,.btn-white:hover{background:#e9e9e9;transform:translateY(-1.5px);box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.5),0 12px 34px -10px rgba(255,255,255,.45)}
+  /* ---- buttons: Attio-replica geometry (36px / r10 / 0 12px / 14px; grows 46px / r12 below 900), fein colors: white primary, hairline ghost ---- */
+  .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font);font-weight:500;font-size:14px;height:36px;padding:0 12px;border-radius:10px;cursor:pointer;border:0;white-space:nowrap;line-height:1;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
+  .btn:hover,.btn:active{transition-duration:.05s}
+  .btn-primary,.btn-white{background:#fff;color:#000;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5)}
+  .btn-primary:hover,.btn-white:hover{background:#e9e9e9}
   .btn-ghost{background:rgba(12,12,15,.7);color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
-  .btn-ghost:hover{transform:translateY(-1.5px);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top),0 10px 26px -12px rgba(0,0,0,.8)}
+  .btn-ghost:hover{box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
   .btn .arw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
   .btn:hover .arw{transform:translateX(3px)}
   .arrowlink{display:inline-flex;align-items:center;gap:.35rem;color:var(--fg);font-weight:550;transition:color .18s ease}
@@ -83,7 +83,8 @@
   nav.links a:hover .chev{color:#fff}
   nav.links a .chev svg{width:10px;height:10px;display:block}
   .bar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 16px;border-radius:4px;border:0;font-family:var(--nav-font);font-size:15px;font-weight:500;letter-spacing:0;line-height:1;white-space:nowrap;cursor:pointer;transition:background .18s ease,color .18s ease}
+  .sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 12px;border-radius:10px;border:0;font-family:var(--nav-font);font-size:14px;font-weight:500;letter-spacing:0;line-height:1;white-space:nowrap;cursor:pointer;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
+  .sbtn:hover,.sbtn:active{transition-duration:.05s}
   .sbtn-sec{background:rgba(12,12,15,.7);color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
   .sbtn-sec:hover{color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
   .sbtn-pri{background:#fff;color:#000}
@@ -375,6 +376,7 @@
     .bar .right .btn-ghost{display:none}
     .split{grid-template-columns:1fr;gap:2.2rem}
     .sec-list{grid-template-columns:1fr}
+    .btn,.sbtn{height:46px;gap:8px;border-radius:12px;padding:0 14px;font-size:16px}
     .faq-grid{grid-template-columns:1fr;gap:2.4rem}
     .faq-intro{position:static}
     #faq .sec-list{max-width:none}
