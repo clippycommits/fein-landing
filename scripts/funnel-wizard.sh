@@ -271,6 +271,9 @@ step "Set your availability (Availability → working hours)."
 step "Event Types → New: title 'fein intro', 30 minutes, add Google Meet or"
 say "  whatever you prefer as the location."
 step "Copy the event's public link (looks like https://cal.com/<you>/fein-intro)."
+say "  (Already on Chili Piper? Paste your Chili Piper booking link instead —"
+say "  the emails just link whatever is here. Note the nudge auto-cancel"
+say "  webhook in the next stage is cal.com only for now.)"
 ask CAL_LINK "Paste the booking link:"
 write_env CAL_LINK "$CAL_LINK"
 
@@ -300,10 +303,13 @@ printf '      RESEND_API_KEY            = %s\n' "$RESEND_API_KEY"
 printf '      CAL_LINK                  = %s\n' "$CAL_LINK"
 printf '      CALCOM_WEBHOOK_SECRET     = %s\n' "$CALCOM_WEBHOOK_SECRET"
 printf '      NOTIFY_TO                 = team@commixcapital.com\n'
-printf '      MAIL_FROM                 = Daniel at fein <daniel@fein.vc>\n'
+printf '      MAIL_FROM                 = fein site <noah@fein.vc>\n'
 printf '      UPSTASH_REDIS_REST_URL    = %s\n' "$UPSTASH_REDIS_REST_URL"
 printf '      UPSTASH_REDIS_REST_TOKEN  = %s\n' "$UPSTASH_REDIS_REST_TOKEN"
 printf '\n'
+say "MAIL_FROM only signs the internal notifications to you. Emails the lead"
+say "sees come from Olivia Greene <olivia.greene@fein.vc> (baked into the"
+say "code; override with a SALES_FROM env var if the persona ever changes)."
 open_url "https://vercel.com/dashboard"
 step "Paste each one, save, then REDEPLOY so the functions pick them up."
 pause "Env vars saved and redeployed? Press Enter."

@@ -12,7 +12,7 @@ Object.assign(process.env, {
   CAL_LINK: "https://cal.com/daniel/fein-intro",
   CALCOM_WEBHOOK_SECRET: SECRET,
   NOTIFY_TO: "team@commixcapital.com",
-  MAIL_FROM: "Daniel at fein <daniel@fein.vc>",
+  MAIL_FROM: "Noah Frank <noah@fein.vc>",
   UPSTASH_REDIS_REST_URL: "https://redis.test",
   UPSTASH_REDIS_REST_TOKEN: "tok_test",
 });
@@ -61,6 +61,7 @@ console.log("Enquiry:");
   const res = await post(enquiry, {
     email: "Priya@MeridianWealth.example", first: "Priya", last: "Nair",
     fund: "Meridian Wealth", size: "$250M - $1B", crm: "Affinity", ask: "warm paths",
+    t: 30000, // the real form always sends ms-since-open; the gate rejects < 2.5s
   });
   const body = await res.json();
   ok(res.status === 200 && body.ok && body.mailed, "accepted and mailed");
@@ -69,10 +70,20 @@ console.log("Enquiry:");
   const [notify, welcome, nudge] = mails.map((s) => s.body);
   ok(notify.to?.[0] === "team@commixcapital.com" && notify.reply_to === "priya@meridianwealth.example",
     "notify goes to us, Reply-To the lead");
-  ok(welcome.to?.[0] === "priya@meridianwealth.example" && welcome.html.includes("cal.com/daniel/fein-intro"),
+  ok(welcome.to?.[0] === "priya@meridianwealth.example" && welcome.text.includes("cal.com/daniel/fein-intro"),
     "welcome carries the booking link");
-  ok(welcome.html.includes("name=Priya+Nair") || welcome.html.includes("name=Priya%20Nair"),
+  ok(welcome.text.includes("name=Priya+Nair") || welcome.text.includes("name=Priya%20Nair"),
     "booking link prefills the name");
+  ok(welcome.subject === "your interest in fein", "welcome subject replicates the SDR pattern");
+  ok(welcome.from === "Olivia Greene <olivia.greene@fein.vc>" && nudge.from === welcome.from,
+    "lead-facing mail comes from the Olivia persona");
+  ok(welcome.html?.includes(">calendar</a>") && welcome.html.includes("cal.com/daniel/fein-intro"),
+    "welcome html links the word 'calendar' to the booking page");
+  ok(welcome.html.includes("New Business @ fein") && welcome.html.includes("Book a meeting"),
+    "welcome carries the signature block");
+  ok(!welcome.html.includes("POSTAL") && !welcome.html.match(/<br>\s*<\/p>$/),
+    "signature address line stays out until POSTAL_ADDRESS is set");
+  ok([notify, nudge].every((m) => !m.html && m.text), "notify and nudge stay plain text");
   ok(typeof nudge.scheduled_at === "string" && new Date(nudge.scheduled_at) > new Date(),
     "nudge is scheduled in the future");
   ok(kv.get("fein:nudge:priya@meridianwealth.example") === "em_3", "nudge id stored in redis");
@@ -85,7 +96,7 @@ console.log("Honeypot + validation:");
   const before = sent.length;
   const hp = await post(enquiry, { email: "bot@x.example", website: "http://spam" });
   ok((await hp.json()).ok === true && sent.length === before, "honeypot accepted silently, nothing sent");
-  const bad = await post(enquiry, { email: "not-an-email" });
+  const bad = await post(enquiry, { email: "not-an-email", t: 30000 });
   ok(bad.status === 400, "bad email is a 400");
   const notJson = await post(enquiry, "{nope");
   ok(notJson.status === 400, "bad json is a 400");

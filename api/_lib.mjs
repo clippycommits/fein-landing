@@ -9,10 +9,15 @@
  *
  * Env (Vercel project settings):
  *   RESEND_API_KEY            sending
- *   CAL_LINK                  e.g. https://cal.com/daniel/fein-intro
+ *   CAL_LINK                  booking page the "calendar" links point at,
+ *                             e.g. https://cal.com/daniel/fein-intro (a Chili
+ *                             Piper booking link drops straight in here)
  *   CALCOM_WEBHOOK_SECRET     cal.com webhook signing secret
  *   NOTIFY_TO                 where lead notifications go
- *   MAIL_FROM                 e.g. "Daniel at fein <daniel@fein.vc>"
+ *   MAIL_FROM                 internal notification sender, e.g. "fein site <noah@fein.vc>"
+ *   SALES_FROM                (optional) lead-facing persona; defaults to
+ *                             "Olivia Greene <olivia.greene@fein.vc>"
+ *   POSTAL_ADDRESS            (optional) last line of the sales signature
  *   UPSTASH_REDIS_REST_URL    nudge state (optional: without it the nudge
  *   UPSTASH_REDIS_REST_TOKEN  still sends; it just can't be auto-cancelled)
  */
@@ -64,6 +69,13 @@ export async function logEvent(ev) {
 }
 
 // ---- email copy (site rules apply: no em dashes, never "fund") ------------
+// Lead-facing mail is the SDR persona Olivia Greene, modelled on Ramp's
+// "your interest in Ramp" outreach: it must read as personally written, so
+// the HTML part is a bare Gmail-style message (default font, a plain link on
+// "calendar", grey signature) — no brand shell, no buttons. Internal
+// notifications keep MAIL_FROM.
+export const salesFrom = () => cfg("SALES_FROM") ?? "Olivia Greene <olivia.greene@fein.vc>";
+
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -75,56 +87,39 @@ export function callUrl(lead) {
   return u.toString();
 }
 
-function shell(bodyHtml) {
-  return `<div style="margin:0;padding:32px 16px;background:#ffffff;color:#111111;
-    font:15px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-    <div style="max-width:520px;margin:0 auto">
-      <div style="font-weight:600;letter-spacing:.01em;padding-bottom:14px;border-bottom:1px solid #e5e5e5">fein</div>
-      <div style="padding-top:18px">${bodyHtml}</div>
-      <div style="margin-top:28px;padding-top:14px;border-top:1px solid #e5e5e5;color:#8a8a8a;font-size:12.5px">
-        fein, the graph for venture capital teams · <a href="https://fein.vc" style="color:#8a8a8a">fein.vc</a>
-      </div>
-    </div></div>`;
+// The grey Gmail-style signature. The address line only appears once
+// POSTAL_ADDRESS is set; never invent one.
+function signatureHtml(url) {
+  const addr = cfg("POSTAL_ADDRESS");
+  return `<p style="margin:40px 0 0;color:#888888">Olivia Greene<br>New Business @ fein | <a href="${esc(url)}" style="color:#1a73e8">Book a meeting</a>${addr ? `<br>${esc(addr)}` : ""}</p>`;
 }
-const cta = (href, label) => `<a href="${esc(href)}" style="display:inline-block;margin:6px 0 2px;
-  padding:10px 18px;border-radius:6px;background:#0070F3;color:#ffffff;text-decoration:none;font-weight:600">${label}</a>`;
+
+function signatureText(url) {
+  const addr = cfg("POSTAL_ADDRESS");
+  return `Olivia Greene\nNew Business @ fein | Book a meeting: ${url}${addr ? `\n${addr}` : ""}`;
+}
 
 export function welcomeEmail(lead) {
   const url = callUrl(lead);
-  const first = lead.first || "there";
+  const p = 'style="margin:0 0 16px"';
   return {
-    from: cfg("MAIL_FROM"),
+    from: salesFrom(),
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
-    subject: "Your fein intro call",
-    html: shell(
-      `<p>Hi ${esc(first)},</p>
-       <p>Thanks for reaching out about fein${lead.fund ? ` for ${esc(lead.fund)}` : ""}.
-       The next step is a 30 minute call: we map where your team's data lives and
-       show you the first answers from a live graph.</p>
-       <p>${cta(url, "Pick a time")}</p>
-       <p>If nothing there works, reply to this email and we will find a slot.</p>
-       <p>Daniel</p>`),
-    text: `Hi ${first},\n\nThanks for reaching out about fein${lead.fund ? ` for ${lead.fund}` : ""}. The next step is a 30 minute call: we map where your team's data lives and show you the first answers from a live graph.\n\nPick a time: ${url}\n\nIf nothing there works, just reply to this email.\n\nDaniel`,
+    subject: "your interest in fein",
+    text: `Hi there,\n\nNoticed that you entered your name onto the fein website. Typically, as a next step, we schedule a 15-20 minute call to better understand your business's needs.\n\nDo you have any availability in the coming days? I've opened up my calendar, please feel free to throw some time on with me: ${url}\n\nI'll happily work around your schedule.\n\nKindly,\nOlivia\n\n\n${signatureText(url)}`,
+    html: `<div dir="ltr" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222222"><p ${p}>Hi there,</p><p ${p}>Noticed that you entered your name onto the fein website. Typically, as a next step, we schedule a 15-20 minute call to better understand your business's needs.</p><p ${p}>Do you have any availability in the coming days? I've opened up my <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, please feel free to throw some time on with me.</p><p ${p}>I'll happily work around your schedule.</p><p style="margin:0">Kindly,<br>Olivia</p>${signatureHtml(url)}</div>`,
   };
 }
 
 export function followupEmail(lead) {
   const url = callUrl(lead);
   return {
-    from: cfg("MAIL_FROM"),
+    from: salesFrom(),
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
-    subject: "Still want to see your graph?",
-    html: shell(
-      `<p>Hi ${esc(lead.first || "there")},</p>
-       <p>You asked about fein a few days ago and we have not spoken yet.
-       If it is still on your mind, the calendar is here:</p>
-       <p>${cta(url, "Pick a time")}</p>
-       <p>If the timing is wrong, no problem: reply with a week that suits and
-       we will come back to you then.</p>
-       <p>Daniel</p>`),
-    text: `Hi ${lead.first || "there"},\n\nYou asked about fein a few days ago and we have not spoken yet. If it is still on your mind: ${url}\n\nIf the timing is wrong, reply with a week that suits and we will come back to you then.\n\nDaniel`,
+    subject: "fein: your intro call is still open",
+    text: `Hi ${lead.first || "there"},\n\nYou asked about fein a few days ago and we have not spoken yet. If it is still on your mind, pick a time: ${url}\n\nIf the timing is wrong, reply with a week that suits and we will come back to you then.\n\nKindly,\nOlivia`,
     scheduled_at: new Date(Date.now() + FOLLOWUP_HOURS * 3600_000).toISOString(),
   };
 }
@@ -139,12 +134,6 @@ export function notifyEmail(lead) {
     to: [cfg("NOTIFY_TO")],
     reply_to: lead.email, // hit reply to talk to the lead directly
     subject: `fein lead: ${lead.fund || lead.email}${lead.size ? ` (${lead.size})` : ""}`,
-    html: shell(
-      `<p>New enquiry from the site.</p>
-       <table style="border-collapse:collapse;width:100%">${rows.map(([k, v]) =>
-         `<tr><td style="padding:6px 12px 6px 0;color:#8a8a8a;white-space:nowrap;vertical-align:top">${esc(k)}</td>
-              <td style="padding:6px 0">${esc(v)}</td></tr>`).join("")}</table>
-       <p style="color:#8a8a8a">They got the booking link straight away; a nudge goes out in ${FOLLOWUP_HOURS} hours unless they book first.</p>`),
-    text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
+    text: `New enquiry from the site.\n\n${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nThey got the booking link straight away; a nudge goes out in ${FOLLOWUP_HOURS} hours unless they book first.`,
   };
 }
