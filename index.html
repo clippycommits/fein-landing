@@ -39,7 +39,7 @@
     --font:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --maxw:1080px;
-    --nav-h:64px;
+    --nav-h:76px;
     --r-sm:8px; --r-md:12px; --r-lg:16px;
     --hl-top:inset 0 1px 0 rgba(255,255,255,.06);
     --shadow-card:0 0 0 1px rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5),0 24px 60px -24px rgba(0,0,0,.9);
@@ -98,22 +98,42 @@
   .grain-overlay{position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px}
   .grain-overlay.on-dark{opacity:.22;mix-blend-mode:soft-light}
 
-  /* ============ nav: black frost ============ */
-  header{position:relative;z-index:5}
+  /* ============ nav: black frost, Stripe-replica metrics ============ */
+  header{position:relative;z-index:5;--nav-font:"Söhne",sohne-var,"Helvetica Neue",Arial,sans-serif}
   #view-home header{position:fixed;top:0;left:0;right:0;z-index:50;background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease,backdrop-filter .25s ease}
   #view-home header.scrolled{background:rgba(0,0,0,.62);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
-  .bar{display:flex;align-items:center;gap:1.5rem;height:var(--nav-h);max-width:none;margin:0;padding:0 clamp(20px,2.6vw,48px)}
-  .brand{font-weight:600;font-size:1.4rem;letter-spacing:-.035em;color:#fff}
-  nav.links{display:flex;gap:1.55rem;margin-left:.5rem}
-  nav.links a{position:relative;display:inline-flex;align-items:center;gap:.28rem;color:var(--fg);font-weight:500;font-size:.95rem;transition:color .18s ease}
+  .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1288px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+  .brand{font-weight:600;font-size:1.6rem;letter-spacing:-.035em;color:#fff}
+  nav.links{display:flex;gap:28px;margin-left:0}
+  nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--fg);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;transition:color .18s ease}
   nav.links a:hover{color:#fff}
   nav.links a .chev{display:inline-flex;margin-top:1px;color:var(--fg-3);transition:color .18s ease}
   nav.links a:hover .chev{color:#fff}
   nav.links a .chev svg{width:10px;height:10px;display:block}
-  nav.links a::after{content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:100%;background:#fff;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .26s cubic-bezier(.22,.61,.36,1)}
-  nav.links a:hover::after{transform:scaleX(1)}
-  .bar .right{margin-left:auto;display:flex;align-items:center;gap:.7rem}
-  .bar .right .btn{font-size:.92rem;padding:.5rem 1rem}
+  .bar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 16px;border-radius:4px;border:0;font-family:var(--nav-font);font-size:15px;font-weight:500;letter-spacing:0;line-height:1;white-space:nowrap;cursor:pointer;transition:background .18s ease,color .18s ease}
+  .sbtn-sec{background:rgba(12,12,15,.7);color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
+  .sbtn-sec:hover{color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
+  .sbtn-pri{background:#fff;color:#000}
+  .sbtn-pri:hover{background:#e9e9e9}
+  .sbtn .arw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
+  .sbtn:hover .arw{transform:translateX(3px)}
+  .sbtn .arw svg{width:11px;height:11px;stroke-width:3}
+  nav.links a .chev svg{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
+  nav.links a.ddon{color:#fff}
+  nav.links a.ddon .chev{color:#fff}
+  nav.links a.ddon .chev svg{transform:rotate(180deg)}
+  .ddwrap{position:absolute;top:calc(var(--nav-h) - 10px);left:0;width:0;height:0;z-index:60;background:rgba(10,10,12,.92);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1),visibility 0s .18s}
+  .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1)}
+  .ddwrap.snap{transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1)}
+  .ddpanel{position:absolute;top:0;left:0;width:max-content;max-width:min(360px,calc(100vw - 32px));padding:.5rem;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .16s ease}
+  .ddpanel.on{opacity:1;pointer-events:auto}
+  .ddpanel a{display:block;padding:.55rem .65rem;border-radius:10px;transition:background .15s ease}
+  .ddpanel a b{display:block;font-family:var(--nav-font);font-size:15px;font-weight:500;letter-spacing:0;color:var(--fg);line-height:1.3}
+  .ddpanel a span{display:block;margin-top:2px;font-size:13px;color:var(--fg-3);line-height:1.4}
+  .ddpanel a:hover{background:rgba(255,255,255,.06)}
+  .ddpanel a:hover b{color:#fff}
+  .ddsep{margin:.4rem .65rem;border-top:1px solid var(--line)}
   .menu-btn{display:none;align-items:center;justify-content:center;width:42px;height:42px;margin-left:-.2rem;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;border-radius:10px;transition:background .18s ease}
   .menu-btn:hover{background:rgba(255,255,255,.07)}
   .menu-btn svg{width:24px;height:24px;display:block}
@@ -201,7 +221,7 @@
 
   /* ============ sections: hairline-separated black bands ============ */
   section{scroll-margin-top:20px}
-  section[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
+  section[id],.feat[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
   .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0;border-top:1px solid var(--line)}
   .head{max-width:60ch}
   .head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
@@ -322,31 +342,32 @@
   .fbottom{margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--dim)}
 
   /* ============ contact modal: one hairline card over a dimmed page ============ */
-  .cmodal{width:min(560px,calc(100vw - 32px));margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:24px;color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
-  .cmodal::backdrop{background:rgba(5,5,7,.62);-webkit-backdrop-filter:saturate(140%) blur(8px);backdrop-filter:saturate(140%) blur(8px)}
+  .cmodal{width:min(580px,calc(100vw - 32px));margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:24px;color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
+  .cmodal::backdrop{background:rgba(5,5,7,.45);-webkit-backdrop-filter:saturate(140%) blur(24px);backdrop-filter:saturate(140%) blur(24px)}
   .cmodal[open]{animation:modalIn .26s cubic-bezier(.22,.61,.36,1)}
   .cmodal[open]::backdrop{animation:backdropIn .26s ease}
   @keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
   @keyframes backdropIn{from{opacity:0}to{opacity:1}}
   html:has(.cmodal[open]){overflow:hidden}
-  .cmodal-inner{position:relative;padding:clamp(1.5rem,3vw,2.1rem);max-height:calc(100dvh - 3rem);overflow:auto;overscroll-behavior:contain}
-  .cmodal-x{position:absolute;top:1.1rem;right:1.1rem;display:grid;place-items:center;width:34px;height:34px;background:none;border:1px solid var(--line-2);border-radius:var(--r-sm);color:var(--fg-2);cursor:pointer;transition:color .15s ease,border-color .15s ease}
+  .cmodal-inner{position:relative;padding:clamp(1.35rem,3.4vw,2rem);max-height:calc(100dvh - 3rem);overflow:auto;overscroll-behavior:contain}
+  .cmodal-x{position:absolute;top:1.75rem;right:1.75rem;display:grid;place-items:center;width:38px;height:38px;background:none;border:1px solid var(--line-2);border-radius:10px;color:var(--fg-2);cursor:pointer;transition:color .15s ease,border-color .15s ease}
   .cmodal-x:hover{color:#fff;border-color:var(--fg-3)}
   .cmodal-x svg{width:15px;height:15px}
-  .cmodal h2{font-size:1.85rem;font-weight:650;letter-spacing:-.03em;margin-right:3rem}
+  .cmodal h2{font-size:2rem;font-weight:650;letter-spacing:-.03em;margin-right:3rem}
   .cmodal h2:focus{outline:none}
-  .csub{margin:.35rem 0 1.7rem;font-size:1.02rem;color:var(--fg-3)}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem}
-  .field{display:flex;flex-direction:column;gap:.45rem}
-  .form-row+.field,.field+.field,.field+.form-row{margin-top:1.25rem}
+  .csub{margin:.4rem 0 2.1rem;font-size:1.12rem;line-height:1.4;color:var(--fg-3)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+  .field{display:flex;flex-direction:column;gap:.35rem}
+  .form-row+.field,.field+.field,.field+.form-row{margin-top:1.2rem}
   .form-row .field+.field{margin-top:0}
-  .field label{font-size:.85rem;font-weight:550;color:var(--fg)}
-  .field input,.field select,.field textarea{font-family:var(--font);font-size:.98rem;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:var(--r-md);padding:.74rem .95rem;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
+  .field label{font-size:.92rem;font-weight:550;color:var(--fg)}
+  .field input,.field select,.field textarea{font-family:var(--font);font-size:1rem;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:10px;padding:10px 14px;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
+  .field input,.field select{height:46px;padding:0 14px}
   .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
   .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
-  .field textarea{resize:vertical;min-height:96px}
-  .cmodal .submit{margin-top:1.5rem;width:100%;justify-content:center;font-size:1rem;padding:.78rem 1.1rem}
-  .recap{margin-top:1.15rem;font-size:.84rem;color:var(--dim);line-height:1.55;max-width:34ch}
+  .field textarea{resize:vertical;min-height:70px}
+  .cmodal .submit{margin-top:2.1rem;width:100%;justify-content:center;font-size:1.02rem;height:44px;padding:0 1.1rem;border-radius:12px}
+  .recap{margin-top:1.8rem;font-size:.82rem;color:var(--dim);line-height:1.3;max-width:34ch}
   .recap a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
   .recap a:hover{color:#fff}
   .success{text-align:center;padding:2.4rem .6rem 1.2rem}
@@ -372,7 +393,7 @@
   .reveal.in{opacity:1;translate:0 0}
 
   @media (max-width:900px){
-    nav.links,.bar .right a.link{display:none}
+    nav.links,.bar .right a.link,.bar .right .sbtn-sec{display:none}
     .menu-btn{display:inline-flex}
     .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:16px;right:16px;background:rgba(10,10,12,.88);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1);z-index:45}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto}
@@ -460,27 +481,43 @@
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
         <nav class="links" aria-label="Primary">
-          <a href="#features">Features</a>
-          <a href="#how">How it knows</a>
-          <a href="#security">Security</a>
+          <a href="#features" data-dd="dd-features" aria-haspopup="true" aria-expanded="false" aria-controls="dd-features">Features <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
+          <a href="#security" data-dd="dd-security" aria-haspopup="true" aria-expanded="false" aria-controls="dd-security">Security <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div class="right">
-          <a class="btn btn-primary" href="#get-started">Talk to sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></span></a>
+          <a class="sbtn sbtn-sec" href="#">Sign in</a>
+          <a class="sbtn sbtn-pri" href="#get-started">Talk to sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></span></a>
           <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7H20"/><path d="M4 12H20"/><path d="M4 17H20"/></svg>
             <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg>
           </button>
         </div>
       </div>
+      <div class="ddwrap" id="ddwrap" aria-hidden="true">
+        <div class="ddpanel" id="dd-features">
+          <a href="#f-warm"><b>Warm paths</b><span>The warmest route to any founder or LP, and who should send the intro.</span></a>
+          <a href="#f-brief"><b>Meeting briefs</b><span>Walk in briefed. Every meeting.</span></a>
+          <a href="#f-pass"><b>Why we passed</b><span>The meeting, the memo, and the reasons, back in seconds.</span></a>
+          <a href="#f-cold"><b>Going cold</b><span>Relationships drifting from their cadence, flagged first.</span></a>
+          <div class="ddsep" aria-hidden="true"></div>
+          <a href="#how"><b>How it knows</b><span>Your systems, one graph, cited answers.</span></a>
+          <a href="#tools"><b>In your tools</b><span>Claude, ChatGPT, Gemini, and Cursor. One MCP endpoint.</span></a>
+        </div>
+        <div class="ddpanel" id="dd-security">
+          <a href="#security"><b>Self-hosted, always</b><span>Runs on your infrastructure. Nothing is sent to us, ever.</span></a>
+          <a href="#security"><b>Open source, end to end</b><span>Every line that touches your data is public. Audit it before it runs.</span></a>
+          <a href="#security"><b>Permissioned and logged</b><span>Access checked per person, every query logged.</span></a>
+        </div>
+      </div>
       <div id="mobile-menu" class="mmenu" aria-label="Primary mobile">
         <a href="#features">Features</a>
-        <a href="#how">How it knows</a>
         <a href="#security">Security</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
         <div class="sep" aria-hidden="true"></div>
+        <a href="#">Sign in</a>
         <a href="#get-started">Talk to sales</a>
       </div>
     </header>
@@ -543,7 +580,7 @@
         <p class="lead">Every intro, every meeting, every pass your venture capital team has ever made, answered in seconds.</p>
       </div>
       <div class="feats">
-        <div class="feat reveal">
+        <div class="feat reveal" id="f-warm">
           <div class="feat-copy">
             <h3>That intro you need? Your team already has it.</h3>
             <p>Ask for the warmest path to any founder or LP. fein walks who actually emails and meets whom, and names the person best placed to send it.</p>
@@ -555,7 +592,7 @@
             <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> · not recommended</span><b class="mtag dim">Cold</b></div>
           </div>
         </div>
-        <div class="feat reveal">
+        <div class="feat reveal" id="f-brief">
           <div class="feat-copy">
             <h3>Walk in briefed. Every meeting.</h3>
             <p>Attendees, how you know them, and what was left open, assembled from your calendar and inbox before you sit down.</p>
@@ -567,7 +604,7 @@
             <div class="mrow"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, parked on the last call</span><b class="mtag strong">Prep</b></div>
           </div>
         </div>
-        <div class="feat reveal">
+        <div class="feat reveal" id="f-pass">
           <div class="feat-copy">
             <h3>Why did we pass? One question.</h3>
             <p>When a company comes back for its next round, the meeting, the memo, and the reasons are back in seconds.</p>
@@ -579,7 +616,7 @@
             <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>What changed</b> · three new logos since</span><b class="mtag strong">Update</b></div>
           </div>
         </div>
-        <div class="feat reveal">
+        <div class="feat reveal" id="f-cold">
           <div class="feat-copy">
             <h3>Relationships go cold. fein notices first.</h3>
             <p>It learns each relationship's natural cadence and flags the ones drifting from it, before the news does.</p>
@@ -961,6 +998,7 @@
             });
         })
         .then(function(){btn.disabled=false;btn.innerHTML=was;});
+      });
     });
     /* abandoned mid-form: send what we have, best effort */
     function partial(){
@@ -1382,6 +1420,57 @@
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('hashchange', update);
   update();
+})();
+
+/* nav dropdowns: one shared panel that morphs between items */
+(function(){
+  var header=document.querySelector('#view-home header'), wrap=document.getElementById('ddwrap');
+  if(!header||!wrap) return;
+  var links=[].slice.call(header.querySelectorAll('nav.links a[data-dd]'));
+  var panels={};
+  [].slice.call(wrap.querySelectorAll('.ddpanel')).forEach(function(p){ panels[p.id]=p; });
+  var openLink=null, hideT=0;
+  function show(link){
+    if(window.innerWidth<=900) return;
+    clearTimeout(hideT);
+    var panel=panels[link.getAttribute('data-dd')];
+    if(!panel) return;
+    var first=!openLink;
+    if(openLink&&openLink!==link){ openLink.classList.remove('ddon'); openLink.setAttribute('aria-expanded','false'); }
+    openLink=link;
+    link.classList.add('ddon'); link.setAttribute('aria-expanded','true');
+    for(var k in panels){ panels[k].classList.toggle('on', panels[k]===panel); }
+    var w=panel.offsetWidth, h=panel.offsetHeight;
+    var r=link.getBoundingClientRect(), hr=header.getBoundingClientRect();
+    var left=Math.round(r.left-hr.left+r.width/2-w/2);
+    left=Math.max(16, Math.min(left, hr.width-w-16));
+    if(first) wrap.classList.add('snap');
+    wrap.style.left=left+'px'; wrap.style.width=w+'px'; wrap.style.height=h+'px';
+    if(first){ void wrap.offsetWidth; wrap.classList.add('on'); requestAnimationFrame(function(){ wrap.classList.remove('snap'); }); }
+    wrap.setAttribute('aria-hidden','false');
+  }
+  function hide(){
+    if(!openLink) return;
+    openLink.classList.remove('ddon'); openLink.setAttribute('aria-expanded','false');
+    openLink=null;
+    wrap.classList.remove('on'); wrap.setAttribute('aria-hidden','true');
+    for(var k in panels){ panels[k].classList.remove('on'); }
+  }
+  function scheduleHide(){ clearTimeout(hideT); hideT=setTimeout(hide,140); }
+  links.forEach(function(l){
+    l.addEventListener('mouseenter',function(){ show(l); });
+    l.addEventListener('focus',function(){ show(l); });
+    l.addEventListener('mouseleave',scheduleHide);
+    l.addEventListener('blur',scheduleHide);
+  });
+  wrap.addEventListener('mouseenter',function(){ clearTimeout(hideT); });
+  wrap.addEventListener('mouseleave',scheduleHide);
+  wrap.addEventListener('focusin',function(){ clearTimeout(hideT); });
+  wrap.addEventListener('focusout',scheduleHide);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') hide(); });
+  wrap.addEventListener('click',function(e){ if(e.target.closest('a')) hide(); });
+  window.addEventListener('scroll',function(){ if(openLink&&!wrap.matches(':hover')) hide(); },{passive:true});
+  window.addEventListener('resize',hide);
 })();
 
 /* mobile menu */
