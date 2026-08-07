@@ -3,8 +3,8 @@ const path = require("path");
 
 const SITE = "https://fein.vc";
 const TITLE = "fein · the graph for venture capital teams";
-const DESC = "fein is the open-source relationship graph for venture capital teams. It reads your inbox, calendar, Drive, and CRM into one permissioned graph and answers inside Claude, ChatGPT, and Cursor: every founder, intro, memo, and pass linked to its source. Live in 14 days, on your servers.";
-const LASTMOD = "2026-08-06";
+const DESC = "Everything your team knows, in every AI tool you use. fein connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor: the warm intro, the meeting brief, the reason you passed. Free and open source, on your servers, live in 14 days.";
+const LASTMOD = "2026-08-07";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
 const monoB64 = fs.readFileSync("GeistMono.woff2").toString("base64");
@@ -49,14 +49,14 @@ const rest = body.slice(sEnd);
 
 // ---- FAQ (mirrors the visible section) ----
 const faqs = [
-  ["What is fein?", "One relationship graph for your venture capital team. It connects your inbox, calendar, Drive, and CRM, then answers questions inside Claude, ChatGPT, and Cursor: who's closest to a founder, how to prep for a meeting, and why you passed last time."],
-  ["How is this different from a CRM like Affinity or Attio?", "A CRM is a place you have to keep current. fein reads the systems you already use, including your CRM like Attio, and stays current on its own. It answers from inside your AI tools instead of asking you to open another app. You log nothing."],
-  ["What does it cost?", "$5,000 once to build it, then $1,000 a month. About $17,000 in year one, less than one month of a data hire. One build fee, one monthly line, no per-seat pricing."],
-  ["Can't we build this ourselves?", "Yes, literally: fein is open source, so you can clone the repo and run it yourself. The build fee and the monthly buy an engineer who does it for you and keeps it alive: connectors re-authed through every API change, entity resolution tuned to your data, permissions set with you, new answers built as your team asks. Build your edge on the graph, and leave the plumbing to us."],
-  ["What happens if we cancel?", "fein keeps running. It's open source and lives on your servers, so the graph, the connectors, and every answer stay yours. The monthly buys upkeep and new capability, never access to your own data."],
-  ["How long until it's live, and what do we do?", "Fourteen days. Your part is two short calls: thirty minutes to map your systems, one more to walk your team through it. We do everything in between. The first cited answers from your own data land within days; the whole team is live at the end of week two."],
-  ["Where does our data live, and who can see what?", "On your own infrastructure. Nothing leaves your environment. The code is open source, so you can audit exactly what touches your data, and access is checked per person on every query. When LPs ask about your AI setup, the answer is an audit trail, not a promise."],
-  ["What does it connect to, and how do we use it?", "Your inbox, calendar, Google Drive, LinkedIn, and a CRM like Attio or Affinity go in. You ask from Claude, ChatGPT, Gemini, or Cursor over a single MCP endpoint. No new app to open."]
+  ["What exactly is fein?", "One graph of every relationship your venture capital team holds, answering inside Claude, ChatGPT, and Cursor over MCP."],
+  ["How is this different from Affinity or Attio?", "A CRM waits for you to update it. fein reads your CRM and everything around it, stays current on its own, and answers where you already work."],
+  ["What does it cost?", "$5,000 once, then $1,000 a month. About $17,000 in year one, no per-seat pricing."],
+  ["Can't we build this ourselves?", "Yes. It's open source, so clone away. The monthly buys the engineer who keeps it alive, so yours can build on top of it instead."],
+  ["What happens if we cancel?", "Nothing stops. It runs on your servers, so the graph, the connectors, and every answer stay yours."],
+  ["How long does setup take?", "Fourteen days, and the date is a commitment. Your part is two short calls; we do everything in between."],
+  ["Is our data safe?", "It never leaves your infrastructure, access is checked per person, and every line of code is open to audit."],
+  ["What does it connect to?", "Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers land in Claude, ChatGPT, Gemini, and Cursor, and new connectors ship regularly."]
 ];
 
 const ld = {
