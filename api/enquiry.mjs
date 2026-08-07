@@ -13,8 +13,48 @@ export async function POST(request) {
   }
   // Honeypot: the visible form never fills `website`. Pretend success.
   if (lead.website) return json({ ok: true });
+  // Time gate: `t` is ms between the modal opening and submit. The real form
+  // always sends it and humans can't fill five fields this fast. An error
+  // (not fake success) so a tripped-up real visitor still lands on the
+  // client's relay fallback.
+  const t = Number(lead.t);
+  if (!Number.isFinite(t) || t < 2500) return json({ error: "too fast" }, 400);
   const email = String(lead.email ?? "").trim().toLowerCase();
   if (!EMAIL_RE.test(email)) return json({ error: "enter a valid email" }, 400);
+
+  const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  // Per-IP rate limit (needs Upstash; without it redis() returns null and the
+  // caps never trip). Redis being down must not cost a lead.
+  try {
+    const hour = await redis("INCR", `fein:rl:h:${ip}`);
+    if (hour === 1) await redis("EXPIRE", `fein:rl:h:${ip}`, "3600");
+    const day = await redis("INCR", `fein:rl:d:${ip}`);
+    if (day === 1) await redis("EXPIRE", `fein:rl:d:${ip}`, "86400");
+    if ((hour ?? 0) > 5 || (day ?? 0) > 12) {
+      await logEvent({ type: "rate-limited", ip, email });
+      return json({ error: "too many requests" }, 429);
+    }
+  } catch { /* fail open */ }
+
+  // reCAPTCHA v3, armed only when RECAPTCHA_SECRET is set (the page needs the
+  // matching site key in RECAPTCHA_KEY). Rejection is an error so a blocked
+  // real visitor (adblocker ate the script) still delivers via the relay.
+  const secret = cfg("RECAPTCHA_SECRET");
+  if (secret) {
+    let human = true;
+    try {
+      const v = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ secret, response: String(lead.captcha ?? ""), remoteip: ip }),
+      }).then((r) => r.json());
+      human = !!v.success && (v.score === undefined || v.score >= 0.5);
+    } catch { /* verifier unreachable: fail open, the other guards hold */ }
+    if (!human) {
+      await logEvent({ type: "captcha-reject", ip, email });
+      return json({ error: "captcha" }, 400);
+    }
+  }
   const clean = {
     email,
     first: str(lead.first), last: str(lead.last), fund: str(lead.fund),

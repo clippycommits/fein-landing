@@ -797,7 +797,7 @@
             <div class="field" id="f-region"><label for="region">Region</label>
               <select id="region" name="region" required aria-describedby="region-err">
                 <option value="" selected disabled>Select</option>
-                <option>North America</option><option>Europe</option><option>Middle East</option><option>Asia Pacific</option><option>Latin America</option><option>Africa</option>
+                <option>North America</option><option>Europe</option><option>Rest of World</option>
               </select>
               <p class="err" id="region-err" role="alert">Select a region.</p>
             </div>
@@ -832,9 +832,18 @@
 (function(){
   /* contact modal rides the #get-started hash so every CTA and deep link opens it */
   var cmodal=document.getElementById("contact-modal");
+  /* paste a reCAPTCHA v3 site key to arm captcha (server needs RECAPTCHA_SECRET
+     in Vercel). Empty key = honeypot + time gate + rate limit only. */
+  var RECAPTCHA_KEY="";
+  var modalOpenedAt=0,recapLoaded=false;
+  function loadRecaptcha(){
+    if(!RECAPTCHA_KEY||recapLoaded)return;recapLoaded=true;
+    var s=document.createElement("script");s.src="https://www.google.com/recaptcha/api.js?render="+encodeURIComponent(RECAPTCHA_KEY);s.async=true;document.head.appendChild(s);
+  }
   function route(){
     var isStart=location.hash==="#get-started";
     if(isStart&&!cmodal.open){
+      modalOpenedAt=Date.now();loadRecaptcha();
       cmodal.showModal();
       var inner=cmodal.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
       var h=cmodal.querySelector(".cbody:not([hidden]) h2");if(h)h.focus({preventScroll:true});
@@ -906,14 +915,21 @@
       var btn=document.getElementById("send-btn"),err=document.getElementById("send-err");
       err.classList.remove("show");
       var was=btn.innerHTML;btn.disabled=true;btn.textContent="Sending…";
-      function apiPayload(){
+      function apiPayload(token){
         /* the enquiry endpoint keeps its original key set; the fields it
            doesn't know yet ride inside `ask` so no lead data is dropped */
         return {email:lead.email,first:lead.first,last:lead.last,
                 ask:(lead.details?lead.details+"\n\n":"")+
                     "Phone: "+(lead.phone||"")+"\nRegion: "+(lead.region||"")+"\nUsers: "+(lead.users||""),
                 phone:lead.phone,region:lead.region,users:lead.users,
+                t:modalOpenedAt?Date.now()-modalOpenedAt:0,captcha:token||"",
                 website:document.getElementById("hp-web").value};
+      }
+      function withToken(cb){
+        if(!RECAPTCHA_KEY||!window.grecaptcha||!window.grecaptcha.execute){cb("");return;}
+        try{grecaptcha.ready(function(){
+          grecaptcha.execute(RECAPTCHA_KEY,{action:"enquiry"}).then(cb,function(){cb("");});
+        });}catch(_){cb("");}
       }
       function succeed(){
         sent=true;
@@ -929,11 +945,13 @@
         var inner=document.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
         var h=document.getElementById("wh-3");if(h)h.focus({preventScroll:true});
       }
-      fetch(API+"/enquiry",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload())})
+      withToken(function(token){
+      fetch(API+"/enquiry",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload(token))})
         .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
         .then(succeed)
         .catch(function(){
-          /* lead service down: fall back to the inbox relay so no lead is lost */
+          /* lead service down or it rejected us: fall back to the inbox relay
+             so no real lead is lost */
           fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload())})
             .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
             .then(succeed)
