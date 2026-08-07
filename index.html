@@ -84,7 +84,7 @@
   .tick svg{width:12px;height:12px}
   .tick2 svg{width:22px;height:22px}
 
-  /* ---- buttons: Attio-replica geometry (36px / r10 / 0 12px / 14px; grows 46px / r12 below 900), fein colors: white primary, hairline ghost ---- */
+  /* ---- buttons: reference-replica geometry (36px / r10 / 0 12px / 14px; grows 46px / r12 below 900), fein colors: white primary, hairline ghost ---- */
   .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font);font-weight:500;font-size:14px;height:36px;padding:0 12px;border-radius:10px;cursor:pointer;border:0;white-space:nowrap;line-height:1;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
   .btn:hover,.btn:active{transition-duration:.05s}
   .btn-primary,.btn-white{background:#fff;color:#000;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5)}
@@ -521,47 +521,47 @@
       <div class="ddwrap" id="ddwrap" aria-hidden="true">
         <div class="ddpanel ddp-platform" id="dd-platform">
           <div class="dd-main">
-            <p class="dd-label">CRM platform</p>
+            <p class="dd-label">Memory layer</p>
             <div class="dd-grid">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5L11 6l5 2.5L9 12z"/><path d="M8 14.5L15 11l5 2.5L13 17z"/></svg></span><span><b>Ask Attio</b><span>Search and create with AI</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="9" ry="4.5" stroke-dasharray="2 3"/></svg></span><span><b>AI</b><span>Native to your CRM</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l7 3.5-7 3.5-7-3.5z"/><path d="M5 11l7 3.5 7-3.5"/><path d="M5 14.5l7 3.5 7-3.5"/></svg></span><span><b>Data model</b><span>Sync and enrich your data</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l16-7-6 16-2.5-6.5z"/><path d="M11.5 14.5L20 5"/></svg></span><span><b>Universal Context</b><span>The AI context layer</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5L11 6l5 2.5L9 12z"/><path d="M8 14.5L15 11l5 2.5L13 17z"/></svg></span><span><b>Ask fein</b><span>Search your graph with AI</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="9" ry="4.5" stroke-dasharray="2 3"/></svg></span><span><b>Live memory</b><span>Stays current on its own</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l7 3.5-7 3.5-7-3.5z"/><path d="M5 11l7 3.5 7-3.5"/><path d="M5 14.5l7 3.5 7-3.5"/></svg></span><span><b>The graph</b><span>Every relationship your team holds</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l16-7-6 16-2.5-6.5z"/><path d="M11.5 14.5L20 5"/></svg></span><span><b>MCP endpoint</b><span>Answers inside Claude, ChatGPT, and Cursor</span></span></a>
             </div>
-            <p class="dd-label">Agents and automations</p>
+            <p class="dd-label">Answers</p>
             <div class="dd-grid">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7l3-1.7L11 7l-3 1.7z"/><path d="M5 7v3.2l3 1.7V8.7"/><path d="M11 7v3.2l-3 1.7"/><path d="M13 14l3-1.7 3 1.7-3 1.7z"/><path d="M13 14v3.2l3 1.7v-3.2"/><path d="M19 14v3.2l-3 1.7"/><path d="M10.5 11.5l3 2" stroke-dasharray="1.5 2"/></svg></span><span><b>Workflows</b><span>Orchestrate any revenue motion</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="4" width="9" height="11" rx="2"/><rect x="6.2" y="6.5" width="9" height="11" rx="2"/><rect x="4" y="9" width="9" height="11" rx="2"/></svg></span><span><b>Sequences</b><span>Personalized outreach</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7l3-1.7L11 7l-3 1.7z"/><path d="M5 7v3.2l3 1.7V8.7"/><path d="M11 7v3.2l-3 1.7"/><path d="M13 14l3-1.7 3 1.7-3 1.7z"/><path d="M13 14v3.2l3 1.7v-3.2"/><path d="M19 14v3.2l-3 1.7"/><path d="M10.5 11.5l3 2" stroke-dasharray="1.5 2"/></svg></span><span><b>Warm intros</b><span>The shortest path to anyone</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="4" width="9" height="11" rx="2"/><rect x="6.2" y="6.5" width="9" height="11" rx="2"/><rect x="4" y="9" width="9" height="11" rx="2"/></svg></span><span><b>Meeting prep</b><span>A brief before every meeting</span></span></a>
             </div>
             <p class="dd-label">Insights</p>
             <div class="dd-grid">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="13" height="12" rx="3"/><circle cx="17.5" cy="9.5" r="2.8"/></svg></span><span><b>Call Intelligence</b><span>Record and analyze meetings</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l3-1.7 3 1.7-3 1.7z"/><path d="M4 17v2l3 1.7 3-1.7v-2"/><path d="M9.5 13l3-1.7 3 1.7-3 1.7z"/><path d="M9.5 13v2.6l3 1.7 3-1.7V13"/><path d="M15 9l3-1.7L21 9l-3 1.7z"/><path d="M15 9v4.4l3 1.7 3-1.7V9"/></svg></span><span><b>Reporting</b><span>Insights in real time</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="13" height="12" rx="3"/><circle cx="17.5" cy="9.5" r="2.8"/></svg></span><span><b>Deal memory</b><span>Every pass, with the reason why</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l3-1.7 3 1.7-3 1.7z"/><path d="M4 17v2l3 1.7 3-1.7v-2"/><path d="M9.5 13l3-1.7 3 1.7-3 1.7z"/><path d="M9.5 13v2.6l3 1.7 3-1.7V13"/><path d="M15 9l3-1.7L21 9l-3 1.7z"/><path d="M15 9v4.4l3 1.7 3-1.7V9"/></svg></span><span><b>Network coverage</b><span>Your reach by sector and stage</span></span></a>
             </div>
             <p class="dd-label">Ecosystem</p>
             <div class="dd-grid">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 4v9l-7 4-7-4v-9z"/><path d="M5 7.5l7 4 7-4"/><path d="M12 11.5v9"/></svg></span><span><b>Developer Platform</b><span>Build with the Attio MCP, API, and SDK</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="14.5" y="14.5" width="6" height="6" rx="1.6"/></svg></span><span><b>Apps &amp; integrations</b><span>Connect all your favorite tools</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 4v9l-7 4-7-4v-9z"/><path d="M5 7.5l7 4 7-4"/><path d="M12 11.5v9"/></svg></span><span><b>Developer Platform</b><span>Build with the fein MCP and API</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="14.5" y="14.5" width="6" height="6" rx="1.6"/></svg></span><span><b>Open source</b><span>Self-host on your own servers</span></span></a>
             </div>
           </div>
           <div class="dd-rail">
             <p class="dd-label">Get started</p>
-            <a href="#">Attio 101</a>
-            <a href="#">Hire an expert</a>
-            <a href="#">Startup program</a>
-            <a href="#">Talk to sales</a>
+            <a href="#">fein 101</a>
+            <a href="#how">See how it knows</a>
+            <a href="#pricing">Self-host for free</a>
+            <a href="#get-started">Talk to sales</a>
           </div>
         </div>
         <div class="ddpanel ddp-resources" id="dd-resources">
           <div class="dd-main">
             <p class="dd-label">Support</p>
             <div class="dd-grid one">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11L20.5 4l-5 16-4-6.5z"/><path d="M11.5 13.5L20.5 4"/></svg></span><span><b>Help center</b><span>Learn more about Attio's features</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 5l9 4.5-9 4.5z"/><path d="M7 11.5v4.2c0 1.1 2.2 2.3 5 2.3s5-1.2 5-2.3v-4.2"/><path d="M21 9.5v5"/></svg></span><span><b>Academy</b><span>Essential Attio features explained</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11L20.5 4l-5 16-4-6.5z"/><path d="M11.5 13.5L20.5 4"/></svg></span><span><b>Help center</b><span>Learn more about fein's features</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 5l9 4.5-9 4.5z"/><path d="M7 11.5v4.2c0 1.1 2.2 2.3 5 2.3s5-1.2 5-2.3v-4.2"/><path d="M21 9.5v5"/></svg></span><span><b>Academy</b><span>Essential fein features explained</span></span></a>
             </div>
             <p class="dd-label">Developers</p>
             <div class="dd-grid one">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2z"/><path d="M12 6.5v13"/></svg></span><span><b>Developer docs</b><span>Start building Attio apps</span></span></a>
+              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2z"/><path d="M12 6.5v13"/></svg></span><span><b>Developer docs</b><span>Start building with fein</span></span></a>
             </div>
             <p class="dd-label">Partners</p>
             <div class="dd-grid one">
