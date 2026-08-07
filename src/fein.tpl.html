@@ -294,31 +294,33 @@
   .fbottom{margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--dim)}
 
   /* ============ contact modal: one hairline card over a dimmed page ============ */
-  .cmodal{width:min(520px,calc(100vw - 32px));margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
+  .cmodal{width:min(560px,calc(100vw - 32px));margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:24px;color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
   .cmodal::backdrop{background:rgba(5,5,7,.62);-webkit-backdrop-filter:saturate(140%) blur(8px);backdrop-filter:saturate(140%) blur(8px)}
-  .cmodal[open]{animation:modalIn .38s cubic-bezier(.22,.61,.36,1)}
-  .cmodal[open]::backdrop{animation:backdropIn .32s ease}
-  @keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  .cmodal[open]{animation:modalIn .26s cubic-bezier(.22,.61,.36,1)}
+  .cmodal[open]::backdrop{animation:backdropIn .26s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
   @keyframes backdropIn{from{opacity:0}to{opacity:1}}
   html:has(.cmodal[open]){overflow:hidden}
   .cmodal-inner{position:relative;padding:clamp(1.5rem,3vw,2.1rem);max-height:calc(100dvh - 3rem);overflow:auto;overscroll-behavior:contain}
   .cmodal-x{position:absolute;top:1.1rem;right:1.1rem;display:grid;place-items:center;width:34px;height:34px;background:none;border:1px solid var(--line-2);border-radius:var(--r-sm);color:var(--fg-2);cursor:pointer;transition:color .15s ease,border-color .15s ease}
   .cmodal-x:hover{color:#fff;border-color:var(--fg-3)}
   .cmodal-x svg{width:15px;height:15px}
-  .cmodal .wizbar{margin-right:3rem}
-  .whint{margin-top:1.1rem;font-size:.84rem;color:var(--dim);text-align:center}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-  .field{display:flex;flex-direction:column;gap:.4rem}
-  .form-row+.field,.field+.field,.field+.form-row{margin-top:1rem}
+  .cmodal h2{font-size:1.85rem;font-weight:650;letter-spacing:-.03em;margin-right:3rem}
+  .cmodal h2:focus{outline:none}
+  .csub{margin:.35rem 0 1.7rem;font-size:1.02rem;color:var(--fg-3)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem}
+  .field{display:flex;flex-direction:column;gap:.45rem}
+  .form-row+.field,.field+.field,.field+.form-row{margin-top:1.25rem}
   .form-row .field+.field{margin-top:0}
-  .field label{font-size:.82rem;font-weight:550;color:var(--fg)}
-  .field input,.field select,.field textarea{font-family:var(--font);font-size:.98rem;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:.72rem .85rem;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
+  .field label{font-size:.85rem;font-weight:550;color:var(--fg)}
+  .field input,.field select,.field textarea{font-family:var(--font);font-size:.98rem;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:var(--r-md);padding:.74rem .95rem;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
   .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
   .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
-  .field textarea{resize:vertical;min-height:76px}
-  .consent{display:flex;gap:.6rem;align-items:flex-start;margin-top:1.2rem;font-size:.84rem;color:var(--fg-3);line-height:1.4}
-  .consent input{margin-top:.15rem;accent-color:var(--blue)}
-  .cmodal .submit{margin-top:1.3rem;width:100%;justify-content:center;font-size:1rem;padding:.75rem 1.1rem}
+  .field textarea{resize:vertical;min-height:96px}
+  .cmodal .submit{margin-top:1.5rem;width:100%;justify-content:center;font-size:1rem;padding:.78rem 1.1rem}
+  .recap{margin-top:1.15rem;font-size:.84rem;color:var(--dim);line-height:1.55;max-width:34ch}
+  .recap a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
+  .recap a:hover{color:#fff}
   .success{text-align:center;padding:2.4rem .6rem 1.2rem}
   .success .tick2{width:64px;height:64px;border-radius:50%;background:#141417;border:1px solid var(--line-2);color:#fff;display:grid;place-items:center;margin:0 auto 1.5rem}
   .success .tick2 svg{width:28px;height:28px}
@@ -328,30 +330,11 @@
   .success p a:not(.btn):hover{color:#fff}
   .success .btn{margin-top:1.6rem}
 
-  /* ---- contact-sales wizard: three steps, hairline progress, quiet blue current ---- */
-  .wizbar{display:flex;gap:1.15rem;list-style:none;margin:0 0 1.5rem;padding:0 0 1.05rem;border-bottom:1px solid var(--line)}
-  .wizbar li{display:inline-flex;align-items:baseline;gap:.45rem;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)}
-  .wizbar li .n{font-size:.62rem}
-  .wizbar li[aria-current="step"]{color:var(--fg)}
-  .wizbar li[aria-current="step"] .n,.wizbar li.done .n{color:var(--blue-l)}
-  .wizbar li.done{color:var(--fg-3)}
-  .wstep h2{font-size:1.28rem;letter-spacing:-.02em;margin-bottom:1.2rem;text-wrap:balance}
-  .wstep h2:focus{outline:none}
-  .wstep{animation:stepIn .4s cubic-bezier(.22,.61,.36,1) both}
-  @keyframes stepIn{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+  /* ---- contact-sales form: validation + failure states ---- */
   .err{display:none;font-size:.84rem;color:#ff8a85;margin:0}
   .field .err{margin-top:-.05rem}
   .field.invalid input,.field.invalid select{border-color:rgba(255,138,133,.65)}
   .field.invalid .err{display:block}
-  .consent.invalid{color:#ff8a85}
-  .chip{display:inline-flex;align-items:center;gap:.55rem;max-width:100%;margin:0 0 1.15rem;background:#000;border:1px solid var(--line-2);border-radius:9999px;padding:.3rem .5rem .3rem .85rem;font-size:.86rem;color:var(--fg-2)}
-  .chip strong{color:var(--fg);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .chip button{background:none;border:0;padding:.1rem .45rem;font:inherit;font-size:.8rem;font-weight:550;color:var(--blue-l);cursor:pointer;border-radius:9999px;transition:color .15s ease}
-  .chip button:hover{color:#fff}
-  .wback{display:inline-flex;align-items:center;gap:.4rem;background:none;border:0;padding:0;margin:0 0 1rem;font:inherit;font-size:.88rem;font-weight:500;color:var(--fg-2);cursor:pointer;transition:color .18s ease}
-  .wback:hover{color:#fff}
-  .wback .barw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
-  .wback:hover .barw{transform:translateX(-3px)}
   .form-err{display:none;margin-top:1.1rem;font-size:.9rem;line-height:1.5;color:var(--fg-2);border:1px solid rgba(255,138,133,.35);border-radius:var(--r-sm);padding:.8rem .95rem;background:rgba(255,138,133,.06)}
   .form-err.show{display:block}
   .form-err a{color:#fff;font-weight:550;text-decoration:underline;text-underline-offset:3px}
@@ -730,53 +713,41 @@ __LOGO_SPRITE__
 <dialog class="cmodal" id="contact-modal" aria-label="Contact sales">
   <div class="cmodal-inner">
     <button type="button" class="cmodal-x" id="cmodal-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg></button>
-      <ol class="wizbar" aria-label="Progress">
-        <li id="wiz-1" aria-current="step"><span class="n">01</span> Email</li>
-        <li id="wiz-2"><span class="n">02</span> About you</li>
-        <li id="wiz-3"><span class="n">03</span> Done</li>
-      </ol>
-
-      <section class="wstep" id="wstep-1" aria-labelledby="wh-1">
-        <h2 id="wh-1" tabindex="-1">Start with your work email.</h2>
-        <form id="lead-1" novalidate>
-          <div class="field" id="f-em"><label for="em">Work email</label><input id="em" name="em" type="email" autocomplete="email" placeholder="you@firm.com" required aria-describedby="em-err"><p class="err" id="em-err" role="alert">Enter a valid work email, like you@firm.com.</p></div>
-          <div class="field" id="f-size"><label for="size">Assets under management</label>
-            <select id="size" name="size" required aria-describedby="size-err">
-              <option value="" selected disabled>Select</option>
-              <option>Under $50M</option><option>$50M – $250M</option><option>$250M – $1B</option><option>Over $1B</option>
-            </select>
-            <p class="err" id="size-err" role="alert">Select a range.</p>
-          </div>
-          <button type="submit" class="btn btn-primary submit">Continue <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
-          <p class="whint">Two short steps. We reply within one business day.</p>
-        </form>
-      </section>
-
-      <section class="wstep" id="wstep-2" hidden aria-labelledby="wh-2">
-        <button type="button" class="wback" id="wback-1"><span class="barw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="M12 6L6 12L12 18"/></svg></span> Back</button>
-        <h2 id="wh-2" tabindex="-1">Tell us about your venture capital team.</h2>
-        <p class="chip"><strong id="chip-em">you@firm.com</strong><button type="button" id="chip-edit">Edit</button></p>
-        <form id="lead-2" novalidate>
+      <div class="cbody" id="lead-view">
+        <h2 id="cm-title" tabindex="-1">Nearly there!</h2>
+        <p class="csub">Just a few more details...</p>
+        <form id="lead-form" novalidate>
           <div class="form-row">
-            <div class="field" id="f-fn"><label for="fn">First name</label><input id="fn" name="fn" autocomplete="given-name" required aria-describedby="fn-err"><p class="err" id="fn-err" role="alert">Enter your first name.</p></div>
-            <div class="field" id="f-ln"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name" required aria-describedby="ln-err"><p class="err" id="ln-err" role="alert">Enter your last name.</p></div>
+            <div class="field" id="f-fn"><label for="fn">First name</label><input id="fn" name="fn" autocomplete="given-name" placeholder="First" required aria-describedby="fn-err"><p class="err" id="fn-err" role="alert">Enter your first name.</p></div>
+            <div class="field" id="f-ln"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name" placeholder="Last" required aria-describedby="ln-err"><p class="err" id="ln-err" role="alert">Enter your last name.</p></div>
           </div>
-          <div class="field" id="f-fund"><label for="fund">Firm</label><input id="fund" name="fund" autocomplete="organization" required aria-describedby="fund-err"><p class="err" id="fund-err" role="alert">Enter your firm's name.</p></div>
-          <div class="field"><label for="crm">Where does your pipeline live? <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
-            <select id="crm" name="crm">
-              <option value="" selected>Select</option>
-              <option>Attio</option><option>Affinity</option><option>Airtable</option><option>Notion</option><option>Sheets / docs</option><option>Somewhere else</option><option>Nowhere yet</option>
-            </select>
+          <div class="field" id="f-em"><label for="em">Company email</label><input id="em" name="em" type="email" autocomplete="email" placeholder="Your work email" required aria-describedby="em-err"><p class="err" id="em-err" role="alert">Enter a valid work email, like you@firm.com.</p></div>
+          <div class="field" id="f-ph"><label for="ph">Phone number (optional)</label><input id="ph" name="ph" type="tel" autocomplete="tel" placeholder="Your phone number"></div>
+          <div class="form-row">
+            <div class="field" id="f-region"><label for="region">Region</label>
+              <select id="region" name="region" required aria-describedby="region-err">
+                <option value="" selected disabled>Select</option>
+                <option>North America</option><option>Europe</option><option>Middle East</option><option>Asia Pacific</option><option>Latin America</option><option>Africa</option>
+              </select>
+              <p class="err" id="region-err" role="alert">Select a region.</p>
+            </div>
+            <div class="field" id="f-users"><label for="users">Number of users</label>
+              <select id="users" name="users" required aria-describedby="users-err">
+                <option value="" selected disabled>Select</option>
+                <option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option>
+              </select>
+              <p class="err" id="users-err" role="alert">Select a range.</p>
+            </div>
           </div>
-          <div class="field"><label for="ask">What would you ask it first? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="ask" name="ask" placeholder="e.g. Who's our warmest path to a Series A fintech founder?"></textarea></div>
+          <div class="field" id="f-det"><label for="det">Details</label><textarea id="det" name="det" placeholder="Tell us about your needs and questions"></textarea></div>
           <input type="text" name="website" id="hp-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
-          <label class="consent" id="f-ok"><input type="checkbox" id="ok" required> I agree to be contacted about fein. No list, no spam.</label>
           <div class="form-err" id="send-err" role="alert">Something went wrong on our end. Email <a id="mailto-fb" href="mailto:sales@fein.vc">sales@fein.vc</a> instead; your details are in the draft.</div>
-          <button type="submit" class="btn btn-primary submit" id="send-btn">Request the call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
+          <button type="submit" class="btn btn-primary submit" id="send-btn">Submit</button>
+          <p class="recap">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
         </form>
-      </section>
+      </div>
 
-      <section class="wstep" id="wstep-3" hidden aria-labelledby="wh-3">
+      <section class="cbody" id="lead-done" hidden aria-labelledby="wh-3">
         <div class="success">
           <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
           <h2 id="wh-3" tabindex="-1">We'll be in touch soon.</h2>
@@ -796,7 +767,7 @@ __LOGO_SPRITE__
     if(isStart&&!cmodal.open){
       cmodal.showModal();
       var inner=cmodal.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
-      var h=cmodal.querySelector(".wstep:not([hidden]) h2");if(h)h.focus({preventScroll:true});
+      var h=cmodal.querySelector(".cbody:not([hidden]) h2");if(h)h.focus({preventScroll:true});
     }else if(!isStart&&cmodal.open){cmodal.close();}
   }
   window.addEventListener("hashchange",route);route();
@@ -806,89 +777,72 @@ __LOGO_SPRITE__
   cmodal.addEventListener("close",function(){
     if(location.hash==="#get-started")history.pushState("","",location.pathname+location.search);
   });
-  /* contact-sales wizard: one decision per screen; email lands first so a
-     half-finished form still tells us who came knocking */
+  /* contact-sales form: one screen, everything on it */
   (function(){
-    var steps=[1,2,3].map(function(n){return document.getElementById("wstep-"+n);});
-    if(!steps[0]||!steps[1]||!steps[2])return;
-    var tabs=[1,2,3].map(function(n){return document.getElementById("wiz-"+n);});
+    var view=document.getElementById("lead-view"),done=document.getElementById("lead-done");
+    if(!view||!done)return;
     var lead={},sent=false,partialSent=false;
     /* lead functions first (same origin on Vercel, sends the booking funnel);
        formsubmit.co is the fallback inbox relay, base64 to keep the address
        off scrapers */
     var API="/api";
     var ENDPOINT="https://formsubmit.co/ajax/"+atob("dGVhbUBjb21taXhjYXBpdGFsLmNvbQ==");
-    function show(n){
-      steps.forEach(function(s,i){s.hidden=i!==n-1;});
-      tabs.forEach(function(t,i){
-        if(i===n-1)t.setAttribute("aria-current","step");else t.removeAttribute("aria-current");
-        t.classList.toggle("done",i<n-1);
-      });
-      var inner=document.querySelector(".cmodal-inner");
-      if(inner)inner.scrollTop=0;
-      var h=document.getElementById("wh-"+n);
-      if(h)h.focus({preventScroll:true});
-    }
+    var fn=document.getElementById("fn"),ln=document.getElementById("ln"),
+        em=document.getElementById("em"),ph=document.getElementById("ph"),
+        region=document.getElementById("region"),users=document.getElementById("users"),
+        det=document.getElementById("det");
+    var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     function bad(id,is){
       var f=document.getElementById(id);if(!f)return;
       f.classList.toggle("invalid",is);
-      var inp=f.querySelector("input,select");
+      var inp=f.querySelector("input,select,textarea");
       if(inp)inp.setAttribute("aria-invalid",is?"true":"false");
     }
-    var em=document.getElementById("em"),size=document.getElementById("size");
-    var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    document.getElementById("lead-1").addEventListener("submit",function(e){
-      e.preventDefault();
-      var okEm=EMAIL_RE.test(em.value.trim()),okSz=!!size.value;
-      bad("f-em",!okEm);bad("f-size",!okSz);
-      if(!okEm){em.focus();return;}
-      if(!okSz){size.focus();return;}
-      lead.email=em.value.trim();lead.size=size.value;
-      document.getElementById("chip-em").textContent=lead.email;
-      show(2);
-    });
-    em.addEventListener("input",function(){bad("f-em",false);});
-    size.addEventListener("change",function(){bad("f-size",false);});
-    document.getElementById("wback-1").addEventListener("click",function(){show(1);});
-    document.getElementById("chip-edit").addEventListener("click",function(){show(1);em.focus();});
-    var fn=document.getElementById("fn"),ln=document.getElementById("ln"),
-        fund=document.getElementById("fund"),ok=document.getElementById("ok");
-    ["fn","ln","fund"].forEach(function(id){
+    ["fn","ln","em"].forEach(function(id){
       document.getElementById(id).addEventListener("input",function(){bad("f-"+id,false);});
     });
-    ok.addEventListener("change",function(){document.getElementById("f-ok").classList.remove("invalid");});
+    region.addEventListener("change",function(){bad("f-region",false);});
+    users.addEventListener("change",function(){bad("f-users",false);});
+    function snapshot(){
+      lead.first=fn.value.trim();lead.last=ln.value.trim();lead.email=em.value.trim();
+      lead.phone=ph.value.trim();lead.region=region.value;lead.users=users.value;
+      lead.details=det.value.trim();
+    }
     function payload(){
       return {
-        _subject:"fein.vc lead: "+(lead.fund||lead.email),
+        _subject:"fein.vc lead: "+lead.email,
         _template:"table",_captcha:"false",
         email:lead.email,name:(lead.first||"")+" "+(lead.last||""),
-        firm:lead.fund||"",aum:lead.size||"",
-        pipeline:lead.crm||"",first_question:lead.ask||"",
+        phone:lead.phone||"",region:lead.region||"",users:lead.users||"",
+        details:lead.details||"",
         source:"fein.vc contact-sales"
       };
     }
     function mailtoHref(){
-      var s="fein: talk to sales ("+(lead.fund||lead.email)+")";
+      var s="fein: talk to sales ("+(lead.email||"")+")";
       var b="Name: "+(lead.first||"")+" "+(lead.last||"")+"\nEmail: "+(lead.email||"")+
-            "\nFirm: "+(lead.fund||"")+"\nAUM: "+(lead.size||"")+
-            "\nPipeline: "+(lead.crm||"")+"\nFirst question: "+(lead.ask||"");
+            "\nPhone: "+(lead.phone||"")+"\nRegion: "+(lead.region||"")+
+            "\nUsers: "+(lead.users||"")+"\nDetails: "+(lead.details||"");
       return "mailto:sales@fein.vc?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);
     }
-    document.getElementById("lead-2").addEventListener("submit",function(e){
+    document.getElementById("lead-form").addEventListener("submit",function(e){
       e.preventDefault();
-      var okFn=!!fn.value.trim(),okLn=!!ln.value.trim(),okFund=!!fund.value.trim(),okOk=ok.checked;
-      bad("f-fn",!okFn);bad("f-ln",!okLn);bad("f-fund",!okFund);
-      document.getElementById("f-ok").classList.toggle("invalid",!okOk);
-      var first=[!okFn&&fn,!okLn&&ln,!okFund&&fund,!okOk&&ok].filter(Boolean)[0];
+      var okFn=!!fn.value.trim(),okLn=!!ln.value.trim(),okEm=EMAIL_RE.test(em.value.trim()),
+          okRg=!!region.value,okUs=!!users.value;
+      bad("f-fn",!okFn);bad("f-ln",!okLn);bad("f-em",!okEm);bad("f-region",!okRg);bad("f-users",!okUs);
+      var first=[!okFn&&fn,!okLn&&ln,!okEm&&em,!okRg&&region,!okUs&&users].filter(Boolean)[0];
       if(first){first.focus();return;}
-      lead.first=fn.value.trim();lead.last=ln.value.trim();lead.fund=fund.value.trim();
-      lead.crm=document.getElementById("crm").value;lead.ask=document.getElementById("ask").value.trim();
+      snapshot();
       var btn=document.getElementById("send-btn"),err=document.getElementById("send-err");
       err.classList.remove("show");
       var was=btn.innerHTML;btn.disabled=true;btn.textContent="Sending…";
       function apiPayload(){
-        return {email:lead.email,size:lead.size,first:lead.first,last:lead.last,
-                fund:lead.fund,crm:lead.crm,ask:lead.ask,
+        /* the enquiry endpoint keeps its original key set; the fields it
+           doesn't know yet ride inside `ask` so no lead data is dropped */
+        return {email:lead.email,first:lead.first,last:lead.last,
+                ask:(lead.details?lead.details+"\n\n":"")+
+                    "Phone: "+(lead.phone||"")+"\nRegion: "+(lead.region||"")+"\nUsers: "+(lead.users||""),
+                phone:lead.phone,region:lead.region,users:lead.users,
                 website:document.getElementById("hp-web").value};
       }
       function succeed(){
@@ -901,7 +855,9 @@ __LOGO_SPRITE__
           if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"call-click",event:true});
         });
         document.getElementById("mailto-fast").href=mailtoHref();
-        show(3);
+        view.hidden=true;done.hidden=false;
+        var inner=document.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
+        var h=document.getElementById("wh-3");if(h)h.focus({preventScroll:true});
       }
       fetch(API+"/enquiry",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload())})
         .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
@@ -918,11 +874,13 @@ __LOGO_SPRITE__
         })
         .then(function(){btn.disabled=false;btn.innerHTML=was;});
     });
-    /* abandoned mid-flow: send what we have, best effort */
+    /* abandoned mid-form: send what we have, best effort */
     function partial(){
-      if(sent||partialSent||!lead.email)return;
+      if(sent||partialSent)return;
+      snapshot();
+      if(!EMAIL_RE.test(lead.email||""))return;
       partialSent=true;
-      var p=payload();p._subject="fein.vc partial lead: "+lead.email;p.note="left before finishing step 2";
+      var p=payload();p._subject="fein.vc partial lead: "+lead.email;p.note="left before submitting";
       try{fetch(ENDPOINT,{method:"POST",keepalive:true,headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(p)});}catch(_){}
     }
     window.addEventListener("pagehide",partial);
