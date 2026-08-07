@@ -111,6 +111,16 @@ const headMeta = `<meta charset="utf-8">
 const analytics = `<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>`;
 
+// Intercom messenger — standalone site only, never the artifact (same CSP
+// reason as GoatCounter). Anonymous visitor mode: no user fields on a
+// marketing page. The snippet is what @intercom/messenger-js-sdk does
+// internally; the site has no bundler so the npm package doesn't apply.
+const INTERCOM_APP_ID = "i91a73cr";
+const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
+const intercom = INTERCOM_APP_ID ? `
+<script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}"}</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic("reattach_activator");ic("update",w.intercomSettings)}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(a){i.q.push(a)};w.Intercom=i;var l=function(){var s=d.createElement("script");s.async=true;s.src="https://widget.intercom.io/widget/${INTERCOM_APP_ID}";var x=d.getElementsByTagName("script")[0];x.parentNode.insertBefore(s,x)};if(document.readyState==="complete")l();else if(w.attachEvent)w.attachEvent("onload",l);else w.addEventListener("load",l,false)}})()</script>` : "";
+
 const indexHtml = `<!doctype html>
 <html lang="en">
 <head>
@@ -120,7 +130,7 @@ ${ldScript}
 </head>
 <body>
 ${rest}
-${analytics}
+${analytics}${intercom}
 </body>
 </html>`;
 
