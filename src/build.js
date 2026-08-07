@@ -62,7 +62,7 @@ const faqs = [
 const ld = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", url: SITE + "/", description: DESC, email: "hello@fein.vc", logo: SITE + "/favicon.svg", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "hello@fein.vc", url: SITE + "/#get-started" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", url: SITE + "/", description: DESC, email: "sales@fein.vc", logo: SITE + "/favicon.svg", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#org" }, inLanguage: "en" },
     {
@@ -177,7 +177,7 @@ fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ## Contact
 - Get started: ${SITE}/#get-started
-- Email: hello@fein.vc
+- Email: sales@fein.vc
 `);
 
 // favicon.svg — theme-adaptive graph mark

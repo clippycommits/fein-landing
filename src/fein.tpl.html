@@ -293,15 +293,20 @@
   .fcol a:hover{color:#fff}
   .fbottom{margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--dim)}
 
-  /* ============ get started view ============ */
-  .start-wrap{min-height:calc(100vh - 74px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:center;padding:clamp(2.5rem,6vw,4.5rem) 0}
-  .start-left h1{font-size:clamp(2rem,4.4vw,3rem);letter-spacing:-.03em;line-height:1.05;text-wrap:balance;margin-top:1rem;max-width:14ch}
-  .start-left .sub{margin-top:1.2rem;color:var(--fg-2);font-size:1.08rem;max-width:38ch}
-  .back{display:inline-flex;align-items:center;gap:.45rem;margin-top:1.9rem;font-size:.92rem;color:var(--fg-2);font-weight:500;transition:color .18s ease}
-  .back:hover{color:#fff}
-  .back .barw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
-  .back:hover .barw{transform:translateX(-3px)}
-  .card{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(1.5rem,3vw,2.2rem)}
+  /* ============ contact modal: one hairline card over a dimmed page ============ */
+  .cmodal{width:min(520px,calc(100vw - 32px));margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
+  .cmodal::backdrop{background:rgba(5,5,7,.62);-webkit-backdrop-filter:saturate(140%) blur(8px);backdrop-filter:saturate(140%) blur(8px)}
+  .cmodal[open]{animation:modalIn .38s cubic-bezier(.22,.61,.36,1)}
+  .cmodal[open]::backdrop{animation:backdropIn .32s ease}
+  @keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  @keyframes backdropIn{from{opacity:0}to{opacity:1}}
+  html:has(.cmodal[open]){overflow:hidden}
+  .cmodal-inner{position:relative;padding:clamp(1.5rem,3vw,2.1rem);max-height:calc(100dvh - 3rem);overflow:auto;overscroll-behavior:contain}
+  .cmodal-x{position:absolute;top:1.1rem;right:1.1rem;display:grid;place-items:center;width:34px;height:34px;background:none;border:1px solid var(--line-2);border-radius:var(--r-sm);color:var(--fg-2);cursor:pointer;transition:color .15s ease,border-color .15s ease}
+  .cmodal-x:hover{color:#fff;border-color:var(--fg-3)}
+  .cmodal-x svg{width:15px;height:15px}
+  .cmodal .wizbar{margin-right:3rem}
+  .whint{margin-top:1.1rem;font-size:.84rem;color:var(--dim);text-align:center}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
   .field{display:flex;flex-direction:column;gap:.4rem}
   .form-row+.field,.field+.field,.field+.form-row{margin-top:1rem}
@@ -313,15 +318,15 @@
   .field textarea{resize:vertical;min-height:76px}
   .consent{display:flex;gap:.6rem;align-items:flex-start;margin-top:1.2rem;font-size:.84rem;color:var(--fg-3);line-height:1.4}
   .consent input{margin-top:.15rem;accent-color:var(--blue)}
-  .card .submit{margin-top:1.3rem;width:100%;justify-content:center;font-size:1rem;padding:.75rem 1.1rem}
-  .success{text-align:center;padding:1.5rem .5rem}
-  .success .tick2{width:46px;height:46px;border-radius:50%;background:#141417;border:1px solid var(--line-2);color:#fff;display:grid;place-items:center;margin:0 auto 1.1rem}
-  .success h3,.success h2{font-size:1.3rem}
-  .success p{margin-top:.6rem;color:var(--fg-3)}
-  .success .esc{margin-top:1.2rem;font-size:.92rem}
-  .success .esc a{color:var(--fg);font-weight:550;transition:color .18s ease}
-  .success .esc a:hover{color:#fff}
-  .success .btn{margin-top:1.5rem}
+  .cmodal .submit{margin-top:1.3rem;width:100%;justify-content:center;font-size:1rem;padding:.75rem 1.1rem}
+  .success{text-align:center;padding:2.4rem .6rem 1.2rem}
+  .success .tick2{width:64px;height:64px;border-radius:50%;background:#141417;border:1px solid var(--line-2);color:#fff;display:grid;place-items:center;margin:0 auto 1.5rem}
+  .success .tick2 svg{width:28px;height:28px}
+  .success h2{font-size:1.45rem;letter-spacing:-.02em}
+  .success p{margin:.8rem auto 0;color:var(--fg-3);max-width:34ch;line-height:1.55}
+  .success p a:not(.btn){color:var(--blue-l);font-weight:500;transition:color .18s ease}
+  .success p a:not(.btn):hover{color:#fff}
+  .success .btn{margin-top:1.6rem}
 
   /* ---- contact-sales wizard: three steps, hairline progress, quiet blue current ---- */
   .wizbar{display:flex;gap:1.15rem;list-style:none;margin:0 0 1.5rem;padding:0 0 1.05rem;border-bottom:1px solid var(--line)}
@@ -364,7 +369,7 @@
     .mmenu a:hover{background:rgba(255,255,255,.06)}
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
     .bar .right .btn-ghost{display:none}
-    .split,.start-wrap{grid-template-columns:1fr;gap:2.2rem}
+    .split{grid-template-columns:1fr;gap:2.2rem}
     .sec-list{grid-template-columns:1fr}
     .faq-grid{grid-template-columns:1fr;gap:2.4rem}
     .faq-intro{position:static}
@@ -376,7 +381,6 @@
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .tiers{grid-template-columns:1fr;gap:1.4rem}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
-    .start-wrap{min-height:0}
   }
   @media (max-width:560px){.form-row{grid-template-columns:1fr}}
 
@@ -655,7 +659,7 @@ __LOGO_SPRITE__
             <li>You are the on-call</li>
             <li>We will cheer you on</li>
           </ul>
-          <a class="btn btn-ghost" href="mailto:hello@fein.vc?subject=fein%3A%20send%20me%20the%20repo">Ask for the repo</a>
+          <a class="btn btn-ghost" href="mailto:sales@fein.vc?subject=fein%3A%20send%20me%20the%20repo">Ask for the repo</a>
         </div>
       </div>
       <p class="tiers-note reveal">About $17,000 in year one, less than one month of a data hire. Month to month, and if you cancel, everything keeps running.</p>
@@ -692,7 +696,7 @@ __LOGO_SPRITE__
       <p class="reveal">The warm intro, the meeting brief, the reason you passed. One question away, in 14 days.</p>
       <div class="hero-actions reveal">
         <a class="btn btn-white" href="#get-started">Talk to sales <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-        <a class="arrowlink" style="color:#fff" href="mailto:hello@fein.vc">Email hello@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -715,7 +719,7 @@ __LOGO_SPRITE__
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>
           <a href="#get-started">Talk to sales</a>
-          <a href="mailto:hello@fein.vc">hello@fein.vc</a>
+          <a href="mailto:sales@fein.vc">sales@fein.vc</a>
         </nav>
       </div>
       <p class="fbottom">© 2026 fein · free and open source</p>
@@ -723,17 +727,9 @@ __LOGO_SPRITE__
   </footer>
 </main>
 
-<main id="view-start" hidden>
-  <header><div class="bar"><a class="brand" href="#home" aria-label="fein home">fein</a></div></header>
-  <div class="wrap start-wrap">
-    <div class="start-left">
-      <span class="eyebrow">Contact sales</span>
-      <h1>See your team's graph in two weeks.</h1>
-      <p class="sub">Two short steps. We'll map your stack on a 30-minute call and show you the first answers from your own data.</p>
-      <p class="fine" style="margin-top:1.2rem">We reply within one business day.</p>
-      <a class="back" href="#home"><span class="barw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="M12 6L6 12L12 18"/></svg></span> Back to home</a>
-    </div>
-    <div class="card">
+<dialog class="cmodal" id="contact-modal" aria-label="Contact sales">
+  <div class="cmodal-inner">
+    <button type="button" class="cmodal-x" id="cmodal-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg></button>
       <ol class="wizbar" aria-label="Progress">
         <li id="wiz-1" aria-current="step"><span class="n">01</span> Email</li>
         <li id="wiz-2"><span class="n">02</span> About you</li>
@@ -752,6 +748,7 @@ __LOGO_SPRITE__
             <p class="err" id="size-err" role="alert">Select a range.</p>
           </div>
           <button type="submit" class="btn btn-primary submit">Continue <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
+          <p class="whint">Two short steps. We reply within one business day.</p>
         </form>
       </section>
 
@@ -774,7 +771,7 @@ __LOGO_SPRITE__
           <div class="field"><label for="ask">What would you ask it first? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="ask" name="ask" placeholder="e.g. Who's our warmest path to a Series A fintech founder?"></textarea></div>
           <input type="text" name="website" id="hp-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
           <label class="consent" id="f-ok"><input type="checkbox" id="ok" required> I agree to be contacted about fein. No list, no spam.</label>
-          <div class="form-err" id="send-err" role="alert">Something went wrong on our end. Email <a id="mailto-fb" href="mailto:hello@fein.vc">hello@fein.vc</a> instead; your details are in the draft.</div>
+          <div class="form-err" id="send-err" role="alert">Something went wrong on our end. Email <a id="mailto-fb" href="mailto:sales@fein.vc">sales@fein.vc</a> instead; your details are in the draft.</div>
           <button type="submit" class="btn btn-primary submit" id="send-btn">Request the call <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></button>
         </form>
       </section>
@@ -782,22 +779,33 @@ __LOGO_SPRITE__
       <section class="wstep" id="wstep-3" hidden aria-labelledby="wh-3">
         <div class="success">
           <div class="tick2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></div>
-          <h2 id="wh-3" tabindex="-1">Thanks, we've got it.</h2>
-          <p>A booking link is on its way to <strong id="done-em">you</strong>. Or skip the inbox and pick a time right now:</p>
+          <h2 id="wh-3" tabindex="-1">We'll be in touch soon.</h2>
+          <p>A booking link is on its way to <strong id="done-em">you</strong>. If you have any questions, email us at <a id="mailto-fast" href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
           <p><a class="btn btn-primary" id="book-btn" href="/api/call" target="_blank" rel="noopener">Pick a time <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
-          <p class="esc">Prefer email? <a id="mailto-fast" href="mailto:hello@fein.vc">Write to us directly</a>.</p>
-          <a class="btn btn-ghost" href="#home">Back to home</a>
         </div>
       </section>
-    </div>
   </div>
-</main>
+</dialog>
 
 <script>
 (function(){
-  var home=document.getElementById("view-home"),start=document.getElementById("view-start"),current=null;
-  function route(){var isStart=location.hash==="#get-started";home.hidden=isStart;start.hidden=!isStart;var n=isStart?"start":"home";if(n!==current){current=n;if(isStart)window.scrollTo(0,0);}}
+  /* contact modal rides the #get-started hash so every CTA and deep link opens it */
+  var cmodal=document.getElementById("contact-modal");
+  function route(){
+    var isStart=location.hash==="#get-started";
+    if(isStart&&!cmodal.open){
+      cmodal.showModal();
+      var inner=cmodal.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
+      var h=cmodal.querySelector(".wstep:not([hidden]) h2");if(h)h.focus({preventScroll:true});
+    }else if(!isStart&&cmodal.open){cmodal.close();}
+  }
   window.addEventListener("hashchange",route);route();
+  document.getElementById("cmodal-close").addEventListener("click",function(){cmodal.close();});
+  cmodal.addEventListener("click",function(e){if(e.target===cmodal)cmodal.close();});
+  /* Esc, X, and backdrop all land here; drop the hash without scrolling the page */
+  cmodal.addEventListener("close",function(){
+    if(location.hash==="#get-started")history.pushState("","",location.pathname+location.search);
+  });
   /* contact-sales wizard: one decision per screen; email lands first so a
      half-finished form still tells us who came knocking */
   (function(){
@@ -816,7 +824,8 @@ __LOGO_SPRITE__
         if(i===n-1)t.setAttribute("aria-current","step");else t.removeAttribute("aria-current");
         t.classList.toggle("done",i<n-1);
       });
-      window.scrollTo(0,0);
+      var inner=document.querySelector(".cmodal-inner");
+      if(inner)inner.scrollTop=0;
       var h=document.getElementById("wh-"+n);
       if(h)h.focus({preventScroll:true});
     }
@@ -863,7 +872,7 @@ __LOGO_SPRITE__
       var b="Name: "+(lead.first||"")+" "+(lead.last||"")+"\nEmail: "+(lead.email||"")+
             "\nFirm: "+(lead.fund||"")+"\nAUM: "+(lead.size||"")+
             "\nPipeline: "+(lead.crm||"")+"\nFirst question: "+(lead.ask||"");
-      return "mailto:hello@fein.vc?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);
+      return "mailto:sales@fein.vc?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);
     }
     document.getElementById("lead-2").addEventListener("submit",function(e){
       e.preventDefault();

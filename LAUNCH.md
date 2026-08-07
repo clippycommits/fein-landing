@@ -61,7 +61,8 @@ and `call-click` events; server-side call clicks also land in `fein:log`.
 
 ## Remaining nice-to-haves (not blocking)
 
-- `hello@fein.vc` is advertised in the footer, JSON-LD, and the mailto
-  fallback — confirm the mailbox exists in Google Workspace.
+- `sales@fein.vc` is advertised in the footer, JSON-LD, the contact-modal
+  confirmation, and the mailto fallback — confirm the mailbox exists in
+  Google Workspace.
 - After FormSubmit activation, swap the base64 address in `index.html` for
   the random alias FormSubmit issues.
