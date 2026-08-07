@@ -2,12 +2,12 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE = "https://fein.vc";
-const TITLE = "fein · the graph for venture capital teams";
+const TITLE = "fein · the shared memory of a venture capital team";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD,
 // synced to the live hero + lede; both obey the copy rules (no em dashes, no "fund").
-const DESC = "The open source memory layer for venture capital teams. fein turns your inbox, calendar, and CRM into one graph that answers inside Claude, ChatGPT, and Cursor.";
-const DESC_LONG = "An open source memory layer built for venture capital. fein connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor: the warm intro, the meeting brief, the reason you passed. Free and open source, on your servers, live in 14 days.";
-const LASTMOD = "2026-08-07";
+const DESC = "The shared memory of a venture capital team. fein reads your email, calendar, and CRM, and answers inside Claude, ChatGPT, and Cursor. Free and open source.";
+const DESC_LONG = "The shared memory of a venture capital team. Everything your team knows is already in its email, calendar, and notes, one inbox at a time. fein reads all of it and turns it into one record the whole team can see and nobody has to maintain, answering inside Claude, ChatGPT, and Cursor: the warm intro, the meeting brief, the reason you passed. Free and open source, on your servers, live in 14 days.";
+const LASTMOD = "2026-08-08";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
 const monoB64 = fs.readFileSync("GeistMono.woff2").toString("base64");
@@ -79,7 +79,7 @@ const FEATURES = [
 const ld = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the graph for venture capital teams", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the shared memory of a venture capital team", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -203,7 +203,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 `);
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is an open source memory layer for venture capital teams: a live, permissioned relationship graph built from the team's inbox, calendar, and CRM, answering inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, and deal history, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves (open source).`;
+const LLMS_SUMMARY = `> fein is the shared memory of a venture capital team: it reads the team's email, calendar, notes, and CRM, and turns what is buried one inbox at a time into one record the whole team can see and nobody has to maintain. Answers arrive inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, deal history, and why the team passed, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -244,7 +244,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 
 // llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
 // Every line here restates visible site copy; keep it in sync when copy changes.
-fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the graph for venture capital teams
+fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the shared memory of a venture capital team
 
 ${LLMS_SUMMARY}
 
@@ -252,17 +252,17 @@ Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assis
 
 ## What fein is
 
-An open source memory layer built for venture capital. fein gives your venture capital team state of the art memory. It connects your inbox, calendar, and CRM, builds the graph of every relationship your venture capital team holds, and answers inside Claude, ChatGPT, and Cursor.
+The shared memory of a venture capital team. Everything your team knows is already in its email, calendar, and notes, one inbox at a time. fein reads all of it and turns it into one record the whole team can see and nobody has to maintain. Ask in plain language, inside Claude, ChatGPT, or Cursor. Free and open source, on your servers, live in 14 days.
 
 ## The problem: the answer is always in someone else's inbox
 
-Who introduced us, why we passed, what was left open on the last call. All of it happened, and none of it was written down anywhere the rest of the team can reach. So the answer depends on who is around to remember it, and every AI tool your team opens starts from zero.
+Who introduced us, why we passed, what was left open on the last call. All of it happened, and all of it was written down, one inbox at a time. The CRM was supposed to fix that, and it fails for a structural reason: it asks the people with the least spare time to retype what they already know. So the answer depends on who is around to remember it, and every AI tool your team opens starts from zero.
 
-fein sits between the systems that hold your team's work and the tools your team asks questions in. It reads one side continuously and answers on the other, with the source attached.
+fein is what you get when you stop asking people to enter the data, and read the record they are already producing. It reads the systems your team already runs, and answers in the tools your team already asks questions in, with the source attached.
 
 1. Reads everything your team already runs: inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.
-2. Resolves one graph out of all of it: every duplicate contact across your tools resolves to one person, every relationship scored by strength and recency.
-3. Answers wherever your team asks: one MCP endpoint. Claude, ChatGPT, Gemini, and Cursor all give the same cited answer.
+2. Joins it into one picture, not five address books: every duplicate contact across your tools becomes one person, with who knows them, how well, and how recently.
+3. Answers wherever your team asks: ask in Claude, ChatGPT, Gemini, or Cursor and get the same answer every time, with the email behind it. One MCP endpoint, no new app to learn.
 
 Same question, same answer, whoever asks and whichever tool they ask in. It stops depending on who is in the room.
 
