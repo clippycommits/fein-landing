@@ -199,8 +199,22 @@ fs.writeFileSync(path.join(out, "robots.txt"), robots);
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/privacy</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>${SITE}/terms</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
 `);
+
+// ---- legal pages (privacy, terms): standalone docs served at /privacy and
+// /terms via directory-index files. Same font inlining as the main template. ----
+["privacy", "terms"].forEach(function (slug) {
+  let page = fs.readFileSync(path.join("legal", slug + ".html"), "utf8")
+    .split("__GEIST_SANS_B64__").join(sansB64)
+    .split("__INTER_B64__").join(interB64)
+    .split("__LASTMOD__").join(LASTMOD);
+  if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD__") > -1) throw new Error("legal placeholder left in " + slug);
+  fs.mkdirSync(path.join(out, slug), { recursive: true });
+  fs.writeFileSync(path.join(out, slug, "index.html"), page);
+});
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
 const LLMS_SUMMARY = `> fein is the shared memory of a venture capital team: it reads the team's email, calendar, notes, and CRM, and turns what is buried one inbox at a time into one record the whole team can see and nobody has to maintain. Answers arrive inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, deal history, and why the team passed, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.`;

@@ -382,6 +382,8 @@
   .fcol a{color:var(--fg-3);transition:color .18s ease}
   .fcol a:hover{color:#fff}
   .fbottom{margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--dim)}
+  .fbottom a{color:var(--fg-3);transition:color .18s ease}
+  .fbottom a:hover{color:#fff}
 
   /* ============ contact modal: one hairline card over a dimmed page ============ */
   .cmodal{width:min(580px,calc(100vw - 32px));max-width:none;margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:24px;color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
@@ -433,7 +435,10 @@
   .sel-opt[aria-selected="true"] .tickm{opacity:1}
 
   .cmodal .submit{margin-top:2.1rem;width:100%;justify-content:center;font-size:1.02rem;height:44px;padding:0 1.1rem;border-radius:12px}
-  .recap{margin-top:1.8rem;font-size:.82rem;color:var(--dim);line-height:1.3;max-width:34ch}
+  .clegal{margin-top:1.4rem;font-size:.82rem;color:var(--dim);line-height:1.35}
+  .clegal a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
+  .clegal a:hover{color:#fff}
+  .recap{margin-top:1rem;font-size:.82rem;color:var(--dim);line-height:1.3;max-width:34ch}
   .recap a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
   .recap a:hover{color:#fff}
   .success{text-align:center;padding:3.4rem .6rem 4rem}
@@ -1022,7 +1027,7 @@
           <a href="mailto:sales@fein.vc">sales@fein.vc</a>
         </nav>
       </div>
-      <p class="fbottom">© 2026 fein · free and open source</p>
+      <p class="fbottom">© 2026 fein · free and open source · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
     </div>
   </footer>
 </main>
@@ -1060,6 +1065,7 @@
           <input type="text" name="website" id="hp-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
           <div class="form-err" id="send-err" role="alert">Something went wrong on our end. Email <a id="mailto-fb" href="mailto:sales@fein.vc">sales@fein.vc</a> instead; your details are in the draft.</div>
           <button type="submit" class="btn btn-primary submit" id="send-btn">Submit</button>
+          <p class="clegal">By submitting, you agree to fein's <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms" target="_blank" rel="noopener">Terms of Service</a>.</p>
           <p class="recap">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
         </form>
       </div>
