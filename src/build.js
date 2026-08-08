@@ -159,9 +159,35 @@ const analytics = `<script data-goatcounter="https://fein.goatcounter.com/count"
 // internally; the site has no bundler so the npm package doesn't apply.
 const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
+// A custom launcher (the fein mark + an online dot + "Replies within minutes")
+// replaces Intercom's default bubble: hide_default_launcher + a
+// custom_launcher_selector pointed at #fein-chat. The whole block is wrapped in
+// <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
 const intercom = INTERCOM_APP_ID ? `
-<script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}"}</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic("reattach_activator");ic("update",w.intercomSettings)}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(a){i.q.push(a)};w.Intercom=i;var l=function(){var s=d.createElement("script");s.async=true;s.src="https://widget.intercom.io/widget/${INTERCOM_APP_ID}";var x=d.getElementsByTagName("script")[0];x.parentNode.insertBefore(s,x)};if(document.readyState==="complete")l();else if(w.attachEvent)w.attachEvent("onload",l);else w.addEventListener("load",l,false)}})()</script>` : "";
+<!--fein-chat:start-->
+<style>
+#fein-chat{position:fixed;right:20px;bottom:20px;z-index:2147483000;display:inline-flex;align-items:center;gap:10px;margin:0;padding:9px 15px 9px 9px;font-family:var(--font);color:var(--fg);background:var(--bg-2);border:1px solid var(--line);border-radius:999px;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),border-color .2s ease,box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
+#fein-chat.fc-in{opacity:1;transform:none}
+#fein-chat:hover{border-color:var(--line-2);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
+#fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+#fein-chat .fc-mark{position:relative;flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);color:var(--fg)}
+#fein-chat .fc-mark svg{display:block}
+#fein-chat .fc-dot{position:absolute;right:0;bottom:1px;width:10px;height:10px;border-radius:50%;background:#30d158;box-shadow:0 0 0 2px var(--bg-2)}
+#fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
+#fein-chat .fc-txt b{font-weight:600;font-size:13px;letter-spacing:-.01em;color:var(--fg)}
+#fein-chat .fc-txt span{font-size:11.5px;font-weight:450;color:var(--muted)}
+#fein-chat.fc-open{opacity:0;transform:translateY(6px);pointer-events:none}
+@media(max-width:520px){#fein-chat{padding:9px;gap:0}#fein-chat .fc-txt{display:none}}
+@media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}}
+</style>
+<button type="button" id="fein-chat" aria-label="Chat with the fein team. We are online and reply within minutes.">
+<span class="fc-mark"><svg viewBox="0 0 32 32" width="17" height="17" fill="none" aria-hidden="true"><line x1="7" y1="24" x2="22" y2="9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><line x1="22" y1="9" x2="24.5" y2="24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="7" cy="24" r="3.4" fill="currentColor"/><circle cx="22" cy="9" r="3.4" fill="currentColor"/><circle cx="24.5" cy="24" r="2.2" fill="currentColor"/></svg><span class="fc-dot"></span></span>
+<span class="fc-txt"><b>Chat with us</b><span>Replies within minutes</span></span>
+</button>
+<script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic("reattach_activator");ic("update",w.intercomSettings)}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(a){i.q.push(a)};w.Intercom=i;var l=function(){var s=d.createElement("script");s.async=true;s.src="https://widget.intercom.io/widget/${INTERCOM_APP_ID}";var x=d.getElementsByTagName("script")[0];x.parentNode.insertBefore(s,x)};if(document.readyState==="complete")l();else if(w.attachEvent)w.attachEvent("onload",l);else w.addEventListener("load",l,false)}})()</script>
+<script>(function(){var b=document.getElementById("fein-chat");if(!b)return;requestAnimationFrame(function(){requestAnimationFrame(function(){b.classList.add("fc-in")})});if(window.Intercom){Intercom("onShow",function(){b.classList.add("fc-open")});Intercom("onHide",function(){b.classList.remove("fc-open")})}})()</script>
+<!--fein-chat:end-->` : "";
 
 const indexHtml = `<!doctype html>
 <html lang="en">

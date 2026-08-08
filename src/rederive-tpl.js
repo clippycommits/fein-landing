@@ -20,7 +20,10 @@ let body = idx.slice(b0, b1);
 // template, every rederive+build cycle stacks another copy and it leaks into
 // the artifact build (which must not carry it).
 body = body.replace(/\s*<script data-goatcounter[\s\S]*?<\/script>\s*<script>[^<]*goatcounter[\s\S]*?<\/script>/g, "");
-// same for the Intercom pair (settings + widget loader), also build.js-appended
+// the Intercom launcher + messenger, wrapped in <!--fein-chat--> delimiters,
+// also build.js-appended (must never leak into the template or the artifact).
+body = body.replace(/\s*<!--fein-chat:start-->[\s\S]*?<!--fein-chat:end-->/g, "");
+// legacy fallback: older builds appended the settings+loader pair with no delimiters
 body = body.replace(/\s*<script>window\.intercomSettings[\s\S]*?<\/script>\s*<script>[\s\S]*?widget\.intercom\.io[\s\S]*?<\/script>/g, "");
 body = body.trimEnd() + "\n";
 // build.js emits a newline after <body>; pin the seam or each cycle grows a blank line
