@@ -1,6 +1,6 @@
 # fein
 
-> fein is the shared memory of a venture capital team: it reads the team's email, calendar, notes, and CRM, and turns what is buried one inbox at a time into one record the whole team can see and nobody has to maintain. Answers arrive inside AI tools like Claude, ChatGPT, and Cursor over MCP: warm intros, meeting prep, deal history, and why the team passed, every fact linked to its source. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.
+> fein is the open-source data layer for a venture capital team, the shared memory the whole firm can query. It reads the team's email, calendar, notes, and CRM, resolves them into one entity-resolved graph of every relationship the firm holds (who knows whom, and how strongly, scored from real signals, never guessed), and serves it to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Answers arrive with the source attached: warm intros, meeting prep, deal history, and why the team passed. Instead of scraping documents and guessing, agents traverse a deterministic map. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.
 
 Updated: 2026-08-08. Full page content in Markdown: https://fein.vc/llms-full.txt
 
