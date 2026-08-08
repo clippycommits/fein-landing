@@ -94,4 +94,4 @@ Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers l
 
 - [Talk to sales](https://fein.vc/#get-started): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
-- [Ask for the repo](mailto:sales@fein.vc): the code is open source, email for access
+- [Get the repo](https://github.com/clippycommits/fundgraph): the source on GitHub, MIT licensed, free to self-host

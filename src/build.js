@@ -23,8 +23,8 @@ let body = fs.readFileSync("fein.tpl.html", "utf8")
 if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1) throw new Error("font placeholder left");
 
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
-const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg" };
-const MONO = { openai: 1, cursor: 1, gemini: 1, perplexity: 1, copilot: 1 }; // monochrome marks -> recolor via currentColor
+const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg", github: "logos/github.svg" };
+const MONO = { openai: 1, cursor: 1, gemini: 1, perplexity: 1, copilot: 1, github: 1 }; // monochrome marks -> recolor via currentColor
 function symbolFor(name, file) {
   let s = fs.readFileSync(file, "utf8").replace(/<\?xml[^>]*\?>/i, "").trim();
   const vb = (s.match(/viewBox="([^"]+)"/i) || [null, "0 0 24 24"])[1];
@@ -238,6 +238,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
+- [Source on GitHub](https://github.com/clippycommits/fundgraph): MIT licensed, free to self-host
 - [Full page content for LLMs](${SITE}/llms-full.txt): the whole page in Markdown
 - [Sitemap](${SITE}/sitemap.xml): every indexable URL
 `);
@@ -318,7 +319,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 - [Talk to sales](${SITE}/#get-started): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
-- [Ask for the repo](mailto:sales@fein.vc): the code is open source, email for access
+- [Get the repo](https://github.com/clippycommits/fundgraph): the source on GitHub, MIT licensed, free to self-host
 `);
 
 // favicon.svg — theme-adaptive graph mark

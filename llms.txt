@@ -32,5 +32,6 @@ Updated: 2026-08-08. Full page content in Markdown: https://fein.vc/llms-full.tx
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
+- [Source on GitHub](https://github.com/clippycommits/fundgraph): MIT licensed, free to self-host
 - [Full page content for LLMs](https://fein.vc/llms-full.txt): the whole page in Markdown
 - [Sitemap](https://fein.vc/sitemap.xml): every indexable URL
