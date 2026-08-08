@@ -493,12 +493,13 @@
     .ticker{text-wrap:balance}
   }
 
-  /* the authored break balances each half of the headline separately, which on
-     a phone leaves the second half wrapping to a stub line of its own. lifting
-     the break lets the whole sentence balance as one: three even lines from
-     365 to 479, and at 320 four lines whose last is the longest rather than a
-     93px stub. re-measure these edges whenever the headline copy changes */
-  @media (max-width:479px){
+  /* the authored break needs 443px to fit "The shared memory of a" on one line.
+     from there up it gives two clean lines and governs. below it, the break
+     splits each half separately and costs a line, so let the balancer wrap the
+     whole headline instead. this bound is measured from the live string, so
+     re-measure it whenever the headline copy changes: check where each line
+     actually breaks, not just how many there are */
+  @media (max-width:442px){
     .hero-inner h1 br{display:none}
   }
 
