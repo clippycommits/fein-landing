@@ -269,7 +269,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 ## How it works
 - fein reads your existing systems (email, calendar, Google Drive, LinkedIn, CRMs like Attio and Affinity) and builds a relationship graph automatically, with no CRM to keep updated by hand.
 - It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
-- Delivered forward-deployed: live in 14 days, two short calls from your team.
+- We deploy it into your stack: live in 14 days, two short calls from your team.
 
 ## Pricing
 - $5,000 one-time build.
@@ -349,7 +349,7 @@ Your data never leaves your servers. fein reads your inbox, calendar, and CRM to
 
 ## The fortnight: deployed in two weeks
 
-fein is forward-deployed. Our team builds it into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
+We deploy fein into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
 
 - Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM, on your own servers.
 - Days 2-13, it reads your whole history: it reads years of email, meetings, and documents, and joins every version of each person into one record the whole team shares and nobody maintains.

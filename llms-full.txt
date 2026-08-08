@@ -52,7 +52,7 @@ Your data never leaves your servers. fein reads your inbox, calendar, and CRM to
 
 ## The fortnight: deployed in two weeks
 
-fein is forward-deployed. Our team builds it into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
+We deploy fein into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
 
 - Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM, on your own servers.
 - Days 2-13, it reads your whole history: it reads years of email, meetings, and documents, and joins every version of each person into one record the whole team shares and nobody maintains.
