@@ -2,7 +2,7 @@
 
 > fein is the open-source data layer for a venture capital team, the shared memory the whole firm can query. It reads the team's email, calendar, notes, and CRM, resolves them into one entity-resolved graph of every relationship the firm holds (who knows whom, and how strongly, scored from real signals, never guessed), and serves it to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Answers arrive with the source attached: warm intros, meeting prep, deal history, and why the team passed. Instead of scraping documents and guessing, agents traverse a deterministic map. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.
 
-Updated: 2026-08-08. This file mirrors the full content of https://fein.vc/ for AI assistants and answer engines. Summary version: https://fein.vc/llms.txt
+Updated: 2026-08-09. This file mirrors the full content of https://fein.vc/ for AI assistants and answer engines. Summary version: https://fein.vc/llms.txt
 
 ## What fein is
 
@@ -50,6 +50,14 @@ Your data never leaves your servers. fein reads your inbox, calendar, and CRM to
 - Open source, end to end. Every line that touches your data is public. Read it before you run it.
 - Permissioned and logged. Access is checked per person on every query, and every query is logged. When LPs ask, you show the trail.
 
+## The fortnight: deployed in two weeks
+
+fein is forward-deployed. Our team builds it into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
+
+- Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM, on your own servers.
+- Days 2-13, it reads your whole history: it reads years of email, meetings, and documents, and joins every version of each person into one record the whole team shares and nobody maintains.
+- Day 14, you verify, then it goes live: on a second short call you check the answers against what you already know, and it goes live holding your team's whole history, like a colleague who has been here for years.
+
 ## Pricing
 
 Every venture capital team needs a data engineer. Now every team can afford one.
@@ -94,4 +102,4 @@ Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers l
 
 - [Talk to sales](https://fein.vc/#get-started): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
-- [Get the repo](https://github.com/clippycommits/fundgraph): the source on GitHub, MIT licensed, free to self-host
+- [Get the repo](https://github.com/clippycommits/fein): the source on GitHub, MIT licensed, free to self-host

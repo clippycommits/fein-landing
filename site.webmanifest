@@ -1,7 +1,7 @@
 {
   "name": "fein",
   "short_name": "fein",
-  "description": "The graph for venture capital teams.",
+  "description": "The shared memory of a venture capital team.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

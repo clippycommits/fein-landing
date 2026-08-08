@@ -7,7 +7,7 @@ const TITLE = "fein · the shared memory of a venture capital team";
 // synced to the live hero + lede; both obey the copy rules (no em dashes, no "fund").
 const DESC = "The open-source data layer for venture capital teams. It reads your email, calendar, and CRM, resolves them into one graph, and answers in Claude, ChatGPT, and Cursor.";
 const DESC_LONG = "The shared memory of a venture capital team. fein is the open-source data layer for investment teams: it reads your email, calendar, notes, and CRM, resolves them into one live graph of every relationship your firm holds, and answers inside Claude, ChatGPT, and Cursor, with the source behind every answer. The warm intro, the meeting brief, the reason you passed, from your team's own history in seconds. Self-hosted, open source, live in 14 days.";
-const LASTMOD = "2026-08-08";
+const LASTMOD = "2026-08-09";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
 const monoB64 = fs.readFileSync("GeistMono.woff2").toString("base64");
@@ -79,7 +79,7 @@ const FEATURES = [
 const ld = {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the shared memory of a venture capital team", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the shared memory of a venture capital team", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: ["https://github.com/clippycommits/fein"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -89,9 +89,9 @@ const ld = {
       provider: { "@id": SITE + "/#org" }, isAccessibleForFree: true, featureList: FEATURES,
       audience: { "@type": "Audience", audienceType: "Venture capital teams" },
       offers: [
-        { "@type": "Offer", name: "Build", price: "5000", priceCurrency: "USD", url: SITE + "/#pricing", description: "One-time setup: fein built, connected, and live on your servers in 14 days" },
-        { "@type": "Offer", name: "Maintenance", priceCurrency: "USD", url: SITE + "/#pricing", description: "Monthly upkeep: connectors kept alive, graph kept current, new answers built on request", priceSpecification: { "@type": "UnitPriceSpecification", price: "1000", priceCurrency: "USD", unitText: "MONTH" } },
-        { "@type": "Offer", name: "Clone it yourself", price: "0", priceCurrency: "USD", url: SITE + "/#pricing", description: "Free and open source: the same code we deploy for clients, run and maintained by your team" }
+        { "@type": "Offer", name: "Build", price: "5000", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE + "/#pricing", description: "One-time setup: fein built, connected, and live on your servers in 14 days" },
+        { "@type": "Offer", name: "Maintenance", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE + "/#pricing", description: "Monthly upkeep: connectors kept alive, graph kept current, new answers built on request", priceSpecification: { "@type": "UnitPriceSpecification", price: "1000", priceCurrency: "USD", unitText: "MONTH" } },
+        { "@type": "Offer", name: "Clone it yourself", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE + "/#pricing", description: "Free and open source: the same code we deploy for clients, run and maintained by your team" }
       ]
     },
     { "@type": "FAQPage", "@id": SITE + "/#faq", mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }
@@ -111,7 +111,6 @@ const headMeta = `<meta charset="utf-8">
 <meta name="application-name" content="fein">
 <meta name="apple-mobile-web-app-title" content="fein">
 <meta name="format-detection" content="telephone=no">
-<meta name="keywords" content="relationship graph, relationship intelligence, memory layer, venture capital, VC CRM, warm intros, deal memory, meeting prep, MCP server, Claude, ChatGPT, Cursor, Attio, Affinity, open source">
 <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -134,12 +133,12 @@ const headMeta = `<meta charset="utf-8">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the graph for venture capital teams">
+<meta property="og:image:alt" content="fein · the shared memory of a venture capital team">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
 <meta name="twitter:image" content="${SITE}/og.png">
-<meta name="twitter:image:alt" content="fein · the graph for venture capital teams">`;
+<meta name="twitter:image:alt" content="fein · the shared memory of a venture capital team">`;
 
 // GoatCounter (fein.goatcounter.com) — standalone site only, never the artifact
 // copy: claude.ai's CSP blocks external scripts. Hash routes count as pages so
@@ -278,7 +277,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
-- [Source on GitHub](https://github.com/clippycommits/fundgraph): MIT licensed, free to self-host
+- [Source on GitHub](https://github.com/clippycommits/fein): MIT licensed, free to self-host
 - [Full page content for LLMs](${SITE}/llms-full.txt): the whole page in Markdown
 - [Sitemap](${SITE}/sitemap.xml): every indexable URL
 `);
@@ -337,6 +336,14 @@ Your data never leaves your servers. fein reads your inbox, calendar, and CRM to
 - Open source, end to end. Every line that touches your data is public. Read it before you run it.
 - Permissioned and logged. Access is checked per person on every query, and every query is logged. When LPs ask, you show the trail.
 
+## The fortnight: deployed in two weeks
+
+fein is forward-deployed. Our team builds it into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
+
+- Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM, on your own servers.
+- Days 2-13, it reads your whole history: it reads years of email, meetings, and documents, and joins every version of each person into one record the whole team shares and nobody maintains.
+- Day 14, you verify, then it goes live: on a second short call you check the answers against what you already know, and it goes live holding your team's whole history, like a colleague who has been here for years.
+
 ## Pricing
 
 Every venture capital team needs a data engineer. Now every team can afford one.
@@ -359,7 +366,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 - [Talk to sales](${SITE}/#get-started): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
-- [Get the repo](https://github.com/clippycommits/fundgraph): the source on GitHub, MIT licensed, free to self-host
+- [Get the repo](https://github.com/clippycommits/fein): the source on GitHub, MIT licensed, free to self-host
 `);
 
 // favicon.svg — theme-adaptive graph mark
@@ -372,7 +379,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
-  name: "fein", short_name: "fein", description: "The graph for venture capital teams.",
+  name: "fein", short_name: "fein", description: "The shared memory of a venture capital team.",
   start_url: "/", display: "standalone", background_color: "#000000", theme_color: "#000000",
   icons: [
     { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
