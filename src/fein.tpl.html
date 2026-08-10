@@ -329,12 +329,25 @@
      plain block, no align-content anywhere on the sticky's ancestor chain, no
      overflow but the store's own clip, and no will-change on .rec-pin (it would
      make the pin a containing block and Safari drops the stick). */
-  .rec-intro{min-height:32svh;display:grid;align-content:center;justify-items:start;max-width:56ch;padding-block:clamp(1rem,3svh,2rem)}
-  .rec-intro h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin-top:.7rem}
-  .rec-lead{margin-top:.9rem;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty}
+  .rec-intro{min-height:32svh;display:grid;align-content:center;justify-items:start;max-width:70ch;padding-block:clamp(1rem,3svh,2rem)}
+  .rec-intro h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin-top:.7rem;max-width:20ch}
+  .rec-lead{margin-top:.9rem;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty;max-width:60ch}
+  /* the key. Three marks carry the whole walk and none of them is self
+     evident, so they are named once, in full, before anything moves. The stage
+     repeats this in miniature on its opening beat, because by the time the pin
+     takes over this paragraph has scrolled off the top of the screen. */
+  .rec-legend{list-style:none;margin:1.35rem 0 0;padding:0;display:grid;gap:.6rem;max-width:66ch}
+  .rec-legend li{display:grid;grid-template-columns:20px minmax(0,1fr);align-items:baseline;gap:.65rem;font-size:.93rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
+  .rec-legend b{color:#fff;font-weight:550}
+  .rec-lgm{font-family:var(--mono);font-size:.88rem;line-height:1.5;text-align:center;font-style:normal}
+  .rec-lgm.p{color:var(--mem-new)}
+  .rec-lgm.m{color:var(--mem-ret)}
+  .rec-lgm.w{color:var(--blue-l)}
   /* the invitation. It names the shape of the walk before it starts, so the
-     first pinned frame is a step in something rather than a surprise */
-  .rec-guide{margin-top:1.15rem;padding-left:.7rem;border-left:2px solid var(--blue-l);font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;line-height:1.7;color:var(--fg-3)}
+     first pinned frame is a step in something rather than a surprise, and it
+     names the two ways through it: the scroll, and the button that does the
+     scrolling for you */
+  .rec-guide{margin-top:1.25rem;padding-left:.7rem;border-left:2px solid var(--blue-l);font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;line-height:1.7;color:var(--fg-3)}
   /* the static default is a document, so it takes the page measure; the pinned
      stage sets its own width and resets this */
   .rec-track{display:block;position:relative;max-width:var(--maxw);margin-inline:auto;padding:0 24px}
@@ -363,6 +376,14 @@
   .rec-lede{padding:1.05rem 14px 0;font-size:clamp(1.42rem,2.5vw,2rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;margin:0 0 .55rem;text-wrap:balance}
   .rec-lede::before{content:counter(beat,decimal-leading-zero);margin-right:.62em;font-family:var(--mono);font-size:.46em;font-weight:500;letter-spacing:.12em;color:var(--blue-l);vertical-align:.34em}
   .rec-gapline.rec-lede::before{content:none}
+  /* the source's own mark, set into the sentence beside the word it names, so
+     "email" in the narration and the Gmail plate on the document below it are
+     the same badge, and the line reads as a caption for the card before you
+     reach the chrome row. Sized in em so it tracks the clamp; .rec-lw keeps
+     mark and word on one line. The ring is for a plate darker than the page. */
+  .rec-lw{white-space:nowrap}
+  .rec-lede .tlogo{width:.78em;height:.78em;margin-right:.22em;vertical-align:-.07em}
+  .rec-lede .tlogo.rec-ring{border-radius:.2em;box-shadow:0 0 0 1px rgba(255,255,255,.16)}
   .rec-mh{padding:.9rem 14px .6rem}
   .rec-mfrom{font-size:.86rem;color:var(--fg-2)}
   .rec-mfrom b{color:var(--fg);font-weight:550}
@@ -1160,37 +1181,37 @@ __LOGO_SPRITE__
               <h3 class="rec-paneh">What fein read</h3>
               <div class="rec-well" id="rec-well">
                 <article class="rec-card" data-c="0">
-                  <p class="rec-lede">fein reads the email and writes three facts.</p>
+                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>email</span> and writes three facts.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-cd">8 Nov 2024</span></div>
                   <div class="rec-mh"><p class="rec-mfrom"><b><mark class="rec-hl" data-hl="1">Dev Raman<span class="rec-hn" aria-hidden="true">2</span></mark></b> <span>&lt;dev@raman.vc&gt;</span></p><p class="rec-mto">to Marcus</p><p class="rec-msub">Fwd: Halo Compute — seed deck</p></div>
                   <p class="rec-mb">Marcus — worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <mark class="rec-hl" data-hl="0">raising a $4M seed<span class="rec-hn" aria-hidden="true">1</span></mark> and I think <mark class="rec-hl" data-hl="2">you are the right partner<span class="rec-hn" aria-hidden="true">3</span></mark> for it.</p>
                 </article>
                 <article class="rec-card" data-c="1">
-                  <p class="rec-lede">fein reads the transcript and writes three more.</p>
+                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>transcript</span> and writes three more.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span class="rec-cs">Granola</span><span class="rec-since">13 days later</span><span class="rec-cd">21 Nov 2024</span></div>
                   <div class="rec-mh"><p class="rec-msub">Coffee with Halo Compute</p><p class="rec-mto">41 min · auto-transcribed</p></div>
                   <p class="rec-mb">Both founders are <mark class="rec-hl" data-hl="3">ex-Anthropic infra<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="4">No design partners live<span class="rec-hn" aria-hidden="true">2</span></mark> yet, they want two before they raise again. Raising on <mark class="rec-hl" data-hl="5">a $9M pre<span class="rec-hn" aria-hidden="true">3</span></mark>.</p>
                 </article>
                 <article class="rec-card rec-ovl" data-c="2">
-                  <p class="rec-lede">fein reads the CRM and writes the new stage.</p>
+                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo rec-ring" aria-hidden="true"><use href="#l-attio"/></svg>CRM</span> and writes the new stage.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span class="rec-cs">Attio</span><span class="rec-since">3 weeks later</span><span class="rec-cd">12 Dec 2024</span></div>
                   <div class="rec-mh"><p class="rec-msub">Halo Compute</p><p class="rec-mto"><mark class="rec-hl" data-hl="6">Stage changed · Diligence<span class="rec-hn" aria-hidden="true">1</span></mark></p></div>
                   <p class="rec-mb">Owner Marcus. <mark class="rec-hl" data-hl="7">Two reference calls complete, both strong<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
                 </article>
                 <article class="rec-card" data-c="3">
-                  <p class="rec-lede">fein reads the memo and writes why you passed.</p>
+                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>memo</span> and writes why you passed.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span class="rec-cs">Notion</span><span class="rec-since">5 weeks later</span><span class="rec-cd">16 Jan 2025</span></div>
                   <div class="rec-mh"><p class="rec-msub">Monday memo — Halo Compute</p><p class="rec-mto">Partner meeting</p></div>
                   <p class="rec-mb"><mark class="rec-hl" data-hl="8">Passing for now<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="9">No design partners live, and the wedge is unproven at this price<span class="rec-hn" aria-hidden="true">2</span></mark>. Revisit if they land design partners.</p>
                 </article>
                 <article class="rec-card" data-c="4">
-                  <p class="rec-lede">Nobody logs the hire. fein writes it anyway.</p>
+                  <p class="rec-lede">Nobody logs the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>hire</span>. fein writes it anyway.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span class="rec-cs">Linkedin</span><span class="rec-since">4 months later</span><span class="rec-cd">3 Jun 2025</span></div>
                   <div class="rec-mh"><p class="rec-msub">Priya Nayar</p><p class="rec-mto">started a new position</p></div>
                   <p class="rec-mb"><mark class="rec-hl" data-hl="10">VP Engineering at Halo Compute<span class="rec-hn" aria-hidden="true">1</span></mark>. Previously Databricks.</p>
                 </article>
                 <article class="rec-card" data-c="5">
-                  <p class="rec-lede">fein reads the update and retires three old facts.</p>
+                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>update</span> and retires three old facts.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-since">12 months later</span><span class="rec-cd">2 Jun 2026</span></div>
                   <div class="rec-mh"><p class="rec-mfrom"><b>Nadia Osei</b> <span>&lt;nadia@halocompute.com&gt;</span></p><p class="rec-mto">to investors@</p><p class="rec-msub">Halo Compute — June update</p></div>
                   <p class="rec-mb">We are <mark class="rec-hl" data-hl="11">opening a $30M Series A<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="12">Six design partners are live<span class="rec-hn" aria-hidden="true">2</span></mark> and we finished May at <mark class="rec-hl" data-hl="13">$2.4M ARR<span class="rec-hn" aria-hidden="true">3</span></mark>, four times where we were in January.</p>
@@ -3322,13 +3343,18 @@ __LOGO_SPRITE__
   var vis=false, held=false;
 
   /* small screens and metered connections take the 720p cut. preload is none,
-     so nothing has been fetched and rewriting the list now is free. */
+     so no bytes have moved and rewriting the list now is free -- but the
+     browser picked a winner out of the markup while parsing it and has already
+     set currentSrc, so swapping the children is inert on its own. load() is
+     what makes it run selection again, and with preload none it re-selects
+     without fetching. */
   if(window.matchMedia('(max-width:768px)').matches||thrifty){
     [].forEach.call(v.querySelectorAll('source'),function(s){ v.removeChild(s); });
     var s=document.createElement('source');
     s.src='/video/fein-demo-720.mp4';
     s.type='video/mp4; codecs="avc1.640028, mp4a.40.2"';
     v.insertBefore(s,v.firstChild);
+    v.load();
   }
 
   function play(){
