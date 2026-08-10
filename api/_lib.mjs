@@ -67,7 +67,7 @@ export async function logEvent(ev) {
   }
 }
 
-// ---- email copy (site rules apply: no em dashes, never "fund") ------------
+// ---- email copy (site rules apply: no em dashes) --------------------------
 // Lead-facing mail is the SDR persona Olivia Greene, modelled on Ramp's
 // "your interest in Ramp" outreach: it must read as personally written, so
 // the HTML part is a bare Gmail-style message (default font, a plain link on

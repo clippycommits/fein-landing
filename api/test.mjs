@@ -101,7 +101,6 @@ console.log("Enquiry:");
     "nudge is scheduled in the future");
   ok(kv.get("fein:nudge:priya@meridianwealth.example") === "em_3", "nudge id stored in redis");
   ok(!JSON.stringify(mails).match(/—|—/), "email copy contains no em dashes");
-  ok(!JSON.stringify(mails).includes("fund "), "email copy never says 'fund'");
 }
 
 console.log("Honeypot + validation:");

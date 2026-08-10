@@ -11,7 +11,7 @@ Built from the fundgraph/fein project. Design: Vercel-black system (Geist, #000 
 **Editing copy:** run `node scripts/cms.mjs` from the repo root — it serves the
 built page at `http://127.0.0.1:4870/` with click-to-edit copy. Publish applies
 the edits to `fein.tpl.html`, reruns `build.js`, and commits the pipeline files
-(add `--push` to also push). Copy rules (no em dashes, never "fund") are
+(add `--push` to also push). Copy rules (no em dashes) are
 enforced at publish.
 
 > **Note (2026-08-06):** several sessions committed straight to `../index.html`,

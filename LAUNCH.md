@@ -38,8 +38,8 @@ cal.com BOOKING_CREATED webhook → /api/webhooks/calcom (HMAC-verified)
 - Event log: Redis list `fein:log` (enquiries, sends, bookings, call
   clicks), best effort — the email notifications are the primary record.
 - Tests: `node api/test.mjs` — fully offline (fetch patched to fake Resend +
-  Upstash), 22 assertions including webhook signature verification, nudge
-  cancellation, and the copy rules (no em dashes, never "fund").
+  Upstash), 31 assertions including webhook signature verification, nudge
+  cancellation, and the copy rules (no em dashes).
 - FormSubmit remains the fallback relay if the functions are unreachable;
   abandoned partial leads go ONLY there, deliberately, so they never
   trigger the booking funnel emails.

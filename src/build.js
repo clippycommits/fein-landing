@@ -4,7 +4,7 @@ const path = require("path");
 const SITE = "https://fein.vc";
 const TITLE = "fein · the shared memory of a venture capital team";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD,
-// synced to the live hero + lede; both obey the copy rules (no em dashes, no "fund").
+// synced to the live hero + lede; both obey the copy rules (no em dashes).
 const DESC = "The open-source data layer for venture capital teams. It reads your email, calendar, and CRM. It resolves them into one graph. It answers in Claude, ChatGPT, and Cursor.";
 const DESC_LONG = "The shared memory of a venture capital team. fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. It gives the warm introduction, the meeting brief, and the reason you passed, from your team's history in seconds. It is self-hosted and open source. It is live in 14 days.";
 const LASTMOD = "2026-08-10";

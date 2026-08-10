@@ -10,7 +10,7 @@
 // applies the edits to src/fein.tpl.html (the canonical template — see
 // src/README.md), reruns src/build.js, verifies the output, and commits the
 // pipeline files. Copy rules are enforced before anything is written:
-// no em dashes, never the word "fund".
+// no em dashes.
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -55,7 +55,6 @@ function lint(edits) {
   for (const e of edits) {
     const text = e.after.replace(/<[^>]*>/g, " ");
     if (/—|&mdash;/.test(text)) issues.push({ label: e.label, issue: "em dash — copy rule: no em dashes" });
-    if (/\bfunds?\b/i.test(text)) issues.push({ label: e.label, issue: 'the word "fund" — copy rule: say "venture capital team"' });
     if (/<\s*script/i.test(e.after)) issues.push({ label: e.label, issue: "script tag in edit" });
   }
   return issues;

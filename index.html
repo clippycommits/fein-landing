@@ -292,6 +292,29 @@
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
+  /* what changed: two moments on one dashed rail. the argument is the retirement,
+     so the old facts are restated under the second source and struck there rather
+     than edited in place above. cards borrow the .mock language unchanged. */
+  .chg{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(1.8rem,4vw,3rem);align-items:start;margin-top:clamp(.5rem,1vw,1rem)}
+  .chg-copy{position:sticky;top:calc(var(--nav-h) + 2.5rem)}
+  .chg-copy h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
+  .chg-copy p{margin-top:1.05rem;color:var(--fg-2);font-size:1.04rem;line-height:1.6;max-width:42ch}
+  .chg-tl{position:relative;padding-left:2.1rem}
+  .chg-tl::before{content:"";position:absolute;left:.42rem;top:.6rem;bottom:.6rem;border-left:1px dashed var(--line-2)}
+  .chg-beat{position:relative;opacity:0;translate:0 14px;transition:opacity .55s cubic-bezier(.22,.61,.36,1),translate .55s cubic-bezier(.22,.61,.36,1)}
+  .chg-beat.on{opacity:1;translate:0 0}
+  .chg-beat + .chg-beat{margin-top:1.6rem}
+  .chg-dot{position:absolute;left:-2.1rem;top:.5rem;width:15px;height:15px;border-radius:50%;background:var(--blue);display:grid;place-items:center;box-shadow:0 0 0 4px var(--bg),0 0 18px rgba(0,112,243,.5)}
+  .chg-dot svg{width:8px;height:8px;fill:#fff}
+  .chg-facts{margin-top:.9rem;padding-left:.35rem}
+  .chg-lab{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.45rem}
+  .fct{display:block;position:relative;padding:.32rem 0 .32rem 1rem;font-size:.9rem;line-height:1.5;color:var(--fg-2);transition:color .55s ease,opacity .55s ease}
+  .fct::before{content:"";position:absolute;left:.1rem;top:.85em;width:4px;height:4px;border-radius:50%;background:var(--dim);transition:background .55s ease}
+  .fct b{color:var(--fg);font-weight:600}
+  .fct.new{opacity:0;translate:0 6px;transition:opacity .5s ease,translate .5s ease}
+  .fct.new.on{opacity:1;translate:0 0}
+  .fct.gone{color:var(--dim);opacity:.5;text-decoration:line-through;text-decoration-color:var(--dim)}
+  .fct.gone b{color:var(--dim);font-weight:400}
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -581,6 +604,10 @@
   @media (max-width:768px){
     .split{grid-template-columns:1fr;gap:2.2rem}
     .feat{grid-template-columns:1fr;gap:1.4rem}
+    /* stacked, the copy would stick over the rail it is meant to introduce */
+    .chg{grid-template-columns:1fr;gap:1.6rem}
+    .chg-copy{position:static}
+    .chg-copy p{max-width:none}
     .feat:nth-child(even) .feat-copy{order:0}
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
@@ -661,6 +688,11 @@
        them sit on the words. the tiles already name their own sources */
     .orb-chip{display:none}
     .reveal{opacity:1;translate:0 0;transition:none}
+    /* the retirement reads fine as a still: the strike-through is the message,
+       the sequencing was only ever the delivery */
+    .chg-beat{opacity:1;translate:0 0;transition:none}
+    .fct.new{opacity:1;translate:0 0;transition:none}
+    .chg-copy{position:static}
     /* the still frame is painted once and kept; nothing should fade it up */
     #burst{animation:none}
   }
@@ -823,6 +855,56 @@ setTimeout(go,1200);})()</script>
       </div>
     </div>
 
+  </section>
+
+  <!-- WHAT CHANGED: the hero promises one live graph, so the first thing under it
+       has to prove the graph is live. One person, two moments, one rail. The
+       strike-through is the entire argument: the CRM row would still read
+       "Northgate", and the relationship line survives the employer change. -->
+  <section id="change" class="band">
+    <div class="wrap">
+      <div class="chg">
+        <div class="chg-copy reveal">
+          <span class="eyebrow">What changed</span>
+          <h2>People move. Your graph moves with them.</h2>
+          <p>When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
+          <p>Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
+        </div>
+        <div class="chg-tl reveal" id="chg-tl">
+
+          <div class="chg-beat" data-beat="1">
+            <span class="chg-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span>
+            <div class="mock">
+              <div class="mock-title">Granola · 2025-03-04 · Coffee with Sarah Chen</div>
+              <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span>"Send me anything in infra at seed. I can co-lead."</span><b class="mtag">Note</b></div>
+            </div>
+            <div class="chg-facts">
+              <p class="chg-lab">Facts</p>
+              <span class="fct"><b>Sarah Chen</b> is a Partner at <b>Northgate Ventures</b>.</span>
+              <span class="fct"><b>Sarah Chen</b> co-leads at seed.</span>
+              <span class="fct"><b>Priya</b> has the warmest path to <b>Sarah Chen</b>.</span>
+            </div>
+          </div>
+
+          <div class="chg-beat" data-beat="2">
+            <span class="chg-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span>
+            <div class="mock">
+              <div class="mock-title">LinkedIn · 2026-07-22 · Position update</div>
+              <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>Sarah Chen</b> started a new position: General Partner at <b>Vantage Point</b>.</span><b class="mtag strong">New</b></div>
+            </div>
+            <div class="chg-facts">
+              <p class="chg-lab">Facts</p>
+              <span class="fct fct-retire"><b>Sarah Chen</b> is a Partner at <b>Northgate Ventures</b>.</span>
+              <span class="fct fct-retire"><b>Sarah Chen</b> co-leads at seed.</span>
+              <span class="fct new"><b>Sarah Chen</b> is a General Partner at <b>Vantage Point</b>.</span>
+              <span class="fct new"><b>Sarah Chen</b> leads Series A, not seed.</span>
+              <span class="fct new"><b>Priya</b> still has the warmest path to <b>Sarah Chen</b>.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- WORKS WITH: the tool proof, directly under the hook. it used to close the
@@ -2353,6 +2435,36 @@ setTimeout(go,1200);})()</script>
     });
   },{threshold:0.12, rootMargin:'0px 0px -6% 0px'});
   items.forEach(function(el){ io.observe(el); });
+})();
+
+/* what-changed beats: land moment one, land moment two, retire the two facts it
+   contradicts, then bring in what replaced them. one pass, on first view. the
+   end state is the whole point, so every failure path jumps straight to it. */
+(function(){
+  var tl=document.getElementById('chg-tl');
+  if(!tl) return;
+  var beats=[].slice.call(tl.querySelectorAll('.chg-beat'));
+  var retire=[].slice.call(tl.querySelectorAll('.fct-retire'));
+  var fresh=[].slice.call(tl.querySelectorAll('.fct.new'));
+  function settle(){
+    beats.forEach(function(b){ b.classList.add('on'); });
+    retire.forEach(function(f){ f.classList.add('gone'); });
+    fresh.forEach(function(f){ f.classList.add('on'); });
+  }
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){ settle(); return; }
+  var io=new IntersectionObserver(function(entries){
+    if(!entries[0].isIntersecting) return;
+    io.disconnect();
+    var t=0;
+    beats.forEach(function(b){ setTimeout(function(){ b.classList.add('on'); }, t); t+=700; });
+    setTimeout(function(){
+      retire.forEach(function(f,i){ setTimeout(function(){ f.classList.add('gone'); }, i*150); });
+    }, t+120);
+    setTimeout(function(){
+      fresh.forEach(function(f,i){ setTimeout(function(){ f.classList.add('on'); }, i*140); });
+    }, t+560);
+  },{threshold:0.25});
+  io.observe(tl);
 })();
 
 /* stat count-up on scroll (preserves prefix/commas/suffix); reduced-motion shows final */
