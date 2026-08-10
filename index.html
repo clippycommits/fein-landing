@@ -205,10 +205,13 @@
      is left of the row is a hairline and a grey line of type; hover lifts the
      sentence to white, which is where the only reward for looking belongs.
      opaque, not transparent: the shell is fixed and the hero scrolls under it. */
-  .ribbon{position:relative;height:var(--ribbon-h);display:flex;align-items:center;justify-content:center;padding:0 52px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--font);font-size:14px;line-height:1;overflow:hidden}
-  .rb-msg{display:inline-flex;align-items:center;gap:9px;min-width:0;color:var(--fg-2);font-weight:450;transition:color .18s ease}
+  /* type metrics are the reference bar's, measured off it: 13px on a 20px line,
+     -.16px tracking, 6px from the sentence to the arrow, in a 48px row. ours was
+     already 48 and already black, so the row only needed its text block. */
+  .ribbon{position:relative;height:var(--ribbon-h);display:flex;align-items:center;justify-content:center;padding:0 52px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--font);font-size:13px;line-height:20px;overflow:hidden}
+  .rb-msg{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--fg-2);font-weight:450;transition:color .18s ease}
   .rb-msg:hover{color:#fff}
-  .rb-txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.005em}
+  .rb-txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.16px}
   .rb-msg .arw{flex:none;color:var(--dim);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
   .rb-msg .arw svg{width:11px;height:11px;stroke-width:2.6}
   .rb-msg:hover .arw{transform:translateX(3px);color:#fff}
@@ -533,24 +536,113 @@
   .spot{position:relative}
   .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
   .spot:hover::before{opacity:1}
-  /* ============ security ============
-     The claim holds the left, the commitments run down the right as hairline
-     rows. This was a .head above a three-up list, which left the right of the
-     band empty at heading height and squeezed each commitment into a ~38ch
-     column: the first wrapped two lines, the last four, so the row ended
-     ragged. At a full measure every row breaks evenly.
-     The 5/7 measure is the FAQ split's, deliberately: same shape, so the two
-     read as one system. No sticky here though, unlike .faq-intro, because
-     three rows never outrun the viewport and the rule would never fire. */
-  .secgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
-  .sec-cta{margin-top:1.6rem;font-size:.95rem}
-  .sec-list{list-style:none;padding:0;margin:0}
-  .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;padding:1.45rem 0;border-top:1px solid var(--line)}
-  .sec-list li:first-child{border-top:0;padding-top:.3rem}
-  .sec-list li:last-child{padding-bottom:0}
-  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);box-shadow:inset 0 0 0 1px rgba(82,168,255,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
-  .sec-list b{display:block;color:#fff;font-weight:550;font-size:1.02rem;letter-spacing:-.016em;line-height:1.35}
-  .sec-list p{margin-top:.3rem;color:var(--fg-2);font-size:.96rem;line-height:1.55;max-width:46ch}
+  /* ============ security: the section owns a viewport ============
+     Security is the first question anyone asks about a thing that reads their
+     inbox, and the old answer was a 5/7 split with three hairline rows on the
+     right: true, thin, and two thirds of a black band left empty. It now runs
+     at full height and answers in five moves.
+
+       1  the claim, with the lead and the two source links across from it
+       2  a posture strip: the seven facts that survive being read at a glance
+       3  the boundary figure: what crosses in, what is held, what crosses
+          out, and what gates each crossing
+       4  six control cards, one per surface that is actually defended
+       5  the egress ledger, then the limits, in the same voice as the claims
+
+     The figure is hairline HTML rather than a fifth canvas: it has to read as
+     a diagram at a glance, survive a screen reader, and cost nothing on a
+     phone. Full height is min-height plus centred content, never a fixed
+     height, because the cards below run past one screen on purpose. */
+  .secsec{min-height:100svh;display:grid;align-content:center}
+  .sec-stage{display:grid;gap:clamp(2.2rem,4.6vw,3.4rem)}
+
+  /* 1. the claim. Same 5/7 measure as the FAQ split, deliberately: the two
+     read as one system. align-items:end sets the lede's last line on the
+     heading's baseline instead of letting it float at the top of the column. */
+  .sec-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:end}
+  .sec-top .head{max-width:none}
+  .sec-intro p{color:var(--fg-2);font-size:1.1rem;line-height:1.55;max-width:56ch;text-wrap:pretty}
+  .sec-links{display:flex;flex-wrap:wrap;gap:.4rem 1.7rem;margin-top:1.4rem;font-size:.95rem}
+
+  /* 2. the posture strip: mono pills, one fact each, no sentence to read */
+  .sec-posture{display:flex;flex-wrap:wrap;gap:.45rem;list-style:none;margin:0;padding:0}
+  .sec-posture li{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--fg-2);border:1px solid var(--line-2);border-radius:9999px;padding:.36rem .78rem;white-space:nowrap;background:var(--bg-2)}
+  .sec-posture i{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 8px rgba(82,168,255,.85);flex:none}
+
+  /* 3. the boundary figure. Three zones and two crossings: the fr ratio gives
+     the middle the width because the middle is the whole argument. */
+  .sec-fig{margin:0;display:grid;grid-template-columns:minmax(0,.82fr) auto minmax(0,1.55fr) auto minmax(0,.82fr);align-items:center;gap:clamp(.6rem,1.5vw,1.1rem)}
+  .sd-col{display:grid;gap:.7rem;align-content:center}
+  .sd-lab{font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .sd-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.3rem}
+  .sd-chips li{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;color:var(--fg-2);border:1px solid var(--line);border-radius:7px;padding:.3rem .48rem;background:var(--bg-2);white-space:nowrap}
+  .sd-chips .tlogo{width:14px;height:14px}
+  .sd-note{color:var(--dim);font-size:.77rem;line-height:1.45;max-width:24ch}
+  .sd-out{justify-items:end;text-align:right}
+  .sd-out .sd-chips{justify-content:flex-end}
+  .sd-out .sd-note{margin-left:auto}
+
+  /* the crossing: a dashed run, then the credential that gates it. The two
+     gates carry different labels because they are different things: fein
+     reaches out with your keys, agents reach in with the deployment token. */
+  .sd-gate{display:grid;justify-items:center;gap:.5rem;width:clamp(54px,7vw,96px)}
+  .sd-arw{display:block;width:100%;height:10px;color:var(--g-edge)}
+  .sd-key{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);border:1px solid rgba(82,168,255,.32);background:rgba(0,112,243,.1);border-radius:9999px;padding:.24rem .48rem;white-space:nowrap}
+  .sd-key svg{width:9px;height:9px;display:block}
+
+  /* the box: the only dashed border on the page, because it is the only thing
+     on the page that is a boundary rather than a card */
+  .sd-box{position:relative;border:1px dashed rgba(82,168,255,.32);border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(0,112,243,.07),rgba(10,10,14,.5));box-shadow:var(--hl-top),0 0 80px -34px rgba(0,112,243,.85);padding:.85rem .9rem .9rem}
+  .sd-btop{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-2);padding:.1rem .3rem .75rem}
+  .sd-btop i{width:6px;height:6px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 10px rgba(82,168,255,.9);flex:none}
+  .sd-btop span{margin-left:auto;text-transform:none;letter-spacing:.03em;color:var(--dim)}
+  .sd-lay{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.25rem .75rem;padding:.62rem .3rem;border-top:1px solid var(--line)}
+  .sd-lay em{grid-row:span 2;align-self:start;margin-top:.1rem;font-family:var(--mono);font-style:normal;font-size:.58rem;font-weight:500;letter-spacing:.1em;color:var(--dim);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .34rem}
+  .sd-lay b{color:#fff;font-weight:550;font-size:.9rem;letter-spacing:-.014em;line-height:1.35}
+  .sd-lay p{color:var(--fg-3);font-size:.79rem;line-height:1.5;text-wrap:pretty}
+  .sd-bfoot{margin-top:.55rem;padding:.6rem .3rem 0;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:.64rem;line-height:1.6;letter-spacing:.02em;color:var(--fg-3)}
+  .sd-bfoot b{color:var(--blue-l);font-weight:500}
+  /* the punchline under the picture: nothing in it points at us */
+  .sd-foot{grid-column:1/-1;margin-top:.3rem;padding-top:1rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.4rem;font-size:.9rem;color:var(--fg-3);text-wrap:pretty}
+  .sd-foot b{color:var(--fg);font-weight:550}
+
+  /* 4. the control cards. 1px grid gaps over a hairline ground: the cells
+     share their rules, so six cards of uneven length still rule off square. */
+  .sec-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .sec-card{position:relative;background:#000;padding:1.4rem 1.3rem 1.55rem}
+  .sec-card .scn{font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.14em;color:var(--dim)}
+  .sec-card h3{margin-top:.45rem;font-size:1.02rem;letter-spacing:-.018em;line-height:1.3}
+  .sec-card ul{list-style:none;margin:.95rem 0 0;padding:0}
+  .sec-card li{padding:.72rem 0;border-top:1px solid var(--line);font-size:.865rem;line-height:1.52;color:var(--fg-3);text-wrap:pretty}
+  .sec-card li:last-child{padding-bottom:0}
+  .sec-card li b{color:var(--fg);font-weight:550}
+  #security code{font-family:var(--mono);font-size:.88em;color:var(--blue-l);background:rgba(0,112,243,.11);border:1px solid rgba(82,168,255,.16);border-radius:4px;padding:.06em .32em;white-space:nowrap}
+
+  /* 5a. the egress ledger. Every outbound call the software can make, and the
+     switch that stops it. The first row is the one that matters: it is us. */
+  .sec-ledger{display:grid;gap:1.3rem}
+  .sec-sub h3{font-size:1.22rem;letter-spacing:-.022em;margin-top:.55rem;line-height:1.3}
+  .sec-sub p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;max-width:64ch;text-wrap:pretty}
+  .sec-tbl{width:100%;border-collapse:collapse;font-size:.865rem;text-align:left}
+  .sec-tbl th{font-family:var(--mono);font-size:.61rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);padding:0 1.2rem .8rem 0;border-bottom:1px solid var(--line-2);vertical-align:bottom;white-space:nowrap}
+  .sec-tbl th:last-child,.sec-tbl td:last-child{padding-right:0}
+  .sec-tbl td{padding:.95rem 1.2rem .95rem 0;border-top:1px solid var(--line);color:var(--fg-3);line-height:1.5;vertical-align:top;text-wrap:pretty}
+  .sec-tbl tbody tr:first-child td{border-top:0}
+  .sec-tbl td:first-child{color:var(--fg);font-family:var(--mono);font-size:.79rem;letter-spacing:.01em}
+  .sec-tbl .home td{background:linear-gradient(90deg,rgba(0,112,243,.08),rgba(0,112,243,0) 72%)}
+  .sec-tbl .home td:first-child{color:var(--blue-l)}
+  .sec-tbl .home td:nth-child(2){color:var(--fg)}
+
+  /* 5b. the limits. Stated in the same voice, because a security page that
+     only claims is a security page nobody technical believes. */
+  .sec-limits{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start;padding-top:clamp(1.8rem,3.4vw,2.6rem);border-top:1px solid var(--line)}
+  .sec-limits dl{margin:0}
+  .sec-limits dt{color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.014em}
+  .sec-limits dd{margin:.35rem 0 0;color:var(--fg-3);font-size:.9rem;line-height:1.55;max-width:64ch;text-wrap:pretty}
+  .sec-limits dd+dt{margin-top:1.15rem;padding-top:1.15rem;border-top:1px solid var(--line)}
+  .sec-report{margin-top:1.4rem;font-size:.9rem;color:var(--dim)}
+  .sec-report a{color:var(--fg-2);border-bottom:1px solid var(--line-2);transition:color .18s ease}
+  .sec-report a:hover{color:#fff}
 
   /* ============ pricing: three ways to get a graph ============ */
   .tiers{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:1.1rem;margin-top:3.2rem;align-items:start}
@@ -750,6 +842,20 @@
     .dd-main{padding:20px 20px 24px}
     .dd-rail{width:186px;padding:20px 20px 24px}
     .dd-grid{gap:2px 22px}
+    /* the boundary figure stacks: below this the two side zones are narrower
+       than a single chip row, and a vertical crossing reads just as well.
+       The arrow keeps its 44x10 layout box and is rotated in place, so the
+       margin gives back the height the rotation borrows. */
+    .sec-fig{grid-template-columns:minmax(0,1fr);justify-items:center;gap:.9rem;text-align:center}
+    .sd-col,.sd-out{justify-items:center;text-align:center}
+    .sd-chips,.sd-out .sd-chips{justify-content:center}
+    .sd-note,.sd-out .sd-note{max-width:44ch;margin-inline:auto}
+    .sd-gate{width:auto}
+    .sd-arw{width:44px;margin:17px 0}
+    .sd-box{width:100%}
+    .sd-foot{justify-content:center;text-align:center}
+    /* three control cards no longer fit a measure; two do */
+    .sec-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
 
   @media (max-width:900px){
