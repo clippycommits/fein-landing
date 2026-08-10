@@ -319,78 +319,115 @@
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
-  /* ============ what changed: one deal, read by scrolling ============
-     Nothing in here is pinned, and that is the whole design. Time is the y
-     axis, so scroll distance is elapsed months, the record you have read is
-     above you in the scrollback, and the no-script state is this same document
-     with the scrub switched off rather than a second layout nobody tested.
+  /* ============ what changed: what fein read, and what it remembers ============
+     The static document is the DEFAULT here and the pinned stage is an override
+     guarded by .rec-on, which the script sets before first paint. It is therefore
+     impossible to ship a broken no-script state without also breaking the pinned
+     one, which is the failure every scrollytelling section makes.
 
-     Two knobs pace the section and nothing else depends on them: --mem-pace
-     scales the whole thing, and the per-block --u floors size each moment.
-     Floors are min-height in svh, never vh or dvh: an iOS URL bar must not be
-     able to resize the story, because the script caches element offsets once.
+     Sticky has four preconditions and all four are load bearing: .rec-track is a
+     plain block, no align-content anywhere on the sticky's ancestor chain, no
+     overflow but the store's own clip, and no will-change on .rec-pin (it would
+     make the pin a containing block and Safari drops the stick). */
+  .rec-intro{min-height:32svh;display:grid;align-content:center;justify-items:start;max-width:56ch;padding-block:clamp(1rem,3svh,2rem)}
+  .rec-intro h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin-top:.7rem}
+  .rec-lead{margin-top:.9rem;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty}
+  .rec-outro{min-height:18svh;display:grid;align-content:center;max-width:46ch;font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
+  /* the static default is a document, so it takes the page measure; the pinned
+     stage sets its own width and resets this */
+  .rec-track{display:block;position:relative;max-width:var(--maxw);margin-inline:auto;padding:0 24px}
+  .rec-pin{display:block}
+  .rec-stage,.rec-panes,.rec-src,.rec-store{display:block}
+  .rec-well{position:static}
+  .rec-paneh{font-size:1.08rem;color:#fff;margin:0 0 1rem}
+  /* ---- the documents ---- */
+  .rec-card{position:static;opacity:1;margin:0 0 22px;max-width:600px;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .rec-chrome{display:flex;align-items:center;gap:.5rem;height:46px;padding:0 14px;border-bottom:1px solid var(--line)}
+  .rec-chrome .tlogo{width:15px;height:15px;flex:none}
+  .rec-cs{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+  .rec-cd{margin-left:auto;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .rec-mh{padding:.9rem 14px .6rem}
+  .rec-mfrom{font-size:.86rem;color:var(--fg-2)}
+  .rec-mfrom b{color:var(--fg);font-weight:550}
+  .rec-mfrom span{color:var(--dim)}
+  .rec-mto{font-size:.78rem;color:var(--dim);margin-top:.1rem}
+  .rec-msub{font-size:.92rem;font-weight:550;color:#fff;margin-top:.35rem}
+  .rec-mb{padding:0 14px 1rem;font-size:.95rem;line-height:1.65;color:var(--fg-2)}
+  /* the phrase is brighter than its paragraph before anything animates, so the
+     bloom is confirmation rather than revelation */
+  .rec-hl{color:#fff;background-color:transparent;border-radius:4px;padding:1px 3px;margin:0 -3px;background-image:linear-gradient(rgba(0,112,243,.18),rgba(0,112,243,.18));background-repeat:no-repeat;background-size:calc(var(--bl,1) * 100%) 100%;box-shadow:inset 0 0 0 1px rgba(82,168,255,.22);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .rec-hn{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;margin-left:4px;translate:0 -1px;border-radius:3px;background:rgba(0,112,243,.28);font-family:var(--mono);font-size:9px;font-weight:500;line-height:1;color:var(--blue-l)}
+  .rec-months,.rec-gapline{display:none}
+  /* ---- the store ---- */
+  .rec-store{margin-top:2rem;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+  .rec-head{display:grid;grid-template-columns:1fr auto;align-items:center;height:46px;padding:0 16px;border-bottom:1px solid var(--line)}
+  .rec-brand{grid-row:1;font-family:var(--mono);font-size:.56rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-l)}
+  .rec-subj{grid-row:2;font-size:.92rem;font-weight:550;color:#fff;margin-top:-2px}
+  .rec-asof{grid-column:2;grid-row:1/3;display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .rec-asv{color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:.15rem .35rem}
+  .rec-body{position:relative;padding:.4rem 0}
+  .rec-zlab{display:flex;align-items:baseline;gap:.45rem;padding:.5rem 16px .3rem;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
+  .rec-zl-ret{border-top:1px solid var(--mem-ret-rule);margin-top:.5rem}
+  .rec-zlab b{font-weight:500;color:#fff}
+  .rec-cap{font-family:var(--font);font-size:.72rem;letter-spacing:0;text-transform:none;color:var(--dim)}
+  .rec-zl-live b{display:none}
+  .rec-shelfbg{display:none}
+  .rec-rows{position:static;margin:0;padding:0;list-style:none}
+  .rec-row{position:static;display:grid;grid-template-columns:14px minmax(0,1fr) auto;column-gap:10px;align-items:baseline;padding:5.5px 16px;font-size:15px;line-height:1.4}
+  .rec-g{position:relative;display:inline-block;width:12px;height:1.4em;font-family:var(--mono);font-size:12px;transform:scale(var(--gs,1));opacity:calc(.5 + .5 * var(--gf,0))}
+  .rec-g i{position:absolute;left:0;top:0;font-style:normal;line-height:1.4}
+  .rec-g .gp{color:var(--mem-new);opacity:calc(1 - var(--gx,0))}
+  .rec-g .gm{color:var(--mem-ret);opacity:var(--gx,0)}
+  .rec-row.ret .rec-g .gm{opacity:var(--gx,1)}
+  .rec-row.ret .rec-g .gp{opacity:calc(1 - var(--gx,1))}
+  .rec-t{color:rgba(237,237,237,calc(1 - .34 * var(--cut,1)))}
+  .rec-t b{font-weight:600}
+  .rec-row.pay .rec-t{font-weight:500}
+  .rec-cut{text-decoration:none;background-image:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule));background-repeat:no-repeat;background-position:0 .72em;background-size:calc(var(--cut,1) * 100%) 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .rec-chip{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.08rem .28rem;white-space:nowrap;opacity:var(--chip,1)}
+  .rec-wires,.rec-rail,.rec-srcbar,.rec-seam{display:none}
+  .rec-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
-     No overflow, no contain, no content-visibility on this subtree. Any
-     horizontal overflow is a bug in the column measure, not something to clip. */
-  .mem-root{--mem-pace:1}
-  .mem-open,.mem-mo,.mem-close{min-height:calc(var(--u,50) * var(--mem-pace) * 1svh);display:grid;align-content:center;justify-items:center;padding-block:clamp(1.5rem,4svh,3rem)}
-  .mem-open{--u:30;text-align:center;max-width:54ch;margin-inline:auto}
-  .mem-open h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin-top:.7rem}
-  .mem-open p{margin-top:.9rem;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty}
-  .mem-col{list-style:none;margin:0;padding:0;width:min(31rem,100%);margin-inline:auto}
-  .mem-mo{width:100%}
-  .mem-mo[data-at="0"]{--u:56}
-  .mem-mo[data-at="1"]{--u:56}
-  .mem-mo[data-at="2"]{--u:52}
-  .mem-mo[data-at="3"]{--u:60}
-  .mem-mo[data-at="4"]{--u:44}
-  .mem-mo[data-at="gap"]{--u:42}
-  .mem-mo[data-at="5"]{--u:76}
-  .mem-mo[data-at="6"]{--u:44}
-  .mem-close{--u:36;max-width:46ch;margin-inline:auto;text-align:center;font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
-  /* the date is the drumbeat: the only recurring large element in the column,
-     and the one deliberate extension of "display type is h1 and h2 only" */
-  .mem-hd{justify-self:start;width:100%}
-  .mem-date{display:block;font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.55rem);font-weight:500;letter-spacing:-.02em;line-height:1.2;color:#fff}
-  /* the source says where it came from and who. It never says what it said */
-  .mem-src{display:flex;align-items:flex-start;gap:.5rem;width:100%;margin-top:.5rem;font-size:.9rem;line-height:1.5;color:var(--fg-3)}
-  .mem-src .tlogo{width:15px;height:15px;flex:none;margin-top:.2em}
-  .mem-src b{color:var(--fg-2);font-weight:550}
-  .mem-fl{list-style:none;margin:1.5rem 0 0;padding:0;width:100%}
-  .mem-f{display:grid;grid-template-columns:.7rem minmax(0,1fr) auto;align-items:baseline;column-gap:.7rem;padding:.32rem 0}
-  .mem-txt{font-size:clamp(.98rem,1.6vw,1.06rem);line-height:1.5;color:#fff}
-  .mem-txt b{font-weight:600}
-  /* a retired sentence ships grey from first paint: one less moving part, and
-     the settled state is byte identical to the static state */
-  .mem-f.ret .mem-txt{color:var(--fg-3)}
-  .mem-f.ret .mem-txt b{font-weight:550}
-  /* the pop the section is built on: a 0.7rem glyph that grows past its size
-     and flashes to full chroma exactly as its sentence stops moving, then
-     calms to 45%. Red does not mean bad here, it means this stopped being true */
-  .mem-gly{font-family:var(--mono);font-size:.82rem;line-height:1.5;color:var(--mem-new);transform:scale(var(--gs,1));opacity:calc(.45 + .55 * var(--gf,0));will-change:auto}
-  .mem-f.ret .mem-gly{color:var(--mem-ret)}
-  /* drawn on the text, not as a ::after rule: box-decoration-break gives every
-     line fragment its own rule, so a sentence that wraps on a phone is struck
-     on both lines instead of only the first */
-  .mem-cut{text-decoration:none;background-image:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule));background-repeat:no-repeat;background-position:0 .72em;background-size:calc(var(--cut,1) * 100%) 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-  /* the receipt: retired is not deleted, and the dates are the proof */
-  .mem-when{font-family:var(--mono);font-size:.53rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.08rem .3rem;white-space:nowrap;opacity:var(--chip,1)}
-  /* the payoff: the deal has become record, and the pass is still the live
-     sentence. Reading register, not a badge: bigger, heavier, centred, and
-     stripped of every mark the rows above it carry */
-  .mem-recall{width:100%;margin-top:1.9rem;text-align:center}
-  .mem-rlab{font-family:var(--mono);font-size:.56rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-3)}
-  .mem-rtxt{margin-top:.6rem;font-size:1.05rem;font-weight:450;line-height:1.5;color:#fff}
-  .mem-rtxt b{font-weight:600}
-  /* fein speaks three times in twenty one months, not seven */
-  .mem-ans{display:flex;gap:.55rem;width:100%;margin-top:1.6rem;font-size:.88rem;line-height:1.5;color:var(--fg-3)}
-  .mem-ans .mem-mark{flex:none;font-family:var(--mono);font-size:.54rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);padding-top:.28rem}
-  /* the gap is the one visible structural event in the section: distance is
-     duration, so the emptiness is the content */
-  .mem-void{justify-items:center}
-  .mem-vline{display:block;width:1px;height:clamp(2rem,5svh,3.5rem);background:linear-gradient(180deg,transparent,var(--line-2),transparent)}
-  .mem-gaptext{margin:.9rem 0;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-  .mem-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  /* ---- the pin: only reachable if the script ran ---- */
+  .rec-on .rec-track{--rec-travel:190;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
+  .rec-on .rec-pin{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h))}
+  .rec-on .rec-stage{height:100%;width:min(1240px,100% - clamp(2rem,6vw,4rem));margin-inline:auto;display:grid;grid-template-rows:26px minmax(0,1fr);row-gap:12px;padding-block:14px 18px}
+  .rec-on .rec-panes{position:relative;display:grid;min-height:0;grid-template-columns:minmax(0,1.02fr) clamp(64px,6vw,86px) minmax(0,.98fr);align-items:stretch}
+  .rec-on .rec-seam{display:block;grid-column:2;justify-self:center;width:1px;background:linear-gradient(180deg,transparent 0,var(--line) 6%,var(--line) 88%,transparent)}
+  .rec-on .rec-src{grid-column:1;display:flex;flex-direction:column;min-height:0}
+  .rec-on .rec-well{position:relative;flex:1 1 auto;min-height:0}
+  .rec-on .rec-card{position:absolute;top:0;left:0;width:100%;max-width:none;margin:0;opacity:0;transform:translate3d(0,var(--cy,0px),0)}
+  .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .rec-on .rec-store{grid-column:3;display:flex;flex-direction:column;min-height:0;margin:0;box-shadow:var(--hl-top),0 26px 64px -32px rgba(0,0,0,.92);font-variant-numeric:tabular-nums}
+  .rec-on .rec-body{position:relative;flex:1 1 auto;min-height:0;padding:0;overflow:hidden;overflow:clip}
+  .rec-on .rec-zlab{position:absolute;left:0;right:0;margin:0;z-index:2;background:var(--bg-2)}
+  .rec-on .rec-zl-live{top:0}
+  .rec-on .rec-zl-ret{top:var(--retlab,394px);background:transparent}
+  .rec-on .rec-zl-live b{display:inline;color:#fff}
+  .rec-on .rec-cap{display:none}
+  .rec-on .rec-shelfbg{display:block;position:absolute;left:0;right:0;top:var(--shelf,412px);bottom:0;background:var(--bg);z-index:0}
+  .rec-on .rec-rows{position:absolute;inset:0}
+  .rec-on .rec-row{position:absolute;left:0;right:0;top:0;transform:translate3d(0,calc(var(--y,0px) + var(--dy,0px)),0);opacity:var(--o,1);z-index:var(--z,1);font-size:calc(15px - 1.5px * var(--rf,0));box-shadow:inset 2px 0 0 rgba(0,112,243,var(--acc,0))}
+  .rec-on .rec-wires{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:4}
+  .rec-on .rec-wires path{fill:none;stroke:var(--blue-l);stroke-width:1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,1));opacity:var(--w,0)}
+  .rec-on .rec-wires path.red{stroke:var(--mem-ret)}
+  .rec-on .rec-wires circle{fill:var(--blue-l);opacity:var(--w,0)}
+  /* the rail is the only thing that says how far through twenty-one months you are */
+  .rec-on .rec-rail{display:block;position:relative;height:26px;align-self:center}
+  .rec-rail::before{content:"";position:absolute;left:0;right:0;top:12px;height:1px;background:var(--line)}
+  .rec-rfill{position:absolute;left:0;top:11px;height:3px;width:calc(var(--rp,0) * 100%);border-radius:3px;background:linear-gradient(90deg,rgba(0,112,243,.35),var(--blue-l))}
+  .rec-rl,.rec-rr{position:absolute;top:0;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:var(--dim)}
+  .rec-rl{left:0}
+  .rec-rr{right:0}
+  /* twelve months of nothing, drawn into the empty well the cards leave behind */
+  .rec-on .rec-months{display:flex;justify-content:space-between;position:absolute;left:0;right:0;top:42%;opacity:var(--mo,0)}
+  .rec-on .rec-months i{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.1em;color:var(--dim);opacity:.35;transition:none}
+  .rec-on .rec-months i.on{color:var(--fg-3);opacity:1}
+  .rec-on .rec-gapline{display:block;position:absolute;left:0;right:0;top:calc(42% + 26px);font-size:.86rem;color:var(--fg-3);opacity:var(--mo,0)}
+  .rec-on .rec-srcbar{display:flex;align-items:center;gap:.5rem;flex:none;height:26px;margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
+  .rec-sl{font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-right:.15rem}
+  .rec-srcbar .tlogo{width:13px;height:13px;opacity:.3}
+  .rec-srcbar .tlogo.on{opacity:1}
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -725,13 +762,10 @@
     .rb-x{right:6px}
     /* one line per fact is worth more here than a tenth of a rem of type size,
        and the retired dates are already in the sentence above them */
-    /* the chip carries the whole "nothing is deleted" proof and this is the
-       device most people will read it on, so it moves to its own line rather
-       than being hidden */
-    .mem-root{--mem-pace:.84}
-    .mem-f{grid-template-columns:.7rem minmax(0,1fr)}
-    .mem-when{grid-column:2;justify-self:start;margin-top:.25rem}
-    .mem-txt{font-size:.97rem}
+    /* stacked, the two panes become one column and the stage never pins */
+    .rec-card{max-width:none}
+    .rec-mb{font-size:.92rem}
+    .rec-row{font-size:14px;padding:5px 12px}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
     .fcol{gap:.1rem}
     .fcol b{margin-bottom:.4rem}
@@ -936,132 +970,117 @@ __LOGO_SPRITE__
 
   </section>
 
-  <!-- WHAT CHANGED: the hero promises one live graph, so the first thing under
-       it has to prove the graph is live. One deal, twenty-one months, in seven
-       dated moments, read by scrolling.
+  <!-- WHAT CHANGED: what fein read, and what it remembers.
 
-       Nothing here is pinned, and that is the design. Time is the y axis, so
-       scroll distance is elapsed months; the record you have already read is
-       literally above you in the scrollback, which is what makes "nothing is
-       deleted" checkable rather than merely claimed; and the no-script state is
-       not a second layout nobody tested but this same document with the scrub
-       switched off. Three previous versions of this section put the state in a
-       box and animated the box. This one lets the page be the box.
+       Two panes on a pinned stage. On the left the raw material, as the thing
+       itself: a forwarded email with headers, a transcribed call, a CRM field
+       change, a partner memo, a profile update, an investor update, a DM. On
+       the right fein's memory of one company. Scrolling reads the documents in
+       order; each phrase that becomes a fact blooms, a wire crosses the seam,
+       and the fact lands in the store.
 
-       A fact, once written, never moves again: there is no exit animation in
-       this section. What slides away is the page. Retirement happens once, as a
-       dated quotation inside the moment that caused it, and the originals stay
-       true where they were written, because this is a record of successive
-       presents rather than a mutating view of today.
+       The RETIRED shelf is drawn and labelled at zero, before anything is in
+       it, so the first retirement is an arrival at a known place rather than a
+       novel event. A contradicted fact is struck, sits still long enough to be
+       read while it is still in the live zone, and then FALLS to the shelf and
+       stays there with the dates it was true between. It leaves true and
+       arrives at still-here, which is the argument in one movement.
 
-       Deliberately absent: any position:sticky, any overflow, contain or
-       content-visibility on this subtree, any .reveal (two owners of opacity is
-       a flicker bug, and a .reveal that never gets .in would delete the copy
-       when script fails), and any interactive control. Horizontal overflow here
-       would be a bug in the column width, not something to clip.
-
-       data-j is the stagger rank inside a moment; the script reads it. The whole
-       section is paced by --mem-pace and the per-block --u floors, and nothing
-       else depends on those two. -->
+       The static document is the default and the pin is the override: .rec-on
+       is set pre-paint and only exists if the script ran, so it is impossible
+       to ship a broken no-script state without also breaking the pinned one.
+       Deliberately absent from this subtree: overflow other than the store's
+       own clip, contain, content-visibility, will-change on the sticky, and
+       align-content anywhere on the sticky element's ancestor chain — that
+       last one silently kills position:sticky. -->
   <section id="change" class="band">
-    <div class="wrap">
-      <div class="mem-root" id="mem-root">
+    <div class="rec-intro wrap">
+      <span class="eyebrow">What changed</span>
+      <h2>People move. Your graph moves with them.</h2>
+      <p class="rec-lead">When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
+    </div>
 
-        <div class="mem-open">
-          <span class="eyebrow" data-j="0">What changed</span>
-          <h2 data-j="0.6">People move. Your graph moves with them.</h2>
-          <p data-j="1.4">When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
-        </div>
-
-        <ol class="mem-col" aria-label="One deal, twenty-one months, in seven moments">
-
-          <li class="mem-mo" data-at="0">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2024-11-08">8 November 2024</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Gmail</b> &middot; Seed deck forwarded by <b>Dev Raman</b></span></p>
-            <ul class="mem-fl">
-              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span></li>
-              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span></li>
-              <li class="mem-f" data-j="3.1"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span></li>
-            </ul>
-          </li>
-
-          <li class="mem-mo" data-at="1">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2024-11-21">21 November 2024</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span><b>Granola</b> &middot; First call with the founders</span></p>
-            <ul class="mem-fl">
-              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span></li>
-              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> has <b>no design partners</b> live.</span></li>
-              <li class="mem-f" data-j="3.1"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span></li>
-            </ul>
-          </li>
-
-          <li class="mem-mo" data-at="2">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2024-12-12">12 December 2024</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span><b>Attio</b> &middot; <b>Marcus</b> moved it to diligence</span></p>
-            <ul class="mem-fl">
-              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span></li>
-              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt">Two references on the founding team <b>check out</b>.</span></li>
-            </ul>
-          </li>
-
-          <li class="mem-mo" data-at="3">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2025-01-16">16 January 2025</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span><b>Notion</b> &middot; Monday partner memo</span></p>
-            <ul class="mem-fl">
-              <li class="mem-f ret" data-j="1.5"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</s></span><span class="mem-when">Dec 2024 &rarr; Jan 2025</span></li>
-              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt">You <b>passed</b> on <b>Halo Compute</b> at seed.</span></li>
-              <li class="mem-f" data-j="3.1"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt">The reason: <b>no design partners</b>, and the price.</span></li>
-            </ul>
-            <p class="mem-ans" data-j="3.9"><span class="mem-mark">fein</span><span>You are passing today, and the reason goes on the record.</span></p>
-          </li>
-
-          <li class="mem-mo" data-at="4">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2025-06-03">3 June 2025</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>LinkedIn</b> &middot; A profile update, unprompted</span></p>
-            <ul class="mem-fl">
-              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span></li>
-            </ul>
-            <p class="mem-ans" data-j="2.3"><span class="mem-mark">fein</span><span>Nobody reopened the file. fein wrote it down anyway.</span></p>
-          </li>
-
-          <li class="mem-mo mem-void" data-at="gap">
-            <span class="mem-vline" data-j="0" aria-hidden="true"></span>
-            <p class="mem-gaptext" data-j="1.2">Twelve months pass</p>
-            <span class="mem-vline" data-j="2.2" aria-hidden="true"></span>
-          </li>
-
-          <li class="mem-mo" data-at="5">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2026-06-02">2 June 2026</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Gmail</b> &middot; Founder update to the list</span></p>
-            <ul class="mem-fl">
-              <li class="mem-f ret" data-j="1.5"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</s></span><span class="mem-when">Nov 2024 &rarr; Jun 2026</span></li>
-              <li class="mem-f ret" data-j="2.3"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> has <b>no design partners</b> live.</s></span><span class="mem-when">Nov 2024 &rarr; Jun 2026</span></li>
-              <li class="mem-f ret" data-j="3.1"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</s></span><span class="mem-when">Nov 2024 &rarr; Jun 2026</span></li>
-              <li class="mem-f" data-j="3.9"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span></li>
-              <li class="mem-f" data-j="4.7"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span></li>
-              <li class="mem-f" data-j="5.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span></li>
-            </ul>
-            <div class="mem-recall">
-              <p class="mem-rlab" data-j="7.3">Written 16 January 2025 &middot; still true today</p>
-              <p class="mem-rtxt" data-j="7.7">You <b>passed</b> on <b>Halo Compute</b> at seed.</p>
-              <p class="mem-rtxt" data-j="8.1">The reason: <b>no design partners</b>, and the price.</p>
+    <div class="rec-track" id="rec-track">
+      <div class="rec-pin" id="rec-pin">
+        <div class="rec-stage">
+          <div class="rec-rail" aria-hidden="true"><span class="rec-rl">2024</span><span class="rec-rr">2026</span><i class="rec-rfill" id="rec-rfill"></i></div>
+          <div class="rec-panes" id="rec-panes">
+            <svg class="rec-wires" id="rec-wires" aria-hidden="true"></svg>
+            <div class="rec-src">
+              <h3 class="rec-paneh">What fein read</h3>
+              <div class="rec-well" id="rec-well">
+                <article class="rec-card" data-c="0">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-cd">8 Nov 2024</span></div>
+                  <div class="rec-mh"><p class="rec-mfrom"><b><mark class="rec-hl" data-hl="1">Dev Raman<span class="rec-hn" aria-hidden="true">2</span></mark></b> <span>&lt;dev@raman.vc&gt;</span></p><p class="rec-mto">to Marcus</p><p class="rec-msub">Fwd: Halo Compute — seed deck</p></div>
+                  <p class="rec-mb">Marcus — worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <mark class="rec-hl" data-hl="0">raising a $4M seed<span class="rec-hn" aria-hidden="true">1</span></mark> and I think <mark class="rec-hl" data-hl="2">you are the right partner<span class="rec-hn" aria-hidden="true">3</span></mark> for it.</p>
+                </article>
+                <article class="rec-card" data-c="1">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span class="rec-cs">Granola</span><span class="rec-cd">21 Nov 2024</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Coffee with Halo Compute</p><p class="rec-mto">41 min · auto-transcribed</p></div>
+                  <p class="rec-mb">Both founders are <mark class="rec-hl" data-hl="3">ex-Anthropic infra<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="4">No design partners live<span class="rec-hn" aria-hidden="true">2</span></mark> yet, they want two before they raise again. Raising on <mark class="rec-hl" data-hl="5">a $9M pre<span class="rec-hn" aria-hidden="true">3</span></mark>.</p>
+                </article>
+                <article class="rec-card rec-ovl" data-c="2">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span class="rec-cs">Attio</span><span class="rec-cd">12 Dec 2024</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Halo Compute</p><p class="rec-mto"><mark class="rec-hl" data-hl="6">Stage changed · Diligence<span class="rec-hn" aria-hidden="true">1</span></mark></p></div>
+                  <p class="rec-mb">Owner Marcus. <mark class="rec-hl" data-hl="7">Two reference calls complete, both strong<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
+                </article>
+                <article class="rec-card" data-c="3">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span class="rec-cs">Notion</span><span class="rec-cd">16 Jan 2025</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Monday memo — Halo Compute</p><p class="rec-mto">Partner meeting</p></div>
+                  <p class="rec-mb"><mark class="rec-hl" data-hl="8">Passing for now<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="9">No design partners live, and the wedge is unproven at this price<span class="rec-hn" aria-hidden="true">2</span></mark>. Revisit if they land design partners.</p>
+                </article>
+                <article class="rec-card" data-c="4">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span class="rec-cs">Linkedin</span><span class="rec-cd">3 Jun 2025</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Priya Nayar</p><p class="rec-mto">started a new position</p></div>
+                  <p class="rec-mb"><mark class="rec-hl" data-hl="10">VP Engineering at Halo Compute<span class="rec-hn" aria-hidden="true">1</span></mark>. Previously Databricks.</p>
+                </article>
+                <article class="rec-card" data-c="5">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-cd">2 Jun 2026</span></div>
+                  <div class="rec-mh"><p class="rec-mfrom"><b>Nadia Osei</b> <span>&lt;nadia@halocompute.com&gt;</span></p><p class="rec-mto">to investors@</p><p class="rec-msub">Halo Compute — June update</p></div>
+                  <p class="rec-mb">We are <mark class="rec-hl" data-hl="11">opening a $30M Series A<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="12">Six design partners are live<span class="rec-hn" aria-hidden="true">2</span></mark> and we finished May at <mark class="rec-hl" data-hl="13">$2.4M ARR<span class="rec-hn" aria-hidden="true">3</span></mark>, four times where we were in January.</p>
+                </article>
+                <article class="rec-card" data-c="6">
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span class="rec-cs">Slack</span><span class="rec-cd">28 Jul 2026</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Dev Raman</p><p class="rec-mto">#dealflow · 10:42</p></div>
+                  <p class="rec-mb">They close next week. <mark class="rec-hl" data-hl="14">Want the intro again?<span class="rec-hn" aria-hidden="true">1</span></mark></p>
+                </article>
+                <div class="rec-months" id="rec-months" aria-hidden="true"><i data-m="0">JUL</i><i data-m="1">AUG</i><i data-m="2">SEP</i><i data-m="3">OCT</i><i data-m="4">NOV</i><i data-m="5">DEC</i><i data-m="6">JAN</i><i data-m="7">FEB</i><i data-m="8">MAR</i><i data-m="9">APR</i><i data-m="10">MAY</i><i data-m="11">JUN</i></div>
+                <p class="rec-gapline">Twelve months pass. Nobody filed anything.</p>
+              </div>
+              <p class="rec-srcbar" aria-hidden="true"><span class="rec-sl">Read from</span><svg class="tlogo" data-mk="0"><use href="#l-gmail"/></svg><svg class="tlogo" data-mk="1"><use href="#l-granola"/></svg><svg class="tlogo" data-mk="2"><use href="#l-attio"/></svg><svg class="tlogo" data-mk="3"><use href="#l-notion"/></svg><svg class="tlogo" data-mk="4"><use href="#l-linkedin"/></svg><svg class="tlogo" data-mk="5"><use href="#l-slack"/></svg></p>
             </div>
-            <p class="mem-ans" data-j="8.9"><span class="mem-mark">fein</span><span>The reason you passed no longer holds.</span></p>
-          </li>
-
-          <li class="mem-mo" data-at="6">
-            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2026-07-28">28 July 2026</time></p>
-            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span><b>Slack</b> &middot; <b>Dev Raman</b>, direct message</span></p>
-            <ul class="mem-fl">
-              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span></li>
-            </ul>
-          </li>
-
-        </ol>
-
-        <p class="mem-close" data-j="0">Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
+            <div class="rec-seam" aria-hidden="true"></div>
+            <section class="rec-store" id="rec-store" aria-label="fein memory: Halo Compute">
+              <div class="rec-head"><p class="rec-brand">fein &middot; memory</p><p class="rec-subj">Halo Compute</p><p class="rec-asof"><span class="rec-asl">As of</span><span class="rec-asv" id="rec-asv" aria-hidden="true">28 Jul 2026</span><span class="rec-vh">Showing what fein knows as of 28 July 2026.</span></p></div>
+              <div class="rec-body" id="rec-body">
+                <p class="rec-zlab rec-zl-live">Live <b class="rec-cn" id="rec-cn">11</b><span class="rec-cap">15 facts on file &middot; 11 live &middot; 4 retired, kept</span></p>
+                <div class="rec-shelfbg" aria-hidden="true"></div>
+                <p class="rec-zlab rec-zl-ret">Retired, kept <b class="rec-cr" id="rec-cr">4</b></p>
+                <ol class="rec-rows" id="rec-rows">
+                  <li class="rec-row ret" data-f="0" data-b="0" data-r="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut">Raising a <b>$4M seed</b>.</s></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
+                  <li class="rec-row" data-f="1" data-b="0"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Dev Raman</b> is the warmest path in.</span></li>
+                  <li class="rec-row" data-f="2" data-b="0"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Marcus</b> owns the conversation.</span></li>
+                  <li class="rec-row" data-f="3" data-b="1"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Two ex-<b>Anthropic</b> infra engineers.</span></li>
+                  <li class="rec-row ret" data-f="4" data-b="1" data-r="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut"><b>No design partners</b> live.</s></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
+                  <li class="rec-row ret" data-f="5" data-b="1" data-r="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut">Raising on a <b>$9M pre</b>.</s></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
+                  <li class="rec-row ret" data-f="6" data-b="2" data-r="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut">In <b>diligence</b> with <b>Marcus</b>.</s></span><span class="rec-chip">Dec 2024 &rarr; Jan 2025</span></li>
+                  <li class="rec-row" data-f="7" data-b="2"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Two references <b>check out</b>.</span></li>
+                  <li class="rec-row pay" data-f="8" data-b="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span></li>
+                  <li class="rec-row pay" data-f="9" data-b="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">The reason: <b>no design partners</b>, and the price.</span></li>
+                  <li class="rec-row" data-f="10" data-b="4"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Hired a <b>VP Engineering</b> from Databricks.</span></li>
+                  <li class="rec-row" data-f="11" data-b="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Raising a <b>$30M Series A</b>.</span></li>
+                  <li class="rec-row" data-f="12" data-b="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Six design partners</b> live.</span></li>
+                  <li class="rec-row" data-f="13" data-b="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">At <b>$2.4M ARR</b>.</span></li>
+                  <li class="rec-row" data-f="14" data-b="6"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Dev Raman</b> can introduce you again.</span></li>
+                </ol>
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
+
+    <p class="rec-outro wrap">Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
   </section>
 
   <!-- HOW IT WORKS: the hero sells the outcome, so this section owns the mechanism.
@@ -2813,131 +2832,222 @@ __LOGO_SPRITE__
 })();
 
 /* what changed: the scrub.
-   Every element's state is a pure function of one number — where its own centre
-   sits in the viewport — so there is no timeline, no timer, no triggered state
-   and nothing to get out of sync. Scrolling back up runs it exactly backwards
-   because there is nothing to run backwards; the frame is simply recomputed.
-
-   One getBoundingClientRect per frame, on one element, read before any write.
-   No scroll listener: iOS coalesces scroll events during momentum and they are
-   not paint aligned, so an rAF gated by an IntersectionObserver is both cheaper
-   and smoother. Settled elements are written back to '' so they drop their
-   compositor layer and the DOM returns to exactly the markup a reader with no
-   script gets. */
+   One pinned stage, eleven phases, priced per event rather than per fact. Every
+   value below derives from one number — how far through the track the reader is
+   — so scrolling back runs it backwards for free and there is no state to keep
+   in sync. One getBoundingClientRect per frame, on the track, read before any
+   write. The pin itself only exists because this file set .rec-on before first
+   paint, so a browser that never runs this gets the static document instead of
+   an empty stage. */
 (function(){
-  var root=document.getElementById('mem-root');
-  if(!root) return;
-  var els=[].slice.call(root.querySelectorAll('[data-j]'));
-  if(!els.length) return;
+  var track=document.getElementById('rec-track');
+  if(!track) return;
   var mq=window.matchMedia('(prefers-reduced-motion: reduce)');
-  var J=els.map(function(el){ return parseFloat(el.getAttribute('data-j'))||0; });
-  var isRet=els.map(function(el){ return el.classList.contains('ret'); });
-  var glyph=els.map(function(el){ return el.querySelector('.mem-gly'); });
-  var off=[], B=0, SPAN=1, prevW=0, prevH=0;
-  var STAG=0.09;
-  var raf=0, vis=false, on=false, io=null, ro=null;
-  var cache=els.map(function(){ return {o:-1,y:-999,gs:-1,gf:-1,c:-1,ch:-1}; });
+  var STACK=window.matchMedia('(max-width:979px)');
+  var pin=document.getElementById('rec-pin'),
+      panes=document.getElementById('rec-panes'),
+      store=document.getElementById('rec-store'),
+      body=document.getElementById('rec-body'),
+      wires=document.getElementById('rec-wires'),
+      months=document.getElementById('rec-months'),
+      rfill=document.getElementById('rec-rfill'),
+      asv=document.getElementById('rec-asv'),
+      cn=document.getElementById('rec-cn'), cr=document.getElementById('rec-cr'),
+      cards=[].slice.call(track.querySelectorAll('.rec-card')),
+      rows=[].slice.call(track.querySelectorAll('.rec-row')),
+      hls=[].slice.call(track.querySelectorAll('.rec-hl')),
+      marks=[].slice.call(track.querySelectorAll('.rec-srcbar .tlogo')),
+      mons=[].slice.call(track.querySelectorAll('.rec-months i'));
+  /* beat table: [key, length in svh]. T is the only knob; scaling it scales
+     every beat because the table is converted to fractions of T. */
+  var T=190;
+  var BEATS=[['s0',6],['b1',20,0],['b2',18,1],['b2b',13,2],['b3',27,3],
+             ['ga',8],['b4',13,4],['gb',10],['b5',35,5],['b6',11,6],['fin',29]];
+  var edge=[],acc=0;
+  BEATS.forEach(function(b){ edge.push([acc,acc+b[1]]); acc+=b[1]; });
+  /* events, in beat-local svh. new: bloom, wire, land. ret: wire, strike, dwell,
+     drop, land — the doomed sentence is struck and then sits still, in the live
+     zone, long enough to be read, before it falls to the shelf. */
+  var EV=[
+    {b:1,f:0,t0:3,t1:8},   {b:1,f:1,t0:6,t1:11},  {b:1,f:2,t0:9,t1:14},
+    {b:2,f:3,t0:3,t1:7},   {b:2,f:4,t0:5.5,t1:9.5},{b:2,f:5,t0:8,t1:12},
+    {b:3,f:6,t0:2,t1:5.5}, {b:3,f:7,t0:3.5,t1:7},
+    {b:4,f:6,t0:3,t1:16,r:1},{b:4,f:8,t0:14,t1:18},{b:4,f:9,t0:17,t1:21},
+    {b:6,f:10,t0:3,t1:7},
+    {b:8,f:11,t0:3,t1:8},  {b:8,f:0,t0:4.5,t1:17.5,r:1},{b:8,f:4,t0:6,t1:19,r:1},
+    {b:8,f:5,t0:7.5,t1:20.5,r:1},{b:8,f:12,t0:12,t1:17},{b:8,f:13,t0:22,t1:27},
+    {b:9,f:14,t0:2,t1:6}
+  ];
+  var DATES=['','8 Nov 2024','21 Nov 2024','12 Dec 2024','16 Jan 2025','16 Jan 2025','3 Jun 2025','3 Jun 2025','2 Jun 2026','28 Jul 2026','28 Jul 2026'];
+  var CARDOF=[-1,0,1,2,3,-1,4,-1,5,6,6];
+  var LIVE_TOP=22, LIVE_STEP=32, SHELF_H=110, SHELF_STEP=26;
+  var NAV=76, PINH=0, geo=null, raf=0, vis=false, on=false, io=null, rt=0, lastW=0, lastH=0;
+  var paths=[];
 
-  function metrics(){
-    var vh=window.innerHeight;
-    B=vh*0.90; SPAN=vh*0.20;
-    prevW=window.innerWidth; prevH=vh;
-  }
-  function collect(){
-    /* offsets are element centres relative to the section, so they survive any
-       change in document height above the section */
-    var base=root.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop);
-    off=els.map(function(el){
-      var r=el.getBoundingClientRect();
-      return r.top+(window.pageYOffset||document.documentElement.scrollTop)-base+r.height/2;
-    });
-  }
   function clamp01(v){ return v<0?0:v>1?1:v; }
   function out3(e){ var k=1-e; return 1-k*k*k; }
   function back(g){ var k=g-1; return 1+2.2*k*k*k+1.2*k*k; }
+  function seg(v,a,b){ return clamp01((v-a)/(b-a)); }
 
+  function measure(){
+    NAV=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
+    PINH=pin.getBoundingClientRect().height;
+    var bh=body.getBoundingClientRect().height;
+    var shelfTop=Math.max(bh*0.42, bh-SHELF_H);
+    body.style.setProperty('--shelf',shelfTop+'px');
+    body.style.setProperty('--retlab',(shelfTop-18)+'px');
+    var pr=panes.getBoundingClientRect(), sr=store.getBoundingClientRect(), br=body.getBoundingClientRect();
+    geo={ shelfTop:shelfTop, bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left,
+          hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
+            return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
+    /* one path per event, created once */
+    if(!paths.length){
+      EV.forEach(function(e,i){
+        var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('pathLength','1');
+        if(e.r) p.setAttribute('class','red');
+        wires.appendChild(p); paths.push(p);
+      });
+    }
+  }
+  function progress(){
+    var r=track.getBoundingClientRect();
+    var travel=r.height-PINH;
+    if(travel<=0) return 0;
+    return clamp01((NAV-r.top)/travel);
+  }
   function paint(){
     raf=0;
-    var top=root.getBoundingClientRect().top;   /* the only layout read */
-    for(var i=0;i<els.length;i++){
-      var e=clamp01((B-(top+off[i]))/SPAN - STAG*J[i]);
-      var c=cache[i];
-      /* settled: hand the element back to the stylesheet */
-      if(e>=1){
-        if(c.o!==1){
-          els[i].style.opacity=''; els[i].style.transform='';
-          els[i].style.removeProperty('--gs'); els[i].style.removeProperty('--gf');
-          els[i].style.removeProperty('--cut'); els[i].style.removeProperty('--chip');
-          c.o=1; c.y=0; c.gs=1; c.gf=0; c.c=1; c.ch=1;
-        }
-        continue;
-      }
-      var o=Math.round(Math.min(e/0.72,1)*1000)/1000;
-      var y=Math.round(18*(1-out3(e))*2)/2;
-      if(o!==c.o){ els[i].style.opacity=o; c.o=o; }
-      if(y!==c.y){ els[i].style.transform='translate3d(0,'+y+'px,0)'; c.y=y; }
-      if(glyph[i]){
-        var gp=clamp01((e-0.50)/0.30);
-        var gs=Math.round((0.55+0.45*back(gp))*1000)/1000;
-        var gf=Math.round(gp*(1-clamp01((e-0.80)/0.18))*1000)/1000;
-        if(gs!==c.gs){ els[i].style.setProperty('--gs',gs); c.gs=gs; }
-        if(gf!==c.gf){ els[i].style.setProperty('--gf',gf); c.gf=gf; }
-      }
-      if(isRet[i]){
-        /* the sentence lands, then the rule is drawn through it, then the dates
-           stamp in: the receipt must arrive after the strike, never with it */
-        var cut=Math.round(out3(clamp01((e-0.58)/0.32))*1000)/1000;
-        var chip=Math.round(clamp01((e-0.88)/0.12)*1000)/1000;
-        if(cut!==c.c){ els[i].style.setProperty('--cut',cut); c.c=cut; }
-        if(chip!==c.ch){ els[i].style.setProperty('--chip',chip); c.ch=chip; }
+    var p=progress(), svh=p*T;
+    var bi=0,i; for(i=0;i<edge.length;i++){ if(svh>=edge[i][0]) bi=i; }
+    var local=svh-edge[bi][0];
+
+    /* --- the documents: one visible, crossfading over the first 3svh --- */
+    var cardNow=CARDOF[bi], into=clamp01(local/3), c;
+    for(c=0;c<cards.length;c++){
+      var o=0,cy=0;
+      if(c===cardNow){ o=into; cy=(1-out3(into))*18; }
+      else if(bi>0 && CARDOF[bi-1]===c && into<1){ o=1-into; cy=-into*14; }
+      cards[c].style.opacity=o;
+      cards[c].style.setProperty('--cy',cy.toFixed(1)+'px');
+    }
+
+    /* --- twelve months, drawn into the well the cards leave behind --- */
+    var gap=0, gm=-1;
+    if(BEATS[bi][0]==='ga'){ gap=clamp01(local/2); gm=Math.floor(local/8*6); }
+    else if(BEATS[bi][0]==='gb'){ gap=1; gm=6+Math.floor(local/10*6); }
+    else if(BEATS[bi][0]==='b4'){ gap=1-clamp01(local/2); gm=6; }
+    months.style.setProperty('--mo',gap.toFixed(2));
+    for(i=0;i<mons.length;i++) mons[i].classList.toggle('on', gap>0 && i<=gm);
+
+    /* --- resolve every event to per-row state --- */
+    var st=[],q=[],k;
+    for(i=0;i<rows.length;i++) st.push({born:0,cut:0,drop:0,land:0});
+    for(k=0;k<EV.length;k++){
+      var e=EV[k], qq=0;
+      if(bi>e.b) qq=1; else if(bi===e.b) qq=clamp01((local-e.t0)/(e.t1-e.t0));
+      q.push(qq);
+      var s=st[e.f];
+      if(e.r){ s.cut=Math.max(s.cut,seg(qq,0.23,0.42)); s.drop=Math.max(s.drop,seg(qq,0.54,0.88)); s.land=Math.max(s.land,seg(qq,0.86,1)); }
+      else s.born=Math.max(s.born,qq);
+    }
+
+    /* --- the store. live rows in birth order, shelf rows in retirement order.
+       a row that is falling has already left the live ordering, so the rows
+       under it close up: the store compacting is itself the signal that
+       something moved rather than vanished. --- */
+    var liveN=0, shelfN=0, slot={}, sh={}, yOf=[];
+    for(i=0;i<rows.length;i++){ if(st[i].born>0||st[i].cut>0){ if(st[i].drop<0.5) slot[i]=liveN++; } }
+    for(i=0;i<rows.length;i++){ if(st[i].drop>=0.5) sh[i]=shelfN++; }
+    for(i=0;i<rows.length;i++){
+      var s2=st[i];
+      var ly=LIVE_TOP+LIVE_STEP*(slot[i]!==undefined?slot[i]:liveN);
+      var sy=(geo?geo.shelfTop:400)+3+SHELF_STEP*(sh[i]!==undefined?sh[i]:0);
+      var y=ly;
+      if(s2.drop>=1) y=sy;
+      else if(s2.drop>0){ var d2=s2.drop<0.5?2*s2.drop*s2.drop:1-Math.pow(-2*s2.drop+2,2)/2; y=ly+(sy-ly)*d2; }
+      yOf.push(y);
+      var el=rows[i];
+      if(s2.born<=0 && s2.cut<=0){ el.style.setProperty('--o',0); continue; }
+      var appear=s2.born>0?Math.min(1,s2.born/0.55):1;
+      var gq=clamp01((s2.born-0.5)/0.3);
+      el.style.setProperty('--y',y.toFixed(1)+'px');
+      el.style.setProperty('--dy',((1-out3(appear))*10).toFixed(1)+'px');
+      el.style.setProperty('--o',appear.toFixed(3));
+      el.style.setProperty('--z',(s2.drop>0&&s2.drop<1)?3:1);
+      el.style.setProperty('--cut',s2.cut.toFixed(3));
+      el.style.setProperty('--gx',clamp01(s2.cut/0.4).toFixed(3));
+      el.style.setProperty('--rf',s2.drop.toFixed(3));
+      el.style.setProperty('--chip',s2.land.toFixed(3));
+      el.style.setProperty('--acc',(0.5*(1-clamp01((s2.born-0.6)/0.4))).toFixed(3));
+      el.style.setProperty('--gs',(0.55+0.45*back(gq)).toFixed(3));
+      el.style.setProperty('--gf',(gq*(1-clamp01((s2.born-0.8)/0.18))).toFixed(3));
+    }
+
+    /* --- the wires, now that every row has a resolved y --- */
+    for(k=0;k<EV.length;k++){
+      var ev=EV[k], qv=q[k], pa=paths[k];
+      var d=seg(qv,ev.r?0:0.2,ev.r?0.27:0.64);
+      /* a wire belongs to its beat: it draws, it settles to a trace while the
+         reader is still on that document, and it is gone once the page turns */
+      var w=(qv<=0||bi!==ev.b)?0
+            :(ev.r ? (qv<0.55?0.85*seg(qv,0,0.1):0.85*(1-seg(qv,0.5,0.62)))
+                   : (qv<0.7?0.75*seg(qv,0.2,0.3):0.26+0.49*(1-seg(qv,0.66,0.82))));
+      if(!ev.r) hls[ev.f].style.setProperty('--bl',seg(qv,0,0.28).toFixed(2));
+      pa.style.setProperty('--d',d.toFixed(3));
+      pa.style.setProperty('--w',w.toFixed(3));
+      if(w>0.005 && geo){
+        var an=geo.hl[ev.f], x1=geo.storeLeft+13, y1=geo.bodyTop+yOf[ev.f]+16;
+        var kk=Math.max(36,(x1-an.x)*0.42);
+        pa.setAttribute('d','M'+an.x.toFixed(1)+' '+an.y.toFixed(1)+'C'+(an.x+kk).toFixed(1)+' '+an.y.toFixed(1)+','+(x1-kk).toFixed(1)+' '+y1.toFixed(1)+','+x1.toFixed(1)+' '+y1.toFixed(1));
       }
     }
+
+    /* --- chrome --- */
+    if(rfill) rfill.style.setProperty('--rp',p.toFixed(3));
+    if(asv && DATES[bi]) asv.textContent=DATES[bi];
+    if(cn) cn.textContent=liveN;
+    if(cr) cr.textContent=shelfN;
+    var srcIdx=[0,0,1,2,3,3,4,4,0,5,5][bi];
+    for(i=0;i<marks.length;i++) marks[i].classList.toggle('on', i===srcIdx);
     if(vis) raf=requestAnimationFrame(paint);
   }
   function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
-  function clearAll(){
-    els.forEach(function(el){
-      el.style.opacity=''; el.style.transform='';
-      el.style.removeProperty('--gs'); el.style.removeProperty('--gf');
-      el.style.removeProperty('--cut'); el.style.removeProperty('--chip');
-    });
-    cache=els.map(function(){ return {o:-1,y:-999,gs:-1,gf:-1,c:-1,ch:-1}; });
-  }
   function start(){
-    if(on) return;
+    if(on||STACK.matches) return;
     on=true;
-    metrics(); collect();
+    document.documentElement.classList.add('rec-on');
+    measure();
+    /* paint once, synchronously, before the observer can fire: the pin's CSS is
+       live the moment the class lands, so waiting a frame would show one frame
+       of stacked, unpositioned cards */
+    paint();
     io=new IntersectionObserver(function(en){
       vis=en[0].isIntersecting;
       if(vis) kick(); else if(raf){ cancelAnimationFrame(raf); raf=0; }
-    },{rootMargin:'220px 0px'});
-    io.observe(root);
+    },{rootMargin:'240px 0px'});
+    io.observe(track);
   }
   function stop(){
     if(!on) return;
     on=false; vis=false;
     if(raf){ cancelAnimationFrame(raf); raf=0; }
     if(io){ io.disconnect(); io=null; }
-    clearAll();
+    document.documentElement.classList.remove('rec-on');
+    [].concat(cards,rows,hls,paths).forEach(function(el){ el.removeAttribute('style'); });
   }
-  /* re-measure, never replay: everything derives from scroll position, so after
-     a re-collect the reader is exactly where they were. Height-only changes are
-     the iOS URL bar and must be ignored, or the story would re-measure mid flick */
-  var rt=0;
-  function remeasure(){
-    if(!on) return;
-    metrics(); collect();
-    if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); }
-  }
+  function remeasure(){ if(!on) return; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
   window.addEventListener('resize',function(){
-    if(!on) return;
-    var w=window.innerWidth, h=window.innerHeight;
-    if(w===prevW && Math.abs(h-prevH)<=150) return;
+    var w=window.innerWidth,h=window.innerHeight;
+    if(STACK.matches){ if(on) stop(); return; }
+    if(!on && !mq.matches){ start(); lastW=w; lastH=h; return; }
+    if(w===lastW && Math.abs(h-lastH)<=150) return;
+    lastW=w; lastH=h;
     clearTimeout(rt); rt=setTimeout(remeasure,150);
   },{passive:true});
-  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ remeasure(); });
-  if(window.ResizeObserver){ ro=new ResizeObserver(function(){ if(on){ clearTimeout(rt); rt=setTimeout(remeasure,150); } }); ro.observe(root); }
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(remeasure);
   if(mq.addEventListener) mq.addEventListener('change',function(){ mq.matches?stop():start(); });
+  lastW=window.innerWidth; lastH=window.innerHeight;
   if(!mq.matches) start();
 })();
 
