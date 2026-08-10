@@ -360,6 +360,7 @@
   .rec-paneh{font-size:1.08rem;color:#fff;margin:0 0 1rem}
   /* ---- the documents ---- */
   .rec-card{position:static;opacity:1;margin:0 0 22px;max-width:600px;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .rec-on .rec-card{box-shadow:var(--hl-top),0 22px 56px -34px rgba(0,0,0,.95)}
   .rec-chrome{display:flex;align-items:center;gap:.5rem;height:46px;padding:0 14px;border-bottom:1px solid var(--line)}
   .rec-chrome .tlogo{width:15px;height:15px;flex:none}
   .rec-cs{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
@@ -376,7 +377,7 @@
   .rec-card{counter-increment:beat}
   /* padded to the chrome row's inset, so as a document heading it lines up with
      the document. The pinned stage lifts it out of the card and drops both */
-  .rec-lede{padding:1.05rem 14px 0;font-size:clamp(1.42rem,2.5vw,2rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;margin:0 0 .55rem;text-wrap:balance}
+  .rec-lede{padding:1.05rem 14px 0;font-size:clamp(1.44rem,2.6vw,2.1rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;margin:0 0 .55rem;text-wrap:balance}
   .rec-lede::before{content:counter(beat,decimal-leading-zero);margin-right:.62em;font-family:var(--mono);font-size:.46em;font-weight:500;letter-spacing:.12em;color:var(--blue-l);vertical-align:.34em}
   .rec-gapline.rec-lede::before{content:none}
   /* the source's own mark, set into the sentence beside the word it names, so
@@ -478,9 +479,13 @@
      the answer to the one failure this pattern always has, which is that a
      reader who scrolls at their own speed sails past half of it and never knows
      what they missed. It is a peer of the stage, not an overlay on it. */
-  .rec-on .rec-stage{height:100%;width:min(1240px,100% - clamp(2rem,6vw,4rem));margin-inline:auto;display:grid;grid-template-rows:26px minmax(0,1fr) auto;row-gap:12px;padding-block:14px 12px}
-  .rec-on .rec-panes{position:relative;display:grid;min-height:0;grid-template-columns:minmax(0,1.02fr) clamp(64px,6vw,86px) minmax(0,.98fr);align-items:stretch}
-  .rec-on .rec-seam{display:block;grid-column:2;justify-self:center;width:1px;background:linear-gradient(180deg,transparent 0,var(--line) 6%,var(--line) 88%,transparent)}
+  .rec-on .rec-stage{height:100%;width:min(1380px,100% - clamp(2rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-rows:22px minmax(0,1fr) auto;row-gap:clamp(14px,2.4svh,26px);padding-block:clamp(14px,2.6svh,28px) clamp(12px,2svh,20px)}
+  /* the middle column was a hairline and a gap. It is the only place on the page
+     where the product itself can be shown working, so it gets real width: every
+     wire now runs through it, the reader watches a phrase enter fein and a fact
+     leave it, and the two panes either side become what they always were, the
+     before and the after. */
+  .rec-on .rec-panes{position:relative;display:grid;min-height:0;grid-template-columns:minmax(0,1fr) clamp(108px,10vw,164px) minmax(0,1fr);align-items:stretch}
   /* positioned, so the strip is bounded by this pane and cannot run under the store */
   .rec-on .rec-src{position:relative;grid-column:1;display:flex;flex-direction:column;min-height:0}
   .rec-on .rec-well{position:relative;flex:1 1 auto;min-height:0}
@@ -491,25 +496,29 @@
      under it never changes */
   .rec-on .rec-well{--card-top:104px}
   .rec-on .rec-card{overflow:visible;position:absolute;top:var(--card-top);left:0;width:100%;max-width:none;margin:0;opacity:0;transform:translate3d(0,var(--cy,0px),0)}
-  .rec-on .rec-c0{display:block}
-  .rec-on .rec-lede{position:absolute;left:0;right:0;top:auto;bottom:calc(100% + 18px);margin:0;padding:0}
+  .rec-on .rec-c0{display:block;background:transparent;border-color:transparent;box-shadow:none}
+  .rec-on .rec-lede{position:absolute;left:0;right:0;top:auto;bottom:calc(100% + clamp(20px,3.4svh,34px));margin:0;padding:0;max-width:23ch}
   /* the payoff hangs off the bottom of the card it belongs to, but every card
      is a different height, so --whyoff is measured per card as the distance
      that puts all seven on the same line. It rides the card's own opacity, so
      it cross-fades with the document that earned it and costs nothing. */
-  .rec-on .rec-why{position:absolute;left:0;right:0;top:calc(100% + var(--whyoff,22px));padding:0;font-size:.95rem;line-height:1.6;color:var(--fg-3);max-width:52ch}
+  .rec-on .rec-why{position:absolute;left:0;right:0;top:calc(100% + var(--whyoff,22px));padding:0;font-size:.97rem;line-height:1.68;color:var(--fg-3);max-width:50ch}
   .rec-on .rec-why::before{margin-bottom:.75rem}
   /* the answer takes the well on the last beat, in the space six documents have
      just vacated. It is the only beat where the left pane stops being evidence
      and starts being the product. */
   .rec-on .rec-ask{position:absolute;top:var(--asktop,var(--card-top));left:0;right:0;max-width:none;margin:0;opacity:var(--ao,0);transform:translate3d(0,var(--ay,0px),0);pointer-events:none}
   .rec-on .rec-ask.live{pointer-events:auto}
+  .rec-on .rec-ask.sm .rec-q{padding:.7rem 14px .3rem;font-size:.94rem}
+  .rec-on .rec-ask.sm .rec-alist li{padding:.34rem 0;font-size:.88rem;line-height:1.45}
+  .rec-on .rec-ask.sm .rec-askf{padding:.55rem 14px .7rem;font-size:.82rem;line-height:1.42}
+  .rec-on .rec-ask.sm .rec-chrome{height:38px}
   /* the gap is a beat of the walk too, so it gets the narration's voice and
      size, and it sits above the thing it narrates exactly like a card's line
      does: the empty calendar below is the evidence. Anchored from the bottom
      so the second line grows upward into open space instead of down into the
      month strip and the pile */
-  .rec-on .rec-gapline.rec-lede{position:absolute;top:auto;bottom:calc(58% + 30px);left:0;right:0;font-size:clamp(1.42rem,2.5vw,2rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;opacity:var(--mo,0)}
+  .rec-on .rec-gapline.rec-lede{position:absolute;top:auto;bottom:calc(58% + 30px);left:0;right:0;font-size:clamp(1.44rem,2.6vw,2.1rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;opacity:var(--mo,0)}
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   .rec-on .rec-store{grid-column:3;display:flex;flex-direction:column;min-height:0;margin:0;box-shadow:var(--hl-top),0 26px 64px -32px rgba(0,0,0,.92);font-variant-numeric:tabular-nums}
   .rec-on .rec-body{position:relative;flex:1 1 auto;min-height:0;padding:0;overflow:hidden;overflow:clip}
@@ -530,12 +539,19 @@
   .rec-on .rec-wires{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:4}
   .rec-on .rec-wires path{fill:none;stroke:var(--blue-l);stroke-width:1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,1));opacity:var(--w,0)}
   .rec-on .rec-wires path.red{stroke:var(--mem-ret)}
-  .rec-on .rec-wires circle{fill:var(--blue-l);opacity:var(--w,0)}
+  /* the token is the sentence in transit. The line does not appear and then a
+     row appears: a thing leaves the phrase, is carried into fein, and comes out
+     the other side as a fact. It is the head of the line that draws it, so
+     there is only ever one moving object per event and nothing to keep in sync. */
+  .rec-on .rec-wires circle.tok{fill:var(--blue-l);opacity:calc(var(--w,0) * var(--tv,1))}
+  .rec-on .rec-wires circle.tok.red{fill:var(--mem-ret)}
+  .rec-on .rec-wires circle.halo{fill:none;stroke:var(--blue-l);stroke-width:1;opacity:calc(var(--w,0) * var(--tv,1) * .5)}
+  .rec-on .rec-wires circle.halo.red{stroke:var(--mem-ret)}
   /* the rail is the only thing that says how far through twenty-one months you are */
   /* the rail is a real calendar: every tick sits at its true distance from the
      last, so five documents crowd the first ninth of twenty-one months and then
      there is a void. The fill crossing that void IS the twelve months passing */
-  .rec-on .rec-rail{display:block;position:relative;height:26px;align-self:center}
+  .rec-on .rec-rail{display:block;position:relative;height:22px;align-self:center;opacity:.82}
   .rec-rail::before{content:"";position:absolute;left:0;right:0;top:16px;height:1px;background:var(--line)}
   .rec-rail u{position:absolute;top:12px;width:1px;height:9px;background:var(--line-2);text-decoration:none}
   .rec-gapband{position:absolute;left:32.5%;width:57%;top:15px;height:3px;border-radius:3px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 3px,transparent 3px 7px)}
@@ -569,7 +585,7 @@
      one takes the reader to it. A reader who looked away does not have to
      re-scroll the section to find the beat they lost, which is the difference
      between a story that runs at the page's speed and one that runs at theirs. */
-  .rec-on .rec-strip{display:block;flex:none;padding-top:14px;margin-top:auto;border-top:1px solid var(--line)}
+  .rec-on .rec-strip{display:block;flex:none;padding-top:clamp(14px,2.2svh,22px);margin-top:auto;border-top:1px solid var(--line);opacity:.9}
   .rec-striph{display:flex;align-items:baseline;gap:.5rem;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-bottom:.55rem}
   .rec-striph b{color:#fff;font-weight:500}
   .rec-striph .now{color:var(--blue-l)}
@@ -591,7 +607,7 @@
   .rec-dchip.gap{flex-grow:.55;letter-spacing:.2em;color:var(--dim);background:transparent;border-style:dashed}
   .rec-dchip.gap.now{color:var(--fg-3);background:transparent}
   /* ---- the transport ---- */
-  .rec-on .rec-ctl{display:flex;align-items:center;gap:10px;height:34px}
+  .rec-on .rec-ctl{display:flex;align-items:center;gap:10px;height:32px;opacity:.92}
   .rec-cbtn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;height:30px;padding:0 11px;border:0;border-radius:8px;background:rgba(12,12,15,.7);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top);color:var(--fg);font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:box-shadow .18s ease,color .18s ease,background .18s ease}
   .rec-cbtn:hover{color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.3),var(--hl-top)}
   .rec-cbtn[disabled]{opacity:.35;cursor:default}
@@ -605,6 +621,48 @@
      is not a hint */
   .rec-hint{margin-left:.35rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
   .rec-hint kbd{font-family:inherit;font-size:inherit;color:var(--fg-3);border:1px solid var(--line);border-radius:4px;padding:.1rem .28rem;margin:0 .1rem}
+  /* ============ the core: fein, between the document and the graph ============
+     Everything the section claims happens here, so it is drawn rather than
+     described. A rail runs the height of the stage; the ring sits on it at the
+     height every wire is bent through; the two words name the only two things
+     the machine does. It breathes on its own clock, because a machine that only
+     moves when the reader scrolls reads as an illustration of a machine. */
+  .rec-core{display:none}
+  .rec-on .rec-core{display:block;position:relative;grid-column:2;justify-self:stretch}
+  .rec-crail{position:absolute;left:50%;top:2%;bottom:2%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,transparent,var(--line) 12%,var(--line) 88%,transparent)}
+  .rec-cring{position:absolute;left:50%;top:var(--corey,42%);width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:1px solid rgba(82,168,255,.28);background:radial-gradient(circle at 50% 50%,rgba(0,112,243,.20),rgba(0,112,243,.04) 62%,transparent 72%);box-shadow:0 0 0 6px rgba(0,112,243,.045),0 0 34px rgba(0,112,243,calc(.10 + .34 * var(--pulse,0)));transform:scale(calc(1 + .07 * var(--pulse,0)));animation:coreB 4.6s ease-in-out infinite}
+  @keyframes coreB{0%,100%{border-color:rgba(82,168,255,.22)}50%{border-color:rgba(82,168,255,.42)}}
+  .rec-cdot{position:absolute;left:50%;top:var(--corey,42%);width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--blue-l);opacity:calc(.45 + .55 * var(--pulse,0));box-shadow:0 0 12px rgba(82,168,255,.7)}
+  .rec-cname{position:absolute;left:0;right:0;top:calc(var(--corey,42%) + 38px);text-align:center;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-l);opacity:calc(.55 + .45 * var(--pulse,0))}
+  /* the two verbs, one above the ring and one below, so the direction of travel
+     is legible before anything moves */
+  .rec-cverb{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.53rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .rec-cverb.up{top:calc(var(--corey,42%) - 92px)}
+  .rec-cverb.dn{top:calc(var(--corey,42%) + 74px)}
+  .rec-cverb b{display:block;font-weight:500;color:var(--fg-3);opacity:calc(.35 + .65 * var(--vb,0))}
+  .rec-cverb .ar{display:block;margin:.3rem 0;color:var(--line-2)}
+  /* the count of what this beat did, under the machine, in the machine's colour */
+  .rec-ccount{position:absolute;left:0;right:0;top:calc(var(--corey,42%) + 108px);text-align:center;font-family:var(--mono);font-size:.53rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--cco,0)}
+  .rec-ccount b{color:#fff;font-weight:500}
+  .rec-ccount.ret b{color:var(--mem-ret)}
+  /* ============ the graph: what the store actually is ============
+     A ghost behind the facts for the whole walk, so the reader sees structure
+     accreting rather than a list growing, and then the thing itself on the last
+     beat, when the facts step back and the answer's path lights through it. */
+  .rec-graph{display:none}
+  .rec-on .rec-graph{display:block;position:absolute;left:0;right:0;top:0;height:var(--gh,70%);z-index:0;overflow:visible;opacity:calc(.26 + .74 * var(--gv,0))}
+  .rec-on .rec-graph .ge{stroke:var(--g-edge);stroke-width:1;fill:none;opacity:calc(var(--e,0) * (.5 + .5 * var(--gv,0)))}
+  .rec-on .rec-graph .ge.lit{stroke:var(--blue-l);opacity:calc(var(--e,0) * var(--gv,0))}
+  .rec-on .rec-graph .gh{fill:#0b0c10;stroke:var(--g-node);stroke-width:calc(1px + .35px * var(--gv,0));opacity:calc(.45 + .55 * var(--gv,0))}
+  .rec-on .rec-graph .gn{fill:var(--blue-l);opacity:var(--n,0);transform-box:fill-box;transform-origin:50% 50%;transform:scale(calc(var(--ns,1) * (1 + .3 * var(--gv,0))))}
+  .rec-on .rec-graph .gn.ret{fill:none;stroke:var(--mem-ret);stroke-width:1}
+  .rec-on .rec-graph .gl{fill:var(--fg-3);font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;opacity:var(--gv,0)}
+  /* the rows step back to let the graph forward; they never leave, because the
+     sentence is still what a person reads */
+  .rec-on .rec-rows{opacity:calc(1 - .94 * var(--gv,0))}
+  .rec-on .rec-gcap{display:block;position:absolute;left:16px;right:16px;bottom:10px;z-index:3;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--gv,0)}
+  .rec-gcap{display:none}
+  .rec-gcap b{color:var(--blue-l);font-weight:500}
   /* the pane names it: two halves of one machine, each labelled once */
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   /* how it works: one bright subhead carries the whole mechanism, so the head
@@ -1398,12 +1456,28 @@ __LOGO_SPRITE__
                 </div>
               </div>
             </div>
-            <div class="rec-seam" aria-hidden="true"></div>
+            <!-- fein itself. Every wire is bent through the ring, so the reader
+                 watches a phrase go into the machine and a fact come out of it,
+                 rather than watching a line join two boxes. -->
+            <div class="rec-core" id="rec-core" aria-hidden="true">
+              <span class="rec-crail"></span>
+              <span class="rec-cverb up"><b id="rec-vread">Reads</b><span class="ar">&darr;</span></span>
+              <span class="rec-cring" id="rec-cring"></span>
+              <span class="rec-cdot"></span>
+              <span class="rec-cname">fein</span>
+              <span class="rec-cverb dn"><span class="ar">&darr;</span><b id="rec-vwrite">Writes</b></span>
+              <span class="rec-ccount" id="rec-ccount"></span>
+            </div>
             <section class="rec-store" id="rec-store" aria-label="fein memory: Halo Compute">
               <div class="rec-head"><p class="rec-brand">fein &middot; memory</p><p class="rec-subj">Halo Compute</p><p class="rec-asof"><span class="rec-asl">As of</span><span class="rec-asv" id="rec-asv" aria-hidden="true">28 Jul 2026</span><span class="rec-vh">Showing what fein knows as of 28 July 2026.</span></p></div>
               <p class="rec-op" id="rec-op" aria-hidden="true"><span></span></p>
                 <div class="rec-body" id="rec-body">
+                <!-- the shape of the thing the facts are stored in. It accretes
+                     behind them for the whole walk and comes forward on the last
+                     beat, when the answer lights the path it actually walked. -->
+                <svg class="rec-graph" id="rec-graph" aria-hidden="true"></svg>
                 <p class="rec-zlab rec-zl-live">Live <b class="rec-cn" id="rec-cn">11</b><span class="rec-cap">15 facts on file &middot; 11 live &middot; 4 retired, kept</span></p>
+                <p class="rec-gcap" id="rec-gcap">One graph &middot; <b>15 facts</b> &middot; every edge is a document</p>
                 <div class="rec-shelfbg" aria-hidden="true"></div>
                 <p class="rec-zlab rec-zl-ret">Retired, kept <b class="rec-cr" id="rec-cr">4</b></p>
                 <ol class="rec-rows" id="rec-rows">
@@ -3218,6 +3292,10 @@ __LOGO_SPRITE__
       opline=document.getElementById('rec-op'),
       asv=document.getElementById('rec-asv'),
       cn=document.getElementById('rec-cn'), cr=document.getElementById('rec-cr'),
+      core=document.getElementById('rec-core'), cring=document.getElementById('rec-cring'),
+      ccount=document.getElementById('rec-ccount'),
+      vread=document.getElementById('rec-vread'), vwrite=document.getElementById('rec-vwrite'),
+      graph=document.getElementById('rec-graph'),
       cards=[].slice.call(track.querySelectorAll('.rec-card')),
       rows=[].slice.call(track.querySelectorAll('.rec-row')),
       hls=[].slice.call(track.querySelectorAll('.rec-hl')),
@@ -3234,11 +3312,14 @@ __LOGO_SPRITE__
      carries a payoff line under its document, so each one is longer than the
      bare document needed: the reader has a sentence to finish, not just a card
      to look at. */
-  var T=230;
-  var BEATS=[['s0',10],['b1',24,0],['b2',20,1],['b2b',16,2],['b3',28,3],
+  var T=0;
+  var BEATS=[['s0',22],['b1',24,0],['b2',20,1],['b2b',16,2],['b3',28,3],
              ['ga',9],['b4',18,4],['gb',11],['b5',36,5],['b6',14,6],['fin',44]];
   var edge=[],acc=0;
   BEATS.forEach(function(b){ edge.push([acc,acc+b[1]]); acc+=b[1]; });
+  /* T is the table's own total, never a second number to keep in step with it:
+     retime any beat and every other beat's share follows in one place */
+  T=acc;
   /* events, in beat-local svh. new: bloom, wire, land. ret: wire, strike, dwell,
      drop, land — the doomed sentence is struck and then sits still, in the live
      zone, long enough to be read, before it falls to the shelf. */
@@ -3273,14 +3354,69 @@ __LOGO_SPRITE__
      the same thing about where they are. */
   var SAY=['The key','Gmail','Granola','Affinity','Notion','Twelve months, nothing filed',
            'LinkedIn','Still nothing filed','Gmail','Slack','The answer'];
+  /* ---- the graph. Five things the firm actually holds, and the fifteen facts
+     hanging off them. The coordinates are authored rather than solved: this is a
+     picture of a graph, at the size of a thumbnail, and a force layout would
+     spend a frame budget to land somewhere less legible. ---- */
+  var GH=[[0.50,0.46,'Halo Compute'],[0.15,0.20,'Dev Raman'],[0.20,0.78,'Marcus'],
+          [0.85,0.26,'The round'],[0.80,0.74,'The team']];
+  /* fact -> [x, y, hub] */
+  var GN=[[0.93,0.13,3],[0.08,0.10,1],[0.09,0.64,2],[0.91,0.63,4],[0.40,0.22,0],
+          [0.95,0.37,3],[0.11,0.88,2],[0.26,0.94,2],[0.37,0.62,0],[0.52,0.74,0],
+          [0.89,0.88,4],[0.84,0.10,3],[0.63,0.58,0],[0.61,0.29,0],[0.07,0.33,1]];
+  /* the facts the closing answer is built from: the path it walked, lit */
+  var ANSF={9:1,12:1,13:1,10:1,1:1,14:1};
+  /* what the machine does on each beat, counted off the event table rather than
+     written down twice: retime an event and the core still says the truth */
+  var WR=[],RE=[];
+  (function(){
+    var i; for(i=0;i<BEATS.length;i++){ WR.push(0); RE.push(0); }
+    EV.forEach(function(e){ if(e.r) RE[e.b]++; else WR[e.b]++; });
+  })();
   var LIVE_TOP=22, LIVE_STEP=32, SHELF_H=110, SHELF_STEP=26;
   var NAV=76, PINH=0, geo=null, raf=0, vis=false, on=false, io=null, rt=0, lastW=0, lastH=0;
-  var paths=[], lastBi=-1;
+  var paths=[], toks=[], halos=[], lastBi=-1;
 
   function clamp01(v){ return v<0?0:v>1?1:v; }
   function out3(e){ var k=1-e; return 1-k*k*k; }
   function back(g){ var k=g-1; return 1+2.2*k*k*k+1.2*k*k; }
   function seg(v,a,b){ return clamp01((v-a)/(b-a)); }
+
+  /* ---- the graph, built once. Drawing order is the stacking order in SVG, so
+     the spine goes down first, then each fact's edge, then the hubs, then the
+     fact nodes on top of everything they connect to. ---- */
+  var NS='http://www.w3.org/2000/svg';
+  var gspine=[],gedge=[],ghub=[],glab=[],gnode=[];
+  function el(tag,cls,parent){ var e=document.createElementNS(NS,tag); if(cls) e.setAttribute('class',cls); parent.appendChild(e); return e; }
+  function buildGraph(){
+    if(!graph||gnode.length) return;
+    [[0,1],[0,2],[0,3],[0,4]].forEach(function(p){ gspine.push({el:el('line','ge',graph),a:p[0],b:p[1]}); });
+    GN.forEach(function(n,i){ gedge.push(el('line','ge'+(ANSF[i]?' ans':''),graph)); });
+    GH.forEach(function(h){ ghub.push(el('circle','gh',graph)); });
+    GH.forEach(function(h){ var t=el('text','gl',graph); t.setAttribute('text-anchor','middle'); t.textContent=h[2]; glab.push(t); });
+    GN.forEach(function(n,i){ gnode.push(el('circle','gn'+(rows[i]&&rows[i].classList.contains('ret')?' ret':''),graph)); });
+  }
+  function placeGraph(bw,bh){
+    if(!graph||!gnode.length) return;
+    var gh=Math.round(bh*0.70);
+    graph.style.setProperty('--gh',gh+'px');
+    var px=26, py=20, w=Math.max(40,bw-px*2), h=Math.max(40,gh-py*2-10);
+    function X(v){ return (px+v*w).toFixed(1); }
+    function Y(v){ return (py+v*h).toFixed(1); }
+    gspine.forEach(function(s){
+      s.el.setAttribute('x1',X(GH[s.a][0])); s.el.setAttribute('y1',Y(GH[s.a][1]));
+      s.el.setAttribute('x2',X(GH[s.b][0])); s.el.setAttribute('y2',Y(GH[s.b][1]));
+      s.el.style.setProperty('--e','.55');
+    });
+    gedge.forEach(function(e,i){
+      var n=GN[i], hb=GH[n[2]];
+      e.setAttribute('x1',X(n[0])); e.setAttribute('y1',Y(n[1]));
+      e.setAttribute('x2',X(hb[0])); e.setAttribute('y2',Y(hb[1]));
+    });
+    ghub.forEach(function(c,i){ c.setAttribute('cx',X(GH[i][0])); c.setAttribute('cy',Y(GH[i][1])); c.setAttribute('r','4.2'); });
+    glab.forEach(function(t,i){ t.setAttribute('x',X(GH[i][0])); t.setAttribute('y',(parseFloat(Y(GH[i][1]))+16).toFixed(1)); });
+    gnode.forEach(function(c,i){ c.setAttribute('cx',X(GN[i][0])); c.setAttribute('cy',Y(GN[i][1])); c.setAttribute('r','2.8'); });
+  }
 
   function measure(){
     NAV=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
@@ -3316,28 +3452,56 @@ __LOGO_SPRITE__
       var h=c.getBoundingClientRect().height; if(h>tallest) tallest=h;
       var w=c.querySelector('.rec-why'); if(w){ var wh=w.getBoundingClientRect().height; if(wh>tallwhy) tallwhy=wh; }
     });
-    cards.forEach(function(c){ c.style.setProperty('--whyoff',Math.round(tallest-c.getBoundingClientRect().height+22)+'px'); });
+    cards.forEach(function(c){
+      /* the key card carries no document, so it does not sit on the payoff
+         line the seven documents share: its text belongs under its own title */
+      c.style.setProperty('--whyoff',c.classList.contains('rec-c0')?'8px'
+        :Math.round(tallest-c.getBoundingClientRect().height+22)+'px');
+    });
     /* the narration, the document and its payoff are one block, so the well
        centres that block rather than hanging it from a constant and leaving all
        the slack at the bottom. The floor is the room two lines of narration
        need above the card, which is what --card-top meant before it moved. */
     var wellH=well.getBoundingClientRect().height;
     var group=tallest+22+tallwhy;
-    var cardTop=Math.round(Math.max(104,Math.min(210,(wellH-group)/2)));
+    var tallLede=0;
+    cards.forEach(function(c){ var l=c.querySelector('.rec-lede');
+      if(l){ var lh=l.getBoundingClientRect().height; if(lh>tallLede) tallLede=lh; } });
+    var floor=Math.max(104,Math.round(tallLede+40));
+    var cardTop=Math.round(Math.max(floor,Math.min(Math.max(floor,210),(wellH-group)/2)));
     well.style.setProperty('--card-top',cardTop+'px');
     /* the answer is taller than any document, so on a short window it starts
        above the line the documents start on rather than running under the strip */
-    if(ask) ask.style.setProperty('--asktop',Math.round(Math.max(0,Math.min(cardTop,wellH-ask.getBoundingClientRect().height-6)))+'px');
+    if(ask){
+      ask.classList.remove('sm');
+      var ah=ask.getBoundingClientRect().height;
+      if(ah>wellH-10){ ask.classList.add('sm'); ah=ask.getBoundingClientRect().height; }
+      ask.style.setProperty('--asktop',Math.round(Math.max(0,Math.min(cardTop,wellH-ah-6)))+'px');
+    }
+    buildGraph();
+    placeGraph(br.width,br.height);
+    /* the ring is the point every wire is bent through, so its centre has to be
+       a real coordinate in the panes' space, not a CSS percentage the script
+       cannot see. One number, read here, used by nineteen paths. */
+    var coreX=pr.width/2, coreY=pr.height*0.42;
+    if(core){ var cbr=core.getBoundingClientRect(); coreX=cbr.left-pr.left+cbr.width/2; }
     geo={ shelfTop:shelfTop, bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left,
+          coreX:coreX, coreY:coreY,
           hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
             return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
-    /* one path per event, created once */
+    /* one path per event, created once, each with the token that draws it */
     if(!paths.length){
       EV.forEach(function(e,i){
-        var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        var p=document.createElementNS(NS,'path');
         p.setAttribute('pathLength','1');
         if(e.r) p.setAttribute('class','red');
         wires.appendChild(p); paths.push(p);
+      });
+      EV.forEach(function(e,i){
+        halos.push(el('circle','halo'+(e.r?' red':''),wires));
+        halos[i].setAttribute('r','7.5');
+        toks.push(el('circle','tok'+(e.r?' red':''),wires));
+        toks[i].setAttribute('r','3');
       });
     }
   }
@@ -3363,6 +3527,10 @@ __LOGO_SPRITE__
       cards[c].style.setProperty('--cy',cy.toFixed(1)+'px');
     }
 
+    /* the graph comes forward in the back half of the last beat, once the answer
+       has been read: first what fein says, then the shape it said it from */
+    var gvNow=BEATS[bi][0]==='fin'?seg(local,12,24):0;
+
     /* --- the answer: the last beat, in the well the documents have vacated --- */
     if(ask){
       var ao=BEATS[bi][0]==='fin'?clamp01(local/4):0;
@@ -3372,10 +3540,13 @@ __LOGO_SPRITE__
     }
 
     /* --- twelve months, drawn into the well the cards leave behind --- */
+    /* the void's headline waits for the document to leave, and leaves before the
+       next one arrives. Both are set at the narration's size, in white, at
+       different heights: overlap them and the frame is two headlines deep. */
     var gap=0, gm=-1;
-    if(BEATS[bi][0]==='ga'){ gap=clamp01(local/2); gm=Math.floor(local/9*6); }
+    if(BEATS[bi][0]==='ga'){ gap=clamp01((local-3)/2.5); gm=Math.floor(local/9*6); }
     else if(BEATS[bi][0]==='gb'){ gap=1; gm=6+Math.floor(local/11*6); }
-    else if(BEATS[bi][0]==='b4'){ gap=1-clamp01(local/2); gm=6; }
+    else if(BEATS[bi][0]==='b4'){ gap=1-clamp01(local/1.4); gm=6; }
     /* on the well, not on the month strip: the gap narration is the strip's
        sibling, so anything set down there cannot reach it */
     well.style.setProperty('--mo',gap.toFixed(2));
@@ -3425,7 +3596,12 @@ __LOGO_SPRITE__
       el.style.setProperty('--gf',(gq*(1-clamp01((s2.born-0.8)/0.18))).toFixed(3));
     }
 
-    /* --- the wires, now that every row has a resolved y --- */
+    /* --- the wires, now that every row has a resolved y. Each one runs from the
+       phrase, through the ring, to the fact: two curves and one waypoint, which
+       is the whole claim of the section drawn as a shape. The token rides at the
+       head of the line, so what the reader watches is the sentence being carried
+       into fein and set down as a fact rather than a line joining two boxes. --- */
+    var pulse=0, tRead=0, tWrite=0;
     for(k=0;k<EV.length;k++){
       var ev=EV[k], qv=q[k], pa=paths[k];
       var d=seg(qv,ev.r?0:0.2,ev.r?0.27:0.64);
@@ -3437,11 +3613,50 @@ __LOGO_SPRITE__
       if(!ev.r) hls[ev.f].style.setProperty('--bl',seg(qv,0,0.28).toFixed(2));
       pa.style.setProperty('--d',d.toFixed(3));
       pa.style.setProperty('--w',w.toFixed(3));
+      if(toks[k]){ toks[k].style.setProperty('--w',w.toFixed(3)); halos[k].style.setProperty('--w',w.toFixed(3)); }
       if(w>0.005 && geo){
         var an=geo.hl[ev.f], x1=geo.storeLeft+13, y1=geo.bodyTop+yOf[ev.f]+16;
-        var kk=Math.max(36,(x1-an.x)*0.42);
-        pa.setAttribute('d','M'+an.x.toFixed(1)+' '+an.y.toFixed(1)+'C'+(an.x+kk).toFixed(1)+' '+an.y.toFixed(1)+','+(x1-kk).toFixed(1)+' '+y1.toFixed(1)+','+x1.toFixed(1)+' '+y1.toFixed(1));
+        var cx=geo.coreX, cy=geo.coreY;
+        var k1=Math.max(28,(cx-an.x)*0.45), k2=Math.max(28,(x1-cx)*0.45);
+        pa.setAttribute('d','M'+an.x.toFixed(1)+' '+an.y.toFixed(1)
+          +'C'+(an.x+k1).toFixed(1)+' '+an.y.toFixed(1)+','+(cx-k1).toFixed(1)+' '+cy.toFixed(1)+','+cx.toFixed(1)+' '+cy.toFixed(1)
+          +'C'+(cx+k2).toFixed(1)+' '+cy.toFixed(1)+','+(x1-k2).toFixed(1)+' '+y1.toFixed(1)+','+x1.toFixed(1)+' '+y1.toFixed(1));
+        /* the token sits where the line has got to, and lets go as it lands */
+        if(toks[k] && d>0.001 && d<0.999){
+          var L=pa.getTotalLength(), pt=pa.getPointAtLength(L*d), tv=(1-seg(d,0.9,1)).toFixed(3);
+          toks[k].setAttribute('cx',pt.x.toFixed(1)); toks[k].setAttribute('cy',pt.y.toFixed(1));
+          halos[k].setAttribute('cx',pt.x.toFixed(1)); halos[k].setAttribute('cy',pt.y.toFixed(1));
+          toks[k].style.setProperty('--tv',tv); halos[k].style.setProperty('--tv',tv);
+          /* the machine reacts to what is passing through it */
+          var nearCore=Math.max(0,1-Math.abs(d-0.5)*3.4);
+          if(nearCore>pulse) pulse=nearCore;
+          if(d<0.5) tRead=1; else tWrite=1;
+        } else if(toks[k]){ toks[k].style.setProperty('--tv',0); halos[k].style.setProperty('--tv',0); }
       }
+    }
+    /* --- the core: what fein is doing, while it does it --- */
+    if(core){
+      core.style.setProperty('--pulse',pulse.toFixed(3));
+      if(vread) vread.parentNode.style.setProperty('--vb',tRead.toFixed(2));
+      if(vwrite) vwrite.parentNode.style.setProperty('--vb',tWrite.toFixed(2));
+      if(ccount){
+        var nw=WR[bi],nr=RE[bi];
+        ccount.innerHTML=(nw?'<b>+'+nw+'</b> fact'+(nw>1?'s':''):'')+(nw&&nr?'<br>':'')+(nr?'<b>&minus;'+nr+'</b> retired':'');
+        ccount.className='rec-ccount'+(nr&&!nw?' ret':'');
+        ccount.style.setProperty('--cco',((nw||nr)?Math.min(1,local/3):0).toFixed(2));
+      }
+    }
+    /* --- the graph. Same per fact state as the rows, drawn as structure: a
+       node appears where a sentence appeared, and a retired one stays on the
+       graph as an outline, because nothing here is ever deleted. --- */
+    if(gnode.length){
+      for(i=0;i<gnode.length;i++){
+        var gs=st[i], gb=gs.born>0?Math.min(1,gs.born/0.55):(gs.cut>0?1:0);
+        gnode[i].style.setProperty('--n',(gb*(1-0.4*gs.drop)).toFixed(3));
+        gnode[i].style.setProperty('--ns',(0.35+0.65*out3(gb)).toFixed(3));
+        gedge[i].style.setProperty('--e',(gb*0.8).toFixed(3));
+      }
+      body.style.setProperty('--gv',gvNow.toFixed(3));
     }
 
     /* --- chrome --- */
@@ -3454,7 +3669,10 @@ __LOGO_SPRITE__
       opline.classList.toggle('ret',!!RETOP[bi]);
       opline.style.setProperty('--opo',Math.min(1,local/2.5).toFixed(2));
     }
-    if(asv && DATES[bi]) asv.textContent=DATES[bi];
+    if(asv){
+      if(DATES[bi]) asv.textContent=DATES[bi];
+      asv.parentNode.style.opacity=DATES[bi]?'':'0';
+    }
     if(cn) cn.textContent=liveN;
     if(cr) cr.textContent=shelfN;
     /* --- the transport. Only on a beat change: this runs every frame, and the
@@ -3478,6 +3696,11 @@ __LOGO_SPRITE__
     if(stripn) stripn.textContent=BEATS[bi][0]==='fin'?'Answering':(cardNow>0?'Reading':'Waiting');
     if(stripd) stripd.textContent=BEATS[bi][0]==='fin'?'all 7 documents read'
       :(cardNow>0?SAY[bi]+' · document '+dn+' of 7':'nothing filed · '+dn+' of 7 read');
+    /* the answer's own path through the graph, lit only where the answer is */
+    if(gedge.length){
+      var fin=BEATS[bi][0]==='fin';
+      for(var gi=0;gi<gedge.length;gi++) gedge[gi].classList.toggle('lit',!!(fin&&ANSF[gi]));
+    }
     if(prevb) prevb.disabled=bi<=0;
     if(nextb) nextb.disabled=bi>=BEATS.length-1;
     /* one sentence per beat for a reader who is not watching: which document,
@@ -3584,7 +3807,8 @@ __LOGO_SPRITE__
     if(io){ io.disconnect(); io=null; }
     document.documentElement.classList.remove('rec-on');
     if(body) body.classList.remove('rec-tight');
-    [].concat(cards,rows,hls,paths,ask?[ask]:[],well?[well]:[]).forEach(function(el){ el.removeAttribute('style'); });
+    [].concat(cards,rows,hls,paths,toks,halos,gnode,gedge,ask?[ask]:[],well?[well]:[],core?[core]:[]).forEach(function(el){ el.removeAttribute('style'); });
+    if(body){ body.style.removeProperty('--gv'); }
   }
   function remeasure(){ if(!on) return; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
   window.addEventListener('resize',function(){
