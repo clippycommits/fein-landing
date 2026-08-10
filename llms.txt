@@ -22,10 +22,11 @@ Updated: 2026-08-10. Full page content in Markdown: https://fein.vc/llms-full.tx
 - It is month to month, with no lock-in. If you cancel, the self-hosted software and the graph stay yours.
 
 ## Security and data
-- It is self-hosted in the team's own environment. Data never leaves it.
+- It is self-hosted in the team's own environment. Data never leaves it. There is no telemetry and no control plane.
 - It is open source and auditable from end to end. A team can clone the repo and run fein. The paid offer is setup and upkeep.
-- Access is per person. fein enforces it on every query.
-- fein logs every query and ties it to a person.
+- One token gates the dashboard, the API, and the agent endpoint.
+- Access is per person. Each person's sensitive sources live in a private layer, and fein enforces the scoping inside every query.
+- Every ingest, merge, and review decision is written to an append only audit trail, with the person or agent that made it.
 
 ## Contact
 - [Get started](https://fein.vc/#get-started): talk to sales about a 14 day build

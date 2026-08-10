@@ -54,7 +54,9 @@ const sEnd = body.indexOf("</style>") + "</style>".length;
 const styleBlock = body.slice(0, sEnd);
 const rest = body.slice(sEnd);
 
-// ---- FAQ (mirrors the visible section) ----
+// ---- FAQ: no longer a section on the page. It stays here for llms.txt only,
+// which is why there is no FAQPage in the JSON-LD: that markup requires the
+// answers to be visible on the page it is served from. ----
 const faqs = [
   ["What exactly is fein?", "fein is an open-source data layer for your firm's relationships. It reads your email, calendar, notes, and CRM. It resolves them into one graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
   ["How is this different from Affinity or Attio?", "A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."],
@@ -87,14 +89,8 @@ const ld = {
       applicationCategory: "BusinessApplication", applicationSubCategory: "Relationship intelligence",
       operatingSystem: "Self-hosted (Docker)", description: DESC_LONG, url: SITE + "/",
       provider: { "@id": SITE + "/#org" }, isAccessibleForFree: true, featureList: FEATURES,
-      audience: { "@type": "Audience", audienceType: "Venture capital teams" },
-      offers: [
-        { "@type": "Offer", name: "Build", price: "5000", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE + "/#pricing", description: "One-time setup: fein built, connected, and live on your servers in 14 days" },
-        { "@type": "Offer", name: "Maintenance", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE + "/#pricing", description: "Monthly upkeep: connectors kept alive, graph kept current, new answers built on request", priceSpecification: { "@type": "UnitPriceSpecification", price: "1000", priceCurrency: "USD", unitText: "MONTH" } },
-        { "@type": "Offer", name: "Clone it yourself", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: SITE + "/#pricing", description: "Free and open source: the same code we deploy for clients, run and maintained by your team" }
-      ]
-    },
-    { "@type": "FAQPage", "@id": SITE + "/#faq", mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }
+      audience: { "@type": "Audience", audienceType: "Venture capital teams" }
+    }
   ]
 };
 const ldScript = '<script type="application/ld+json">' + JSON.stringify(ld) + "</script>";
@@ -278,10 +274,11 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - It is month to month, with no lock-in. If you cancel, the self-hosted software and the graph stay yours.
 
 ## Security and data
-- It is self-hosted in the team's own environment. Data never leaves it.
+- It is self-hosted in the team's own environment. Data never leaves it. There is no telemetry and no control plane.
 - It is open source and auditable from end to end. A team can clone the repo and run fein. The paid offer is setup and upkeep.
-- Access is per person. fein enforces it on every query.
-- fein logs every query and ties it to a person.
+- One token gates the dashboard, the API, and the agent endpoint.
+- Access is per person. Each person's sensitive sources live in a private layer, and fein enforces the scoping inside every query.
+- Every ingest, merge, and review decision is written to an append only audit trail, with the person or agent that made it.
 
 ## Contact
 - [Get started](${SITE}/#get-started): talk to sales about a 14 day build
@@ -336,8 +333,11 @@ fein learns the rhythm of each relationship from your real history. Then it flag
 Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.
 
 - Always self-hosted. It runs on your infrastructure. It sends nothing to us.
-- Open source, from end to end. Every line that touches your data is public. Read it before you run it.
-- Permissioned and logged. fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.
+- Open source, end to end. Every line that touches your data is public. Read it before you run it.
+- One token, every surface. The dashboard, the API, and the agent endpoint sit behind the same gate.
+- Private by person. Each person's sensitive sources stay in their own layer inside the shared graph.
+- Every change is written down. Ingests, merges, and decisions are logged with the person or agent that made them.
+- Nothing phones home. No telemetry, no analytics, and no control plane of ours to trust.
 
 ## Managed installation: we deploy fein in two weeks
 

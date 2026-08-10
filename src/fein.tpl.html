@@ -9,6 +9,10 @@
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --muted:#8a8f98; --dim:#63666d;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
     --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
+    /* the only two colours outside the blue accent, and they live on a 0.7rem
+       glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
+       uses; --mem-new is cyan shifted so the pair reads as siblings of the blue */
+    --mem-new:#3FBF7F; --mem-ret:#FF8A85; --mem-ret-rule:rgba(255,138,133,.45);
     /* Inter carries the interface: body copy, sub headings, buttons, nav, forms.
        Geist is reserved for the display line, the h1 and h2 headings only.
        Geist sits second in the text stack so glyphs outside Inter's latin cut
@@ -295,7 +299,7 @@
   .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0;border-top:1px solid var(--line)}
   /* the what-changed stage is sized to the viewport itself, so the band's
      usual breathing room would push it past one screen */
-  #change.band{padding:clamp(2.5rem,5vw,3.5rem) 0}
+  #change.band{padding:clamp(2.5rem,5vw,3.5rem) 0 0}
   .head{max-width:60ch}
   .head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
@@ -315,91 +319,78 @@
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
-  /* what changed: one moment on the screen at a time.
-     The instrument this replaces put a whole deal on one surface at once, and
-     everything on it moved every time anything changed. This one is staged.
-     The screen holds a date, the source that arrived on it, and only the two
-     or three sentences that moment made true or untrue. The rest of the graph
-     is one line and a disclosure away. Every block that swaps has a reserved
-     height, so nothing reflows underneath the reader; the only motion is the
-     content arriving, and the strike being drawn through a fact as it retires,
-     which is the one thing in this section worth watching happen. */
-  .chg{display:grid;justify-items:center;align-content:center;gap:0;min-height:min(900px,calc(100svh - var(--nav-h) - 4rem))}
-  .chg-copy{text-align:center;max-width:56ch}
-  .chg-copy h2{font-size:clamp(1.85rem,3.4vw,2.5rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
-  .chg-copy p{margin-top:.85rem;color:var(--fg-2);font-size:1.01rem;line-height:1.58;text-wrap:pretty}
-  /* the stage: a quiet surface, and a fixed geometry. The three swapping zones
-     each reserve their tallest state so the panel never resizes mid sentence */
-  .chgst{position:relative;width:min(720px,100%);margin-top:clamp(1.5rem,3.2vw,2.3rem);padding:clamp(1.4rem,2.6vw,1.8rem) clamp(1.4rem,3vw,2.2rem) 1rem;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));box-shadow:0 40px 80px -60px rgba(0,0,0,1),var(--hl-top)}
-  .st-head{position:relative;text-align:center;min-height:5.2rem}
-  .st-gap{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem;animation:stfade .5s ease both}
-  .st-gap[hidden]{display:block;visibility:hidden}
-  .st-date{font-family:var(--display);font-size:clamp(1.35rem,2.4vw,1.7rem);font-weight:500;letter-spacing:-.02em;color:#fff;line-height:1.2}
-  .st-date.turn{animation:stdate .55s cubic-bezier(.22,.61,.36,1) both}
-  @keyframes stdate{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-  @keyframes stfade{from{opacity:0}to{opacity:1}}
-  .st-src{display:flex;align-items:flex-start;justify-content:center;gap:.55rem;margin-top:.75rem;font-size:.92rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty;animation:stdate .55s cubic-bezier(.22,.61,.36,1) both;animation-delay:.06s}
-  .st-src[hidden]{display:none}
-  .st-src .tlogo{width:15px;height:15px;flex:none;margin-top:.25em}
-  .st-src b{color:var(--fg-2);font-weight:550}
-  /* the delta: the only thing on the screen that is ever more than one line */
-  .st-body{min-height:12rem;display:flex;align-items:center;justify-content:center;padding:.4rem 0 .2rem}
-  .dlt{list-style:none;margin:0;padding:0;width:100%;max-width:34rem}
-  .dlt[hidden]{display:none}
-  .dlt li{position:relative;display:flex;align-items:baseline;gap:.6rem;padding:.22rem 0;font-size:1.02rem;line-height:1.5;color:#fff;animation:dltin .5s cubic-bezier(.22,.61,.36,1) both}
-  .dlt li:nth-child(1){animation-delay:.16s}
-  .dlt li:nth-child(2){animation-delay:.26s}
-  .dlt li:nth-child(3){animation-delay:.36s}
-  .dlt li:nth-child(4){animation-delay:.46s}
-  .dlt li:nth-child(5){animation-delay:.56s}
-  .dlt li:nth-child(6){animation-delay:.66s}
-  @keyframes dltin{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
-  .d-m{flex:none;width:.7rem;font-family:var(--mono);font-size:.82rem;line-height:1.6;color:var(--blue-l)}
-  .d-t{position:relative;flex:1;min-width:0}
-  .d-t b{font-weight:600}
-  .d-w{flex:none;font-family:var(--mono);font-size:.53rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.08rem .3rem;white-space:nowrap;opacity:0;transition:opacity .4s ease .35s}
-  /* the strike is drawn a beat after the line lands: a fact retiring is the
-     one event in this section that deserves to be watched rather than found */
-  .d-ret{color:var(--fg-3)}
-  .d-ret .d-m{color:var(--dim)}
-  .d-ret .d-t::after{content:"";position:absolute;left:0;top:.72em;width:100%;height:1px;background:rgba(255,255,255,.35);transform:scaleX(0);transform-origin:0 50%}
-  .d-ret.cut .d-t::after{transform:scaleX(1);transition:transform .55s cubic-bezier(.22,.61,.36,1)}
-  .d-ret.cut{color:var(--dim);transition:color .5s ease}
-  .d-ret.cut .d-w{opacity:1}
-  .st-ans{display:flex;justify-content:center;gap:.5rem;min-height:2.2rem;padding-top:.2rem;font-size:.88rem;line-height:1.5;color:var(--fg-3);text-align:left;animation:stfade .6s ease both;animation-delay:.5s}
-  .st-ans[hidden]{display:none}
-  .st-ans .fmark{flex:none;font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);padding-top:.28rem}
-  .st-ans span+span{max-width:34rem}
-  /* everything else the graph knows, one line away */
-  .st-disc{border-top:1px solid var(--line);margin-top:.5rem}
-  .st-more{display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.75rem 0 .2rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);background:transparent;border:0;cursor:pointer;transition:color .2s ease}
-  .st-more:hover{color:var(--fg-2)}
-  .st-more:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
-  .st-more svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.22,.61,.36,1)}
-  .st-more[aria-expanded="true"] svg{transform:rotate(180deg)}
-  .st-ledger{overflow:hidden;transition:max-height .45s cubic-bezier(.22,.61,.36,1),opacity .3s ease;padding-top:.55rem}
-  .st-ledger.noanim{transition:none}
-  .st-ledger.shut{max-height:0!important;opacity:0;padding-top:0}
-  .st-ledger .lrow{display:flex;align-items:baseline;gap:.6rem;padding:.2rem 0;font-size:.82rem;line-height:1.45;color:var(--fg-3)}
-  .st-ledger .lrow[hidden]{display:none}
-  .st-ledger .lrow b{color:var(--fg-2);font-weight:550}
-  .st-ledger .lrow.ret{color:var(--dim)}
-  .st-ledger .lrow.ret .d-t{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
-  .st-ledger .lrow.ret b{color:var(--dim);font-weight:400}
-  .st-ledger .d-w{opacity:1;transition:none}
-  /* the sequence: seven dots, and the one you are on fills as it holds */
-  .dots{display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:clamp(1.4rem,2.6vw,2rem)}
-  .dot{position:relative;width:22px;height:22px;padding:0;border:0;background:transparent;cursor:pointer;border-radius:11px;display:grid;place-items:center}
-  .dot i{display:block;width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.2);transition:width .4s cubic-bezier(.22,.61,.36,1),background .3s ease}
-  .dot:hover i{background:rgba(255,255,255,.4)}
-  .dot.on{width:34px}
-  .dot.on i{width:26px;background:rgba(255,255,255,.18)}
-  .dot.on i::after{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:7px;width:0;border-radius:99px;background:var(--blue-l);box-shadow:0 0 10px rgba(82,168,255,.6)}
-  .dot.on.run i::after{animation:dotfill var(--hold,2s) linear forwards}
-  .dot.on.done i::after{width:26px}
-  @keyframes dotfill{from{width:0}to{width:26px}}
-  .dot:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
-  .chg-close{margin-top:clamp(1.4rem,2.6vw,1.9rem);max-width:46ch;text-align:center;font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
+  /* ============ what changed: one deal, read by scrolling ============
+     Nothing in here is pinned, and that is the whole design. Time is the y
+     axis, so scroll distance is elapsed months, the record you have read is
+     above you in the scrollback, and the no-script state is this same document
+     with the scrub switched off rather than a second layout nobody tested.
+
+     Two knobs pace the section and nothing else depends on them: --mem-pace
+     scales the whole thing, and the per-block --u floors size each moment.
+     Floors are min-height in svh, never vh or dvh: an iOS URL bar must not be
+     able to resize the story, because the script caches element offsets once.
+
+     No overflow, no contain, no content-visibility on this subtree. Any
+     horizontal overflow is a bug in the column measure, not something to clip. */
+  .mem-root{--mem-pace:1}
+  .mem-open,.mem-mo,.mem-close{min-height:calc(var(--u,50) * var(--mem-pace) * 1svh);display:grid;align-content:center;justify-items:center;padding-block:clamp(1.5rem,4svh,3rem)}
+  .mem-open{--u:30;text-align:center;max-width:54ch;margin-inline:auto}
+  .mem-open h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin-top:.7rem}
+  .mem-open p{margin-top:.9rem;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty}
+  .mem-col{list-style:none;margin:0;padding:0;width:min(31rem,100%);margin-inline:auto}
+  .mem-mo{width:100%}
+  .mem-mo[data-at="0"]{--u:56}
+  .mem-mo[data-at="1"]{--u:56}
+  .mem-mo[data-at="2"]{--u:52}
+  .mem-mo[data-at="3"]{--u:60}
+  .mem-mo[data-at="4"]{--u:44}
+  .mem-mo[data-at="gap"]{--u:42}
+  .mem-mo[data-at="5"]{--u:76}
+  .mem-mo[data-at="6"]{--u:44}
+  .mem-close{--u:36;max-width:46ch;margin-inline:auto;text-align:center;font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
+  /* the date is the drumbeat: the only recurring large element in the column,
+     and the one deliberate extension of "display type is h1 and h2 only" */
+  .mem-hd{justify-self:start;width:100%}
+  .mem-date{display:block;font-family:var(--display);font-size:clamp(1.3rem,2.2vw,1.55rem);font-weight:500;letter-spacing:-.02em;line-height:1.2;color:#fff}
+  /* the source says where it came from and who. It never says what it said */
+  .mem-src{display:flex;align-items:flex-start;gap:.5rem;width:100%;margin-top:.5rem;font-size:.9rem;line-height:1.5;color:var(--fg-3)}
+  .mem-src .tlogo{width:15px;height:15px;flex:none;margin-top:.2em}
+  .mem-src b{color:var(--fg-2);font-weight:550}
+  .mem-fl{list-style:none;margin:1.5rem 0 0;padding:0;width:100%}
+  .mem-f{display:grid;grid-template-columns:.7rem minmax(0,1fr) auto;align-items:baseline;column-gap:.7rem;padding:.32rem 0}
+  .mem-txt{font-size:clamp(.98rem,1.6vw,1.06rem);line-height:1.5;color:#fff}
+  .mem-txt b{font-weight:600}
+  /* a retired sentence ships grey from first paint: one less moving part, and
+     the settled state is byte identical to the static state */
+  .mem-f.ret .mem-txt{color:var(--fg-3)}
+  .mem-f.ret .mem-txt b{font-weight:550}
+  /* the pop the section is built on: a 0.7rem glyph that grows past its size
+     and flashes to full chroma exactly as its sentence stops moving, then
+     calms to 45%. Red does not mean bad here, it means this stopped being true */
+  .mem-gly{font-family:var(--mono);font-size:.82rem;line-height:1.5;color:var(--mem-new);transform:scale(var(--gs,1));opacity:calc(.45 + .55 * var(--gf,0));will-change:auto}
+  .mem-f.ret .mem-gly{color:var(--mem-ret)}
+  /* drawn on the text, not as a ::after rule: box-decoration-break gives every
+     line fragment its own rule, so a sentence that wraps on a phone is struck
+     on both lines instead of only the first */
+  .mem-cut{text-decoration:none;background-image:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule));background-repeat:no-repeat;background-position:0 .72em;background-size:calc(var(--cut,1) * 100%) 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  /* the receipt: retired is not deleted, and the dates are the proof */
+  .mem-when{font-family:var(--mono);font-size:.53rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.08rem .3rem;white-space:nowrap;opacity:var(--chip,1)}
+  /* the payoff: the deal has become record, and the pass is still the live
+     sentence. Reading register, not a badge: bigger, heavier, centred, and
+     stripped of every mark the rows above it carry */
+  .mem-recall{width:100%;margin-top:1.9rem;text-align:center}
+  .mem-rlab{font-family:var(--mono);font-size:.56rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-3)}
+  .mem-rtxt{margin-top:.6rem;font-size:1.05rem;font-weight:450;line-height:1.5;color:#fff}
+  .mem-rtxt b{font-weight:600}
+  /* fein speaks three times in twenty one months, not seven */
+  .mem-ans{display:flex;gap:.55rem;width:100%;margin-top:1.6rem;font-size:.88rem;line-height:1.5;color:var(--fg-3)}
+  .mem-ans .mem-mark{flex:none;font-family:var(--mono);font-size:.54rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);padding-top:.28rem}
+  /* the gap is the one visible structural event in the section: distance is
+     duration, so the emptiness is the content */
+  .mem-void{justify-items:center}
+  .mem-vline{display:block;width:1px;height:clamp(2rem,5svh,3.5rem);background:linear-gradient(180deg,transparent,var(--line-2),transparent)}
+  .mem-gaptext{margin:.9rem 0;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .mem-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -494,148 +485,18 @@
   .spot{position:relative}
   .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
   .spot:hover::before{opacity:1}
-  /* ============ security: the section owns a viewport ============
-     Security is the first question anyone asks about a thing that reads their
-     inbox, and the old answer was a 5/7 split with three hairline rows on the
-     right: true, thin, and two thirds of a black band left empty. It now runs
-     at full height and answers in five moves.
-
-       1  the claim, with the lead and the two source links across from it
-       2  a posture strip: the seven facts that survive being read at a glance
-       3  the boundary figure: what crosses in, what is held, what crosses
-          out, and what gates each crossing
-       4  six control cards, one per surface that is actually defended
-       5  the egress ledger, then the limits, in the same voice as the claims
-
-     The figure is hairline HTML rather than a fifth canvas: it has to read as
-     a diagram at a glance, survive a screen reader, and cost nothing on a
-     phone. Full height is min-height plus centred content, never a fixed
-     height, because the cards below run past one screen on purpose. */
-  .secsec{min-height:100svh;display:grid;align-content:center}
-  .sec-stage{display:grid;gap:clamp(2.2rem,4.6vw,3.4rem)}
-
-  /* 1. the claim. Same 5/7 measure as the FAQ split, deliberately: the two
-     read as one system. align-items:end sets the lede's last line on the
-     heading's baseline instead of letting it float at the top of the column. */
-  .sec-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:end}
-  .sec-top .head{max-width:none}
-  .sec-intro p{color:var(--fg-2);font-size:1.1rem;line-height:1.55;max-width:56ch;text-wrap:pretty}
-  .sec-links{display:flex;flex-wrap:wrap;gap:.4rem 1.7rem;margin-top:1.4rem;font-size:.95rem}
-
-  /* 2. the posture strip: mono pills, one fact each, no sentence to read */
-  .sec-posture{display:flex;flex-wrap:wrap;gap:.45rem;list-style:none;margin:0;padding:0}
-  .sec-posture li{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--fg-2);border:1px solid var(--line-2);border-radius:9999px;padding:.36rem .78rem;white-space:nowrap;background:var(--bg-2)}
-  .sec-posture i{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 8px rgba(82,168,255,.85);flex:none}
-
-  /* 3. the boundary figure. Three zones and two crossings: the fr ratio gives
-     the middle the width because the middle is the whole argument. */
-  .sec-fig{margin:0;display:grid;grid-template-columns:minmax(0,.82fr) auto minmax(0,1.55fr) auto minmax(0,.82fr);align-items:center;gap:clamp(.6rem,1.5vw,1.1rem)}
-  .sd-col{display:grid;gap:.7rem;align-content:center}
-  .sd-lab{font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-  .sd-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.3rem}
-  .sd-chips li{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;color:var(--fg-2);border:1px solid var(--line);border-radius:7px;padding:.3rem .48rem;background:var(--bg-2);white-space:nowrap}
-  .sd-chips .tlogo{width:14px;height:14px}
-  .sd-note{color:var(--dim);font-size:.77rem;line-height:1.45;max-width:24ch}
-  .sd-out{justify-items:end;text-align:right}
-  .sd-out .sd-chips{justify-content:flex-end}
-  .sd-out .sd-note{margin-left:auto}
-
-  /* the crossing: a dashed run, then the credential that gates it. The two
-     gates carry different labels because they are different things: fein
-     reaches out with your keys, agents reach in with the deployment token. */
-  .sd-gate{display:grid;justify-items:center;gap:.5rem;width:clamp(54px,7vw,96px)}
-  .sd-arw{display:block;width:44px;height:10px;color:var(--g-edge)}
-  .sd-key{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);border:1px solid rgba(82,168,255,.32);background:rgba(0,112,243,.1);border-radius:9999px;padding:.24rem .48rem;white-space:nowrap}
-  .sd-key svg{width:9px;height:9px;display:block}
-
-  /* the box: the only dashed border on the page, because it is the only thing
-     on the page that is a boundary rather than a card */
-  .sd-box{position:relative;border:1px dashed rgba(82,168,255,.32);border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(0,112,243,.07),rgba(10,10,14,.5));box-shadow:var(--hl-top),0 0 80px -34px rgba(0,112,243,.85);padding:.85rem .9rem .9rem}
-  .sd-btop{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-2);padding:.1rem .3rem .75rem}
-  .sd-btop i{width:6px;height:6px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 10px rgba(82,168,255,.9);flex:none}
-  .sd-btop span{margin-left:auto;text-transform:none;letter-spacing:.03em;color:var(--dim)}
-  .sd-lay{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.25rem .75rem;padding:.62rem .3rem;border-top:1px solid var(--line)}
-  .sd-lay em{grid-row:span 2;align-self:start;margin-top:.1rem;font-family:var(--mono);font-style:normal;font-size:.58rem;font-weight:500;letter-spacing:.1em;color:var(--dim);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .34rem}
-  .sd-lay b{color:#fff;font-weight:550;font-size:.9rem;letter-spacing:-.014em;line-height:1.35}
-  .sd-lay p{color:var(--fg-3);font-size:.79rem;line-height:1.5;text-wrap:pretty}
-  .sd-bfoot{margin-top:.55rem;padding:.6rem .3rem 0;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:.64rem;line-height:1.6;letter-spacing:.02em;color:var(--fg-3)}
-  .sd-bfoot b{color:var(--blue-l);font-weight:500}
-  /* the punchline under the picture: nothing in it points at us */
-  .sd-foot{grid-column:1/-1;margin-top:.3rem;padding-top:1rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.4rem;font-size:.9rem;color:var(--fg-3);text-wrap:pretty}
-  .sd-foot b{color:var(--fg);font-weight:550}
-
-  /* 4. the control cards. 1px grid gaps over a hairline ground: the cells
-     share their rules, so six cards of uneven length still rule off square. */
-  .sec-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
-  .sec-card{position:relative;background:#000;padding:1.4rem 1.3rem 1.55rem}
-  .sec-card .scn{font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.14em;color:var(--dim)}
-  .sec-card h3{margin-top:.45rem;font-size:1.02rem;letter-spacing:-.018em;line-height:1.3}
-  .sec-card ul{list-style:none;margin:.95rem 0 0;padding:0}
-  .sec-card li{padding:.72rem 0;border-top:1px solid var(--line);font-size:.865rem;line-height:1.52;color:var(--fg-3);text-wrap:pretty}
-  .sec-card li:last-child{padding-bottom:0}
-  .sec-card li b{color:var(--fg);font-weight:550}
-  #security code{font-family:var(--mono);font-size:.88em;color:var(--blue-l);background:rgba(0,112,243,.11);border:1px solid rgba(82,168,255,.16);border-radius:4px;padding:.06em .32em;white-space:nowrap}
-
-  /* 5a. the egress ledger. Every outbound call the software can make, and the
-     switch that stops it. The first row is the one that matters: it is us. */
-  .sec-ledger{display:grid;gap:1.3rem}
-  .sec-sub h3{font-size:1.22rem;letter-spacing:-.022em;margin-top:.55rem;line-height:1.3}
-  .sec-sub p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;max-width:64ch;text-wrap:pretty}
-  .sec-tbl{width:100%;border-collapse:collapse;font-size:.865rem;text-align:left}
-  .sec-tbl th{font-family:var(--mono);font-size:.61rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);padding:0 1.2rem .8rem 0;border-bottom:1px solid var(--line-2);vertical-align:bottom;white-space:nowrap}
-  .sec-tbl th:last-child,.sec-tbl td:last-child{padding-right:0}
-  .sec-tbl td{padding:.95rem 1.2rem .95rem 0;border-top:1px solid var(--line);color:var(--fg-3);line-height:1.5;vertical-align:top;text-wrap:pretty}
-  .sec-tbl tbody tr:first-child td{border-top:0}
-  .sec-tbl td:first-child{color:var(--fg);font-family:var(--mono);font-size:.79rem;letter-spacing:.01em}
-  .sec-tbl .home td{background:linear-gradient(90deg,rgba(0,112,243,.08),rgba(0,112,243,0) 72%)}
-  .sec-tbl .home td:first-child{color:var(--blue-l)}
-  .sec-tbl .home td:nth-child(2){color:var(--fg)}
-
-  /* 5b. the limits. Stated in the same voice, because a security page that
-     only claims is a security page nobody technical believes. */
-  .sec-limits{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start;padding-top:clamp(1.8rem,3.4vw,2.6rem);border-top:1px solid var(--line)}
-  .sec-limits dl{margin:0}
-  .sec-limits dt{color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.014em}
-  .sec-limits dd{margin:.35rem 0 0;color:var(--fg-3);font-size:.9rem;line-height:1.55;max-width:64ch;text-wrap:pretty}
-  .sec-limits dd+dt{margin-top:1.15rem;padding-top:1.15rem;border-top:1px solid var(--line)}
-  .sec-report{margin-top:1.4rem;font-size:.9rem;color:var(--dim)}
-  .sec-report a{color:var(--fg-2);border-bottom:1px solid var(--line-2);transition:color .18s ease}
-  .sec-report a:hover{color:#fff}
-
-  /* ============ pricing: three ways to get a graph ============ */
-  .tiers{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:1.1rem;margin-top:3.2rem;align-items:start}
-  .tier{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.7rem 1.5rem;display:flex;flex-direction:column}
-  .tier.featured{border-color:rgba(82,168,255,.4);box-shadow:var(--hl-top),0 0 44px -18px rgba(0,112,243,.45)}
-  .tier-badge{position:absolute;top:-12px;left:1.5rem;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-l);background:#000;border:1px solid rgba(82,168,255,.4);border-radius:9999px;padding:.28rem .7rem}
-  .tier h3{font-size:1.15rem;letter-spacing:-.015em}
-  .tier-sub{margin-top:.25rem;color:var(--fg-3);font-size:.92rem}
-  .tier-fig{display:flex;align-items:baseline;gap:.5rem;margin-top:1.2rem;font-variant-numeric:tabular-nums}
-  .tier-fig+.tier-fig{margin-top:.15rem}
-  .tier-fig .amt{font-size:1.9rem;font-weight:600;letter-spacing:-.03em;color:#fff}
-  .tier-fig .plus{color:var(--fg-3);font-size:1.2rem}
-  .tier-fig .u{color:var(--fg-3);font-size:.88rem}
-  .tier-fine{margin-top:.45rem;color:var(--dim);font-size:.84rem;line-height:1.45}
-  .tier ul{list-style:none;margin:1.25rem 0 0;padding:1.25rem 0 0;border-top:1px solid var(--line);display:grid;gap:.6rem}
-  .tier li{position:relative;padding-left:1.35rem;font-size:.92rem;line-height:1.45;color:var(--fg-2)}
-  .tier li::before{content:"";position:absolute;left:2px;top:.5em;width:9px;height:5px;border-left:1.6px solid var(--fg-3);border-bottom:1.6px solid var(--fg-3);transform:rotate(-45deg)}
-  .tier.featured li::before{border-color:var(--blue-l)}
-  .tier .btn{margin-top:1.5rem;justify-content:center}
-  .tiers-note{margin-top:1.7rem;color:var(--fg-3);font-size:.92rem;max-width:60ch}
-
-  /* ============ faq ============ */
-  .faq-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
-  .faq-intro{position:sticky;top:calc(var(--nav-h) + 2.5rem)}
-  .faq-list{border-top:1px solid var(--line)}
-  .faq-list details{border-bottom:1px solid var(--line)}
-  .faq-list summary{list-style:none;cursor:pointer;padding:1.15rem 0;font-size:1.06rem;font-weight:550;color:var(--fg);display:flex;justify-content:space-between;gap:1.5rem;align-items:center;transition:color .15s ease}
-  .faq-list summary::-webkit-details-marker{display:none}
-  .faq-list summary:hover{color:#fff}
-  .faq-ic{flex:none;color:var(--fg-3);transition:transform .25s cubic-bezier(.22,.61,.36,1),color .2s ease}
-  .faq-ic svg{display:block;width:18px;height:18px}
-  .faq-list details[open] .faq-ic{transform:rotate(45deg);color:var(--blue-l)}
-  .faq-list details p{margin:-.1rem 0 1.3rem;color:var(--fg-3);line-height:1.6;font-size:1rem;max-width:66ch}
-  @keyframes faqIn{from{opacity:0;translate:0 -6px}to{opacity:1;translate:0 0}}
-  .faq-list details[open] p{animation:faqIn .35s cubic-bezier(.22,.61,.36,1) both}
+  /* ============ security ============
+     The claim holds the left, the commitments run down the right. Six short
+     rows in two columns rather than three long ones in one: the band fills at
+     heading height instead of leaving two thirds of it black, and every row
+     breaks at the same measure so the column ends square. */
+  .secgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
+  .sec-cta{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:1.6rem;font-size:.95rem}
+  .sec-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.7rem 2rem}
+  .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
+  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);box-shadow:inset 0 0 0 1px rgba(82,168,255,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
+  .sec-list b{display:block;color:#fff;font-weight:550;font-size:1.02rem;letter-spacing:-.016em;line-height:1.35}
+  .sec-list p{margin-top:.35rem;color:var(--fg-2);font-size:.94rem;line-height:1.55;text-wrap:pretty}
 
   /* ============ CTA: the finale, given the room the animation was missing ============ */
   .cta-dark{position:relative;overflow:hidden;background:#000;color:#fff;min-height:clamp(600px,86vh,1000px);display:flex;justify-content:center;padding:clamp(4.5rem,9vh,7.5rem) 0 clamp(9rem,20vh,14rem);text-align:center;border-top:1px solid var(--line)}
@@ -800,20 +661,6 @@
     .dd-main{padding:20px 20px 24px}
     .dd-rail{width:186px;padding:20px 20px 24px}
     .dd-grid{gap:2px 22px}
-    /* the boundary figure stacks: below this the two side zones are narrower
-       than a single chip row, and a vertical crossing reads just as well.
-       The arrow keeps its 44x10 layout box and is rotated in place, so the
-       margin gives back the height the rotation borrows. */
-    .sec-fig{grid-template-columns:minmax(0,1fr);justify-items:center;gap:.9rem;text-align:center}
-    .sd-col,.sd-out{justify-items:center;text-align:center}
-    .sd-chips,.sd-out .sd-chips{justify-content:center}
-    .sd-note,.sd-out .sd-note{max-width:44ch;margin-inline:auto}
-    .sd-gate{width:auto}
-    .sd-arw{width:44px;transform:rotate(90deg);margin:17px 0}
-    .sd-box{width:100%}
-    .sd-foot{justify-content:center;text-align:center}
-    /* three control cards no longer fit a measure; two do */
-    .sec-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
 
   @media (max-width:900px){
@@ -827,10 +674,7 @@
     .mmenu a{display:block;padding:.72rem .8rem;border-radius:10px;color:var(--fg);font-weight:500;font-size:1rem;transition:background .15s ease}
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
     .bar .right .btn-ghost{display:none}
-    .faq-grid{grid-template-columns:1fr;gap:2.4rem}
-    .sec-top,.sec-limits{grid-template-columns:1fr;gap:1.8rem}
-    .sec-top .head h2{max-width:18ch}
-    .faq-intro{position:static}
+    .secgrid{grid-template-columns:1fr;gap:2.4rem}
   }
 
   /* the stage stacks below 1080: there is no longer enough width either side of
@@ -851,10 +695,8 @@
     .dband{height:clamp(150px,24vh,200px)}
   }
 
-  /* 769-900 keeps the desktop two-column density; these two just buy it room */
+  /* 769-900 keeps the desktop two-column density; this just buys it room */
   @media (min-width:769px) and (max-width:900px){
-    .tier{padding:1.5rem 1.25rem}
-    .tier-fig .amt{font-size:1.55rem}
     .code-card pre{font-size:.76rem}
   }
 
@@ -865,25 +707,11 @@
     /* stacked, there is no second column to hold the copy still against, and
        the stage is already a single centred column, so it only needs to stop
        being measured against the viewport height */
-    .chg{min-height:0}
-    .chg-copy p{max-width:none}
     .feat:nth-child(even) .feat-copy{order:0}
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
-    .tiers{grid-template-columns:1fr;gap:1.4rem}
     .head .lead{font-size:1.06rem}
-    .sec-cards{grid-template-columns:1fr}
-    /* the egress ledger is four columns of prose: on a phone each row becomes
-       its own block and the column headings move onto the cells they label */
-    .sec-tbl,.sec-tbl tbody,.sec-tbl tr,.sec-tbl td{display:block;width:100%}
-    .sec-tbl thead{display:none}
-    .sec-tbl tr{padding:1.15rem 0;border-top:1px solid var(--line)}
-    .sec-tbl tbody tr:first-child{border-top:0;padding-top:0}
-    .sec-tbl td,.sec-tbl tbody tr:first-child td{border:0;padding:0 0 .5rem}
-    .sec-tbl td:last-child{padding-bottom:0}
-    .sec-tbl td:not(:first-child)::before{content:attr(data-l);display:block;margin-bottom:.1rem;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
-    .sec-tbl .home td{background:none}
-    .sec-tbl .home{border-left:2px solid rgba(82,168,255,.45);padding-left:.9rem}
+    .sec-list{grid-template-columns:1fr;gap:1.5rem}
   }
 
   @media (max-width:640px){
@@ -897,16 +725,18 @@
     .rb-x{right:6px}
     /* one line per fact is worth more here than a tenth of a rem of type size,
        and the retired dates are already in the sentence above them */
-    .dlt li{font-size:.95rem}
-    .st-body{min-height:15rem}
-    .d-w{display:none}
-    .st-ledger .d-w{display:inline-block;font-size:.5rem}
+    /* the chip carries the whole "nothing is deleted" proof and this is the
+       device most people will read it on, so it moves to its own line rather
+       than being hidden */
+    .mem-root{--mem-pace:.84}
+    .mem-f{grid-template-columns:.7rem minmax(0,1fr)}
+    .mem-when{grid-column:2;justify-self:start;margin-top:.25rem}
+    .mem-txt{font-size:.97rem}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
     .fcol{gap:.1rem}
     .fcol b{margin-bottom:.4rem}
     .fcol a{padding:.42rem 0}
     .arrowlink{padding:.55rem .2rem;margin:-.55rem -.2rem}
-    .tier{padding:1.5rem 1.35rem}
     .band{padding:clamp(3.25rem,11vw,4rem) 0}
   }
 
@@ -953,7 +783,6 @@
   }
   @media (pointer:coarse){
     .cmodal-x{width:44px;height:44px;top:1.4rem;right:1.4rem}
-    .faq-list summary{padding:1.25rem 0}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -976,12 +805,6 @@
        them sit on the words. the tiles already name their own sources */
     .orb-chip{display:none}
     .reveal{opacity:1;translate:0 0;transition:none}
-    /* the last moment reads fine as a still: the strike is the message, the
-       sequencing was only ever the delivery. The script already stops itself
-       here, so this only has to stop the entrances from playing */
-    .st-date.turn,.st-src,.st-gap,.st-ans,.dlt li{animation:none}
-    .d-ret .d-t::after{transition:none}
-    .dot.on.run i::after{animation:none;width:26px}
     /* the still frame is painted once and kept; nothing should fade it up */
     #burst{animation:none}
   }
@@ -1023,8 +846,6 @@ __LOGO_SPRITE__
         <nav class="links" aria-label="Primary">
           <a href="#" data-dd="dd-platform" aria-haspopup="true" aria-expanded="false" aria-controls="dd-platform">Platform <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
           <a href="#" data-dd="dd-resources" aria-haspopup="true" aria-expanded="false" aria-controls="dd-resources">Resources <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
         </nav>
         <div class="right">
           <a class="sbtn sbtn-sec" href="#">Sign in</a>
@@ -1065,7 +886,6 @@ __LOGO_SPRITE__
             <p class="dd-label">Get started</p>
             <a href="#">fein 101</a>
             <a href="#how">See how it works</a>
-            <a href="#pricing">Run it for free</a>
             <a href="#get-started">Talk to sales</a>
           </div>
         </div>
@@ -1097,8 +917,6 @@ __LOGO_SPRITE__
       <nav id="mobile-menu" class="mmenu" aria-label="Primary mobile">
         <a href="#features">Features</a>
         <a href="#security">Security</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#faq">FAQ</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="#">Sign in</a>
         <a href="#get-started">Talk to sales</a>
@@ -1119,116 +937,129 @@ __LOGO_SPRITE__
   </section>
 
   <!-- WHAT CHANGED: the hero promises one live graph, so the first thing under
-       it has to prove the graph is live. The proof is one deal over twenty-one
-       months, and it is staged rather than tabulated: the screen holds one
-       moment at a time, centred, and shows only what that moment changed.
-       Everything else about the graph is one line and a disclosure away, so
-       the default view is a date, a source, and the two or three sentences
-       that just became true. Retirement is the beat worth watching, so the
-       line lands unstruck and the strike is drawn across it a moment later.
-       The dots carry the sequence and fill as it advances. Nothing here is
-       created by script: all seven moments and all fifteen facts are in the
-       markup, the ledger ships open, and a browser that runs nothing at all
-       shows the finished state with every fact in it. -->
+       it has to prove the graph is live. One deal, twenty-one months, in seven
+       dated moments, read by scrolling.
+
+       Nothing here is pinned, and that is the design. Time is the y axis, so
+       scroll distance is elapsed months; the record you have already read is
+       literally above you in the scrollback, which is what makes "nothing is
+       deleted" checkable rather than merely claimed; and the no-script state is
+       not a second layout nobody tested but this same document with the scrub
+       switched off. Three previous versions of this section put the state in a
+       box and animated the box. This one lets the page be the box.
+
+       A fact, once written, never moves again: there is no exit animation in
+       this section. What slides away is the page. Retirement happens once, as a
+       dated quotation inside the moment that caused it, and the originals stay
+       true where they were written, because this is a record of successive
+       presents rather than a mutating view of today.
+
+       Deliberately absent: any position:sticky, any overflow, contain or
+       content-visibility on this subtree, any .reveal (two owners of opacity is
+       a flicker bug, and a .reveal that never gets .in would delete the copy
+       when script fails), and any interactive control. Horizontal overflow here
+       would be a bug in the column width, not something to clip.
+
+       data-j is the stagger rank inside a moment; the script reads it. The whole
+       section is paced by --mem-pace and the per-block --u floors, and nothing
+       else depends on those two. -->
   <section id="change" class="band">
     <div class="wrap">
-      <div class="chg">
-        <div class="chg-copy reveal">
-          <span class="eyebrow">What changed</span>
-          <h2>People move. Your graph moves with them.</h2>
-          <p>When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
+      <div class="mem-root" id="mem-root">
+
+        <div class="mem-open">
+          <span class="eyebrow" data-j="0">What changed</span>
+          <h2 data-j="0.6">People move. Your graph moves with them.</h2>
+          <p data-j="1.4">When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
         </div>
 
-        <div class="chgst reveal" id="chg-stage">
-          <div class="st-head">
-            <p class="st-gap" id="st-gap" hidden></p>
-            <p class="st-date" id="st-date">28 July 2026</p>
-            <p class="st-src" data-at="0" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Halo Compute</b> seed deck, forwarded by <b>Dev Raman</b>.</span></p>
-            <p class="st-src" data-at="1" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span>"Two ex-Anthropic infra engineers. No design partners yet. Raising $4M on a $9M pre."</span></p>
-            <p class="st-src" data-at="2" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span><b>Marcus</b> moved Halo Compute to diligence. Two references back, both strong.</span></p>
-            <p class="st-src" data-at="3" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span>"Passing for now. No design partners live, and the wedge is unproven at this price."</span></p>
-            <p class="st-src" data-at="4" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>Halo Compute</b> hired a VP Engineering from <b>Databricks</b>.</span></p>
-            <p class="st-src" data-at="5" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span>"Opening a <b>$30M Series A</b>. Six design partners live, $2.4M ARR."</span></p>
-            <p class="st-src" data-at="6"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span><b>Dev Raman</b>: "They close next week. Want the intro again?"</span></p>
-          </div>
+        <ol class="mem-col" aria-label="One deal, twenty-one months, in seven moments">
 
-          <div class="st-body">
-            <ul class="dlt" data-at="0" hidden>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span></li>
+          <li class="mem-mo" data-at="0">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2024-11-08">8 November 2024</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Gmail</b> &middot; Seed deck forwarded by <b>Dev Raman</b></span></p>
+            <ul class="mem-fl">
+              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span></li>
+              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span></li>
+              <li class="mem-f" data-j="3.1"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span></li>
             </ul>
-            <ul class="dlt" data-at="1" hidden>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> has <b>no design partners</b> live.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span></li>
-            </ul>
-            <ul class="dlt" data-at="2" hidden>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t">Two references on the founding team <b>check out</b>.</span></li>
-            </ul>
-            <ul class="dlt" data-at="3" hidden>
-              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span><span class="d-w">Dec 2024 &rarr; Jan 2025</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t">The reason: <b>no design partners</b>, and the price.</span></li>
-            </ul>
-            <ul class="dlt" data-at="4" hidden>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span></li>
-            </ul>
-            <ul class="dlt" data-at="5" hidden>
-              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></li>
-              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> has <b>no design partners</b> live.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></li>
-              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span></li>
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span></li>
-            </ul>
-            <ul class="dlt" data-at="6">
-              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span></li>
-            </ul>
-          </div>
+          </li>
 
-          <p class="st-ans" data-at="0" hidden><span class="fmark">fein</span><span>Dev Raman is the warmest path, and Marcus owns the conversation.</span></p>
-          <p class="st-ans" data-at="1" hidden><span class="fmark">fein</span><span>Two engineers, no design partners yet. Every line has a date on it.</span></p>
-          <p class="st-ans" data-at="2" hidden><span class="fmark">fein</span><span>In diligence. Two references back, both strong.</span></p>
-          <p class="st-ans" data-at="3" hidden><span class="fmark">fein</span><span>You are passing today, and the reason goes on the record.</span></p>
-          <p class="st-ans" data-at="4" hidden><span class="fmark">fein</span><span>Nobody reopened the file. fein wrote it down anyway.</span></p>
-          <p class="st-ans" data-at="5" hidden><span class="fmark">fein</span><span>The reason you passed no longer holds.</span></p>
-          <p class="st-ans" data-at="6"><span class="fmark">fein</span><span>You passed eighteen months ago, and you can still see exactly why.</span></p>
+          <li class="mem-mo" data-at="1">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2024-11-21">21 November 2024</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span><b>Granola</b> &middot; First call with the founders</span></p>
+            <ul class="mem-fl">
+              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span></li>
+              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> has <b>no design partners</b> live.</span></li>
+              <li class="mem-f" data-j="3.1"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span></li>
+            </ul>
+          </li>
 
-          <div class="st-disc">
-            <button type="button" class="st-more" id="st-more" aria-expanded="true" aria-controls="st-ledger"><span id="st-count">15 facts on file &middot; 4 retired, kept</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-            <div class="st-ledger" id="st-ledger">
-              <p class="lrow ret" data-from="0" data-to="5" data-a="Nov 2024" data-b="Jun 2026"><span class="d-t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></p>
-              <p class="lrow live" data-from="0" data-to="" data-a="Nov 2024"><span class="d-t"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span><span class="d-w">since Nov 2024</span></p>
-              <p class="lrow live" data-from="0" data-to="" data-a="Nov 2024"><span class="d-t"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span><span class="d-w">since Nov 2024</span></p>
-              <p class="lrow live" data-from="1" data-to="" data-a="Nov 2024"><span class="d-t"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span><span class="d-w">since Nov 2024</span></p>
-              <p class="lrow ret" data-from="1" data-to="5" data-a="Nov 2024" data-b="Jun 2026"><span class="d-t"><b>Halo Compute</b> has <b>no design partners</b> live.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></p>
-              <p class="lrow ret" data-from="1" data-to="5" data-a="Nov 2024" data-b="Jun 2026"><span class="d-t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></p>
-              <p class="lrow ret" data-from="2" data-to="3" data-a="Dec 2024" data-b="Jan 2025"><span class="d-t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span><span class="d-w">Dec 2024 &rarr; Jan 2025</span></p>
-              <p class="lrow live" data-from="2" data-to="" data-a="Dec 2024"><span class="d-t">Two references on the founding team <b>check out</b>.</span><span class="d-w">since Dec 2024</span></p>
-              <p class="lrow live" data-from="3" data-to="" data-a="Jan 2025"><span class="d-t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span><span class="d-w">since Jan 2025</span></p>
-              <p class="lrow live" data-from="3" data-to="" data-a="Jan 2025"><span class="d-t">The reason: <b>no design partners</b>, and the price.</span><span class="d-w">since Jan 2025</span></p>
-              <p class="lrow live" data-from="4" data-to="" data-a="Jun 2025"><span class="d-t"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span><span class="d-w">since Jun 2025</span></p>
-              <p class="lrow live" data-from="5" data-to="" data-a="Jun 2026"><span class="d-t"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span><span class="d-w">since Jun 2026</span></p>
-              <p class="lrow live" data-from="5" data-to="" data-a="Jun 2026"><span class="d-t"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span><span class="d-w">since Jun 2026</span></p>
-              <p class="lrow live" data-from="5" data-to="" data-a="Jun 2026"><span class="d-t"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span><span class="d-w">since Jun 2026</span></p>
-              <p class="lrow live" data-from="6" data-to="" data-a="Jul 2026"><span class="d-t"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span><span class="d-w">since Jul 2026</span></p>
+          <li class="mem-mo" data-at="2">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2024-12-12">12 December 2024</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span><b>Attio</b> &middot; <b>Marcus</b> moved it to diligence</span></p>
+            <ul class="mem-fl">
+              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span></li>
+              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt">Two references on the founding team <b>check out</b>.</span></li>
+            </ul>
+          </li>
+
+          <li class="mem-mo" data-at="3">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2025-01-16">16 January 2025</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span><b>Notion</b> &middot; Monday partner memo</span></p>
+            <ul class="mem-fl">
+              <li class="mem-f ret" data-j="1.5"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</s></span><span class="mem-when">Dec 2024 &rarr; Jan 2025</span></li>
+              <li class="mem-f" data-j="2.3"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt">You <b>passed</b> on <b>Halo Compute</b> at seed.</span></li>
+              <li class="mem-f" data-j="3.1"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt">The reason: <b>no design partners</b>, and the price.</span></li>
+            </ul>
+            <p class="mem-ans" data-j="3.9"><span class="mem-mark">fein</span><span>You are passing today, and the reason goes on the record.</span></p>
+          </li>
+
+          <li class="mem-mo" data-at="4">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2025-06-03">3 June 2025</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>LinkedIn</b> &middot; A profile update, unprompted</span></p>
+            <ul class="mem-fl">
+              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span></li>
+            </ul>
+            <p class="mem-ans" data-j="2.3"><span class="mem-mark">fein</span><span>Nobody reopened the file. fein wrote it down anyway.</span></p>
+          </li>
+
+          <li class="mem-mo mem-void" data-at="gap">
+            <span class="mem-vline" data-j="0" aria-hidden="true"></span>
+            <p class="mem-gaptext" data-j="1.2">Twelve months pass</p>
+            <span class="mem-vline" data-j="2.2" aria-hidden="true"></span>
+          </li>
+
+          <li class="mem-mo" data-at="5">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2026-06-02">2 June 2026</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Gmail</b> &middot; Founder update to the list</span></p>
+            <ul class="mem-fl">
+              <li class="mem-f ret" data-j="1.5"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</s></span><span class="mem-when">Nov 2024 &rarr; Jun 2026</span></li>
+              <li class="mem-f ret" data-j="2.3"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> has <b>no design partners</b> live.</s></span><span class="mem-when">Nov 2024 &rarr; Jun 2026</span></li>
+              <li class="mem-f ret" data-j="3.1"><span class="mem-gly" aria-hidden="true">&minus;</span><span class="mem-vh">Retired. </span><span class="mem-txt"><s class="mem-cut"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</s></span><span class="mem-when">Nov 2024 &rarr; Jun 2026</span></li>
+              <li class="mem-f" data-j="3.9"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span></li>
+              <li class="mem-f" data-j="4.7"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span></li>
+              <li class="mem-f" data-j="5.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span></li>
+            </ul>
+            <div class="mem-recall">
+              <p class="mem-rlab" data-j="7.3">Written 16 January 2025 &middot; still true today</p>
+              <p class="mem-rtxt" data-j="7.7">You <b>passed</b> on <b>Halo Compute</b> at seed.</p>
+              <p class="mem-rtxt" data-j="8.1">The reason: <b>no design partners</b>, and the price.</p>
             </div>
-          </div>
-        </div>
+            <p class="mem-ans" data-j="8.9"><span class="mem-mark">fein</span><span>The reason you passed no longer holds.</span></p>
+          </li>
 
-        <div class="dots" id="dots" role="group" aria-label="Seven moments in one deal">
-          <button type="button" class="dot" data-at="0" aria-label="8 November 2024, Gmail, inbound"><i></i></button>
-          <button type="button" class="dot" data-at="1" aria-label="21 November 2024, Granola, first call"><i></i></button>
-          <button type="button" class="dot" data-at="2" aria-label="12 December 2024, Attio, diligence"><i></i></button>
-          <button type="button" class="dot" data-at="3" aria-label="16 January 2025, Notion, the partner memo where you passed"><i></i></button>
-          <button type="button" class="dot" data-at="4" aria-label="3 June 2025, LinkedIn, team update"><i></i></button>
-          <button type="button" class="dot" data-at="5" aria-label="2 June 2026, Gmail, the founder update"><i></i></button>
-          <button type="button" class="dot on" data-at="6" aria-label="28 July 2026, Slack, the introduction offered again" aria-current="true"><i></i></button>
-        </div>
+          <li class="mem-mo" data-at="6">
+            <p class="mem-hd" data-j="0"><time class="mem-date" datetime="2026-07-28">28 July 2026</time></p>
+            <p class="mem-src" data-j="0.7"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span><b>Slack</b> &middot; <b>Dev Raman</b>, direct message</span></p>
+            <ul class="mem-fl">
+              <li class="mem-f" data-j="1.5"><span class="mem-gly" aria-hidden="true">+</span><span class="mem-vh">Added. </span><span class="mem-txt"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span></li>
+            </ul>
+          </li>
 
-        <p class="chg-close reveal">Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
+        </ol>
+
+        <p class="mem-close" data-j="0">Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
       </div>
     </div>
   </section>
@@ -1365,220 +1196,28 @@ __LOGO_SPRITE__
 
   </section>
 
-  <!-- SECURITY: the whole boundary, at full height.
-       This section used to be a claim and three hairline rows. Every fund that
-       gets far enough to like fein then asks the same question, and it is not
-       "is it secure", it is "where exactly does my inbox go". So the section
-       answers that literally: a figure that draws the boundary and both
-       crossings, six cards for the controls behind it, a ledger of every
-       outbound call the software can make, and the limits stated in the same
-       voice as the claims. The last block is deliberate: a security page that
-       only claims is a security page no technical buyer believes. -->
-  <section id="security" class="band secsec">
-    <div class="wrap sec-stage">
-
-      <div class="sec-top">
-        <div class="head reveal">
-          <span class="eyebrow">Security</span>
-          <h2>Your data never leaves your servers.</h2>
-        </div>
-        <div class="sec-intro reveal">
-          <p>fein reads your inbox, your calendar, and your CRM to do its work. All of that happens inside your own network, on a machine you control, behind a token you hold. Every line of code that touches the data is public, so you can read it before you run it.</p>
-          <div class="sec-links">
-            <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-            <a class="arrowlink" href="https://github.com/clippycommits/fein/blob/main/SECURITY.md" target="_blank" rel="noopener">Read the security model <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-          </div>
+  <!-- SECURITY: you control your data. Six short commitments in two columns,
+       not three long ones in one: a 5/7 split whose right column fills the
+       band at heading height. The detail behind each row lives in the
+       security overview, not on the page. -->
+  <section id="security" class="band">
+    <div class="wrap secgrid">
+      <div class="head reveal">
+        <span class="eyebrow">Security</span>
+        <h2>Your data never leaves your servers.</h2>
+        <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
+        <div class="sec-cta">
+          <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
-
-      <ul class="sec-posture" data-reveal-group="55">
-        <li class="reveal"><i aria-hidden="true"></i>Self-hosted only</li>
-        <li class="reveal"><i aria-hidden="true"></i>MIT licensed</li>
-        <li class="reveal"><i aria-hidden="true"></i>No telemetry</li>
-        <li class="reveal"><i aria-hidden="true"></i>Fails closed</li>
-        <li class="reveal"><i aria-hidden="true"></i>Token gated</li>
-        <li class="reveal"><i aria-hidden="true"></i>Per person layers</li>
-        <li class="reveal"><i aria-hidden="true"></i>Append only audit</li>
-        <li class="reveal"><i aria-hidden="true"></i>14 test suites</li>
+      <ul class="sec-list" data-reveal-group="70">
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>It runs on your infrastructure. It sends nothing to us.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public. Read it before you run it.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>One token, every surface.</b><p>The dashboard, the API, and the agent endpoint sit behind the same gate.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Private by person.</b><p>Each person's sensitive sources stay in their own layer inside the shared graph.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Every change is written down.</b><p>Ingests, merges, and decisions are logged with the person or agent that made them.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Nothing phones home.</b><p>No telemetry, no analytics, and no control plane of ours to trust.</p></div></li>
       </ul>
-
-      <figure class="sec-fig reveal">
-        <div class="sd-col">
-          <span class="sd-lab">Your systems</span>
-          <ul class="sd-chips">
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gdrive"/></svg>Drive</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg>Attio</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn</li>
-          </ul>
-          <p class="sd-note">Read with your own credentials, or from an export with no live connection at all.</p>
-        </div>
-
-        <div class="sd-gate">
-          <svg class="sd-arw" viewBox="0 0 44 10" fill="none" aria-hidden="true"><path d="M0 5H36.5" stroke="currentColor" stroke-dasharray="2 3"/><path d="M32.6 1.5L36.9 5L32.6 8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="sd-key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="11" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Your keys</span>
-        </div>
-
-        <div class="sd-box">
-          <div class="sd-btop"><i aria-hidden="true"></i>Your server<span>127.0.0.1:4321</span></div>
-          <div class="sd-lay"><em>01</em><b>Ingest</b><p>Mailbox, calendar, and CSV exports, plus the live connectors you switch on. Bodies are stored locally, or never captured at all.</p></div>
-          <div class="sd-lay"><em>02</em><b>Graph</b><p>Entities, edges, provenance, and the audit trail. Embedded Postgres, or your own. One volume that you back up and you restore.</p></div>
-          <div class="sd-lay"><em>03</em><b>Serve</b><p>The dashboard, the REST API at <code>/api/v1</code>, and the MCP endpoint at <code>/mcp</code>. One process, one gate, one set of privacy rules.</p></div>
-          <div class="sd-bfoot">Binds loopback by default. Asked to bind a public interface <b>without a token, it refuses to start.</b></div>
-        </div>
-
-        <div class="sd-gate">
-          <svg class="sd-arw" viewBox="0 0 44 10" fill="none" aria-hidden="true"><path d="M0 5H36.5" stroke="currentColor" stroke-dasharray="2 3"/><path d="M32.6 1.5L36.9 5L32.6 8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="sd-key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="11" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Bearer token</span>
-        </div>
-
-        <div class="sd-col sd-out">
-          <span class="sd-lab">Your agents</span>
-          <ul class="sd-chips">
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>Claude</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>ChatGPT</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Cursor</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gemini"/></svg>Gemini</li>
-          </ul>
-          <p class="sd-note">One MCP endpoint, scoped to the person asking, named in the audit trail.</p>
-        </div>
-
-        <figcaption class="sd-foot"><span><b>Nothing in this picture points at us.</b> fein has no control plane, no account, and no phone home.</span></figcaption>
-      </figure>
-
-      <div class="sec-cards reveal">
-        <article class="sec-card spot">
-          <span class="scn">01</span>
-          <h3>Deployment</h3>
-          <ul>
-            <li><b>One container, one volume, one token.</b> A single environment variable is the whole production deploy. There is no control plane to trust and no account to create.</li>
-            <li><b>It binds <code>127.0.0.1</code> by default.</b> Told to bind a public interface without a token, it refuses to start rather than publish your graph. That is a hard stop, not a warning.</li>
-            <li><b>TLS is your reverse proxy.</b> Put Caddy or nginx in front on your own hostname. The certificate, the domain, and the logs stay yours.</li>
-            <li><b>Rotate by restart.</b> Change the token and bring it back up. Every browser session and every agent config stops working in the same instant.</li>
-            <li><b>Backups are a file you hold.</b> Snapshot the volume or run <code>pg_dump</code>. Nobody has to give you your data back, because nobody else ever had it.</li>
-          </ul>
-        </article>
-
-        <article class="sec-card spot">
-          <span class="scn">02</span>
-          <h3>Access control</h3>
-          <ul>
-            <li><b>One gate on every surface.</b> The dashboard, the REST API, and the MCP endpoint all sit behind the same token. Only the health and version routes answer without it.</li>
-            <li><b>Timing safe, and not an oracle.</b> Tokens are compared as digests in constant time, and the sign in page answers a wrong token exactly as it answers no token at all.</li>
-            <li><b>Sessions are <code>HttpOnly</code> and <code>SameSite=Lax</code>.</b> Behind TLS the cookie is marked <code>Secure</code> as well. Agents send an <code>Authorization: Bearer</code> header instead.</li>
-            <li><b>Hardened against your own network.</b> Writes require a same origin and Host headers are validated, so a hostile page in a browser tab cannot reach a loopback install by DNS rebinding.</li>
-            <li><b>Locked down on the way out.</b> Every response carries a strict CSP, <code>nosniff</code>, <code>no-referrer</code>, and <code>no-store</code>. Errors never return a stack trace.</li>
-          </ul>
-        </article>
-
-        <article class="sec-card spot">
-          <span class="scn">03</span>
-          <h3>Privacy layers</h3>
-          <ul>
-            <li><b>Your inbox stays yours.</b> Each person connects their own sensitive sources into a private layer that lives inside the shared graph, not beside it.</li>
-            <li><b>Evidence is private. Existence is shared.</b> A colleague learns that a route to someone exists, which hop is locked, and who to ask. They do not see your documents, your signals, or the strength of that hop.</li>
-            <li><b>Redaction is uniform.</b> A private hop comes back as <code>(private contact)</code> with no id, on the dashboard, the API, and MCP alike. Another person's brief shows a withheld count and nothing more.</li>
-            <li><b>A name can be the secret.</b> Someone who appears only inside one private layer is hidden outright, because "Project Nightjar" gives the deal away on its own. Sharing those names is an explicit setting, never a default.</li>
-            <li><b>Enforced server side, and probed on every change.</b> Scoping runs inside every query. A leak probe stuffs markers into a private layer and greps every endpoint's response as a different person.</li>
-          </ul>
-        </article>
-
-        <article class="sec-card spot">
-          <span class="scn">04</span>
-          <h3>Audit and provenance</h3>
-          <ul>
-            <li><b>An append only trail.</b> Every ingest, sync, merge, unmerge, review decision, settings change, and rebuild is written down with its actor and its time.</li>
-            <li><b>Agents are named in it.</b> The actor is a person's display name, <code>scheduler</code> for an automated sync, or <code>agent:name</code> for an MCP caller. Names stay readable after someone leaves the firm.</li>
-            <li><b>Every fact keeps its source.</b> Each mention carries where it came from, how confident the match was, and the verbatim text it was cut from. Any answer can be asked for its receipts.</li>
-            <li><b>Identity is never merged on a guess.</b> Strong matches merge, weak matches are dropped, and the band between them waits for a person. Conflicting evidence always asks.</li>
-            <li><b>Decisions survive rebuilds.</b> The graph is a read model, rebuilt deterministically. Your review decisions and merges replay into it. Nothing is quietly rewritten underneath you.</li>
-          </ul>
-        </article>
-
-        <article class="sec-card spot">
-          <span class="scn">05</span>
-          <h3>The model boundary</h3>
-          <ul>
-            <li><b>No model ever scores a relationship.</b> Strength is computed from meeting frequency, email reciprocity, co-authorship, and recency decay. A flattering document cannot inflate a connection.</li>
-            <li><b>The one model call is optional.</b> A model is used to read names out of document text, and nothing else. Set <code>FEIN_NO_BODIES=1</code> and bodies are never captured, so there is nothing to send.</li>
-            <li><b>A hostile document has no blast radius.</b> The call is constrained to a schema, so injected text can at worst change which names come back. It cannot make the pipeline emit free text, call a tool, or take an action.</li>
-            <li><b>Grounding is code, not judgment.</b> A name must appear in the text as a contiguous phrase, an email only when the exact string is there. Invented people and fabricated addresses die before they reach the graph.</li>
-            <li><b>Bring your own endpoint.</b> Point the base URL at your own gateway and even that call stays inside your perimeter.</li>
-          </ul>
-        </article>
-
-        <article class="sec-card spot">
-          <span class="scn">06</span>
-          <h3>Open source, end to end</h3>
-          <ul>
-            <li><b>MIT licensed.</b> Every line that touches your data is public. Read it, audit it, fork it, and build on it.</li>
-            <li><b>14 automated suites.</b> Including an auth suite that proves every surface is closed and the private layer leak probe. They run with no API key and no network.</li>
-            <li><b>A written security model.</b> The repository states the trust boundary, what is defended, and what is not, in the same words we use here.</li>
-            <li><b>Your engineers can read it before you buy.</b> There is no data room and no questionnaire in the way. The code is the diligence.</li>
-            <li><b>Cancelling changes nothing technical.</b> It is already running on your server. The graph, the connectors, and every answer stay exactly where they are.</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="sec-ledger reveal">
-        <div class="sec-sub">
-          <span class="eyebrow">Egress ledger</span>
-          <h3>Every outbound call fein can make, and how you switch it off.</h3>
-          <p>This is the whole list. If a destination is not on it, fein does not talk to it.</p>
-        </div>
-        <table class="sec-tbl">
-          <thead>
-            <tr><th scope="col">Destination</th><th scope="col">When</th><th scope="col">What leaves your network</th><th scope="col">How you switch it off</th></tr>
-          </thead>
-          <tbody>
-            <tr class="home">
-              <td>fein.vc</td>
-              <td data-l="When">Never</td>
-              <td data-l="What leaves">Nothing at all</td>
-              <td data-l="How you switch it off">There is nothing to switch off. fein has no telemetry, no analytics, no update ping, and no license check.</td>
-            </tr>
-            <tr>
-              <td>googleapis.com</td>
-              <td data-l="When">Only if you connect Gmail, Calendar, or Drive</td>
-              <td data-l="What leaves">Your own token, and the request that reads your own mailbox</td>
-              <td data-l="How you switch it off">Do not connect it. A Takeout export gives fein the same history with no live connection at all.</td>
-            </tr>
-            <tr>
-              <td>api.attio.com<br>api.affinity.co</td>
-              <td data-l="When">Only if you connect a CRM</td>
-              <td data-l="What leaves">Your own API key, and the request that reads your own workspace</td>
-              <td data-l="How you switch it off">Do not connect it, or import a CSV export instead. Keys are write only across the API, never returned, and never written to the audit log.</td>
-            </tr>
-            <tr>
-              <td>api.anthropic.com</td>
-              <td data-l="When">Only when you mine document text, and only for documents you have not mined yet</td>
-              <td data-l="What leaves">The text of the document being read, and nothing else</td>
-              <td data-l="How you switch it off">Skip that step, set <code>FEIN_NO_BODIES=1</code> so bodies are never stored, or point the base URL at your own gateway.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="sec-limits reveal">
-        <div class="sec-sub">
-          <span class="eyebrow">Stated plainly</span>
-          <h3>What we do not claim.</h3>
-          <p class="sec-report">Found something we missed? <a href="mailto:security@fein.vc">security@fein.vc</a>. Please give us a chance to ship a fix before you go public.</p>
-        </div>
-        <dl>
-          <dt>Privacy layers are a trust model, not a hostile tenant boundary.</dt>
-          <dd>They are enforced on every query and probed on every change, but they scope one team on one database behind one deployment token. Anyone with that token, or with filesystem access to the volume, can read any layer. Per person login is on the roadmap and is not claimed today.</dd>
-          <dt>Connector keys sit at the same trust level as the graph.</dt>
-          <dd>A key pasted into the dashboard is write only across the API, shown back only as a masked hint, and kept out of the audit log. It is still stored beside the data it reads. For a shared deployment, pass keys as environment variables instead, which stores nothing.</dd>
-          <dt>A document is untrusted input, and we treat it that way.</dt>
-          <dd>Someone who gets a document into your firm can write a plausible sentence about a real person. If it survives the review queue it seeds one weak mention. That is the same risk as mailing your team a lie, and the audit trail makes it queryable afterwards.</dd>
-          <dt>fein is pre 1.0, and there is no SOC 2 report.</dt>
-          <dd>Fixes land on the current line. The compensating control is the one this whole section is about: it runs inside your boundary, on your hardware, and you can read every line of it.</dd>
-        </dl>
-      </div>
-
     </div>
   </section>
 
@@ -1631,85 +1270,6 @@ __LOGO_SPRITE__
     </div>
   </section>
 
-  <!-- PRICING: the hire, the service, the repo -->
-  <section id="pricing" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">Pricing</span>
-        <h2>Every venture capital team needs a data engineer. Now every team can afford one.</h2>
-      </div>
-      <div class="tiers" data-reveal-group="110">
-        <div class="tier reveal">
-          <h3>A data hire</h3>
-          <p class="tier-sub">Skilled, but one person.</p>
-          <p class="tier-fig"><span class="amt">$200,000</span><span class="u">/ year</span></p>
-          <p class="tier-fine">Plus equity, recruiting, and six months to get productive.</p>
-          <ul>
-            <li>One dashboard at a time</li>
-            <li>The graph stays in their head</li>
-            <li>They leave, and it goes with them</li>
-            <li>Too busy to re-authorize OAuth tokens</li>
-            <li>Worth it, if you can find one</li>
-          </ul>
-        </div>
-        <div class="tier featured spot reveal">
-          <span class="tier-badge">Live in 14 days</span>
-          <h3>fein</h3>
-          <p class="tier-sub">We build it into your stack in two weeks. We keep it current for you.</p>
-          <p class="tier-fig"><span class="amt" data-count>$5,000</span><span class="u">once, to build</span></p>
-          <p class="tier-fig"><span class="plus">+</span><span class="amt" data-count>$1,000</span><span class="u">/ month</span></p>
-          <ul>
-            <li>Reads inbox, calendar, Drive, LinkedIn, and your CRM</li>
-            <li>Entity resolution: one identity per person, not a hundred</li>
-            <li>Scores every relationship from real signals, never a guess</li>
-            <li>Answers over one MCP endpoint: Claude, ChatGPT, Gemini, Cursor</li>
-            <li>Open source, on your servers</li>
-            <li>We keep the connectors working through every API change</li>
-            <li>We build new answers when your team asks</li>
-            <li>No per-seat pricing</li>
-          </ul>
-          <a class="btn btn-primary" href="#get-started">Talk to sales</a>
-        </div>
-        <div class="tier reveal">
-          <h3>Clone it yourself</h3>
-          <p class="tier-sub">Free. It's open source.</p>
-          <p class="tier-fig"><span class="amt">$0</span><span class="u">forever</span></p>
-          <p class="tier-fine">The same code we deploy for clients.</p>
-          <ul>
-            <li>Your servers, your rules</li>
-            <li>You keep the connectors working</li>
-            <li>You tune entity resolution</li>
-            <li>You are on call</li>
-            <li>We support you</li>
-          </ul>
-          <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Get the repo on GitHub"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Get the repo</a>
-        </div>
-      </div>
-      <p class="tiers-note reveal">This is about $17,000 in the first year. It is less than one month of a data hire. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.</p>
-    </div>
-  </section>
-
-  <!-- FAQ + SECURITY -->
-  <section id="faq" class="band">
-    <div class="wrap">
-      <div class="faq-grid">
-      <div class="faq-intro">
-      <div class="head reveal"><span class="eyebrow">FAQ</span><h2 class="th" style="margin-top:.7rem">Questions we hear often. <span class="cont">Short answers here. Longer answers on the call.</span></h2></div>
-      </div>
-      <div class="faq-list reveal">
-        <details><summary>What exactly is fein? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>fein is an open-source data layer for your firm's relationships. It reads your email, calendar, notes, and CRM. It resolves them into one graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself.</p></details>
-        <details><summary>How is this different from Affinity or Attio? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry.</p></details>
-        <details><summary>What does it cost? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>It costs $5,000 once, then $1,000 each month. This is about $17,000 in the first year. There is no per-seat pricing.</p></details>
-        <details><summary>Can't we build this ourselves? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it.</p></details>
-        <details><summary>What happens if we cancel? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Nothing stops. It runs on your servers. The graph, the connectors, and every answer stay yours.</p></details>
-        <details><summary>How long does setup take? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Fourteen days. The date is a commitment. Your part is two short calls. We do everything between them.</p></details>
-        <details><summary>Is our data safe? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>Your data never leaves your infrastructure. fein checks access for each person. Every line of code is open to audit.</p></details>
-        <details><summary>What does it connect to? <span class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5V19"/><path d="M5 12H19"/></svg></span></summary><p>It connects to Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers appear in Claude, ChatGPT, Gemini, and Cursor. We add new connectors often.</p></details>
-      </div>
-      </div>
-    </div>
-  </section>
-
   <footer>
     <div class="wrap">
       <div class="fgrid">
@@ -1722,8 +1282,6 @@ __LOGO_SPRITE__
           <a href="#features">Features</a>
           <a href="#how">How it works</a>
           <a href="#security">Security</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>
@@ -3254,132 +2812,133 @@ __LOGO_SPRITE__
   items.forEach(function(el){ io.observe(el); });
 })();
 
-/* what changed: seven moments, one on the screen at a time.
-   Everything derives from one integer, so the dots, the autoplay and the
-   disclosure all go through the same show(). The stage is entirely in the
-   markup at its last moment, and the ledger ships open, so a browser that runs
-   none of this shows a finished, complete state rather than an empty box. */
+/* what changed: the scrub.
+   Every element's state is a pure function of one number — where its own centre
+   sits in the viewport — so there is no timeline, no timer, no triggered state
+   and nothing to get out of sync. Scrolling back up runs it exactly backwards
+   because there is nothing to run backwards; the frame is simply recomputed.
+
+   One getBoundingClientRect per frame, on one element, read before any write.
+   No scroll listener: iOS coalesces scroll events during momentum and they are
+   not paint aligned, so an rAF gated by an IntersectionObserver is both cheaper
+   and smoother. Settled elements are written back to '' so they drop their
+   compositor layer and the DOM returns to exactly the markup a reader with no
+   script gets. */
 (function(){
-  var stage=document.getElementById('chg-stage');
-  if(!stage) return;
-  var dateEl=document.getElementById('st-date');
-  var gapEl=document.getElementById('st-gap');
-  var countEl=document.getElementById('st-count');
-  var more=document.getElementById('st-more');
-  var ledger=document.getElementById('st-ledger');
-  var srcs=[].slice.call(stage.querySelectorAll('.st-src'));
-  var deltas=[].slice.call(stage.querySelectorAll('.dlt'));
-  var answers=[].slice.call(stage.querySelectorAll('.st-ans'));
-  var rows=[].slice.call(stage.querySelectorAll('.st-ledger .lrow'));
-  var dots=[].slice.call(document.querySelectorAll('#dots .dot'));
-  var LAST=deltas.length-1;
-  var DATES=['8 November 2024','21 November 2024','12 December 2024','16 January 2025','3 June 2025','2 June 2026','28 July 2026'];
-  var GAPS=['','','','','','12 months later',''];
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var timers=[], at=LAST, playing=false, open=true;
-  function set(ms,fn){ timers.push(setTimeout(fn,ms)); }
-  function stop(){ timers.forEach(clearTimeout); timers=[]; playing=false;
-    dots.forEach(function(d){ d.classList.remove('run'); if(d.classList.contains('on')) d.classList.add('done'); }); }
-  function show(k){
-    at=k;
-    if(dateEl){
-      dateEl.textContent=DATES[k]||dateEl.textContent;
-      /* restarting a CSS animation needs the class off for a frame */
-      dateEl.classList.remove('turn');
-      void dateEl.offsetWidth;
-      if(!reduce) dateEl.classList.add('turn');
-    }
-    if(gapEl){
-      gapEl.textContent=GAPS[k]||'';
-      gapEl.hidden=!GAPS[k];
-    }
-    srcs.forEach(function(s,i){ s.hidden=i!==k; });
-    answers.forEach(function(a,i){ a.hidden=i!==k; });
-    deltas.forEach(function(d,i){
-      d.hidden=i!==k;
-      [].slice.call(d.querySelectorAll('.d-ret')).forEach(function(li){ li.classList.remove('cut'); });
-    });
-    /* the strike lands after the sentence has, never with it */
-    var cuts=[].slice.call(deltas[k].querySelectorAll('.d-ret'));
-    cuts.forEach(function(li,j){
-      if(reduce){ li.classList.add('cut'); return; }
-      set(560+j*140, function(){ li.classList.add('cut'); });
-    });
-    var on=0, ret=0;
-    rows.forEach(function(r){
-      var from=+r.getAttribute('data-from');
-      var toRaw=r.getAttribute('data-to');
-      var to=toRaw===''||toRaw===null?null:+toRaw;
-      var known=from<=k, gone=known && to!==null && to<=k;
-      r.hidden=!known;
-      r.className='lrow '+(gone?'ret':'live');
-      var w=r.querySelector('.d-w');
-      if(w) w.innerHTML = gone ? r.getAttribute('data-a')+' &rarr; '+r.getAttribute('data-b') : 'since '+r.getAttribute('data-a');
-      if(known) on++;
-      if(gone) ret++;
-    });
-    if(countEl) countEl.innerHTML = ret ? on+' facts on file &middot; '+ret+' retired, kept' : on+' fact'+(on===1?'':'s')+' on file';
-    if(ledger && open) ledger.style.maxHeight=ledger.scrollHeight+'px';
-    dots.forEach(function(d,i){
-      d.classList.toggle('on', i===k);
-      d.classList.remove('run','done');
-      if(i===k){ d.setAttribute('aria-current','true'); } else { d.removeAttribute('aria-current'); }
+  var root=document.getElementById('mem-root');
+  if(!root) return;
+  var els=[].slice.call(root.querySelectorAll('[data-j]'));
+  if(!els.length) return;
+  var mq=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var J=els.map(function(el){ return parseFloat(el.getAttribute('data-j'))||0; });
+  var isRet=els.map(function(el){ return el.classList.contains('ret'); });
+  var glyph=els.map(function(el){ return el.querySelector('.mem-gly'); });
+  var off=[], B=0, SPAN=1, prevW=0, prevH=0;
+  var STAG=0.09;
+  var raf=0, vis=false, on=false, io=null, ro=null;
+  var cache=els.map(function(){ return {o:-1,y:-999,gs:-1,gf:-1,c:-1,ch:-1}; });
+
+  function metrics(){
+    var vh=window.innerHeight;
+    B=vh*0.90; SPAN=vh*0.20;
+    prevW=window.innerWidth; prevH=vh;
+  }
+  function collect(){
+    /* offsets are element centres relative to the section, so they survive any
+       change in document height above the section */
+    var base=root.getBoundingClientRect().top+(window.pageYOffset||document.documentElement.scrollTop);
+    off=els.map(function(el){
+      var r=el.getBoundingClientRect();
+      return r.top+(window.pageYOffset||document.documentElement.scrollTop)-base+r.height/2;
     });
   }
-  /* a moment that changes four facts is worth longer on screen than one that
-     changes one, and the dot fills for exactly as long as the moment holds */
-  function hold(k){ return 850+280*deltas[k].children.length; }
-  function play(){
-    stop();
-    playing=true;
-    var t=0;
-    for(var k=0;k<=LAST;k++){
-      (function(k,ms){
-        set(t, function(){
-          show(k);
-          var d=dots[k];
-          if(d && !reduce){ d.style.setProperty('--hold', ms+'ms'); d.classList.add('run'); }
-          if(k===LAST) playing=false;
-        });
-      })(k, hold(k));
-      t+=hold(k);
+  function clamp01(v){ return v<0?0:v>1?1:v; }
+  function out3(e){ var k=1-e; return 1-k*k*k; }
+  function back(g){ var k=g-1; return 1+2.2*k*k*k+1.2*k*k; }
+
+  function paint(){
+    raf=0;
+    var top=root.getBoundingClientRect().top;   /* the only layout read */
+    for(var i=0;i<els.length;i++){
+      var e=clamp01((B-(top+off[i]))/SPAN - STAG*J[i]);
+      var c=cache[i];
+      /* settled: hand the element back to the stylesheet */
+      if(e>=1){
+        if(c.o!==1){
+          els[i].style.opacity=''; els[i].style.transform='';
+          els[i].style.removeProperty('--gs'); els[i].style.removeProperty('--gf');
+          els[i].style.removeProperty('--cut'); els[i].style.removeProperty('--chip');
+          c.o=1; c.y=0; c.gs=1; c.gf=0; c.c=1; c.ch=1;
+        }
+        continue;
+      }
+      var o=Math.round(Math.min(e/0.72,1)*1000)/1000;
+      var y=Math.round(18*(1-out3(e))*2)/2;
+      if(o!==c.o){ els[i].style.opacity=o; c.o=o; }
+      if(y!==c.y){ els[i].style.transform='translate3d(0,'+y+'px,0)'; c.y=y; }
+      if(glyph[i]){
+        var gp=clamp01((e-0.50)/0.30);
+        var gs=Math.round((0.55+0.45*back(gp))*1000)/1000;
+        var gf=Math.round(gp*(1-clamp01((e-0.80)/0.18))*1000)/1000;
+        if(gs!==c.gs){ els[i].style.setProperty('--gs',gs); c.gs=gs; }
+        if(gf!==c.gf){ els[i].style.setProperty('--gf',gf); c.gf=gf; }
+      }
+      if(isRet[i]){
+        /* the sentence lands, then the rule is drawn through it, then the dates
+           stamp in: the receipt must arrive after the strike, never with it */
+        var cut=Math.round(out3(clamp01((e-0.58)/0.32))*1000)/1000;
+        var chip=Math.round(clamp01((e-0.88)/0.12)*1000)/1000;
+        if(cut!==c.c){ els[i].style.setProperty('--cut',cut); c.c=cut; }
+        if(chip!==c.ch){ els[i].style.setProperty('--chip',chip); c.ch=chip; }
+      }
     }
+    if(vis) raf=requestAnimationFrame(paint);
   }
-  function setOpen(v){
-    open=v;
-    if(!ledger||!more) return;
-    more.setAttribute('aria-expanded', String(v));
-    if(v){ ledger.classList.remove('shut'); ledger.style.maxHeight=ledger.scrollHeight+'px'; }
-    else { ledger.style.maxHeight=ledger.scrollHeight+'px'; void ledger.offsetWidth; ledger.classList.add('shut'); }
+  function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
+  function clearAll(){
+    els.forEach(function(el){
+      el.style.opacity=''; el.style.transform='';
+      el.style.removeProperty('--gs'); el.style.removeProperty('--gf');
+      el.style.removeProperty('--cut'); el.style.removeProperty('--chip');
+    });
+    cache=els.map(function(){ return {o:-1,y:-999,gs:-1,gf:-1,c:-1,ch:-1}; });
   }
-  dots.forEach(function(dot,i){
-    dot.addEventListener('click',function(){ stop(); show(i); });
-  });
-  var group=document.getElementById('dots');
-  if(group) group.addEventListener('keydown',function(e){
-    var d = e.key==='ArrowRight' ? 1 : e.key==='ArrowLeft' ? -1 : 0;
-    if(!d) return;
-    e.preventDefault();
-    stop();
-    var next=Math.min(LAST,Math.max(0,at+d));
-    show(next);
-    dots[next].focus();
-  });
-  if(more) more.addEventListener('click',function(){ setOpen(!open); });
-  show(LAST);
-  /* closed is the resting state once there is a script to reopen it, and the
-     first close is instant: there is no open state for the reader to have seen */
-  if(ledger) ledger.classList.add('noanim');
-  setOpen(false);
-  if(ledger) setTimeout(function(){ ledger.classList.remove('noanim'); },60);
-  window.addEventListener('resize',function(){ if(open&&ledger){ ledger.style.maxHeight='none'; ledger.style.maxHeight=ledger.scrollHeight+'px'; } });
-  if(reduce || !('IntersectionObserver' in window)) return;
-  var io=new IntersectionObserver(function(entries){
-    if(!entries[0].isIntersecting) return;
-    io.disconnect();
-    play();
-  },{threshold:0.4});
-  io.observe(stage);
+  function start(){
+    if(on) return;
+    on=true;
+    metrics(); collect();
+    io=new IntersectionObserver(function(en){
+      vis=en[0].isIntersecting;
+      if(vis) kick(); else if(raf){ cancelAnimationFrame(raf); raf=0; }
+    },{rootMargin:'220px 0px'});
+    io.observe(root);
+  }
+  function stop(){
+    if(!on) return;
+    on=false; vis=false;
+    if(raf){ cancelAnimationFrame(raf); raf=0; }
+    if(io){ io.disconnect(); io=null; }
+    clearAll();
+  }
+  /* re-measure, never replay: everything derives from scroll position, so after
+     a re-collect the reader is exactly where they were. Height-only changes are
+     the iOS URL bar and must be ignored, or the story would re-measure mid flick */
+  var rt=0;
+  function remeasure(){
+    if(!on) return;
+    metrics(); collect();
+    if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); }
+  }
+  window.addEventListener('resize',function(){
+    if(!on) return;
+    var w=window.innerWidth, h=window.innerHeight;
+    if(w===prevW && Math.abs(h-prevH)<=150) return;
+    clearTimeout(rt); rt=setTimeout(remeasure,150);
+  },{passive:true});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ remeasure(); });
+  if(window.ResizeObserver){ ro=new ResizeObserver(function(){ if(on){ clearTimeout(rt); rt=setTimeout(remeasure,150); } }); ro.observe(root); }
+  if(mq.addEventListener) mq.addEventListener('change',function(){ mq.matches?stop():start(); });
+  if(!mq.matches) start();
 })();
 
 /* stat count-up on scroll (preserves prefix/commas/suffix); reduced-motion shows final */

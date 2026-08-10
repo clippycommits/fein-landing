@@ -39,8 +39,11 @@ fein learns the rhythm of each relationship from your real history. Then it flag
 Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.
 
 - Always self-hosted. It runs on your infrastructure. It sends nothing to us.
-- Open source, from end to end. Every line that touches your data is public. Read it before you run it.
-- Permissioned and logged. fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.
+- Open source, end to end. Every line that touches your data is public. Read it before you run it.
+- One token, every surface. The dashboard, the API, and the agent endpoint sit behind the same gate.
+- Private by person. Each person's sensitive sources stay in their own layer inside the shared graph.
+- Every change is written down. Ingests, merges, and decisions are logged with the person or agent that made them.
+- Nothing phones home. No telemetry, no analytics, and no control plane of ours to trust.
 
 ## Managed installation: we deploy fein in two weeks
 
