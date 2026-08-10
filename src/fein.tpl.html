@@ -1472,14 +1472,24 @@ __LOGO_SPRITE__
        after. The sweep used to run to ~1540ms against copy that was fully in by
        ~920ms, which is what made the fold look like it loaded and then lit up.
        The last thread now settles at ~1000ms, just before the copy at ~1080ms.
-       IG_HOLD is 0 because the hold gate already supplies the beat it bought. */
-    var igniteAt=-1,igElapsed=0,IG_RAY=720,IG_HOLD=0,IG_SWEEP=380;
+       IG_HOLD is 0 because the hold gate already supplies the beat it bought.
+
+       IG_LIFE is the last seam. The arrival was smooth and then the steady state
+       was switched on: on the single frame the last thread settled, every node
+       gained its twinkle, every leader its shimmer, the first sparkle fired, and
+       every packet launched at once (their schedule was absolute, so by then all
+       of the slots were already in the past). The fan grew in over a second and
+       the field stepped brighter in one frame, which is what read as the page
+       loading and then lighting up. Life is now per thread and starts from the
+       moment that thread lands, so it rides the same centre-out sweep the
+       ignition does and there is no frame where anything switches on. */
+    var igniteAt=-1,igElapsed=0,IG_RAY=720,IG_HOLD=0,IG_SWEEP=380,IG_LIFE=560;
     /* Releasing the fold: the copy above is held at its from-state until this
        canvas has a frame to show, so the words and the light start together
        rather than a second apart. Called from the first frame of the loop, and
        from the reduced-motion path, which paints one still frame and stops. */
     function lift(){document.documentElement.classList.remove("hold");}
-    var pulses=[],sparks=[],spNext=0,bloomKick=0,lastT=-1;
+    var pulses=[],sparks=[],spNext=0,bloomKick=0,lastT=-1,pbase=false;
     var pAng=0,pTAng=-Math.PI/2,pInf=0,pTInf=0;
     var spr={},BLOOM=0.85;                                        /* glow sprites; the field's steady level, baked in */
     var BATCH=typeof Path2D!=="undefined";                        /* batched node fills, where the browser has them */
@@ -1582,9 +1592,9 @@ __LOGO_SPRITE__
       }
       reach();
       if(!pulses.length){var NP=Math.max(3,Math.min(6,Math.round(bw/300)));
-        for(i=0;i<NP;i++)pulses.push({on:false,next:i*620,r:null,t0:0,dur:0});}
+        for(i=0;i<NP;i++)pulses.push({on:false,next:0,r:null,t0:0,dur:0});}
       else for(i=0;i<pulses.length;i++){pulses[i].on=false;pulses[i].r=null;}
-      sparks.length=0;
+      sparks.length=0;pbase=false;   /* the next frame drawn re-staggers them */
     }
     /* rises out of the convergence rather than blowing it out, then thins with
        distance so the far reaches read as depth instead of bars. The profile is
@@ -1646,7 +1656,19 @@ __LOGO_SPRITE__
       bx.beginPath();bx.moveTo(cx+r.ca*from,cy+r.sa*from);bx.lineTo(cx+r.ca*to,cy+r.sa*to);bx.stroke();
       bx.globalAlpha=1;
     }
-    function node(r){dot(bx,r,0.26*r.lum+(r.lead?0.10:0),1);r.l=r.end;r.set=true;}
+    /* A thread records the moment it arrives, and life() reads it back: its
+       twinkle, its shimmer and its share of the pointer lift all fade up over
+       IG_LIFE from that instant, per thread, on a smoothstep so they leave and
+       reach the steady state without a corner. bake() settles the whole fan at
+       once (a resize, or the reduced-motion still), so it stamps far enough back
+       that everything there reads as already alive. */
+    function node(r,t){dot(bx,r,0.26*r.lum+(r.lead?0.10:0),1);r.l=r.end;r.set=true;r.st=t===undefined?-1e9:t;}
+    function life(r,t,still){
+      if(still)return 1;
+      if(!r.set)return 0;
+      var u=(t-r.st)/IG_LIFE;
+      return u<=0?0:u>=1?1:u*u*(3-2*u);
+    }
     /* The field is laid down once, at full strength, before the first thread
        moves: the sky the threads light up across. It cannot be faded in by
        painting it in steps, because at 8 bits a fifth of a percent of blue
@@ -1701,27 +1723,37 @@ __LOGO_SPRITE__
           if(gp<=0){done=false;continue;}
           var L=r.r0+(r.end-r.r0)*gp;
           if(L>r.l+0.3){seg(r,r.l,L);r.l=L;}
-          if(gp>=1){node(r);continue;}
+          if(gp>=1){node(r,t);continue;}
           done=false;
           if(gp>0.94)dot(fx,r,(0.26*r.lum+(r.lead?0.10:0))*clamp01((gp-0.94)/0.06),1);}
         if(done){ignited=true;baked=true;bloomTo(BLOOM);}
-      }else{
-        if(!baked)bake();
-        for(i=0;i<leaders.length;i++){r=leaders[i];tw=0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
-          ray(fx,r,1,0.05*tw);}
-      }
-      var lit=ignited||still;
-      if(lit){                                            /* twinkle + pointer lift, additive only */
+      }else if(!baked)bake();
+      /* The leaders' shimmer used to sit inside the branch above, which meant all
+         of them gained it on the one frame the fan finished. Each now fades its
+         own in from its own arrival, so the shimmer spreads outward with the
+         sweep rather than appearing behind it. */
+      var lf;
+      for(i=0;i<leaders.length;i++){r=leaders[i];
+        lf=life(r,t,still);if(lf<=0)continue;
+        tw=still?0.5:0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
+        ray(fx,r,1,0.05*tw*lf);}
+      {                                                   /* twinkle + pointer lift, additive only */
         /* Every node used to be its own arc and fill. Additive compositing does
            not care about order, so quantise the twinkle to 24 steps of alpha and
            collect the nodes into one path per step: a few fills instead of a few
-           hundred, with the stepping far below what the eye resolves. */
+           hundred, with the stepping far below what the eye resolves.
+
+           This pass no longer waits on the whole fan: a node twinkles from the
+           moment its own thread lands. An unsettled thread returns 0 from life()
+           and is skipped, so nothing is ever lit ahead of the geometry carrying
+           it, and the last thread to arrive brings its own light with it. */
         var buck=BATCH?[]:null,pb;
         for(i=0;i<rays.length;i++){r=rays[i];if(!r.tip)continue;
+          lf=life(r,t,still);if(lf<=0)continue;
           tw=still?0.5:0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
-          var ex=0.16*tw*r.lum;
+          var ex=0.16*tw*r.lum*lf;
           if(pInf>0.01){var ad=Math.abs(r.a-pa);if(ad<0.26){var fo=(1-ad/0.26);fo*=fo;
-            ex+=0.22*fo*pInf;if(fo>0.2)ray(fx,r,1,0.15*fo*pInf);}}
+            ex+=0.22*fo*pInf*lf;if(fo>0.2)ray(fx,r,1,0.15*fo*pInf*lf);}}
           if(ex<=0.02)continue;
           var dx=cx+r.ca*r.end,dy=cy+r.sa*r.end;
           if(!buck){dot(fx,r,ex,1);continue;}              /* no Path2D: draw them one by one */
@@ -1731,8 +1763,22 @@ __LOGO_SPRITE__
           if(r.lead)blit(fx,spr.node,dx,dy,ex*0.45);}
         if(buck)for(i=0;i<buck.length;i++)if(buck[i]){fx.fillStyle=thr((i+0.5)/24);fx.fill(buck[i]);}
       }
+      /* Both of these are scheduled against the animation clock, which is time
+         since navigation, but their opening slots were absolute: spNext started
+         at 0 and the packets at 0, 620, 1240 and so on, all of them long past by
+         the time the fan had settled. So the first frame that let them run
+         released every one of them together, which is most of what the step was.
+         They are rebased here instead, once, off the first frame actually drawn:
+         the packets trickle in from just after the fan lands and the first
+         sparkle waits out the arrival entirely. Rebasing on the first frame
+         rather than on ignition also covers the resize path, where build() puts
+         the fan back but the loop is already running. */
+      if(!pbase&&!still){pbase=true;
+        for(i=0;i<pulses.length;i++)pulses[i].next=t+(ignited?280:1240)+i*620+Math.random()*260;
+        spNext=t+(ignited?900:2100)+Math.random()*2200;}
+      var lit=ignited||still;
       if(lit&&!still&&!REDUCE.matches){                   /* occasional star sparkle */
-        if(t>=spNext){if(sparks.length<2){var sr=rays[(Math.random()*rays.length)|0];if(sr.tip)sparks.push({r:sr,t0:t});}
+        if(t>=spNext){if(sparks.length<2){var sr=rays[(Math.random()*rays.length)|0];if(sr.tip&&sr.set)sparks.push({r:sr,t0:t});}
           spNext=t+2200+Math.random()*3200;}
         for(i=sparks.length-1;i>=0;i--){var s=sparks[i],k=(t-s.t0)/900;
           if(k>=1){sparks.splice(i,1);continue;}
