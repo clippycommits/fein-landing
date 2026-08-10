@@ -138,6 +138,17 @@
   .hero-copy .hero-actions{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .34s both}
   .prep-wrap{animation:lpUp .8s cubic-bezier(.21,.6,.35,1) .48s both}
   .works{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .6s both}
+  /* The lead hero is above the fold, so its copy rides the same pure-CSS
+     entrance and starts at first paint. It must never be a .reveal: those wait
+     on the observer in the script block at the foot of a 300kB document, which
+     left the headline a blank hole for most of a second on a slow machine. The
+     delays here are read back by the burst script, so the light and the copy
+     arrive as one motion. */
+  .hero-lead .wrap>*{animation:lpUp .62s cubic-bezier(.21,.6,.35,1) both}
+  .hero-lead .eyebrow{animation-delay:.06s}
+  .hero-lead h2{animation:lpH1 .72s cubic-bezier(.21,.6,.35,1) .13s both}
+  .hero-lead .wrap>p{animation-delay:.22s}
+  .hero-lead .hero-actions{animation-delay:.3s}
 
   /* Stripe-pattern fold: ticker line, one full-width statement, actions */
   .hero-inner{position:relative;z-index:2;padding-top:clamp(3.5rem,7.5vw,5.5rem);outline:none}
@@ -329,6 +340,17 @@
   .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
   /* the starburst promoted to the lead hero: fill the viewport, clear the fixed nav */
   .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--nav-h) + clamp(3rem,7vh,6rem))}
+  /* the lead hero carries the page, so it gets its own scale: the headline runs
+     to 4.75rem and the three rungs under it (kicker, lede, actions) step down
+     in weight and up in spacing so the eye lands on the statement first.
+     the 17ch measure is what holds the authored two-line break, and ch scales
+     with the font, so the wrap pattern is identical at every size */
+  .hero-lead .eyebrow{letter-spacing:.2em;font-size:.7rem}
+  .hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.02;margin-top:1.2rem}
+  .hero-lead p{margin-top:1.55rem;font-size:1.14rem;line-height:1.6;max-width:33rem;text-wrap:pretty}
+  .hero-lead .hero-actions{margin-top:2.7rem;gap:.9rem}
+  .hero-lead .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
+  .hero-lead .hero-actions .btn .tlogo{width:17px;height:17px}
   /* the former hero, now a showcase section below the hook */
   .hero.showcase{border-top:1px solid var(--line)}
 
@@ -650,11 +672,11 @@ __LOGO_SPRITE__
       </nav>
     </header>
 
-    <div class="wrap" id="content" tabindex="-1" data-reveal-group="90">
-      <span class="eyebrow reveal">OPEN SOURCE</span>
-      <h2 class="reveal">Welcome to agentic venture capital.</h2>
-      <p class="reveal">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
-      <div class="hero-actions reveal">
+    <div class="wrap" id="content" tabindex="-1">
+      <span class="eyebrow">OPEN SOURCE</span>
+      <h2>Welcome to agentic venture capital.</h2>
+      <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
+      <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Use it for free: the source on GitHub"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Use it for free</a>
       </div>
@@ -1291,7 +1313,11 @@ __LOGO_SPRITE__
   if(burst){var bx=burst.getContext("2d"),bz,braf=0,bw=0,bh=0,bdp=1,bvis=false;
     var FINE=window.matchMedia&&window.matchMedia("(pointer:fine)").matches;
     var rays=[],leaders=[],statc=null,ignited=false;
-    var igniteAt=-1,igElapsed=0,IG_RAY=1150,IG_HOLD=140,IG_SWEEP=980;
+    /* The intro is timed against the CSS hero entrance above (copy fully in by
+       ~920ms): the crown lights under the headline as it lands and the last
+       shoulder settles just after, so the fold reads as one motion instead of
+       the copy and the light finishing a second and a half apart. */
+    var igniteAt=-1,igElapsed=0,IG_RAY=760,IG_HOLD=60,IG_SWEEP=560;
     var pulses=[],sparks=[],spNext=0,bloomKick=0,lastT=-1;
     var pAng=0,pTAng=-Math.PI/2,pInf=0,pTInf=0;
     function thr(al){return "rgba(206,216,233,"+al+")";}          /* thread white, slightly cool */
@@ -1332,7 +1358,7 @@ __LOGO_SPRITE__
         var r={a:a,ca:ca,sa:sa,r0:10+rng()*9,len:el*env*(far?1.7+rng()*1.7:1),edge:0,end:0,tip:false,
           lum:far?lum*0.5:lum,lead:lead&&!far,w:lead&&!far?1.15:(far?0.5+rng()*0.2:0.6+rng()*0.38),
           ph:rng()*6.28,fq:0.35+rng()*0.55,
-          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*260};
+          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*160};
         rays.push(r);if(r.lead)leaders.push(r);
       }
       reach();
@@ -1401,6 +1427,15 @@ __LOGO_SPRITE__
       var sc=statc.getContext("2d");sc.setTransform(bdp,0,0,bdp,0,0);sc.globalCompositeOperation="lighter";
       for(var i=0;i<rays.length;i++){ray(sc,rays[i],1,0);dot(sc,rays[i],0.26*rays[i].lum+(rays[i].lead?0.10:0),1);}
     }
+    /* The steady state is this layer, and drawing it costs a few hundred
+       gradient strokes. Baking it the instant ignition ends put that cost in
+       the frame the eye is on, which is the hitch at the end of the intro; it
+       depends only on geometry, so take it in idle time while the fan is still
+       growing and the handover becomes free. */
+    var bakeIdle=0;
+    function prebake(){if(!statc&&rays.length)bake();bakeIdle=0;}
+    function schedBake(){if(bakeIdle)return;
+      bakeIdle=window.requestIdleCallback?requestIdleCallback(prebake,{timeout:1200}):setTimeout(prebake,400);}
     /* the sky is never quite still: a degree of sway and a slow inhale, both about
        the core, applied to the baked layer and every accent drawn over it */
     function drift(t){return REDUCE.matches?0:0.0062*Math.sin(t*0.000242)+0.0024*Math.sin(t*0.000101+1.7);}
@@ -1431,7 +1466,7 @@ __LOGO_SPRITE__
       bloomKick*=Math.exp(-dt/650);
       pInf+=(pTInf-pInf)*(1-Math.exp(-dt/140));pAng+=(pTAng-pAng)*(1-Math.exp(-dt/140));
       var ig=still?1e9:(igniteAt<0?0:t-igniteAt+igElapsed);
-      var hk=still?1:oExpo(Math.min(1,ig/900)),intro=still?1:Math.min(1,ig/1100);
+      var hk=still?1:oExpo(Math.min(1,ig/620)),intro=still?1:Math.min(1,ig/760);
       var rot=still?0:drift(t),sk=still?1.012:breath(t),cx=bw/2,cy=bh,pa=pAng-rot;
       bx.globalCompositeOperation="lighter";
       bx.save();bx.translate(cx,cy);bx.rotate(rot);bx.scale(sk,sk);bx.translate(-cx,-cy);
@@ -1443,7 +1478,7 @@ __LOGO_SPRITE__
           var gp=oExpo(clamp01((ig-IG_HOLD-r.delay)/IG_RAY));if(gp<1)done=false;
           if(gp>0)ray(bx,r,gp,0);
           if(gp>0.94)dot(bx,r,(0.26*r.lum+(r.lead?0.10:0))*clamp01((gp-0.94)/0.06),1);}
-        if(done){ignited=true;bake();}
+        if(done){ignited=true;if(!statc)bake();}
       }else{
         if(!statc)bake();
         bx.drawImage(statc,0,0,bw,bh);

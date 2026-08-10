@@ -372,6 +372,17 @@
   .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
   /* the starburst promoted to the lead hero: fill the viewport, clear the fixed nav */
   .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--nav-h) + clamp(3rem,7vh,6rem))}
+  /* the lead hero carries the page, so it gets its own scale: the headline runs
+     to 4.75rem and the three rungs under it (kicker, lede, actions) step down
+     in weight and up in spacing so the eye lands on the statement first.
+     the 17ch measure is what holds the authored two-line break, and ch scales
+     with the font, so the wrap pattern is identical at every size */
+  .hero-lead .eyebrow{letter-spacing:.2em;font-size:.7rem}
+  .hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.02;margin-top:1.2rem}
+  .hero-lead p{margin-top:1.55rem;font-size:1.14rem;line-height:1.6;max-width:33rem;text-wrap:pretty}
+  .hero-lead .hero-actions{margin-top:2.7rem;gap:.9rem}
+  .hero-lead .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
+  .hero-lead .hero-actions .btn .tlogo{width:17px;height:17px}
   /* the former hero, now a showcase section below the hook */
   .hero.showcase{border-top:1px solid var(--line)}
 
