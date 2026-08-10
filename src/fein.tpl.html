@@ -82,15 +82,19 @@
   #view-home header{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left;background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease}
   #view-home header.scrolled{background:rgba(0,0,0,.62);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
   .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1288px;margin:0 auto;padding:0 24px;box-sizing:border-box}
-  .brand{font-weight:600;font-size:1.6rem;letter-spacing:-.035em;color:#fff}
-  nav.links{display:flex;gap:28px;margin-left:0}
+  /* the wordmark centers on its glyphs, not its text box, so it sits on the same
+     optical line as the 15px links beside it */
+  .brand{display:inline-flex;align-items:center;font-weight:600;font-size:1.5rem;line-height:1;letter-spacing:-.035em;color:#fff}
+  /* 34, not 28: each link carries a -12px pill margin, so the gap a reader sees
+     is 34 - 24 = 10px between hover pills, not the 4px the old value left */
+  nav.links{display:flex;gap:34px;margin-left:0}
   nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--fg);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;padding:8px 12px;margin:-8px -12px;border-radius:999px;transition:color .18s ease,background .18s ease}
   nav.links a:hover{color:#fff;background:rgba(255,255,255,.07)}
   nav.links a .chev{display:inline-flex;margin-top:1px;color:var(--fg-3);transition:color .18s ease}
   nav.links a:hover .chev{color:#fff}
   nav.links a .chev svg{width:10px;height:10px;display:block}
   .bar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 12px;border-radius:10px;border:0;font-family:var(--nav-font);font-size:14px;font-weight:500;letter-spacing:0;line-height:1;white-space:nowrap;cursor:pointer;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
+  .sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:10px;border:0;font-family:var(--nav-font);font-size:14px;font-weight:500;letter-spacing:0;line-height:1;white-space:nowrap;cursor:pointer;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
   .sbtn:hover,.sbtn:active{transition-duration:.05s}
   .sbtn-sec{background:rgba(12,12,15,.7);color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
   .sbtn-pri{background:#fff;color:#000}
@@ -104,22 +108,30 @@
   .ddwrap.snap{transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1)}
   .ddpanel{position:absolute;top:0;left:0;display:flex;align-items:stretch;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .16s ease}
   .ddpanel.on{opacity:1;pointer-events:auto}
-  .ddp-platform{width:min(1080px,calc(100vw - 48px))}
-  .ddp-resources{width:min(880px,calc(100vw - 48px))}
-  .dd-main{flex:1;min-width:0;padding:26px 34px 30px}
-  .dd-rail{flex:none;width:250px;border-left:1px solid var(--line);padding:26px 34px 30px}
-  .dd-label{font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:26px 0 12px}
+  /* Panel metrics are set from the item row, not the other way round: the row is
+     icon (36) + 12 gutter + two lines of text, so it lands at 54px. Four sections
+     of those plus their labels resolve to a ~470px panel, which clears a 768-tall
+     viewport with the nav on top. The earlier 48px icon and 56px column gutter
+     pushed the same content past 900px and left the rail stranded beside it. */
+  /* each panel is sized to its own grid: Platform runs two columns and needs 940
+     to keep "Answers in Claude, ChatGPT, and Cursor" on one line; Resources runs
+     one column, so at 760 it was two thirds empty. */
+  .ddp-platform{width:min(940px,calc(100vw - 48px))}
+  .ddp-resources{width:min(660px,calc(100vw - 48px))}
+  .dd-main{flex:1;min-width:0;padding:22px 28px 26px}
+  .dd-rail{flex:none;width:228px;border-left:1px solid var(--line);padding:22px 28px 26px}
+  .dd-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:20px 0 8px}
   .dd-label:first-child{margin-top:0}
-  .dd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 56px}
+  .dd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px}
   .dd-grid.one{grid-template-columns:minmax(0,1fr)}
-  .dd-item{display:flex;align-items:center;gap:16px;padding:8px 10px;margin:0 -10px;border-radius:12px;transition:background .15s ease}
+  .dd-item{display:flex;align-items:center;gap:12px;padding:8px 10px;margin:0 -10px;border-radius:10px;transition:background .15s ease}
   .dd-item:hover{background:rgba(255,255,255,.05)}
-  .dd-ico{flex:none;width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:var(--fg-2);background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.2px);background-size:7px 7px;background-position:50% 50%}
-  .dd-ico svg{width:30px;height:30px;display:block}
+  .dd-ico{flex:none;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--fg-2);background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.2px);background-size:6px 6px;background-position:50% 50%}
+  .dd-ico svg{width:22px;height:22px;display:block}
   .dd-item>span:last-child{min-width:0}
-  .dd-item b{display:block;font-size:16px;font-weight:550;color:var(--fg);line-height:1.4}
-  .dd-item b+span{display:block;font-size:15px;color:var(--fg-3);line-height:1.45;margin-top:1px}
-  .dd-rail a{display:block;font-size:16px;font-weight:475;color:var(--fg);padding:10px 0;transition:color .15s ease}
+  .dd-item b{display:block;font-size:14.5px;font-weight:550;color:var(--fg);line-height:1.35}
+  .dd-item b+span{display:block;font-size:13px;color:var(--fg-3);line-height:1.4;margin-top:1px}
+  .dd-rail a{display:block;font-size:14.5px;font-weight:475;color:var(--fg);padding:7px 0;transition:color .15s ease}
   .dd-rail a:hover{color:#fff}
   .menu-btn{display:none;align-items:center;justify-content:center;width:42px;height:42px;margin-left:-.2rem;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;border-radius:10px;transition:background .18s ease}
   .menu-btn svg{width:24px;height:24px;display:block}
@@ -535,13 +547,13 @@
     .prep-wrap{display:none}
     .deploy-orbit .hero-inner{min-height:0}
     /* the copy now sits high, right behind the dropdown panels, so those get
-       denser and more opaque in this band: at 901 the fixed 250px rail left
-       175px per text column and wrapped 9 of 10 subtitles, which grew the
-       Platform panel past a 768-tall viewport with no way to scroll it */
+       denser and more opaque in this band: at 901 the panel is only as wide as
+       the viewport allows, so the rail and gutters give back the width the
+       subtitles need to stay on one line */
     .ddwrap{background:rgba(8,8,10,.985)}
-    .dd-main{padding:26px 24px 30px}
-    .dd-rail{width:200px;padding:26px 24px 30px}
-    .dd-grid{gap:6px 28px}
+    .dd-main{padding:20px 20px 24px}
+    .dd-rail{width:186px;padding:20px 20px 24px}
+    .dd-grid{gap:2px 22px}
   }
 
   @media (max-width:900px){
