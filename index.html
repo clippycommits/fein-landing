@@ -174,7 +174,7 @@
   @keyframes lpUp{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
   @keyframes lpH1{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
   @keyframes lpBar{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
-  #view-home .bar{animation:lpBar .6s cubic-bezier(.21,.6,.35,1) both}
+  #view-home .bar{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
   .hero-copy .ticker{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .05s both}
   .hero-copy h1{animation:lpH1 .9s cubic-bezier(.21,.6,.35,1) .16s both}
   .hero-copy .lede{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .26s both}
@@ -184,13 +184,33 @@
   /* The lead hero is above the fold, so its copy rides the same pure-CSS
      entrance and starts at first paint. It must never be a .reveal: those wait
      on the observer in the script block at the foot of a 300kB document, which
-     left the headline a blank hole for most of a second on a slow machine. The
-     delays here are read back by the burst script, so the light and the copy
-     arrive as one motion. */
-  .hero-lead .wrap>*{animation:lpUp .62s cubic-bezier(.21,.6,.35,1) both}
-  .hero-lead .eyebrow{animation-delay:.06s}
-  .hero-lead h2{animation:lpH1 .72s cubic-bezier(.21,.6,.35,1) .13s both}
-  .hero-lead .wrap>p{animation-delay:.22s}
+     left the headline a blank hole for most of a second on a slow machine.
+
+     Copy and light are one motion. They used to be two: these delays were only
+     nominally "read back by the burst script", and in practice the words landed
+     at ~0.9s while the fan was still sweeping in at ~1.5s, so the page appeared
+     to load and then light up. Both are now held at their from-state by .hold
+     (the gate at the top of the body) and released on the same frame the
+     starburst paints its first, so they cannot drift apart on a slow machine
+     the way they did when each ran on its own clock.
+
+     The rungs overlap by design: every one is still rising when the next
+     begins, so the fold reads as a single rise rather than four steps. The last
+     lands at ~1.08s, just after the fan settles at ~1.0s. */
+  /* The field the threads light up across is painted into #burst at full
+     strength on the very first ignition frame — it cannot be faded in by
+     painting it in steps, because at 8 bits the outer falloff rounds to nothing
+     (see bloomTo). So the swell is done by the compositor instead: the canvas
+     itself fades up while the threads grow inside it, which costs nothing and
+     leaves the ink exact. Only #burst carries this; #burstfx is left alone
+     because opacity on the group would trap its mix-blend-mode:screen. */
+  @keyframes burstIn{from{opacity:0}to{opacity:1}}
+  #burst{animation:burstIn .52s cubic-bezier(.16,.84,.44,1) both}
+  .hold #view-home .bar,.hold .hero-lead .wrap>*,.hold #burst{animation-play-state:paused}
+  .hero-lead .wrap>*{animation:lpUp .78s cubic-bezier(.16,.84,.44,1) both}
+  .hero-lead .eyebrow{animation-delay:.04s}
+  .hero-lead h1,.hero-lead h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .1s both}
+  .hero-lead .wrap>p{animation-delay:.2s}
   .hero-lead .hero-actions{animation-delay:.3s}
 
   /* Stripe-pattern fold: ticker line, one full-width statement, actions */
@@ -622,6 +642,8 @@
     .marquee{-webkit-mask-image:none;mask-image:none;padding:0 24px}
     .marquee .row{animation:none!important;flex-wrap:wrap;justify-content:center;width:auto}
     .reveal{opacity:1;translate:0 0;transition:none}
+    /* the still frame is painted once and kept; nothing should fade it up */
+    #burst{animation:none}
   }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","alternateName":"Fein","url":"https://fein.vc/","description":"The shared memory of a venture capital team. fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. It gives the warm introduction, the meeting brief, and the reason you passed, from your team's history in seconds. It is self-hosted and open source. It is live in 14 days.","slogan":"the shared memory of a venture capital team","email":"sales@fein.vc","logo":"https://fein.vc/icon-512.png","image":"https://fein.vc/og.png","sameAs":["https://github.com/clippycommits/fein"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"sales@fein.vc","url":"https://fein.vc/#get-started"}},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"The open-source data layer for venture capital teams. It reads your email, calendar, and CRM. It resolves them into one graph. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein · the shared memory of a venture capital team","description":"The open-source data layer for venture capital teams. It reads your email, calendar, and CRM. It resolves them into one graph. It answers in Claude, ChatGPT, and Cursor.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"mainEntity":{"@id":"https://fein.vc/#app"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"datePublished":"2026-08-07","dateModified":"2026-08-10","inLanguage":"en"},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","alternateName":"Fein","applicationCategory":"BusinessApplication","applicationSubCategory":"Relationship intelligence","operatingSystem":"Self-hosted (Docker)","description":"The shared memory of a venture capital team. fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. It gives the warm introduction, the meeting brief, and the reason you passed, from your team's history in seconds. It is self-hosted and open source. It is live in 14 days.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"featureList":["Warm introduction paths: the weighted shortest path to a founder, an LP, or an operator, and the best person to make the introduction","Meeting briefs: the attendees, how you know each of them, and what was open, from your calendar and inbox, before the meeting starts","Deal memory: every company you saw, the memo, and the exact reason you passed, with each line traced to its source document","Cadence alerts: relationships that drift from their learned rhythm, flagged before they go cold","Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals, not an LLM guess","One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"],"audience":{"@type":"Audience","audienceType":"Venture capital teams"},"offers":[{"@type":"Offer","name":"Build","price":"5000","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://fein.vc/#pricing","description":"One-time setup: fein built, connected, and live on your servers in 14 days"},{"@type":"Offer","name":"Maintenance","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://fein.vc/#pricing","description":"Monthly upkeep: connectors kept alive, graph kept current, new answers built on request","priceSpecification":{"@type":"UnitPriceSpecification","price":"1000","priceCurrency":"USD","unitText":"MONTH"}},{"@type":"Offer","name":"Clone it yourself","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://fein.vc/#pricing","description":"Free and open source: the same code we deploy for clients, run and maintained by your team"}]},{"@type":"FAQPage","@id":"https://fein.vc/#faq","mainEntity":[{"@type":"Question","name":"What exactly is fein?","acceptedAnswer":{"@type":"Answer","text":"fein is an open-source data layer for your firm's relationships. It reads your email, calendar, notes, and CRM. It resolves them into one graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."}},{"@type":"Question","name":"How is this different from Affinity or Attio?","acceptedAnswer":{"@type":"Answer","text":"A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"It costs $5,000 once, then $1,000 each month. This is about $17,000 in the first year. There is no per-seat pricing."}},{"@type":"Question","name":"Can't we build this ourselves?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it."}},{"@type":"Question","name":"What happens if we cancel?","acceptedAnswer":{"@type":"Answer","text":"Nothing stops. It runs on your servers. The graph, the connectors, and every answer stay yours."}},{"@type":"Question","name":"How long does setup take?","acceptedAnswer":{"@type":"Answer","text":"Fourteen days. The date is a commitment. Your part is two short calls. We do everything between them."}},{"@type":"Question","name":"Is our data safe?","acceptedAnswer":{"@type":"Answer","text":"Your data never leaves your infrastructure. fein checks access for each person. Every line of code is open to audit."}},{"@type":"Question","name":"What does it connect to?","acceptedAnswer":{"@type":"Answer","text":"It connects to Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers appear in Claude, ChatGPT, Gemini, and Cursor. We add new connectors often."}}]}]}</script>
@@ -629,6 +651,16 @@
 <body>
 
 
+<!-- One start line for the fold. The hero copy is CSS and the starburst is
+     canvas, and each used to begin on its own clock: the words were in at ~0.9s,
+     the light still arriving at ~1.5s. Hold both from the first byte of the
+     body; the burst script releases them together on the frame it first paints.
+     The two timers are the belt — if that script never runs, or throws, or the
+     canvas is missing, the fold still arrives. -->
+<script>(function(){var d=document.documentElement;d.className+=(d.className?" ":"")+"hold";
+function go(){d.classList.remove("hold");}
+document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(go);});
+setTimeout(go,1200);})()</script>
 
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-gmail" viewBox="0 0 256 193">
     <g>
@@ -1390,11 +1422,19 @@
   if(burst&&burstfx){var bx=burst.getContext("2d"),fx=burstfx.getContext("2d"),bz,braf=0,bw=0,bh=0,bdp=1,bvis=false;
     var FINE=window.matchMedia&&window.matchMedia("(pointer:fine)").matches;
     var rays=[],leaders=[],baked=false,ignited=false;
-    /* The intro is timed against the CSS hero entrance above (copy fully in by
-       ~920ms): the crown lights under the headline as it lands and the last
-       shoulder settles just after, so the fold reads as one motion instead of
-       the copy and the light finishing a second and a half apart. */
-    var igniteAt=-1,igElapsed=0,IG_RAY=760,IG_HOLD=60,IG_SWEEP=560;
+    /* The intro is timed against the CSS hero entrance above, and now shares a
+       start frame with it rather than merely being tuned to match: the crown
+       lights under the headline as it lands and the last shoulder settles just
+       after. The sweep used to run to ~1540ms against copy that was fully in by
+       ~920ms, which is what made the fold look like it loaded and then lit up.
+       The last thread now settles at ~1000ms, just before the copy at ~1080ms.
+       IG_HOLD is 0 because the hold gate already supplies the beat it bought. */
+    var igniteAt=-1,igElapsed=0,IG_RAY=720,IG_HOLD=0,IG_SWEEP=380;
+    /* Releasing the fold: the copy above is held at its from-state until this
+       canvas has a frame to show, so the words and the light start together
+       rather than a second apart. Called from the first frame of the loop, and
+       from the reduced-motion path, which paints one still frame and stops. */
+    function lift(){document.documentElement.classList.remove("hold");}
     var pulses=[],sparks=[],spNext=0,bloomKick=0,lastT=-1;
     var pAng=0,pTAng=-Math.PI/2,pInf=0,pTInf=0;
     var spr={},BLOOM=0.85;                                        /* glow sprites; the field's steady level, baked in */
@@ -1493,7 +1533,7 @@
         var r={a:a,ca:ca,sa:sa,r0:(10+rng()*9)*SC,l:0,set:false,len:el*env*(far?1.7+rng()*1.7:1),edge:0,end:0,tip:false,
           lum:far?lum*0.5:lum,lead:lead&&!far,w:lead&&!far?1.15:(far?0.5+rng()*0.2:0.6+rng()*0.38),
           ph:rng()*6.28,fq:0.35+rng()*0.55,
-          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*160};
+          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*90};
         rays.push(r);if(r.lead)leaders.push(r);
       }
       reach();
@@ -1598,7 +1638,11 @@
       bloomKick*=Math.exp(-dt/650);
       pInf+=(pTInf-pInf)*(1-Math.exp(-dt/140));pAng+=(pTAng-pAng)*(1-Math.exp(-dt/140));
       var ig=still?1e9:(igniteAt<0?0:t-igniteAt+igElapsed);
-      var hk=still?1:oExpo(Math.min(1,ig/620)),intro=still?1:Math.min(1,ig/760);
+      /* One curve for the whole arrival. The horizon used to sweep out over 620ms
+         and the core ramp linearly over 760ms while the threads grew for 1540ms,
+         so the fold lit in three separate waves. All three now ride the same
+         eased 1000ms envelope and land together. */
+      var hk=still?1:oExpo(clamp01(ig/1000)),intro=still?1:oExpo(clamp01(ig/1000));
       var cx=bw/2,cy=bh,pa=pAng;
       fx.globalCompositeOperation="lighter";
       var i,r,tw;
@@ -1661,8 +1705,8 @@
       horizon(hk,b);
       core(intro*(0.72+0.28*b),bloomKick);
     }
-    function bloop(t){if(igniteAt<0)igniteAt=t;drawBurst(t,false);braf=requestAnimationFrame(bloop);}
-    function bstart(){cancelAnimationFrame(braf);if(REDUCE.matches){lastT=-1;drawBurst(4200,true);}else if(bvis){braf=requestAnimationFrame(bloop);}}
+    function bloop(t){if(igniteAt<0){igniteAt=t;lift();}drawBurst(t,false);braf=requestAnimationFrame(bloop);}
+    function bstart(){cancelAnimationFrame(braf);if(REDUCE.matches){lastT=-1;drawBurst(4200,true);lift();}else if(bvis){braf=requestAnimationFrame(bloop);}}
     function bstop(){if(braf&&igniteAt>=0&&!ignited){igElapsed+=lastT-igniteAt;}igniteAt=-1;cancelAnimationFrame(braf);braf=0;}
     bsize();sprites();build();
     if(FINE){burstfx.addEventListener("pointermove",function(e){var rc=burstfx.getBoundingClientRect();
