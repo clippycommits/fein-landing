@@ -303,7 +303,7 @@ Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assis
 
 ## What fein is
 
-Welcome to agentic venture capital. fein is an open source tool and platform that transforms your fund's raw data into intelligent, searchable memory for agents and humans. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing. It is self-hosted and open source. It is live in 14 days.
+Welcome to agentic venture capital. fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing. It is self-hosted and open source. It is live in 14 days.
 
 It reads and answers in the tools you already use: Gmail, Google Calendar, Drive, Attio, LinkedIn, Granola, Notion, Slack, Claude, ChatGPT, Gemini, Cursor, Perplexity, and Copilot.
 
