@@ -65,8 +65,9 @@
   .arrowlink:hover .arw{transform:translateX(3px)}
   a:focus-visible,.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
 
-  /* ============ HERO: the weave: every thread the team holds, flowing behind the words ============ */
-  .hero{position:relative;overflow:hidden;padding-top:var(--nav-h);padding-bottom:clamp(2.5rem,5vw,3.5rem)}
+  /* ============ THE WEAVE: every thread the team holds, flowing behind the
+     words. it opened the page until the starburst took the lead hero; it now
+     lights the managed-installation section at #deploy ============ */
   .hero-gradient{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
   #weave{position:absolute;inset:0;width:100%;height:100%;display:block;animation:weaveIn 1.8s ease .15s both}
   @keyframes weaveIn{from{opacity:0}to{opacity:1}}
@@ -132,11 +133,6 @@
   @keyframes lpH1{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
   @keyframes lpBar{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
   #view-home .bar{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
-  .hero-copy .ticker{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .05s both}
-  .hero-copy h1{animation:lpH1 .9s cubic-bezier(.21,.6,.35,1) .16s both}
-  .hero-copy .lede{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .26s both}
-  .hero-copy .hero-actions{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .34s both}
-  .prep-wrap{animation:lpUp .8s cubic-bezier(.21,.6,.35,1) .48s both}
   .works{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .6s both}
   /* The lead hero is above the fold, so its copy rides the same pure-CSS
      entrance and starts at first paint. It must never be a .reveal: those wait
@@ -166,25 +162,18 @@
   .hold #view-home .bar,.hold .hero-lead .wrap>*,.hold #burst{animation-play-state:paused}
   .hero-lead .wrap>*{animation:lpUp .78s cubic-bezier(.16,.84,.44,1) both}
   .hero-lead .eyebrow{animation-delay:.04s}
-  .hero-lead h1,.hero-lead h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .1s both}
+  .hero-lead .wrap>h1,.hero-lead .wrap>h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .1s both}
   .hero-lead .wrap>p{animation-delay:.2s}
   .hero-lead .hero-actions{animation-delay:.3s}
 
-  /* Stripe-pattern fold: ticker line, one full-width statement, actions */
-  .hero-inner{position:relative;z-index:2;padding-top:clamp(3.5rem,7.5vw,5.5rem);outline:none}
-  .ticker{font-size:.95rem;color:var(--fg-2)}
-  .ticker b{color:#fff;font-weight:550;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .hero h1{font-size:clamp(2.1rem,4.5vw,3.3rem);line-height:1.15;letter-spacing:-.032em;font-weight:600;text-wrap:pretty;margin-top:1.1rem;max-width:26ch}
-  .hero h1 .dim{color:var(--fg-3);font-weight:500}
-  .hero .lede{margin-top:1.3rem;color:var(--fg-2);font-size:1.08rem;line-height:1.6;max-width:58ch;text-wrap:pretty}
+  /* the orbit stage: one centered statement with the composition turning around
+     it. the copy keeps the band type scale (.head), so the geometry below reads
+     a smaller box than the old hero did and the ellipse gets more room */
   .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:2rem}
-  /* hero demo: the noise on the left, the answer on the right */
-  .hero-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:min(87vh,960px);min-height:min(87svh,960px);text-align:center}
-  .hero-copy{position:relative;z-index:2;max-width:1000px;display:flex;flex-direction:column;align-items:center}
-  .hero h1{margin-left:auto;margin-right:auto}
-  .hero .lede{margin-left:auto;margin-right:auto}
+  .hero-inner{position:relative;z-index:2;outline:none;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+  .hero-copy .lead{margin-left:auto;margin-right:auto}
   .hero-inner .hero-actions{justify-content:center;margin-top:2.4rem}
-  .hero-inner h1{font-size:clamp(2.3rem,4.7vw,3.9rem);text-wrap:balance}
   .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;z-index:1;pointer-events:none}
   #prepflow{position:absolute;inset:0;width:100%;height:100%}
   .glass{background:rgba(15,15,19,.46);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.12);box-shadow:var(--hl-top),0 18px 44px -24px rgba(0,0,0,.85)}
@@ -260,15 +249,23 @@
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
-  /* the three reasons it knows */
-  /* the turn from problem to answer: brighter than the lead above it */
-  .bridge{margin-top:clamp(1.8rem,3.2vw,2.4rem);padding-top:clamp(1.4rem,2.6vw,1.9rem);border-top:1px solid var(--line);max-width:40rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
-  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(2rem,4vw,3rem)}
+  /* how it works: one bright subhead carries the whole mechanism, so the head
+     stays a single block and the figure below does the rest of the explaining */
+  .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
+  /* centered head: heading and subhead stack on the page axis above the figure,
+     subhead held to a narrower measure than the heading so it reads as a caption */
+  .head.center{max-width:none;text-align:center}
+  .head.center h2{max-width:22ch;margin-inline:auto}
+  .head.center .sub{max-width:56ch;margin-inline:auto;color:var(--fg-2)}
+  /* the three steps: a legend for the figure above, column per zone */
+  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(1.6rem,3vw,2.2rem)}
   .why3 .wcard{border-top:1px solid var(--line-2);padding-top:1.2rem}
   .why3 .wstep{display:block;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
-  .dclose{margin-top:clamp(2.2rem,4.5vw,3.2rem);padding-top:clamp(1.3rem,2.5vw,1.8rem);border-top:1px solid var(--line);max-width:40rem;font-size:clamp(1.12rem,2vw,1.38rem);line-height:1.35;letter-spacing:-.022em;color:var(--fg);text-wrap:balance}
+  .dfoot{display:flex;align-items:baseline;justify-content:space-between;gap:clamp(1.5rem,4vw,3rem);margin-top:clamp(2.2rem,4.5vw,3.2rem);padding-top:clamp(1.3rem,2.5vw,1.8rem);border-top:1px solid var(--line)}
+  .dclose{max-width:44rem;font-size:clamp(1.12rem,2vw,1.38rem);line-height:1.35;letter-spacing:-.022em;color:var(--fg);text-wrap:balance}
+  .dfoot .arrowlink{flex:none;font-size:.95rem}
   .sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
   .sec-list b{color:#fff;font-weight:550}
   .code-card{position:relative;background:#0a0a0c;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
@@ -284,11 +281,20 @@
   .diagram{margin-top:clamp(2.5rem,5vw,3.5rem);overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:.5rem;scrollbar-width:none}
   .diagram::-webkit-scrollbar{display:none}
   .diagram.scrolls{-webkit-mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
-  .dlive{position:relative;width:960px;height:400px;margin:0 auto;font-family:var(--font)}
+  /* framed as a figure, not loose dust on the ground: the hairline gives the
+     three zone labels something to be legends for, and it lines the flow up
+     with the three step columns underneath */
+  .dlive{position:relative;width:960px;height:400px;margin:0 auto;font-family:var(--font);border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#070709,#000 62%);overflow:hidden}
   .dlive canvas{position:absolute;inset:0;width:960px;height:400px;display:block}
-  .dlab{position:absolute;top:18px;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.16em;color:var(--fg-3)}
-  .dfield{position:absolute;inset:0;overflow:hidden;border-radius:18px}
-  .drift{position:absolute;left:0;top:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
+  /* centered on each step column below: 1032px content, 960px stage, 36px inset */
+  .dlab{position:absolute;top:16px;transform:translateX(-50%);font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;color:var(--dim);white-space:nowrap}
+  .dlab.z1{left:125px}
+  .dlab.z2{left:480px;color:var(--fg-2)}
+  .dlab.z3{left:835px}
+  .dfield{position:absolute;inset:0;overflow:hidden}
+  /* opacity:0 until the loop places them: an untransformed drift element sits
+     stacked in the frame's top-left corner, which used to flash on first paint */
+  .drift{position:absolute;left:0;top:0;opacity:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
   .dico{width:46px;height:46px;justify-content:center;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:12px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4)}
   .dico svg{width:22px;height:22px;flex:none}
   .ico-attio svg{width:30px;height:30px}
@@ -360,7 +366,7 @@
   /* a pool of dark under the words so the threads pass behind them, never through */
   .cta-dark .wrap::before{content:"";position:absolute;left:50%;top:46%;translate:-50% -50%;width:min(1240px,132%);height:250%;z-index:-1;pointer-events:none;background:radial-gradient(48% 44% at 50% 50%,rgba(0,0,0,.82),rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 76%)}
   .cta-dark .eyebrow{display:block}
-  .cta-dark h2{font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.033em;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
+  .cta-dark h1,.cta-dark h2{font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.033em;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
   .cta-dark p{margin:1.15rem auto 0;color:var(--fg-2);max-width:29.5rem}
   .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
   /* the starburst promoted to the lead hero: fill the viewport, clear the fixed nav */
@@ -371,13 +377,24 @@
      the 17ch measure is what holds the authored two-line break, and ch scales
      with the font, so the wrap pattern is identical at every size */
   .hero-lead .eyebrow{letter-spacing:.2em;font-size:.7rem}
-  .hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.02;margin-top:1.2rem}
-  .hero-lead p{margin-top:1.55rem;font-size:1.14rem;line-height:1.6;max-width:33rem;text-wrap:pretty}
+  .hero-lead h1,.hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.02;margin-top:1.2rem}
+  .hero-lead p{margin-top:1.55rem;font-size:1.14rem;line-height:1.3;max-width:33rem;text-wrap:pretty}
   .hero-lead .hero-actions{margin-top:2.7rem;gap:.9rem}
   .hero-lead .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
   .hero-lead .hero-actions .btn .tlogo{width:17px;height:17px}
-  /* the former hero, now a showcase section below the hook */
-  .hero.showcase{border-top:1px solid var(--line)}
+  /* the tool strip stands alone under the lead hero now, so it needs the bottom
+     margin the hero section used to give it */
+  .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
+
+  /* MANAGED INSTALLATION: the rehoused orbit. same composition, section scale.
+     the band owns the weave, so the art is clipped to this section; the copy
+     drops from hero scale to .head scale so it never reads as a second hero;
+     both .wrap children lift above the backdrop's stacking context */
+  .deploy-orbit{overflow:hidden}
+  .deploy-orbit>.wrap{position:relative;z-index:2}
+  .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
+  .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
+  .deploy-orbit .why3{margin-top:clamp(2rem,4vw,3rem)}
 
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:#000;color:var(--fg-3);padding:3.5rem 0 2.2rem}
@@ -484,7 +501,7 @@
      cross the centered copy: retire the demo and let the hero size to content */
   @media (max-width:1023px){
     .prep-wrap{display:none}
-    .hero-inner{min-height:0;padding-top:clamp(2.75rem,7vw,5.5rem)}
+    .deploy-orbit .hero-inner{min-height:0}
     /* the copy now sits high, right behind the dropdown panels, so those get
        denser and more opaque in this band: at 901 the fixed 250px rail left
        175px per text column and wrapped 9 of 10 subtitles, which grew the
@@ -524,6 +541,7 @@
     .feat:nth-child(even) .feat-copy{order:0}
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
+    .dfoot{flex-direction:column;align-items:flex-start;gap:1.2rem}
     .tiers{grid-template-columns:1fr;gap:1.4rem}
     .sec-list{grid-template-columns:repeat(2,1fr);gap:1.4rem}
     .head .lead{font-size:1.06rem}
@@ -547,17 +565,15 @@
     .cmodal-inner{padding:1.35rem 1.15rem}
     .cmodal h2{font-size:1.7rem;margin-right:2.5rem}
     .csub{font-size:1.04rem;margin-bottom:1.7rem}
-    .ticker{text-wrap:balance}
   }
 
-  /* the authored break needs 443px to fit "The shared memory of a" on one line.
-     from there up it gives two clean lines and governs. below it, the break
-     splits each half separately and costs a line, so let the balancer wrap the
-     whole headline instead. this bound is measured from the live string, so
-     re-measure it whenever the headline copy changes: check where each line
-     actually breaks, not just how many there are */
+  /* the orbit heading carries an authored break between its two sentences. on a
+     phone each sentence already wraps, so the break only strands a short line:
+     let the balancer wrap the whole heading instead. this bound is measured
+     from the live string, so re-measure it whenever that copy changes: check
+     where each line actually breaks, not just how many there are */
   @media (max-width:442px){
-    .hero-inner h1 br{display:none}
+    .hero-inner h2 br{display:none}
   }
 
   /* the CTA pair needs 316px, so below 365 it wrapped into two pills of very
@@ -567,11 +583,10 @@
     .hero-inner .hero-actions .btn{width:100%}
   }
 
-  /* landscape phones: 76px of nav plus the hero's own padding left a third of
-     the viewport empty before the first word */
+  /* landscape phones: the lead hero fills the viewport, so 76px of nav plus its
+     own padding left a third of the screen empty before the first word */
   @media (max-height:430px) and (min-width:561px){
-    .hero-inner{padding-top:1.25rem}
-    .hero{padding-bottom:1.5rem}
+    .cta-dark.hero-lead{padding-top:calc(var(--nav-h) + 1.25rem)}
   }
 
   /* touch: no sticky hover states, and thumb-sized controls */
@@ -598,6 +613,10 @@
        fading real pills rather than a moving track */
     .marquee{-webkit-mask-image:none;mask-image:none;padding:0 24px}
     .marquee .row{animation:none!important;flex-wrap:wrap;justify-content:center;width:auto}
+    /* the orbit is static here, so the source chips never travel and never get
+       the fade that carries them behind the copy: at their parked angles two of
+       them sit on the words. the tiles already name their own sources */
+    .orb-chip{display:none}
     .reveal{opacity:1;translate:0 0;transition:none}
     /* the still frame is painted once and kept; nothing should fade it up */
     #burst{animation:none}
@@ -711,7 +730,7 @@ __LOGO_SPRITE__
 
     <div class="wrap" id="content" tabindex="-1">
       <span class="eyebrow">OPEN SOURCE</span>
-      <h2>Welcome to agentic venture capital.</h2>
+      <h1>Welcome to agentic venture capital.</h1>
       <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
@@ -721,41 +740,11 @@ __LOGO_SPRITE__
 
   </section>
 
-  <!-- PRODUCT SHOWCASE: the former hero, now the substance under the hook -->
-  <section id="showcase" class="hero showcase">
-    <div class="hero-gradient" aria-hidden="true">
-      <canvas id="weave"></canvas>
-      <div class="hg-veil"></div>
-      <div class="hg-grain"></div>
-    </div>
-
-    <div class="wrap hero-inner">
-      <div class="hero-copy">
-        <p class="ticker">Free and open source · on your servers · live in <b>14 days</b></p>
-        <h1 class="">The shared memory of a <br>venture capital team.</h1>
-        <p class="lede">fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing.</p>
-        <div class="hero-actions">
-          <a class="btn btn-white" href="#get-started">Talk to sales</a>
-          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-        </div>
-      </div>
-      <div class="prep-wrap" role="img" aria-label="Example: while you read, fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around the headline: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
-        <canvas id="prepflow" aria-hidden="true"></canvas>
-        <div class="orb-head glass" aria-hidden="true">
-          <b>Meeting prep · Clara Voss</b>
-          <span class="hsub">Meridian · Series A · tomorrow, 9:00</span>
-          <span class="orb-badge"><i class="bdot"></i><span class="btxt">Auto-drafted</span></span>
-        </div>
-        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="ask">how do we know clara?</span><p><b>Three meetings.</b> <span class="rest">Slush in 2024, then two calls. You last spoke on Tuesday.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-gmail"/></svg></i></span></div>
-        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="ask">who can introduce us?</span><p><b>Anna Lindqvist.</b> <span class="rest">She co-led the seed round. You have 12 shared meetings. Backup: Marc Weber, two hops.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
-        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="ask">anything still open?</span><p><b>A CFO search.</b> <span class="rest">Clara asked in March. Two people in your network fit.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-granola"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
-        <span class="orb-chip glass orb-c1" data-a="0" aria-hidden="true"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
-        <span class="orb-chip glass orb-c2" data-a="1.57" aria-hidden="true"><svg class="tlogo"><use href="#l-gcal"/></svg></span>
-        <span class="orb-chip glass orb-c3" data-a="3.14" aria-hidden="true"><svg class="tlogo"><use href="#l-attio"/></svg></span>
-        <span class="orb-chip glass orb-c4" data-a="4.71" aria-hidden="true"><svg class="tlogo"><use href="#l-granola"/></svg></span>
-      </div>
-    </div>
-
+  <!-- WORKS WITH: the tool proof, directly under the hook. it used to close the
+       old second hero; the orbit composition it stood under now carries the
+       managed offer at #deploy, and the strip reads better here, where the
+       first question after the promise is "what does it read?" -->
+  <section class="works-band" aria-label="The tools fein reads and answers in">
     <div class="works">
       <p class="lab">It reads and answers in the tools you already use</p>
       <div class="marquee"><div class="row">
@@ -778,20 +767,21 @@ __LOGO_SPRITE__
 
   </section>
 
-  <!-- THE PROBLEM, THEN THE FIX: stated first, then the layer that solves it -->
+  <!-- HOW IT WORKS: the hero sells the outcome, so this section owns the mechanism.
+       One head, one figure, three steps that label the figure's three zones. -->
   <section id="how" class="band">
     <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">The problem</span>
-        <h2>The answer is always in another person's inbox.</h2>
-        <p class="lead">Who introduced you. Why you passed. What was open on the last call. Your team wrote all of it down, one inbox at a time. A CRM must capture this. But it asks your busiest people to retype what they know. So it never stays current. Your AI tools have the same problem. They have no map of your world. They read what they can reach. They guess at the rest.</p>
+      <div class="head center reveal">
+        <span class="eyebrow">How it works</span>
+        <h2 class="">Memory that understands when things change.</h2>
+        <p class="sub">Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
       </div>
-      <p class="bridge reveal">fein is different. It does not ask anyone to enter data. It reads the record your team already makes. Then it gives your AI a map, not a guess. The map shows who exists, who knows whom, and how well. It shows the evidence for each connection.</p>
       <div class="diagram reveal" tabindex="0">
-        <div class="dlive" id="dlive" role="img" aria-label="Animation: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) funnel into fein, one MCP endpoint, and sourced answers fan out to your AI tools: Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
+        <div class="dlive" id="dlive" role="img" aria-label="Diagram: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) flow in from the left. fein resolves them into one graph at the center. Sourced answers fan out on the right to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
           <canvas id="dcanvas" aria-hidden="true"></canvas>
-          <span class="dlab" style="left:44px">YOUR SYSTEMS</span>
-          <span class="dlab" style="right:44px">SOURCED ANSWERS</span>
+          <span class="dlab z1">01 · YOUR SYSTEMS</span>
+          <span class="dlab z2">02 · ONE GRAPH</span>
+          <span class="dlab z3">03 · SOURCED ANSWERS</span>
           <div class="dfield" id="dfield" aria-hidden="true"></div>
           <div class="dcore"><svg viewBox="0 0 118 136"><path d="M50.3 6Q59 1 67.7 6L108.3 29.5Q117 34.5 117 44.5L117 91.5Q117 101.5 108.3 106.5L67.7 130Q59 135 50.3 130L9.7 106.5Q1 101.5 1 91.5L1 44.5Q1 34.5 9.7 29.5Z" fill="rgba(10,10,14,.97)" stroke="rgba(82,168,255,.45)"/></svg><b>fein</b></div>
         </div>
@@ -801,7 +791,10 @@ __LOGO_SPRITE__
         <div class="wcard reveal"><span class="wstep">02 · Resolves</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
         <div class="wcard reveal"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
       </div>
-      <p class="dclose reveal">The same question gives the same answer. This is true for each person and each tool. The answer does not depend on who is in the room.</p>
+      <div class="dfoot reveal">
+        <p class="dclose">The same question gives the same answer, for every person and every tool. It does not depend on who is in the room.</p>
+        <a class="arrowlink" href="#features">See what your team can ask <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+      </div>
     </div>
   </section>
 
@@ -882,14 +875,47 @@ __LOGO_SPRITE__
     </div>
   </section>
 
-  <!-- THE FORTNIGHT: two-week deployment story, sets up the data-engineer pricing frame -->
-  <section id="deploy" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <span class="eyebrow">The fortnight</span>
-        <h2>We deploy fein in two weeks. <br>It works like it has been here for years.</h2>
-        <p class="lead">We deploy fein into your stack over two weeks. Your only part is two short calls. By day fourteen, fein holds your team's full history, back through many years.</p>
+  <!-- MANAGED INSTALLATION: the offer, and the orbit that shows what it buys.
+       the orbit composition was the old second hero, where it repeated the
+       promise the lead hero already makes. it belongs here: the art is fein
+       working unattended (a meeting that drafts its own prep, each answer
+       cited to the tool it came from), which is exactly what the managed
+       service sells. the fortnight cards sit under it as the mechanism. -->
+  <section id="deploy" class="band deploy-orbit">
+    <div class="hero-gradient" aria-hidden="true">
+      <canvas id="weave"></canvas>
+      <div class="hg-veil"></div>
+      <div class="hg-grain"></div>
+    </div>
+
+    <div class="wrap hero-inner">
+      <div class="hero-copy head">
+        <span class="eyebrow">Managed installation</span>
+        <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
+        <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
+        <div class="hero-actions">
+          <a class="btn btn-white" href="#get-started">Talk to sales</a>
+          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        </div>
       </div>
+      <div class="prep-wrap" role="img" aria-label="Example: fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around this section: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
+        <canvas id="prepflow" aria-hidden="true"></canvas>
+        <div class="orb-head glass" aria-hidden="true">
+          <b>Meeting prep · Clara Voss</b>
+          <span class="hsub">Meridian · Series A · tomorrow, 9:00</span>
+          <span class="orb-badge"><i class="bdot"></i><span class="btxt">Auto-drafted</span></span>
+        </div>
+        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="ask">how do we know clara?</span><p><b>Three meetings.</b> <span class="rest">Slush in 2024, then two calls. You last spoke on Tuesday.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-gmail"/></svg></i></span></div>
+        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="ask">who can introduce us?</span><p><b>Anna Lindqvist.</b> <span class="rest">She co-led the seed round. You have 12 shared meetings. Backup: Marc Weber, two hops.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
+        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="ask">anything still open?</span><p><b>A CFO search.</b> <span class="rest">Clara asked in March. Two people in your network fit.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-granola"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
+        <span class="orb-chip glass orb-c1" data-a="0" aria-hidden="true"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
+        <span class="orb-chip glass orb-c2" data-a="1.57" aria-hidden="true"><svg class="tlogo"><use href="#l-gcal"/></svg></span>
+        <span class="orb-chip glass orb-c3" data-a="3.14" aria-hidden="true"><svg class="tlogo"><use href="#l-attio"/></svg></span>
+        <span class="orb-chip glass orb-c4" data-a="4.71" aria-hidden="true"><svg class="tlogo"><use href="#l-granola"/></svg></span>
+      </div>
+    </div>
+
+    <div class="wrap">
       <div class="why3" data-reveal-group="90">
         <div class="wcard reveal"><span class="wstep">Day 1</span><h3>We connect your systems</h3><p>On the first call, we connect your email, calendar, Drive, LinkedIn, and CRM. This runs on your own servers.</p></div>
         <div class="wcard reveal"><span class="wstep">Days 2-13</span><h3>It reads your full history</h3><p>It reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.</p></div>
@@ -1728,10 +1754,13 @@ __LOGO_SPRITE__
       ["claude","Board pack: metrics assembled","DRIVE"],
       ["copilot","Follow-ups from Monday's call","GRANOLA"]];
     var pIdx=0,inUse={},items=[],ICO_END=CORE.x-64,glowK=0;
-    var SLOTS=[52,96,140,184,228,272,316],sIdx=0;
+    /* one lane per answer pill, held for the pill's whole life: pills used to
+       share a rotating pool, so two could ride the same lane at different
+       speeds and print over each other mid-flight */
+    var SLOTS=[30,78,126,174,222,270,318],sIdx=0;
     (function(){for(var i=SLOTS.length-1;i>0;i--){var j=(rngD()*(i+1))|0,t=SLOTS[i];SLOTS[i]=SLOTS[j];SLOTS[j]=t;}})();
-    function bob(it){it.amp=4+rngD()*5;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
-    function laneY(it){it.y0=it.kind==="i"?40+rngD()*300:SLOTS[(sIdx++)%SLOTS.length]+(rngD()*24-12);}
+    function bob(it){it.amp=it.kind==="p"?2+rngD()*2:4+rngD()*5;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
+    function laneY(it){it.y0=it.kind==="i"?40+rngD()*300:SLOTS[it.slot];}
     function mkIco(li,i){
       var k=ICONS[i%ICONS.length];
       var el=document.createElement("div");el.className="drift dico ico-"+k;
@@ -1752,24 +1781,26 @@ __LOGO_SPRITE__
       var el=document.createElement("div");el.className="drift dpill";
       var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
       df.appendChild(el);
-      var it={el:el,l:li,kind:"p",x:CORE.x-40+rngD()*(DW-CORE.x-40)};
+      var it={el:el,l:li,kind:"p",slot:(sIdx++)%SLOTS.length,x:CORE.x-40+rngD()*(DW-CORE.x-40)};
       fillPill(it);it.w=el.offsetWidth||220;
       laneY(it);bob(it);items.push(it);
     }
     var icoN=0;
     for(var li=0;li<3;li++){
       for(var i=0;i<[5,5,5][li];i++)mkIco(li,icoN++);
-      for(i=0;i<[2,3,3][li];i++)mkPill(li);
+      for(i=0;i<[2,2,3][li];i++)mkPill(li);
     }
     function respawn(it){
       laneY(it);bob(it);
       if(it.kind==="i")it.x=-66-rngD()*130;
-      else{it.x=CORE.x-44-rngD()*24;fillPill(it);it.w=it.el.offsetWidth||it.w;}
+      /* the extra setback is dead time behind the core, where alpha is still 0:
+         it staggers pills that would otherwise leave the throat together */
+      else{it.x=CORE.x-44-rngD()*24-rngD()*220;fillPill(it);it.w=it.el.offsetWidth||it.w;}
     }
     function alphaOf(it){
       var rise,fall;
       if(it.kind==="i"){rise=(it.x+60)/90;fall=(ICO_END-it.x)/110;}
-      else{rise=(it.x-(CORE.x-70))/90;fall=(DW-26-it.x-it.w*LAY[it.l].s)/120;}
+      else{rise=(it.x-(CORE.x-70))/250;fall=(DW-26-it.x-it.w*LAY[it.l].s)/120;}
       var o=Math.min(rise,fall);return o<0?0:o>1?1:o;
     }
     function stepItems(t,dt){
@@ -1782,8 +1813,10 @@ __LOGO_SPRITE__
         if(it.kind==="i"){ /* hold the lane, then swoop into the throat */
           p=(it.x+66)/(ICO_END+66);p=p<0?0:p>1?1:p;q=p*p;
           y=it.y0+(175-it.y0)*0.9*q+Math.sin(t*it.fq+it.ph)*it.amp*(1-q*0.85);
-        }else{ /* leave the throat fast, then ride the lane out */
-          p=(it.x-(CORE.x-70))/(DW-26-(CORE.x-70));p=p<0?0:p>1?1:p;q=1-(1-p)*(1-p);
+        }else{ /* fan into the lane within the first third, so pills are never
+                  legible while they are still stacked at the throat */
+          p=(it.x-(CORE.x-70))/(DW-26-(CORE.x-70));p=p<0?0:p>1?1:p;
+          q=p/0.32;if(q>1)q=1;q=1-(1-q)*(1-q)*(1-q);
           y=178+(it.y0-178)*q+Math.sin(t*it.fq+it.ph)*it.amp*(0.2+0.8*q);
         }
         it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+y.toFixed(1)+"px,0) scale("+L.s+")";
@@ -1973,7 +2006,7 @@ __LOGO_SPRITE__
   var rz; window.addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(speed,150); });
 })();
 
-/* hero orbit: the meeting drafts itself around the headline */
+/* the orbit: the meeting drafts itself around the managed-installation heading */
 (function(){
   var wrap=document.querySelector('.prep-wrap');if(!wrap)return;
   var copy=document.querySelector('.hero-copy'),cv=document.getElementById('prepflow');

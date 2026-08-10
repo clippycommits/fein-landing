@@ -303,19 +303,19 @@ Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assis
 
 ## What fein is
 
-The shared memory of a venture capital team. fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing. It is self-hosted and open source. It is live in 14 days.
+Welcome to agentic venture capital. fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing. It is self-hosted and open source. It is live in 14 days.
 
-## The problem: the answer is always in another person's inbox
+It reads and answers in the tools you already use: Gmail, Google Calendar, Drive, Attio, LinkedIn, Granola, Notion, Slack, Claude, ChatGPT, Gemini, Cursor, Perplexity, and Copilot.
 
-Who introduced you. Why you passed. What was open on the last call. Your team wrote all of it down, one inbox at a time. A CRM must capture this. But it asks your busiest people to retype what they know. So it never stays current. Your AI tools have the same problem. They have no map of your world. They read what they can reach. They guess at the rest.
+## How it works: nobody enters data, the graph builds itself
 
-fein is different. It does not ask anyone to enter data. It reads the record your team already makes. Then it gives your AI a map, not a guess. The map shows who exists, who knows whom, and how well. It shows the evidence for each connection.
+fein reads the record your team already makes. It resolves that record into one live graph: who exists, who knows whom, and how well. Your AI tools read the graph. They stop guessing.
 
 1. Reads everything your team already uses: your inbox, calendar, Drive, LinkedIn, and CRM, read continuously. Your team logs nothing.
 2. Resolves it into one identity per person, not a hundred duplicates: fein resolves every copy of a contact into one identity. It scores the strength from real signals (meetings, replies, and shared documents), not an LLM guess.
 3. Answers wherever your team asks: ask in Claude, ChatGPT, Gemini, or Cursor over one MCP endpoint. You get the same answer every time, with the email behind it.
 
-The same question gives the same answer. This is true for each person and each tool. The answer does not depend on who is in the room.
+The same question gives the same answer, for every person and every tool. It does not depend on who is in the room.
 
 ## What you get: four questions your team asks every week
 
@@ -341,9 +341,9 @@ Your data never leaves your servers. fein reads your inbox, calendar, and CRM to
 - Open source, from end to end. Every line that touches your data is public. Read it before you run it.
 - Permissioned and logged. fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.
 
-## The fortnight: we deploy fein in two weeks
+## Managed installation: we deploy fein in two weeks
 
-We deploy fein into your stack over two weeks. Your only part is two short calls. By day fourteen, fein holds your team's full history, back through many years.
+We deploy fein in two weeks. Then it works on its own. Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.
 
 - Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM. This runs on your own servers.
 - Days 2-13, it reads your full history: it reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.
