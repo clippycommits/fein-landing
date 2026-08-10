@@ -18,6 +18,10 @@
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --maxw:1080px;
     --nav-h:76px;
+    /* the announcement ribbon above the bar. it is a variable, not a constant,
+       because dismissing it sets --ribbon-h to 0 on <html> and every offset
+       that depends on it (the fold's top padding) follows in one step */
+    --ribbon-h:48px;
     --r-sm:8px; --r-md:12px; --r-lg:16px;
     --hl-top:inset 0 1px 0 rgba(255,255,255,.06);
     --shadow-card:0 0 0 1px rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5),0 24px 60px -24px rgba(0,0,0,.9);
@@ -79,15 +83,22 @@
 
   /* ============ nav: black frost, Stripe-replica metrics ============ */
   header{position:relative;z-index:5;--nav-font:var(--font)}
-  #view-home header{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left;background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease}
+  /* ribbon and bar travel as one fixed shell. the shell is what scrolls: the
+     ribbon slides out under the top edge exactly as far as the page has moved,
+     up to its own height, and the bar lands pinned at 0. one transform, no
+     second fixed layer, no reflow. */
+  #view-home .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left;will-change:transform}
+  #view-home header{background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease}
   #view-home header.scrolled{background:rgba(0,0,0,.62);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
-  .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1288px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+  /* 1440/32: the reference nav measure. content lands at 1376px, so the
+     wordmark and the buttons sit level with the widest sections below */
+  .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1440px;margin:0 auto;padding:0 32px;box-sizing:border-box}
   /* the wordmark centers on its glyphs, not its text box, so it sits on the same
      optical line as the 15px links beside it */
   .brand{display:inline-flex;align-items:center;font-weight:600;font-size:1.5rem;line-height:1;letter-spacing:-.035em;color:#fff}
   /* 34, not 28: each link carries a -12px pill margin, so the gap a reader sees
      is 34 - 24 = 10px between hover pills, not the 4px the old value left */
-  nav.links{display:flex;gap:34px;margin-left:0}
+  nav.links{display:flex;gap:34px;margin-left:12px}
   nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--fg);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;padding:8px 12px;margin:-8px -12px;border-radius:999px;transition:color .18s ease,background .18s ease}
   nav.links a:hover{color:#fff;background:rgba(255,255,255,.07)}
   nav.links a .chev{display:inline-flex;margin-top:1px;color:var(--fg-3);transition:color .18s ease}
@@ -142,11 +153,29 @@
   .menu-btn[aria-expanded="true"] .i-close{display:block}
   .mmenu{display:none}
 
+  /* ============ ribbon: one line of news above the bar ============
+     the page is already black, so this cannot be the black bar the reference
+     uses on white. it is a lifted plane instead: bg-2 over the void, hairline
+     under it, and the only lit thing in the row is the sentence itself. */
+  .ribbon{position:relative;height:var(--ribbon-h);display:flex;align-items:center;justify-content:center;padding:0 52px;background:var(--bg-2);border-bottom:1px solid var(--line);box-shadow:var(--hl-top);font-family:var(--font);font-size:14px;line-height:1;overflow:hidden}
+  .rb-msg{display:inline-flex;align-items:center;gap:9px;min-width:0;color:var(--fg);font-weight:450;transition:color .18s ease}
+  .rb-msg:hover{color:#fff}
+  .rb-txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.005em}
+  .rb-msg .arw{flex:none;color:var(--fg-3);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
+  .rb-msg .arw svg{width:11px;height:11px;stroke-width:2.6}
+  .rb-msg:hover .arw{transform:translateX(3px);color:#fff}
+  .rb-x{position:absolute;top:50%;right:14px;translate:0 -50%;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--dim);cursor:pointer;transition:background .18s ease,color .18s ease}
+  .rb-x:hover{background:rgba(255,255,255,.07);color:#fff}
+  .rb-x svg{width:13px;height:13px;display:block}
+  /* dismissed: the row is gone and every offset measured from it collapses */
+  .nobanner .ribbon{display:none}
+  .nobanner{--ribbon-h:0px}
+
   /* ============ hero entrance choreography (pure CSS, staggered) ============ */
   @keyframes lpUp{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
   @keyframes lpH1{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
   @keyframes lpBar{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
-  #view-home .bar{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
+  #view-home .bar,#view-home .ribbon{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
   /* the works strip left the hero for the gap under #features, so it is a
      .reveal now. an entrance animation here would win over .reveal's opacity
      and pop the strip in on load, half a page below the fold. */
@@ -175,7 +204,7 @@
      because opacity on the group would trap its mix-blend-mode:screen. */
   @keyframes burstIn{from{opacity:0}to{opacity:1}}
   #burst{animation:burstIn .52s cubic-bezier(.16,.84,.44,1) both}
-  .hold #view-home .bar,.hold .hero-lead .wrap>*,.hold #burst{animation-play-state:paused}
+  .hold #view-home .bar,.hold #view-home .ribbon,.hold .hero-lead .wrap>*,.hold #burst{animation-play-state:paused}
   /* These delays are measured from the gate release, NOT from navigation, so
      they are spent on top of however long it takes the burst script at the foot
      of the document to reach its first frame. That cost grows with the page: it
@@ -255,6 +284,9 @@
   section{scroll-margin-top:20px}
   section[id],.feat[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
   .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0;border-top:1px solid var(--line)}
+  /* the what-changed stage is sized to the viewport itself, so the band's
+     usual breathing room would push it past one screen */
+  #change.band{padding:clamp(2.5rem,5vw,3.5rem) 0}
   .head{max-width:60ch}
   .head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
@@ -274,112 +306,91 @@
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
-  /* what changed: one deal, twenty-one months, and a slider.
-     The section runs the height of the viewport because the argument needs
-     room: the copy holds still on the left while the instrument on the right
-     plays a whole deal. Everything in it shares one coordinate space. The
-     timeline at the top is built from the sources themselves, and every fact
-     below is a row whose bar spans the window it was true, measured on that
-     same axis, so the cursor hanging under the slider thumb is the same
-     instant as the end of every running bar. Facts are written into the
-     ledger as time passes rather than sitting greyed out waiting, which is
-     the difference between a list that reveals itself and a list that spoils
-     itself. Four bars stop. The pass and its reason never do. */
-  .chg{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.28fr);gap:clamp(1.8rem,4vw,3.4rem);align-items:center;min-height:min(880px,calc(100svh - var(--nav-h) - 2rem))}
-  .chg-copy h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
-  .chg-copy p{margin-top:1.05rem;color:var(--fg-2);font-size:1.04rem;line-height:1.6;max-width:42ch}
-  .chg-hint{display:flex;align-items:center;gap:.5rem;margin-top:1.7rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.02em;color:var(--fg-3)}
-  .chg-hint svg{width:14px;height:14px;flex:none;color:var(--blue-l)}
-  .led{display:flex;flex-direction:column;min-height:0;max-height:min(820px,calc(100svh - var(--nav-h) - 3rem));background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:1.05rem 1.15rem 1.1rem;box-shadow:var(--shadow-card)}
-  .led-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--line)}
-  .led-q{display:flex;align-items:center;gap:.55rem;font-size:.95rem;color:var(--fg);min-width:0}
-  .led-q svg{width:15px;height:15px;flex:none;color:var(--fg-3);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .led-asof{flex:none;display:flex;align-items:baseline;gap:.4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-  .led-asof b{font-size:.72rem;font-weight:500;letter-spacing:.06em;color:var(--blue-l)}
-  /* the timeline is the control and the axis at once: seven sources on the
-     rail, a real range input laid over it so it drags, clicks and takes arrow
-     keys, and the fill behind showing how far into the deal you have read */
-  .scrub{position:relative;margin:1.15rem 0 .35rem;padding-bottom:2.2rem}
-  .scrub-rail{position:absolute;left:0;right:0;top:0;height:26px;pointer-events:none}
-  .scrub-line{position:absolute;left:0;right:0;top:12px;height:2px;border-radius:2px;background:rgba(255,255,255,.08)}
-  .scrub-fill{position:absolute;left:0;top:12px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(0,112,243,.35),var(--blue-l));box-shadow:0 0 12px rgba(0,112,243,.45);transition:width .5s cubic-bezier(.22,.61,.36,1)}
-  .scrub-gap{position:absolute;top:12px;border-top:1px dashed var(--line-2)}
-  .scrub-gap span{position:absolute;left:50%;top:-.62rem;transform:translateX(-50%);background:var(--bg-2);padding:0 .3rem;font-family:var(--mono);font-size:.51rem;letter-spacing:.08em;color:var(--dim);white-space:nowrap}
-  .pip{position:absolute;top:2px;width:24px;height:24px;margin-left:-12px;border-radius:7px;display:grid;place-items:center;background:var(--bg-3);border:1px solid var(--line);color:var(--dim);transition:border-color .3s ease,background .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),opacity .3s ease;opacity:.5}
-  .pip svg{width:13px;height:13px;display:block}
-  .pip.on{opacity:1;border-color:var(--line-2);background:#101014}
-  .pip.now{border-color:rgba(82,168,255,.55);background:rgba(0,112,243,.14);transform:scale(1.14);box-shadow:0 0 0 4px rgba(0,112,243,.1)}
-  /* the input carries all the interaction and none of the paint */
-  .scrub-in{position:absolute;left:-6px;right:-6px;top:-2px;width:calc(100% + 12px);height:30px;margin:0;padding:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:grab;z-index:3}
-  .scrub-in:active{cursor:grabbing}
-  .scrub-in::-webkit-slider-runnable-track{height:30px;background:transparent}
-  .scrub-in::-moz-range-track{height:30px;background:transparent}
-  .scrub-in::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:30px;background:transparent;border:0;cursor:grab}
-  .scrub-in::-moz-range-thumb{width:26px;height:30px;background:transparent;border:0;cursor:grab}
-  .scrub-in:focus{outline:none}
-  .scrub-in:focus-visible+.scrub-labs .slab.on b,.scrub-in:focus-visible~.scrub-labs .slab.on b{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:3px}
-  .scrub-labs{position:absolute;left:0;right:0;top:1.9rem;height:2rem;pointer-events:none}
-  .slab{position:absolute;transform:translateX(-50%);text-align:center;white-space:nowrap;transition:color .3s ease,opacity .3s ease;opacity:.45}
-  .slab b{display:block;font-family:var(--mono);font-size:.54rem;font-weight:500;letter-spacing:.06em;color:var(--fg-3)}
-  .slab i{display:block;font-family:var(--mono);font-style:normal;font-size:.48rem;letter-spacing:.1em;color:var(--dim)}
-  .slab.on{opacity:1}
-  .slab.on b{color:#fff}
-  .slab.on i{color:var(--blue-l)}
-  .led-src{flex:none;min-height:5.9rem;margin-top:.5rem}
-  .led-src .mock{background:rgba(255,255,255,.02)}
-  .src[hidden]{display:none}
-  .src{animation:srcin .38s cubic-bezier(.22,.61,.36,1)}
-  @keyframes srcin{from{opacity:0;translate:0 7px}to{opacity:1;translate:0 0}}
-  .led-state{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;min-height:1.35rem;margin:.7rem 0 .55rem}
-  .led-sum{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3)}
-  .led-sum[hidden]{display:none}
-  .led-sum em{font-style:normal;color:var(--blue-l)}
-  .led-sum s{color:var(--dim);text-decoration:none}
-  .chg-work{display:flex;align-items:center;gap:.3rem}
-  .chg-work[hidden]{display:none}
-  .chg-work i{font-style:normal;font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.1rem .3rem;transition:color .25s ease,border-color .25s ease,background .25s ease}
-  .chg-work i.on{color:var(--blue-l);border-color:rgba(82,168,255,.4);background:rgba(0,112,243,.1)}
-  /* the ledger scrolls inside itself and is scrolled for you, so the list can
-     grow to fifteen facts without the section growing with it */
-  .led-rows{position:relative;flex:1 1 auto;min-height:9rem;overflow-y:auto;scroll-behavior:smooth;scrollbar-width:none;-webkit-mask-image:linear-gradient(180deg,transparent,#000 14px,#000 calc(100% - 18px),transparent);mask-image:linear-gradient(180deg,transparent,#000 14px,#000 calc(100% - 18px),transparent)}
-  .led-rows::-webkit-scrollbar{display:none}
-  .led-inner{position:relative;padding:.35rem 0 .2rem}
-  .led-cur{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,rgba(82,168,255,0),rgba(82,168,255,.4) 8%,rgba(82,168,255,.4) 92%,rgba(82,168,255,0));transition:left .5s cubic-bezier(.22,.61,.36,1);pointer-events:none;z-index:1}
-  /* a fact that has not been written yet takes no room at all: the ledger
-     grows as the deal happens instead of showing the ending up front */
-  .lrow{position:relative;max-height:7rem;padding:.26rem 0 .62rem;overflow:hidden;transition:max-height .45s cubic-bezier(.22,.61,.36,1),opacity .3s ease,padding .45s cubic-bezier(.22,.61,.36,1)}
-  .lrow.pend{max-height:0;opacity:0;padding-top:0;padding-bottom:0}
-  .lfact{display:flex;align-items:baseline;gap:.5rem;font-size:.86rem;line-height:1.4;color:var(--fg-2)}
-  .lfact .t{position:relative;flex:1;min-width:0;transition:color .4s ease}
-  .lfact b{color:var(--fg);font-weight:600}
-  /* the strike is drawn, not declared, so retiring a fact is something you
-     watch happen rather than something you find already done */
-  .lfact .t::after{content:"";position:absolute;left:0;top:.62em;width:100%;height:1px;background:rgba(255,255,255,.3);transform:scaleX(0);transform-origin:0 50%;transition:transform .5s cubic-bezier(.22,.61,.36,1)}
-  .lwhen{position:relative;z-index:2;flex:none;font-family:var(--mono);font-size:.52rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:4px;padding:.08rem .28rem;white-space:nowrap;transition:color .35s ease,border-color .35s ease}
-  .lrow.ret .lwhen{color:var(--fg-3);border-color:var(--line-2)}
-  .lbar{position:absolute;left:0;right:0;bottom:.3rem;height:3px;border-radius:3px;background:rgba(255,255,255,.06)}
-  .lbar i{position:absolute;top:0;height:3px;border-radius:3px;background:var(--blue);transition:left .5s cubic-bezier(.22,.61,.36,1),width .5s cubic-bezier(.22,.61,.36,1),background .4s ease,opacity .35s ease}
-  .lrow.live .lbar i{background:linear-gradient(90deg,rgba(0,112,243,.45),var(--blue-l));box-shadow:0 0 10px rgba(0,112,243,.4)}
-  .lrow.live .lbar i::after{content:"";position:absolute;right:-2px;top:-1.5px;width:6px;height:6px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 8px rgba(82,168,255,.75)}
-  .lrow.ret .lfact .t{color:var(--dim)}
-  .lrow.ret .lfact .t::after{transform:scaleX(1)}
-  .lrow.ret .lfact b{color:var(--dim);font-weight:400}
-  .lrow.ret .lbar i{background:rgba(255,255,255,.2);box-shadow:none}
-  .lrow.ret .lbar i::after{content:"";position:absolute;right:0;top:-3px;width:1px;height:9px;background:rgba(255,255,255,.45)}
-  @keyframes lflash{from{background:rgba(0,112,243,.16)}to{background:transparent}}
-  @keyframes lflashr{from{background:rgba(255,255,255,.07)}to{background:transparent}}
-  .lrow.fl{animation:lflash 1.1s ease-out;border-radius:6px}
-  .lrow.flr{animation:lflashr 1.1s ease-out;border-radius:6px}
-  .led-ans{flex:none;margin-top:.6rem;padding-top:.8rem;border-top:1px solid var(--line);display:flex;gap:.6rem;font-size:.88rem;line-height:1.5;color:var(--fg-2);min-height:3.4rem}
-  .led-ans[hidden]{display:none}
-  .led-ans .fmark{flex:none;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);padding-top:.2rem}
-  .led-ans b{color:var(--fg);font-weight:600}
-  .led-foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:.7rem}
-  .led-note{font-size:.76rem;line-height:1.45;color:var(--fg-3)}
-  .chg-replay{flex:none;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);background:transparent;border:1px solid var(--line);border-radius:7px;padding:.38rem .55rem;cursor:pointer;transition:color .2s ease,border-color .2s ease}
-  .chg-replay:hover{color:#fff;border-color:var(--line-2)}
-  .chg-replay:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
-  .chg-replay svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  /* what changed: one moment on the screen at a time.
+     The instrument this replaces put a whole deal on one surface at once, and
+     everything on it moved every time anything changed. This one is staged.
+     The screen holds a date, the source that arrived on it, and only the two
+     or three sentences that moment made true or untrue. The rest of the graph
+     is one line and a disclosure away. Every block that swaps has a reserved
+     height, so nothing reflows underneath the reader; the only motion is the
+     content arriving, and the strike being drawn through a fact as it retires,
+     which is the one thing in this section worth watching happen. */
+  .chg{display:grid;justify-items:center;align-content:center;gap:0;min-height:min(900px,calc(100svh - var(--nav-h) - 4rem))}
+  .chg-copy{text-align:center;max-width:56ch}
+  .chg-copy h2{font-size:clamp(1.85rem,3.4vw,2.5rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
+  .chg-copy p{margin-top:.85rem;color:var(--fg-2);font-size:1.01rem;line-height:1.58;text-wrap:pretty}
+  /* the stage: a quiet surface, and a fixed geometry. The three swapping zones
+     each reserve their tallest state so the panel never resizes mid sentence */
+  .chgst{position:relative;width:min(720px,100%);margin-top:clamp(1.5rem,3.2vw,2.3rem);padding:clamp(1.4rem,2.6vw,1.8rem) clamp(1.4rem,3vw,2.2rem) 1rem;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));box-shadow:0 40px 80px -60px rgba(0,0,0,1),var(--hl-top)}
+  .st-head{position:relative;text-align:center;min-height:5.2rem}
+  .st-gap{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem;animation:stfade .5s ease both}
+  .st-gap[hidden]{display:block;visibility:hidden}
+  .st-date{font-family:var(--display);font-size:clamp(1.35rem,2.4vw,1.7rem);font-weight:500;letter-spacing:-.02em;color:#fff;line-height:1.2}
+  .st-date.turn{animation:stdate .55s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes stdate{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+  @keyframes stfade{from{opacity:0}to{opacity:1}}
+  .st-src{display:flex;align-items:flex-start;justify-content:center;gap:.55rem;margin-top:.75rem;font-size:.92rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty;animation:stdate .55s cubic-bezier(.22,.61,.36,1) both;animation-delay:.06s}
+  .st-src[hidden]{display:none}
+  .st-src .tlogo{width:15px;height:15px;flex:none;margin-top:.25em}
+  .st-src b{color:var(--fg-2);font-weight:550}
+  /* the delta: the only thing on the screen that is ever more than one line */
+  .st-body{min-height:12rem;display:flex;align-items:center;justify-content:center;padding:.4rem 0 .2rem}
+  .dlt{list-style:none;margin:0;padding:0;width:100%;max-width:34rem}
+  .dlt[hidden]{display:none}
+  .dlt li{position:relative;display:flex;align-items:baseline;gap:.6rem;padding:.22rem 0;font-size:1.02rem;line-height:1.5;color:#fff;animation:dltin .5s cubic-bezier(.22,.61,.36,1) both}
+  .dlt li:nth-child(1){animation-delay:.16s}
+  .dlt li:nth-child(2){animation-delay:.26s}
+  .dlt li:nth-child(3){animation-delay:.36s}
+  .dlt li:nth-child(4){animation-delay:.46s}
+  .dlt li:nth-child(5){animation-delay:.56s}
+  .dlt li:nth-child(6){animation-delay:.66s}
+  @keyframes dltin{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .d-m{flex:none;width:.7rem;font-family:var(--mono);font-size:.82rem;line-height:1.6;color:var(--blue-l)}
+  .d-t{position:relative;flex:1;min-width:0}
+  .d-t b{font-weight:600}
+  .d-w{flex:none;font-family:var(--mono);font-size:.53rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.08rem .3rem;white-space:nowrap;opacity:0;transition:opacity .4s ease .35s}
+  /* the strike is drawn a beat after the line lands: a fact retiring is the
+     one event in this section that deserves to be watched rather than found */
+  .d-ret{color:var(--fg-3)}
+  .d-ret .d-m{color:var(--dim)}
+  .d-ret .d-t::after{content:"";position:absolute;left:0;top:.72em;width:100%;height:1px;background:rgba(255,255,255,.35);transform:scaleX(0);transform-origin:0 50%}
+  .d-ret.cut .d-t::after{transform:scaleX(1);transition:transform .55s cubic-bezier(.22,.61,.36,1)}
+  .d-ret.cut{color:var(--dim);transition:color .5s ease}
+  .d-ret.cut .d-w{opacity:1}
+  .st-ans{display:flex;justify-content:center;gap:.5rem;min-height:2.2rem;padding-top:.2rem;font-size:.88rem;line-height:1.5;color:var(--fg-3);text-align:left;animation:stfade .6s ease both;animation-delay:.5s}
+  .st-ans[hidden]{display:none}
+  .st-ans .fmark{flex:none;font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);padding-top:.28rem}
+  .st-ans span+span{max-width:34rem}
+  /* everything else the graph knows, one line away */
+  .st-disc{border-top:1px solid var(--line);margin-top:.5rem}
+  .st-more{display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.75rem 0 .2rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);background:transparent;border:0;cursor:pointer;transition:color .2s ease}
+  .st-more:hover{color:var(--fg-2)}
+  .st-more:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:6px}
+  .st-more svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+  .st-more[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .st-ledger{overflow:hidden;transition:max-height .45s cubic-bezier(.22,.61,.36,1),opacity .3s ease;padding-top:.55rem}
+  .st-ledger.noanim{transition:none}
+  .st-ledger.shut{max-height:0!important;opacity:0;padding-top:0}
+  .st-ledger .lrow{display:flex;align-items:baseline;gap:.6rem;padding:.2rem 0;font-size:.82rem;line-height:1.45;color:var(--fg-3)}
+  .st-ledger .lrow[hidden]{display:none}
+  .st-ledger .lrow b{color:var(--fg-2);font-weight:550}
+  .st-ledger .lrow.ret{color:var(--dim)}
+  .st-ledger .lrow.ret .d-t{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
+  .st-ledger .lrow.ret b{color:var(--dim);font-weight:400}
+  .st-ledger .d-w{opacity:1;transition:none}
+  /* the sequence: seven dots, and the one you are on fills as it holds */
+  .dots{display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:clamp(1.4rem,2.6vw,2rem)}
+  .dot{position:relative;width:22px;height:22px;padding:0;border:0;background:transparent;cursor:pointer;border-radius:11px;display:grid;place-items:center}
+  .dot i{display:block;width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.2);transition:width .4s cubic-bezier(.22,.61,.36,1),background .3s ease}
+  .dot:hover i{background:rgba(255,255,255,.4)}
+  .dot.on{width:34px}
+  .dot.on i{width:26px;background:rgba(255,255,255,.18)}
+  .dot.on i::after{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:7px;width:0;border-radius:99px;background:var(--blue-l);box-shadow:0 0 10px rgba(82,168,255,.6)}
+  .dot.on.run i::after{animation:dotfill var(--hold,2s) linear forwards}
+  .dot.on.done i::after{width:26px}
+  @keyframes dotfill{from{width:0}to{width:26px}}
+  .dot:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
+  .chg-close{margin-top:clamp(1.4rem,2.6vw,1.9rem);max-width:46ch;text-align:center;font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -389,8 +400,6 @@
   .why3 .wstep{display:block;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
-  .sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
-  .sec-list b{color:#fff;font-weight:550}
   .code-card{position:relative;background:#0a0a0c;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
   .code-top{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-bottom:1px solid var(--line)}
   .code-top i{width:11px;height:11px;border-radius:50%;display:inline-block}
@@ -476,9 +485,24 @@
   .spot{position:relative}
   .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
   .spot:hover::before{opacity:1}
-  /* ============ security ============ */
-  .sec-list{list-style:none;padding:0;margin:2.4rem 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-  .sec-list li{display:flex;gap:.7rem;color:var(--fg-2)}
+  /* ============ security ============
+     The claim holds the left, the commitments run down the right as hairline
+     rows. This was a .head above a three-up list, which left the right of the
+     band empty at heading height and squeezed each commitment into a ~38ch
+     column: the first wrapped two lines, the last four, so the row ended
+     ragged. At a full measure every row breaks evenly.
+     The 5/7 measure is the FAQ split's, deliberately: same shape, so the two
+     read as one system. No sticky here though, unlike .faq-intro, because
+     three rows never outrun the viewport and the rule would never fire. */
+  .secgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
+  .sec-cta{margin-top:1.6rem;font-size:.95rem}
+  .sec-list{list-style:none;padding:0;margin:0}
+  .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:start;padding:1.45rem 0;border-top:1px solid var(--line)}
+  .sec-list li:first-child{border-top:0;padding-top:.3rem}
+  .sec-list li:last-child{padding-bottom:0}
+  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);box-shadow:inset 0 0 0 1px rgba(82,168,255,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
+  .sec-list b{display:block;color:#fff;font-weight:550;font-size:1.02rem;letter-spacing:-.016em;line-height:1.35}
+  .sec-list p{margin-top:.3rem;color:var(--fg-2);font-size:.96rem;line-height:1.55;max-width:46ch}
 
   /* ============ pricing: three ways to get a graph ============ */
   .tiers{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:1.1rem;margin-top:3.2rem;align-items:start}
@@ -503,7 +527,6 @@
   /* ============ faq ============ */
   .faq-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
   .faq-intro{position:sticky;top:calc(var(--nav-h) + 2.5rem)}
-  #faq .sec-list{grid-template-columns:1fr;gap:1.05rem;margin-top:2.4rem;max-width:40ch}
   .faq-list{border-top:1px solid var(--line)}
   .faq-list details{border-bottom:1px solid var(--line)}
   .faq-list summary{list-style:none;cursor:pointer;padding:1.15rem 0;font-size:1.06rem;font-weight:550;color:var(--fg);display:flex;justify-content:space-between;gap:1.5rem;align-items:center;transition:color .15s ease}
@@ -523,21 +546,34 @@
   .cta-dark .wrap::before{content:"";position:absolute;left:50%;top:46%;translate:-50% -50%;width:min(1240px,132%);height:250%;z-index:-1;pointer-events:none;background:radial-gradient(48% 44% at 50% 50%,rgba(0,0,0,.82),rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 76%)}
   .cta-dark .eyebrow{display:block}
   .cta-dark h1,.cta-dark h2{font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.033em;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
-  .cta-dark p{margin:1.15rem auto 0;color:var(--fg-2);max-width:29.5rem}
+  /* .wrap> is load-bearing, not decoration: the nav lives inside this section,
+     and the dropdown's section labels are <p>. an unscoped `.cta-dark p` beats
+     `.dd-label` on specificity and was setting those 9.5px labels to hero body
+     copy, 18px and grey. the hero's paragraph is the one in the copy wrap. */
+  .cta-dark .wrap>p{margin:1.15rem auto 0;color:var(--fg-2);max-width:29.5rem}
   .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
-  /* the starburst promoted to the lead hero: fill the viewport, clear the fixed nav */
-  .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--nav-h) + clamp(3rem,7vh,6rem))}
+  /* the starburst promoted to the lead hero: fill the viewport, clear the ribbon
+     and the fixed bar. the clamp above that is what the fold spends on air, and
+     it gave back a third of itself when the ribbon took the top 48px, so the
+     copy block lands where it did before rather than 48px lower. */
+  .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(2rem,5vh,4.25rem))}
   /* the lead hero carries the page, so it gets its own scale: the headline runs
      to 4.75rem and the three rungs under it (kicker, lede, actions) step down
      in weight and up in spacing so the eye lands on the statement first.
      the 17ch measure is what holds the authored two-line break, and ch scales
-     with the font, so the wrap pattern is identical at every size */
-  .hero-lead .eyebrow{letter-spacing:.2em;font-size:.7rem}
-  .hero-lead h1,.hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.02;margin-top:1.2rem}
-  .hero-lead p{margin-top:1.55rem;font-size:1.14rem;line-height:1.3;max-width:33rem;text-wrap:pretty}
-  .hero-lead .hero-actions{margin-top:2.7rem;gap:.9rem}
-  .hero-lead .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
-  .hero-lead .hero-actions .btn .tlogo{width:17px;height:17px}
+     with the font, so the wrap pattern is identical at every size.
+
+     the four rungs are spaced on one ladder, tightest at the top: 17 / 22 / 38.
+     the kicker belongs to the headline, so it sits closest to it; the lede is a
+     separate thought and gets a real step; the buttons are a separate act and
+     get the widest. the lede reads at 1.5 rather than the old 1.3, which was
+     display leading applied to body copy three lines deep. */
+  .hero-lead .wrap>.eyebrow{display:block;line-height:1;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
+  .hero-lead h1,.hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.04;margin-top:1.05rem}
+  .hero-lead .wrap>p{margin-top:1.35rem;font-size:1.125rem;line-height:1.5;max-width:33.5rem;text-wrap:pretty}
+  .hero-lead .hero-actions{margin-top:2.35rem;gap:.7rem}
+  .hero-lead .hero-actions .btn{height:44px;padding:0 19px;font-size:15px;border-radius:11px}
+  .hero-lead .hero-actions .btn .tlogo{width:16px;height:16px}
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
   .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
@@ -674,12 +710,13 @@
        browser laying out a 1220px-tall panel on every mobile pass */
     .ddwrap{display:none}
     .menu-btn{display:inline-flex;width:44px;height:44px;margin-left:0}
-    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:16px;width:min(320px,calc(100vw - 32px));background:rgba(10,10,12,.88);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1);z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
+    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:32px;width:min(320px,calc(100vw - 64px));background:rgba(10,10,12,.88);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1);z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto}
     .mmenu a{display:block;padding:.72rem .8rem;border-radius:10px;color:var(--fg);font-weight:500;font-size:1rem;transition:background .15s ease}
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
     .bar .right .btn-ghost{display:none}
     .faq-grid{grid-template-columns:1fr;gap:2.4rem}
+    .secgrid{grid-template-columns:1fr;gap:2.4rem}
     .faq-intro{position:static}
   }
 
@@ -713,36 +750,32 @@
     .split{grid-template-columns:1fr;gap:2.2rem}
     .feat{grid-template-columns:1fr;gap:1.4rem}
     /* stacked, there is no second column to hold the copy still against, and
-       a pane that scrolls inside a page that scrolls is a trap on touch: the
-       ledger simply runs its full length here */
-    .chg{grid-template-columns:1fr;gap:1.6rem;min-height:0}
-    .chg-copy{position:static}
+       the stage is already a single centred column, so it only needs to stop
+       being measured against the viewport height */
+    .chg{min-height:0}
     .chg-copy p{max-width:none}
-    .led{max-height:none}
-    .led-rows{overflow:visible;-webkit-mask-image:none;mask-image:none}
     .feat:nth-child(even) .feat-copy{order:0}
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
     .tiers{grid-template-columns:1fr;gap:1.4rem}
-    .sec-list{grid-template-columns:repeat(2,1fr);gap:1.4rem}
     .head .lead{font-size:1.06rem}
   }
 
   @media (max-width:640px){
     .btn,.sbtn{height:46px;gap:8px;border-radius:12px;padding:0 14px;font-size:16px}
-    /* the validity pill costs a third of the row here and wraps every fact onto
-       two lines. The bar, the strike-through and the timeline already say when */
-    .lwhen{display:none}
-    .led{padding:.9rem .95rem 1rem}
-    /* seven date labels under a 340px rail collide into a smear, so only the
-       one you are standing on is named; the pips keep the shape of the deal */
-    .slab{opacity:0}
-    .slab.on{opacity:1}
-    .scrub{padding-bottom:2rem}
-    .pip{width:21px;height:21px;margin-left:-10.5px}
-    .pip svg{width:11px;height:11px}
-    .led-top{flex-direction:column;align-items:flex-start;gap:.35rem}
-    .sec-list{grid-template-columns:1fr;gap:1.5rem}
+    /* a phone gives the row about 300px between the dismiss button and the edge.
+       the sentence keeps its claim and drops its run-up, which is the only part
+       of it that is not information: "fein answers in ..." fits, "See how fein
+       answers in ..." truncates on the word that matters */
+    .ribbon{padding:0 40px;font-size:12.5px}
+    .rb-pre{display:none}
+    .rb-x{right:6px}
+    /* one line per fact is worth more here than a tenth of a rem of type size,
+       and the retired dates are already in the sentence above them */
+    .dlt li{font-size:.95rem}
+    .st-body{min-height:15rem}
+    .d-w{display:none}
+    .st-ledger .d-w{display:inline-block;font-size:.5rem}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
     .fcol{gap:.1rem}
     .fcol b{margin-bottom:.4rem}
@@ -779,7 +812,7 @@
   /* landscape phones: the lead hero fills the viewport, so 76px of nav plus its
      own padding left a third of the screen empty before the first word */
   @media (max-height:430px) and (min-width:561px){
-    .cta-dark.hero-lead{padding-top:calc(var(--nav-h) + 1.25rem)}
+    .cta-dark.hero-lead{padding-top:calc(var(--ribbon-h) + var(--nav-h) + 1.25rem)}
   }
 
   /* touch: no sticky hover states, and thumb-sized controls */
@@ -818,13 +851,12 @@
        them sit on the words. the tiles already name their own sources */
     .orb-chip{display:none}
     .reveal{opacity:1;translate:0 0;transition:none}
-    /* the retirement reads fine as a still: the change marks are the message,
-       the sequencing was only ever the delivery */
-    .chg-beat{opacity:1;translate:0 0;transition:none}
-    .fct{opacity:1;translate:0 0;transition:none}
-    .chg-work{display:none}
-    .chg-prog i{transition:none}
-    .chg-copy{position:static}
+    /* the last moment reads fine as a still: the strike is the message, the
+       sequencing was only ever the delivery. The script already stops itself
+       here, so this only has to stop the entrances from playing */
+    .st-date.turn,.st-src,.st-gap,.st-ans,.dlt li{animation:none}
+    .d-ret .d-t::after{transition:none}
+    .dot.on.run i::after{animation:none;width:26px}
     /* the still frame is painted once and kept; nothing should fade it up */
     #burst{animation:none}
   }
@@ -837,6 +869,9 @@
      The two timers are the belt — if that script never runs, or throws, or the
      canvas is missing, the fold still arrives. -->
 <script>(function(){var d=document.documentElement;d.className+=(d.className?" ":"")+"hold";
+/* the ribbon's dismissal is read here, before the first paint, so a reader who
+   already closed it never sees it flash in and the fold is measured once */
+try{if(localStorage.getItem("fein.ribbon")==="off")d.className+=" nobanner";}catch(e){}
 function go(){d.classList.remove("hold");}
 document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(go);});
 setTimeout(go,1200);})()</script>
@@ -847,6 +882,16 @@ __LOGO_SPRITE__
   <section id="home" class="cta-dark hero-lead">
     <div class="grain-overlay on-dark"></div>
     <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas><canvas id="burstfx"></canvas></div>
+    <div class="topshell" id="topshell">
+    <div class="ribbon" id="ribbon">
+      <a class="rb-msg" href="#how">
+        <span class="rb-txt"><span class="rb-pre">See how </span>fein answers in Claude, ChatGPT, and Cursor</span>
+        <span class="arw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12.5 6L19 12l-6.5 6"/></svg></span>
+      </a>
+      <button class="rb-x" type="button" id="rbclose" aria-label="Dismiss announcement">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg>
+      </button>
+    </div>
     <header>
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
@@ -934,6 +979,7 @@ __LOGO_SPRITE__
         <a href="#get-started">Talk to sales</a>
       </nav>
     </header>
+    </div>
 
     <div class="wrap" id="content" tabindex="-1">
       <span class="eyebrow">OPEN SOURCE</span>
@@ -947,19 +993,18 @@ __LOGO_SPRITE__
 
   </section>
 
-  <!-- WHAT CHANGED: the stage above claims memory that keeps up, so the first
-       thing under it has to prove it. One deal, twenty-one months, seven
-       sources, fifteen facts, and a slider. The instrument is a bitemporal
-       ledger drawn honestly: the timeline at the top is made of the sources
-       themselves, every fact below is a row with a bar for the window it was
-       true, and both share one coordinate space, so the cursor under the
-       slider thumb is the same instant as the end of every live bar. Scrub
-       back and facts un-write themselves; scrub forward and they land, then
-       four of them retire. The rows that never retire are the pass and its
-       reason, which is the argument the copy on the left is making. The
-       control is a real range input, so it drags, clicks, takes arrow keys and
-       announces itself; the markup ships at the last moment, so a browser that
-       runs no script still gets the finished ledger with every fact in it. -->
+  <!-- WHAT CHANGED: the hero promises one live graph, so the first thing under
+       it has to prove the graph is live. The proof is one deal over twenty-one
+       months, and it is staged rather than tabulated: the screen holds one
+       moment at a time, centred, and shows only what that moment changed.
+       Everything else about the graph is one line and a disclosure away, so
+       the default view is a date, a source, and the two or three sentences
+       that just became true. Retirement is the beat worth watching, so the
+       line lands unstruck and the strike is drawn across it a moment later.
+       The dots carry the sequence and fill as it advances. Nothing here is
+       created by script: all seven moments and all fifteen facts are in the
+       markup, the ledger ships open, and a browser that runs nothing at all
+       shows the finished state with every fact in it. -->
   <section id="change" class="band">
     <div class="wrap">
       <div class="chg">
@@ -967,170 +1012,98 @@ __LOGO_SPRITE__
           <span class="eyebrow">What changed</span>
           <h2>People move. Your graph moves with them.</h2>
           <p>When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
-          <p>Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
-          <p class="chg-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M9 7l-5 5 5 5"/><path d="M15 7l5 5-5 5"/></svg>Drag the timeline. One deal, twenty-one months.</p>
         </div>
 
-        <div class="led reveal" id="led">
-          <div class="led-top">
-            <p class="led-q"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><span>"Where are we with <b>Halo Compute</b>?"</span></p>
-            <p class="led-asof"><span>as of</span><b id="led-date">2026-07-28</b></p>
+        <div class="chgst reveal" id="chg-stage">
+          <div class="st-head">
+            <p class="st-gap" id="st-gap" hidden></p>
+            <p class="st-date" id="st-date">28 July 2026</p>
+            <p class="st-src" data-at="0" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Halo Compute</b> seed deck, forwarded by <b>Dev Raman</b>.</span></p>
+            <p class="st-src" data-at="1" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span>"Two ex-Anthropic infra engineers. No design partners yet. Raising $4M on a $9M pre."</span></p>
+            <p class="st-src" data-at="2" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span><b>Marcus</b> moved Halo Compute to diligence. Two references back, both strong.</span></p>
+            <p class="st-src" data-at="3" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span>"Passing for now. No design partners live, and the wedge is unproven at this price."</span></p>
+            <p class="st-src" data-at="4" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>Halo Compute</b> hired a VP Engineering from <b>Databricks</b>.</span></p>
+            <p class="st-src" data-at="5" hidden><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span>"Opening a <b>$30M Series A</b>. Six design partners live, $2.4M ARR."</span></p>
+            <p class="st-src" data-at="6"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span><b>Dev Raman</b>: "They close next week. Want the intro again?"</span></p>
           </div>
 
-          <div class="scrub">
-            <div class="scrub-rail" aria-hidden="true">
-              <span class="scrub-line"></span>
-              <span class="scrub-fill" id="scrub-fill" style="width:92%"></span>
-              <span class="scrub-gap" style="left:47%;width:33%"><span>12 months quiet</span></span>
-              <span class="pip on" style="left:5%" data-pip="0"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
-              <span class="pip on" style="left:13%" data-pip="1"><svg class="tlogo"><use href="#l-granola"/></svg></span>
-              <span class="pip on" style="left:22%" data-pip="2"><svg class="tlogo"><use href="#l-attio"/></svg></span>
-              <span class="pip on" style="left:33%" data-pip="3"><svg class="tlogo"><use href="#l-notion"/></svg></span>
-              <span class="pip on" style="left:47%" data-pip="4"><svg class="tlogo"><use href="#l-linkedin"/></svg></span>
-              <span class="pip on" style="left:80%" data-pip="5"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
-              <span class="pip on" style="left:92%" data-pip="6"><svg class="tlogo"><use href="#l-slack"/></svg></span>
+          <div class="st-body">
+            <ul class="dlt" data-at="0" hidden>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span></li>
+            </ul>
+            <ul class="dlt" data-at="1" hidden>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> has <b>no design partners</b> live.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span></li>
+            </ul>
+            <ul class="dlt" data-at="2" hidden>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t">Two references on the founding team <b>check out</b>.</span></li>
+            </ul>
+            <ul class="dlt" data-at="3" hidden>
+              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span><span class="d-w">Dec 2024 &rarr; Jan 2025</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t">The reason: <b>no design partners</b>, and the price.</span></li>
+            </ul>
+            <ul class="dlt" data-at="4" hidden>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span></li>
+            </ul>
+            <ul class="dlt" data-at="5" hidden>
+              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></li>
+              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> has <b>no design partners</b> live.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></li>
+              <li class="d-ret"><span class="d-m" aria-hidden="true">&minus;</span><span class="d-t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span></li>
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span></li>
+            </ul>
+            <ul class="dlt" data-at="6">
+              <li class="d-new"><span class="d-m" aria-hidden="true">+</span><span class="d-t"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span></li>
+            </ul>
+          </div>
+
+          <p class="st-ans" data-at="0" hidden><span class="fmark">fein</span><span>Dev Raman is the warmest path, and Marcus owns the conversation.</span></p>
+          <p class="st-ans" data-at="1" hidden><span class="fmark">fein</span><span>Two engineers, no design partners yet. Every line has a date on it.</span></p>
+          <p class="st-ans" data-at="2" hidden><span class="fmark">fein</span><span>In diligence. Two references back, both strong.</span></p>
+          <p class="st-ans" data-at="3" hidden><span class="fmark">fein</span><span>You are passing today, and the reason goes on the record.</span></p>
+          <p class="st-ans" data-at="4" hidden><span class="fmark">fein</span><span>Nobody reopened the file. fein wrote it down anyway.</span></p>
+          <p class="st-ans" data-at="5" hidden><span class="fmark">fein</span><span>The reason you passed no longer holds.</span></p>
+          <p class="st-ans" data-at="6"><span class="fmark">fein</span><span>You passed eighteen months ago, and you can still see exactly why.</span></p>
+
+          <div class="st-disc">
+            <button type="button" class="st-more" id="st-more" aria-expanded="true" aria-controls="st-ledger"><span id="st-count">15 facts on file &middot; 4 retired, kept</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="st-ledger" id="st-ledger">
+              <p class="lrow ret" data-from="0" data-to="5" data-a="Nov 2024" data-b="Jun 2026"><span class="d-t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></p>
+              <p class="lrow live" data-from="0" data-to="" data-a="Nov 2024"><span class="d-t"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span><span class="d-w">since Nov 2024</span></p>
+              <p class="lrow live" data-from="0" data-to="" data-a="Nov 2024"><span class="d-t"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span><span class="d-w">since Nov 2024</span></p>
+              <p class="lrow live" data-from="1" data-to="" data-a="Nov 2024"><span class="d-t"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span><span class="d-w">since Nov 2024</span></p>
+              <p class="lrow ret" data-from="1" data-to="5" data-a="Nov 2024" data-b="Jun 2026"><span class="d-t"><b>Halo Compute</b> has <b>no design partners</b> live.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></p>
+              <p class="lrow ret" data-from="1" data-to="5" data-a="Nov 2024" data-b="Jun 2026"><span class="d-t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span><span class="d-w">Nov 2024 &rarr; Jun 2026</span></p>
+              <p class="lrow ret" data-from="2" data-to="3" data-a="Dec 2024" data-b="Jan 2025"><span class="d-t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span><span class="d-w">Dec 2024 &rarr; Jan 2025</span></p>
+              <p class="lrow live" data-from="2" data-to="" data-a="Dec 2024"><span class="d-t">Two references on the founding team <b>check out</b>.</span><span class="d-w">since Dec 2024</span></p>
+              <p class="lrow live" data-from="3" data-to="" data-a="Jan 2025"><span class="d-t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span><span class="d-w">since Jan 2025</span></p>
+              <p class="lrow live" data-from="3" data-to="" data-a="Jan 2025"><span class="d-t">The reason: <b>no design partners</b>, and the price.</span><span class="d-w">since Jan 2025</span></p>
+              <p class="lrow live" data-from="4" data-to="" data-a="Jun 2025"><span class="d-t"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span><span class="d-w">since Jun 2025</span></p>
+              <p class="lrow live" data-from="5" data-to="" data-a="Jun 2026"><span class="d-t"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span><span class="d-w">since Jun 2026</span></p>
+              <p class="lrow live" data-from="5" data-to="" data-a="Jun 2026"><span class="d-t"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span><span class="d-w">since Jun 2026</span></p>
+              <p class="lrow live" data-from="5" data-to="" data-a="Jun 2026"><span class="d-t"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span><span class="d-w">since Jun 2026</span></p>
+              <p class="lrow live" data-from="6" data-to="" data-a="Jul 2026"><span class="d-t"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span><span class="d-w">since Jul 2026</span></p>
             </div>
-            <input class="scrub-in" type="range" min="0" max="6" step="1" value="6" id="scrub" aria-label="Move through the deal, from the first inbound to today" aria-valuetext="2026-07-28, Slack, #dealflow">
-            <div class="scrub-labs" aria-hidden="true">
-              <span class="slab" style="left:5%" data-lab="0"><b>Nov 8</b><i>2024</i></span>
-              <span class="slab" style="left:13%" data-lab="1"><b>Nov 21</b><i>2024</i></span>
-              <span class="slab" style="left:22%" data-lab="2"><b>Dec 12</b><i>2024</i></span>
-              <span class="slab" style="left:33%" data-lab="3"><b>Jan 16</b><i>2025</i></span>
-              <span class="slab" style="left:47%" data-lab="4"><b>Jun 3</b><i>2025</i></span>
-              <span class="slab" style="left:80%" data-lab="5"><b>Jun 2</b><i>2026</i></span>
-              <span class="slab on" style="left:92%" data-lab="6"><b>Jul 28</b><i>2026</i></span>
-            </div>
-          </div>
-
-          <div class="led-src">
-            <article class="src" data-at="0" data-d="2024-11-08" data-vt="2024-11-08, Gmail, Inbound" hidden>
-              <div class="mock">
-                <div class="mock-title">Gmail &middot; 2024-11-08 &middot; Inbound</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Halo Compute</b> seed deck, forwarded by <b>Dev Raman</b>.</span><b class="mtag">Inbound</b></div>
-              </div>
-            </article>
-            <article class="src" data-at="1" data-d="2024-11-21" data-vt="2024-11-21, Granola, First call" hidden>
-              <div class="mock">
-                <div class="mock-title">Granola &middot; 2024-11-21 &middot; First call</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span>"Two ex-Anthropic infra engineers. No design partners yet. Raising $4M on a $9M pre."</span><b class="mtag">Note</b></div>
-              </div>
-            </article>
-            <article class="src" data-at="2" data-d="2024-12-12" data-vt="2024-12-12, Attio, Diligence" hidden>
-              <div class="mock">
-                <div class="mock-title">Attio &middot; 2024-12-12 &middot; Diligence</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span><b>Marcus</b> moved Halo Compute to diligence. Two references back, both strong.</span><b class="mtag">Stage</b></div>
-              </div>
-            </article>
-            <article class="src" data-at="3" data-d="2025-01-16" data-vt="2025-01-16, Notion, Partner memo" hidden>
-              <div class="mock">
-                <div class="mock-title">Notion &middot; 2025-01-16 &middot; Partner memo</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span>"Passing for now. No design partners live, and the wedge is unproven at this price."</span><b class="mtag">Pass</b></div>
-              </div>
-            </article>
-            <article class="src" data-at="4" data-d="2025-06-03" data-vt="2025-06-03, LinkedIn, Team update" hidden>
-              <div class="mock">
-                <div class="mock-title">LinkedIn &middot; 2025-06-03 &middot; Team update</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>Halo Compute</b> hired a VP Engineering from <b>Databricks</b>.</span><b class="mtag">Hire</b></div>
-              </div>
-            </article>
-            <article class="src" data-at="5" data-d="2026-06-02" data-vt="2026-06-02, Gmail, Founder update" hidden>
-              <div class="mock">
-                <div class="mock-title">Gmail &middot; 2026-06-02 &middot; Founder update</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span>"Opening a <b>$30M Series A</b>. Six design partners live, $2.4M ARR."</span><b class="mtag strong">Update</b></div>
-              </div>
-            </article>
-            <article class="src" data-at="6" data-d="2026-07-28" data-vt="2026-07-28, Slack, #dealflow">
-              <div class="mock">
-                <div class="mock-title">Slack &middot; 2026-07-28 &middot; #dealflow</div>
-                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span><b>Dev Raman</b>: "They close next week. Want the intro again?"</span><b class="mtag strong">Intro</b></div>
-              </div>
-            </article>
-          </div>
-
-          <div class="led-state">
-            <p class="led-sum" id="led-sum" aria-live="polite"><em>11 true now</em><s>4 retired</s><s>15 on file</s></p>
-            <span class="chg-work" hidden aria-hidden="true"><i>read</i><i>resolve</i><i>write</i></span>
-          </div>
-
-          <div class="led-rows" id="led-rows">
-            <div class="led-inner">
-              <span class="led-cur" id="led-cur" style="left:96%" aria-hidden="true"></span>
-              <div class="lrow ret" data-from="0" data-to="5" data-a="Nov 2024" data-b="Jun 2026">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span><span class="lwhen">Nov 2024 &rarr; Jun 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:5%;width:75%"></i></span>
-              </div>
-              <div class="lrow live" data-from="0" data-to="" data-a="Nov 2024">
-                <p class="lfact"><span class="t"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span><span class="lwhen">since Nov 2024</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:5%;width:91%"></i></span>
-              </div>
-              <div class="lrow live" data-from="0" data-to="" data-a="Nov 2024">
-                <p class="lfact"><span class="t"><b>Marcus</b> owns the <b>Halo Compute</b> conversation.</span><span class="lwhen">since Nov 2024</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:5%;width:91%"></i></span>
-              </div>
-              <div class="lrow live" data-from="1" data-to="" data-a="Nov 2024">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> is two ex-<b>Anthropic</b> infra engineers.</span><span class="lwhen">since Nov 2024</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:13%;width:83%"></i></span>
-              </div>
-              <div class="lrow ret" data-from="1" data-to="5" data-a="Nov 2024" data-b="Jun 2026">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> has <b>no design partners</b> live.</span><span class="lwhen">Nov 2024 &rarr; Jun 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:13%;width:67%"></i></span>
-              </div>
-              <div class="lrow ret" data-from="1" data-to="5" data-a="Nov 2024" data-b="Jun 2026">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> is raising on a <b>$9M pre</b>.</span><span class="lwhen">Nov 2024 &rarr; Jun 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:13%;width:67%"></i></span>
-              </div>
-              <div class="lrow ret" data-from="2" data-to="3" data-a="Dec 2024" data-b="Jan 2025">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> is in <b>diligence</b> with <b>Marcus</b>.</span><span class="lwhen">Dec 2024 &rarr; Jan 2025</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:22%;width:11%"></i></span>
-              </div>
-              <div class="lrow live" data-from="2" data-to="" data-a="Dec 2024">
-                <p class="lfact"><span class="t">Two references on the founding team <b>check out</b>.</span><span class="lwhen">since Dec 2024</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:22%;width:74%"></i></span>
-              </div>
-              <div class="lrow live" data-from="3" data-to="" data-a="Jan 2025">
-                <p class="lfact"><span class="t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span><span class="lwhen">since Jan 2025</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:33%;width:63%"></i></span>
-              </div>
-              <div class="lrow live" data-from="3" data-to="" data-a="Jan 2025">
-                <p class="lfact"><span class="t">The reason: <b>no design partners</b>, and the price.</span><span class="lwhen">since Jan 2025</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:33%;width:63%"></i></span>
-              </div>
-              <div class="lrow live" data-from="4" data-to="" data-a="Jun 2025">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> hired a <b>VP Engineering</b> from Databricks.</span><span class="lwhen">since Jun 2025</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:47%;width:49%"></i></span>
-              </div>
-              <div class="lrow live" data-from="5" data-to="" data-a="Jun 2026">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span><span class="lwhen">since Jun 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:80%;width:16%"></i></span>
-              </div>
-              <div class="lrow live" data-from="5" data-to="" data-a="Jun 2026">
-                <p class="lfact"><span class="t"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span><span class="lwhen">since Jun 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:80%;width:16%"></i></span>
-              </div>
-              <div class="lrow live" data-from="5" data-to="" data-a="Jun 2026">
-                <p class="lfact"><span class="t"><b>Halo Compute</b> is at <b>$2.4M ARR</b>.</span><span class="lwhen">since Jun 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:80%;width:16%"></i></span>
-              </div>
-              <div class="lrow live" data-from="6" data-to="" data-a="Jul 2026">
-                <p class="lfact"><span class="t"><b>Dev Raman</b> can introduce you <b>again this week</b>.</span><span class="lwhen">since Jul 2026</span></p>
-                <span class="lbar" aria-hidden="true"><i style="left:92%;width:4%"></i></span>
-              </div>
-            </div>
-          </div>
-
-          <p class="led-ans" data-at="0" hidden><span class="fmark">fein</span><span>A new inbound. <b>Dev Raman</b> is the warmest path, and <b>Marcus</b> owns the conversation.</span></p>
-          <p class="led-ans" data-at="1" hidden><span class="fmark">fein</span><span>Two engineers, no design partners yet. Every line here is a fact with a date on it.</span></p>
-          <p class="led-ans" data-at="2" hidden><span class="fmark">fein</span><span>In diligence with <b>Marcus</b>. Two references back, both strong.</span></p>
-          <p class="led-ans" data-at="3" hidden><span class="fmark">fein</span><span>You are <b>passing today</b>. The reason goes on the record: no design partners, and the price.</span></p>
-          <p class="led-ans" data-at="4" hidden><span class="fmark">fein</span><span>They hired a <b>VP Engineering</b>. Nobody reopened the file, and fein wrote it down anyway.</span></p>
-          <p class="led-ans" data-at="5" hidden><span class="fmark">fein</span><span>The reason you passed <b>no longer holds</b>. Six design partners are live, and the round is a <b>$30M Series A</b>.</span></p>
-          <p class="led-ans" data-at="6"><span class="fmark">fein</span><span><b>Dev Raman</b> can introduce you again this week. You passed in January 2025, and you can still see exactly why.</span></p>
-
-          <div class="led-foot">
-            <p class="led-note">Each bar is the window a fact was true. Nothing is deleted. The bar just ends.</p>
-            <button type="button" class="chg-replay" id="chg-replay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>Replay</button>
           </div>
         </div>
+
+        <div class="dots" id="dots" role="group" aria-label="Seven moments in one deal">
+          <button type="button" class="dot" data-at="0" aria-label="8 November 2024, Gmail, inbound"><i></i></button>
+          <button type="button" class="dot" data-at="1" aria-label="21 November 2024, Granola, first call"><i></i></button>
+          <button type="button" class="dot" data-at="2" aria-label="12 December 2024, Attio, diligence"><i></i></button>
+          <button type="button" class="dot" data-at="3" aria-label="16 January 2025, Notion, the partner memo where you passed"><i></i></button>
+          <button type="button" class="dot" data-at="4" aria-label="3 June 2025, LinkedIn, team update"><i></i></button>
+          <button type="button" class="dot" data-at="5" aria-label="2 June 2026, Gmail, the founder update"><i></i></button>
+          <button type="button" class="dot on" data-at="6" aria-label="28 July 2026, Slack, the introduction offered again" aria-current="true"><i></i></button>
+        </div>
+
+        <p class="chg-close reveal">Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
       </div>
     </div>
   </section>
@@ -1269,16 +1242,17 @@ __LOGO_SPRITE__
 
   <!-- SECURITY: you control your data -->
   <section id="security" class="band">
-    <div class="wrap">
+    <div class="wrap secgrid">
       <div class="head reveal">
         <span class="eyebrow">Security</span>
         <h2>Your data never leaves your servers.</h2>
         <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
+        <a class="arrowlink sec-cta" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
       <ul class="sec-list" data-reveal-group="90">
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Always self-hosted.</b> It runs on your infrastructure. It sends nothing to us.</span></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Open source, end to end.</b> Every line that touches your data is public. Read it before you run it.</span></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><span><b>Permissioned and logged.</b> fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.</span></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>It runs on your infrastructure. It sends nothing to us.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public. Read it before you run it.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Permissioned and logged.</b><p>fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.</p></div></li>
       </ul>
     </div>
   </section>
@@ -2555,16 +2529,34 @@ __LOGO_SPRITE__
 </script>
 
 <script>
-/* sticky nav: frost on scroll */
+/* sticky nav: the shell rides the scroll for the ribbon's height, then pins;
+   the bar frosts once the ribbon is off the top edge */
 (function(){
   var header=document.querySelector('#view-home header');
   if(!header) return;
+  var shell=document.getElementById('topshell'), ribbon=document.getElementById('ribbon');
   var ticking=false;
-  function update(){ header.classList.toggle('scrolled', window.pageYOffset>8); ticking=false; }
+  function update(){
+    var y=window.pageYOffset;
+    var rh=ribbon&&ribbon.offsetParent!==null?ribbon.offsetHeight:0;
+    if(shell) shell.style.transform=rh?'translateY(-'+Math.min(y,rh)+'px)':'';
+    header.classList.toggle('scrolled', y>rh+8);
+    ticking=false;
+  }
   function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('hashchange', update);
+  window.addEventListener('resize', onScroll, {passive:true});
   update();
+
+  /* dismissing the ribbon collapses --ribbon-h, so the fold's top padding and
+     the shell's travel both fall back to the no-ribbon geometry in one step */
+  var x=document.getElementById('rbclose');
+  if(x) x.addEventListener('click', function(){
+    document.documentElement.classList.add('nobanner');
+    try{ localStorage.setItem('fein.ribbon','off'); }catch(e){}
+    update();
+  });
 })();
 
 /* nav dropdowns: one shared panel that morphs between items */
@@ -2589,7 +2581,11 @@ __LOGO_SPRITE__
     var w=panel.offsetWidth, h=panel.offsetHeight;
     var r=link.getBoundingClientRect(), hr=header.getBoundingClientRect();
     var bar=header.querySelector('.bar'), br=bar?bar.getBoundingClientRect():hr;
-    var minL=Math.max(16, br.left-hr.left+24), maxL=Math.min(hr.width-16, br.right-hr.left-24);
+    /* the panel stops where the wordmark starts, so it reads as one column with
+       the bar. that edge is the bar's own padding, not a constant: it was 24 and
+       is now 32, and hard-coding it left the panel 8px outside the nav's rail */
+    var pad=bar?(parseFloat(getComputedStyle(bar).paddingLeft)||24):24;
+    var minL=Math.max(16, br.left-hr.left+pad), maxL=Math.min(hr.width-16, br.right-hr.left-pad);
     var left=Math.round(r.left-hr.left+r.width/2-w/2);
     left=Math.max(minL, Math.min(left, Math.max(minL, maxL-w)));
     if(first) wrap.classList.add('snap');
@@ -2933,158 +2929,132 @@ __LOGO_SPRITE__
   items.forEach(function(el){ io.observe(el); });
 })();
 
-/* the what-changed ledger: one deal, seven moments, fifteen facts, one axis.
-   Every state the instrument can be in derives from a single integer, the
-   moment the reader is standing on, so the slider, the autoplay and the replay
-   all go through the same apply(). The range input is the only control: it
-   drags, it clicks, it takes arrow keys, and it announces the date it lands on.
-   The markup ships at the last moment, so a browser that runs no script gets a
-   finished, correct ledger with all fifteen facts in it; nothing below creates
-   or destroys a row, it only decides which ones have been written yet. */
+/* what changed: seven moments, one on the screen at a time.
+   Everything derives from one integer, so the dots, the autoplay and the
+   disclosure all go through the same show(). The stage is entirely in the
+   markup at its last moment, and the ledger ships open, so a browser that runs
+   none of this shows a finished, complete state rather than an empty box. */
 (function(){
-  var led=document.getElementById('led');
-  if(!led) return;
-  /* the axis is compressed: five moments fall in the first eight months and
-     then the deal goes quiet for a year, so a true linear axis would pile the
-     first five on top of each other. The quiet stretch is labelled instead. */
-  var TICK=[5,13,22,33,47,80,92];
-  var CUR=TICK.map(function(p){ return Math.min(p+4,97); });
-  var LAST=TICK.length-1;
-  var input=document.getElementById('scrub');
-  var fill=document.getElementById('scrub-fill');
-  var dateEl=document.getElementById('led-date');
-  var rowsEl=document.getElementById('led-rows');
-  var cursor=document.getElementById('led-cur');
-  var sum=document.getElementById('led-sum');
-  var work=led.querySelector('.chg-work');
-  var replay=document.getElementById('chg-replay');
-  var pips=[].slice.call(led.querySelectorAll('.pip'));
-  var labs=[].slice.call(led.querySelectorAll('.slab'));
-  var srcs=[].slice.call(led.querySelectorAll('.src'));
-  var answers=[].slice.call(led.querySelectorAll('.led-ans'));
-  var rows=[].slice.call(led.querySelectorAll('.lrow'));
+  var stage=document.getElementById('chg-stage');
+  if(!stage) return;
+  var dateEl=document.getElementById('st-date');
+  var gapEl=document.getElementById('st-gap');
+  var countEl=document.getElementById('st-count');
+  var more=document.getElementById('st-more');
+  var ledger=document.getElementById('st-ledger');
+  var srcs=[].slice.call(stage.querySelectorAll('.st-src'));
+  var deltas=[].slice.call(stage.querySelectorAll('.dlt'));
+  var answers=[].slice.call(stage.querySelectorAll('.st-ans'));
+  var rows=[].slice.call(stage.querySelectorAll('.st-ledger .lrow'));
+  var dots=[].slice.call(document.querySelectorAll('#dots .dot'));
+  var LAST=deltas.length-1;
+  var DATES=['8 November 2024','21 November 2024','12 December 2024','16 January 2025','3 June 2025','2 June 2026','28 July 2026'];
+  var GAPS=['','','','','','12 months later',''];
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var timers=[], at=LAST, prev=LAST, playing=false;
+  var timers=[], at=LAST, playing=false, open=true;
   function set(ms,fn){ timers.push(setTimeout(fn,ms)); }
-  function stop(){ timers.forEach(clearTimeout); timers=[]; playing=false; }
-  function plural(n,word){ return n+' '+word; }
-  /* the pane only scrolls itself when it has to. On a tall screen all fifteen
-     facts are visible at once and nothing moves; on a phone the pane is not a
-     scroller at all, so this must never steal the page's scroll. Measured in a
-     frame of its own, because at first paint the pane has no height yet. */
-  function follow(row){
-    var go=function(){
-      if(!rowsEl || rowsEl.scrollHeight-rowsEl.clientHeight<=4) return;
-      rowsEl.scrollTop=Math.max(0, row.offsetTop+row.offsetHeight-rowsEl.clientHeight+14);
-    };
-    window.requestAnimationFrame ? requestAnimationFrame(go) : go();
-  }
-  function apply(k,flash){
-    prev=at; at=k;
-    var src=srcs[k];
-    if(input && +input.value!==k) input.value=k;
-    if(input && src) input.setAttribute('aria-valuetext', src.getAttribute('data-vt')||'');
-    if(dateEl && src) dateEl.textContent=src.getAttribute('data-d')||'';
-    if(fill) fill.style.width=TICK[k]+'%';
-    pips.forEach(function(p,i){ p.classList.toggle('on', i<=k); p.classList.toggle('now', i===k); });
-    labs.forEach(function(l,i){ l.classList.toggle('on', i===k); });
-    srcs.forEach(function(s,i){ s.hidden = i!==k; });
-    answers.forEach(function(a,i){ a.hidden = i!==k; });
-    if(cursor) cursor.style.left=CUR[k]+'%';
-    var known=0, retired=0, last=null;
+  function stop(){ timers.forEach(clearTimeout); timers=[]; playing=false;
+    dots.forEach(function(d){ d.classList.remove('run'); if(d.classList.contains('on')) d.classList.add('done'); }); }
+  function show(k){
+    at=k;
+    if(dateEl){
+      dateEl.textContent=DATES[k]||dateEl.textContent;
+      /* restarting a CSS animation needs the class off for a frame */
+      dateEl.classList.remove('turn');
+      void dateEl.offsetWidth;
+      if(!reduce) dateEl.classList.add('turn');
+    }
+    if(gapEl){
+      gapEl.textContent=GAPS[k]||'';
+      gapEl.hidden=!GAPS[k];
+    }
+    srcs.forEach(function(s,i){ s.hidden=i!==k; });
+    answers.forEach(function(a,i){ a.hidden=i!==k; });
+    deltas.forEach(function(d,i){
+      d.hidden=i!==k;
+      [].slice.call(d.querySelectorAll('.d-ret')).forEach(function(li){ li.classList.remove('cut'); });
+    });
+    /* the strike lands after the sentence has, never with it */
+    var cuts=[].slice.call(deltas[k].querySelectorAll('.d-ret'));
+    cuts.forEach(function(li,j){
+      if(reduce){ li.classList.add('cut'); return; }
+      set(560+j*140, function(){ li.classList.add('cut'); });
+    });
+    var on=0, ret=0;
     rows.forEach(function(r){
       var from=+r.getAttribute('data-from');
       var toRaw=r.getAttribute('data-to');
       var to=toRaw===''||toRaw===null?null:+toRaw;
-      var state = from>k ? 'pend' : (to!==null && to<=k ? 'ret' : 'live');
-      var bar=r.querySelector('.lbar i');
-      var when=r.querySelector('.lwhen');
-      /* a running bar ends where the reader stands, so it grows with time; a
-         retired one stops at the moment it was contradicted and stays there */
-      var l=TICK[from], rt = state==='ret' ? TICK[to] : CUR[k];
-      if(bar){ bar.style.left=l+'%'; bar.style.width=Math.max(0,rt-l)+'%'; }
-      if(when) when.innerHTML = state==='ret'
-        ? r.getAttribute('data-a')+' &rarr; '+r.getAttribute('data-b')
-        : 'since '+r.getAttribute('data-a');
-      r.className='lrow '+state;
-      if(state!=='pend'){ known++; last=r; }
-      if(state==='ret') retired++;
-      /* only a step forward writes or retires anything: scrubbing back is the
-         reader moving, not the graph changing, so nothing should flash */
-      if(flash && k>prev){
-        if(from===k) r.classList.add('fl','just');
-        else if(to===k) r.classList.add('flr','just');
-      }
+      var known=from<=k, gone=known && to!==null && to<=k;
+      r.hidden=!known;
+      r.className='lrow '+(gone?'ret':'live');
+      var w=r.querySelector('.d-w');
+      if(w) w.innerHTML = gone ? r.getAttribute('data-a')+' &rarr; '+r.getAttribute('data-b') : 'since '+r.getAttribute('data-a');
+      if(known) on++;
+      if(gone) ret++;
     });
-    if(sum) sum.innerHTML='<em>'+plural(known-retired,'true now')+'</em><s>'+plural(retired,'retired')+'</s><s>'+plural(known,'on file')+'</s>';
-    /* the pane only scrolls itself when it has to: on a tall screen all fifteen
-       facts are visible at once and nothing moves, and on a phone the pane is
-       not a scroller at all, so this must never steal the page's scroll */
-    if(rowsEl && last) follow(last);
-  }
-  function step(k){
-    /* the half second where fein has the source and has not written anything
-       yet: the chips tick, then the ledger changes */
-    srcs.forEach(function(s,i){ s.hidden = i!==k; });
-    if(work){
-      work.hidden=false;
-      if(sum) sum.hidden=true;
-      var chips=[].slice.call(work.querySelectorAll('i'));
-      chips.forEach(function(c){ c.classList.remove('on'); });
-      chips.forEach(function(c,j){ set(j*110, function(){ c.classList.add('on'); }); });
-    }
-    set(work?360:0, function(){ if(work) work.hidden=true; if(sum) sum.hidden=false; apply(k,true); });
-  }
-  function changedAt(k){
-    var n=0;
-    rows.forEach(function(r){
-      var to=r.getAttribute('data-to');
-      if(+r.getAttribute('data-from')===k) n++;
-      else if(to!=='' && +to===k) n++;
+    if(countEl) countEl.innerHTML = ret ? on+' facts on file &middot; '+ret+' retired, kept' : on+' fact'+(on===1?'':'s')+' on file';
+    if(ledger && open) ledger.style.maxHeight=ledger.scrollHeight+'px';
+    dots.forEach(function(d,i){
+      d.classList.toggle('on', i===k);
+      d.classList.remove('run','done');
+      if(i===k){ d.setAttribute('aria-current','true'); } else { d.removeAttribute('aria-current'); }
     });
-    return n;
   }
+  /* a moment that changes four facts is worth longer on screen than one that
+     changes one, and the dot fills for exactly as long as the moment holds */
+  function hold(k){ return 850+280*deltas[k].children.length; }
   function play(){
     stop();
     playing=true;
-    prev=-1; at=-1;
-    rows.forEach(function(r){ r.className='lrow pend'; });
-    var t=120;
+    var t=0;
     for(var k=0;k<=LAST;k++){
-      (function(k){ set(t, function(){
-        step(k);
-        /* the story is over: rewind the pane so the whole ledger, retirements
-           included, is there to read rather than only its last screen */
-        if(k===LAST){ playing=false; set(1500,function(){ if(rowsEl) rowsEl.scrollTop=0; }); }
-      }); })(k);
-      /* a moment that changes six facts is worth longer on screen than one
-         that changes one */
-      t+=620+130*changedAt(k);
+      (function(k,ms){
+        set(t, function(){
+          show(k);
+          var d=dots[k];
+          if(d && !reduce){ d.style.setProperty('--hold', ms+'ms'); d.classList.add('run'); }
+          if(k===LAST) playing=false;
+        });
+      })(k, hold(k));
+      t+=hold(k);
     }
   }
-  if(input){
-    input.addEventListener('input',function(){
-      stop();
-      if(work) work.hidden=true;
-      if(sum) sum.hidden=false;
-      apply(+input.value, true);
-    });
-    /* a keyboard user landing on the slider should not be fighting the autoplay */
-    input.addEventListener('focus',function(){ if(playing){ stop(); apply(at<0?LAST:at,false); } });
+  function setOpen(v){
+    open=v;
+    if(!ledger||!more) return;
+    more.setAttribute('aria-expanded', String(v));
+    if(v){ ledger.classList.remove('shut'); ledger.style.maxHeight=ledger.scrollHeight+'px'; }
+    else { ledger.style.maxHeight=ledger.scrollHeight+'px'; void ledger.offsetWidth; ledger.classList.add('shut'); }
   }
-  pips.forEach(function(pip,i){
-    pip.addEventListener('click',function(){ stop(); apply(i,true); });
+  dots.forEach(function(dot,i){
+    dot.addEventListener('click',function(){ stop(); show(i); });
   });
-  if(replay) replay.addEventListener('click',function(){ reduce ? apply(LAST,false) : play(); });
-  apply(LAST,false);
-  window.addEventListener('load',function(){ if(!playing) apply(at,false); });
+  var group=document.getElementById('dots');
+  if(group) group.addEventListener('keydown',function(e){
+    var d = e.key==='ArrowRight' ? 1 : e.key==='ArrowLeft' ? -1 : 0;
+    if(!d) return;
+    e.preventDefault();
+    stop();
+    var next=Math.min(LAST,Math.max(0,at+d));
+    show(next);
+    dots[next].focus();
+  });
+  if(more) more.addEventListener('click',function(){ setOpen(!open); });
+  show(LAST);
+  /* closed is the resting state once there is a script to reopen it, and the
+     first close is instant: there is no open state for the reader to have seen */
+  if(ledger) ledger.classList.add('noanim');
+  setOpen(false);
+  if(ledger) setTimeout(function(){ ledger.classList.remove('noanim'); },60);
+  window.addEventListener('resize',function(){ if(open&&ledger){ ledger.style.maxHeight='none'; ledger.style.maxHeight=ledger.scrollHeight+'px'; } });
   if(reduce || !('IntersectionObserver' in window)) return;
   var io=new IntersectionObserver(function(entries){
     if(!entries[0].isIntersecting) return;
     io.disconnect();
     play();
-  },{threshold:0.35});
-  io.observe(led);
+  },{threshold:0.4});
+  io.observe(stage);
 })();
 
 /* stat count-up on scroll (preserves prefix/commas/suffix); reduced-motion shows final */
