@@ -2,7 +2,7 @@
 
 > fein is the open-source data layer for a venture capital team. It is the shared memory that the whole firm can query. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then $1,000 each month. It is free if the team runs it.
 
-Updated: 2026-08-10. Full page content in Markdown: https://fein.vc/llms-full.txt
+Updated: 2026-08-11. Full page content in Markdown: https://fein.vc/llms-full.txt
 
 ## What fein does
 - Find the warmest introduction to a founder, an LP, or an operator. See who should make it.
