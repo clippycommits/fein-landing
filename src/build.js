@@ -315,8 +315,6 @@ fein reads the record your team already makes. It resolves that record into one 
 2. Resolves it into one identity per person, not a hundred duplicates: fein resolves every copy of a contact into one identity. It scores the strength from real signals (meetings, replies, and shared documents), not an LLM guess.
 3. Answers wherever your team asks: ask in Claude, ChatGPT, Gemini, or Cursor over one MCP endpoint. You get the same answer every time, with the email behind it.
 
-The same question gives the same answer, for every person and every tool. It does not depend on who is in the room.
-
 ## What you get: four questions your team asks every week
 
 The warm introduction. The brief before the meeting. The reason you passed. The relationship that goes quiet. fein answers each one from your team's history, in seconds.

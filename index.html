@@ -432,9 +432,6 @@
   .why3 .wstep{display:block;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
-  .dfoot{display:flex;align-items:baseline;justify-content:space-between;gap:clamp(1.5rem,4vw,3rem);margin-top:clamp(2.2rem,4.5vw,3.2rem);padding-top:clamp(1.3rem,2.5vw,1.8rem);border-top:1px solid var(--line)}
-  .dclose{max-width:44rem;font-size:clamp(1.12rem,2vw,1.38rem);line-height:1.35;letter-spacing:-.022em;color:var(--fg);text-wrap:balance}
-  .dfoot .arrowlink{flex:none;font-size:.95rem}
   .sec-list .tick{flex:none;width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
   .sec-list b{color:#fff;font-weight:550}
   .code-card{position:relative;background:#0a0a0c;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
@@ -497,7 +494,6 @@
   .stage-why3 .wcard.dim h3{color:#7e828a}
   .stage-why3 .wcard.dim p{color:#55585f}
   .stage-why3 .wcard.dim .wstep{color:#45484e}
-  .stagesec .dfoot{margin-top:0;padding:clamp(1.3rem,2.5vw,1.8rem) 0 clamp(3rem,6vw,4.5rem)}
   /* opacity:0 until the loop places them: an untransformed drift element sits
      stacked in the frame's top-left corner, which used to flash on first paint */
   .drift{position:absolute;left:0;top:0;opacity:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
@@ -770,7 +766,6 @@
     .feat:nth-child(even) .feat-copy{order:0}
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
-    .dfoot{flex-direction:column;align-items:flex-start;gap:1.2rem}
     .tiers{grid-template-columns:1fr;gap:1.4rem}
     .sec-list{grid-template-columns:repeat(2,1fr);gap:1.4rem}
     .head .lead{font-size:1.06rem}
@@ -1262,12 +1257,6 @@ setTimeout(go,1200);})()</script>
           <div class="wcard reveal" data-zone="2"><span class="wstep">02 · Resolves</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
           <div class="wcard reveal" data-zone="3"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
         </div>
-      </div>
-    </div>
-    <div class="wrap">
-      <div class="dfoot reveal">
-        <p class="dclose">The same question gives the same answer, for every person and every tool. It does not depend on who is in the room.</p>
-        <a class="arrowlink" href="#features">See what your team can ask <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
     </div>
   </section>
