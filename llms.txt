@@ -1,31 +1,31 @@
 # fein
 
-> fein is the open-source data layer for a venture capital team, the shared memory the whole firm can query. It reads the team's email, calendar, notes, and CRM, resolves them into one entity-resolved graph of every relationship the firm holds (who knows whom, and how strongly, scored from real signals, never guessed), and serves it to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Answers arrive with the source attached: warm intros, meeting prep, deal history, and why the team passed. Instead of scraping documents and guessing, agents traverse a deterministic map. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.
+> fein is the open-source data layer for a venture capital team. It is the shared memory that the whole firm can query. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then $1,000 each month. It is free if the team runs it.
 
-Updated: 2026-08-09. Full page content in Markdown: https://fein.vc/llms-full.txt
+Updated: 2026-08-10. Full page content in Markdown: https://fein.vc/llms-full.txt
 
 ## What fein does
-- Find the warmest introduction to any founder, LP, or operator, and who should make it.
-- Prepare for meetings: who is in the room, how you know them, what you last discussed.
-- Recall every company the team has seen, and exactly why it passed.
-- Flag relationships going cold, judged by each contact's own cadence.
+- Find the warmest introduction to a founder, an LP, or an operator. See who should make it.
+- Prepare for meetings. See who is in the room, how you know them, and what you last discussed.
+- Recall every company the team saw, and the exact reason it passed.
+- Flag relationships that go cold, by each contact's own cadence.
 
 ## How it works
-- fein reads your existing systems (email, calendar, Google Drive, LinkedIn, CRMs like Attio and Affinity) and builds a relationship graph automatically, with no CRM to keep updated by hand.
-- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
-- We deploy it into your stack: live in 14 days, two short calls from your team.
+- fein reads your existing systems: email, calendar, Google Drive, LinkedIn, and CRMs like Attio and Affinity. It builds a relationship graph automatically. You keep no CRM up to date by hand.
+- It serves answers over one MCP endpoint. You query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
+- We deploy it into your stack. It is live in 14 days. Your team joins two short calls.
 
 ## Pricing
-- $5,000 one-time build.
-- $1,000 per month maintenance (connectors kept working, graph kept current, new answers built on request).
+- $5,000 to build once.
+- $1,000 each month for maintenance. We keep the connectors working, keep the graph current, and build new answers on request.
 - About $17,000 in the first year.
-- Month to month, no lock-in: cancel and the self-hosted software and graph remain yours.
+- It is month to month, with no lock-in. If you cancel, the self-hosted software and the graph stay yours.
 
 ## Security and data
-- Self-hosted in the team's own environment; data never leaves it.
-- Open source and auditable end to end: teams can clone the repo and run fein themselves; the paid offer is setup and upkeep.
-- Per-person access, enforced on every query.
-- Every query logged, tied to a person.
+- It is self-hosted in the team's own environment. Data never leaves it.
+- It is open source and auditable from end to end. A team can clone the repo and run fein. The paid offer is setup and upkeep.
+- Access is per person. fein enforces it on every query.
+- fein logs every query and ties it to a person.
 
 ## Contact
 - [Get started](https://fein.vc/#get-started): talk to sales about a 14 day build

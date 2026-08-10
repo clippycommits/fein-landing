@@ -5,9 +5,9 @@ const SITE = "https://fein.vc";
 const TITLE = "fein · the shared memory of a venture capital team";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD,
 // synced to the live hero + lede; both obey the copy rules (no em dashes, no "fund").
-const DESC = "The open-source data layer for venture capital teams. It reads your email, calendar, and CRM, resolves them into one graph, and answers in Claude, ChatGPT, and Cursor.";
-const DESC_LONG = "The shared memory of a venture capital team. fein is the open-source data layer for investment teams: it reads your email, calendar, notes, and CRM, resolves them into one live graph of every relationship your firm holds, and answers inside Claude, ChatGPT, and Cursor, with the source behind every answer. The warm intro, the meeting brief, the reason you passed, from your team's own history in seconds. Self-hosted, open source, live in 14 days.";
-const LASTMOD = "2026-08-09";
+const DESC = "The open-source data layer for venture capital teams. It reads your email, calendar, and CRM. It resolves them into one graph. It answers in Claude, ChatGPT, and Cursor.";
+const DESC_LONG = "The shared memory of a venture capital team. fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. It gives the warm introduction, the meeting brief, and the reason you passed, from your team's history in seconds. It is self-hosted and open source. It is live in 14 days.";
+const LASTMOD = "2026-08-10";
 
 const sansB64 = fs.readFileSync("GeistSans.woff2").toString("base64");
 const monoB64 = fs.readFileSync("GeistMono.woff2").toString("base64");
@@ -56,24 +56,24 @@ const rest = body.slice(sEnd);
 
 // ---- FAQ (mirrors the visible section) ----
 const faqs = [
-  ["What exactly is fein?", "An open-source data layer for your firm's relationships. It reads your email, calendar, notes, and CRM, resolves them into one graph, and serves answers over MCP inside Claude, ChatGPT, and Cursor. Not a CRM you feed; a layer that maintains itself."],
-  ["How is this different from Affinity or Attio?", "A CRM is a database your team fills in by hand. fein reads your CRM and everything around it, resolves it into one graph that stays current on its own, and answers where your team already works. It sits on top of the CRM, and asks for no new data entry."],
-  ["What does it cost?", "$5,000 once, then $1,000 a month. About $17,000 in year one, no per-seat pricing."],
-  ["Can't we build this ourselves?", "Yes. It's open source, so clone away. The monthly buys the engineer who keeps it alive, so yours can build on top of it instead."],
-  ["What happens if we cancel?", "Nothing stops. It runs on your servers, so the graph, the connectors, and every answer stay yours."],
-  ["How long does setup take?", "Fourteen days, and the date is a commitment. Your part is two short calls; we do everything in between."],
-  ["Is our data safe?", "It never leaves your infrastructure, access is checked per person, and every line of code is open to audit."],
-  ["What does it connect to?", "Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers land in Claude, ChatGPT, Gemini, and Cursor, and new connectors ship regularly."]
+  ["What exactly is fein?", "fein is an open-source data layer for your firm's relationships. It reads your email, calendar, notes, and CRM. It resolves them into one graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
+  ["How is this different from Affinity or Attio?", "A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."],
+  ["What does it cost?", "It costs $5,000 once, then $1,000 each month. This is about $17,000 in the first year. There is no per-seat pricing."],
+  ["Can't we build this ourselves?", "Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it."],
+  ["What happens if we cancel?", "Nothing stops. It runs on your servers. The graph, the connectors, and every answer stay yours."],
+  ["How long does setup take?", "Fourteen days. The date is a commitment. Your part is two short calls. We do everything between them."],
+  ["Is our data safe?", "Your data never leaves your infrastructure. fein checks access for each person. Every line of code is open to audit."],
+  ["What does it connect to?", "It connects to Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola. Answers appear in Claude, ChatGPT, Gemini, and Cursor. We add new connectors often."]
 ];
 
 // feature list mirrors the visible #features + #how copy; AI answer engines read this verbatim
 const FEATURES = [
-  "Warm introduction paths: a weighted shortest path to any founder, LP, or operator, and the person best placed to make the introduction",
-  "Meeting briefs: attendees, how you know each of them, and what was left open, assembled from your calendar and inbox before you sit down",
-  "Deal memory: every company seen, the memo, and exactly why you passed, each line traced to its source document",
-  "Cadence alerts: relationships drifting from their own learned rhythm, flagged before they go cold",
-  "Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals rather than an LLM guess",
-  "One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal instead of document scraping"
+  "Warm introduction paths: the weighted shortest path to a founder, an LP, or an operator, and the best person to make the introduction",
+  "Meeting briefs: the attendees, how you know each of them, and what was open, from your calendar and inbox, before the meeting starts",
+  "Deal memory: every company you saw, the memo, and the exact reason you passed, with each line traced to its source document",
+  "Cadence alerts: relationships that drift from their learned rhythm, flagged before they go cold",
+  "Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals, not an LLM guess",
+  "One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"
 ];
 
 const ld = {
@@ -253,7 +253,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the open-source data layer for a venture capital team, the shared memory the whole firm can query. It reads the team's email, calendar, notes, and CRM, resolves them into one entity-resolved graph of every relationship the firm holds (who knows whom, and how strongly, scored from real signals, never guessed), and serves it to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Answers arrive with the source attached: warm intros, meeting prep, deal history, and why the team passed. Instead of scraping documents and guessing, agents traverse a deterministic map. Live in 14 days, self-hosted on the team's own infrastructure, open source. Pricing: $5,000 one-time build + $1,000 per month, or free if the team runs it themselves.`;
+const LLMS_SUMMARY = `> fein is the open-source data layer for a venture capital team. It is the shared memory that the whole firm can query. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then $1,000 each month. It is free if the team runs it.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -261,27 +261,27 @@ ${LLMS_SUMMARY}
 Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 
 ## What fein does
-- Find the warmest introduction to any founder, LP, or operator, and who should make it.
-- Prepare for meetings: who is in the room, how you know them, what you last discussed.
-- Recall every company the team has seen, and exactly why it passed.
-- Flag relationships going cold, judged by each contact's own cadence.
+- Find the warmest introduction to a founder, an LP, or an operator. See who should make it.
+- Prepare for meetings. See who is in the room, how you know them, and what you last discussed.
+- Recall every company the team saw, and the exact reason it passed.
+- Flag relationships that go cold, by each contact's own cadence.
 
 ## How it works
-- fein reads your existing systems (email, calendar, Google Drive, LinkedIn, CRMs like Attio and Affinity) and builds a relationship graph automatically, with no CRM to keep updated by hand.
-- It serves answers over a single MCP endpoint, so you query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
-- We deploy it into your stack: live in 14 days, two short calls from your team.
+- fein reads your existing systems: email, calendar, Google Drive, LinkedIn, and CRMs like Attio and Affinity. It builds a relationship graph automatically. You keep no CRM up to date by hand.
+- It serves answers over one MCP endpoint. You query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
+- We deploy it into your stack. It is live in 14 days. Your team joins two short calls.
 
 ## Pricing
-- $5,000 one-time build.
-- $1,000 per month maintenance (connectors kept working, graph kept current, new answers built on request).
+- $5,000 to build once.
+- $1,000 each month for maintenance. We keep the connectors working, keep the graph current, and build new answers on request.
 - About $17,000 in the first year.
-- Month to month, no lock-in: cancel and the self-hosted software and graph remain yours.
+- It is month to month, with no lock-in. If you cancel, the self-hosted software and the graph stay yours.
 
 ## Security and data
-- Self-hosted in the team's own environment; data never leaves it.
-- Open source and auditable end to end: teams can clone the repo and run fein themselves; the paid offer is setup and upkeep.
-- Per-person access, enforced on every query.
-- Every query logged, tied to a person.
+- It is self-hosted in the team's own environment. Data never leaves it.
+- It is open source and auditable from end to end. A team can clone the repo and run fein. The paid offer is setup and upkeep.
+- Access is per person. fein enforces it on every query.
+- fein logs every query and ties it to a person.
 
 ## Contact
 - [Get started](${SITE}/#get-started): talk to sales about a 14 day build
@@ -303,57 +303,57 @@ Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assis
 
 ## What fein is
 
-The shared memory of a venture capital team. fein is the open-source data layer for investment teams: it reads your email, calendar, notes, and CRM, resolves them into one live graph of every relationship your firm holds, and answers inside Claude, ChatGPT, and Cursor, with the source behind every answer. No new CRM, and nobody logging a thing. Self-hosted, open source, live in 14 days.
+The shared memory of a venture capital team. fein is the open-source data layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing. It is self-hosted and open source. It is live in 14 days.
 
-## The problem: the answer is always in someone else's inbox
+## The problem: the answer is always in another person's inbox
 
-Who introduced you, why you passed, what was left open on the last call. It all happened, and it was all written down, one inbox at a time. A CRM was supposed to catch it, but it asks the busiest people on the team to retype what they already know, so it never stays current. Now your AI tools inherit the same blind spot: with no map of your world, they scrape what they can reach and guess at the rest.
+Who introduced you. Why you passed. What was open on the last call. Your team wrote all of it down, one inbox at a time. A CRM must capture this. But it asks your busiest people to retype what they know. So it never stays current. Your AI tools have the same problem. They have no map of your world. They read what they can reach. They guess at the rest.
 
-fein takes the other path. It stops asking anyone to enter data and reads the record your team is already producing. Then it hands your AI a map instead of a guess: who exists, who knows whom, and how well, with the evidence behind every connection.
+fein is different. It does not ask anyone to enter data. It reads the record your team already makes. Then it gives your AI a map, not a guess. The map shows who exists, who knows whom, and how well. It shows the evidence for each connection.
 
-1. Reads everything your team already runs: inbox, calendar, Drive, LinkedIn, and your CRM, read continuously. Nobody logs anything.
-2. Resolves it into one identity per person, not a hundred duplicates: every version of a contact across your tools resolves to a single identity, its strength scored from real signals (meetings, replies, shared docs), never from an LLM's guess.
-3. Answers wherever your team asks: ask in Claude, ChatGPT, Gemini, or Cursor over one MCP endpoint and get the same answer every time, with the email behind it.
+1. Reads everything your team already uses: your inbox, calendar, Drive, LinkedIn, and CRM, read continuously. Your team logs nothing.
+2. Resolves it into one identity per person, not a hundred duplicates: fein resolves every copy of a contact into one identity. It scores the strength from real signals (meetings, replies, and shared documents), not an LLM guess.
+3. Answers wherever your team asks: ask in Claude, ChatGPT, Gemini, or Cursor over one MCP endpoint. You get the same answer every time, with the email behind it.
 
-Same question, same answer, whoever asks and whichever tool they ask in. It stops depending on who is in the room.
+The same question gives the same answer. This is true for each person and each tool. The answer does not depend on who is in the room.
 
 ## What you get: four questions your team asks every week
 
-The warm intro, the brief before the meeting, the reason you passed, the relationship going quiet. Answered from your team's own history, in seconds.
+The warm introduction. The brief before the meeting. The reason you passed. The relationship that goes quiet. fein answers each one from your team's history, in seconds.
 
-### That intro you need? Your team already has it.
-Ask for the warmest path to any founder or LP. fein walks the real graph of who meets and emails whom, weighs every hop, and names the person best placed to make the introduction, not just the one who happens to know them.
+### Your team already has the introduction you need.
+Ask for the warmest path to a founder or an LP. fein reads the real graph of who meets and emails whom. It weighs each hop. It names the best person to make the introduction. This is not only the person who knows them.
 
-### Walk in briefed. Every meeting.
-Attendees, how you know each of them, and what was left open, pulled from your calendar and inbox and on your screen before you sit down.
+### Get a brief before each meeting.
+fein shows the attendees, how you know each of them, and what was open. It gets this from your calendar and inbox. It is on your screen before the meeting starts.
 
-### Why did we pass? One question.
-When a company comes back for its next round, the meeting, the memo, and the exact reason are back in seconds, each line traced to the document it came from.
+### Ask one question to see why you passed.
+A company can come back for its next round. Then fein shows the meeting, the memo, and the exact reason in seconds. It traces each line to its source document.
 
-### Relationships go cold. fein notices first.
-It learns each relationship's own rhythm from your real history, then flags the ones drifting off it. All dates and intervals, not a hunch.
+### Relationships go cold. fein sees it first.
+fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.
 
 ## Built for agents: give your AI a map, not a guess
 
-Point an assistant at raw documents and it fetches the wrong ones and misses what it never saw. fein answers over a single MCP endpoint with structured graph traversal instead: who exists, who knows whom, how strongly, and the evidence behind every hop. Connect it once, then ask from Claude, ChatGPT, Gemini, or Cursor, with nothing new to learn.
+Point an AI tool at raw documents. It gets the wrong ones. It misses what it did not see. fein is different. It answers over one MCP endpoint. It uses structured graph traversal. It shows who exists, who knows whom, and how strongly. It shows the evidence for each hop. Connect it once. Then ask from Claude, ChatGPT, Gemini, or Cursor. There is nothing new to learn.
 
-Reads from: Gmail, Google Calendar, Google Drive, LinkedIn, Attio, Affinity, and Granola. Answers in: Claude, ChatGPT, Gemini, and Cursor. New connectors ship regularly.
+Reads from: Gmail, Google Calendar, Google Drive, LinkedIn, Attio, Affinity, and Granola. Answers in: Claude, ChatGPT, Gemini, and Cursor. We add new connectors often.
 
 ## Security
 
-Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its job. It does that inside your walls, in code you can read.
+Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.
 
-- Self-hosted, always. It runs on your infrastructure. Nothing is sent to us, ever.
-- Open source, end to end. Every line that touches your data is public. Read it before you run it.
-- Permissioned and logged. Access is checked per person on every query, and every query is logged. When LPs ask, you show the trail.
+- Always self-hosted. It runs on your infrastructure. It sends nothing to us.
+- Open source, from end to end. Every line that touches your data is public. Read it before you run it.
+- Permissioned and logged. fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.
 
-## The fortnight: deployed in two weeks
+## The fortnight: we deploy fein in two weeks
 
-We deploy fein into your stack over the fortnight, your only part is two short calls, and by day fourteen it already holds your team's whole history, going back years.
+We deploy fein into your stack over two weeks. Your only part is two short calls. By day fourteen, fein holds your team's full history, back through many years.
 
-- Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM, on your own servers.
-- Days 2-13, it reads your whole history: it reads years of email, meetings, and documents, and joins every version of each person into one record the whole team shares and nobody maintains.
-- Day 14, you verify, then it goes live: on a second short call you check the answers against what you already know, and it goes live holding your team's whole history, like a colleague who has been here for years.
+- Day 1, we connect your systems: on the first call, we connect your email, calendar, Drive, LinkedIn, and CRM. This runs on your own servers.
+- Days 2-13, it reads your full history: it reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.
+- Day 14, you check it, then it goes live: on a second short call, you check the answers against what you know. Then fein goes live. It holds your team's full history, like a colleague of many years.
 
 ## Pricing
 
@@ -361,13 +361,13 @@ Every venture capital team needs a data engineer. Now every team can afford one.
 
 | Option | Price | What you get |
 | --- | --- | --- |
-| A data hire | $200,000 per year | Brilliant, but one pair of hands. The graph lives in their head. |
-| fein | $5,000 once + $1,000 per month | The graph, built and kept alive for you. Live in 14 days. |
-| Clone it yourself | $0 forever | The same code we deploy for clients. You run it, you maintain it. |
+| A data hire | $200,000 per year | Skilled, but one person. The graph stays in their head. |
+| fein | $5,000 once + $1,000 per month | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
+| Clone it yourself | $0 forever | The same code we deploy for clients. You run it and you maintain it. |
 
-The fein plan: reads inbox, calendar, Drive, LinkedIn, and your CRM; entity resolution, one identity per person; every relationship scored from real signals, never guessed; answers over one MCP endpoint in Claude, ChatGPT, Gemini, Cursor; open source, on your servers; connectors kept alive through every API change; new answers built as your team asks; no per-seat pricing.
+The fein plan reads your inbox, calendar, Drive, LinkedIn, and CRM. It resolves entities to one identity per person. It scores every relationship from real signals, not a guess. It answers over one MCP endpoint in Claude, ChatGPT, Gemini, and Cursor. It is open source and runs on your servers. We keep the connectors working through every API change. We build new answers when your team asks. There is no per-seat pricing.
 
-About $17,000 in year one, less than one month of a data hire. Month to month, open source, self-hosted: cancel and everything keeps running.
+This is about $17,000 in the first year. It is less than one month of a data hire. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
 
 ## FAQ
 
