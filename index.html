@@ -205,10 +205,11 @@
      is left of the row is a hairline and a grey line of type; hover lifts the
      sentence to white, which is where the only reward for looking belongs.
      opaque, not transparent: the shell is fixed and the hero scrolls under it. */
-  /* type metrics are the reference bar's, measured off it: 13px on a 20px line,
-     -.16px tracking, 6px from the sentence to the arrow, in a 48px row. ours was
-     already 48 and already black, so the row only needed its text block. */
-  .ribbon{position:relative;height:var(--ribbon-h);display:flex;align-items:center;justify-content:center;padding:0 52px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--font);font-size:13px;line-height:20px;overflow:hidden}
+  /* spacing is the reference bar's, measured off it: 20px line, -.16px tracking,
+     6px from the sentence to the arrow, in a 48px row on black. the size is not:
+     13px read too small once it was also grey, so the sentence keeps its 14px
+     and the step below the 15px nav links is carried by weight and colour. */
+  .ribbon{position:relative;height:var(--ribbon-h);display:flex;align-items:center;justify-content:center;padding:0 52px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--font);font-size:14px;line-height:20px;overflow:hidden}
   .rb-msg{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--fg-2);font-weight:450;transition:color .18s ease}
   .rb-msg:hover{color:#fff}
   .rb-txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.16px}
@@ -586,7 +587,7 @@
      gates carry different labels because they are different things: fein
      reaches out with your keys, agents reach in with the deployment token. */
   .sd-gate{display:grid;justify-items:center;gap:.5rem;width:clamp(54px,7vw,96px)}
-  .sd-arw{display:block;width:100%;height:10px;color:var(--g-edge)}
+  .sd-arw{display:block;width:44px;height:10px;color:var(--g-edge)}
   .sd-key{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);border:1px solid rgba(82,168,255,.32);background:rgba(0,112,243,.1);border-radius:9999px;padding:.24rem .48rem;white-space:nowrap}
   .sd-key svg{width:9px;height:9px;display:block}
 
@@ -851,7 +852,7 @@
     .sd-chips,.sd-out .sd-chips{justify-content:center}
     .sd-note,.sd-out .sd-note{max-width:44ch;margin-inline:auto}
     .sd-gate{width:auto}
-    .sd-arw{width:44px;margin:17px 0}
+    .sd-arw{width:44px;transform:rotate(90deg);margin:17px 0}
     .sd-box{width:100%}
     .sd-foot{justify-content:center;text-align:center}
     /* three control cards no longer fit a measure; two do */
@@ -870,7 +871,8 @@
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
     .bar .right .btn-ghost{display:none}
     .faq-grid{grid-template-columns:1fr;gap:2.4rem}
-    .secgrid{grid-template-columns:1fr;gap:2.4rem}
+    .sec-top,.sec-limits{grid-template-columns:1fr;gap:1.8rem}
+    .sec-top .head h2{max-width:18ch}
     .faq-intro{position:static}
   }
 
@@ -913,6 +915,18 @@
     .why3 p{max-width:52ch}
     .tiers{grid-template-columns:1fr;gap:1.4rem}
     .head .lead{font-size:1.06rem}
+    .sec-cards{grid-template-columns:1fr}
+    /* the egress ledger is four columns of prose: on a phone each row becomes
+       its own block and the column headings move onto the cells they label */
+    .sec-tbl,.sec-tbl tbody,.sec-tbl tr,.sec-tbl td{display:block;width:100%}
+    .sec-tbl thead{display:none}
+    .sec-tbl tr{padding:1.15rem 0;border-top:1px solid var(--line)}
+    .sec-tbl tbody tr:first-child{border-top:0;padding-top:0}
+    .sec-tbl td,.sec-tbl tbody tr:first-child td{border:0;padding:0 0 .5rem}
+    .sec-tbl td:last-child{padding-bottom:0}
+    .sec-tbl td:not(:first-child)::before{content:attr(data-l);display:block;margin-bottom:.1rem;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+    .sec-tbl .home td{background:none}
+    .sec-tbl .home{border-left:2px solid rgba(82,168,255,.45);padding-left:.9rem}
   }
 
   @media (max-width:640px){
@@ -1436,20 +1450,220 @@ setTimeout(go,1200);})()</script>
 
   </section>
 
-  <!-- SECURITY: you control your data -->
-  <section id="security" class="band">
-    <div class="wrap secgrid">
-      <div class="head reveal">
-        <span class="eyebrow">Security</span>
-        <h2>Your data never leaves your servers.</h2>
-        <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
-        <a class="arrowlink sec-cta" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+  <!-- SECURITY: the whole boundary, at full height.
+       This section used to be a claim and three hairline rows. Every fund that
+       gets far enough to like fein then asks the same question, and it is not
+       "is it secure", it is "where exactly does my inbox go". So the section
+       answers that literally: a figure that draws the boundary and both
+       crossings, six cards for the controls behind it, a ledger of every
+       outbound call the software can make, and the limits stated in the same
+       voice as the claims. The last block is deliberate: a security page that
+       only claims is a security page no technical buyer believes. -->
+  <section id="security" class="band secsec">
+    <div class="wrap sec-stage">
+
+      <div class="sec-top">
+        <div class="head reveal">
+          <span class="eyebrow">Security</span>
+          <h2>Your data never leaves your servers.</h2>
+        </div>
+        <div class="sec-intro reveal">
+          <p>fein reads your inbox, your calendar, and your CRM to do its work. All of that happens inside your own network, on a machine you control, behind a token you hold. Every line of code that touches the data is public, so you can read it before you run it.</p>
+          <div class="sec-links">
+            <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+            <a class="arrowlink" href="https://github.com/clippycommits/fein/blob/main/SECURITY.md" target="_blank" rel="noopener">Read the security model <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          </div>
+        </div>
       </div>
-      <ul class="sec-list" data-reveal-group="90">
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>It runs on your infrastructure. It sends nothing to us.</p></div></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public. Read it before you run it.</p></div></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Permissioned and logged.</b><p>fein checks access for each person on every query. It logs every query. When LPs ask, you show the record.</p></div></li>
+
+      <ul class="sec-posture" data-reveal-group="55">
+        <li class="reveal"><i aria-hidden="true"></i>Self-hosted only</li>
+        <li class="reveal"><i aria-hidden="true"></i>MIT licensed</li>
+        <li class="reveal"><i aria-hidden="true"></i>No telemetry</li>
+        <li class="reveal"><i aria-hidden="true"></i>Fails closed</li>
+        <li class="reveal"><i aria-hidden="true"></i>Token gated</li>
+        <li class="reveal"><i aria-hidden="true"></i>Per person layers</li>
+        <li class="reveal"><i aria-hidden="true"></i>Append only audit</li>
+        <li class="reveal"><i aria-hidden="true"></i>14 test suites</li>
       </ul>
+
+      <figure class="sec-fig reveal">
+        <div class="sd-col">
+          <span class="sd-lab">Your systems</span>
+          <ul class="sd-chips">
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gdrive"/></svg>Drive</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg>Attio</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn</li>
+          </ul>
+          <p class="sd-note">Read with your own credentials, or from an export with no live connection at all.</p>
+        </div>
+
+        <div class="sd-gate">
+          <svg class="sd-arw" viewBox="0 0 44 10" fill="none" aria-hidden="true"><path d="M0 5H36.5" stroke="currentColor" stroke-dasharray="2 3"/><path d="M32.6 1.5L36.9 5L32.6 8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="sd-key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="11" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Your keys</span>
+        </div>
+
+        <div class="sd-box">
+          <div class="sd-btop"><i aria-hidden="true"></i>Your server<span>127.0.0.1:4321</span></div>
+          <div class="sd-lay"><em>01</em><b>Ingest</b><p>Mailbox, calendar, and CSV exports, plus the live connectors you switch on. Bodies are stored locally, or never captured at all.</p></div>
+          <div class="sd-lay"><em>02</em><b>Graph</b><p>Entities, edges, provenance, and the audit trail. Embedded Postgres, or your own. One volume that you back up and you restore.</p></div>
+          <div class="sd-lay"><em>03</em><b>Serve</b><p>The dashboard, the REST API at <code>/api/v1</code>, and the MCP endpoint at <code>/mcp</code>. One process, one gate, one set of privacy rules.</p></div>
+          <div class="sd-bfoot">Binds loopback by default. Asked to bind a public interface <b>without a token, it refuses to start.</b></div>
+        </div>
+
+        <div class="sd-gate">
+          <svg class="sd-arw" viewBox="0 0 44 10" fill="none" aria-hidden="true"><path d="M0 5H36.5" stroke="currentColor" stroke-dasharray="2 3"/><path d="M32.6 1.5L36.9 5L32.6 8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="sd-key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="11" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Bearer token</span>
+        </div>
+
+        <div class="sd-col sd-out">
+          <span class="sd-lab">Your agents</span>
+          <ul class="sd-chips">
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>Claude</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>ChatGPT</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Cursor</li>
+            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gemini"/></svg>Gemini</li>
+          </ul>
+          <p class="sd-note">One MCP endpoint, scoped to the person asking, named in the audit trail.</p>
+        </div>
+
+        <figcaption class="sd-foot"><span><b>Nothing in this picture points at us.</b> fein has no control plane, no account, and no phone home.</span></figcaption>
+      </figure>
+
+      <div class="sec-cards reveal">
+        <article class="sec-card spot">
+          <span class="scn">01</span>
+          <h3>Deployment</h3>
+          <ul>
+            <li><b>One container, one volume, one token.</b> A single environment variable is the whole production deploy. There is no control plane to trust and no account to create.</li>
+            <li><b>It binds <code>127.0.0.1</code> by default.</b> Told to bind a public interface without a token, it refuses to start rather than publish your graph. That is a hard stop, not a warning.</li>
+            <li><b>TLS is your reverse proxy.</b> Put Caddy or nginx in front on your own hostname. The certificate, the domain, and the logs stay yours.</li>
+            <li><b>Rotate by restart.</b> Change the token and bring it back up. Every browser session and every agent config stops working in the same instant.</li>
+            <li><b>Backups are a file you hold.</b> Snapshot the volume or run <code>pg_dump</code>. Nobody has to give you your data back, because nobody else ever had it.</li>
+          </ul>
+        </article>
+
+        <article class="sec-card spot">
+          <span class="scn">02</span>
+          <h3>Access control</h3>
+          <ul>
+            <li><b>One gate on every surface.</b> The dashboard, the REST API, and the MCP endpoint all sit behind the same token. Only the health and version routes answer without it.</li>
+            <li><b>Timing safe, and not an oracle.</b> Tokens are compared as digests in constant time, and the sign in page answers a wrong token exactly as it answers no token at all.</li>
+            <li><b>Sessions are <code>HttpOnly</code> and <code>SameSite=Lax</code>.</b> Behind TLS the cookie is marked <code>Secure</code> as well. Agents send an <code>Authorization: Bearer</code> header instead.</li>
+            <li><b>Hardened against your own network.</b> Writes require a same origin and Host headers are validated, so a hostile page in a browser tab cannot reach a loopback install by DNS rebinding.</li>
+            <li><b>Locked down on the way out.</b> Every response carries a strict CSP, <code>nosniff</code>, <code>no-referrer</code>, and <code>no-store</code>. Errors never return a stack trace.</li>
+          </ul>
+        </article>
+
+        <article class="sec-card spot">
+          <span class="scn">03</span>
+          <h3>Privacy layers</h3>
+          <ul>
+            <li><b>Your inbox stays yours.</b> Each person connects their own sensitive sources into a private layer that lives inside the shared graph, not beside it.</li>
+            <li><b>Evidence is private. Existence is shared.</b> A colleague learns that a route to someone exists, which hop is locked, and who to ask. They do not see your documents, your signals, or the strength of that hop.</li>
+            <li><b>Redaction is uniform.</b> A private hop comes back as <code>(private contact)</code> with no id, on the dashboard, the API, and MCP alike. Another person's brief shows a withheld count and nothing more.</li>
+            <li><b>A name can be the secret.</b> Someone who appears only inside one private layer is hidden outright, because "Project Nightjar" gives the deal away on its own. Sharing those names is an explicit setting, never a default.</li>
+            <li><b>Enforced server side, and probed on every change.</b> Scoping runs inside every query. A leak probe stuffs markers into a private layer and greps every endpoint's response as a different person.</li>
+          </ul>
+        </article>
+
+        <article class="sec-card spot">
+          <span class="scn">04</span>
+          <h3>Audit and provenance</h3>
+          <ul>
+            <li><b>An append only trail.</b> Every ingest, sync, merge, unmerge, review decision, settings change, and rebuild is written down with its actor and its time.</li>
+            <li><b>Agents are named in it.</b> The actor is a person's display name, <code>scheduler</code> for an automated sync, or <code>agent:name</code> for an MCP caller. Names stay readable after someone leaves the firm.</li>
+            <li><b>Every fact keeps its source.</b> Each mention carries where it came from, how confident the match was, and the verbatim text it was cut from. Any answer can be asked for its receipts.</li>
+            <li><b>Identity is never merged on a guess.</b> Strong matches merge, weak matches are dropped, and the band between them waits for a person. Conflicting evidence always asks.</li>
+            <li><b>Decisions survive rebuilds.</b> The graph is a read model, rebuilt deterministically. Your review decisions and merges replay into it. Nothing is quietly rewritten underneath you.</li>
+          </ul>
+        </article>
+
+        <article class="sec-card spot">
+          <span class="scn">05</span>
+          <h3>The model boundary</h3>
+          <ul>
+            <li><b>No model ever scores a relationship.</b> Strength is computed from meeting frequency, email reciprocity, co-authorship, and recency decay. A flattering document cannot inflate a connection.</li>
+            <li><b>The one model call is optional.</b> A model is used to read names out of document text, and nothing else. Set <code>FEIN_NO_BODIES=1</code> and bodies are never captured, so there is nothing to send.</li>
+            <li><b>A hostile document has no blast radius.</b> The call is constrained to a schema, so injected text can at worst change which names come back. It cannot make the pipeline emit free text, call a tool, or take an action.</li>
+            <li><b>Grounding is code, not judgment.</b> A name must appear in the text as a contiguous phrase, an email only when the exact string is there. Invented people and fabricated addresses die before they reach the graph.</li>
+            <li><b>Bring your own endpoint.</b> Point the base URL at your own gateway and even that call stays inside your perimeter.</li>
+          </ul>
+        </article>
+
+        <article class="sec-card spot">
+          <span class="scn">06</span>
+          <h3>Open source, end to end</h3>
+          <ul>
+            <li><b>MIT licensed.</b> Every line that touches your data is public. Read it, audit it, fork it, and build on it.</li>
+            <li><b>14 automated suites.</b> Including an auth suite that proves every surface is closed and the private layer leak probe. They run with no API key and no network.</li>
+            <li><b>A written security model.</b> The repository states the trust boundary, what is defended, and what is not, in the same words we use here.</li>
+            <li><b>Your engineers can read it before you buy.</b> There is no data room and no questionnaire in the way. The code is the diligence.</li>
+            <li><b>Cancelling changes nothing technical.</b> It is already running on your server. The graph, the connectors, and every answer stay exactly where they are.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="sec-ledger reveal">
+        <div class="sec-sub">
+          <span class="eyebrow">Egress ledger</span>
+          <h3>Every outbound call fein can make, and how you switch it off.</h3>
+          <p>This is the whole list. If a destination is not on it, fein does not talk to it.</p>
+        </div>
+        <table class="sec-tbl">
+          <thead>
+            <tr><th scope="col">Destination</th><th scope="col">When</th><th scope="col">What leaves your network</th><th scope="col">How you switch it off</th></tr>
+          </thead>
+          <tbody>
+            <tr class="home">
+              <td>fein.vc</td>
+              <td data-l="When">Never</td>
+              <td data-l="What leaves">Nothing at all</td>
+              <td data-l="How you switch it off">There is nothing to switch off. fein has no telemetry, no analytics, no update ping, and no license check.</td>
+            </tr>
+            <tr>
+              <td>googleapis.com</td>
+              <td data-l="When">Only if you connect Gmail, Calendar, or Drive</td>
+              <td data-l="What leaves">Your own token, and the request that reads your own mailbox</td>
+              <td data-l="How you switch it off">Do not connect it. A Takeout export gives fein the same history with no live connection at all.</td>
+            </tr>
+            <tr>
+              <td>api.attio.com<br>api.affinity.co</td>
+              <td data-l="When">Only if you connect a CRM</td>
+              <td data-l="What leaves">Your own API key, and the request that reads your own workspace</td>
+              <td data-l="How you switch it off">Do not connect it, or import a CSV export instead. Keys are write only across the API, never returned, and never written to the audit log.</td>
+            </tr>
+            <tr>
+              <td>api.anthropic.com</td>
+              <td data-l="When">Only when you mine document text, and only for documents you have not mined yet</td>
+              <td data-l="What leaves">The text of the document being read, and nothing else</td>
+              <td data-l="How you switch it off">Skip that step, set <code>FEIN_NO_BODIES=1</code> so bodies are never stored, or point the base URL at your own gateway.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-limits reveal">
+        <div class="sec-sub">
+          <span class="eyebrow">Stated plainly</span>
+          <h3>What we do not claim.</h3>
+          <p class="sec-report">Found something we missed? <a href="mailto:security@fein.vc">security@fein.vc</a>. Please give us a chance to ship a fix before you go public.</p>
+        </div>
+        <dl>
+          <dt>Privacy layers are a trust model, not a hostile tenant boundary.</dt>
+          <dd>They are enforced on every query and probed on every change, but they scope one team on one database behind one deployment token. Anyone with that token, or with filesystem access to the volume, can read any layer. Per person login is on the roadmap and is not claimed today.</dd>
+          <dt>Connector keys sit at the same trust level as the graph.</dt>
+          <dd>A key pasted into the dashboard is write only across the API, shown back only as a masked hint, and kept out of the audit log. It is still stored beside the data it reads. For a shared deployment, pass keys as environment variables instead, which stores nothing.</dd>
+          <dt>A document is untrusted input, and we treat it that way.</dt>
+          <dd>Someone who gets a document into your firm can write a plausible sentence about a real person. If it survives the review queue it seeds one weak mention. That is the same risk as mailing your team a lie, and the audit trail makes it queryable afterwards.</dd>
+          <dt>fein is pre 1.0, and there is no SOC 2 report.</dt>
+          <dd>Fixes land on the current line. The compensating control is the one this whole section is about: it runs inside your boundary, on your hardware, and you can read every line of it.</dd>
+        </dl>
+      </div>
+
     </div>
   </section>
 
