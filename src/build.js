@@ -169,7 +169,7 @@ const posthog = POSTHOG_KEY ? `
 // internally; the site has no bundler so the npm package doesn't apply.
 const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
-// A custom launcher (the fein mark + an online dot + "Replies within minutes")
+// A custom launcher (the fein mark + an online dot + "Last seen 3m ago")
 // replaces Intercom's default bubble: hide_default_launcher + a
 // custom_launcher_selector pointed at #fein-chat. The whole block is wrapped in
 // <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
@@ -190,9 +190,9 @@ const intercom = INTERCOM_APP_ID ? `
 @media(max-width:520px){#fein-chat{padding:9px;gap:0}#fein-chat .fc-txt{display:none}}
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}}
 </style>
-<button type="button" id="fein-chat" aria-label="Chat with the fein team. We are online and reply within minutes.">
+<button type="button" id="fein-chat" aria-label="Chat with the fein team. Last seen 3 minutes ago.">
 <span class="fc-mark"><svg viewBox="0 0 32 32" width="17" height="17" fill="none" aria-hidden="true"><line x1="7" y1="24" x2="22" y2="9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><line x1="22" y1="9" x2="24.5" y2="24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="7" cy="24" r="3.4" fill="currentColor"/><circle cx="22" cy="9" r="3.4" fill="currentColor"/><circle cx="24.5" cy="24" r="2.2" fill="currentColor"/></svg><span class="fc-dot"></span></span>
-<span class="fc-txt"><b>Chat with us</b><span>Replies within minutes</span></span>
+<span class="fc-txt"><b>Chat with us</b><span>Last seen 3m ago</span></span>
 </button>
 <script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic("reattach_activator");ic("update",w.intercomSettings)}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(a){i.q.push(a)};w.Intercom=i;var l=function(){var s=d.createElement("script");s.async=true;s.src="https://widget.intercom.io/widget/${INTERCOM_APP_ID}";var x=d.getElementsByTagName("script")[0];x.parentNode.insertBefore(s,x)};if(document.readyState==="complete")l();else if(w.attachEvent)w.attachEvent("onload",l);else w.addEventListener("load",l,false)}})()</script>
