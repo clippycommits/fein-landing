@@ -372,6 +372,12 @@
   .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
   /* the starburst promoted to the lead hero: fill the viewport, clear the fixed nav */
   .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--nav-h) + clamp(3rem,7vh,6rem))}
+  /* the lead hero's note: a blue frame, with the second line marked like a selection */
+  .hero-note{margin:1.6rem auto 0;max-width:41rem;border:1px solid var(--blue);border-radius:var(--r-sm);padding:1.35rem 1.6rem 1.05rem;text-align:center}
+  .cta-dark .hero-note p{margin:0;max-width:none}
+  .cta-dark .hero-note p + p{margin-top:1.25rem}
+  .hero-note .mark{background:var(--blue);color:#fff;padding:.16em .18em;line-height:1.9;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  @media(max-width:560px){.hero-note{padding:1.15rem 1.1rem}}
   /* the former hero, now a showcase section below the hook */
   .hero.showcase{border-top:1px solid var(--line)}
 
@@ -738,7 +744,10 @@
     <div class="wrap" id="content" tabindex="-1" data-reveal-group="90">
       <span class="eyebrow reveal">Get started</span>
       <h2 class="reveal">Stop asking around.</h2>
-      <p class="reveal">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory.&nbsp;<br><br>It combines vector search with graph databases to make your data both searchable by meaning and connected by relationships.</p>
+      <div class="hero-note reveal">
+        <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory.</p>
+        <p><span class="mark">It combines vector search with graph databases to make your data both searchable by meaning and connected by relationships.</span></p>
+      </div>
       <div class="hero-actions reveal">
         <a class="btn btn-white" href="#get-started">Talk to sales</a>
         <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
