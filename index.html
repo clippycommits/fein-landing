@@ -914,6 +914,62 @@
     .cmodal-x{width:44px;height:44px;top:1.4rem;right:1.4rem}
   }
 
+  /* ============ the film ============
+
+     A narrated capture of the product, full bleed. The frame carries no radius,
+     border or shadow on purpose: the source grades to #000 and so does the
+     page, so the 16:9 letterbox and the ground are the same colour and the
+     video has no visible edge at all. Giving it a card would draw the one line
+     the material does not have.
+
+     It sits above #change, which is the deliberate order. This is the fast read
+     of the whole argument for someone who will not scrub a pinned stage;
+     #change is the slow read for someone who will. The film is also why that
+     section can stay long.
+
+     Playback is gated on visibility in the script. #change is a scroll-pinned
+     stage taking a rect every frame, and a decoder left running off screen
+     would be competing with it for the main thread during precisely the scroll
+     that matters most.
+
+     Captions are burned into the source, which is what makes muted autoplay
+     worth doing here: the film still says what it means with the sound off, so
+     it is not a poster that happens to move. */
+  .demo-intro{text-align:center;max-width:46rem}
+  .demo-intro h2{font-family:var(--display);font-size:clamp(1.85rem,3.6vw,2.55rem);letter-spacing:-.032em;line-height:1.08;margin-top:.95rem}
+  .demo-lead{margin-top:1.05rem;color:var(--fg-2);font-size:1.0625rem;line-height:1.55;text-wrap:pretty}
+  .demo-stage{margin:clamp(2.2rem,5vw,3.4rem) 0 0}
+  /* as wide as the viewport allows at 16:9, but never so tall that the controls
+     land under the fold: the third term trades width for height on a short
+     landscape window instead of letterboxing into one. */
+  .demo-frame{position:relative;width:min(100%,calc((100svh - var(--nav-h) - 2rem) * 16 / 9));aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate}
+  .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
+  .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
+  /* the frame itself is the play target, so the button in the corner is a name
+     for a gesture that already works rather than the only way in */
+  .demo-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
+  .demo-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
+  .demo-big{position:absolute;left:50%;top:50%;translate:-50% -50%;width:clamp(58px,7vw,78px);height:clamp(58px,7vw,78px);border-radius:50%;display:grid;place-items:center;background:rgba(10,10,12,.6);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 20px 50px -18px rgba(0,0,0,.9);opacity:0;scale:.94;transition:opacity .22s ease,scale .22s cubic-bezier(.22,.61,.36,1);pointer-events:none}
+  .demo-big svg{width:26px;height:26px;fill:var(--fg);stroke:none;margin-left:3px}
+  .demo-frame.paused .demo-big{opacity:1;scale:1}
+  .demo-ctls{position:absolute;right:clamp(.85rem,2vw,1.6rem);bottom:clamp(.85rem,2vw,1.6rem);display:flex;gap:.5rem;z-index:3;opacity:0;translate:0 6px;transition:opacity .24s ease,translate .24s ease;pointer-events:none}
+  .demo-ctl{-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);background:rgba(10,10,12,.62)}
+  .demo-ctl svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  /* the controls come up on intent, and stay up whenever the film is stopped */
+  .demo-frame:hover .demo-scrim,.demo-frame:focus-within .demo-scrim,.demo-frame.paused .demo-scrim{opacity:1}
+  .demo-frame:hover .demo-ctls,.demo-frame:focus-within .demo-ctls,.demo-frame.paused .demo-ctls{opacity:1;translate:0 0;pointer-events:auto}
+  /* no hover to reveal them with, so they are simply always there */
+  @media (hover:none){
+    .demo-scrim{opacity:1}
+    .demo-ctls{opacity:1;translate:0 0;pointer-events:auto}
+  }
+  .demo-frame:not(.sound) .i-on{display:none}
+  .demo-frame.sound .i-off{display:none}
+  @media (max-width:640px){
+    .demo-ctl span{display:none}
+    .demo-ctl{padding:0 11px}
+  }
+
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -1105,6 +1161,47 @@ setTimeout(go,1200);})()</script>
       </div>
     </div>
 
+  </section>
+
+  <!-- THE FILM: the whole argument at speed, before the slow version of it.
+
+       Three sources, narrowest acceptable format first. The AV1 line carries a
+       full codecs string rather than a bare video/webm, and that is load
+       bearing: Safari has taken WebM since 14.1 but only decodes AV1 on recent
+       Apple silicon, so on a bare type it would answer "maybe", win the
+       cascade, and then fail to paint. Spelling the codec out makes it say no
+       and fall through to the H.264 line, which every browser can play. The
+       720p cut is not listed here; the script swaps it in for small screens
+       before anything is fetched, since preload is none. -->
+  <section id="demo" class="band" aria-labelledby="demo-h">
+    <div class="wrap demo-intro">
+      <span class="eyebrow">See it</span>
+      <h2 id="demo-h">The whole thing, in twenty-six seconds.</h2>
+      <p class="demo-lead">One question, the answer with its citations, the memory it was drawn from, and the eight systems it was read out of. It plays silent and captioned. Turn the sound on for the narration.</p>
+    </div>
+    <figure class="demo-stage">
+      <div class="demo-frame paused" id="demo-frame">
+        <video id="demo-video" class="demo-video" width="2560" height="1440" playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
+          <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
+          <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
+          <p class="demo-lead">Your browser will not play this one. <a href="/video/fein-demo-1440.mp4">Download the walkthrough</a> instead.</p>
+        </video>
+        <div class="demo-scrim" aria-hidden="true"></div>
+        <button class="demo-hit" id="demo-hit" type="button" aria-label="Play the walkthrough">
+          <span class="demo-big" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+        <div class="demo-ctls">
+          <button class="btn btn-ghost demo-ctl" id="demo-sound" type="button" aria-pressed="false" aria-label="Turn the narration on">
+            <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9.5 5 5m0-5-5 5"/></svg>
+            <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.8a4.4 4.4 0 0 1 0 6.4M18.4 6a8.3 8.3 0 0 1 0 12"/></svg>
+            <span>Sound</span>
+          </button>
+          <button class="btn btn-ghost demo-ctl" id="demo-fs" type="button" aria-label="Play full screen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          </button>
+        </div>
+      </div>
+    </figure>
   </section>
 
   <!-- WHAT CHANGED: what fein read, and what it remembers.
@@ -3284,6 +3381,96 @@ setTimeout(go,1200);})()</script>
     });
   },{threshold:0.4});
   live.forEach(function(el){ io.observe(el); });
+})();
+
+/* the film.
+   Muted autoplay while it is on screen, and nothing at all while it is not.
+   The section under this one pins a stage and reads a rect every frame, so a
+   decoder left running behind it costs exactly the scroll that matters.
+
+   Everything here degrades in one direction. No script: a poster and a native
+   video with two sources. No IntersectionObserver, reduced motion, or Save-Data:
+   the poster stays and the play button is the way in. Autoplay refused by the
+   platform (iOS low power is the common one): the rejected promise puts the
+   frame back in its paused state, which is the same state as never having
+   tried. */
+(function(){
+  var frame=document.getElementById('demo-frame'); if(!frame) return;
+  var v=document.getElementById('demo-video'),
+      hit=document.getElementById('demo-hit'),
+      snd=document.getElementById('demo-sound'),
+      fsb=document.getElementById('demo-fs');
+  if(!v||!hit) return;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var conn=navigator.connection||{};
+  var thrifty=conn.saveData===true||/(^|-)([23])g$/.test(conn.effectiveType||'');
+  var vis=false, held=false;
+
+  /* small screens and metered connections take the 720p cut. preload is none,
+     so nothing has been fetched and rewriting the list now is free. */
+  if(window.matchMedia('(max-width:768px)').matches||thrifty){
+    [].forEach.call(v.querySelectorAll('source'),function(s){ v.removeChild(s); });
+    var s=document.createElement('source');
+    s.src='/video/fein-demo-720.mp4';
+    s.type='video/mp4; codecs="avc1.640028, mp4a.40.2"';
+    v.insertBefore(s,v.firstChild);
+  }
+
+  function play(){
+    var p=v.play();
+    if(p&&p['catch']) p['catch'](function(){ mark(true); });
+  }
+  function mark(p){
+    frame.classList.toggle('paused',p);
+    hit.setAttribute('aria-label',p?'Play the walkthrough':'Pause the walkthrough');
+  }
+  v.addEventListener('play',function(){ mark(false); });
+  v.addEventListener('pause',function(){ mark(true); });
+  v.addEventListener('ended',function(){ mark(true); v.currentTime=0; });
+
+  /* a click is a standing instruction: pausing by hand keeps it paused when it
+     scrolls back into view, which auto-resuming would quietly overrule */
+  hit.addEventListener('click',function(){
+    if(v.paused){ held=false; play(); } else { held=true; v.pause(); }
+  });
+
+  if(snd) snd.addEventListener('click',function(){
+    v.muted=!v.muted;
+    var on=!v.muted;
+    /* a voice track on repeat is a worse thing than a silent one, so asking for
+       the narration also buys the right to have it end */
+    v.loop=!on;
+    frame.classList.toggle('sound',on);
+    snd.setAttribute('aria-pressed',on?'true':'false');
+    snd.setAttribute('aria-label',on?'Mute the narration':'Turn the narration on');
+    if(on&&v.paused){ held=false; play(); }
+  });
+
+  if(fsb) fsb.addEventListener('click',function(){
+    if(document.fullscreenElement||document.webkitFullscreenElement){
+      (document.exitFullscreen||document.webkitExitFullscreen).call(document);
+    } else if(frame.requestFullscreen){ frame.requestFullscreen();
+    } else if(frame.webkitRequestFullscreen){ frame.webkitRequestFullscreen();
+    /* iPhone will not take an element full screen, only the video itself */
+    } else if(v.webkitEnterFullscreen){ v.load(); v.webkitEnterFullscreen(); }
+  });
+
+  if(reduce.matches||thrifty||!('IntersectionObserver' in window)) return;
+
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      vis=e.isIntersecting&&e.intersectionRatio>=0.35;
+      if(vis){ if(!held&&v.paused) play(); }
+      else if(!v.paused){ v.pause(); }
+    });
+  },{threshold:[0,0.35,0.7]}).observe(frame);
+
+  /* the observer never fires on a tab switch, and a backgrounded decoder is
+     the same waste as an off-screen one */
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){ if(!v.paused) v.pause(); }
+    else if(vis&&!held) play();
+  });
 })();
 </script>
 
