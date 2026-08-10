@@ -390,6 +390,9 @@
      first pinned frame is a step in something rather than a surprise, and it
      names the two ways through it: the scroll, and the button that does the
      scrolling for you */
+  .rec-gp{display:none}
+  .rec-on .rec-gp{display:inline}
+  .rec-on .rec-gs{display:none}
   .rec-guide{margin-top:1.25rem;padding-left:.7rem;border-left:2px solid var(--blue-l);font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;line-height:1.7;color:var(--fg-3)}
   /* the static default is a document, so it takes the page measure; the pinned
      stage sets its own width and resets this */
@@ -481,7 +484,8 @@
   .rec-asv{color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:.15rem .35rem}
   .rec-body{position:relative;padding:.4rem 0}
   .rec-zlab{display:flex;align-items:baseline;gap:.45rem;padding:.5rem 16px .3rem;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
-  .rec-zl-ret{border-top:1px solid var(--mem-ret-rule);margin-top:.5rem}
+  .rec-zl-ret{display:none}
+  .rec-on .rec-zl-ret{display:flex;border-top:1px solid var(--mem-ret-rule);margin-top:.5rem}
   .rec-zlab b{font-weight:500;color:#fff}
   .rec-cap{font-family:var(--font);font-size:.72rem;letter-spacing:0;text-transform:none;color:var(--dim)}
   .rec-zl-live b{display:none}
@@ -504,7 +508,7 @@
      a row you cannot trace is a row you have to trust. On the pinned stage it
      is lifted out of the line box entirely (see .rec-on .rec-prov) so it can
      never change a row's height, which is what the y-scrub depends on. */
-  .rec-prov{display:inline-flex;align-items:center;gap:.3rem;margin-left:.45rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);white-space:nowrap;opacity:calc(1 - .45 * var(--cut,0))}
+  .rec-prov{display:flex;align-items:center;gap:.3rem;margin-top:.16rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);white-space:nowrap;opacity:calc(1 - .45 * var(--cut,0))}
   .rec-prov .tlogo{width:11px;height:11px;flex:none;opacity:.8}
   .rec-strip,.rec-ctl{display:none}
   .rec-wires,.rec-rail,.rec-seam{display:none}
@@ -541,7 +545,7 @@
   /* the answer takes the well on the last beat, in the space six documents have
      just vacated. It is the only beat where the left pane stops being evidence
      and starts being the product. */
-  .rec-on .rec-ask{position:absolute;top:var(--card-top);left:0;right:0;max-width:none;margin:0;opacity:var(--ao,0);transform:translate3d(0,var(--ay,0px),0);pointer-events:none}
+  .rec-on .rec-ask{position:absolute;top:var(--asktop,var(--card-top));left:0;right:0;max-width:none;margin:0;opacity:var(--ao,0);transform:translate3d(0,var(--ay,0px),0);pointer-events:none}
   .rec-on .rec-ask.live{pointer-events:auto}
   /* the gap is a beat of the walk too, so it gets the narration's voice and
      size, and it sits above the thing it narrates exactly like a card's line
@@ -564,7 +568,7 @@
      change a row's height could desynchronise the whole store. It fades out as
      the row falls, because the shelf is packed tighter than the live zone and
      the retirement dates already say where that fact came from. */
-  .rec-on .rec-prov{position:absolute;left:40px;top:25px;margin:0;opacity:calc((1 - var(--rf,0)) * (1 - .5 * var(--cut,0)))}
+  .rec-on .rec-prov{position:absolute;left:40px;top:25px;margin:0;opacity:calc((1 - min(1,var(--rf,0) * 3)) * (1 - .5 * var(--cut,0)))}
   .rec-tight .rec-prov{display:none}
   .rec-on .rec-wires{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:4}
   .rec-on .rec-wires path{fill:none;stroke:var(--blue-l);stroke-width:1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,1));opacity:var(--w,0)}
@@ -615,7 +619,11 @@
   .rec-dchips{display:flex;align-items:stretch;gap:5px}
   .rec-dchip{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:.34rem;height:34px;padding:0 6px;border:1px solid var(--line);border-radius:9px;background:var(--bg-2);color:var(--dim);font-family:var(--mono);font-size:.54rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;white-space:nowrap;overflow:hidden;transition:border-color .18s ease,background .18s ease,color .18s ease,opacity .18s ease;opacity:.5}
   .rec-dchip .tlogo{width:13px;height:13px;flex:none;opacity:.55;transition:opacity .18s ease}
-  .rec-dchip i{font-style:normal;overflow:hidden;text-overflow:ellipsis}
+  /* ten targets across one column is about sixty pixels each, which truncates
+     every date to nonsense. The mark alone identifies a document the reader has
+     just watched arrive; only the one being read spends width on its date. */
+  .rec-dchip i{display:none;font-style:normal;overflow:hidden;text-overflow:ellipsis}
+  .rec-dchip.now i,.rec-dchip.gap i{display:block}
   .rec-dchip.read{opacity:1;color:var(--fg-3)}
   .rec-dchip.read .tlogo{opacity:1}
   .rec-dchip.now{opacity:1;color:#fff;border-color:rgba(82,168,255,.45);background:rgba(0,112,243,.10);flex-grow:1.7}
@@ -635,9 +643,10 @@
   .rec-cbtn.play{padding-left:9px}
   .rec-cbtn.play .gl{color:var(--blue-l);font-size:.66rem;line-height:1}
   .rec-cbtn.play[aria-pressed="true"]{background:rgba(0,112,243,.14);box-shadow:0 0 0 1px rgba(82,168,255,.45),var(--hl-top);color:#fff}
-  .rec-beat{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .rec-beat b{color:#fff;font-weight:500}
-  .rec-hint{margin-left:auto;font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  /* left of the bar, not right: the far bottom corner is where the support
+     launcher sits, and a hint the reader has to look behind a bubble to find
+     is not a hint */
+  .rec-hint{margin-left:.35rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
   .rec-hint kbd{font-family:inherit;font-size:inherit;color:var(--fg-3);border:1px solid var(--line);border-radius:4px;padding:.1rem .28rem;margin:0 .1rem}
   /* the pane names it: two halves of one machine, each labelled once */
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
@@ -1070,7 +1079,11 @@
   .demo-big{position:absolute;left:50%;top:50%;translate:-50% -50%;width:clamp(58px,7vw,78px);height:clamp(58px,7vw,78px);border-radius:50%;display:grid;place-items:center;background:rgba(10,10,12,.6);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 20px 50px -18px rgba(0,0,0,.9);opacity:0;scale:.94;transition:opacity .22s ease,scale .22s cubic-bezier(.22,.61,.36,1);pointer-events:none}
   .demo-big svg{width:26px;height:26px;fill:var(--fg);stroke:none;margin-left:3px}
   .demo-frame.paused .demo-big{opacity:1;scale:1}
-  .demo-ctls{position:absolute;right:clamp(.85rem,2vw,1.6rem);bottom:clamp(.85rem,2vw,1.6rem);display:flex;gap:.5rem;z-index:3;opacity:0;translate:0 6px;transition:opacity .24s ease,translate .24s ease;pointer-events:none}
+  /* bottom left, not bottom right: the Intercom launcher is fixed to the
+     bottom right of every page at z-index 2147483000, so anything parked in
+     that corner loses to it on any viewport short enough to bring the two
+     together. Left is the corner nothing else claims. */
+  .demo-ctls{position:absolute;left:clamp(.85rem,2vw,1.6rem);bottom:clamp(.85rem,2vw,1.6rem);display:flex;gap:.5rem;z-index:3;opacity:0;translate:0 6px;transition:opacity .24s ease,translate .24s ease;pointer-events:none}
   .demo-ctl{-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);background:rgba(10,10,12,.62)}
   .demo-ctl svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   /* the controls come up on intent, and stay up whenever the film is stopped */
@@ -1083,9 +1096,17 @@
   }
   .demo-frame:not(.sound) .i-on{display:none}
   .demo-frame.sound .i-off{display:none}
+  /* the label swaps rather than disappearing. A phone renders this 16:9 frame
+     about 220px tall, which is enough for the burned captions and nowhere near
+     enough for the interface behind them, so on a phone the important control
+     is not the sound, it is the one that makes the thing actually watchable.
+     It gets the words and the sound keeps the glyph. */
+  .lbl-fs{display:none}
   @media (max-width:640px){
-    .demo-ctl span{display:none}
+    .lbl-snd{display:none}
+    .lbl-fs{display:inline}
     .demo-ctl{padding:0 11px}
+    .demo-stage{margin-top:1.5rem}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1295,7 +1316,7 @@ setTimeout(go,1200);})()</script>
     <div class="wrap demo-intro">
       <span class="eyebrow">See it</span>
       <h2 id="demo-h">The whole thing, in twenty-six seconds.</h2>
-      <p class="demo-lead">One question, the answer with its citations, the memory it was drawn from, and the eight systems it was read out of. It plays silent and captioned. Turn the sound on for the narration.</p>
+      <p class="demo-lead">One question, the answer with its citations, the memory it was drawn from, and the eight systems it was read out of.</p>
     </div>
     <figure class="demo-stage">
       <div class="demo-frame paused" id="demo-frame">
@@ -1312,10 +1333,11 @@ setTimeout(go,1200);})()</script>
           <button class="btn btn-ghost demo-ctl" id="demo-sound" type="button" aria-pressed="false" aria-label="Turn the narration on">
             <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9.5 5 5m0-5-5 5"/></svg>
             <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.8a4.4 4.4 0 0 1 0 6.4M18.4 6a8.3 8.3 0 0 1 0 12"/></svg>
-            <span>Sound</span>
+            <span class="lbl-snd">Sound</span>
           </button>
           <button class="btn btn-ghost demo-ctl" id="demo-fs" type="button" aria-label="Play full screen">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+            <span class="lbl-fs">Full screen</span>
           </button>
         </div>
       </div>
@@ -1351,11 +1373,14 @@ setTimeout(go,1200);})()</script>
       <h2>People move. Your graph moves with them.</h2>
       <p class="rec-lead">fein reads the tools your team already works in, and keeps one live record per company. When something new contradicts what it already knows, the old fact retires with the dates it was true for. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
       <ul class="rec-legend">
-        <li><i class="rec-lgm p" aria-hidden="true">+</i><span><b>A fact fein wrote</b>, out of the document on the left. Nobody typed it, and nobody filed it.</span></li>
+        <li><i class="rec-lgm p" aria-hidden="true">+</i><span><b>A fact fein wrote</b>, out of the document it read. Nobody typed it, and nobody filed it.</span></li>
         <li><i class="rec-lgm m" aria-hidden="true">&minus;</i><span><b>A fact that stopped being true.</b> Struck, dated and kept, so you can still ask what the firm believed at the time.</span></li>
         <li><i class="rec-lgm w" aria-hidden="true">&rarr;</i><span><b>The phrase it came from.</b> Every fact keeps its source document, which is the difference between an answer you can check and one you have to trust.</span></li>
       </ul>
-      <p class="rec-guide">Seven documents &middot; twenty-one months &middot; one company. Scroll to walk it, or press play and watch it run.</p>
+      <!-- the invitation has to match the thing the reader actually got: a
+           reader with no script, a narrow window or reduced motion has no play
+           button and no walk, and telling them to press one is a bug -->
+      <p class="rec-guide">Seven documents &middot; twenty-one months &middot; one company. <span class="rec-gp">Scroll to walk it, or press play and watch it run.</span><span class="rec-gs">Every document below, and what fein wrote from it.</span></p>
     </div>
 
     <div class="rec-track" id="rec-track">
@@ -1494,7 +1519,11 @@ setTimeout(go,1200);})()</script>
             <button type="button" class="rec-cbtn play" id="rec-play" aria-pressed="false"><span class="gl" aria-hidden="true">&#9654;</span><span id="rec-playl">Play the walk</span></button>
             <button type="button" class="rec-cbtn sq" id="rec-prev" aria-label="Previous beat" title="Previous beat">&#8592;</button>
             <button type="button" class="rec-cbtn sq" id="rec-next" aria-label="Next beat" title="Next beat">&#8594;</button>
-            <span class="rec-beat" id="rec-beatro" aria-hidden="true"><b>01</b> / 11</span>
+            <!-- no beat counter here on purpose: the documents are already
+                 numbered on the narration and counted on the strip, and a
+                 second, larger number counting something else (eleven beats,
+                 which is an implementation detail) only ever reads as a
+                 contradiction of the first -->
             <span class="rec-hint" aria-hidden="true"><kbd>&#8592;</kbd><kbd>&#8594;</kbd> step &middot; scroll runs it</span>
             <span class="rec-vh" id="rec-say" role="status" aria-live="polite"></span>
           </div>
@@ -3281,7 +3310,7 @@ setTimeout(go,1200);})()</script>
       ask=document.getElementById('rec-ask'),
       chips=[].slice.call(track.querySelectorAll('.rec-dchip')),
       stripn=document.getElementById('rec-stripn'), stripd=document.getElementById('rec-stripd'),
-      beatro=document.getElementById('rec-beatro'), say=document.getElementById('rec-say'),
+      say=document.getElementById('rec-say'),
       playb=document.getElementById('rec-play'), playl=document.getElementById('rec-playl'),
       prevb=document.getElementById('rec-prev'), nextb=document.getElementById('rec-next'),
       mons=[].slice.call(track.querySelectorAll('.rec-months i'));
@@ -3351,9 +3380,14 @@ setTimeout(go,1200);})()</script>
     SHELF_STEP=Math.max(22,Math.min(30,Math.round((bh*0.16)/4)));
     var shelfNeed=26+SHELF_STEP*4+10;
     var shelfTop=Math.max(bh*0.42, bh-Math.max(SHELF_H,shelfNeed));
-    var per=(shelfTop-LIVE_TOP-10)/11;
+    /* ten gaps, not eleven: the eleventh row still has to fit, and it carries a
+       citation under it that the shelf label must not land on. 66 is that last
+       row's own height plus its citation plus the label's overhang above the
+       shelf line, which is the clearance the eleventh fact needs and the other
+       ten do not. */
+    var per=(shelfTop-LIVE_TOP-66)/10;
     var tight=per<38;
-    LIVE_STEP=Math.max(24,Math.min(tight?32:54,per));
+    LIVE_STEP=Math.max(24,Math.min(tight?32:52,per));
     body.classList.toggle('rec-tight',tight);
     body.style.setProperty('--shelf',shelfTop+'px');
     body.style.setProperty('--retlab',(shelfTop-18)+'px');
@@ -3362,9 +3396,23 @@ setTimeout(go,1200);})()</script>
        the cards are all different heights, so each one is given the offset that
        lands its payoff on the same line as every other. The card's own top is
        read back from --card-top rather than repeated here. */
-    var tallest=0;
-    cards.forEach(function(c){ var h=c.getBoundingClientRect().height; if(h>tallest) tallest=h; });
+    var tallest=0,tallwhy=0;
+    cards.forEach(function(c){
+      var h=c.getBoundingClientRect().height; if(h>tallest) tallest=h;
+      var w=c.querySelector('.rec-why'); if(w){ var wh=w.getBoundingClientRect().height; if(wh>tallwhy) tallwhy=wh; }
+    });
     cards.forEach(function(c){ c.style.setProperty('--whyoff',Math.round(tallest-c.getBoundingClientRect().height+22)+'px'); });
+    /* the narration, the document and its payoff are one block, so the well
+       centres that block rather than hanging it from a constant and leaving all
+       the slack at the bottom. The floor is the room two lines of narration
+       need above the card, which is what --card-top meant before it moved. */
+    var wellH=well.getBoundingClientRect().height;
+    var group=tallest+22+tallwhy;
+    var cardTop=Math.round(Math.max(104,Math.min(210,(wellH-group)/2)));
+    well.style.setProperty('--card-top',cardTop+'px');
+    /* the answer is taller than any document, so on a short window it starts
+       above the line the documents start on rather than running under the strip */
+    if(ask) ask.style.setProperty('--asktop',Math.round(Math.max(0,Math.min(cardTop,wellH-ask.getBoundingClientRect().height-6)))+'px');
     geo={ shelfTop:shelfTop, bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left,
           hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
             return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
@@ -3515,12 +3563,13 @@ setTimeout(go,1200);})()</script>
     if(stripn) stripn.textContent=BEATS[bi][0]==='fin'?'Answering':(cardNow>0?'Reading':'Waiting');
     if(stripd) stripd.textContent=BEATS[bi][0]==='fin'?'all 7 documents read'
       :(cardNow>0?SAY[bi]+' · document '+dn+' of 7':'nothing filed · '+dn+' of 7 read');
-    if(beatro) beatro.innerHTML='<b>'+(bi+1<10?'0':'')+(bi+1)+'</b> / 11';
     if(prevb) prevb.disabled=bi<=0;
     if(nextb) nextb.disabled=bi>=BEATS.length-1;
-    /* one sentence per beat for a reader who is not watching: where they are,
-       what arrived, and what it did to the graph */
-    if(say) say.textContent='Beat '+(bi+1)+' of 11. '+SAY[bi]+'. '+OPS[bi].replace(/&middot;/g,',')+'.';
+    /* one sentence per beat for a reader who is not watching: which document,
+       where they are in the seven, and what it did to the graph. It counts
+       documents rather than beats for the same reason the bar shows no beat
+       number: seven is the count the reader was given. */
+    if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+dn+' of 7. ':(BEATS[bi][0]==='fin'?'All 7 documents read. ':''))+OPS[bi].replace(/\s*&middot;\s*/g,', ')+'.';
   }
   function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
 
@@ -3620,7 +3669,7 @@ setTimeout(go,1200);})()</script>
     if(io){ io.disconnect(); io=null; }
     document.documentElement.classList.remove('rec-on');
     if(body) body.classList.remove('rec-tight');
-    [].concat(cards,rows,hls,paths,ask?[ask]:[]).forEach(function(el){ el.removeAttribute('style'); });
+    [].concat(cards,rows,hls,paths,ask?[ask]:[],well?[well]:[]).forEach(function(el){ el.removeAttribute('style'); });
   }
   function remeasure(){ if(!on) return; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
   window.addEventListener('resize',function(){
@@ -3751,7 +3800,12 @@ setTimeout(go,1200);})()</script>
     frame.classList.toggle('sound',on);
     snd.setAttribute('aria-pressed',on?'true':'false');
     snd.setAttribute('aria-label',on?'Mute the narration':'Turn the narration on');
-    if(on&&v.paused){ held=false; play(); }
+    /* the narration is a written twenty-six seconds with a first line, and by
+       the time anyone reaches for the sound the silent loop is already somewhere
+       in the middle of it. Turning the voice on therefore starts the piece
+       rather than joining it. Pausing by hand is the opposite: that is a
+       bookmark, so the play button resumes and never rewinds. */
+    if(on){ v.currentTime=0; held=false; play(); }
   });
 
   if(fsb) fsb.addEventListener('click',function(){
