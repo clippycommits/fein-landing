@@ -145,7 +145,9 @@
   @keyframes lpH1{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
   @keyframes lpBar{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
   #view-home .bar{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
-  .works{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .6s both}
+  /* the works strip left the hero for the gap under #features, so it is a
+     .reveal now. an entrance animation here would win over .reveal's opacity
+     and pop the strip in on load, half a page below the fold. */
   /* The lead hero is above the fold, so its copy rides the same pure-CSS
      entrance and starts at first paint. It must never be a .reveal: those wait
      on the observer in the script block at the foot of a 300kB document, which
@@ -897,33 +899,6 @@ __LOGO_SPRITE__
     </div>
   </section>
 
-  <!-- WORKS WITH: the tool proof, directly under the hook. it used to close the
-       old second hero; the orbit composition it stood under now carries the
-       managed offer at #deploy, and the strip reads better here, where the
-       first question after the promise is "what does it read?" -->
-  <section class="works-band" aria-label="The tools fein reads and answers in">
-    <div class="works">
-      <p class="lab">It reads and answers in the tools you already use</p>
-      <div class="marquee"><div class="row">
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Google Calendar</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gdrive"/></svg>Drive</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg>Attio</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>Notion</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Slack</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>Claude</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>ChatGPT</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gemini"/></svg>Gemini</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Cursor</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-perplexity"/></svg>Perplexity</span>
-        <span><svg class="tlogo" aria-hidden="true"><use href="#l-copilot"/></svg>Copilot</span>
-      </div></div>
-    </div>
-
-  </section>
-
   <!-- HOW IT WORKS: the hero sells the outcome, so this section owns the mechanism.
        A whole viewport of it. The figure is no longer a framed widget under the
        copy: the copy stands inside the figure, and it is what the flow converges
@@ -1030,6 +1005,36 @@ __LOGO_SPRITE__
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- WORKS WITH: the tool proof. it used to sit directly under the hook, where
+       it answered "what does it read?" before the page had said what fein does.
+       #how already draws those logos flowing in and out of the graph, so the
+       strip is redundant next to it; here, after the features have made their
+       claims, it is the receipt for them, and it hands off to #security, which
+       is the next question anyone asks about a thing that reads their inbox.
+       No longer part of the hero choreography, so it reveals on scroll. -->
+  <section class="works-band" aria-label="The tools fein reads and answers in">
+    <div class="works reveal">
+      <p class="lab">It reads and answers in the tools you already use</p>
+      <div class="marquee"><div class="row">
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Google Calendar</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gdrive"/></svg>Drive</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg>Attio</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>Notion</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Slack</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>Claude</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>ChatGPT</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-gemini"/></svg>Gemini</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Cursor</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-perplexity"/></svg>Perplexity</span>
+        <span><svg class="tlogo" aria-hidden="true"><use href="#l-copilot"/></svg>Copilot</span>
+      </div></div>
+    </div>
+
   </section>
 
   <!-- SECURITY: you control your data -->
