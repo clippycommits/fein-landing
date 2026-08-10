@@ -398,6 +398,14 @@
   .stage-head .eyebrow{display:block;color:var(--dim)}
   .stage-head h2{max-width:17ch;margin:.9rem auto 0;font-size:clamp(2.15rem,4.2vw,3.6rem);line-height:1.04;letter-spacing:-.038em;text-wrap:balance}
   .stage-head .sub{max-width:40ch;margin:1.15rem auto 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);text-wrap:pretty}
+  /* the stage is the hero now, so the head carries the hero's two buttons;
+     centered under centered copy, and the flex row needs telling. */
+  .stage-head .hero-actions{justify-content:center;margin-top:clamp(1.7rem,3.2vh,2.4rem)}
+  .stage-head .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
+  .stage-head .hero-actions .btn .tlogo{width:17px;height:17px}
+  /* .band draws a rule above itself; the first section on the page has
+     nothing above it to be ruled off from. */
+  #view-home>section:first-of-type{border-top:0}
   /* the band the flow runs through on the stacked layout. display:none, not
      height:0, so that it is not a grid item here at all: as one it would take
      the 1fr row and eat a gap, and its offsetHeight is the flag the loop reads
@@ -796,9 +804,7 @@ setTimeout(go,1200);})()</script>
 __LOGO_SPRITE__
 <a class="skip" href="#content">Skip to content</a>
 <main id="view-home">
-  <section id="home" class="cta-dark hero-lead">
-    <div class="grain-overlay on-dark"></div>
-    <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas><canvas id="burstfx"></canvas></div>
+  <section id="how" class="band stagesec">
     <header>
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
@@ -887,20 +893,48 @@ __LOGO_SPRITE__
       </nav>
     </header>
 
-    <div class="wrap" id="content" tabindex="-1">
-      <span class="eyebrow">OPEN SOURCE</span>
-      <h1>Welcome to agentic venture capital.</h1>
-      <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#get-started">Talk to sales</a>
-        <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Use it for free: the source on GitHub"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Use it for free</a>
+    <div class="stage" id="dlive">
+      <div class="dscene" role="img" aria-label="Diagram: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) flow in from the left. fein resolves them into one graph at the center. Sourced answers fan out on the right to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
+        <!-- the label on the wrapper is the whole description; role="img" does
+             not prune a subtree in practice, so without these the drifting
+             answer pills get read out one by one as they recycle -->
+        <canvas id="dcanvas" aria-hidden="true"></canvas>
+        <div class="dfield" id="dfield" aria-hidden="true"></div>
+      </div>
+      <div class="stage-grid" id="content" tabindex="-1">
+        <div class="zlabels" aria-hidden="true">
+          <span class="dlab" data-zone="1">01 · Your systems</span>
+          <span class="dlab" data-zone="2">02 · One graph</span>
+          <span class="dlab" data-zone="3">03 · Sourced answers</span>
+        </div>
+        <div class="dband" aria-hidden="true"></div>
+        <div class="stage-mid">
+          <div class="head stage-head reveal" id="dhead">
+            <span class="eyebrow">How it works</span>
+            <h2>Memory that understands when things change.</h2>
+            <p class="sub">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#get-started">Talk to sales</a>
+              <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Use it for free: the source on GitHub"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Use it for free</a>
+            </div>
+          </div>
+        </div>
+        <div class="why3 stage-why3" data-reveal-group="90">
+          <div class="wcard reveal" data-zone="1"><span class="wstep">01 · Reads</span><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
+          <div class="wcard reveal" data-zone="2"><span class="wstep">02 · Resolves</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
+          <div class="wcard reveal" data-zone="3"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
+        </div>
       </div>
     </div>
-
+    <div class="wrap">
+      <div class="dfoot reveal">
+        <p class="dclose">The same question gives the same answer, for every person and every tool. It does not depend on who is in the room.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- WHAT CHANGED: the hero promises one live graph, so the first thing under it
-       has to prove the graph is live. One deal, four moments, one rail: a seed
+  <!-- WHAT CHANGED: the stage above claims memory that keeps up, so the first
+       thing under it has to prove it. One deal, four moments, one rail: a seed
        arrives, the firm passes, the company comes back at Series A eighteen
        months later, and then the same question is asked on two dates. The strike
        through is half the argument; the other half is the pass, which never
@@ -1015,42 +1049,19 @@ __LOGO_SPRITE__
        Zone order is load-bearing in three places at once — the label row, the
        field's left-to-right flow, and the step row. Renumber one and renumber
        all three, and keep each step's data-zone matching its 0N prefix. -->
-  <section id="how" class="band stagesec">
-    <div class="stage" id="dlive">
-      <div class="dscene" role="img" aria-label="Diagram: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) flow in from the left. fein resolves them into one graph at the center. Sourced answers fan out on the right to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
-        <!-- the label on the wrapper is the whole description; role="img" does
-             not prune a subtree in practice, so without these the drifting
-             answer pills get read out one by one as they recycle -->
-        <canvas id="dcanvas" aria-hidden="true"></canvas>
-        <div class="dfield" id="dfield" aria-hidden="true"></div>
-      </div>
-      <div class="stage-grid">
-        <div class="zlabels" aria-hidden="true">
-          <span class="dlab" data-zone="1">01 · Your systems</span>
-          <span class="dlab" data-zone="2">02 · One graph</span>
-          <span class="dlab" data-zone="3">03 · Sourced answers</span>
-        </div>
-        <div class="dband" aria-hidden="true"></div>
-        <div class="stage-mid">
-          <div class="head stage-head reveal" id="dhead">
-            <span class="eyebrow">How it works</span>
-            <h2>Memory that understands when things change.</h2>
-            <p class="sub">Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
-          </div>
-        </div>
-        <div class="why3 stage-why3" data-reveal-group="90">
-          <div class="wcard reveal" data-zone="1"><span class="wstep">01 · Reads</span><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
-          <div class="wcard reveal" data-zone="2"><span class="wstep">02 · Resolves</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
-          <div class="wcard reveal" data-zone="3"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
-        </div>
-      </div>
-    </div>
+  <section id="home" class="cta-dark hero-lead">
+    <div class="grain-overlay on-dark"></div>
+    <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas><canvas id="burstfx"></canvas></div>
+
     <div class="wrap">
-      <div class="dfoot reveal">
-        <p class="dclose">The same question gives the same answer, for every person and every tool. It does not depend on who is in the room.</p>
+      <span class="eyebrow">OPEN SOURCE</span>
+      <h1>Welcome to agentic venture capital.</h1>
+      <p>Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
+      <div class="hero-actions">
         <a class="arrowlink" href="#features">See what your team can ask <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
     </div>
+
   </section>
 
   <!-- FEATURES: one claim, one sentence, one mock -->
