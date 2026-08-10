@@ -527,7 +527,7 @@
   .rec-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
   /* ---- the pin: only reachable if the script ran ---- */
-  .rec-on .rec-track{--rec-travel:200;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
+  .rec-on .rec-track{--rec-travel:312;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
   .rec-on .rec-pin{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h))}
   /* three rows: the calendar, the two panes, and the transport. The transport is
      the answer to the one failure this pattern always has, which is that a
@@ -597,11 +597,46 @@
   .rec-on .rec-wires circle.tok.red{fill:var(--mem-ret)}
   .rec-on .rec-wires circle.halo{fill:none;stroke:var(--blue-l);stroke-width:1;opacity:calc(var(--w,0) * var(--tv,1) * .5)}
   .rec-on .rec-wires circle.halo.red{stroke:var(--mem-ret)}
+  /* ---- the pull back ----------------------------------------------------
+     The canvas sits above the panels, not below them, because the handoff is a
+     dissolve at matched coordinates: the canvas draws the five records as cards
+     at the pixels the DOM is using, the DOM store fades under it, and only then
+     does the camera start to move. Below the panels it would be a background
+     appearing, which reads as a slide change. --------------------------------*/
+  .rec-sky,.rec-wide{display:none}
+  .rec-after{margin:1.6rem 0 0;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty;max-width:60ch}
+  .rec-after b{color:#fff;font-weight:550}
+  .rec-on .rec-after{display:none}
+  .rec-on .rec-sky{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6;opacity:var(--sky,0)}
+  /* the store keeps its own box until the canvas has copied it. The camera
+     scales these three about the panes' own origin, which is the same origin
+     the canvas draws in, so one matrix moves the page and the picture together. */
+  .rec-on .rec-src,.rec-on .rec-core,.rec-on .rec-store{transform-origin:0 0}
+  .rec-on .rec-store{opacity:var(--store,1)}
+  .rec-on .rec-src{opacity:var(--srco,1)}
+  .rec-on .rec-core{opacity:var(--core,1)}
+  .rec-on .rec-strip{opacity:calc(.9 * var(--chrome,1))}
+  /* the counters and the line, in DOM rather than on the canvas: crisp at every
+     device ratio, and readable by a screen reader that will never see a pixel */
+  .rec-on .rec-wide{display:block;position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;opacity:var(--wide,0);padding:clamp(60px,11svh,120px) 0 2px}
+  /* the field runs under the copy, and a headline read through a record is not
+     a headline. The ground comes back just far enough to carry the type. */
+  .rec-on .rec-wide::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent,rgba(0,0,0,.72) 42%,rgba(0,0,0,.93))}
+  .rec-wq{margin:0;max-width:34ch;font-size:clamp(1.15rem,1.9vw,1.6rem);line-height:1.24;letter-spacing:-.025em;font-weight:600;color:#fff;text-wrap:balance;opacity:var(--wqo,0);transform:translate3d(0,var(--wqy,0px),0)}
+  .rec-wq b{color:var(--blue-l);font-weight:600}
+  .rec-wm{display:flex;gap:clamp(18px,2.4vw,34px);margin:1.1rem 0 0;font-family:var(--mono);opacity:var(--wmo,0)}
+  .rec-wm span{display:flex;flex-direction:column;gap:.28rem}
+  .rec-wm b{font-size:clamp(1.1rem,1.7vw,1.45rem);font-weight:500;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .rec-wm i{font-style:normal;font-size:.6rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-3)}
+  .rec-wk{display:flex;gap:16px;margin:.85rem 0 0;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--wmo,0)}
+  .rec-wk span{display:inline-flex;align-items:center;gap:.42rem}
+  .rec-wk span::before{content:"";width:9px;height:4px;border-radius:1px;background:currentColor}
+  .rec-wk .co{color:#d6e8ff}.rec-wk .pe{color:#e8e8ec}.rec-wk .lp{color:#c6eeda}
   /* the rail is the only thing that says how far through twenty-one months you are */
   /* the rail is a real calendar: every tick sits at its true distance from the
      last, so five documents crowd the first ninth of twenty-one months and then
      there is a void. The fill crossing that void IS the twelve months passing */
-  .rec-on .rec-rail{display:block;position:relative;height:22px;align-self:center;opacity:.82}
+  .rec-on .rec-rail{display:block;position:relative;height:22px;align-self:center;opacity:calc(.82 * var(--chrome,1))}
   .rec-rail::before{content:"";position:absolute;left:0;right:0;top:16px;height:1px;background:var(--line)}
   .rec-rail u{position:absolute;top:12px;width:1px;height:9px;background:var(--line-2);text-decoration:none}
   .rec-gapband{position:absolute;left:32.5%;width:57%;top:15px;height:3px;border-radius:3px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 3px,transparent 3px 7px)}
@@ -1429,6 +1464,25 @@ setTimeout(go,1200);})()</script>
         <div class="rec-stage">
           <div class="rec-rail" aria-hidden="true"><span class="rec-gapband"></span><u style="left:0%"></u><u style="left:2%"></u><u style="left:32%"></u><u style="left:77%"></u><u style="left:90%"></u><u style="left:98%"></u><i class="rec-rfill" id="rec-rfill"></i><span class="rec-rl">Nov 2024</span><span class="rec-rg">nine months, nothing filed</span><span class="rec-rr">Jul 2026</span></div>
           <div class="rec-panes" id="rec-panes">
+            <!-- the pull back. One canvas, in the panes' own coordinate space,
+                 which is the same space the wires are drawn in. That shared
+                 space is the whole trick: the five records the reader has been
+                 watching are handed to the canvas at the exact pixels the DOM
+                 had them, so the camera appears to pull back through the page
+                 rather than cut to a picture of one. -->
+            <canvas class="rec-sky" id="rec-sky" aria-hidden="true"></canvas>
+            <div class="rec-wide" id="rec-wide" aria-hidden="true">
+              <p class="rec-wq" id="rec-wq"></p>
+              <p class="rec-wm" id="rec-wm">
+                <span><b id="rec-wr">5</b><i>records</i></span>
+                <span><b id="rec-wf">10</b><i>facts</i></span>
+                <span><b id="rec-we">4</b><i>links</i></span>
+              </p>
+              <!-- the field is coloured with the same three inks the record
+                   chips use in the store, so the key costs the reader nothing
+                   they have not already learned -->
+              <p class="rec-wk" id="rec-wk"><span class="co">Companies</span><span class="pe">People</span><span class="lp">LPs</span></p>
+            </div>
             <svg class="rec-wires" id="rec-wires" aria-hidden="true"></svg>
             <div class="rec-src">
               <h3 class="rec-paneh">What arrived</h3>
@@ -1550,32 +1604,25 @@ setTimeout(go,1200);})()</script>
                 <p class="rec-gcap" id="rec-gcap">Five records &middot; <b>ten facts</b> &middot; every one traced to a document</p>
               </div>
             </section>
-          </div>
-          <div class="rec-ctl" id="rec-ctl">
-            <button type="button" class="rec-cbtn play" id="rec-play" aria-pressed="false"><span class="gl" aria-hidden="true">&#9654;</span><span id="rec-playl">Play the walk</span></button>
-            <button type="button" class="rec-cbtn sq" id="rec-prev" aria-label="Previous beat" title="Previous beat">&#8592;</button>
-            <button type="button" class="rec-cbtn sq" id="rec-next" aria-label="Next beat" title="Next beat">&#8594;</button>
-            <span class="rec-hint" aria-hidden="true"><kbd>&#8592;</kbd><kbd>&#8594;</kbd> step &middot; scroll runs it</span>
-            <span class="rec-vh" id="rec-say" role="status" aria-live="polite"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            <!-- the pull back is the pinned stage's ending, and the pinned stage
+                 does not exist on a narrow screen, without script, or when the
+                 reader has asked for less motion. Those readers get the walk and
+                 then nothing, so the claim the pull back makes is written down
+                 here in a sentence instead. -->
+            <p class="rec-after">Five records is the demonstration. A firm this machine has been running on for a year holds <b>thousands</b> of them, built the same way, from the same documents, with nobody filing a thing.</p>
           </div>
           <!-- the transport. A scrubbed story that can only be reached by
                scrolling at exactly the right speed is a story most readers
                half-read, so this gives the walk a play head, a step, and a
-               place that always says which of the eleven beats they are on. -->
+               place that always says which beat they are on. -->
           <div class="rec-ctl" id="rec-ctl">
             <button type="button" class="rec-cbtn play" id="rec-play" aria-pressed="false"><span class="gl" aria-hidden="true">&#9654;</span><span id="rec-playl">Play the walk</span></button>
             <button type="button" class="rec-cbtn sq" id="rec-prev" aria-label="Previous beat" title="Previous beat">&#8592;</button>
             <button type="button" class="rec-cbtn sq" id="rec-next" aria-label="Next beat" title="Next beat">&#8594;</button>
             <!-- no beat counter here on purpose: the documents are already
                  numbered on the narration and counted on the strip, and a
-                 second, larger number counting something else (eleven beats,
-                 which is an implementation detail) only ever reads as a
-                 contradiction of the first -->
+                 second, larger number counting something else only ever reads
+                 as a contradiction of the first -->
             <span class="rec-hint" aria-hidden="true"><kbd>&#8592;</kbd><kbd>&#8594;</kbd> step &middot; scroll runs it</span>
             <span class="rec-vh" id="rec-say" role="status" aria-live="polite"></span>
           </div>
@@ -3333,7 +3380,7 @@ setTimeout(go,1200);})()</script>
 })();
 
 /* where it goes: the scrub.
-   One pinned stage, seven beats, priced per event rather than per fact. Every
+   One pinned stage, nine beats, priced per event rather than per fact. Every
    value below derives from one number, how far through the track the reader is,
    so scrolling back runs it backwards for free and there is no state to keep in
    sync. One getBoundingClientRect per frame, on the track, read before any
@@ -3371,7 +3418,9 @@ setTimeout(go,1200);})()</script>
       say=document.getElementById('rec-say'),
       playb=document.getElementById('rec-play'), playl=document.getElementById('rec-playl'),
       prevb=document.getElementById('rec-prev'), nextb=document.getElementById('rec-next'),
-      well=document.getElementById('rec-well');
+      well=document.getElementById('rec-well'),
+      src=track.querySelector('.rec-src'),
+      rail=track.querySelector('.rec-rail');
   /* rows in document order, and the record each one belongs to. Both are read
      off the markup rather than declared twice, so a fact cannot end up filed in
      the script somewhere other than where it is written on the page. */
@@ -3385,7 +3434,12 @@ setTimeout(go,1200);})()</script>
   /* beat table: [key, length]. T is the table's own total, never a second
      number to keep in step with it. */
   var T=0;
-  var BEATS=[['s0',20],['b1',34,0],['b2',26,1],['b3',28,2],['b4',24,3],['b5',34,4],['fin',44]];
+  /* 'out' and 'all' are the pull back: the walk earns the reader's attention on
+     one record, and then the camera answers the question that earns is for,
+     which is how much of this there is. They are long on purpose. A zoom that
+     resolves in half a screen of scroll reads as a transition; one that takes
+     two reads as distance. */
+  var BEATS=[['s0',20],['b1',34,0],['b2',26,1],['b3',28,2],['b4',24,3],['b5',34,4],['fin',44],['out',62],['all',42]];
   var edge=[],acc=0;
   BEATS.forEach(function(b){ edge.push([acc,acc+b[1]]); acc+=b[1]; });
   T=acc;
@@ -3401,7 +3455,7 @@ setTimeout(go,1200);})()</script>
   ];
   /* where each beat starts and ends on the real calendar, in percent of the
      twenty-one months. The long crossings are the months nobody filed anything */
-  var RAIL=[[0,0],[0,2],[2,32],[32,77],[77,90],[90,98],[98,100]];
+  var RAIL=[[0,0],[0,2],[2,32],[32,77],[77,90],[90,98],[98,100],[100,100],[100,100]];
   /* the same voice as the narration on the left, one clause: left says what
      arrived, this says what fein did with it */
   var OPS=['fein reads',
@@ -3410,14 +3464,18 @@ setTimeout(go,1200);})()</script>
            'fein opens a record &middot; writes 2 facts',
            'fein opens a record &middot; writes 1 fact',
            'fein writes 2 facts &middot; retires 1, keeps the dates',
-           'fein holds 10 facts &middot; 5 records &middot; every one sourced'];
-  var RETOP=[0,0,0,0,0,1,0];
-  var DATES=['','8 Nov 2024','21 Nov 2024','3 Jun 2025','12 Mar 2026','2 Jun 2026','28 Jul 2026'];
+           'fein holds 10 facts &middot; 5 records &middot; every one sourced',
+           'the same machine &middot; every record your firm has',
+           'your firm, in full'];
+  var RETOP=[0,0,0,0,0,1,0,0,0];
+  var DATES=['','8 Nov 2024','21 Nov 2024','3 Jun 2025','12 Mar 2026','2 Jun 2026','28 Jul 2026','',''];
   /* cards[0] is the key card, which only exists on the pinned stage, so every
      document sits one further along than its data-c. The last beat has no
      document at all: the answer takes the well. */
-  var CARDOF=[0,1,2,3,4,5,-1];
-  var SAY=['The key','Gmail','Granola','LinkedIn','Calendar','Gmail','The answer'];
+  var CARDOF=[0,1,2,3,4,5,-1,-1,-1];
+  var SAY=['The key','Gmail','Granola','LinkedIn','Calendar','Gmail','The answer','Pulling back','Your firm'];
+  /* the two finale beats, by index, so the checks below read as what they mean */
+  var B_FIN=6, B_OUT=7, B_ALL=8;
   /* how many records each beat writes to, and how many of those are new. Counted
      off the event table so the core can never contradict the store. */
   var WR=[],RE=[],NREC=[];
@@ -3445,7 +3503,368 @@ setTimeout(go,1200);})()</script>
   var NS='http://www.w3.org/2000/svg';
   function el(tag,cls,parent){ var e=document.createElementNS(NS,tag); if(cls) e.setAttribute('class',cls); parent.appendChild(e); return e; }
 
+  /* ================= the pull back =======================================
+     A world, built once, and a camera over it. Nothing is ever spawned: the
+     field is at full size from the first frame and the camera reveals it, which
+     is the whole difference between a zoom and a thing that fades in. Every
+     quantity below is a function of fu, the units elapsed since the finale
+     began, so this scrubs backwards for free like the rest of the section.
+
+     The handoff is the part worth reading twice. For the first half of the pull
+     back there is no handoff at all: the real DOM store, with its real text and
+     its real struck fact, is put under the same camera matrix as the canvas and
+     physically scales down. The canvas draws a faithful miniature of that same
+     store, at the same scale, and the two are crossfaded only once the type has
+     gone below three pixels, where there is nothing left to tell apart. -------*/
+  var sky=document.getElementById('rec-sky'), sctx=(sky&&sky.getContext)?sky.getContext('2d'):null,
+      wide=document.getElementById('rec-wide'), wq=document.getElementById('rec-wq'),
+      wnr=document.getElementById('rec-wr'), wnf=document.getElementById('rec-wf'), wne=document.getElementById('rec-we');
+  var WD=null, sdp=1, sw=0, sh=0, lastWQ=-1;
+  var HANDOFF=6, CAM=76, ZMIN=0.0135, SKY_CL=78;
+  var BLUE='82,168,255';
+  /* mulberry32. The field must be identical on every frame and every resize, so
+     nothing in here may call Math.random. */
+  function seeded(s){ return function(){ s=s+0x6D2B79F5|0; var t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+  /* the ring just outside the five. The reader gets to read these, which is what
+     turns "five records" into "a firm" before the count runs away from them. One
+     is a duplicate, and watching it fold into Halo Compute is the only place in
+     the section where resolution happens at a size you can still read.
+
+     Their offsets are in clearances, not pixels. The camera locks onto the
+     store, which sits in the right hand third of the stage, so "far enough left
+     to be off screen" is a different number from "far enough right" and neither
+     of them is half the stage. One pixel constant here and a record pokes into
+     the corner of the frame the whole way through the walk, which is exactly
+     what it did until this was written down properly. */
+  var NEAR=[
+    {ux:-1.05,uy:-0.25,label:'Cadence Robotics',kind:'Company',facts:7,t:0},
+    {ux:-1.32,uy:0.55,label:'Ridgeline Partners',kind:'Co-investor',facts:5,t:0},
+    {ux:1.18,uy:-0.50,label:'Ines Duarte',kind:'Founder',facts:4,t:1},
+    {ux:-0.45,uy:-1.16,label:'Halo Compute Inc',kind:'Duplicate',facts:2,mg:0,mw:[21,34],t:0},
+    {ux:1.40,uy:0.62,label:'Thea Alvarsson',kind:'Person',facts:3,t:1},
+    {ux:-1.62,uy:-0.06,label:'Meridian Fund II',kind:'LP',facts:6,t:2}
+  ];
+  function buildWorld(){
+    if(!sctx||!geo||!geo.full||!geo.full.length) return;
+    var rn=seeded(0x5EED17), i, c, m, N=[], E=[], G=geo.full, RT=[0,1,1,1,2];
+    /* 1. the five, at the pixels the store is using for them */
+    var fx=0, fy=0;
+    for(i=0;i<G.length;i++){
+      var f=G[i];
+      N.push({x:f.x+f.w/2,y:f.y+f.h/2,w:f.w,h:f.h,facts:f.n,real:1,g:f,ph:rn(),mg:-1,mw:null,t:RT[i]||0});
+      fx+=f.x+f.w/2; fy+=f.y+f.h/2;
+    }
+    fx/=G.length; fy/=G.length;
+    E.push([1,0],[2,0],[3,0],[4,0],[4,2]);
+    /* 2. the readable ring. One clearance is the distance from the camera's lock
+       point to that edge of the stage, plus half a record, plus a margin: at
+       scale one, anything a whole clearance out cannot touch the frame. */
+    var CW=geo.bodyW, P0=G[0], CH0=P0.h,
+        UL=fx+CW/2+60, UR=(geo.paneW-fx)+CW/2+60,
+        UT=fy+CH0/2+50, UB=(geo.paneH-fy)+CH0/2+50;
+    for(i=0;i<NEAR.length;i++){
+      var nr=NEAR[i], nh=RH+RPAD+FH*nr.facts,
+          ndx=nr.ux*(nr.ux<0?UL:UR), ndy=nr.uy*(nr.uy<0?UT:UB);
+      N.push({x:fx+ndx,y:fy+ndy,w:CW,h:nh,facts:nr.facts,real:0,near:1,ph:rn(),
+              t:nr.t,g:{label:nr.label,kind:nr.kind,lx:P0.lx,ly:P0.ly,lfs:P0.lfs,kx:P0.kx,ky:P0.ky,kfs:P0.kfs},
+              mg:nr.mg===undefined?-1:nr.mg,mw:nr.mw||null});
+      E.push([N.length-1, i===3?0:(i===2?3:(i===4?3:(i%2?2:1)))]);
+    }
+    /* 3. the field.
+       Three numbers decide everything here and they are solved against each
+       other, not chosen. R1 is where the field ends, and it is set so that at
+       the closest the camera ever gets to the whole thing a record is about
+       sixteen pixels wide, which is the size at which a rectangle still reads
+       as a record and not as a speck. The area of one record then fixes how
+       many fit: the annulus holds about four thousand at a spacing that never
+       lets two overlap, so the last frame is a full screen rather than a
+       crowd painted on top of itself. R0 is where the field starts, and it is
+       set so the first of it arrives about a third of the way into the pull,
+       after the ring of names has been read and before the reader is bored. */
+    var R0=Math.max(2900,UL*1.95), R1=(geo.paneW*0.5/ZMIN)*0.95,
+        AREA=CW*(RH+RPAD+FH*5)*3.2, RATIO=R1/R0,
+        /* solved, not chosen: this is the per cluster coefficient that lands the
+           whole field on TARGET records for whatever ratio this window gives */
+        KC=3400*2*Math.log(RATIO)/(SKY_CL*(RATIO*RATIO-1)),
+        hubs=[], hx, hy;
+    for(c=0;c<SKY_CL;c++){
+      var u=(c+0.5)/SKY_CL, rc=R0*Math.pow(RATIO,u),
+          ac=6.28318*((c*0.6180339887)%1)+rn()*0.6;
+      hx=fx+Math.cos(ac)*rc; hy=fy+Math.sin(ac)*rc*0.55;
+      /* a cluster is sized by the area of the radial band it stands in, so the
+         field has one density throughout rather than a dense middle */
+      /* an ellipse, turned, rather than a disc: seventy eight identical circles
+         reads as a pattern, and a firm is not a pattern */
+      var n=Math.max(8,Math.round(KC*Math.pow(rc/R0,2))),
+          asp=0.5+rn()*0.8, rot=rn()*3.1416, crot=Math.cos(rot), srot=Math.sin(rot),
+          spread=Math.sqrt(n*AREA/(3.1416*asp)), hi=N.length, mem=[];
+      N.push({x:hx,y:hy,w:CW,h:RH+RPAD+FH*4,facts:3+((c*7)%7),real:0,ph:rn(),mg:-1,mw:null,g:null,t:c%3===0?0:(c%3===1?1:2)});
+      hubs.push(hi);
+      /* members go down on a phyllotaxis spiral, jittered. This is worth the
+         two lines it costs: on a golden angle spiral a point's nearest
+         neighbours are always its Fibonacci offsets, so the mesh can be wired
+         by index with no distance test at all, and it comes out even. Nearest
+         of a random sample, which is the obvious thing to write here, keeps
+         picking something across the cluster, and a cluster wired that way
+         reads from far off as a starburst. Fifty starbursts is a firework
+         display, which is not what a firm's memory looks like. */
+      /* which Fibonacci offsets are the near neighbours depends on how many
+         records the cluster holds: on a spiral of nine, eight is the far side.
+         Fixing the offsets at 8/13/21 left every small cluster with no edges at
+         all, which is why the inner half of the field came out as loose records
+         with nothing between them. */
+      var FIB=[2,3,5,8,13,21,34], OFF=[], fi;
+      for(fi=FIB.length-1;fi>=0&&OFF.length<3;fi--) if(FIB[fi]<=Math.max(2,n/2.6)) OFF.push(FIB[fi]);
+      while(OFF.length<3) OFF.push(OFF[OFF.length-1]||2);
+      var sp=spread/Math.sqrt(n);
+      for(m=0;m<n;m++){
+        var rad=spread*Math.sqrt((m+0.5)/n), ang=m*2.39996, idx=N.length,
+            dup=m>=8&&rn()<0.075, fc=2+(idx%8),
+            tr=rn(), tt=tr<0.44?0:(tr<0.93?1:2),
+            ex=Math.cos(ang)*rad, ey=Math.sin(ang)*rad*asp;
+        N.push({x:hx+ex*crot-ey*srot+(rn()-0.5)*sp*1.5,
+                y:hy+ex*srot+ey*crot+(rn()-0.5)*sp*1.5,
+                w:CW,h:RH+RPAD+FH*fc,
+                facts:fc,real:0,ph:rn(),g:null,
+                /* a duplicate folds into its lattice neighbour, never into the
+                   cluster's first record. Merging a twelfth of a cluster into
+                   one point drags every one of their edges with it, and what
+                   the reader sees from far off is not resolution, it is a
+                   starburst. Resolution is local, and it should look local. */
+                mg:dup?idx-8:-1,mw:null,t:tt});
+        mem.push(idx);
+        /* each record wires to two of its three Fibonacci neighbours, chosen
+           per record rather than for the whole cluster. Wiring them all to the
+           same offset picks out one family of spiral arms and the cluster comes
+           out looking like a drawing of a galaxy; interleaving the families is
+           what makes it a mesh. */
+        var f1=rn(), o1=OFF[f1<0.4?0:(f1<0.78?1:2)], o2=OFF[f1<0.4?1:(f1<0.78?2:0)];
+        if(m>=o1) E.push([idx,idx-o1]);
+        if(m>=o2&&rn()<0.4) E.push([idx,idx-o2]);
+        if(m>=OFF[2]*1.6&&rn()<0.05) E.push([idx,idx-Math.round(OFF[2]*1.6)]);
+      }
+      /* one long link per cluster, to the nearest cluster already placed. This
+         is the only thing holding the field together at the widest frame. */
+      if(c>0){
+        var nb=-1, nd=1e18;
+        for(var q=0;q<hubs.length-1;q++){
+          var qx=N[hubs[q]].x-hx, qy=N[hubs[q]].y-hy, qd=qx*qx+qy*qy;
+          if(qd<nd){ nd=qd; nb=hubs[q]; }
+        }
+        if(nb>=0) E.push([hi,nb]);
+      }
+    }
+    /* the resting place, kept apart from x/y so a merge stays a pure function of
+       fu rather than something that has already happened */
+    for(i=0;i<N.length;i++){
+      N[i].hx=N[i].x; N[i].hy=N[i].y;
+      /* the front travels as a circle in the same squashed space the clusters
+         were laid out in, so it crosses the field as one even sweep rather than
+         reaching the top and bottom long before the sides */
+      var ddx=N[i].x-fx, ddy=(N[i].y-fy)/0.55;
+      N[i].dr=Math.sqrt(ddx*ddx+ddy*ddy);
+    }
+    WD={n:N,e:E,fx:fx,fy:fy};
+  }
+  function skySize(){
+    if(!sctx||!panes) return;
+    var r=panes.getBoundingClientRect();
+    sdp=Math.min(window.devicePixelRatio||1,1.5);
+    sw=r.width; sh=r.height;
+    sky.width=Math.max(1,Math.round(sw*sdp)); sky.height=Math.max(1,Math.round(sh*sdp));
+    sctx.setTransform(sdp,0,0,sdp,0,0);
+  }
+  function rrect(g,x,y,w,h,r){
+    if(g.roundRect){ g.beginPath(); g.roundRect(x,y,w,h,r); return; }
+    g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r);
+    g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath();
+  }
+  /* the camera, solved for fu. Kept separate from the drawing because the DOM
+     panels are moved by the same numbers, and there must be exactly one place
+     that decides where the world is. */
+  function cam(fu){
+    var k=clamp01((fu-HANDOFF)/CAM),
+        /* near linear in the exponent, eased a little at both ends. Linear in
+           the exponent is a constant number of halvings per screen of scroll,
+           which is the only curve under which a zoom this deep reads as one
+           continuous move rather than a lurch followed by a crawl. */
+        ke=k<=0?0:0.65*k+0.35*(k*k*(3-2*k)),
+        z=Math.pow(ZMIN,ke),
+        pe=1-Math.pow(1-clamp01(ke*1.9),3),
+        /* the wavefront. It rides just inside the edge of what the camera can
+           see, so a record arriving at the rim of the frame is a record being
+           written at that moment, and then it runs on past the field once the
+           camera stops so the last thing the reader sees is settled rather than
+           permanently half done. */
+        settle=clamp01((fu-(HANDOFF+CAM))/16),
+        wr=(Math.max(sw,sh)*0.5/z)*(0.82+0.62*settle);
+    return {k:k,ke:ke,z:z,wr:wr,wb:wr*0.24,
+            px:WD.fx+(sw/2-WD.fx)*pe, py:WD.fy+(sh*0.44-WD.fy)*pe,
+            /* the DOM holds the record until its type is under about three
+               pixels; below that the canvas miniature is the same picture */
+            dom:clamp01((z-0.15)/0.13)};
+  }
+  function paintSky(fu){
+    if(!sctx||!WD){ return null; }
+    sctx.setTransform(sdp,0,0,sdp,0,0);
+    sctx.clearRect(0,0,sw,sh);
+    if(fu<=0) return null;
+    var C=cam(fu), z=C.z, ke=C.ke, px=C.px, py=C.py, canv=1-C.dom,
+        NN=WD.n, EE=WD.e, L=NN.length, i, e, n;
+    var sx=new Float32Array(L), sy=new Float32Array(L), vz=new Uint8Array(L),
+        lit=new Float32Array(L), wrt=new Float32Array(L), nvis=0, nfacts=0, nedge=0;
+    for(i=0;i<L;i++){
+      n=NN[i];
+      /* how much of this record the front has passed. Everything downstream
+         hangs off this one number: whether it has its facts yet, whether its
+         duplicate has folded in, and how brightly it is drawn. */
+      var wv=n.real||n.near?1:clamp01((C.wr-n.dr)/C.wb);
+      wrt[i]=wv;
+      var X=n.hx, Y=n.hy, mq=-1;
+      if(n.mg>=0){
+        /* the ring's duplicate has its own window, because it happens while a
+           record is still big enough to read and wants to be watched. Out in
+           the field, a duplicate folds in when the front reaches it, so
+           resolution is something the wave does rather than something that
+           happens to be going on. */
+        mq=n.mw?clamp01((fu-n.mw[0])/(n.mw[1]-n.mw[0])):wv;
+        var me=mq<=0?0:out3(mq), tg=NN[n.mg];
+        if(me>0){ X=X+(tg.hx-X)*me; Y=Y+(tg.hy-Y)*me; }
+      }
+      var ax=px+(X-WD.fx)*z, ay=py+(Y-WD.fy)*z;
+      sx[i]=ax; sy[i]=ay;
+      if(ax>-90&&ax<sw+90&&ay>-90&&ay<sh+90&&wv>0.02){ vz[i]=1; nvis++; nfacts+=Math.round(n.facts*wv); }
+      /* lit is the blue: the crest of the front, a fold in progress, and after
+         the front has gone by, the ordinary business of a record changing */
+      if(wv>0&&wv<0.42) lit[i]=Math.sin(wv/0.42*Math.PI)*0.9;
+      if(mq>0&&mq<1) lit[i]=Math.max(lit[i],0.95);
+      if(wv>0.98){
+        var ph=(fu*0.055+n.ph)%1;
+        if(ph<0.022) lit[i]=Math.max(lit[i],Math.sin(ph/0.022*Math.PI));
+      }
+    }
+    /* ---- edges: two paths, two strokes, whatever the node count ---- */
+    var dim=new Path2D(), hot=new Path2D(), hotN=0;
+    for(e=0;e<EE.length;e++){
+      var a=EE[e][0], b=EE[e][1];
+      if(!vz[a]&&!vz[b]) continue;
+      var ex=sx[a]-sx[b], ey=sy[a]-sy[b];
+      if(ex*ex+ey*ey<16) continue;
+      nedge++;
+      /* only a short edge is allowed to light. The few long links that hold the
+         field together join clusters half a screen apart, and lighting one
+         because a record at its far end happened to change draws a blue line
+         across the whole frame, which reads as a beam rather than as work. */
+      var h=(lit[a]>0.3&&lit[b]>0.3)&&(ex*ex+ey*ey<22500);
+      if(h){ hotN++; hot.moveTo(sx[a],sy[a]); hot.lineTo(sx[b],sy[b]); }
+      else { dim.moveTo(sx[a],sy[a]); dim.lineTo(sx[b],sy[b]); }
+    }
+    sctx.lineWidth=1;
+    sctx.strokeStyle='rgba(255,255,255,'+(0.038+0.028*ke).toFixed(3)+')';
+    sctx.stroke(dim);
+    if(hotN){ sctx.strokeStyle='rgba('+BLUE+',.34)'; sctx.stroke(hot); }
+    /* ---- the records. A card while it is big enough to be one, a dot once it
+       is not, and every dot in a single batched path so four thousand of them
+       cost one fill call. ---- */
+    /* six batches, three record types by whether the front has reached them
+       yet, plus one for whatever is lit. Seven fills for four thousand records.
+       Each fill rasterises over its own bounding box and at the widest frame
+       every box is the whole canvas, so the batch count is the frame budget:
+       twelve of them was thirty frames a second. The unwritten batch is also
+       what keeps the field from ending at a hard edge, since the ground ahead
+       of the front is faint rather than absent. */
+    var aw=geo.bodyW*z, card=aw>=24, hotd=new Path2D(), bag=[], bi2;
+    for(i=0;i<6;i++) bag.push(new Path2D());
+    for(i=0;i<L;i++){
+      if(!vz[i]) continue;
+      n=NN[i];
+      if(n.real&&canv<=0.002) continue;
+      /* below twenty four pixels a record has no readable parts left, so it is
+         drawn as the rectangle it is, and every one of them goes into a single
+         path. Four thousand records then cost two fills rather than eight
+         thousand calls, which is the whole performance story of this section. */
+      if(!card){
+        var bh=Math.max(1,n.h*z);
+        if(lit[i]>0.3) hotd.rect(sx[i]-aw/2,sy[i]-bh/2,Math.max(1,aw),bh);
+        else bag[n.t*2+(wrt[i]<0.5?1:0)].rect(sx[i]-aw/2,sy[i]-bh/2,Math.max(1,aw),bh);
+        continue;
+      }
+      var ah=n.h*z, x=sx[i]-aw/2, y=sy[i]-ah/2, wv2=wrt[i];
+      sctx.globalAlpha=(n.real?canv:1)*(0.3+0.7*wv2);
+      sctx.fillStyle='rgba(255,255,255,'+(0.028+0.05*ke+0.06*lit[i]).toFixed(3)+')';
+      rrect(sctx,x,y,aw,ah,Math.min(8,aw*0.02)); sctx.fill();
+      sctx.strokeStyle=lit[i]>0.3?'rgba('+BLUE+','+(0.24+0.5*lit[i]).toFixed(2)+')'
+                     :(n.real?'rgba('+BLUE+',.3)':'rgba(255,255,255,'+(0.11+0.12*ke).toFixed(3)+')');
+      sctx.stroke();
+      var g=n.g;
+      if(g&&g.lfs*z>=3.2){
+        sctx.fillStyle='#fff';
+        sctx.font='600 '+(g.lfs*z).toFixed(1)+'px Inter,system-ui,sans-serif';
+        sctx.textBaseline='middle';
+        sctx.fillText(g.label,x+g.lx*z,y+g.ly*z);
+        if(g.kfs*z>=3.2){
+          sctx.fillStyle='#8a8f98';
+          sctx.font='500 '+(g.kfs*z).toFixed(1)+'px ui-monospace,Menlo,monospace';
+          sctx.fillText(g.kind.toUpperCase(),x+g.kx*z,y+g.ky*z);
+        }
+      }
+      /* the facts, once the names have gone: a record is still a stack of
+         lines, and the front fills them in as it passes */
+      if(FH*z>=1.7){
+        sctx.fillStyle='rgba(255,255,255,'+(0.14+0.08*ke).toFixed(3)+')';
+        var got=n.facts*wv2;
+        for(var q=0;q<n.facts;q++){
+          var fq=clamp01(got-q); if(fq<=0) break;
+          sctx.fillRect(x+14*z,y+(RH+RPAD*0.5+FH*q+FH*0.35)*z,aw*(q%2?0.42:0.6)*fq,Math.max(0.7,FH*0.18*z));
+        }
+      }
+      sctx.globalAlpha=1;
+    }
+    if(!card){
+      /* the three type inks are the ones the record chips already use in the
+         store, at a fraction of their strength. At this size no single record
+         is legibly coloured; what the eye picks up is that one part of the
+         field is companies and another is people, which is the only structure
+         worth carrying this far out. */
+      var INK=['214,232,255','232,232,236','198,238,218'], BAND=[1,0.26];
+      for(bi2=0;bi2<6;bi2++){
+        sctx.fillStyle='rgba('+INK[(bi2/2)|0]+','+(0.24*BAND[bi2%2]).toFixed(3)+')';
+        sctx.fill(bag[bi2]);
+      }
+      sctx.fillStyle='rgba('+BLUE+',.55)'; sctx.fill(hotd);
+    }
+    /* ---- the one you were just reading. Once the field is large enough to have
+       lost it, put it back: a hairline and a name on the node the whole walk was
+       about. It is the difference between a picture of scale and a picture of
+       your own record inside it. ---- */
+    var pin=clamp01((ke-0.55)/0.22)*clamp01((1-C.dom)*3);
+    if(pin>0.01&&vz[0]){
+      var lx=sx[0], ly=sy[0], PW=182, PH=38,
+          left=lx>sw*0.55, tx=left?lx-64-PW:lx+64, ty=ly-58;
+      if(ty<8) ty=ly+34;
+      sctx.globalAlpha=pin;
+      /* the leader first, so the plate covers where it lands */
+      sctx.strokeStyle='rgba('+BLUE+',.55)'; sctx.lineWidth=1;
+      sctx.beginPath(); sctx.moveTo(lx,ly); sctx.lineTo(left?tx+PW:tx,ty+PH/2); sctx.stroke();
+      sctx.beginPath(); sctx.arc(lx,ly,5,0,6.28318); sctx.stroke();
+      /* a plate, because a white name laid straight onto four thousand records
+         is the one place this picture could still turn into noise */
+      rrect(sctx,tx,ty,PW,PH,7);
+      sctx.fillStyle='rgba(0,0,0,.9)'; sctx.fill();
+      sctx.strokeStyle='rgba('+BLUE+',.34)'; sctx.stroke();
+      sctx.textBaseline='alphabetic';
+      sctx.fillStyle='#fff'; sctx.font='600 13px Inter,system-ui,sans-serif';
+      sctx.fillText('Halo Compute',tx+12,ty+17);
+      sctx.fillStyle='#8a8f98'; sctx.font='500 8.5px ui-monospace,Menlo,monospace';
+      sctx.fillText('THE RECORD YOU JUST WATCHED',tx+12,ty+29);
+      sctx.globalAlpha=1;
+    }
+    return {rec:nvis,fact:nfacts,edge:nedge,cam:C};
+  }
   function measure(){
+    /* the camera writes transforms onto these three, and measuring a transformed
+       box would fold the last frame's zoom into the next one's geometry */
+    [src,core,store].forEach(function(e){ if(e) e.style.transform=''; });
     NAV=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
     PINH=pin.getBoundingClientRect().height;
     var pr=panes.getBoundingClientRect(), sr=store.getBoundingClientRect(), br=body.getBoundingClientRect();
@@ -3491,9 +3910,42 @@ setTimeout(go,1200);})()</script>
     var coreX=pr.width/2, coreY=pr.height*0.42;
     if(core){ var cbr=core.getBoundingClientRect(); coreX=cbr.left-pr.left+cbr.width/2; }
     geo={ bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left, bodyW:br.width, bodyH:br.height,
+          bodyLeft:br.left-pr.left, paneW:pr.width, paneH:pr.height,
           coreX:coreX, coreY:coreY,
           hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
             return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
+    /* where the five records sit once every fact has landed. paint() lays the
+       column out from the top each frame from the same three numbers, so this
+       is that layout solved for the finished state, and it is the only thing
+       the canvas needs in order to take the records over at the exact pixels
+       the DOM had them. */
+    var yy=0; geo.full=[];
+    for(var rq=0;rq<recs.length;rq++){
+      var nf=0; for(var ii=0;ii<rows.length;ii++) if(ROWREC[ii]===rq) nf++;
+      var hh=RH+RPAD+FH*nf, rcr=recs[rq].getBoundingClientRect(),
+          nmE=recs[rq].querySelector('.rec-rn'), tpE=recs[rq].querySelector('.rec-rt'),
+          nmR=nmE?nmE.getBoundingClientRect():null, tpR=tpE?tpE.getBoundingClientRect():null;
+      /* the name's offset inside its own record, and the size it is drawn at.
+         The canvas copy is the DOM at scale z, so it needs the real numbers,
+         not a guess: a label in the wrong place is the one thing that would
+         make the swap visible. */
+      geo.full.push({x:geo.bodyLeft,y:geo.bodyTop+yy,w:geo.bodyW,h:hh,n:nf,
+        label:nmE?nmE.textContent:'', kind:tpE?tpE.textContent:'',
+        lx:nmR?nmR.left-rcr.left:14, ly:nmR?nmR.top-rcr.top+nmR.height/2:RH/2,
+        lfs:nmE?parseFloat(getComputedStyle(nmE).fontSize)||15:15,
+        kx:tpR?tpR.left-rcr.left:120, ky:tpR?tpR.top-rcr.top+tpR.height/2:RH/2,
+        kfs:tpE?parseFloat(getComputedStyle(tpE).fontSize)||9:9});
+      yy+=hh+RGAP;
+    }
+    /* the three panels the camera moves, and where each one sits when it does
+       not. The transform is solved against these, so scale(1) is exactly the
+       page the reader has been looking at. */
+    geo.cams=[src,core,store].filter(Boolean).map(function(e){
+      var q=e.getBoundingClientRect();
+      return {e:e,ox:q.left-pr.left,oy:q.top-pr.top};
+    });
+    skySize();
+    buildWorld();
     if(!paths.length){
       EV.forEach(function(e){
         var p=document.createElementNS(NS,'path');
@@ -3528,9 +3980,12 @@ setTimeout(go,1200);})()</script>
       cards[c].style.opacity=o;
       cards[c].style.setProperty('--cy',cy.toFixed(1)+'px');
     }
-    var gv=BEATS[bi][0]==='fin'?seg(local,12,24):0;
+    /* units into the pull back. Zero or less everywhere before it, which is what
+       keeps the finale from costing anything during the walk. */
+    var fu=bi>=B_OUT?(u-edge[B_OUT][0]):0;
+    var gv=bi>=B_OUT?1:(bi===B_FIN?seg(local,12,24):0);
     if(ask){
-      var ao=BEATS[bi][0]==='fin'?clamp01(local/4):0;
+      var ao=bi===B_FIN?clamp01(local/4):(bi===B_OUT?1-clamp01(local/7):0);
       ask.style.setProperty('--ao',ao.toFixed(3));
       ask.style.setProperty('--ay',((1-out3(ao))*18).toFixed(1)+'px');
       ask.classList.toggle('live',ao>0.6);
@@ -3645,6 +4100,48 @@ setTimeout(go,1200);})()</script>
     body.style.setProperty('--gv',gv.toFixed(3));
     for(r=0;r<recs.length;r++) recs[r].classList.toggle('ans',gv>0.05&&!!ANSR[r]);
 
+    /* --- the pull back. The canvas and the three DOM panels are moved by one
+       camera, so the page and the picture cannot drift apart. --- */
+    var sc=paintSky(fu);
+    if(sky) sky.style.setProperty('--sky',(fu>0?clamp01(fu/3):0).toFixed(3));
+    if(geo&&geo.cams){
+      for(k=0;k<geo.cams.length;k++){
+        var cm=geo.cams[k];
+        if(!sc){ cm.e.style.transform=''; continue; }
+        var C2=sc.cam;
+        cm.e.style.transform='translate3d('+(C2.px+(cm.ox-WD.fx)*C2.z-cm.ox).toFixed(2)+'px,'
+          +(C2.py+(cm.oy-WD.fy)*C2.z-cm.oy).toFixed(2)+'px,0) scale('+C2.z.toFixed(5)+')';
+      }
+    }
+    if(store) store.style.setProperty('--store',(sc?sc.cam.dom:1).toFixed(3));
+    if(src) src.style.setProperty('--srco',(sc?sc.cam.dom:1).toFixed(3));
+    if(core) core.style.setProperty('--core',(fu>0?(1-clamp01(fu/10)):1).toFixed(3));
+    if(rail) rail.style.setProperty('--chrome',(fu>0?(1-clamp01(fu/12)):1).toFixed(3));
+    /* the line and the counts. The counts are what the canvas actually drew, so
+       the number under the picture can never claim more than the picture holds. */
+    if(wide){
+      wide.style.setProperty('--wide',(fu>0?clamp01((fu-6)/5):0).toFixed(3));
+      /* three lines across the hundred and four units of the finale. The gaps
+         are four units, which is about a fifth of a second of scrolling: long
+         enough that the lines do not cross fade into each other, short enough
+         that the counters never stand there on their own under nothing. */
+      var WQ=[[12,42,'That was one company, over twenty-one months.'],
+              [46,78,'Your firm is doing this on every record it has.'],
+              [82,1e6,'Nobody filed <b>any</b> of it.']], wi=-1, wo=0;
+      for(k=0;k<WQ.length;k++) if(fu>=WQ[k][0]&&fu<WQ[k][1]){
+        wi=k; wo=Math.min(clamp01((fu-WQ[k][0])/4),WQ[k][1]>1e5?1:clamp01((WQ[k][1]-fu)/4));
+      }
+      if(wi!==lastWQ){ lastWQ=wi; if(wq) wq.innerHTML=wi<0?'':WQ[wi][2]; }
+      if(wq){ wq.style.setProperty('--wqo',wo.toFixed(3));
+              wq.style.setProperty('--wqy',((1-out3(wo))*14).toFixed(1)+'px'); }
+      if(sc){
+        wide.style.setProperty('--wmo',clamp01((fu-12)/6).toFixed(3));
+        if(wnr) wnr.textContent=sc.rec.toLocaleString('en-US');
+        if(wnf) wnf.textContent=sc.fact.toLocaleString('en-US');
+        if(wne) wne.textContent=sc.edge.toLocaleString('en-US');
+      } else wide.style.setProperty('--wmo','0');
+    }
+
     /* --- chrome --- */
     if(rfill){
       var rr2=RAIL[bi], rp=(rr2[0]+(rr2[1]-rr2[0])*Math.min(1,local/Math.max(1,BEATS[bi][1])))/100;
@@ -3670,12 +4167,14 @@ setTimeout(go,1200);})()</script>
       chips[i].classList.toggle('read',cb<bi);
       chips[i].setAttribute('aria-current',cb===bi?'true':'false');
     }
-    if(stripn) stripn.textContent=BEATS[bi][0]==='fin'?'Answering':(cardNow>0?'Reading':'Ready');
-    if(stripd) stripd.textContent=BEATS[bi][0]==='fin'?'all 5 documents read'
-      :(cardNow>0?SAY[bi]+' · document '+cardNow+' of 5':'5 documents, 5 records');
+    var wideNow=bi>=B_OUT;
+    if(stripn) stripn.textContent=wideNow?'Pulling back':(bi===B_FIN?'Answering':(cardNow>0?'Reading':'Ready'));
+    if(stripd) stripd.textContent=wideNow?(bi===B_ALL?'your whole firm, one graph':'past the five, into the rest')
+      :(bi===B_FIN?'all 5 documents read'
+      :(cardNow>0?SAY[bi]+' · document '+cardNow+' of 5':'5 documents, 5 records'));
     if(prevb) prevb.disabled=bi<=0;
     if(nextb) nextb.disabled=bi>=BEATS.length-1;
-    if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+cardNow+' of 5. ':(BEATS[bi][0]==='fin'?'All 5 documents read. ':''))
+    if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+cardNow+' of 5. ':(bi===B_FIN?'All 5 documents read. ':''))
       +OPS[bi].replace(/\s*&middot;\s*/g,', ')+'.';
   }
   function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
@@ -3698,7 +4197,7 @@ setTimeout(go,1200);})()</script>
     for(i=0;i<edge.length;i++) if(u>=edge[i][0]) b=i;
     return b;
   }
-  var play=false, ptime=0, pacc=0, PDUR=64000;
+  var play=false, ptime=0, pacc=0, PDUR=100000;
   function setPlay(v){
     play=v;
     if(playb) playb.setAttribute('aria-pressed',v?'true':'false');
@@ -3762,8 +4261,11 @@ setTimeout(go,1200);})()</script>
     if(io){ io.disconnect(); io=null; }
     document.documentElement.classList.remove('rec-on');
     if(body){ body.classList.remove('rec-tight'); body.style.removeProperty('--gv'); }
-    [].concat(cards,rows,recs,hls,paths,toks,halos,ask?[ask]:[],well?[well]:[],core?[core]:[])
+    [].concat(cards,rows,recs,hls,paths,toks,halos,ask?[ask]:[],well?[well]:[],core?[core]:[],
+              src?[src]:[],store?[store]:[],rail?[rail]:[],sky?[sky]:[],wide?[wide]:[],wq?[wq]:[])
       .forEach(function(e){ e.removeAttribute('style'); });
+    if(sctx){ sctx.setTransform(1,0,0,1,0,0); sctx.clearRect(0,0,sky.width,sky.height); }
+    lastWQ=-1;
     recs.forEach(function(e){ e.classList.remove('ans'); });
   }
   function remeasure(){ if(!on) return; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
