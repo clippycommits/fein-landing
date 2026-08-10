@@ -163,7 +163,9 @@
   .ddp-resources{width:min(660px,calc(100vw - 48px))}
   .dd-main{flex:1;min-width:0;padding:22px 28px 26px}
   .dd-rail{flex:none;width:228px;border-left:1px solid var(--line);padding:22px 28px 26px}
-  .dd-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:20px 0 8px}
+  /* section eyebrows: they name the group, they do not compete with the item
+     titles under them, so they sit two steps below the 14.5px row title. */
+  .dd-label{font-size:9.5px;font-weight:560;letter-spacing:.085em;text-transform:uppercase;color:var(--dim);margin:16px 0 5px}
   .dd-label:first-child{margin-top:0}
   .dd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px}
   .dd-grid.one{grid-template-columns:minmax(0,1fr)}
