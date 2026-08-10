@@ -450,13 +450,18 @@
   .dlab.on{color:var(--blue-l)}
   .dlab.dim{color:#43464b}
   .stage-mid{display:grid;place-items:center;min-height:0}
+  /* the stage leads the page, so it carries the hero scale: the headline runs
+     to 4.75rem and the three rungs under it (kicker, lede, actions) step down
+     in weight and up in spacing so the eye lands on the statement first.
+     the 17ch measure is what holds the authored two-line break, and ch scales
+     with the font, so the wrap pattern is identical at every size */
   .stage-head{max-width:none;text-align:center}
-  .stage-head .eyebrow{display:block;color:var(--dim)}
-  .stage-head h2{max-width:17ch;margin:.9rem auto 0;font-size:clamp(2.15rem,4.2vw,3.6rem);line-height:1.04;letter-spacing:-.038em;text-wrap:balance}
-  .stage-head .sub{max-width:40ch;margin:1.15rem auto 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);text-wrap:pretty}
+  .stage-head .eyebrow{display:block;color:var(--dim);letter-spacing:.2em;font-size:.7rem}
+  .stage-head h1{max-width:17ch;margin:1.2rem auto 0;font-size:clamp(2.5rem,6.6vw,4.75rem);line-height:1.02;letter-spacing:-.042em;text-wrap:balance}
+  .stage-head .sub{max-width:33rem;margin:1.55rem auto 0;color:var(--fg-2);font-size:1.14rem;line-height:1.3;letter-spacing:-.011em;text-wrap:pretty}
   /* the stage is the hero now, so the head carries the hero's two buttons;
      centered under centered copy, and the flex row needs telling. */
-  .stage-head .hero-actions{justify-content:center;margin-top:clamp(1.7rem,3.2vh,2.4rem)}
+  .stage-head .hero-actions{justify-content:center;margin-top:2.7rem;gap:.9rem}
   .stage-head .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
   .stage-head .hero-actions .btn .tlogo{width:17px;height:17px}
   /* .band draws a rule above itself; the first section on the page has
@@ -558,17 +563,12 @@
   .cta-dark .hero-actions{justify-content:center;margin-top:2.2rem}
   /* the starburst promoted to the lead hero: fill the viewport, clear the fixed nav */
   .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--nav-h) + clamp(3rem,7vh,6rem))}
-  /* the lead hero carries the page, so it gets its own scale: the headline runs
-     to 4.75rem and the three rungs under it (kicker, lede, actions) step down
-     in weight and up in spacing so the eye lands on the statement first.
-     the 17ch measure is what holds the authored two-line break, and ch scales
-     with the font, so the wrap pattern is identical at every size */
-  .hero-lead .eyebrow{letter-spacing:.2em;font-size:.7rem}
-  .hero-lead h1,.hero-lead h2{font-size:clamp(2.5rem,6.6vw,4.75rem);letter-spacing:-.042em;line-height:1.02;margin-top:1.2rem}
-  .hero-lead p{margin-top:1.55rem;font-size:1.14rem;line-height:1.3;max-width:33rem;text-wrap:pretty}
-  .hero-lead .hero-actions{margin-top:2.7rem;gap:.9rem}
-  .hero-lead .hero-actions .btn{height:46px;padding:0 20px;font-size:15px;border-radius:12px}
-  .hero-lead .hero-actions .btn .tlogo{width:17px;height:17px}
+  /* the hero scale lives on the stage now; this panel reads as a section head
+     below it. .cta-dark still supplies the 17ch measure and the centering. */
+  .hero-lead .eyebrow{color:var(--dim)}
+  .hero-lead h1,.hero-lead h2{font-size:clamp(2.15rem,4.2vw,3.6rem);letter-spacing:-.038em;line-height:1.04;margin-top:.9rem}
+  .hero-lead p{margin-top:1.15rem;font-size:clamp(1.02rem,1.5vw,1.15rem);line-height:1.5;letter-spacing:-.016em;max-width:40ch;text-wrap:pretty}
+  .hero-lead .hero-actions{margin-top:clamp(1.7rem,3.2vh,2.4rem)}
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
   .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
@@ -724,7 +724,7 @@
     .stage-grid{grid-template-rows:auto auto auto auto;padding-top:clamp(4.75rem,11vh,6.5rem);padding-bottom:clamp(2.5rem,6vh,3.5rem);gap:clamp(1.8rem,4vh,2.8rem)}
     .dband{display:block;height:clamp(160px,27vh,250px)}
     .stage-mid{align-items:start}
-    .stage-head h2{max-width:19ch}
+    .stage-head h1{max-width:19ch}
   }
   @media (max-width:760px){
     .dlab{white-space:normal;font-size:.6rem;letter-spacing:.12em;line-height:1.5}
@@ -1015,7 +1015,7 @@ setTimeout(go,1200);})()</script>
         <div class="stage-mid">
           <div class="head stage-head reveal" id="dhead">
             <span class="eyebrow">How it works</span>
-            <h2>Memory that understands when things change.</h2>
+            <h1>Memory that understands when things change.</h1>
             <p class="sub">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="#get-started">Talk to sales</a>
@@ -1167,7 +1167,7 @@ setTimeout(go,1200);})()</script>
 
     <div class="wrap">
       <span class="eyebrow">OPEN SOURCE</span>
-      <h1>Welcome to agentic venture capital.</h1>
+      <h2>Welcome to agentic venture capital.</h2>
       <p>Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
       <div class="hero-actions">
         <a class="arrowlink" href="#features">See what your team can ask <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
@@ -2246,7 +2246,7 @@ setTimeout(go,1200);})()</script>
       }else{
         /* offsetWidth, not the rect: the head is a .reveal, and its pre-reveal
            translate must not be allowed to move the throat */
-        var hr=dhead.getBoundingClientRect(),h2=dhead.querySelector("h2"),sb=dhead.querySelector(".sub");
+        var hr=dhead.getBoundingClientRect(),h2=dhead.querySelector("h1,h2"),sb=dhead.querySelector(".sub");
         cw=Math.max(h2?h2.offsetWidth:0,sb?sb.offsetWidth:0);
         CX=hr.left-r.left+hr.width/2;CY=hr.top-r.top+hr.height/2;
         /* the flow runs in the gap the layout leaves it: under the zone labels,
