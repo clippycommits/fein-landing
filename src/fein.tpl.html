@@ -379,7 +379,6 @@
      the document. The pinned stage lifts it out of the card and drops both */
   .rec-lede{padding:1.05rem 14px 0;font-size:clamp(1.44rem,2.6vw,2.1rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;margin:0 0 .55rem;text-wrap:balance}
   .rec-lede::before{content:counter(beat,decimal-leading-zero);margin-right:.62em;font-family:var(--mono);font-size:.46em;font-weight:500;letter-spacing:.12em;color:var(--blue-l);vertical-align:.34em}
-  .rec-gapline.rec-lede::before{content:none}
   /* the source's own mark, set into the sentence beside the word it names, so
      "email" in the narration and the Gmail plate on the document below it are
      the same badge, and the line reads as a caption for the card before you
@@ -399,7 +398,6 @@
      bloom is confirmation rather than revelation */
   .rec-hl{color:#fff;background-color:transparent;border-radius:4px;padding:1px 3px;margin:0 -3px;background-image:linear-gradient(rgba(0,112,243,.18),rgba(0,112,243,.18));background-repeat:no-repeat;background-size:calc(var(--bl,1) * 100%) 100%;box-shadow:inset 0 0 0 1px rgba(82,168,255,.22);-webkit-box-decoration-break:clone;box-decoration-break:clone}
   .rec-hn{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;margin-left:4px;translate:0 -1px;border-radius:3px;background:rgba(0,112,243,.28);font-family:var(--mono);font-size:9px;font-weight:500;line-height:1;color:var(--blue-l)}
-  .rec-months,.rec-gapline,.rec-gapwhy{display:none}
   /* the payoff. Every beat says what fein read; this says what the reader gets
      for it, in their own terms, and it is the only voice in the section that
      addresses them directly. It lives inside the card it belongs to, exactly
@@ -441,15 +439,28 @@
   .rec-asof{grid-column:2;grid-row:1/3;display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
   .rec-asv{color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:.15rem .35rem}
   .rec-body{position:relative;padding:.4rem 0}
-  .rec-zlab{display:flex;align-items:baseline;gap:.45rem;padding:.5rem 16px .3rem;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
-  .rec-zl-ret{display:none}
-  .rec-on .rec-zl-ret{display:flex;border-top:1px solid var(--mem-ret-rule);margin-top:.5rem}
-  .rec-zlab b{font-weight:500;color:#fff}
-  .rec-cap{font-family:var(--font);font-size:.72rem;letter-spacing:0;text-transform:none;color:var(--dim)}
-  .rec-zl-live b{display:none}
-  .rec-shelfbg{display:none}
-  .rec-rows{position:static;margin:0;padding:0;list-style:none}
-  .rec-row{position:static;display:grid;grid-template-columns:14px minmax(0,1fr) auto;column-gap:10px;align-items:baseline;padding:5.5px 16px;font-size:15px;line-height:1.4}
+  /* ---- the records ----
+     A record is a real object here, not a heading over a list: it has an
+     identity row that never moves relative to its own facts, and a height that
+     is exactly what it holds. On the pinned stage every record is positioned
+     from the top of the column each frame, so a fact arriving and the records
+     below it making room are the same motion, which is the only way the reader
+     sees that fein chose a place to put it. */
+  .rec-recs{list-style:none;margin:0;padding:0}
+  .rec-rec{position:static;margin:0 0 14px;padding:0 0 6px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+  .rec-rh{display:flex;align-items:center;gap:.5rem;height:var(--rh,34px);padding:0 12px}
+  .rec-ric{flex:none;display:grid;place-items:center;width:19px;height:19px;border-radius:5px;background:rgba(255,255,255,.05)}
+  .rec-ric svg{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+  .rec-ric.co{color:var(--blue-l)}
+  .rec-ric.pe{color:var(--fg-2)}
+  .rec-ric.lp{color:var(--mem-new)}
+  .rec-rn{font-size:.93rem;font-weight:550;color:#fff;letter-spacing:-.012em}
+  .rec-rt{font-family:var(--mono);font-size:.53rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.1rem .3rem}
+  /* the count is the record answering "how much do you know about this", and it
+     is the one number that moves when a fact lands */
+  .rec-rc{margin-left:auto;font-family:var(--mono);font-size:.62rem;font-weight:500;color:var(--fg-3);font-variant-numeric:tabular-nums}
+  .rec-facts{list-style:none;margin:0;padding:0}
+  .rec-row{position:static;display:grid;grid-template-columns:12px minmax(0,1fr) auto;column-gap:9px;align-items:baseline;padding:3px 12px;font-size:14.5px;line-height:1.4}
   .rec-g{position:relative;display:inline-block;width:12px;height:1.4em;font-family:var(--mono);font-size:12px;transform:scale(var(--gs,1));opacity:calc(.5 + .5 * var(--gf,0))}
   .rec-g i{position:absolute;left:0;top:0;font-style:normal;line-height:1.4}
   .rec-g .gp{color:var(--mem-new);opacity:calc(1 - var(--gx,0))}
@@ -518,23 +529,19 @@
      does: the empty calendar below is the evidence. Anchored from the bottom
      so the second line grows upward into open space instead of down into the
      month strip and the pile */
-  .rec-on .rec-gapline.rec-lede{position:absolute;top:auto;bottom:calc(58% + 30px);left:0;right:0;font-size:clamp(1.44rem,2.6vw,2.1rem);font-weight:560;letter-spacing:-.028em;line-height:1.16;color:#fff;opacity:var(--mo,0)}
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   .rec-on .rec-store{grid-column:3;display:flex;flex-direction:column;min-height:0;margin:0;box-shadow:var(--hl-top),0 26px 64px -32px rgba(0,0,0,.92);font-variant-numeric:tabular-nums}
   .rec-on .rec-body{position:relative;flex:1 1 auto;min-height:0;padding:0;overflow:hidden;overflow:clip}
-  .rec-on .rec-zlab{position:absolute;left:0;right:0;margin:0;z-index:2;background:var(--bg-2)}
-  .rec-on .rec-zl-live{top:0}
-  .rec-on .rec-zl-ret{top:var(--retlab,394px);background:transparent}
-  .rec-on .rec-zl-live b{display:inline;color:#fff}
-  .rec-on .rec-cap{display:none}
-  .rec-on .rec-shelfbg{display:block;position:absolute;left:0;right:0;top:var(--shelf,412px);bottom:0;background:var(--bg);z-index:0}
-  .rec-on .rec-rows{position:absolute;inset:0}
-  .rec-on .rec-row{position:absolute;left:0;right:0;top:0;transform:translate3d(0,calc(var(--y,0px) + var(--dy,0px)),0);opacity:var(--o,1);z-index:var(--z,1);font-size:calc(15px - 1.5px * var(--rf,0));box-shadow:inset 2px 0 0 rgba(0,112,243,var(--acc,0))}
+  .rec-on .rec-recs{position:absolute;inset:0}
+  .rec-on .rec-rec{position:absolute;left:0;right:0;top:0;margin:0;height:var(--rfh,60px);overflow:hidden;opacity:var(--ro,0);transform:translate3d(0,var(--ry,0px),0);box-shadow:inset 0 0 0 1px rgba(82,168,255,calc(.34 * var(--rhot,0))),0 0 30px -6px rgba(0,112,243,calc(.4 * var(--rhot,0)));transition:box-shadow .25s ease}
+  .rec-on .rec-rec.ans{box-shadow:inset 0 0 0 1px rgba(82,168,255,.4),0 0 34px -8px rgba(0,112,243,.45)}
+  .rec-on .rec-facts{position:absolute;left:0;right:0;top:0}
+  .rec-on .rec-row{position:absolute;left:0;right:0;top:0;transform:translate3d(0,calc(var(--y,0px) + var(--dy,0px)),0);opacity:var(--o,1);z-index:1;box-shadow:inset 2px 0 0 rgba(0,112,243,var(--acc,0))}
   /* out of the line box: the scrub owns every row's y, so a citation that could
      change a row's height could desynchronise the whole store. It fades out as
      the row falls, because the shelf is packed tighter than the live zone and
      the retirement dates already say where that fact came from. */
-  .rec-on .rec-prov{position:absolute;left:40px;top:25px;margin:0;opacity:calc((1 - min(1,var(--rf,0) * 3)) * (1 - .5 * var(--cut,0)))}
+  .rec-on .rec-prov{position:absolute;left:33px;top:22px;margin:0;opacity:calc(.85 - .5 * var(--cut,0))}
   .rec-tight .rec-prov{display:none}
   .rec-on .rec-wires{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:4}
   .rec-on .rec-wires path{fill:none;stroke:var(--blue-l);stroke-width:1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,1));opacity:var(--w,0)}
@@ -570,14 +577,9 @@
   .rec-on .rec-op span{opacity:var(--opo,0);border-left:2px solid var(--blue-l);padding-left:.5rem}
   .rec-on .rec-op.ret span{border-left-color:var(--mem-ret)}
   /* twelve months of nothing, drawn into the empty well the cards leave behind */
-  .rec-on .rec-months{display:flex;justify-content:space-between;position:absolute;left:0;right:0;top:42%;opacity:var(--mo,0)}
-  .rec-on .rec-months i{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.1em;color:var(--dim);opacity:.35;transition:none}
-  .rec-on .rec-months i.on{color:var(--fg-3);opacity:1}
-  .rec-on .rec-gapline{display:block;position:absolute;left:0;right:0;top:calc(42% + 26px);font-size:.86rem;color:var(--fg-3);opacity:var(--mo,0)}
   /* the void is the one beat with no document to point at, so it is the one
      that most needs saying out loud: this is the failure mode, not an interval
      between two features */
-  .rec-on .rec-gapwhy{display:block;position:absolute;left:0;right:0;top:calc(42% + 34px);max-width:52ch;font-size:.95rem;line-height:1.6;color:var(--fg-3);opacity:var(--mo,0)}
   /* ---- the strip: every document, laid on the calendar, and the way back ----
      This replaces a vertical pile of read documents that said the same thing in
      two hundred and eighty pixels. Here each document is a target: it says what
@@ -645,23 +647,11 @@
   .rec-ccount{position:absolute;left:0;right:0;top:calc(var(--corey,42%) + 108px);text-align:center;font-family:var(--mono);font-size:.53rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--cco,0)}
   .rec-ccount b{color:#fff;font-weight:500}
   .rec-ccount.ret b{color:var(--mem-ret)}
-  /* ============ the graph: what the store actually is ============
-     A ghost behind the facts for the whole walk, so the reader sees structure
-     accreting rather than a list growing, and then the thing itself on the last
-     beat, when the facts step back and the answer's path lights through it. */
-  .rec-graph{display:none}
-  .rec-on .rec-graph{display:block;position:absolute;left:0;right:0;top:0;height:var(--gh,70%);z-index:0;overflow:visible;opacity:calc(.26 + .74 * var(--gv,0))}
-  .rec-on .rec-graph .ge{stroke:var(--g-edge);stroke-width:1;fill:none;opacity:calc(var(--e,0) * (.5 + .5 * var(--gv,0)))}
-  .rec-on .rec-graph .ge.lit{stroke:var(--blue-l);opacity:calc(var(--e,0) * var(--gv,0))}
-  .rec-on .rec-graph .gh{fill:#0b0c10;stroke:var(--g-node);stroke-width:calc(1px + .35px * var(--gv,0));opacity:calc(.45 + .55 * var(--gv,0))}
-  .rec-on .rec-graph .gn{fill:var(--blue-l);opacity:var(--n,0);transform-box:fill-box;transform-origin:50% 50%;transform:scale(calc(var(--ns,1) * (1 + .3 * var(--gv,0))))}
-  .rec-on .rec-graph .gn.ret{fill:none;stroke:var(--mem-ret);stroke-width:1}
-  .rec-on .rec-graph .gl{fill:var(--fg-3);font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;opacity:var(--gv,0)}
-  /* the rows step back to let the graph forward; they never leave, because the
-     sentence is still what a person reads */
-  .rec-on .rec-rows{opacity:calc(1 - .94 * var(--gv,0))}
-  .rec-on .rec-gcap{display:block;position:absolute;left:16px;right:16px;bottom:10px;z-index:3;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--gv,0)}
+  /* the last beat outlines the records the answer crossed. That is the graph,
+     made out of the things the reader has watched fein fill, rather than an
+     abstract cloud of dots standing in for them. */
   .rec-gcap{display:none}
+  .rec-on .rec-gcap{display:block;position:absolute;left:12px;right:12px;bottom:6px;z-index:3;font-family:var(--mono);font-size:.57rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--gv,0)}
   .rec-gcap b{color:var(--blue-l);font-weight:500}
   /* the pane names it: two halves of one machine, each labelled once */
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
@@ -1317,188 +1307,176 @@ __LOGO_SPRITE__
     </figure>
   </section>
 
-  <!-- WHAT CHANGED: what fein read, and what it remembers.
+  <!-- WHERE IT GOES: five records, six documents, and the only question that
+       matters, which is who each sentence belongs to.
 
-       Two panes on a pinned stage. On the left the raw material, as the thing
-       itself: a forwarded email with headers, a transcribed call, a CRM field
-       change, a partner memo, a profile update, an investor update, a DM. On
-       the right fein's memory of one company. Scrolling reads the documents in
-       order; each phrase that becomes a fact blooms, a wire crosses the seam,
-       and the fact lands in the store.
+       The earlier version of this section walked one company, and with one
+       record there is no filing to watch: everything obviously goes to the only
+       place there is. The work fein actually does is deciding, per sentence,
+       which record it belongs on, so the store is a set of records now and one
+       document routes to three of them.
 
-       The RETIRED shelf is drawn and labelled at zero, before anything is in
-       it, so the first retirement is an arrival at a known place rather than a
-       novel event. A contradicted fact is struck, sits still long enough to be
-       read while it is still in the live zone, and then FALLS to the shelf and
-       stays there with the dates it was true between. It leaves true and
-       arrives at still-here, which is the argument in one movement.
+       The static document is the DEFAULT here and the pinned stage is an
+       override guarded by .rec-on, which the script sets before first paint. It
+       is therefore impossible to ship a broken no-script state without also
+       breaking the pinned one, which is the failure every scrollytelling
+       section makes.
 
-       The static document is the default and the pin is the override: .rec-on
-       is set pre-paint and only exists if the script ran, so it is impossible
-       to ship a broken no-script state without also breaking the pinned one.
-       Deliberately absent from this subtree: overflow other than the store's
-       own clip, contain, content-visibility, will-change on the sticky, and
-       align-content anywhere on the sticky element's ancestor chain — that
-       last one silently kills position:sticky. -->
+       Sticky has four preconditions and all four are load bearing: .rec-track is
+       a plain block, no align-content anywhere on the sticky's ancestor chain,
+       no overflow but the store's own clip, and no will-change on .rec-pin (it
+       would make the pin a containing block and Safari drops the stick). -->
   <section id="change" class="band">
     <div class="rec-intro wrap">
-      <span class="eyebrow">What changed</span>
-      <h2>People move. Your graph moves with them.</h2>
-      <p class="rec-lead">fein reads the tools your team already works in, and keeps one live record per company. When something new contradicts what it already knows, the old fact retires with the dates it was true for. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
+      <span class="eyebrow">Where it goes</span>
+      <h2>Nobody files anything. Everything lands anyway.</h2>
+      <p class="rec-lead">Your firm holds a record for every company, every person and every LP it has ever touched. fein reads the tools your team already works in, and puts each sentence on the record it belongs to. One email can open three of them.</p>
       <ul class="rec-legend">
-        <li><i class="rec-lgm p" aria-hidden="true">+</i><span><b>A fact fein wrote</b>, out of the document it read. Nobody typed it, and nobody filed it.</span></li>
+        <li><i class="rec-lgm p" aria-hidden="true">+</i><span><b>A fact fein wrote</b>, and the record it chose for it. Nobody typed it, and nobody filed it.</span></li>
         <li><i class="rec-lgm m" aria-hidden="true">&minus;</i><span><b>A fact that stopped being true.</b> Struck, dated and kept, so you can still ask what the firm believed at the time.</span></li>
         <li><i class="rec-lgm w" aria-hidden="true">&rarr;</i><span><b>The phrase it came from.</b> Every fact keeps its source document, which is the difference between an answer you can check and one you have to trust.</span></li>
       </ul>
-      <!-- the invitation has to match the thing the reader actually got: a
-           reader with no script, a narrow window or reduced motion has no play
-           button and no walk, and telling them to press one is a bug -->
-      <p class="rec-guide">Seven documents &middot; twenty-one months &middot; one company. <span class="rec-gp">Scroll to walk it, or press play and watch it run.</span><span class="rec-gs">Every document below, and what fein wrote from it.</span></p>
+      <p class="rec-guide">Five records &middot; six documents &middot; twenty-one months. <span class="rec-gp">Scroll to walk it, or press play and watch it run.</span><span class="rec-gs">Every document below, and the record fein put it on.</span></p>
     </div>
 
     <div class="rec-track" id="rec-track">
       <div class="rec-pin" id="rec-pin">
         <div class="rec-stage">
-          <div class="rec-rail" aria-hidden="true"><span class="rec-gapband"></span><u style="left:0%"></u><u style="left:2.0%"></u><u style="left:5.4%"></u><u style="left:10.8%"></u><u style="left:32.5%"></u><u style="left:89.5%"></u><u style="left:98.4%"></u><i class="rec-rfill" id="rec-rfill"></i><span class="rec-rl">Nov 2024</span><span class="rec-rg">twelve months, nothing filed</span><span class="rec-rr">Jul 2026</span></div>
+          <div class="rec-rail" aria-hidden="true"><span class="rec-gapband"></span><u style="left:0%"></u><u style="left:2%"></u><u style="left:32%"></u><u style="left:77%"></u><u style="left:90%"></u><u style="left:98%"></u><i class="rec-rfill" id="rec-rfill"></i><span class="rec-rl">Nov 2024</span><span class="rec-rg">nine months, nothing filed</span><span class="rec-rr">Jul 2026</span></div>
           <div class="rec-panes" id="rec-panes">
             <svg class="rec-wires" id="rec-wires" aria-hidden="true"></svg>
             <div class="rec-src">
-              <h3 class="rec-paneh">What fein read</h3>
+              <h3 class="rec-paneh">What arrived</h3>
               <div class="rec-well" id="rec-well">
                 <article class="rec-card rec-c0" data-c="-1" aria-hidden="true">
-                  <p class="rec-lede">One company. Twenty-one months. Seven documents nobody filed.</p>
-                  <p class="rec-why"><b>Left,</b> what arrived, in the tool it arrived in. <b>Right,</b> what fein wrote to the graph, and what it retired. <b>The line between them</b> is the phrase a fact was read from. Nothing on the right was typed by a person.</p>
+                  <p class="rec-lede">Five records. Six documents. Nobody filed a thing.</p>
+                  <p class="rec-why"><b>Left,</b> what arrived, in the tool it arrived in. <b>Right,</b> the records your firm already has. <b>In the middle,</b> fein, deciding which record each sentence belongs to.</p>
                 </article>
                 <article class="rec-card" data-c="0">
-                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>email</span> and writes three facts.</p>
+                  <p class="rec-lede">One <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>email</span>. Three records.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-cd">8 Nov 2024</span></div>
-                  <div class="rec-mh"><p class="rec-mfrom"><b><mark class="rec-hl" data-hl="1">Dev Raman<span class="rec-hn" aria-hidden="true">2</span></mark></b> <span>&lt;dev@raman.vc&gt;</span></p><p class="rec-mto">to Marcus</p><p class="rec-msub">Fwd: Halo Compute — seed deck</p></div>
-                  <p class="rec-mb">Marcus — worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <mark class="rec-hl" data-hl="0">raising a $4M seed<span class="rec-hn" aria-hidden="true">1</span></mark> and I think <mark class="rec-hl" data-hl="2">you are the right partner<span class="rec-hn" aria-hidden="true">3</span></mark> for it.</p>
-                  <p class="rec-why">Ask <b>who can open the door at Halo Compute</b> and the answer is Dev Raman, with this email attached. Nobody tagged it, nobody filed it, and nobody has to remember it in eighteen months.</p>
+                  <div class="rec-mh"><p class="rec-mfrom"><b><mark class="rec-hl" data-hl="0">Dev Raman<span class="rec-hn" aria-hidden="true">1</span></mark></b> <span>&lt;dev@raman.vc&gt;</span></p><p class="rec-mto">to Marcus</p><p class="rec-msub">Fwd: Halo Compute, seed deck</p></div>
+                  <p class="rec-mb">Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <mark class="rec-hl" data-hl="1">raising a $4M seed<span class="rec-hn" aria-hidden="true">2</span></mark> and I think <mark class="rec-hl" data-hl="2">you are the right partner<span class="rec-hn" aria-hidden="true">3</span></mark> for it.</p>
+                  <p class="rec-why">Three sentences, three different records: <b>a company, the person who opened the door, and the partner who now owns it.</b> Nobody chose any of them, and nobody will have to remember this in eighteen months.</p>
                 </article>
                 <article class="rec-card" data-c="1">
-                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>transcript</span> and writes three more.</p>
+                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>call</span> nobody wrote up.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span class="rec-cs">Granola</span><span class="rec-since">13 days later</span><span class="rec-cd">21 Nov 2024</span></div>
-                  <div class="rec-mh"><p class="rec-msub">Coffee with Halo Compute</p><p class="rec-mto">41 min · auto-transcribed</p></div>
-                  <p class="rec-mb">Both founders are <mark class="rec-hl" data-hl="3">ex-Anthropic infra<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="4">No design partners live<span class="rec-hn" aria-hidden="true">2</span></mark> yet, they want two before they raise again. Raising on <mark class="rec-hl" data-hl="5">a $9M pre<span class="rec-hn" aria-hidden="true">3</span></mark>.</p>
-                  <p class="rec-why">The call was on a Tuesday and nobody wrote it up. By Wednesday the team, the price and the missing design partners sit on the company, beside the email that introduced it. <b>One record, not four tools.</b></p>
+                  <div class="rec-mh"><p class="rec-msub">Coffee with Halo Compute</p><p class="rec-mto">41 min &middot; auto-transcribed</p></div>
+                  <p class="rec-mb">Both founders are <mark class="rec-hl" data-hl="3">ex-Anthropic infra<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="4">No design partners live<span class="rec-hn" aria-hidden="true">2</span></mark> yet, they want two before they raise again.</p>
+                  <p class="rec-why">The call was on a Tuesday and nobody wrote it up. By Wednesday both lines are on the company, <b>beside the email that introduced it</b>, and neither one came from a form.</p>
                 </article>
-                <article class="rec-card rec-ovl" data-c="2">
-                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>CRM</span> and writes the new stage.</p>
-                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><span class="rec-cs">Affinity</span><span class="rec-since">3 weeks later</span><span class="rec-cd">12 Dec 2024</span></div>
-                  <div class="rec-mh"><p class="rec-msub">Halo Compute</p><p class="rec-mto"><mark class="rec-hl" data-hl="6">Stage changed · Diligence<span class="rec-hn" aria-hidden="true">1</span></mark></p></div>
-                  <p class="rec-mb">Owner Marcus. <mark class="rec-hl" data-hl="7">Two reference calls complete, both strong<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
-                  <p class="rec-why"><b>Your CRM is a source here, not the system of record.</b> fein takes the stage change and the reference calls out of it, and keeps the Affinity row as the citation. You keep working in the tools you already pay for.</p>
+                <article class="rec-card" data-c="2">
+                  <p class="rec-lede">A <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>hire</span> opens a new record.</p>
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span class="rec-cs">Linkedin</span><span class="rec-since">6 months later</span><span class="rec-cd">3 Jun 2025</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Priya Nayar</p><p class="rec-mto">started a new position</p></div>
+                  <p class="rec-mb"><mark class="rec-hl" data-hl="5">VP Engineering at Halo Compute<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="6">Previously Databricks<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
+                  <p class="rec-why">fein had no record for Priya Nayar, so it <b>opened one</b>, and put the other half of the same sentence on the company she joined. The two records now point at each other.</p>
                 </article>
                 <article class="rec-card" data-c="3">
-                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>memo</span> and writes why you passed.</p>
-                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span class="rec-cs">Notion</span><span class="rec-since">5 weeks later</span><span class="rec-cd">16 Jan 2025</span></div>
-                  <div class="rec-mh"><p class="rec-msub">Monday memo — Halo Compute</p><p class="rec-mto">Partner meeting</p></div>
-                  <p class="rec-mb"><mark class="rec-hl" data-hl="8">Passing for now<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="9">No design partners live, and the wedge is unproven at this price<span class="rec-hn" aria-hidden="true">2</span></mark>. Revisit if they land design partners.</p>
-                  <p class="rec-why">This is the line every firm loses. When the company comes back, <b>the reason you passed</b> is one question away, in the words your partner wrote at the time, and not in whoever's memory happens to be in the room.</p>
+                  <p class="rec-lede">Your <span class="rec-lw"><svg class="tlogo rec-ring" aria-hidden="true"><use href="#l-gcal"/></svg>LP</span> is a record too.</p>
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><span class="rec-cs">Calendar</span><span class="rec-since">9 months later</span><span class="rec-cd">12 Mar 2026</span></div>
+                  <div class="rec-mh"><p class="rec-msub">Northwind Capital &middot; quarterly review</p><p class="rec-mto">60 min &middot; Marcus, Elena Sarr</p></div>
+                  <p class="rec-mb">Elena: the allocation is working. For the next fund they want <mark class="rec-hl" data-hl="7">more exposure to AI infrastructure<span class="rec-hn" aria-hidden="true">1</span></mark>.</p>
+                  <p class="rec-why">This one has nothing to do with Halo Compute, which is the point: <b>the same machine files your LPs.</b> In four months this sentence is the reason a $30M round finds an investor.</p>
                 </article>
                 <article class="rec-card" data-c="4">
-                  <p class="rec-lede">Nobody logs the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>hire</span>. fein writes it anyway.</p>
-                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span class="rec-cs">Linkedin</span><span class="rec-since">4 months later</span><span class="rec-cd">3 Jun 2025</span></div>
-                  <div class="rec-mh"><p class="rec-msub">Priya Nayar</p><p class="rec-mto">started a new position</p></div>
-                  <p class="rec-mb"><mark class="rec-hl" data-hl="10">VP Engineering at Halo Compute<span class="rec-hn" aria-hidden="true">1</span></mark>. Previously Databricks.</p>
-                  <p class="rec-why">A VP Engineering leaving Databricks for a company you passed on is a signal, and it arrived in a feed nobody reads. <b>fein files it against the company without being asked</b>, twelve months after anyone last touched the record.</p>
+                  <p class="rec-lede">The <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>update</span> that changes an old fact.</p>
+                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-since">12 weeks later</span><span class="rec-cd">2 Jun 2026</span></div>
+                  <div class="rec-mh"><p class="rec-mfrom"><b>Nadia Osei</b> <span>&lt;nadia@halocompute.com&gt;</span></p><p class="rec-mto">to investors@</p><p class="rec-msub">Halo Compute, June update</p></div>
+                  <p class="rec-mb">We are <mark class="rec-hl" data-hl="8">opening a $30M Series A<span class="rec-hn" aria-hidden="true">1</span></mark>, and <mark class="rec-hl" data-hl="9">six design partners are live<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
+                  <p class="rec-why">The second line contradicts something fein wrote in 2024, so <b>the old fact is struck and dated, not deleted.</b> Ask what the firm believed in November and it can still tell you.</p>
                 </article>
-                <article class="rec-card" data-c="5">
-                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>update</span> and retires three old facts.</p>
-                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-since">12 months later</span><span class="rec-cd">2 Jun 2026</span></div>
-                  <div class="rec-mh"><p class="rec-mfrom"><b>Nadia Osei</b> <span>&lt;nadia@halocompute.com&gt;</span></p><p class="rec-mto">to investors@</p><p class="rec-msub">Halo Compute — June update</p></div>
-                  <p class="rec-mb">We are <mark class="rec-hl" data-hl="11">opening a $30M Series A<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="12">Six design partners are live<span class="rec-hn" aria-hidden="true">2</span></mark> and we finished May at <mark class="rec-hl" data-hl="13">$2.4M ARR<span class="rec-hn" aria-hidden="true">3</span></mark>, four times where we were in January.</p>
-                  <p class="rec-why"><b>The old numbers are not deleted, they are dated.</b> fein can tell you what the firm believed in November 2024 and what is true today, and it will never quietly serve you the first one as the second.</p>
-                </article>
-                <article class="rec-card" data-c="6">
-                  <p class="rec-lede">The door reopens on <span class="rec-lw"><svg class="tlogo rec-ring" aria-hidden="true"><use href="#l-slack"/></svg>Slack</span>. fein knows who it is.</p>
-                  <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><span class="rec-cs">Slack</span><span class="rec-since">8 weeks later</span><span class="rec-cd">28 Jul 2026</span></div>
-                  <div class="rec-mh"><p class="rec-msub">Dev Raman</p><p class="rec-mto">#dealflow · 10:42</p></div>
-                  <p class="rec-mb">They close next week. <mark class="rec-hl" data-hl="14">Want the intro again?<span class="rec-hn" aria-hidden="true">1</span></mark></p>
-                  <p class="rec-why">The person offering is the same one who forwarded the deck twenty-one months ago. <b>fein already knew he was the warmest path in</b>, because it read that first email and never let go of it.</p>
-                </article>
-                <div class="rec-months" id="rec-months" aria-hidden="true"><i data-m="0">JUL</i><i data-m="1">AUG</i><i data-m="2">SEP</i><i data-m="3">OCT</i><i data-m="4">NOV</i><i data-m="5">DEC</i><i data-m="6">JAN</i><i data-m="7">FEB</i><i data-m="8">MAR</i><i data-m="9">APR</i><i data-m="10">MAY</i><i data-m="11">JUN</i></div>
-                <p class="rec-gapline rec-lede">Twelve months pass. Nobody files a note. fein still reads.</p>
-                <p class="rec-gapwhy" id="rec-gapwhy">This is where a CRM row goes stale without anyone noticing. Nothing arrived, so nothing was filed, and the record you would have trusted in a partner meeting is now a year old.</p>
-                <!-- the last beat: the walk stops being evidence and becomes the
-                     product. Every clause carries the document it came from, which
-                     is the whole argument of the section in one card. -->
                 <article class="rec-ask" id="rec-ask">
                   <p class="rec-lede">Nobody filed a note. You can still ask.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><span class="rec-cs">Claude</span><span class="rec-cd">28 Jul 2026</span></div>
-                  <p class="rec-q">Should we look at Halo Compute again?</p>
+                  <p class="rec-q">Who should I bring into Halo Compute's Series A?</p>
                   <ul class="rec-alist">
-                    <li>You <b>passed at seed</b> in January 2025. The reason: no design partners live, and the price.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>Notion &middot; 16 Jan 2025</span></li>
-                    <li><b>Both objections are gone.</b> Six design partners are live and May closed at $2.4M ARR, four times January.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</span></li>
-                    <li>They hired a <b>VP Engineering out of Databricks</b> thirteen months ago.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn &middot; 3 Jun 2025</span></li>
-                    <li>Warmest path in is <b>Dev Raman</b>. He forwarded the deck in 2024 and offered again this morning.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></li>
+                    <li><b>Northwind Capital.</b> They asked for AI infrastructure exposure at the March review.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar &middot; 12 Mar 2026</span></li>
+                    <li>Halo Compute is <b>opening a $30M Series A</b>, and the design partner objection is gone.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</span></li>
+                    <li>Warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></li>
                   </ul>
-                  <p class="rec-askf">Seven documents, twenty-one months, four tools, <b>and nobody typed a word.</b> Ask it in Claude, ChatGPT or Cursor, and every line comes back with the document behind it.</p>
+                  <p class="rec-askf">That answer crossed <b>three separate records</b>, and no person put a single line on any of them.</p>
                 </article>
               </div>
-              <!-- the strip: what has been read, what is being read, and the way
-                   back to any of it. It is the section's table of contents, and
-                   the reason a reader who scrolls fast is not lost. -->
               <div class="rec-strip" id="rec-strip">
-                <p class="rec-striph"><span id="rec-stripn">Reading</span> <b id="rec-stripd">document 1 of 7</b></p>
+                <p class="rec-striph"><span id="rec-stripn">Reading</span> <b id="rec-stripd">document 1 of 5</b></p>
                 <div class="rec-dchips" id="rec-dchips" role="group" aria-label="Jump to a document in the walk">
                   <button type="button" class="rec-dchip" data-goto="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><i>8 Nov</i><span class="rec-vh">Gmail, 8 November 2024</span></button>
                   <button type="button" class="rec-dchip" data-goto="2"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><i>21 Nov</i><span class="rec-vh">Granola, 21 November 2024</span></button>
-                  <button type="button" class="rec-dchip" data-goto="3"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><i>12 Dec</i><span class="rec-vh">Affinity, 12 December 2024</span></button>
-                  <button type="button" class="rec-dchip" data-goto="4"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><i>16 Jan</i><span class="rec-vh">Notion, 16 January 2025</span></button>
-                  <button type="button" class="rec-dchip gap" data-goto="5"><i>&middot;&middot;&middot;</i><span class="rec-vh">Twelve months, nothing filed</span></button>
-                  <button type="button" class="rec-dchip" data-goto="6"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><i>3 Jun</i><span class="rec-vh">LinkedIn, 3 June 2025</span></button>
-                  <button type="button" class="rec-dchip gap" data-goto="7"><i>&middot;&middot;&middot;</i><span class="rec-vh">Another year, nothing filed</span></button>
-                  <button type="button" class="rec-dchip" data-goto="8"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><i>2 Jun</i><span class="rec-vh">Gmail, 2 June 2026</span></button>
-                  <button type="button" class="rec-dchip" data-goto="9"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><i>28 Jul</i><span class="rec-vh">Slack, 28 July 2026</span></button>
-                  <button type="button" class="rec-dchip" data-goto="10"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><i>Ask</i><span class="rec-vh">The answer, 28 July 2026</span></button>
+                  <button type="button" class="rec-dchip" data-goto="3"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><i>3 Jun</i><span class="rec-vh">LinkedIn, 3 June 2025</span></button>
+                  <button type="button" class="rec-dchip" data-goto="4"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><i>12 Mar</i><span class="rec-vh">Calendar, 12 March 2026</span></button>
+                  <button type="button" class="rec-dchip" data-goto="5"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><i>2 Jun</i><span class="rec-vh">Gmail, 2 June 2026</span></button>
+                  <button type="button" class="rec-dchip" data-goto="6"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><i>Ask</i><span class="rec-vh">The answer, 28 July 2026</span></button>
                 </div>
               </div>
             </div>
-            <!-- fein itself. Every wire is bent through the ring, so the reader
-                 watches a phrase go into the machine and a fact come out of it,
-                 rather than watching a line join two boxes. -->
             <div class="rec-core" id="rec-core" aria-hidden="true">
               <span class="rec-crail"></span>
               <span class="rec-cverb up"><b id="rec-vread">Reads</b><span class="ar">&darr;</span></span>
               <span class="rec-cring" id="rec-cring"></span>
               <span class="rec-cdot"></span>
               <span class="rec-cname">fein</span>
-              <span class="rec-cverb dn"><span class="ar">&darr;</span><b id="rec-vwrite">Writes</b></span>
+              <span class="rec-cverb dn"><span class="ar">&darr;</span><b id="rec-vwrite">Files</b></span>
               <span class="rec-ccount" id="rec-ccount"></span>
             </div>
-            <section class="rec-store" id="rec-store" aria-label="fein memory: Halo Compute">
-              <div class="rec-head"><p class="rec-brand">fein &middot; memory</p><p class="rec-subj">Halo Compute</p><p class="rec-asof"><span class="rec-asl">As of</span><span class="rec-asv" id="rec-asv" aria-hidden="true">28 Jul 2026</span><span class="rec-vh">Showing what fein knows as of 28 July 2026.</span></p></div>
+            <section class="rec-store" id="rec-store" aria-label="fein records">
+              <h3 class="rec-paneh">What fein filed</h3>
+              <div class="rec-head"><p class="rec-brand">fein &middot; records</p><p class="rec-subj">Your firm</p><p class="rec-asof"><span class="rec-asl">As of</span><span class="rec-asv" id="rec-asv" aria-hidden="true">28 Jul 2026</span><span class="rec-vh">Showing what fein knows as of 28 July 2026.</span></p></div>
               <p class="rec-op" id="rec-op" aria-hidden="true"><span></span></p>
-                <div class="rec-body" id="rec-body">
-                <!-- the shape of the thing the facts are stored in. It accretes
-                     behind them for the whole walk and comes forward on the last
-                     beat, when the answer lights the path it actually walked. -->
-                <svg class="rec-graph" id="rec-graph" aria-hidden="true"></svg>
-                <p class="rec-zlab rec-zl-live">Live <b class="rec-cn" id="rec-cn">11</b><span class="rec-cap">15 facts on file &middot; 11 live &middot; 4 retired, kept</span></p>
-                <p class="rec-gcap" id="rec-gcap">One graph &middot; <b>15 facts</b> &middot; every edge is a document</p>
-                <div class="rec-shelfbg" aria-hidden="true"></div>
-                <p class="rec-zlab rec-zl-ret">Retired, kept <b class="rec-cr" id="rec-cr">4</b></p>
-                <ol class="rec-rows" id="rec-rows">
-                  <li class="rec-row ret" data-f="0" data-b="0" data-r="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut">Raising a <b>$4M seed</b>.</s><span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Read from Gmail &middot; 8 Nov 2024</span></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
-                  <li class="rec-row" data-f="1" data-b="0"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Dev Raman</b> is the warmest path in.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Read from Gmail &middot; 8 Nov 2024</span></span></li>
-                  <li class="rec-row" data-f="2" data-b="0"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Marcus</b> owns the conversation.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Read from Gmail &middot; 8 Nov 2024</span></span></li>
-                  <li class="rec-row" data-f="3" data-b="1"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Two ex-<b>Anthropic</b> infra engineers.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Read from Granola &middot; 21 Nov 2024</span></span></li>
-                  <li class="rec-row ret" data-f="4" data-b="1" data-r="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut"><b>No design partners</b> live.</s><span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Read from Granola &middot; 21 Nov 2024</span></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
-                  <li class="rec-row ret" data-f="5" data-b="1" data-r="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut">Raising on a <b>$9M pre</b>.</s><span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Read from Granola &middot; 21 Nov 2024</span></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
-                  <li class="rec-row ret" data-f="6" data-b="2" data-r="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut">In <b>diligence</b> with <b>Marcus</b>.</s><span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>Read from Affinity &middot; 12 Dec 2024</span></span><span class="rec-chip">Dec 2024 &rarr; Jan 2025</span></li>
-                  <li class="rec-row" data-f="7" data-b="2"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Two references <b>check out</b>.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>Read from Affinity &middot; 12 Dec 2024</span></span></li>
-                  <li class="rec-row pay" data-f="8" data-b="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">You <b>passed</b> on <b>Halo Compute</b> at seed.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>Read from Notion &middot; 16 Jan 2025</span></span></li>
-                  <li class="rec-row pay" data-f="9" data-b="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">The reason: <b>no design partners</b>, and the price.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg>Read from Notion &middot; 16 Jan 2025</span></span></li>
-                  <li class="rec-row" data-f="10" data-b="4"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Hired a <b>VP Engineering</b> from Databricks.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Read from LinkedIn &middot; 3 Jun 2025</span></span></li>
-                  <li class="rec-row" data-f="11" data-b="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Raising a <b>$30M Series A</b>.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Read from Gmail &middot; 2 Jun 2026</span></span></li>
-                  <li class="rec-row" data-f="12" data-b="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Six design partners</b> live.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Read from Gmail &middot; 2 Jun 2026</span></span></li>
-                  <li class="rec-row" data-f="13" data-b="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">At <b>$2.4M ARR</b>.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Read from Gmail &middot; 2 Jun 2026</span></span></li>
-                  <li class="rec-row" data-f="14" data-b="6"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Dev Raman</b> can introduce you again.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Read from Slack &middot; 28 Jul 2026</span></span></li>
+              <div class="rec-body" id="rec-body">
+                <ol class="rec-recs" id="rec-recs">
+                  <li class="rec-rec" data-r="0">
+                    <p class="rec-rh"><span class="rec-ric co" aria-hidden="true"><svg viewBox="0 0 16 16"><rect x="2.5" y="4" width="11" height="9" rx="1.4"/><path d="M5.5 7h1.4M9.1 7h1.4M5.5 9.6h1.4M9.1 9.6h1.4"/></svg></span><b class="rec-rn">Halo Compute</b><span class="rec-rt">Company</span><span class="rec-rc" data-c="0">5</span></p>
+                    <ul class="rec-facts">
+                      <li class="rec-row" data-f="1"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Raising a <b>$4M seed</b>.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></span></li>
+                      <li class="rec-row" data-f="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Two ex-<b>Anthropic</b> infra engineers.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola &middot; 21 Nov 2024</span></span></li>
+                      <li class="rec-row ret" data-f="4"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Retired. </span><span class="rec-t"><s class="rec-cut"><b>No design partners</b> live.</s><span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola &middot; 21 Nov 2024</span></span><span class="rec-chip">Nov 2024 &rarr; Jun 2026</span></li>
+                      <li class="rec-row" data-f="6"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Hired a <b>VP Engineering</b> from Databricks.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn &middot; 3 Jun 2025</span></span></li>
+                      <li class="rec-row" data-f="8"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Opening a <b>$30M Series A</b>.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</span></span></li>
+                      <li class="rec-row" data-f="9"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>Six design partners</b> live.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</span></span></li>
+                    </ul>
+                  </li>
+                  <li class="rec-rec" data-r="1">
+                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Dev Raman</b><span class="rec-rt">Co-investor</span><span class="rec-rc" data-c="1">1</span></p>
+                    <ul class="rec-facts">
+                      <li class="rec-row" data-f="0"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Introduced <b>Halo Compute</b>. Warmest path in.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></span></li>
+                    </ul>
+                  </li>
+                  <li class="rec-rec" data-r="2">
+                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Marcus Feld</b><span class="rec-rt">Your partner</span><span class="rec-rc" data-c="2">1</span></p>
+                    <ul class="rec-facts">
+                      <li class="rec-row" data-f="2"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Owns the <b>Halo Compute</b> conversation.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></span></li>
+                    </ul>
+                  </li>
+                  <li class="rec-rec" data-r="3">
+                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Priya Nayar</b><span class="rec-rt">Person</span><span class="rec-rc" data-c="3">1</span></p>
+                    <ul class="rec-facts">
+                      <li class="rec-row" data-f="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>VP Engineering</b> at Halo Compute.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn &middot; 3 Jun 2025</span></span></li>
+                    </ul>
+                  </li>
+                  <li class="rec-rec" data-r="4">
+                    <p class="rec-rh"><span class="rec-ric lp" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3l5 2.6H3z"/><path d="M4.8 6.6v5M8 6.6v5M11.2 6.6v5M3 12.6h10"/></svg></span><b class="rec-rn">Northwind Capital</b><span class="rec-rt">LP</span><span class="rec-rc" data-c="4">1</span></p>
+                    <ul class="rec-facts">
+                      <li class="rec-row" data-f="7"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Wants more <b>AI infrastructure</b> exposure.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar &middot; 12 Mar 2026</span></span></li>
+                    </ul>
+                  </li>
                 </ol>
+                <p class="rec-gcap" id="rec-gcap">Five records &middot; <b>ten facts</b> &middot; every one traced to a document</p>
               </div>
             </section>
+          </div>
+          <div class="rec-ctl" id="rec-ctl">
+            <button type="button" class="rec-cbtn play" id="rec-play" aria-pressed="false"><span class="gl" aria-hidden="true">&#9654;</span><span id="rec-playl">Play the walk</span></button>
+            <button type="button" class="rec-cbtn sq" id="rec-prev" aria-label="Previous beat" title="Previous beat">&#8592;</button>
+            <button type="button" class="rec-cbtn sq" id="rec-next" aria-label="Next beat" title="Next beat">&#8594;</button>
+            <span class="rec-hint" aria-hidden="true"><kbd>&#8592;</kbd><kbd>&#8594;</kbd> step &middot; scroll runs it</span>
+            <span class="rec-vh" id="rec-say" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
           </div>
           <!-- the transport. A scrubbed story that can only be reached by
                scrolling at exactly the right speed is a story most readers
@@ -3269,14 +3247,19 @@ __LOGO_SPRITE__
   items.forEach(function(el){ io.observe(el); });
 })();
 
-/* what changed: the scrub.
-   One pinned stage, eleven phases, priced per event rather than per fact. Every
-   value below derives from one number — how far through the track the reader is
-   — so scrolling back runs it backwards for free and there is no state to keep
-   in sync. One getBoundingClientRect per frame, on the track, read before any
+/* where it goes: the scrub.
+   One pinned stage, seven beats, priced per event rather than per fact. Every
+   value below derives from one number, how far through the track the reader is,
+   so scrolling back runs it backwards for free and there is no state to keep in
+   sync. One getBoundingClientRect per frame, on the track, read before any
    write. The pin itself only exists because this file set .rec-on before first
    paint, so a browser that never runs this gets the static document instead of
-   an empty stage. */
+   an empty stage.
+
+   The store is five records, not one list. A record is drawn only once it holds
+   something, its height is its facts, and every record below it is pushed down
+   by the ones above: a fact landing visibly makes room for itself, which is the
+   only way the reader sees that fein chose a place to put it. */
 (function(){
   var track=document.getElementById('rec-track');
   if(!track) return;
@@ -3287,93 +3270,86 @@ __LOGO_SPRITE__
       store=document.getElementById('rec-store'),
       body=document.getElementById('rec-body'),
       wires=document.getElementById('rec-wires'),
-      months=document.getElementById('rec-months'),
       rfill=document.getElementById('rec-rfill'),
       opline=document.getElementById('rec-op'),
       asv=document.getElementById('rec-asv'),
-      cn=document.getElementById('rec-cn'), cr=document.getElementById('rec-cr'),
-      core=document.getElementById('rec-core'), cring=document.getElementById('rec-cring'),
+      core=document.getElementById('rec-core'),
       ccount=document.getElementById('rec-ccount'),
       vread=document.getElementById('rec-vread'), vwrite=document.getElementById('rec-vwrite'),
-      graph=document.getElementById('rec-graph'),
       cards=[].slice.call(track.querySelectorAll('.rec-card')),
-      rows=[].slice.call(track.querySelectorAll('.rec-row')),
+      recs=[].slice.call(track.querySelectorAll('.rec-rec')),
+      counts=[].slice.call(track.querySelectorAll('.rec-rc')),
       hls=[].slice.call(track.querySelectorAll('.rec-hl')),
-      well=document.getElementById('rec-well'),
       ask=document.getElementById('rec-ask'),
       chips=[].slice.call(track.querySelectorAll('.rec-dchip')),
       stripn=document.getElementById('rec-stripn'), stripd=document.getElementById('rec-stripd'),
       say=document.getElementById('rec-say'),
       playb=document.getElementById('rec-play'), playl=document.getElementById('rec-playl'),
       prevb=document.getElementById('rec-prev'), nextb=document.getElementById('rec-next'),
-      mons=[].slice.call(track.querySelectorAll('.rec-months i'));
-  /* beat table: [key, length in svh]. T is the only knob; scaling it scales
-     every beat because the table is converted to fractions of T. Every beat now
-     carries a payoff line under its document, so each one is longer than the
-     bare document needed: the reader has a sentence to finish, not just a card
-     to look at. */
+      well=document.getElementById('rec-well');
+  /* rows in document order, and the record each one belongs to. Both are read
+     off the markup rather than declared twice, so a fact cannot end up filed in
+     the script somewhere other than where it is written on the page. */
+  var rows=[], ROWREC=[];
+  recs.forEach(function(rc,ri){
+    [].slice.call(rc.querySelectorAll('.rec-row')).forEach(function(r){
+      rows[parseInt(r.getAttribute('data-f'),10)]=r;
+      ROWREC[parseInt(r.getAttribute('data-f'),10)]=ri;
+    });
+  });
+  /* beat table: [key, length]. T is the table's own total, never a second
+     number to keep in step with it. */
   var T=0;
-  var BEATS=[['s0',22],['b1',24,0],['b2',20,1],['b2b',16,2],['b3',28,3],
-             ['ga',9],['b4',18,4],['gb',11],['b5',36,5],['b6',14,6],['fin',44]];
+  var BEATS=[['s0',20],['b1',34,0],['b2',26,1],['b3',28,2],['b4',24,3],['b5',34,4],['fin',44]];
   var edge=[],acc=0;
   BEATS.forEach(function(b){ edge.push([acc,acc+b[1]]); acc+=b[1]; });
-  /* T is the table's own total, never a second number to keep in step with it:
-     retime any beat and every other beat's share follows in one place */
   T=acc;
-  /* events, in beat-local svh. new: bloom, wire, land. ret: wire, strike, dwell,
-     drop, land — the doomed sentence is struck and then sits still, in the live
-     zone, long enough to be read, before it falls to the shelf. */
+  /* events, in beat-local units. new: bloom, wire, land. ret: wire, strike,
+     dwell, land, so the doomed sentence is struck and then sits still long
+     enough to be read. */
   var EV=[
-    {b:1,f:0,t0:3,t1:8},   {b:1,f:1,t0:6,t1:11},  {b:1,f:2,t0:9,t1:14},
-    {b:2,f:3,t0:3,t1:7},   {b:2,f:4,t0:5.5,t1:9.5},{b:2,f:5,t0:8,t1:12},
-    {b:3,f:6,t0:2,t1:5.5}, {b:3,f:7,t0:3.5,t1:7},
-    {b:4,f:6,t0:3,t1:16,r:1},{b:4,f:8,t0:14,t1:18},{b:4,f:9,t0:17,t1:21},
-    {b:6,f:10,t0:3,t1:7},
-    {b:8,f:11,t0:3,t1:8},  {b:8,f:0,t0:4.5,t1:17.5,r:1},{b:8,f:4,t0:6,t1:19,r:1},
-    {b:8,f:5,t0:7.5,t1:20.5,r:1},{b:8,f:12,t0:12,t1:17},{b:8,f:13,t0:22,t1:27},
-    {b:9,f:14,t0:2,t1:6}
+    {b:1,f:0,t0:5,t1:12},  {b:1,f:1,t0:10,t1:17}, {b:1,f:2,t0:15,t1:22},
+    {b:2,f:3,t0:5,t1:12},  {b:2,f:4,t0:11,t1:18},
+    {b:3,f:5,t0:5,t1:12},  {b:3,f:6,t0:11,t1:18},
+    {b:4,f:7,t0:5,t1:13},
+    {b:5,f:8,t0:5,t1:12},  {b:5,f:9,t0:11,t1:18}, {b:5,f:4,t0:19,t1:30,r:1}
   ];
   /* where each beat starts and ends on the real calendar, in percent of the
-     twenty-one months. The two gap beats are the ones that travel */
-  var RAIL=[[0,0],[0,2.0],[2.0,5.4],[5.4,10.8],[10.8,10.8],[10.8,32.5],[32.5,32.5],[32.5,89.5],[89.5,89.5],[89.5,98.4],[98.4,100]];
-  /* the same voice as the narration on the left, one clause, same verb set:
-     left says what fein reads, this says what fein does to the graph */
-  var OPS=['fein reads','fein writes 3 facts','fein writes 3 facts','fein writes 2 facts',
-           'fein writes 2 facts &middot; retires 1, keeps the dates','fein sees nothing new',
-           'fein writes 1 fact','fein sees nothing new',
-           'fein writes 3 facts &middot; retires 3, keeps the dates','fein writes 1 fact',
-           'fein holds 15 facts &middot; 11 true today &middot; 4 retired, still queryable'];
-  var RETOP=[0,0,0,0,1,0,0,0,1,0,0];
-  var DATES=['','8 Nov 2024','21 Nov 2024','12 Dec 2024','16 Jan 2025','16 Jan 2025','3 Jun 2025','3 Jun 2025','2 Jun 2026','28 Jul 2026','28 Jul 2026'];
+     twenty-one months. The long crossings are the months nobody filed anything */
+  var RAIL=[[0,0],[0,2],[2,32],[32,77],[77,90],[90,98],[98,100]];
+  /* the same voice as the narration on the left, one clause: left says what
+     arrived, this says what fein did with it */
+  var OPS=['fein reads',
+           'fein writes 3 facts &middot; 3 records',
+           'fein writes 2 facts &middot; 1 record',
+           'fein opens a record &middot; writes 2 facts',
+           'fein opens a record &middot; writes 1 fact',
+           'fein writes 2 facts &middot; retires 1, keeps the dates',
+           'fein holds 10 facts &middot; 5 records &middot; every one sourced'];
+  var RETOP=[0,0,0,0,0,1,0];
+  var DATES=['','8 Nov 2024','21 Nov 2024','3 Jun 2025','12 Mar 2026','2 Jun 2026','28 Jul 2026'];
   /* cards[0] is the key card, which only exists on the pinned stage, so every
      document sits one further along than its data-c. The last beat has no
-     document at all: the answer panel takes the well. */
-  var CARDOF=[0,1,2,3,4,-1,5,-1,6,7,-1];
-  /* what the transport says out loud, per beat. The strip and the live region
-     read from the same table, so a screen reader and a pair of eyes are told
-     the same thing about where they are. */
-  var SAY=['The key','Gmail','Granola','Affinity','Notion','Twelve months, nothing filed',
-           'LinkedIn','Still nothing filed','Gmail','Slack','The answer'];
-  /* ---- the graph. Five things the firm actually holds, and the fifteen facts
-     hanging off them. The coordinates are authored rather than solved: this is a
-     picture of a graph, at the size of a thumbnail, and a force layout would
-     spend a frame budget to land somewhere less legible. ---- */
-  var GH=[[0.50,0.46,'Halo Compute'],[0.15,0.20,'Dev Raman'],[0.20,0.78,'Marcus'],
-          [0.85,0.26,'The round'],[0.80,0.74,'The team']];
-  /* fact -> [x, y, hub] */
-  var GN=[[0.93,0.13,3],[0.08,0.10,1],[0.09,0.64,2],[0.91,0.63,4],[0.40,0.22,0],
-          [0.95,0.37,3],[0.11,0.88,2],[0.26,0.94,2],[0.37,0.62,0],[0.52,0.74,0],
-          [0.89,0.88,4],[0.84,0.10,3],[0.63,0.58,0],[0.61,0.29,0],[0.07,0.33,1]];
-  /* the facts the closing answer is built from: the path it walked, lit */
-  var ANSF={9:1,12:1,13:1,10:1,1:1,14:1};
-  /* what the machine does on each beat, counted off the event table rather than
-     written down twice: retime an event and the core still says the truth */
-  var WR=[],RE=[];
+     document at all: the answer takes the well. */
+  var CARDOF=[0,1,2,3,4,5,-1];
+  var SAY=['The key','Gmail','Granola','LinkedIn','Calendar','Gmail','The answer'];
+  /* how many records each beat writes to, and how many of those are new. Counted
+     off the event table so the core can never contradict the store. */
+  var WR=[],RE=[],NREC=[];
   (function(){
-    var i; for(i=0;i<BEATS.length;i++){ WR.push(0); RE.push(0); }
+    var i,seen={};
+    for(i=0;i<BEATS.length;i++){ WR.push(0); RE.push(0); NREC.push(0); }
     EV.forEach(function(e){ if(e.r) RE[e.b]++; else WR[e.b]++; });
+    for(i=0;i<BEATS.length;i++){
+      var here={};
+      EV.forEach(function(e){ if(e.b===i && !e.r) here[ROWREC[e.f]]=1; });
+      Object.keys(here).forEach(function(k){ NREC[i]++; if(!seen[k]) seen[k]=1; });
+    }
   })();
-  var LIVE_TOP=22, LIVE_STEP=32, SHELF_H=110, SHELF_STEP=26;
+  /* the records the closing answer crosses */
+  var ANSR={0:1,1:1,4:1};
+
+  var RH=34, RGAP=10, FH=26, RPAD=10;
   var NAV=76, PINH=0, geo=null, raf=0, vis=false, on=false, io=null, rt=0, lastW=0, lastH=0;
   var paths=[], toks=[], halos=[], lastBi=-1;
 
@@ -3381,127 +3357,68 @@ __LOGO_SPRITE__
   function out3(e){ var k=1-e; return 1-k*k*k; }
   function back(g){ var k=g-1; return 1+2.2*k*k*k+1.2*k*k; }
   function seg(v,a,b){ return clamp01((v-a)/(b-a)); }
-
-  /* ---- the graph, built once. Drawing order is the stacking order in SVG, so
-     the spine goes down first, then each fact's edge, then the hubs, then the
-     fact nodes on top of everything they connect to. ---- */
   var NS='http://www.w3.org/2000/svg';
-  var gspine=[],gedge=[],ghub=[],glab=[],gnode=[];
   function el(tag,cls,parent){ var e=document.createElementNS(NS,tag); if(cls) e.setAttribute('class',cls); parent.appendChild(e); return e; }
-  function buildGraph(){
-    if(!graph||gnode.length) return;
-    [[0,1],[0,2],[0,3],[0,4]].forEach(function(p){ gspine.push({el:el('line','ge',graph),a:p[0],b:p[1]}); });
-    GN.forEach(function(n,i){ gedge.push(el('line','ge'+(ANSF[i]?' ans':''),graph)); });
-    GH.forEach(function(h){ ghub.push(el('circle','gh',graph)); });
-    GH.forEach(function(h){ var t=el('text','gl',graph); t.setAttribute('text-anchor','middle'); t.textContent=h[2]; glab.push(t); });
-    GN.forEach(function(n,i){ gnode.push(el('circle','gn'+(rows[i]&&rows[i].classList.contains('ret')?' ret':''),graph)); });
-  }
-  function placeGraph(bw,bh){
-    if(!graph||!gnode.length) return;
-    var gh=Math.round(bh*0.70);
-    graph.style.setProperty('--gh',gh+'px');
-    var px=26, py=20, w=Math.max(40,bw-px*2), h=Math.max(40,gh-py*2-10);
-    function X(v){ return (px+v*w).toFixed(1); }
-    function Y(v){ return (py+v*h).toFixed(1); }
-    gspine.forEach(function(s){
-      s.el.setAttribute('x1',X(GH[s.a][0])); s.el.setAttribute('y1',Y(GH[s.a][1]));
-      s.el.setAttribute('x2',X(GH[s.b][0])); s.el.setAttribute('y2',Y(GH[s.b][1]));
-      s.el.style.setProperty('--e','.55');
-    });
-    gedge.forEach(function(e,i){
-      var n=GN[i], hb=GH[n[2]];
-      e.setAttribute('x1',X(n[0])); e.setAttribute('y1',Y(n[1]));
-      e.setAttribute('x2',X(hb[0])); e.setAttribute('y2',Y(hb[1]));
-    });
-    ghub.forEach(function(c,i){ c.setAttribute('cx',X(GH[i][0])); c.setAttribute('cy',Y(GH[i][1])); c.setAttribute('r','4.2'); });
-    glab.forEach(function(t,i){ t.setAttribute('x',X(GH[i][0])); t.setAttribute('y',(parseFloat(Y(GH[i][1]))+16).toFixed(1)); });
-    gnode.forEach(function(c,i){ c.setAttribute('cx',X(GN[i][0])); c.setAttribute('cy',Y(GN[i][1])); c.setAttribute('r','2.8'); });
-  }
 
   function measure(){
     NAV=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
     PINH=pin.getBoundingClientRect().height;
-    /* the store is laid out from the space it actually has, not from constants.
-       Eleven live rows and four retired ones have to fill one column exactly:
-       fixed steps left a third of the panel empty on a laptop and overflowed a
-       short window. The shelf is parked at the bottom, the live rows are spread
-       to meet it, and if the resulting rhythm is too tight to carry a citation
-       under each fact the citations come off rather than collide. */
-    var bh=body.getBoundingClientRect().height;
-    SHELF_STEP=Math.max(22,Math.min(30,Math.round((bh*0.16)/4)));
-    var shelfNeed=26+SHELF_STEP*4+10;
-    var shelfTop=Math.max(bh*0.42, bh-Math.max(SHELF_H,shelfNeed));
-    /* ten gaps, not eleven: the eleventh row still has to fit, and it carries a
-       citation under it that the shelf label must not land on. 66 is that last
-       row's own height plus its citation plus the label's overhang above the
-       shelf line, which is the clearance the eleventh fact needs and the other
-       ten do not. */
-    var per=(shelfTop-LIVE_TOP-66)/10;
-    var tight=per<38;
-    LIVE_STEP=Math.max(24,Math.min(tight?32:52,per));
-    body.classList.toggle('rec-tight',tight);
-    body.style.setProperty('--shelf',shelfTop+'px');
-    body.style.setProperty('--retlab',(shelfTop-18)+'px');
     var pr=panes.getBoundingClientRect(), sr=store.getBoundingClientRect(), br=body.getBoundingClientRect();
-    /* the payoff line hangs off the bottom of whichever card is showing, and
-       the cards are all different heights, so each one is given the offset that
-       lands its payoff on the same line as every other. The card's own top is
-       read back from --card-top rather than repeated here. */
-    var tallest=0,tallwhy=0;
+    /* the store's rhythm comes from the space it has. Five headers and ten facts
+       have to fit one column exactly, so the fact line gives up height first and
+       the header keeps its own, because the header is the record's identity. */
+    /* the identity rows give up height before the facts do, because five
+       headers cost more than ten lines when the window is short */
+    RH=34; RGAP=10; RPAD=10;
+    if(recs.length*(RH+RGAP+RPAD)+rows.length*26>br.height){ RH=29; RGAP=6; RPAD=6; }
+    var slack=br.height-(recs.length*(RH+RGAP+RPAD)+rows.length*26);
+    FH=Math.max(21,Math.min(30,26+Math.round(slack/rows.length)));
+    body.style.setProperty('--rh',RH+'px');
+    body.classList.toggle('rec-tight',FH<24);
+    /* the payoff hangs off the bottom of whichever card is showing, and the
+       cards are all different heights, so each is given the offset that lands
+       its payoff on the same line as every other */
+    var tallest=0,tallwhy=0,tallLede=0;
     cards.forEach(function(c){
       var h=c.getBoundingClientRect().height; if(h>tallest) tallest=h;
       var w=c.querySelector('.rec-why'); if(w){ var wh=w.getBoundingClientRect().height; if(wh>tallwhy) tallwhy=wh; }
+      var l=c.querySelector('.rec-lede'); if(l){ var lh=l.getBoundingClientRect().height; if(lh>tallLede) tallLede=lh; }
     });
     cards.forEach(function(c){
-      /* the key card carries no document, so it does not sit on the payoff
-         line the seven documents share: its text belongs under its own title */
       c.style.setProperty('--whyoff',c.classList.contains('rec-c0')?'8px'
         :Math.round(tallest-c.getBoundingClientRect().height+22)+'px');
     });
-    /* the narration, the document and its payoff are one block, so the well
-       centres that block rather than hanging it from a constant and leaving all
-       the slack at the bottom. The floor is the room two lines of narration
-       need above the card, which is what --card-top meant before it moved. */
+    /* the narration, the document and its payoff are one block, and the well
+       centres that block rather than hanging it from a constant. The floor is
+       the room the tallest narration needs above the card. */
     var wellH=well.getBoundingClientRect().height;
-    var group=tallest+22+tallwhy;
-    var tallLede=0;
-    cards.forEach(function(c){ var l=c.querySelector('.rec-lede');
-      if(l){ var lh=l.getBoundingClientRect().height; if(lh>tallLede) tallLede=lh; } });
     var floor=Math.max(104,Math.round(tallLede+40));
-    var cardTop=Math.round(Math.max(floor,Math.min(Math.max(floor,210),(wellH-group)/2)));
+    var cardTop=Math.round(Math.max(floor,Math.min(Math.max(floor,210),(wellH-(tallest+22+tallwhy))/2)));
     well.style.setProperty('--card-top',cardTop+'px');
-    /* the answer is taller than any document, so on a short window it starts
-       above the line the documents start on rather than running under the strip */
     if(ask){
       ask.classList.remove('sm');
       var ah=ask.getBoundingClientRect().height;
       if(ah>wellH-10){ ask.classList.add('sm'); ah=ask.getBoundingClientRect().height; }
       ask.style.setProperty('--asktop',Math.round(Math.max(0,Math.min(cardTop,wellH-ah-6)))+'px');
     }
-    buildGraph();
-    placeGraph(br.width,br.height);
     /* the ring is the point every wire is bent through, so its centre has to be
-       a real coordinate in the panes' space, not a CSS percentage the script
-       cannot see. One number, read here, used by nineteen paths. */
+       a real coordinate in the panes' space, not a CSS percentage */
     var coreX=pr.width/2, coreY=pr.height*0.42;
     if(core){ var cbr=core.getBoundingClientRect(); coreX=cbr.left-pr.left+cbr.width/2; }
-    geo={ shelfTop:shelfTop, bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left,
+    geo={ bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left, bodyW:br.width, bodyH:br.height,
           coreX:coreX, coreY:coreY,
           hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
             return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
-    /* one path per event, created once, each with the token that draws it */
     if(!paths.length){
-      EV.forEach(function(e,i){
+      EV.forEach(function(e){
         var p=document.createElementNS(NS,'path');
         p.setAttribute('pathLength','1');
         if(e.r) p.setAttribute('class','red');
         wires.appendChild(p); paths.push(p);
       });
       EV.forEach(function(e,i){
-        halos.push(el('circle','halo'+(e.r?' red':''),wires));
-        halos[i].setAttribute('r','7.5');
-        toks.push(el('circle','tok'+(e.r?' red':''),wires));
-        toks[i].setAttribute('r','3');
+        halos.push(el('circle','halo'+(e.r?' red':''),wires)); halos[i].setAttribute('r','7.5');
+        toks.push(el('circle','tok'+(e.r?' red':''),wires)); toks[i].setAttribute('r','3');
       });
     }
   }
@@ -3513,11 +3430,11 @@ __LOGO_SPRITE__
   }
   function paint(){
     raf=0;
-    var p=progress(), svh=p*T;
-    var bi=0,i; for(i=0;i<edge.length;i++){ if(svh>=edge[i][0]) bi=i; }
-    var local=svh-edge[bi][0];
+    var p=progress(), u=p*T;
+    var bi=0,i,k; for(i=0;i<edge.length;i++){ if(u>=edge[i][0]) bi=i; }
+    var local=u-edge[bi][0];
 
-    /* --- the documents: one visible, crossfading over the first 3svh --- */
+    /* --- the documents: one visible, crossfading over the first 3 units --- */
     var cardNow=CARDOF[bi], into=clamp01(local/3), c;
     for(c=0;c<cards.length;c++){
       var o=0,cy=0;
@@ -3526,12 +3443,7 @@ __LOGO_SPRITE__
       cards[c].style.opacity=o;
       cards[c].style.setProperty('--cy',cy.toFixed(1)+'px');
     }
-
-    /* the graph comes forward in the back half of the last beat, once the answer
-       has been read: first what fein says, then the shape it said it from */
-    var gvNow=BEATS[bi][0]==='fin'?seg(local,12,24):0;
-
-    /* --- the answer: the last beat, in the well the documents have vacated --- */
+    var gv=BEATS[bi][0]==='fin'?seg(local,12,24):0;
     if(ask){
       var ao=BEATS[bi][0]==='fin'?clamp01(local/4):0;
       ask.style.setProperty('--ao',ao.toFixed(3));
@@ -3539,99 +3451,96 @@ __LOGO_SPRITE__
       ask.classList.toggle('live',ao>0.6);
     }
 
-    /* --- twelve months, drawn into the well the cards leave behind --- */
-    /* the void's headline waits for the document to leave, and leaves before the
-       next one arrives. Both are set at the narration's size, in white, at
-       different heights: overlap them and the frame is two headlines deep. */
-    var gap=0, gm=-1;
-    if(BEATS[bi][0]==='ga'){ gap=clamp01((local-3)/2.5); gm=Math.floor(local/9*6); }
-    else if(BEATS[bi][0]==='gb'){ gap=1; gm=6+Math.floor(local/11*6); }
-    else if(BEATS[bi][0]==='b4'){ gap=1-clamp01(local/1.4); gm=6; }
-    /* on the well, not on the month strip: the gap narration is the strip's
-       sibling, so anything set down there cannot reach it */
-    well.style.setProperty('--mo',gap.toFixed(2));
-    for(i=0;i<mons.length;i++) mons[i].classList.toggle('on', gap>0 && i<=gm);
-
-    /* --- resolve every event to per-row state --- */
-    var st=[],q=[],k;
-    for(i=0;i<rows.length;i++) st.push({born:0,cut:0,drop:0,land:0});
+    /* --- resolve every event to per fact state --- */
+    var st=[],q=[];
+    for(i=0;i<rows.length;i++) st.push({born:0,cut:0,land:0});
     for(k=0;k<EV.length;k++){
       var e=EV[k], qq=0;
       if(bi>e.b) qq=1; else if(bi===e.b) qq=clamp01((local-e.t0)/(e.t1-e.t0));
       q.push(qq);
       var s=st[e.f];
-      if(e.r){ s.cut=Math.max(s.cut,seg(qq,0.23,0.42)); s.drop=Math.max(s.drop,seg(qq,0.54,0.88)); s.land=Math.max(s.land,seg(qq,0.86,1)); }
+      if(e.r){ s.cut=Math.max(s.cut,seg(qq,0.25,0.55)); s.land=Math.max(s.land,seg(qq,0.6,1)); }
       else s.born=Math.max(s.born,qq);
     }
 
-    /* --- the store. live rows in birth order, shelf rows in retirement order.
-       a row that is falling has already left the live ordering, so the rows
-       under it close up: the store compacting is itself the signal that
-       something moved rather than vanished. --- */
-    var liveN=0, shelfN=0, slot={}, sh={}, yOf=[];
-    for(i=0;i<rows.length;i++){ if(st[i].born>0||st[i].cut>0){ if(st[i].drop<0.5) slot[i]=liveN++; } }
-    for(i=0;i<rows.length;i++){ if(st[i].drop>=0.5) sh[i]=shelfN++; }
+    /* --- the records. A record exists once it holds a fact; its height is the
+       facts it holds; the ones below it move down to make room. The whole
+       column is laid out from the top every frame, so a fact arriving and a
+       record opening are the same motion. --- */
+    var y=0, yOf=[], live=[], recY=[], recShown=[];
+    for(i=0;i<recs.length;i++){ live.push(0); recY.push(0); recShown.push(0); }
+    for(i=0;i<rows.length;i++){ var b0=st[i].born; if(b0>0) live[ROWREC[i]]+=Math.min(1,b0/0.55); }
+    for(var r=0;r<recs.length;r++){
+      var shown=live[r];
+      recShown[r]=Math.min(1,shown);
+      recY[r]=y;
+      if(shown>0.001) y+=RH+RPAD+FH*shown+RGAP;
+    }
     for(i=0;i<rows.length;i++){
-      var s2=st[i];
-      var ly=LIVE_TOP+LIVE_STEP*(slot[i]!==undefined?slot[i]:liveN);
-      var sy=(geo?geo.shelfTop:400)+3+SHELF_STEP*(sh[i]!==undefined?sh[i]:0);
-      var y=ly;
-      if(s2.drop>=1) y=sy;
-      else if(s2.drop>0){ var d2=s2.drop<0.5?2*s2.drop*s2.drop:1-Math.pow(-2*s2.drop+2,2)/2; y=ly+(sy-ly)*d2; }
-      yOf.push(y);
-      var el=rows[i];
-      if(s2.born<=0 && s2.cut<=0){ el.style.setProperty('--o',0); continue; }
-      var appear=s2.born>0?Math.min(1,s2.born/0.55):1;
+      var s2=st[i], rr=ROWREC[i], row=rows[i];
+      /* a fact's slot is how many of its record's facts arrived before it */
+      var idx=0;
+      for(var j=0;j<i;j++) if(ROWREC[j]===rr && st[j].born>0) idx+=Math.min(1,st[j].born/0.55);
+      var fyLocal=RH+RPAD*0.5+FH*idx;
+      yOf.push(recY[rr]+fyLocal);
+      if(s2.born<=0){ row.style.setProperty('--o',0); continue; }
+      var appear=Math.min(1,s2.born/0.55);
       var gq=clamp01((s2.born-0.5)/0.3);
-      el.style.setProperty('--y',y.toFixed(1)+'px');
-      el.style.setProperty('--dy',((1-out3(appear))*10).toFixed(1)+'px');
-      el.style.setProperty('--o',appear.toFixed(3));
-      el.style.setProperty('--z',(s2.drop>0&&s2.drop<1)?3:1);
-      el.style.setProperty('--cut',s2.cut.toFixed(3));
-      el.style.setProperty('--gx',clamp01(s2.cut/0.4).toFixed(3));
-      el.style.setProperty('--rf',s2.drop.toFixed(3));
-      el.style.setProperty('--chip',s2.land.toFixed(3));
-      el.style.setProperty('--acc',(0.5*(1-clamp01((s2.born-0.6)/0.4))).toFixed(3));
-      el.style.setProperty('--gs',(0.55+0.45*back(gq)).toFixed(3));
-      el.style.setProperty('--gf',(gq*(1-clamp01((s2.born-0.8)/0.18))).toFixed(3));
+      row.style.setProperty('--y',fyLocal.toFixed(1)+'px');
+      row.style.setProperty('--dy',((1-out3(appear))*10).toFixed(1)+'px');
+      row.style.setProperty('--o',appear.toFixed(3));
+      row.style.setProperty('--cut',s2.cut.toFixed(3));
+      row.style.setProperty('--gx',clamp01(s2.cut/0.4).toFixed(3));
+      row.style.setProperty('--chip',s2.land.toFixed(3));
+      row.style.setProperty('--acc',(0.6*(1-clamp01((s2.born-0.6)/0.4))).toFixed(3));
+      row.style.setProperty('--gs',(0.55+0.45*back(gq)).toFixed(3));
+      row.style.setProperty('--gf',(gq*(1-clamp01((s2.born-0.8)/0.18))).toFixed(3));
+    }
+    /* the record itself: present once it holds something, lit while it is being
+       written to, so the reader's eye is taken to the place fein chose */
+    for(r=0;r<recs.length;r++){
+      var hot=0;
+      for(k=0;k<EV.length;k++) if(EV[k].b===bi && ROWREC[EV[k].f]===r && q[k]>0 && q[k]<1) hot=1;
+      recs[r].style.setProperty('--ry',recY[r].toFixed(1)+'px');
+      recs[r].style.setProperty('--ro',recShown[r].toFixed(3));
+      recs[r].style.setProperty('--rhot',hot?'1':'0');
+      recs[r].style.setProperty('--rfh',(RH+RPAD+FH*live[r]).toFixed(1)+'px');
+      if(counts[r]){
+        var n=0;
+        for(i=0;i<rows.length;i++) if(ROWREC[i]===r && st[i].born>0.5 && st[i].cut<0.5) n++;
+        if(counts[r].textContent!==String(n)) counts[r].textContent=n;
+      }
     }
 
-    /* --- the wires, now that every row has a resolved y. Each one runs from the
-       phrase, through the ring, to the fact: two curves and one waypoint, which
-       is the whole claim of the section drawn as a shape. The token rides at the
-       head of the line, so what the reader watches is the sentence being carried
-       into fein and set down as a fact rather than a line joining two boxes. --- */
+    /* --- the wires: phrase, ring, fact. Two curves and one waypoint, which is
+       the whole claim of the section drawn as a shape. --- */
     var pulse=0, tRead=0, tWrite=0;
     for(k=0;k<EV.length;k++){
       var ev=EV[k], qv=q[k], pa=paths[k];
-      var d=seg(qv,ev.r?0:0.2,ev.r?0.27:0.64);
-      /* a wire belongs to its beat: it draws, it settles to a trace while the
-         reader is still on that document, and it is gone once the page turns */
+      var d=seg(qv,ev.r?0:0.15,ev.r?0.3:0.7);
       var w=(qv<=0||bi!==ev.b)?0
-            :(ev.r ? (qv<0.55?0.85*seg(qv,0,0.1):0.85*(1-seg(qv,0.5,0.62)))
-                   : (qv<0.7?0.75*seg(qv,0.2,0.3):0.26+0.49*(1-seg(qv,0.66,0.82))));
+            :(ev.r ? (qv<0.6?0.85*seg(qv,0,0.1):0.85*(1-seg(qv,0.55,0.7)))
+                   : (qv<0.75?0.8*seg(qv,0.15,0.28):0.3+0.5*(1-seg(qv,0.72,0.88))));
       if(!ev.r) hls[ev.f].style.setProperty('--bl',seg(qv,0,0.28).toFixed(2));
       pa.style.setProperty('--d',d.toFixed(3));
       pa.style.setProperty('--w',w.toFixed(3));
-      if(toks[k]){ toks[k].style.setProperty('--w',w.toFixed(3)); halos[k].style.setProperty('--w',w.toFixed(3)); }
+      toks[k].style.setProperty('--w',w.toFixed(3)); halos[k].style.setProperty('--w',w.toFixed(3));
       if(w>0.005 && geo){
-        var an=geo.hl[ev.f], x1=geo.storeLeft+13, y1=geo.bodyTop+yOf[ev.f]+16;
+        var an=geo.hl[ev.f], x1=geo.storeLeft+16, y1=geo.bodyTop+yOf[ev.f]+11;
         var cx=geo.coreX, cy=geo.coreY;
         var k1=Math.max(28,(cx-an.x)*0.45), k2=Math.max(28,(x1-cx)*0.45);
         pa.setAttribute('d','M'+an.x.toFixed(1)+' '+an.y.toFixed(1)
           +'C'+(an.x+k1).toFixed(1)+' '+an.y.toFixed(1)+','+(cx-k1).toFixed(1)+' '+cy.toFixed(1)+','+cx.toFixed(1)+' '+cy.toFixed(1)
           +'C'+(cx+k2).toFixed(1)+' '+cy.toFixed(1)+','+(x1-k2).toFixed(1)+' '+y1.toFixed(1)+','+x1.toFixed(1)+' '+y1.toFixed(1));
-        /* the token sits where the line has got to, and lets go as it lands */
-        if(toks[k] && d>0.001 && d<0.999){
+        if(d>0.001 && d<0.999){
           var L=pa.getTotalLength(), pt=pa.getPointAtLength(L*d), tv=(1-seg(d,0.9,1)).toFixed(3);
           toks[k].setAttribute('cx',pt.x.toFixed(1)); toks[k].setAttribute('cy',pt.y.toFixed(1));
           halos[k].setAttribute('cx',pt.x.toFixed(1)); halos[k].setAttribute('cy',pt.y.toFixed(1));
           toks[k].style.setProperty('--tv',tv); halos[k].style.setProperty('--tv',tv);
-          /* the machine reacts to what is passing through it */
           var nearCore=Math.max(0,1-Math.abs(d-0.5)*3.4);
           if(nearCore>pulse) pulse=nearCore;
           if(d<0.5) tRead=1; else tWrite=1;
-        } else if(toks[k]){ toks[k].style.setProperty('--tv',0); halos[k].style.setProperty('--tv',0); }
+        } else { toks[k].style.setProperty('--tv',0); halos[k].style.setProperty('--tv',0); }
       }
     }
     /* --- the core: what fein is doing, while it does it --- */
@@ -3640,28 +3549,20 @@ __LOGO_SPRITE__
       if(vread) vread.parentNode.style.setProperty('--vb',tRead.toFixed(2));
       if(vwrite) vwrite.parentNode.style.setProperty('--vb',tWrite.toFixed(2));
       if(ccount){
-        var nw=WR[bi],nr=RE[bi];
-        ccount.innerHTML=(nw?'<b>+'+nw+'</b> fact'+(nw>1?'s':''):'')+(nw&&nr?'<br>':'')+(nr?'<b>&minus;'+nr+'</b> retired':'');
+        var nw=WR[bi],nr=RE[bi],nc=NREC[bi];
+        ccount.innerHTML=(nw?'<b>+'+nw+'</b> fact'+(nw>1?'s':'')+'<br>to <b>'+nc+'</b> record'+(nc>1?'s':''):'')
+                        +(nw&&nr?'<br>':'')+(nr?'<b>&minus;'+nr+'</b> retired':'');
         ccount.className='rec-ccount'+(nr&&!nw?' ret':'');
         ccount.style.setProperty('--cco',((nw||nr)?Math.min(1,local/3):0).toFixed(2));
       }
     }
-    /* --- the graph. Same per fact state as the rows, drawn as structure: a
-       node appears where a sentence appeared, and a retired one stays on the
-       graph as an outline, because nothing here is ever deleted. --- */
-    if(gnode.length){
-      for(i=0;i<gnode.length;i++){
-        var gs=st[i], gb=gs.born>0?Math.min(1,gs.born/0.55):(gs.cut>0?1:0);
-        gnode[i].style.setProperty('--n',(gb*(1-0.4*gs.drop)).toFixed(3));
-        gnode[i].style.setProperty('--ns',(0.35+0.65*out3(gb)).toFixed(3));
-        gedge[i].style.setProperty('--e',(gb*0.8).toFixed(3));
-      }
-      body.style.setProperty('--gv',gvNow.toFixed(3));
-    }
+    /* --- the last beat: the records the answer crossed, joined --- */
+    body.style.setProperty('--gv',gv.toFixed(3));
+    for(r=0;r<recs.length;r++) recs[r].classList.toggle('ans',gv>0.05&&!!ANSR[r]);
 
     /* --- chrome --- */
     if(rfill){
-      var rr=RAIL[bi], rp=(rr[0]+(rr[1]-rr[0])*Math.min(1,local/Math.max(1,BEATS[bi][1])))/100;
+      var rr2=RAIL[bi], rp=(rr2[0]+(rr2[1]-rr2[0])*Math.min(1,local/Math.max(1,BEATS[bi][1])))/100;
       rfill.style.setProperty('--rp',rp.toFixed(4));
     }
     if(opline){
@@ -3673,72 +3574,46 @@ __LOGO_SPRITE__
       if(DATES[bi]) asv.textContent=DATES[bi];
       asv.parentNode.style.opacity=DATES[bi]?'':'0';
     }
-    if(cn) cn.textContent=liveN;
-    if(cr) cr.textContent=shelfN;
-    /* --- the transport. Only on a beat change: this runs every frame, and the
-       strip is the one part of the section a reader is expected to read
-       rather than watch, so it must not flicker under them. --- */
     if(bi!==lastBi){ lastBi=bi; markBeat(bi); }
     if(vis) raf=requestAnimationFrame(paint);
   }
-  /* how many documents have been read by a given beat. The strip counts
-     documents, not beats, because that is the unit the reader was promised in
-     the intro: seven of them. */
-  function docsBy(b){ var n=0,i; for(i=0;i<=b;i++) if(CARDOF[i]>0) n=CARDOF[i]; return n; }
   function markBeat(bi){
-    var i,dn=docsBy(bi),cardNow=CARDOF[bi];
+    var i,cardNow=CARDOF[bi];
     for(i=0;i<chips.length;i++){
       var cb=parseInt(chips[i].getAttribute('data-goto'),10);
       chips[i].classList.toggle('now',cb===bi);
       chips[i].classList.toggle('read',cb<bi);
       chips[i].setAttribute('aria-current',cb===bi?'true':'false');
     }
-    if(stripn) stripn.textContent=BEATS[bi][0]==='fin'?'Answering':(cardNow>0?'Reading':'Waiting');
-    if(stripd) stripd.textContent=BEATS[bi][0]==='fin'?'all 7 documents read'
-      :(cardNow>0?SAY[bi]+' · document '+dn+' of 7':'nothing filed · '+dn+' of 7 read');
-    /* the answer's own path through the graph, lit only where the answer is */
-    if(gedge.length){
-      var fin=BEATS[bi][0]==='fin';
-      for(var gi=0;gi<gedge.length;gi++) gedge[gi].classList.toggle('lit',!!(fin&&ANSF[gi]));
-    }
+    if(stripn) stripn.textContent=BEATS[bi][0]==='fin'?'Answering':(cardNow>0?'Reading':'Ready');
+    if(stripd) stripd.textContent=BEATS[bi][0]==='fin'?'all 5 documents read'
+      :(cardNow>0?SAY[bi]+' · document '+cardNow+' of 5':'5 documents, 5 records');
     if(prevb) prevb.disabled=bi<=0;
     if(nextb) nextb.disabled=bi>=BEATS.length-1;
-    /* one sentence per beat for a reader who is not watching: which document,
-       where they are in the seven, and what it did to the graph. It counts
-       documents rather than beats for the same reason the bar shows no beat
-       number: seven is the count the reader was given. */
-    if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+dn+' of 7. ':(BEATS[bi][0]==='fin'?'All 7 documents read. ':''))+OPS[bi].replace(/\s*&middot;\s*/g,', ')+'.';
+    if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+cardNow+' of 5. ':(BEATS[bi][0]==='fin'?'All 5 documents read. ':''))
+      +OPS[bi].replace(/\s*&middot;\s*/g,', ')+'.';
   }
   function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
 
-  /* ---- the transport ----
-     Everything above derives the frame from the scroll position. This derives
-     the scroll position from a beat, which is the same function backwards, and
-     it is what turns a scrubbed story into one a reader can hold: step back to
-     the document they half-read, jump to the one they want, or hand the
-     scrolling over entirely and watch. Nothing here holds state the scrub does
-     not already own, so the two can never disagree. */
+  /* ---- the transport. This derives the scroll position from a beat, which is
+     the frame function backwards, and it is what turns a scrubbed story into one
+     a reader can hold. Nothing here keeps state the scrub does not already own,
+     so the two can never disagree. ---- */
   function yFor(p){
     var r=track.getBoundingClientRect(), travel=r.height-PINH;
     return window.scrollY + (r.top - (NAV - p*travel));
   }
-  /* land far enough into a beat that its document has finished arriving and its
-     payoff line is readable, but never past the events that beat exists for */
   function gotoBeat(b,smooth){
     b=Math.max(0,Math.min(BEATS.length-1,b));
-    var p=(edge[b][0]+Math.min(5,BEATS[b][1]*0.34))/T;
+    var p=(edge[b][0]+Math.min(6,BEATS[b][1]*0.34))/T;
     window.scrollTo({top:Math.round(yFor(p)),behavior:smooth===false?'instant':'smooth'});
   }
   function beatNow(){
-    var svh=progress()*T,b=0,i;
-    for(i=0;i<edge.length;i++) if(svh>=edge[i][0]) b=i;
+    var u=progress()*T,b=0,i;
+    for(i=0;i<edge.length;i++) if(u>=edge[i][0]) b=i;
     return b;
   }
-  /* the walk, at reading speed, for a reader who would rather watch than drive.
-     It writes scroll positions rather than animating anything of its own, so
-     the section it plays is the identical section a scroll produces, and any
-     real input takes the wheel back immediately. */
-  var play=false, ptime=0, pacc=0, PDUR=78000;
+  var play=false, ptime=0, pacc=0, PDUR=64000;
   function setPlay(v){
     play=v;
     if(playb) playb.setAttribute('aria-pressed',v?'true':'false');
@@ -3766,14 +3641,9 @@ __LOGO_SPRITE__
     chips.forEach(function(c){
       c.addEventListener('click',function(){ setPlay(false); gotoBeat(parseInt(c.getAttribute('data-goto'),10)); });
     });
-    /* any real scroll input is the reader taking over, so the play head stops
-       without argument. Our own scrollTo does not fire these. */
     ['wheel','touchstart','pointerdown'].forEach(function(ev){
       window.addEventListener(ev,function(){ if(play) setPlay(false); },{passive:true});
     });
-    /* left and right do not scroll a page, so taking them costs the reader
-       nothing and gives them a step. Only while the stage is actually pinned,
-       and never out from under a form field. */
     document.addEventListener('keydown',function(e){
       if(!on||!vis||e.metaKey||e.ctrlKey||e.altKey) return;
       var t=e.target,tag=t&&t.tagName;
@@ -3791,7 +3661,7 @@ __LOGO_SPRITE__
     measure();
     /* paint once, synchronously, before the observer can fire: the pin's CSS is
        live the moment the class lands, so waiting a frame would show one frame
-       of stacked, unpositioned cards */
+       of stacked, unpositioned records */
     paint();
     io=new IntersectionObserver(function(en){
       vis=en[0].isIntersecting;
@@ -3806,9 +3676,10 @@ __LOGO_SPRITE__
     if(raf){ cancelAnimationFrame(raf); raf=0; }
     if(io){ io.disconnect(); io=null; }
     document.documentElement.classList.remove('rec-on');
-    if(body) body.classList.remove('rec-tight');
-    [].concat(cards,rows,hls,paths,toks,halos,gnode,gedge,ask?[ask]:[],well?[well]:[],core?[core]:[]).forEach(function(el){ el.removeAttribute('style'); });
-    if(body){ body.style.removeProperty('--gv'); }
+    if(body){ body.classList.remove('rec-tight'); body.style.removeProperty('--gv'); }
+    [].concat(cards,rows,recs,hls,paths,toks,halos,ask?[ask]:[],well?[well]:[],core?[core]:[])
+      .forEach(function(e){ e.removeAttribute('style'); });
+    recs.forEach(function(e){ e.classList.remove('ans'); });
   }
   function remeasure(){ if(!on) return; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
   window.addEventListener('resize',function(){
