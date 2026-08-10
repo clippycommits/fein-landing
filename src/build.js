@@ -333,12 +333,6 @@ A company can come back for its next round. Then fein shows the meeting, the mem
 ### Relationships go cold. fein sees it first.
 fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.
 
-## Built for agents: give your AI a map, not a guess
-
-Point an AI tool at raw documents. It gets the wrong ones. It misses what it did not see. fein is different. It answers over one MCP endpoint. It uses structured graph traversal. It shows who exists, who knows whom, and how strongly. It shows the evidence for each hop. Connect it once. Then ask from Claude, ChatGPT, Gemini, or Cursor. There is nothing new to learn.
-
-Reads from: Gmail, Google Calendar, Google Drive, LinkedIn, Attio, Affinity, and Granola. Answers in: Claude, ChatGPT, Gemini, and Cursor. We add new connectors often.
-
 ## Security
 
 Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.

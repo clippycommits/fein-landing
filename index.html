@@ -181,6 +181,17 @@
   .hero-copy .hero-actions{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .34s both}
   .prep-wrap{animation:lpUp .8s cubic-bezier(.21,.6,.35,1) .48s both}
   .works{animation:lpUp .7s cubic-bezier(.21,.6,.35,1) .6s both}
+  /* The lead hero is above the fold, so its copy rides the same pure-CSS
+     entrance and starts at first paint. It must never be a .reveal: those wait
+     on the observer in the script block at the foot of a 300kB document, which
+     left the headline a blank hole for most of a second on a slow machine. The
+     delays here are read back by the burst script, so the light and the copy
+     arrive as one motion. */
+  .hero-lead .wrap>*{animation:lpUp .62s cubic-bezier(.21,.6,.35,1) both}
+  .hero-lead .eyebrow{animation-delay:.06s}
+  .hero-lead h2{animation:lpH1 .72s cubic-bezier(.21,.6,.35,1) .13s both}
+  .hero-lead .wrap>p{animation-delay:.22s}
+  .hero-lead .hero-actions{animation-delay:.3s}
 
   /* Stripe-pattern fold: ticker line, one full-width statement, actions */
   .hero-inner{position:relative;z-index:2;padding-top:clamp(3.5rem,7.5vw,5.5rem);outline:none}
@@ -315,8 +326,13 @@
      The canvas owns the whole section, so the fan runs off every edge instead of
      stopping at a wall; auto pointer-events let it answer the cursor, and the copy
      sits above it on its own stacking context so the links stay clickable. */
+  /* Two layers on purpose: #burst holds the settled fan and is painted only when
+     it changes, so the compositor carries it for free; #burstfx carries the live
+     accents and is the only thing the frame loop touches. Screen keeps the
+     accents additive over the layer beneath, as they were on one canvas. */
   .burst-hold{position:absolute;inset:0;pointer-events:none}
-  #burst{width:100%;height:100%;display:block;pointer-events:auto}
+  #burst,#burstfx{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #burstfx{mix-blend-mode:screen;pointer-events:auto}
 
   .spot{position:relative}
   .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
@@ -657,7 +673,7 @@
 <main id="view-home">
   <section id="home" class="cta-dark hero-lead">
     <div class="grain-overlay on-dark"></div>
-    <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas></div>
+    <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas><canvas id="burstfx"></canvas></div>
     <header>
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
@@ -746,11 +762,11 @@
       </nav>
     </header>
 
-    <div class="wrap" id="content" tabindex="-1" data-reveal-group="90">
-      <span class="eyebrow reveal">OPEN SOURCE</span>
-      <h2 class="reveal">Welcome to agentic venture capital.</h2>
-      <p class="reveal">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
-      <div class="hero-actions reveal">
+    <div class="wrap" id="content" tabindex="-1">
+      <span class="eyebrow">OPEN SOURCE</span>
+      <h2>Welcome to agentic venture capital.</h2>
+      <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
+      <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Use it for free: the source on GitHub"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Use it for free</a>
       </div>
@@ -902,32 +918,6 @@
       </div>
     </div>
   </section>
-
-  <!-- IN YOUR TOOLS: no new app -->
-  <section id="tools" class="band">
-    <div class="wrap">
-      <div class="split">
-        <div class="head reveal">
-          <span class="eyebrow">Built for agents</span>
-          <h2>Give your AI a map, not a guess.</h2>
-          <p class="lead">Point an AI tool at raw documents. It gets the wrong ones. It misses what it did not see. fein is different. It answers over one MCP endpoint. It uses structured graph traversal. It shows who exists, who knows whom, and how strongly. It shows the evidence for each hop. Connect it once. Then ask from Claude, ChatGPT, Gemini, or Cursor.</p>
-        </div>
-        <div class="code-card reveal">
-          <div class="code-top"><i class="r"></i><i class="y"></i><i class="g"></i><span class="name">agent · fein over MCP</span></div>
-<pre><span class="c-com">// your AI, connected to fein</span>
-<span class="c-key">tools</span>: [ <span class="c-fn">fein</span> ]
-
-<span class="c-usr">▸ warmest path to the CEO of Ramp?</span>
-
-<span class="c-out">fein →</span> 2 hops · via <span class="c-hl">Dana K.</span> (Partner)
-      best intro: <span class="c-hl">Dana K.</span> · last spoke 6d ago
-      backup:    <span class="c-hl">Marcus L.</span> (3 hops)
-      source:    calendar, 14 shared meetings</pre>
-        </div>
-      </div>
-    </div>
-  </section>
-
 
   <!-- SECURITY: you control your data -->
   <section id="security" class="band">
@@ -1381,38 +1371,113 @@
      breathing core on the horizon hairline — the "1 endpoint" the stats name, and
      the divider the footer no longer draws — and each arrival ticks the core
      brighter. Center-out ignition on first view; after it the steady state is a
-     baked offscreen layer that drifts and breathes about the core, and per-frame
-     work is additive accents only (twinkle, packets, pointer lift). */
-  var burst=document.getElementById("burst");
-  if(burst){var bx=burst.getContext("2d"),bz,braf=0,bw=0,bh=0,bdp=1,bvis=false;
+     baked offscreen layer blitted at 1:1 device pixels, and per-frame work is
+     additive accents only (twinkle, packets, pointer lift).
+
+     The fan itself never moves. An earlier pass swayed and scaled the whole
+     layer a degree or so to keep it alive; it read as a wobble, and it forced
+     the browser to resample a full-screen layer under a fractional transform on
+     every frame. The life now comes from light alone: the nodes twinkle, the
+     leaders shimmer, packets fall home, the core and the horizon breathe in
+     brightness. Nothing changes shape, so the threads stay pin sharp.
+
+     Everything that can be rasterised once is: each thread owns the gradient for
+     its own geometry (brightness rides on globalAlpha, which is identical under
+     additive compositing), every radial glow is a sprite, the blue field is
+     folded into the baked layer, and the node twinkle batches into one filled
+     path per alpha step instead of a few hundred separate arcs. */
+  var burst=document.getElementById("burst"),burstfx=document.getElementById("burstfx");
+  if(burst&&burstfx){var bx=burst.getContext("2d"),fx=burstfx.getContext("2d"),bz,braf=0,bw=0,bh=0,bdp=1,bvis=false;
     var FINE=window.matchMedia&&window.matchMedia("(pointer:fine)").matches;
-    var rays=[],leaders=[],statc=null,ignited=false;
-    var igniteAt=-1,igElapsed=0,IG_RAY=1150,IG_HOLD=140,IG_SWEEP=980;
+    var rays=[],leaders=[],baked=false,ignited=false;
+    /* The intro is timed against the CSS hero entrance above (copy fully in by
+       ~920ms): the crown lights under the headline as it lands and the last
+       shoulder settles just after, so the fold reads as one motion instead of
+       the copy and the light finishing a second and a half apart. */
+    var igniteAt=-1,igElapsed=0,IG_RAY=760,IG_HOLD=60,IG_SWEEP=560;
     var pulses=[],sparks=[],spNext=0,bloomKick=0,lastT=-1;
     var pAng=0,pTAng=-Math.PI/2,pInf=0,pTInf=0;
+    var spr={},BLOOM=0.85;                                        /* glow sprites; the field's steady level, baked in */
+    var BATCH=typeof Path2D!=="undefined";                        /* batched node fills, where the browser has them */
     function thr(al){return "rgba(206,216,233,"+al+")";}          /* thread white, slightly cool */
     function acc(al){return "rgba(82,168,255,"+al+")";}           /* the one accent */
     function oExpo(u){return u<=0?0:u>=1?1:1-Math.pow(2,-10*u);}
     function clamp01(u){return u<0?0:u>1?1:u;}
     function unit(){return Math.min(bh,bw*0.52);}                 /* scale reference for core and bloom */
-    function bsize(){var r=burst.getBoundingClientRect();bdp=Math.min(window.devicePixelRatio||1,2);bw=r.width;bh=r.height;burst.width=Math.max(1,bw*bdp);burst.height=Math.max(1,bh*bdp);bx.setTransform(bdp,0,0,bdp,0,0);}
+    function bsize(){var r=burst.getBoundingClientRect();bdp=Math.min(window.devicePixelRatio||1,2);bw=r.width;bh=r.height;
+      burst.width=burstfx.width=Math.max(1,bw*bdp);burst.height=burstfx.height=Math.max(1,bh*bdp);
+      bx.setTransform(bdp,0,0,bdp,0,0);fx.setTransform(bdp,0,0,bdp,0,0);
+      bx.globalCompositeOperation="lighter";baked=false;}
+    /* A glow rasterised once and blitted costs a fraction of the same glow built
+       from a fresh gradient every frame. Sprites hold the shape at full strength
+       and brightness rides on globalAlpha, which is exact under "lighter". Their
+       resolution is capped: these are soft fields, so a large one is drawn from a
+       smaller bitmap and nobody can tell. */
+    function sprite(rad,stops){
+      var px=Math.max(4,Math.min(Math.round(rad*bdp),320)),n=px*2;
+      var c=document.createElement("canvas");c.width=n;c.height=n;
+      var q=c.getContext("2d"),g=q.createRadialGradient(px,px,0,px,px,px);
+      for(var i=0;i<stops.length;i++)g.addColorStop(stops[i][0],stops[i][1]);
+      q.fillStyle=g;q.fillRect(0,0,n,n);
+      return {c:c,r:rad};
+    }
+    function sprites(){
+      var U=unit();
+      spr.bloom=sprite(U*1.4,[[0,"rgba(0,112,243,.10)"],[0.45,"rgba(0,112,243,.032)"],[1,"rgba(0,112,243,0)"]]);
+      spr.coreW=sprite(U*0.11,[[0,"rgba(255,255,255,1)"],[0.45,thr(0.35)],[1,thr(0)]]);
+      spr.coreB=sprite(U*0.32,[[0,acc(1)],[1,acc(0)]]);
+      spr.node =sprite(4.5,[[0,thr(1)],[1,thr(0)]]);
+      spr.head =sprite(6,[[0,acc(1)],[1,acc(0)]]);
+      /* the sparkle's crossed hairlines, drawn once at a reference size */
+      var s=10,px=Math.round(s*bdp),c=document.createElement("canvas");
+      c.width=c.height=px*2;var q=c.getContext("2d");q.setTransform(bdp,0,0,bdp,0,0);
+      var g1=q.createLinearGradient(0,s,s*2,s);
+      g1.addColorStop(0,thr(0));g1.addColorStop(0.5,thr(1));g1.addColorStop(1,thr(0));
+      q.strokeStyle=g1;q.lineWidth=0.8;q.beginPath();q.moveTo(0,s);q.lineTo(s*2,s);q.stroke();
+      var g2=q.createLinearGradient(s,0,s,s*2);
+      g2.addColorStop(0,thr(0));g2.addColorStop(0.5,thr(1));g2.addColorStop(1,thr(0));
+      q.strokeStyle=g2;q.beginPath();q.moveTo(s,0);q.lineTo(s,s*2);q.stroke();
+      spr.flare={c:c,r:s};
+    }
+    function blit(c,s,x,y,al,k){                                  /* a sprite, centred, at some strength */
+      if(!s||al<=0.003)return;var rr=s.r*(k||1);
+      c.globalAlpha=al>1?1:al;c.drawImage(s.c,x-rr,y-rr,rr*2,rr*2);c.globalAlpha=1;
+    }
+    /* Each thread's gradient is fixed by its own geometry, so build it at full
+       strength once and scale it with globalAlpha thereafter: additively the two
+       are the same image, and it takes every createLinearGradient out of the
+       frame. Rebuilt whenever reach() moves an endpoint. */
+    function grad(r){
+      var cx=bw/2,cy=bh;
+      var g=bx.createLinearGradient(cx+r.ca*r.r0,cy+r.sa*r.r0,cx+r.ca*r.end,cy+r.sa*r.end);
+      g.addColorStop(0,thr(0));
+      g.addColorStop(0.22,thr(1));
+      g.addColorStop(0.55,thr(0.62));
+      if(r.tip){g.addColorStop(0.9,thr(0.5));g.addColorStop(1,thr(0.62));}
+      else{g.addColorStop(0.78,thr(0.28));g.addColorStop(1,thr(0));}
+      r.g=g;
+    }
     function reach(){                                             /* how far each thread gets before the frame */
       for(var i=0;i<rays.length;i++){var q=rays[i];
         var hb=Math.abs(q.ca)>1e-4?(bw/2+4)/Math.abs(q.ca):1e9;
         var vb=Math.abs(q.sa)>1e-4?(bh+4)/Math.abs(q.sa):1e9;
         q.edge=Math.min(hb,vb);
         q.end=Math.max(q.r0+10,Math.min(q.len,q.edge));
-        q.tip=q.len<q.edge*0.93;}                                 /* ends inside the frame, so it gets a node */
+        q.tip=q.len<q.edge*0.93;                                  /* ends inside the frame, so it gets a node */
+        q.l=q.r0;q.set=false;                                     /* nothing of it is painted yet */
+        grad(q);}
     }
     function build(){
-      var rng=mulberry32(4242);rays.length=0;leaders.length=0;statc=null;
+      var rng=mulberry32(4242);rays.length=0;leaders.length=0;baked=false;bloomAt=0;bx.clearRect(0,0,bw,bh);
       var n=Math.round(Math.max(140,Math.min(230,bw/6.2)));
       var NL=Math.max(9,Math.round(n/13)),la=[],j;
       for(j=0;j<NL;j++)la.push((j+0.5)/NL+(rng()-0.5)*0.05);
       var s1=rng()*6.28,s2=rng()*6.28;
       /* a wide, shallow dome: the crown of nodes sits under the copy and the
-         shoulders run off both edges, so the fan spans the section either way */
-      var A=bw*0.66,B=bh*0.47;
+         shoulders run off both edges, so the fan spans the section either way.
+         SC is the mean scale the old breathing layer sat at: the framing was
+         tuned with it, so it belongs in the geometry now that nothing scales. */
+      var SC=1.012,A=bw*0.66*SC,B=bh*0.47*SC;
       for(var i=0;i<n;i++){
         var f=(i+0.5)/n,ff=clamp01(f+(rng()-0.5)*1.6/n);
         var a=-Math.PI/2+(ff-0.5)*Math.PI*0.99,near=1e9;
@@ -1425,10 +1490,10 @@
         /* one thread in nine is a reacher: far past the dome, thinner and fainter,
            so the fan has depth behind it and a few threads clear the copy entirely */
         var far=rng()<0.11;
-        var r={a:a,ca:ca,sa:sa,r0:10+rng()*9,len:el*env*(far?1.7+rng()*1.7:1),edge:0,end:0,tip:false,
+        var r={a:a,ca:ca,sa:sa,r0:(10+rng()*9)*SC,l:0,set:false,len:el*env*(far?1.7+rng()*1.7:1),edge:0,end:0,tip:false,
           lum:far?lum*0.5:lum,lead:lead&&!far,w:lead&&!far?1.15:(far?0.5+rng()*0.2:0.6+rng()*0.38),
           ph:rng()*6.28,fq:0.35+rng()*0.55,
-          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*260};
+          dot:lead&&!far?1.5:0.75+rng()*0.5,delay:Math.abs(f-0.5)*IG_SWEEP+rng()*160};
         rays.push(r);if(r.lead)leaders.push(r);
       }
       reach();
@@ -1437,70 +1502,78 @@
       else for(i=0;i<pulses.length;i++){pulses[i].on=false;pulses[i].r=null;}
       sparks.length=0;
     }
+    /* rises out of the convergence rather than blowing it out, then thins with
+       distance so the far reaches read as depth instead of bars. The profile is
+       the cached gradient; only its strength changes here. */
     function ray(c,r,g,boost){
       var L=r.r0+(r.end-r.r0)*g;if(L<=r.r0+1)return;
-      var cx=bw/2,cy=bh,x0=cx+r.ca*r.r0,y0=cy+r.sa*r.r0,x1=cx+r.ca*L,y1=cy+r.sa*L;
-      var base=0.21*r.lum+(r.lead?0.07:0)+(boost||0);
-      var gr=c.createLinearGradient(x0,y0,x1,y1);
-      /* rises out of the convergence rather than blowing it out, then thins with
-         distance so the far reaches read as depth instead of bars */
-      gr.addColorStop(0,thr(0));
-      gr.addColorStop(0.22,thr(base));
-      gr.addColorStop(0.55,thr(base*0.62));
-      if(r.tip){gr.addColorStop(0.9,thr(base*0.5));gr.addColorStop(1,thr(base*0.62));}
-      else{gr.addColorStop(0.78,thr(base*0.28));gr.addColorStop(1,thr(0));}
-      c.strokeStyle=gr;c.lineWidth=r.w;c.beginPath();c.moveTo(x0,y0);c.lineTo(x1,y1);c.stroke();
+      var al=0.21*r.lum+(r.lead?0.07:0)+(boost||0);if(al<=0.003)return;
+      var cx=bw/2,cy=bh;
+      c.globalAlpha=al>1?1:al;c.strokeStyle=r.g;c.lineWidth=r.w;
+      c.beginPath();c.moveTo(cx+r.ca*r.r0,cy+r.sa*r.r0);c.lineTo(cx+r.ca*L,cy+r.sa*L);c.stroke();
+      c.globalAlpha=1;
     }
     function dot(c,r,al,sc){
       if(!r.tip)return;
       var x=bw/2+r.ca*r.end,y=bh+r.sa*r.end;
       c.fillStyle=thr(al);c.beginPath();c.arc(x,y,r.dot*(sc||1),0,7);c.fill();
-      if(r.lead){var g=c.createRadialGradient(x,y,0,x,y,4.5);
-        g.addColorStop(0,thr(al*0.45));g.addColorStop(1,thr(0));
-        c.fillStyle=g;c.beginPath();c.arc(x,y,4.5,0,7);c.fill();}
+      if(r.lead)blit(c,spr.node,x,y,al*0.45);
     }
-    function flare(c,x,y,al,s){
-      var g1=c.createLinearGradient(x-s,y,x+s,y);
-      g1.addColorStop(0,thr(0));g1.addColorStop(0.5,thr(al));g1.addColorStop(1,thr(0));
-      c.strokeStyle=g1;c.lineWidth=0.8;c.beginPath();c.moveTo(x-s,y);c.lineTo(x+s,y);c.stroke();
-      var g2=c.createLinearGradient(x,y-s,x,y+s);
-      g2.addColorStop(0,thr(0));g2.addColorStop(0.5,thr(al));g2.addColorStop(1,thr(0));
-      c.strokeStyle=g2;c.beginPath();c.moveTo(x,y-s);c.lineTo(x,y+s);c.stroke();
-    }
-    function horizon(k,b){                                        /* the page's divider, lit where the threads land */
-      if(k<=0)return;var y=bh-0.5,cx=bw/2,half=(bw/2)*k;
-      var g=bx.createLinearGradient(cx-half,0,cx+half,0);
+    /* the divider, lit where the threads land. Its geometry is settled once the
+       intro has swept it out, so cache a gradient per step of the breath and
+       stop rebuilding nine colour stops every frame. */
+    var hgr=[],hgw=-1;
+    function hgrad(x0,x1,b){
+      var g=fx.createLinearGradient(x0,0,x1,0);
       g.addColorStop(0,"rgba(255,255,255,.09)");g.addColorStop(0.24,"rgba(255,255,255,.10)");
       g.addColorStop(0.36,acc(0.14));g.addColorStop(0.46,thr(0.4));
       g.addColorStop(0.5,"rgba(255,255,255,"+(0.6+0.18*b)+")");
       g.addColorStop(0.54,thr(0.4));g.addColorStop(0.64,acc(0.14));
       g.addColorStop(0.76,"rgba(255,255,255,.10)");g.addColorStop(1,"rgba(255,255,255,.09)");
-      bx.strokeStyle=g;bx.lineWidth=1;bx.beginPath();bx.moveTo(cx-half,y);bx.lineTo(cx+half,y);bx.stroke();
+      return g;
     }
-    function bloomField(b){ /* one faint blue field behind the threads — nothing louder */
-      var cx=bw/2,cy=bh,R=unit()*1.4;
-      var g=bx.createRadialGradient(cx,cy,0,cx,cy,R);
-      g.addColorStop(0,"rgba(0,112,243,"+(0.10*b)+")");g.addColorStop(0.45,"rgba(0,112,243,"+(0.032*b)+")");g.addColorStop(1,"rgba(0,112,243,0)");
-      bx.fillStyle=g;bx.beginPath();bx.arc(cx,cy,R,0,7);bx.fill();
+    function horizon(k,b){
+      if(k<=0)return;var y=bh-0.5,cx=bw/2,half=(bw/2)*k,g;
+      if(k>0.999){var q=(b*8)|0;if(q>7)q=7;
+        if(hgw!==bw){hgr=[];hgw=bw;}
+        g=hgr[q]||(hgr[q]=hgrad(cx-half,cx+half,(q+0.5)/8));
+      }else g=hgrad(cx-half,cx+half,b);
+      fx.strokeStyle=g;fx.lineWidth=1;fx.beginPath();fx.moveTo(cx-half,y);fx.lineTo(cx+half,y);fx.stroke();
     }
     function core(b,kick){
-      var cx=bw/2,cy=bh,U=unit(),a=Math.min(0.62,0.34*b+0.34*kick);
-      var g=bx.createRadialGradient(cx,cy,0,cx,cy,U*0.11);
-      g.addColorStop(0,"rgba(255,255,255,"+a+")");g.addColorStop(0.45,thr(a*0.35));g.addColorStop(1,thr(0));
-      bx.fillStyle=g;bx.beginPath();bx.arc(cx,cy,U*0.11,0,7);bx.fill();
-      var g2=bx.createRadialGradient(cx,cy,0,cx,cy,U*0.32);
-      g2.addColorStop(0,acc(0.16*b+0.18*kick));g2.addColorStop(1,acc(0));
-      bx.fillStyle=g2;bx.beginPath();bx.arc(cx,cy,U*0.32,0,7);bx.fill();
+      blit(fx,spr.coreW,bw/2,bh,Math.min(0.62,0.34*b+0.34*kick));
+      blit(fx,spr.coreB,bw/2,bh,0.16*b+0.18*kick);
     }
+    /* The steady layer: the settled fan, its nodes, and the one faint blue field
+       behind them. None of it moves, so it is painted straight onto its own
+       canvas and left there. The frame loop never touches it again: the field
+       used to be a full-height radial gradient rebuilt every frame, and the fan
+       a full-screen bitmap blitted every frame, and now neither costs anything.
+       Threads settle into it one at a time as the intro sweeps past them. */
+    /* Light accumulates. A growing thread paints only the length it has gained
+       since the last frame, straight into the settled layer, so the intro costs
+       one fan's worth of ink spread over its whole run instead of redrawing every
+       thread in full on every frame. Additive compositing makes that exact: the
+       piece painted at frame n and the piece painted at frame n+1 abut, and the
+       sum is the thread. */
+    function seg(r,from,to){
+      var cx=bw/2,cy=bh,al=0.21*r.lum+(r.lead?0.07:0);
+      bx.globalAlpha=al>1?1:al;bx.strokeStyle=r.g;bx.lineWidth=r.w;
+      bx.beginPath();bx.moveTo(cx+r.ca*from,cy+r.sa*from);bx.lineTo(cx+r.ca*to,cy+r.sa*to);bx.stroke();
+      bx.globalAlpha=1;
+    }
+    function node(r){dot(bx,r,0.26*r.lum+(r.lead?0.10:0),1);r.l=r.end;r.set=true;}
+    /* The field is laid down once, at full strength, before the first thread
+       moves: the sky the threads light up across. It cannot be faded in by
+       painting it in steps, because at 8 bits a fifth of a percent of blue
+       rounds to nothing and the outer falloff simply disappears. */
+    var bloomAt=0;
+    function bloomTo(level){if(level<=bloomAt)return;blit(bx,spr.bloom,bw/2,bh,level-bloomAt);bloomAt=level;}
     function bake(){
-      statc=document.createElement("canvas");statc.width=Math.max(1,bw*bdp);statc.height=Math.max(1,bh*bdp);
-      var sc=statc.getContext("2d");sc.setTransform(bdp,0,0,bdp,0,0);sc.globalCompositeOperation="lighter";
-      for(var i=0;i<rays.length;i++){ray(sc,rays[i],1,0);dot(sc,rays[i],0.26*rays[i].lum+(rays[i].lead?0.10:0),1);}
+      bx.clearRect(0,0,bw,bh);bloomAt=0;bloomTo(BLOOM);
+      for(var i=0;i<rays.length;i++){var r=rays[i];ray(bx,r,1,0);node(r);}
+      baked=true;
     }
-    /* the sky is never quite still: a degree of sway and a slow inhale, both about
-       the core, applied to the baked layer and every accent drawn over it */
-    function drift(t){return REDUCE.matches?0:0.0062*Math.sin(t*0.000242)+0.0024*Math.sin(t*0.000101+1.7);}
-    function breath(t){return REDUCE.matches?1.012:1.012+0.010*Math.sin(t*0.00069);}
     function spawnPulse(p,t){
       var pool=Math.random()<0.5?leaders:rays;
       p.r=pool[(Math.random()*pool.length)|0];p.t0=t;p.dur=680+p.r.end*1.9+Math.random()*340;p.on=true;
@@ -1510,49 +1583,65 @@
       var d=r.end-(r.end-r.r0-4)*Math.pow(u,1.55);      /* eases in — falls toward the core */
       var hx=cx+r.ca*d,hy=cy+r.sa*d;
       if(t-p.t0<220&&r.tip){var k=(t-p.t0)/220,tx0=cx+r.ca*r.end,ty0=cy+r.sa*r.end; /* departure flare at the node */
-        bx.strokeStyle=thr(0.3*(1-k));bx.lineWidth=0.8;bx.beginPath();bx.arc(tx0,ty0,2+5*k,0,7);bx.stroke();}
+        fx.strokeStyle=thr(0.3*(1-k));fx.lineWidth=0.8;fx.beginPath();fx.arc(tx0,ty0,2+5*k,0,7);fx.stroke();}
       var tl=Math.min(r.end-d,30+r.end*0.18),tx=cx+r.ca*(d+tl),ty=cy+r.sa*(d+tl);
-      var g=bx.createLinearGradient(tx,ty,hx,hy);
+      var g=fx.createLinearGradient(tx,ty,hx,hy);
       g.addColorStop(0,acc(0));g.addColorStop(1,acc(0.55));
-      bx.strokeStyle=g;bx.lineWidth=1.2;bx.beginPath();bx.moveTo(tx,ty);bx.lineTo(hx,hy);bx.stroke();
-      var gg=bx.createRadialGradient(hx,hy,0,hx,hy,6);
-      gg.addColorStop(0,acc(0.5));gg.addColorStop(1,acc(0));
-      bx.fillStyle=gg;bx.beginPath();bx.arc(hx,hy,6,0,7);bx.fill();
-      bx.fillStyle="rgba(255,255,255,0.85)";bx.beginPath();bx.arc(hx,hy,1.3,0,7);bx.fill();
+      fx.strokeStyle=g;fx.lineWidth=1.2;fx.beginPath();fx.moveTo(tx,ty);fx.lineTo(hx,hy);fx.stroke();
+      blit(fx,spr.head,hx,hy,0.5);
+      fx.fillStyle="rgba(255,255,255,0.85)";fx.beginPath();fx.arc(hx,hy,1.3,0,7);fx.fill();
     }
     function drawBurst(t,still){
-      bx.clearRect(0,0,bw,bh);if(!rays.length)return;
+      fx.clearRect(0,0,bw,bh);if(!rays.length)return;
       var dt=lastT<0?16:Math.min(64,t-lastT);lastT=t;
       var b=0.5+0.5*Math.sin(t*0.0012);                   /* slow breath, ~5.2s */
       bloomKick*=Math.exp(-dt/650);
       pInf+=(pTInf-pInf)*(1-Math.exp(-dt/140));pAng+=(pTAng-pAng)*(1-Math.exp(-dt/140));
       var ig=still?1e9:(igniteAt<0?0:t-igniteAt+igElapsed);
-      var hk=still?1:oExpo(Math.min(1,ig/900)),intro=still?1:Math.min(1,ig/1100);
-      var rot=still?0:drift(t),sk=still?1.012:breath(t),cx=bw/2,cy=bh,pa=pAng-rot;
-      bx.globalCompositeOperation="lighter";
-      bx.save();bx.translate(cx,cy);bx.rotate(rot);bx.scale(sk,sk);bx.translate(-cx,-cy);
-      bloomField(intro*(0.7+0.3*b));
+      var hk=still?1:oExpo(Math.min(1,ig/620)),intro=still?1:Math.min(1,ig/760);
+      var cx=bw/2,cy=bh,pa=pAng;
+      fx.globalCompositeOperation="lighter";
       var i,r,tw;
       if(!ignited&&!still){                                /* ignition: threads grow center-out */
+        /* Each thread paints the length it has just gained into the settled layer
+           and is dropped from the loop once it arrives, so there is no handover at
+           the end of the intro: the last thread to settle simply settles. */
+        bloomTo(BLOOM);
         var done=true;
-        for(i=0;i<rays.length;i++){r=rays[i];
-          var gp=oExpo(clamp01((ig-IG_HOLD-r.delay)/IG_RAY));if(gp<1)done=false;
-          if(gp>0)ray(bx,r,gp,0);
-          if(gp>0.94)dot(bx,r,(0.26*r.lum+(r.lead?0.10:0))*clamp01((gp-0.94)/0.06),1);}
-        if(done){ignited=true;bake();}
+        for(i=0;i<rays.length;i++){r=rays[i];if(r.set)continue;
+          var gp=oExpo(clamp01((ig-IG_HOLD-r.delay)/IG_RAY));
+          if(gp<=0){done=false;continue;}
+          var L=r.r0+(r.end-r.r0)*gp;
+          if(L>r.l+0.3){seg(r,r.l,L);r.l=L;}
+          if(gp>=1){node(r);continue;}
+          done=false;
+          if(gp>0.94)dot(fx,r,(0.26*r.lum+(r.lead?0.10:0))*clamp01((gp-0.94)/0.06),1);}
+        if(done){ignited=true;baked=true;bloomTo(BLOOM);}
       }else{
-        if(!statc)bake();
-        bx.drawImage(statc,0,0,bw,bh);
+        if(!baked)bake();
         for(i=0;i<leaders.length;i++){r=leaders[i];tw=0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
-          ray(bx,r,1,0.05*tw);}
+          ray(fx,r,1,0.05*tw);}
       }
       var lit=ignited||still;
       if(lit){                                            /* twinkle + pointer lift, additive only */
-        for(i=0;i<rays.length;i++){r=rays[i];tw=still?0.5:0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
+        /* Every node used to be its own arc and fill. Additive compositing does
+           not care about order, so quantise the twinkle to 24 steps of alpha and
+           collect the nodes into one path per step: a few fills instead of a few
+           hundred, with the stepping far below what the eye resolves. */
+        var buck=BATCH?[]:null,pb;
+        for(i=0;i<rays.length;i++){r=rays[i];if(!r.tip)continue;
+          tw=still?0.5:0.5+0.5*Math.sin(t*0.001*r.fq*4+r.ph);
           var ex=0.16*tw*r.lum;
           if(pInf>0.01){var ad=Math.abs(r.a-pa);if(ad<0.26){var fo=(1-ad/0.26);fo*=fo;
-            ex+=0.22*fo*pInf;if(fo>0.2)ray(bx,r,1,0.15*fo*pInf);}}
-          if(ex>0.02)dot(bx,r,ex,1);}
+            ex+=0.22*fo*pInf;if(fo>0.2)ray(fx,r,1,0.15*fo*pInf);}}
+          if(ex<=0.02)continue;
+          var dx=cx+r.ca*r.end,dy=cy+r.sa*r.end;
+          if(!buck){dot(fx,r,ex,1);continue;}              /* no Path2D: draw them one by one */
+          var q=(ex*24)|0;if(q>23)q=23;
+          pb=buck[q]||(buck[q]=new Path2D());
+          pb.moveTo(dx+r.dot,dy);pb.arc(dx,dy,r.dot,0,7);
+          if(r.lead)blit(fx,spr.node,dx,dy,ex*0.45);}
+        if(buck)for(i=0;i<buck.length;i++)if(buck[i]){fx.fillStyle=thr((i+0.5)/24);fx.fill(buck[i]);}
       }
       if(lit&&!still&&!REDUCE.matches){                   /* occasional star sparkle */
         if(t>=spNext){if(sparks.length<2){var sr=rays[(Math.random()*rays.length)|0];if(sr.tip)sparks.push({r:sr,t0:t});}
@@ -1560,8 +1649,8 @@
         for(i=sparks.length-1;i>=0;i--){var s=sparks[i],k=(t-s.t0)/900;
           if(k>=1){sparks.splice(i,1);continue;}
           var en=Math.sin(Math.PI*k),xx=bw/2+s.r.ca*s.r.end,yy=bh+s.r.sa*s.r.end;
-          flare(bx,xx,yy,0.35*en,5+6*en);
-          dot(bx,s.r,0.3*en,1.35);}
+          blit(fx,spr.flare,xx,yy,0.35*en,(5+6*en)/spr.flare.r);
+          dot(fx,s.r,0.3*en,1.35);}
       }
       if(lit&&!still&&!REDUCE.matches){                   /* packets fall home */
         for(i=0;i<pulses.length;i++){var p=pulses[i];
@@ -1569,21 +1658,25 @@
           if((t-p.t0)>=p.dur){p.on=false;p.next=t+900+Math.random()*2600;bloomKick=Math.min(1,bloomKick+0.35);continue;}
           drawPulse(p,t);}
       }
-      bx.restore();
       horizon(hk,b);
       core(intro*(0.72+0.28*b),bloomKick);
-      bx.globalCompositeOperation="source-over";
     }
     function bloop(t){if(igniteAt<0)igniteAt=t;drawBurst(t,false);braf=requestAnimationFrame(bloop);}
     function bstart(){cancelAnimationFrame(braf);if(REDUCE.matches){lastT=-1;drawBurst(4200,true);}else if(bvis){braf=requestAnimationFrame(bloop);}}
     function bstop(){if(braf&&igniteAt>=0&&!ignited){igElapsed+=lastT-igniteAt;}igniteAt=-1;cancelAnimationFrame(braf);braf=0;}
-    bsize();build();
-    if(FINE){burst.addEventListener("pointermove",function(e){var rc=burst.getBoundingClientRect();
+    bsize();sprites();build();
+    if(FINE){burstfx.addEventListener("pointermove",function(e){var rc=burstfx.getBoundingClientRect();
       pTAng=Math.atan2((e.clientY-rc.top)-bh,(e.clientX-rc.left)-bw/2);pTInf=1;},{passive:true});
-      burst.addEventListener("pointerleave",function(){pTInf=0;},{passive:true});}
+      burstfx.addEventListener("pointerleave",function(){pTInf=0;},{passive:true});}
+    /* This canvas leads the page, so light it on the very next frame rather
+       than waiting for the observer's first callback: that round trip is what
+       made the fan start growing after the copy had already arrived. The
+       observer still owns pausing and resuming from here on. */
+    var br0=burst.getBoundingClientRect();
+    if(br0.top<(window.innerHeight||0)&&br0.bottom>0){bvis=true;bstart();}
     if("IntersectionObserver" in window){new IntersectionObserver(function(es){es.forEach(function(e){bvis=e.isIntersecting;if(bvis)bstart();else bstop();});},{threshold:0.25}).observe(burst);}
     else{bvis=true;bstart();}
-    window.addEventListener("resize",function(){clearTimeout(bz);bz=setTimeout(function(){var br=burst.getBoundingClientRect();if(Math.abs(br.width-bw)<1&&Math.abs(br.height-bh)<1)return;bsize();build();if(ignited)bake();if(REDUCE.matches){lastT=-1;drawBurst(4200,true);}else if(!braf&&bvis){bstart();}},150);});
+    window.addEventListener("resize",function(){clearTimeout(bz);bz=setTimeout(function(){var br=burst.getBoundingClientRect();if(Math.abs(br.width-bw)<1&&Math.abs(br.height-bh)<1)return;bsize();sprites();build();hgw=-1;if(ignited)bake();if(REDUCE.matches){lastT=-1;drawBurst(4200,true);}else if(!braf&&bvis){bstart();}},150);});
   }
 
   /* ===== the weave: the team's threads, flowing behind the fold =====
