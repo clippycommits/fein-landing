@@ -385,16 +385,17 @@
   .rec-row.pay .rec-t{font-weight:500}
   .rec-cut{text-decoration:none;background-image:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule));background-repeat:no-repeat;background-position:0 .72em;background-size:calc(var(--cut,1) * 100%) 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
   .rec-chip{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.08rem .28rem;white-space:nowrap;opacity:var(--chip,1)}
-  .rec-wires,.rec-rail,.rec-srcbar,.rec-seam{display:none}
+  .rec-wires,.rec-rail,.rec-seam,.rec-pile{display:none}
   .rec-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
   /* ---- the pin: only reachable if the script ran ---- */
-  .rec-on .rec-track{--rec-travel:190;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
+  .rec-on .rec-track{--rec-travel:158;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
   .rec-on .rec-pin{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h))}
   .rec-on .rec-stage{height:100%;width:min(1240px,100% - clamp(2rem,6vw,4rem));margin-inline:auto;display:grid;grid-template-rows:26px minmax(0,1fr);row-gap:12px;padding-block:14px 18px}
   .rec-on .rec-panes{position:relative;display:grid;min-height:0;grid-template-columns:minmax(0,1.02fr) clamp(64px,6vw,86px) minmax(0,.98fr);align-items:stretch}
   .rec-on .rec-seam{display:block;grid-column:2;justify-self:center;width:1px;background:linear-gradient(180deg,transparent 0,var(--line) 6%,var(--line) 88%,transparent)}
-  .rec-on .rec-src{grid-column:1;display:flex;flex-direction:column;min-height:0}
+  /* positioned, so the pile is bounded by this pane and cannot run under the store */
+  .rec-on .rec-src{position:relative;grid-column:1;display:flex;flex-direction:column;min-height:0}
   .rec-on .rec-well{position:relative;flex:1 1 auto;min-height:0}
   .rec-on .rec-card{position:absolute;top:0;left:0;width:100%;max-width:none;margin:0;opacity:0;transform:translate3d(0,var(--cy,0px),0)}
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
@@ -424,10 +425,16 @@
   .rec-on .rec-months i{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.1em;color:var(--dim);opacity:.35;transition:none}
   .rec-on .rec-months i.on{color:var(--fg-3);opacity:1}
   .rec-on .rec-gapline{display:block;position:absolute;left:0;right:0;top:calc(42% + 26px);font-size:.86rem;color:var(--fg-3);opacity:var(--mo,0)}
-  .rec-on .rec-srcbar{display:flex;align-items:center;gap:.5rem;flex:none;height:26px;margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
-  .rec-sl{font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-right:.15rem}
-  .rec-srcbar .tlogo{width:13px;height:13px;opacity:.3}
-  .rec-srcbar .tlogo.on{opacity:1}
+  /* the pile: every document fein has already read, collapsed to its header and
+     stacked under the one being read. It is what fills the well, and it is the
+     running answer to "what has it seen so far" */
+  .rec-on .rec-pile{display:block;position:absolute;left:0;right:0;top:var(--piletop,330px)}
+  .rec-tab{position:absolute;left:0;right:0;display:flex;align-items:center;gap:.55rem;height:34px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);transform:translate3d(0,var(--ty,0px),0) scale(var(--ts,1));opacity:var(--to,0);transform-origin:50% 0}
+  .rec-tab .tlogo{width:13px;height:13px;flex:none;opacity:.75}
+  .rec-tab b{font-family:var(--mono);font-size:.56rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+  .rec-tab i{margin-left:auto;font-family:var(--mono);font-style:normal;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  /* the pane names it: two halves of one machine, each labelled once */
+  .rec-on .rec-paneh{position:static;width:auto;height:auto;clip-path:none;overflow:visible;flex:none;margin:0 0 10px;font-family:var(--mono);font-size:.56rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-3)}
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -1047,7 +1054,15 @@ __LOGO_SPRITE__
                 <div class="rec-months" id="rec-months" aria-hidden="true"><i data-m="0">JUL</i><i data-m="1">AUG</i><i data-m="2">SEP</i><i data-m="3">OCT</i><i data-m="4">NOV</i><i data-m="5">DEC</i><i data-m="6">JAN</i><i data-m="7">FEB</i><i data-m="8">MAR</i><i data-m="9">APR</i><i data-m="10">MAY</i><i data-m="11">JUN</i></div>
                 <p class="rec-gapline">Twelve months pass. Nobody filed anything.</p>
               </div>
-              <p class="rec-srcbar" aria-hidden="true"><span class="rec-sl">Read from</span><svg class="tlogo" data-mk="0"><use href="#l-gmail"/></svg><svg class="tlogo" data-mk="1"><use href="#l-granola"/></svg><svg class="tlogo" data-mk="2"><use href="#l-attio"/></svg><svg class="tlogo" data-mk="3"><use href="#l-notion"/></svg><svg class="tlogo" data-mk="4"><use href="#l-linkedin"/></svg><svg class="tlogo" data-mk="5"><use href="#l-slack"/></svg></p>
+              <div class="rec-pile" id="rec-pile" aria-hidden="true">
+                <span class="rec-tab" data-t="0"><svg class="tlogo"><use href="#l-gmail"/></svg><b>Gmail</b><i>8 Nov 2024</i></span>
+                <span class="rec-tab" data-t="1"><svg class="tlogo"><use href="#l-granola"/></svg><b>Granola</b><i>21 Nov 2024</i></span>
+                <span class="rec-tab" data-t="2"><svg class="tlogo"><use href="#l-attio"/></svg><b>Attio</b><i>12 Dec 2024</i></span>
+                <span class="rec-tab" data-t="3"><svg class="tlogo"><use href="#l-notion"/></svg><b>Notion</b><i>16 Jan 2025</i></span>
+                <span class="rec-tab" data-t="4"><svg class="tlogo"><use href="#l-linkedin"/></svg><b>Linkedin</b><i>3 Jun 2025</i></span>
+                <span class="rec-tab" data-t="5"><svg class="tlogo"><use href="#l-gmail"/></svg><b>Gmail</b><i>2 Jun 2026</i></span>
+                <span class="rec-tab" data-t="6"><svg class="tlogo"><use href="#l-slack"/></svg><b>Slack</b><i>28 Jul 2026</i></span>
+              </div>
             </div>
             <div class="rec-seam" aria-hidden="true"></div>
             <section class="rec-store" id="rec-store" aria-label="fein memory: Halo Compute">
@@ -2856,7 +2871,8 @@ __LOGO_SPRITE__
       cards=[].slice.call(track.querySelectorAll('.rec-card')),
       rows=[].slice.call(track.querySelectorAll('.rec-row')),
       hls=[].slice.call(track.querySelectorAll('.rec-hl')),
-      marks=[].slice.call(track.querySelectorAll('.rec-srcbar .tlogo')),
+      tabs=[].slice.call(track.querySelectorAll('.rec-tab')),
+      pile=document.getElementById('rec-pile'),
       mons=[].slice.call(track.querySelectorAll('.rec-months i'));
   /* beat table: [key, length in svh]. T is the only knob; scaling it scales
      every beat because the table is converted to fractions of T. */
@@ -2897,6 +2913,10 @@ __LOGO_SPRITE__
     body.style.setProperty('--shelf',shelfTop+'px');
     body.style.setProperty('--retlab',(shelfTop-18)+'px');
     var pr=panes.getBoundingClientRect(), sr=store.getBoundingClientRect(), br=body.getBoundingClientRect();
+    /* the pile starts below the tallest document, so a card never overlaps it */
+    var tallest=0;
+    cards.forEach(function(c){ var h=c.getBoundingClientRect().height; if(h>tallest) tallest=h; });
+    if(pile) pile.style.setProperty('--piletop',Math.round(tallest+22)+'px');
     geo={ shelfTop:shelfTop, bodyTop:br.top-pr.top, storeLeft:sr.left-pr.left,
           hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
             return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
@@ -2927,7 +2947,7 @@ __LOGO_SPRITE__
     for(c=0;c<cards.length;c++){
       var o=0,cy=0;
       if(c===cardNow){ o=into; cy=(1-out3(into))*18; }
-      else if(bi>0 && CARDOF[bi-1]===c && into<1){ o=1-into; cy=-into*14; }
+      else if(bi>0 && CARDOF[bi-1]===c && into<1){ o=1-into; cy=into*22; }
       cards[c].style.opacity=o;
       cards[c].style.setProperty('--cy',cy.toFixed(1)+'px');
     }
@@ -3008,8 +3028,18 @@ __LOGO_SPRITE__
     if(asv && DATES[bi]) asv.textContent=DATES[bi];
     if(cn) cn.textContent=liveN;
     if(cr) cr.textContent=shelfN;
-    var srcIdx=[0,0,1,2,3,3,4,4,0,5,5][bi];
-    for(i=0;i<marks.length;i++) marks[i].classList.toggle('on', i===srcIdx);
+    /* a document joins the pile the moment the next one starts arriving, so the
+       card visibly leaves the reading position and lands in the stack below */
+    var readN=0;
+    if(cardNow>=0) readN=cardNow;
+    else { for(i=0;i<bi;i++) if(CARDOF[i]>=0 && CARDOF[i]+1>readN) readN=CARDOF[i]+1; }
+    for(i=0;i<tabs.length;i++){
+      var lands=(i===readN-1&&cardNow>=0)?into:1;      /* the newest tab arrives with the new card */
+      if(i>=readN){ tabs[i].style.setProperty('--to',0); continue; }
+      tabs[i].style.setProperty('--to',(0.36+0.46*lands).toFixed(3));
+      tabs[i].style.setProperty('--ty',(i*40-(1-lands)*16).toFixed(1)+'px');
+      tabs[i].style.setProperty('--ts',(1-Math.min(0.05,i*0.008)).toFixed(3));
+    }
     if(vis) raf=requestAnimationFrame(paint);
   }
   function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
