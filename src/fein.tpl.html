@@ -274,75 +274,88 @@
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
-  /* what changed: one deal, four moments, one rail. A seed comes in, the firm
-     passes, the company comes back eighteen months later at Series A, and then
-     the same question is asked on two dates. The argument is the retirement plus
-     the survival: the round retires, the pass never does. Cards borrow the .mock
-     language unchanged; every fact carries its own change mark so the update
-     type is readable as a still, not only as an animation. */
+  /* what changed: one deal, one ledger, time on the x axis.
+     The earlier version restated the whole fact list under each source card, so
+     the reader had to diff two lists by eye across half a screen, and the page
+     grew a beat taller for every moment in the story. The facts are the objects
+     here and time is the axis: seven rows that never move, a bar under each one
+     for the window it was true, and a cursor you can move to any moment in the
+     deal. Moving the cursor is the product feature, not a decoration. A fact
+     that retires keeps its row and its bar simply stops, which is the argument
+     the copy on the left is making, drawn rather than described. */
   .chg{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(1.8rem,4vw,3rem);align-items:start;margin-top:clamp(.5rem,1vw,1rem)}
   .chg-copy{position:sticky;top:calc(var(--nav-h) + 2.5rem)}
   .chg-copy h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
   .chg-copy p{margin-top:1.05rem;color:var(--fg-2);font-size:1.04rem;line-height:1.6;max-width:42ch}
-  /* the legend: three marks, named once, so the rail beside it needs no caption */
-  .chg-key{list-style:none;margin:1.5rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem .9rem}
-  .chg-key li{display:flex;align-items:center;gap:.45rem;font-size:.82rem;color:var(--fg-3)}
-  .chg-key i{font-family:var(--mono);font-style:normal;font-size:.82rem;width:1.15rem;height:1.15rem;display:grid;place-items:center;border:1px solid var(--line-2);border-radius:5px;color:var(--dim);line-height:1}
-  .chg-key .k-new{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
-  .chg-tl{position:relative;padding-left:2.1rem}
-  .chg-tl::before{content:"";position:absolute;left:.42rem;top:.6rem;bottom:.6rem;border-left:1px dashed var(--line-2)}
-  /* the rail fills as the beats land, so the sequence has a visible length */
-  .chg-prog{position:absolute;left:.4rem;top:.6rem;bottom:.6rem;width:2px;pointer-events:none}
-  .chg-prog i{display:block;width:100%;height:0;border-radius:2px;background:linear-gradient(180deg,rgba(0,112,243,.25),var(--blue));box-shadow:0 0 12px rgba(0,112,243,.55);transition:height .65s cubic-bezier(.22,.61,.36,1)}
-  .chg-beat{position:relative;transition:opacity .55s cubic-bezier(.22,.61,.36,1),translate .55s cubic-bezier(.22,.61,.36,1)}
-  .chg-beat + .chg-beat{margin-top:1.7rem}
-  .chg-dot{position:absolute;left:-2.1rem;top:.5rem;width:15px;height:15px;border-radius:50%;background:var(--blue);display:grid;place-items:center;box-shadow:0 0 0 4px var(--bg),0 0 18px rgba(0,112,243,.5)}
-  .chg-dot svg{width:8px;height:8px;fill:#fff}
-  .chg-when{position:absolute;left:-2.1rem;top:1.75rem;width:15px;font-family:var(--mono);font-size:.54rem;letter-spacing:.04em;color:var(--dim);text-align:center;white-space:nowrap;transform:translateX(-50%);margin-left:7px}
-  .chg-facts{margin-top:.9rem;padding-left:.35rem}
-  .chg-lab{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin-bottom:.45rem}
-  /* progressive loading: the three things fein does to a source before a fact
-     exists, ticked in order, then collapsed out of the way */
-  .chg-work{display:none;align-items:center;gap:.3rem;opacity:1;transition:opacity .3s ease}
-  .chg-tl.staged .chg-work{display:flex}
-  .chg-work.done{opacity:0}
-  .chg-work i{font-style:normal;font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.12rem .3rem;transition:color .25s ease,border-color .25s ease,background .25s ease}
+  .led{background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:1.05rem 1.15rem 1.2rem;box-shadow:var(--shadow-card)}
+  .led-q{display:flex;align-items:center;gap:.55rem;font-size:.95rem;color:var(--fg);padding-bottom:.85rem;border-bottom:1px solid var(--line)}
+  .led-q svg{width:15px;height:15px;flex:none;color:var(--fg-3);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  /* the three moments are the control: a tab is a date, and its label says what
+     landed on it, so choosing one reads as asking the graph on that day */
+  .led-tabs{display:flex;gap:.25rem;margin:.9rem 0 1rem;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:11px;padding:3px}
+  .led-tab{flex:1 1 0;min-width:0;font-family:var(--font);color:var(--fg-3);background:transparent;border:0;border-radius:8px;padding:.42rem .35rem;cursor:pointer;text-align:center;transition:background .2s ease,color .2s ease}
+  .led-tab b{display:block;font-size:.79rem;font-weight:550;letter-spacing:-.01em;white-space:nowrap}
+  .led-tab span{display:block;font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .led-tab:hover{color:var(--fg)}
+  .led-tab[aria-pressed="true"]{background:rgba(255,255,255,.1);color:#fff}
+  .led-tab[aria-pressed="true"] span{color:var(--blue-l)}
+  .led-tab:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
+  .led-src{min-height:5.9rem}
+  .led-src .mock{background:rgba(255,255,255,.02)}
+  .src[hidden]{display:none}
+  .src{animation:srcin .4s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes srcin{from{opacity:0;translate:0 7px}to{opacity:1;translate:0 0}}
+  /* what the source did to the graph, named in the same words as the rows */
+  .led-state{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;min-height:1.35rem;margin:.75rem 0 1rem}
+  .led-sum{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3)}
+  .led-sum[hidden]{display:none}
+  .led-sum em{font-style:normal;color:var(--blue-l)}
+  .led-sum s{color:var(--dim);text-decoration:none}
+  .chg-work{display:flex;align-items:center;gap:.3rem}
+  .chg-work[hidden]{display:none}
+  .chg-work i{font-style:normal;font-family:var(--mono);font-size:.53rem;letter-spacing:.1em;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.1rem .3rem;transition:color .25s ease,border-color .25s ease,background .25s ease}
   .chg-work i.on{color:var(--blue-l);border-color:rgba(82,168,255,.4);background:rgba(0,112,243,.1)}
-  .fct{display:block;position:relative;padding:.32rem 0 .32rem 1.35rem;font-size:.9rem;line-height:1.5;color:var(--fg-2);transition:color .55s ease,opacity .55s ease,translate .5s ease}
-  .fct::before{content:"·";position:absolute;left:0;top:.3rem;font-family:var(--mono);font-size:.86rem;line-height:1.5;color:var(--dim);transition:color .4s ease}
-  .fct b{color:var(--fg);font-weight:600}
-  .fct.f-new::before{content:"+";color:var(--blue-l)}
-  .fct.f-ret::before{content:"\2212"}
-  .fct.f-ret{color:var(--dim);opacity:.55;text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
-  .fct.f-ret b{color:var(--dim);font-weight:400}
-  /* the retired line keeps its dates: retired is not deleted, and the date is
-     the whole reason the graph can still answer for January 2025 */
-  .fct-when{display:inline-block;margin-left:.45rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.1rem .3rem;text-decoration:none;vertical-align:.06em;white-space:nowrap}
-  .fct.f-keep .fct-when{color:var(--fg-3)}
-  /* beat four: the same question on two dates, switchable by hand */
-  .chg-ask{background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:1rem 1rem 1.1rem;box-shadow:var(--hl-top)}
-  .chg-q{display:flex;align-items:center;gap:.6rem;font-size:.92rem;color:var(--fg);padding-bottom:.85rem;border-bottom:1px solid var(--line)}
-  .chg-q .tlogo{width:16px;height:16px;flex:none;color:var(--fg-3)}
-  .asof{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;padding:.85rem 0 .2rem}
-  .asof-lab{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
-  .asof-tabs{display:flex;gap:.3rem;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:9px;padding:2px}
-  .asof-tab{font-family:var(--font);font-size:.78rem;font-weight:500;color:var(--fg-3);background:transparent;border:0;border-radius:7px;padding:.34rem .6rem;cursor:pointer;white-space:nowrap;transition:background .2s ease,color .2s ease}
-  .asof-tab:hover{color:var(--fg)}
-  .asof-tab[aria-pressed="true"]{background:rgba(255,255,255,.1);color:#fff}
-  .asof-tab:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
-  .asof-view{padding-top:.35rem}
-  .asof-view[hidden]{display:none}
-  .asof-note{margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--line);font-size:.82rem;line-height:1.5;color:var(--fg-3)}
-  .chg-replay{margin-top:1rem;margin-left:.35rem;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);background:transparent;border:1px solid var(--line);border-radius:7px;padding:.35rem .55rem;cursor:pointer;transition:color .2s ease,border-color .2s ease}
+  /* the axis: three real dates and the gap between them, because eighteen months
+     of silence is the part of this story a list of rows cannot show */
+  .led-axis{position:relative;height:2.1rem}
+  .led-tick{position:absolute;top:0;transform:translateX(-50%);font-family:var(--mono);font-size:.54rem;letter-spacing:.09em;color:var(--fg-3);white-space:nowrap}
+  .led-gap{position:absolute;top:1.45rem;border-top:1px dashed var(--line-2)}
+  .led-gap span{position:absolute;left:50%;top:-.55rem;transform:translateX(-50%);background:var(--bg-2);padding:0 .35rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:var(--dim);white-space:nowrap}
+  .led-rows{position:relative;padding-top:.15rem}
+  .led-cur{position:absolute;top:-.35rem;bottom:.35rem;width:1px;background:linear-gradient(180deg,rgba(82,168,255,0),rgba(82,168,255,.45) 12%,rgba(82,168,255,.45) 88%,rgba(82,168,255,0));transition:left .55s cubic-bezier(.22,.61,.36,1);pointer-events:none}
+  .lrow{position:relative;padding:.4rem 0 .78rem;transition:opacity .45s ease}
+  .lfact{display:flex;align-items:baseline;gap:.5rem;font-size:.9rem;line-height:1.45;color:var(--fg-2)}
+  .lfact .t{flex:1;min-width:0;transition:color .4s ease}
+  .lfact b{color:var(--fg);font-weight:600}
+  .lwhen{position:relative;z-index:2;flex:none;font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:var(--bg-2);border:1px solid var(--line);border-radius:4px;padding:.1rem .3rem;white-space:nowrap;transition:opacity .35s ease,color .35s ease}
+  .lbar{position:absolute;left:0;right:0;bottom:.28rem;height:3px;border-radius:3px;background:rgba(255,255,255,.06)}
+  .lbar i{position:absolute;top:0;height:3px;border-radius:3px;background:var(--blue);transition:left .55s cubic-bezier(.22,.61,.36,1),width .55s cubic-bezier(.22,.61,.36,1),background .4s ease,opacity .35s ease}
+  /* a fact not yet known is present but unlit: the row never moves, so nothing
+     below it jumps when the graph learns something */
+  .lrow.pend{opacity:.2}
+  .lrow.pend .lbar i,.lrow.pend .lwhen{opacity:0}
+  .lrow.live .lbar i{background:linear-gradient(90deg,rgba(0,112,243,.5),var(--blue-l));box-shadow:0 0 10px rgba(0,112,243,.4)}
+  .lrow.live .lbar i::after{content:"";position:absolute;right:-2px;top:-1.5px;width:6px;height:6px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 8px rgba(82,168,255,.75)}
+  .lrow.live .lwhen{color:var(--fg-3)}
+  /* retired: struck, dimmed, and still there. The bar stops, the row does not */
+  .lrow.ret .lfact .t{color:var(--dim);text-decoration:line-through;text-decoration-color:rgba(255,255,255,.22)}
+  .lrow.ret .lfact b{color:var(--dim);font-weight:400}
+  .lrow.ret .lbar i{background:rgba(255,255,255,.2);box-shadow:none}
+  .lrow.ret .lbar i::after{content:"";position:absolute;right:0;top:-3px;width:1px;height:9px;background:rgba(255,255,255,.45)}
+  @keyframes lflash{from{background:rgba(0,112,243,.14)}to{background:transparent}}
+  @keyframes lflashr{from{background:rgba(255,255,255,.07)}to{background:transparent}}
+  .lrow.fl{animation:lflash 1s ease-out;border-radius:6px}
+  .lrow.flr{animation:lflashr 1s ease-out;border-radius:6px}
+  .led-ans{margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--line);display:flex;gap:.6rem;font-size:.9rem;line-height:1.5;color:var(--fg-2)}
+  .led-ans[hidden]{display:none}
+  .led-ans .fmark{flex:none;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-l);padding-top:.18rem}
+  .led-ans b{color:var(--fg);font-weight:600}
+  .led-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:.9rem}
+  .led-note{font-size:.78rem;line-height:1.45;color:var(--fg-3)}
+  .chg-replay{flex:none;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);background:transparent;border:1px solid var(--line);border-radius:7px;padding:.38rem .55rem;cursor:pointer;transition:color .2s ease,border-color .2s ease}
   .chg-replay:hover{color:#fff;border-color:var(--line-2)}
   .chg-replay:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
   .chg-replay svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  /* staged is set by script: without it every beat and fact is simply present,
-     so a browser that never runs the sequence still gets the whole argument */
-  .chg-tl.staged .chg-beat{opacity:0;translate:0 14px}
-  .chg-tl.staged .chg-beat.on{opacity:1;translate:0 0}
-  .chg-tl.staged .fct{opacity:0;translate:0 5px}
-  .chg-tl.staged .fct.on{opacity:1;translate:0 0}
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -702,6 +715,12 @@
 
   @media (max-width:640px){
     .btn,.sbtn{height:46px;gap:8px;border-radius:12px;padding:0 14px;font-size:16px}
+    /* the validity pill costs a third of the row here and wraps every fact onto
+       two lines. The bar, the strike-through and the axis already say when */
+    .lwhen{display:none}
+    .led{padding:.9rem .95rem 1rem}
+    .led-tab b{font-size:.76rem}
+    .led-tab span{font-size:.5rem}
     .sec-list{grid-template-columns:1fr;gap:1.5rem}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
     .fcol{gap:.1rem}
@@ -934,107 +953,115 @@ __LOGO_SPRITE__
   </section>
 
   <!-- WHAT CHANGED: the stage above claims memory that keeps up, so the first
-       thing under it has to prove it. One deal, four moments, one rail: a seed
-       arrives, the firm passes, the company comes back at Series A eighteen
-       months later, and then the same question is asked on two dates. The strike
-       through is half the argument; the other half is the pass, which never
-       retires, because a CRM that overwrites the row cannot answer "why did we
-       say no" two years later. Every fact carries its change mark (+ new,
-       - retired, · unchanged) so a screenshot of this reads the same as the
-       animation. -->
+       thing under it has to prove it. One deal carries the whole argument. Halo
+       Compute arrives as a seed in Nov 2024, the firm passes in Jan 2025 with a
+       reason, and the company comes back at a $30M Series A eighteen months
+       later. Presented as a ledger rather than a feed: the seven facts are rows
+       that never move, each with a bar for the window it was true, and the three
+       moments are tabs that move a cursor along that axis. Retiring a fact stops
+       its bar and leaves the row, which is the sentence on the left drawn rather
+       than described, and the pass is the row whose bar never ends. The whole
+       state is in the markup at the last moment, so a browser that runs no
+       script gets the finished ledger and every fact stays findable. -->
   <section id="change" class="band">
     <div class="wrap">
       <div class="chg">
         <div class="chg-copy reveal">
           <span class="eyebrow">What changed</span>
-          <h2>The deal comes back. So does the reason you passed.</h2>
-          <p>When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct the round, and no stale row survives because the person who knew was on holiday.</p>
+          <h2>People move. Your graph moves with them.</h2>
+          <p>When something new contradicts what fein already knows, the old fact retires. Nobody opens the CRM to correct a title, and no stale row survives because the person who knew was on holiday.</p>
           <p>Nothing is deleted. Ask what is true today, or what was true on the day you passed.</p>
-          <ul class="chg-key">
-            <li><i class="k-new">+</i>New fact</li>
-            <li><i>&#8722;</i>Retired, kept as history</li>
-            <li><i>·</i>Still true</li>
-          </ul>
         </div>
-        <div class="chg-tl reveal" id="chg-tl">
-          <span class="chg-prog" aria-hidden="true"><i></i></span>
 
-          <div class="chg-beat" data-beat="1">
-            <span class="chg-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span>
-            <span class="chg-when" aria-hidden="true">NOV<br>2024</span>
-            <div class="mock">
-              <div class="mock-title">Gmail · 2024-11-08 · Inbound</div>
-              <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Halo Compute</b> seed deck, forwarded by <b>Dev Raman</b>.</span><b class="mtag">Inbound</b></div>
-            </div>
-            <div class="chg-facts">
-              <p class="chg-lab">Facts<span class="chg-work" aria-hidden="true"><i>read</i><i>resolve</i><i>write</i></span></p>
-              <span class="fct f-new"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span>
-              <span class="fct f-new"><b>Halo Compute</b> is in diligence with <b>Marcus</b>.</span>
-              <span class="fct f-new"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span>
-            </div>
+        <div class="led reveal" id="led">
+          <p class="led-q"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><span>"Where are we with <b>Halo Compute</b>?"</span></p>
+
+          <div class="led-tabs" role="group" aria-label="Answer as of">
+            <button type="button" class="led-tab" data-at="0" aria-pressed="false"><b>Nov 2024</b><span>Inbound</span></button>
+            <button type="button" class="led-tab" data-at="1" aria-pressed="false"><b>Jan 2025</b><span>You passed</span></button>
+            <button type="button" class="led-tab" data-at="2" aria-pressed="true"><b>Today</b><span>It came back</span></button>
           </div>
 
-          <div class="chg-beat" data-beat="2">
-            <span class="chg-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span>
-            <span class="chg-when" aria-hidden="true">JAN<br>2025</span>
-            <div class="mock">
-              <div class="mock-title">Notion · 2025-01-16 · Partner memo</div>
-              <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span>"Passing for now. No design partners live, and the wedge is unproven at this price."</span><b class="mtag">Pass</b></div>
-            </div>
-            <div class="chg-facts">
-              <p class="chg-lab">Facts<span class="chg-work" aria-hidden="true"><i>read</i><i>resolve</i><i>write</i></span></p>
-              <span class="fct f-ret"><b>Halo Compute</b> is in diligence with <b>Marcus</b>.<i class="fct-when">retired 2025-01-16</i></span>
-              <span class="fct f-new"><b>Halo Compute</b> has <b>no design partners</b> live.</span>
-              <span class="fct f-new">You <b>passed</b> on <b>Halo Compute</b> at seed.<i class="fct-when">2025-01-16</i></span>
-              <span class="fct"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span>
-            </div>
-          </div>
-
-          <div class="chg-beat" data-beat="3">
-            <span class="chg-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span>
-            <span class="chg-when" aria-hidden="true">JUN<br>2026</span>
-            <div class="mock">
-              <div class="mock-title">Gmail · 2026-06-02 · Founder update, 18 months on</div>
-              <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span>"Opening a <b>$30M Series A</b>. Six design partners live, $2.4M ARR."</span><b class="mtag strong">Update</b></div>
-            </div>
-            <div class="chg-facts">
-              <p class="chg-lab">Facts<span class="chg-work" aria-hidden="true"><i>read</i><i>resolve</i><i>write</i></span></p>
-              <span class="fct f-ret"><b>Halo Compute</b> is raising a <b>$4M seed</b>.<i class="fct-when">retired 2026-06-02</i></span>
-              <span class="fct f-ret"><b>Halo Compute</b> has <b>no design partners</b> live.<i class="fct-when">retired 2026-06-02</i></span>
-              <span class="fct f-new"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span>
-              <span class="fct f-new"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span>
-              <span class="fct f-keep">You <b>passed</b> at seed, and the reason is on file.<i class="fct-when">still true</i></span>
-              <span class="fct f-keep"><b>Dev Raman</b> is still the warmest path.<i class="fct-when">still true</i></span>
-            </div>
-          </div>
-
-          <div class="chg-beat" data-beat="4">
-            <span class="chg-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span>
-            <span class="chg-when" aria-hidden="true">ASK</span>
-            <div class="chg-ask">
-              <p class="chg-q"><svg class="tlogo" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><span>"Where are we with Halo Compute?"</span></p>
-              <div class="asof">
-                <span class="asof-lab">Answer as of</span>
-                <span class="asof-tabs" role="group" aria-label="Answer as of">
-                  <button type="button" class="asof-tab" data-as="now" aria-pressed="true" aria-controls="asof-now">Today</button>
-                  <button type="button" class="asof-tab" data-as="pass" aria-pressed="false" aria-controls="asof-pass">The day you passed</button>
-                </span>
+          <div class="led-src">
+            <article class="src" data-at="0" hidden>
+              <div class="mock">
+                <div class="mock-title">Gmail · 2024-11-08 · Inbound</div>
+                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Halo Compute</b> seed deck, forwarded by <b>Dev Raman</b>.</span><b class="mtag">Inbound</b></div>
               </div>
-              <div class="asof-view" id="asof-now" data-view="now">
-                <span class="fct f-new">The seed you passed on is now a <b>$30M Series A</b>.</span>
-                <span class="fct f-new">The reason you passed <b>no longer holds</b>: six design partners are live.<i class="fct-when">changed 2026-06-02</i></span>
-                <span class="fct f-keep"><b>Dev Raman</b> can still make the introduction.</span>
+            </article>
+            <article class="src" data-at="1" hidden>
+              <div class="mock">
+                <div class="mock-title">Notion · 2025-01-16 · Partner memo</div>
+                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-notion"/></svg><span>"Passing for now. No design partners live, and the wedge is unproven at this price."</span><b class="mtag">Pass</b></div>
               </div>
-              <div class="asof-view" id="asof-pass" data-view="pass" hidden>
-                <span class="fct"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span>
-                <span class="fct">No design partners are live, and the wedge is unproven.</span>
-                <span class="fct"><b>Marcus</b> ran diligence. You are <b>passing today</b>, and the memo says why.</span>
+            </article>
+            <article class="src" data-at="2">
+              <div class="mock">
+                <div class="mock-title">Gmail · 2026-06-02 · Founder update, 18 months on</div>
+                <div class="mrow"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span>"Opening a <b>$30M Series A</b>. Six design partners live, $2.4M ARR."</span><b class="mtag strong">Update</b></div>
               </div>
-              <p class="asof-note">Same question, two dates. Neither answer was written over the other.</p>
+            </article>
+          </div>
+
+          <div class="led-state">
+            <p class="led-sum" id="led-sum" aria-live="polite"><em>2 facts written</em><s>2 retired</s><s>3 unchanged</s></p>
+            <span class="chg-work" hidden aria-hidden="true"><i>read</i><i>resolve</i><i>write</i></span>
+          </div>
+
+          <div class="led-axis" aria-hidden="true">
+            <span class="led-gap" style="left:30%;width:56%"><span>18 months</span></span>
+            <span class="led-tick" style="left:8%">NOV 2024</span>
+            <span class="led-tick" style="left:30%">JAN 2025</span>
+            <span class="led-tick" style="left:86%">JUN 2026</span>
+          </div>
+
+          <div class="led-rows" id="led-rows">
+            <span class="led-cur" style="left:96%" aria-hidden="true"></span>
+
+            <div class="lrow ret" data-from="0" data-to="2" data-a="Nov 2024" data-b="Jun 2026">
+              <p class="lfact"><span class="t"><b>Halo Compute</b> is raising a <b>$4M seed</b>.</span><span class="lwhen">Nov 2024 → Jun 2026</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:8%;width:78%"></i></span>
+            </div>
+
+            <div class="lrow ret" data-from="0" data-to="1" data-a="Nov 2024" data-b="Jan 2025">
+              <p class="lfact"><span class="t"><b>Halo Compute</b> is in diligence with <b>Marcus</b>.</span><span class="lwhen">Nov 2024 → Jan 2025</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:8%;width:22%"></i></span>
+            </div>
+
+            <div class="lrow live" data-from="0" data-to="" data-a="Nov 2024" data-b="">
+              <p class="lfact"><span class="t"><b>Dev Raman</b> is the warmest path to <b>Halo Compute</b>.</span><span class="lwhen">Nov 2024 → now</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:8%;width:88%"></i></span>
+            </div>
+
+            <div class="lrow ret" data-from="1" data-to="2" data-a="Jan 2025" data-b="Jun 2026">
+              <p class="lfact"><span class="t"><b>Halo Compute</b> has <b>no design partners</b> live.</span><span class="lwhen">Jan 2025 → Jun 2026</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:30%;width:56%"></i></span>
+            </div>
+
+            <div class="lrow live" data-from="1" data-to="" data-a="Jan 2025" data-b="">
+              <p class="lfact"><span class="t">You <b>passed</b> on <b>Halo Compute</b> at seed.</span><span class="lwhen">Jan 2025 → now</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:30%;width:66%"></i></span>
+            </div>
+
+            <div class="lrow live" data-from="2" data-to="" data-a="Jun 2026" data-b="">
+              <p class="lfact"><span class="t"><b>Halo Compute</b> is raising a <b>$30M Series A</b>.</span><span class="lwhen">Jun 2026 → now</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:86%;width:10%"></i></span>
+            </div>
+
+            <div class="lrow live" data-from="2" data-to="" data-a="Jun 2026" data-b="">
+              <p class="lfact"><span class="t"><b>Six design partners</b> are live at <b>Halo Compute</b>.</span><span class="lwhen">Jun 2026 → now</span></p>
+              <span class="lbar" aria-hidden="true"><i style="left:86%;width:10%"></i></span>
             </div>
           </div>
 
-          <button type="button" class="chg-replay" id="chg-replay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>Replay</button>
+          <p class="led-ans" data-at="0" hidden><span class="fmark">fein</span><span>A new inbound. <b>Dev Raman</b> can make the introduction, and <b>Marcus</b> has the diligence.</span></p>
+          <p class="led-ans" data-at="1" hidden><span class="fmark">fein</span><span>You are <b>passing today</b>. The reason goes on the record: no design partners live.</span></p>
+          <p class="led-ans" data-at="2"><span class="fmark">fein</span><span>The seed you passed on is now a <b>$30M Series A</b>. The reason you passed <b>no longer holds</b>, and <b>Dev Raman</b> can still make the introduction.</span></p>
+
+          <div class="led-foot">
+            <p class="led-note">Each bar is the window a fact was true. Nothing is deleted. The bar just ends.</p>
+            <button type="button" class="chg-replay" id="chg-replay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>Replay</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2821,96 +2848,101 @@ __LOGO_SPRITE__
   items.forEach(function(el){ io.observe(el); });
 })();
 
-/* what-changed beats: each source card lands, the three work chips tick while
-   fein reads it, then that beat's facts write themselves in one at a time and
-   the rail fills to the dot. Four beats, one pass, on first view, with a replay
-   for anyone who scrolled past it. The end state is the whole point, so every
-   failure path (no observer, reduced motion, script never runs) shows the whole
-   thing at once: the hidden state lives behind a .staged class this script sets
-   itself, so an unscripted page is simply the finished still. */
+/* the what-changed ledger: three moments, one cursor, seven rows that never move.
+   Every state the widget can be in is derivable from one integer, the moment the
+   reader is standing on, so the tabs, the autoplay and the replay all go through
+   the same apply(). The markup ships in the last state, which means a browser
+   that never runs this still shows a finished, correct ledger; nothing here
+   creates or destroys a row, it only lights them. */
 (function(){
-  var tl=document.getElementById('chg-tl');
-  if(!tl) return;
-  var beats=[].slice.call(tl.querySelectorAll('.chg-beat'));
-  var rail=tl.querySelector('.chg-prog');
-  var fill=rail && rail.querySelector('i');
+  var led=document.getElementById('led');
+  if(!led) return;
+  /* the axis is compressed on purpose: Nov 2024 and Jan 2025 are nine weeks
+     apart and Jun 2026 is eighteen months later, so a true linear axis would
+     leave the first two moments touching. The gap is labelled instead. */
+  var TICK=[8,30,86];      /* where each moment sits on the axis */
+  var CUR=[16,40,96];      /* where the reader stands, just after that moment */
+  var tabs=[].slice.call(led.querySelectorAll('.led-tab'));
+  var srcs=[].slice.call(led.querySelectorAll('.src'));
+  var rows=[].slice.call(led.querySelectorAll('.lrow'));
+  var answers=[].slice.call(led.querySelectorAll('.led-ans'));
+  var cursor=led.querySelector('.led-cur');
+  var sum=document.getElementById('led-sum');
+  var work=led.querySelector('.chg-work');
   var replay=document.getElementById('chg-replay');
-  var timers=[];
-  function parts(b){
-    return {
-      steps:[].slice.call(b.querySelectorAll('.chg-work i')),
-      work:b.querySelector('.chg-work'),
-      /* the hidden as-of view is written by the same pass as the visible one, so
-         switching tabs later never lands on a column of invisible facts */
-      facts:[].slice.call(b.querySelectorAll('.fct'))
-    };
-  }
-  function settle(){
-    beats.forEach(function(b){
-      b.classList.add('on');
-      var p=parts(b);
-      p.steps.forEach(function(s){ s.classList.add('on'); });
-      if(p.work) p.work.classList.add('done');
-      p.facts.forEach(function(f){ f.classList.add('on'); });
+  var timers=[], at=TICK.length-1, playing=false;
+  function set(ms,fn){ timers.push(setTimeout(fn,ms)); }
+  function stop(){ timers.forEach(clearTimeout); timers=[]; playing=false; }
+  function num(n,one,many){ return n+' '+(n===1?one:many); }
+  function apply(k,flash){
+    at=k;
+    tabs.forEach(function(t){ t.setAttribute('aria-pressed', String(+t.getAttribute('data-at')===k)); });
+    srcs.forEach(function(s){ s.hidden = +s.getAttribute('data-at')!==k; });
+    answers.forEach(function(a){ a.hidden = +a.getAttribute('data-at')!==k; });
+    if(cursor) cursor.style.left=CUR[k]+'%';
+    var wrote=0, retired=0, held=0;
+    rows.forEach(function(r){
+      var from=+r.getAttribute('data-from');
+      var toRaw=r.getAttribute('data-to');
+      var to=toRaw===''?null:+toRaw;
+      var state = from>k ? 'pend' : (to!==null && to<=k ? 'ret' : 'live');
+      var bar=r.querySelector('.lbar i');
+      var when=r.querySelector('.lwhen');
+      /* a live bar runs to where the reader stands, so it grows with time; a
+         retired one stops at the moment it was contradicted and stays there */
+      var left=TICK[from], right = state==='ret' ? TICK[to] : CUR[k];
+      if(bar){ bar.style.left=left+'%'; bar.style.width=Math.max(0,right-left)+'%'; }
+      if(when) when.textContent=r.getAttribute('data-a')+' → '+(state==='ret' ? r.getAttribute('data-b') : 'now');
+      r.className='lrow '+state;
+      if(from===k){ wrote++; if(flash) r.classList.add('fl'); }
+      else if(to===k){ retired++; if(flash) r.classList.add('flr'); }
+      else if(state==='live') held++;
     });
-    if(fill) fill.style.height='100%';
+    if(sum){
+      var bits='<em>'+num(wrote,'fact written','facts written')+'</em>';
+      if(retired) bits+='<s>'+num(retired,'retired','retired')+'</s>';
+      if(held) bits+='<s>'+num(held,'unchanged','unchanged')+'</s>';
+      sum.innerHTML=bits;
+    }
   }
-  function clear(){ timers.forEach(clearTimeout); timers=[]; }
-  function at(ms,fn){ timers.push(setTimeout(fn,ms)); }
-  function reset(){
-    clear();
-    beats.forEach(function(b){
-      b.classList.remove('on');
-      var p=parts(b);
-      p.steps.forEach(function(s){ s.classList.remove('on'); });
-      if(p.work) p.work.classList.remove('done');
-      p.facts.forEach(function(f){ f.classList.remove('on'); });
-    });
-    if(fill) fill.style.height='0px';
+  function step(k,flash){
+    /* the work chips are the half second where fein is reading the source and
+       has not written anything yet: they tick, then the rows change */
+    srcs.forEach(function(s){ s.hidden = +s.getAttribute('data-at')!==k; });
+    if(work){
+      work.hidden=false;
+      if(sum) sum.hidden=true;
+      var chips=[].slice.call(work.querySelectorAll('i'));
+      chips.forEach(function(c){ c.classList.remove('on'); });
+      chips.forEach(function(c,j){ set(j*150, function(){ c.classList.add('on'); }); });
+    }
+    set(work?520:0, function(){ if(work) work.hidden=true; if(sum) sum.hidden=false; apply(k,flash); });
   }
   function play(){
-    reset();
-    var t=140;
-    beats.forEach(function(b){
-      var p=parts(b);
-      at(t,function(){
-        b.classList.add('on');
-        /* the fill stops at this beat's dot, not at the end of its facts */
-        if(fill) fill.style.height=Math.max(0,b.offsetTop+16-rail.offsetTop)+'px';
-      });
-      p.steps.forEach(function(s,j){ at(t+240+j*140, function(){ s.classList.add('on'); }); });
-      var base=t+240+p.steps.length*140+70;
-      at(base-40,function(){ if(p.work) p.work.classList.add('done'); });
-      p.facts.forEach(function(f,j){ at(base+j*85, function(){ f.classList.add('on'); }); });
-      t=base+p.facts.length*85+180;
-    });
-    at(t,function(){ if(fill) fill.style.height='100%'; });
+    stop();
+    playing=true;
+    step(0,true);
+    set(1750,function(){ step(1,true); });
+    set(3500,function(){ step(2,true); playing=false; });
   }
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      stop();
+      if(work) work.hidden=true;
+      if(sum) sum.hidden=false;
+      apply(+tab.getAttribute('data-at'), true);
+    });
+  });
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(replay) replay.addEventListener('click',function(){ reduce ? settle() : play(); });
-  if(reduce || !('IntersectionObserver' in window)){ settle(); return; }
-  tl.classList.add('staged');
+  if(replay) replay.addEventListener('click',function(){ reduce ? apply(TICK.length-1,false) : play(); });
+  apply(TICK.length-1,false);
+  if(reduce || !('IntersectionObserver' in window)) return;
   var io=new IntersectionObserver(function(entries){
     if(!entries[0].isIntersecting) return;
     io.disconnect();
     play();
-  },{threshold:0.2});
-  io.observe(tl);
-})();
-
-/* as-of tabs: the same question answered on two dates. Plain show and hide, so
-   the answer that is off screen is still in the document for find-in-page. */
-(function(){
-  var tabs=[].slice.call(document.querySelectorAll('.asof-tab'));
-  if(!tabs.length) return;
-  var views=[].slice.call(document.querySelectorAll('.asof-view'));
-  tabs.forEach(function(tab){
-    tab.addEventListener('click',function(){
-      var want=tab.getAttribute('data-as');
-      tabs.forEach(function(t){ t.setAttribute('aria-pressed', String(t===tab)); });
-      views.forEach(function(v){ v.hidden = v.getAttribute('data-view')!==want; });
-    });
-  });
+  },{threshold:0.3});
+  io.observe(led);
 })();
 
 /* stat count-up on scroll (preserves prefix/commas/suffix); reduced-motion shows final */
