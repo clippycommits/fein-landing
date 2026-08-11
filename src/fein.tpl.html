@@ -1119,19 +1119,51 @@
      it is not a poster that happens to move. */
   /* the header is a caption for the film, not a second hero. It had the band's
      full padding above it and a 3.4rem gap below it, which put 380px of black
-     between the fold and the one thing on the page that argues for itself. */
-  #demo{padding-top:clamp(3.1rem,5.6vw,4.5rem);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
+     between the fold and the one thing on the page that argues for itself.
+
+     The padding is a named variable because the film's height is measured off
+     it below. Everything between the top of this section and the bottom of the
+     rail is one budget, and the terms have to be readable in one place or the
+     next person to nudge one of them silently pushes the rail off the screen. */
+  #demo{--demo-pad-t:clamp(2.2rem,4vw,3.05rem);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
   .demo-intro{text-align:center;max-width:46rem}
-  .demo-intro h2{font-family:var(--display);font-size:clamp(1.85rem,3.6vw,2.55rem);letter-spacing:-.032em;line-height:1.08;margin-top:.8rem}
-  .demo-lead{margin-top:.9rem;color:var(--fg-2);font-size:1.0625rem;line-height:1.55;text-wrap:pretty}
+  /* both step down on a short window, and the step is off the height rather than
+     the width: a 1440x1600 display has room for the full setting and a 1440x760
+     laptop does not, and it is the second one that has to give the film its
+     inches back. The measure widens as the type shrinks so the heading stays on
+     two lines and the lead on two rather than trading size for a third. */
+  .demo-intro h2{font-family:var(--display);font-size:min(clamp(1.85rem,3.6vw,2.55rem),4.6svh);letter-spacing:-.032em;line-height:1.08;margin-top:.65rem}
+  .demo-lead{margin-top:.7rem;color:var(--fg-2);font-size:min(1.0625rem,1.95svh);line-height:1.5;text-wrap:pretty}
+  @media (min-width:861px){
+    .demo-intro{max-width:min(52rem,86vw)}
+  }
   /* the frame and the rail under it are one object and share one width, so the
      measurement lives here and both read it */
-  .demo-stage{--film-w:min(100%,calc((100svh - var(--nav-h) - 7.25rem) * 16 / 9));margin:clamp(1.7rem,3.4vw,2.5rem) 0 0}
   /* as wide as the viewport allows at 16:9, but never so tall that the rail
-     under it lands below the fold: the third term trades width for height on a
-     short landscape window instead of letterboxing into one. It reserves the
-     rail's own height too, because the film and its chapters are read together
-     or the chapters may as well not be there. */
+     under it lands below the fold: the second term trades width for height on a
+     short landscape window instead of letterboxing into one.
+
+     What it reserves is the whole of the rest of the section, not the film's
+     own surroundings: the nav above, this section's top padding, the heading
+     block, the gap under it, the rail, and a little air beneath the rail. That
+     is the point of the change. The old term reserved 7.25rem, which covered
+     the rail and nothing else, so the heading pushed the rail off the bottom of
+     the window and the reader could see the film or its chapters but never both
+     at once. The film is smaller for it. It is smaller because a 16:9 picture,
+     a heading and a three column rail genuinely do not fit in 900px otherwise,
+     and the whole argument of the rail is that it is read against the film.
+
+     --demo-intro-h is measured, not derived: the heading block sets to two lines
+     of display over two of lead at every desktop width, and the reservation is
+     padded a little over that so a third line of either does not cost the rail
+     its place. If the heading copy changes, remeasure it.
+
+     The max() is the floor. Without it a short enough window drives the whole
+     subtraction towards zero and the film goes with it, which is a worse answer
+     than the one the fold gives: past that point the section simply stops
+     fitting, and a legible picture that runs a little long beats a legible rail
+     over a postage stamp. */
+  .demo-stage{--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-intro-h:13.4rem;--demo-rail-h:6.1rem;--demo-air:1.1rem;--film-w:min(100%,max(32rem,calc((100svh - var(--nav-h) - var(--demo-pad-t) - var(--demo-intro-h) - var(--demo-gap) - var(--demo-rail-h) - var(--demo-air)) * 16 / 9)));margin:var(--demo-gap) 0 0}
   .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate}
   .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
   .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
@@ -1236,18 +1268,34 @@
   .demo-chap{display:block;position:relative;width:100%;margin:0;padding:.62rem 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
   /* the rule above each beat is that beat's own share of the timeline, so the
      three of them are one scrubber cut into the three pieces that mean something */
-  .demo-chap::before{content:"";position:absolute;left:0;top:-1px;width:100%;height:1px;background:var(--blue-l);transform:scaleX(var(--cp,0));transform-origin:0 50%;transition:transform .28s linear}
+  /* no transition on the fill, and that is the fix rather than an omission. The
+     rule used to interpolate .28s linear between timeupdate samples, which are
+     about four a second: the smoothing was doing the work of the missing frames,
+     but it was also holding the fill a fifth of a second behind the picture the
+     whole way down, and against a twenty six second film that reads as the rail
+     belonging to some other clip. The script drives this off rAF now, so there
+     is a fresh value every frame and nothing left for a transition to smooth.
+     Leaving it in would only add the lag back on top. */
+  .demo-chap::before{content:"";position:absolute;left:0;top:-1px;width:100%;height:1px;background:var(--blue-l);transform:scaleX(var(--cp,0));transform-origin:0 50%}
   .demo-chap.done{--cp:1}
   .demo-chap i{font-family:var(--mono);font-style:normal;font-size:.66rem;font-weight:500;letter-spacing:.15em;color:var(--dim);margin-right:.6em;transition:color .3s ease}
   .demo-chap b{font-family:var(--font);font-size:.95rem;font-weight:550;letter-spacing:-.012em;color:var(--fg-2);transition:color .3s ease}
-  .demo-chap span{display:block;margin-top:.22rem;font-size:.855rem;line-height:1.4;color:var(--dim);text-wrap:pretty;transition:color .3s ease}
+  /* two lines, held open whether the words fill them or not, and that fixed box
+     is load bearing rather than tidiness. The film's height is measured against
+     a reserved rail height, and the rail is as tall as this line of text wraps:
+     let it wrap freely and a narrower film gives each of the three columns less
+     width, which takes a third line, which reserves more, which narrows the film
+     again. It converged on a postage stamp at 1280x800. A fixed box breaks the
+     loop, and it lines the three descriptions up on one baseline besides. The
+     copy is written to fit it at the narrowest desktop column. */
+  .demo-chap span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;height:2.8em;margin-top:.22rem;font-size:.855rem;line-height:1.4;color:var(--dim);text-wrap:pretty;transition:color .3s ease}
   .demo-chap.on i{color:var(--blue-l)}
   .demo-chap.on b{color:#fff}
   .demo-chap.on span{color:var(--fg-3)}
   .demo-chap:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px}
-  /* the loop rewinds all three rules at once, and animating them back to zero
-     reads as a glitch rather than a restart */
-  .demo-rail.nofill .demo-chap::before{transition:none}
+  /* the loop rewinds all three rules at once. That used to need a class to kill
+     the transition for a frame; with no transition to kill, the rewind is simply
+     the next frame's value and the class has nothing left to do. */
 
   /* the film autoplays muted, so the action here is never "play", it is the
      narration, and that control was a hover-only glyph in a corner. This is the
@@ -1261,9 +1309,14 @@
   .demo-frame.sound~.demo-rail .i-on{display:block}
 
   /* the strongest proof on the page ended on nothing, and the next ask was five
-     sections down. Ghost weight, not white: the fold above and the close below
-     keep the primary, and this one only has to be there for the visitor the
-     film just finished convincing. */
+     sections down.
+
+     It was ghost weight on the argument that the fold above and the close below
+     should keep the primary. White now, and matching the nav's: the reader who
+     reaches this has just watched the film, which makes this the best moment on
+     the page to ask and the wrong one to whisper. It sits under a rail of
+     hairlines and a picture that grades to black, so a ghost button here is the
+     one object on screen with nothing to separate it from the page. */
   .demo-act{display:flex;justify-content:center;align-items:center;gap:1.15rem;margin-top:clamp(1.7rem,3.2vw,2.35rem);padding:0 24px}
   .demo-act .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
 
@@ -1502,10 +1555,20 @@ __LOGO_SPRITE__
           </button>
         </div>
       </div>
-      <!-- The rail. The three marks are the film's own cuts, measured off the
-           file: it holds on Ask until 11.83, on the Halo Compute record until
-           18.83, and on Sources until it fades at 24.17. The words are the
-           product's primary navigation, not a caption written for the page.
+      <!-- The rail. The three marks were the film's own picture cuts, measured
+           off the file: it holds on Ask until 11.83, on the Halo Compute record
+           until 18.83, and on Sources until it fades at 24.17. They are now the
+           narration's cuts instead, read straight off video/fein-demo.en.vtt: a
+           beat turns over when its line does, at 11.68 and 18.06, which is a
+           beat ahead of the picture in both places. That order is deliberate.
+           The voice names a thing a moment before the cut shows it, so a rail
+           keyed to the picture always reads as lagging the film even when it is
+           exactly on it. Keyed to the words, it lands with them.
+
+           The lines under each word are the narration's too, near enough to
+           quote: the rail is a transcript of the film in three lines, not a
+           caption written for the page. The words themselves are the product's
+           primary navigation, which is what lets the same three do both jobs.
 
            No visible transcript under the film. The narration still reaches
            machines two other ways: the VideoObject in the JSON-LD carries it as
@@ -1518,9 +1581,9 @@ __LOGO_SPRITE__
            phone. -->
       <figcaption class="demo-rail" id="demo-rail">
         <ol class="demo-chaps" aria-label="Chapters">
-          <li><button class="demo-chap" type="button" data-t="0" aria-label="Ask, from the start"><i>01</i><b>Ask</b><span>One question, and a sourced answer</span></button></li>
-          <li><button class="demo-chap" type="button" data-t="11.9" aria-label="Memory, at eleven seconds"><i>02</i><b>Memory</b><span>Every fact, and the document it came from</span></button></li>
-          <li><button class="demo-chap" type="button" data-t="18.9" aria-label="Sources, at eighteen seconds"><i>03</i><b>Sources</b><span>Eight systems, read continuously</span></button></li>
+          <li><button class="demo-chap" type="button" data-t="0" aria-label="Ask, from the start"><i>01</i><b>Ask</b><span>Speak with fein to query facts over time</span></button></li>
+          <li><button class="demo-chap" type="button" data-t="11.68" aria-label="Memory, at eleven seconds"><i>02</i><b>Memory</b><span>Team members draw on one system of record</span></button></li>
+          <li><button class="demo-chap" type="button" data-t="18.06" aria-label="Sources, at eighteen seconds"><i>03</i><b>Sources</b><span>A single endpoint for all of your agents</span></button></li>
         </ol>
         <p class="demo-meta">
           <span class="demo-time">0:26</span>
@@ -1533,7 +1596,7 @@ __LOGO_SPRITE__
       </figcaption>
     </figure>
     <div class="demo-act">
-      <a class="btn btn-ghost" href="#get-started">Talk to sales</a>
+      <a class="btn btn-white" href="#get-started">Talk to sales</a>
     </div>
   </section>
 
@@ -3629,9 +3692,20 @@ __LOGO_SPRITE__
   var sky=document.getElementById('rec-sky'), sctx=(sky&&sky.getContext)?sky.getContext('2d'):null,
       wide=document.getElementById('rec-wide'), wq=document.getElementById('rec-wq'),
       wnr=document.getElementById('rec-wr'), wnf=document.getElementById('rec-wf'), wne=document.getElementById('rec-we');
-  var WD=null, sdp=1, sw=0, sh=0, lastWQ=-1;
-  var HANDOFF=6, CAM=76, ZMIN=0.0135, SKY_CL=78;
+  var WD=null, sdp=1, sw=0, sh=0, lastWQ=-1, GLOW=null;
+  /* how far the camera goes, how many knots the field has, and how many records
+     it holds. The field always ends up filling the screen, whatever these are,
+     so ZMIN is not really how far out the camera gets: it is how fine the grain
+     is when it stops. Grain is the whole argument of the last frame. Too coarse
+     and every record touches its neighbours, the mesh between them is shorter
+     than a pixel, and a graph of a firm comes out as confetti; fine enough and
+     the same data draws itself as what it is. */
+  var HANDOFF=6, CAM=76, ZMIN=0.0082, SKY_CL=110, SKY_N=6400;
   var BLUE='82,168,255';
+  /* the field's own inks: one per record type, plus the light the mesh is drawn
+     in. Cooler and a little more saturated than the chips they are taken from,
+     because at two pixels a colour has nothing left but its hue to carry it. */
+  var INK=['170,206,255','226,231,240','150,236,205'], MESH='150,190,255';
   /* mulberry32. The field must be identical on every frame and every resize, so
      nothing in here may call Math.random. */
   function seeded(s){ return function(){ s=s+0x6D2B79F5|0; var t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
@@ -3682,20 +3756,23 @@ __LOGO_SPRITE__
     }
     /* 3. the field.
        Three numbers decide everything here and they are solved against each
-       other, not chosen. R1 is where the field ends, and it is set so that at
-       the closest the camera ever gets to the whole thing a record is about
-       sixteen pixels wide, which is the size at which a rectangle still reads
-       as a record and not as a speck. The area of one record then fixes how
-       many fit: the annulus holds about four thousand at a spacing that never
-       lets two overlap, so the last frame is a full screen rather than a
-       crowd painted on top of itself. R0 is where the field starts, and it is
-       set so the first of it arrives about a third of the way into the pull,
-       after the ring of names has been read and before the reader is bored. */
+       other, not chosen. R1 is where the field ends, and it is set so the whole
+       annulus lands just inside the frame at the moment the camera stops. AREA
+       is the room one record is given, and it is the number that decides whether
+       the last frame is a graph. At three record areas apiece the spacing came
+       out about one record wide: every record touched its neighbours, the links
+       between them were shorter than a pixel, and four thousand of them read as
+       confetti with a few long lines across it. At eight and a half the gap
+       between two records is wider than either of them, which is the whole of
+       the difference: the mesh has somewhere to be drawn. R0 is where the field
+       starts, and it is set so the first of it arrives about a third of the way
+       into the pull, after the ring of names has been read and before the
+       reader is bored. */
     var R0=Math.max(2900,UL*1.95), R1=(geo.paneW*0.5/ZMIN)*0.95,
-        AREA=CW*(RH+RPAD+FH*5)*3.2, RATIO=R1/R0,
+        AREA=CW*(RH+RPAD+FH*5)*8.5, RATIO=R1/R0,
         /* solved, not chosen: this is the per cluster coefficient that lands the
-           whole field on TARGET records for whatever ratio this window gives */
-        KC=3400*2*Math.log(RATIO)/(SKY_CL*(RATIO*RATIO-1)),
+           whole field on SKY_N records for whatever ratio this window gives */
+        KC=SKY_N*2*Math.log(RATIO)/(SKY_CL*(RATIO*RATIO-1)),
         hubs=[], hx, hy;
     for(c=0;c<SKY_CL;c++){
       var u=(c+0.5)/SKY_CL, rc=R0*Math.pow(RATIO,u),
@@ -3703,12 +3780,14 @@ __LOGO_SPRITE__
       hx=fx+Math.cos(ac)*rc; hy=fy+Math.sin(ac)*rc*0.55;
       /* a cluster is sized by the area of the radial band it stands in, so the
          field has one density throughout rather than a dense middle */
-      /* an ellipse, turned, rather than a disc: seventy eight identical circles
+      /* an ellipse, turned, rather than a disc: a hundred identical circles
          reads as a pattern, and a firm is not a pattern */
       var n=Math.max(8,Math.round(KC*Math.pow(rc/R0,2))),
           asp=0.5+rn()*0.8, rot=rn()*3.1416, crot=Math.cos(rot), srot=Math.sin(rot),
           spread=Math.sqrt(n*AREA/(3.1416*asp)), hi=N.length, mem=[];
-      N.push({x:hx,y:hy,w:CW,h:RH+RPAD+FH*4,facts:3+((c*7)%7),real:0,ph:rn(),mg:-1,mw:null,g:null,t:c%3===0?0:(c%3===1?1:2)});
+      /* the knot carries its own extent, because the light behind a cluster has
+         to be the size of that cluster and nothing else knows what that is */
+      N.push({x:hx,y:hy,w:CW,h:RH+RPAD+FH*4,facts:3+((c*7)%7),real:0,ph:rn(),mg:-1,mw:null,g:null,hub:1,hr:spread,t:c%3===0?0:(c%3===1?1:2)});
       hubs.push(hi);
       /* members go down on a phyllotaxis spiral, jittered. This is worth the
          two lines it costs: on a golden angle spiral a point's nearest
@@ -3753,15 +3832,21 @@ __LOGO_SPRITE__
         if(m>=o2&&rn()<0.4) E.push([idx,idx-o2]);
         if(m>=OFF[2]*1.6&&rn()<0.05) E.push([idx,idx-Math.round(OFF[2]*1.6)]);
       }
-      /* one long link per cluster, to the nearest cluster already placed. This
-         is the only thing holding the field together at the widest frame. */
+      /* the spine: the long links between knots, and the only thing holding the
+         field together at the widest frame. It used to be one link per cluster,
+         to the nearest already placed, which is a tree, and a tree read from far
+         off is a chain of beads. Three closes loops, and loops are what make a
+         picture read as a graph rather than as a route. They are flagged so they
+         can be drawn in their own light: at the last frame the structure between
+         the knots should be the first thing seen, not the last. */
       if(c>0){
-        var nb=-1, nd=1e18;
-        for(var q=0;q<hubs.length-1;q++){
-          var qx=N[hubs[q]].x-hx, qy=N[hubs[q]].y-hy, qd=qx*qx+qy*qy;
-          if(qd<nd){ nd=qd; nb=hubs[q]; }
+        var cand=[], q;
+        for(q=0;q<hubs.length-1;q++){
+          var qx=N[hubs[q]].x-hx, qy=N[hubs[q]].y-hy;
+          cand.push([qx*qx+qy*qy,hubs[q]]);
         }
-        if(nb>=0) E.push([hi,nb]);
+        cand.sort(function(a,b){ return a[0]-b[0]; });
+        for(q=0;q<cand.length&&q<3;q++) E.push([hi,cand[q][1],1]);
       }
     }
     /* the resting place, kept apart from x/y so a merge stays a pure function of
@@ -3783,6 +3868,19 @@ __LOGO_SPRITE__
     sw=r.width; sh=r.height;
     sky.width=Math.max(1,Math.round(sw*sdp)); sky.height=Math.max(1,Math.round(sh*sdp));
     sctx.setTransform(sdp,0,0,sdp,0,0);
+  }
+  /* one sprite, built once, drawn small behind every knot and every record the
+     front is passing over. A radial gradient per node would be a hundred and
+     ten gradient objects a frame; a bitmap scaled by drawImage is a blit, and
+     the two are indistinguishable at the sizes this is used at. */
+  function glowSprite(){
+    var c=document.createElement('canvas'); c.width=c.height=64;
+    var g=c.getContext('2d'), rg=g.createRadialGradient(32,32,0,32,32,32);
+    rg.addColorStop(0,'rgba(168,205,255,.62)');
+    rg.addColorStop(0.35,'rgba(120,170,255,.16)');
+    rg.addColorStop(1,'rgba(70,130,255,0)');
+    g.fillStyle=rg; g.fillRect(0,0,64,64);
+    return c;
   }
   function rrect(g,x,y,w,h,r){
     if(g.roundRect){ g.beginPath(); g.roundRect(x,y,w,h,r); return; }
@@ -4579,15 +4677,21 @@ __LOGO_SPRITE__
     var chaps=[].slice.call(rail.querySelectorAll('.demo-chap'));
     if(!chaps.length) return;
     var marks=chaps.map(function(b){ return parseFloat(b.getAttribute('data-t'))||0; }),
-        prev=0;
+        raf=0;
 
-    /* one timeupdate is about four a second and the rules interpolate the gap
-       with a linear transition, so the fill is smooth without a rAF loop
-       competing with the pinned stage in the section below. */
+    /* timeupdate fires about four times a second, which was never enough to
+       carry a playhead: the old rule interpolated the gaps with a .28s linear
+       transition, and bought its smoothness by running a fifth of a second
+       behind the picture from start to finish. It is a rAF loop now, so the
+       fill is on the same frame as the film.
+
+       The cost was the reason it was not one before, and the loop is written to
+       not have it: it only runs while the film is actually playing, and the
+       film is paused by the observer below the moment it leaves the screen. By
+       the time the pinned stage in the next section is taking a rect every
+       frame, this has already stopped, so the two never share a frame. */
     function paint(){
       var t=v.currentTime||0, d=v.duration||25.92;
-      if(t<prev-0.25) snap();
-      prev=t;
       for(var i=0;i<chaps.length;i++){
         var a=marks[i], b=(i+1<marks.length?marks[i+1]:d),
             p=t>=b?1:(t<=a?0:(t-a)/(b-a));
@@ -4599,17 +4703,23 @@ __LOGO_SPRITE__
         else chaps[i].removeAttribute('aria-current');
       }
     }
-    /* the loop puts three filled rules back to empty in one frame, and easing
-       that reads as a stutter rather than a restart */
-    function snap(){
-      rail.classList.add('nofill');
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){ rail.classList.remove('nofill'); });
-      });
+    /* the loop is the film's, not a repaint schedule: it stops itself the frame
+       the film stops, and every way the film can stop starts a paint of the
+       resting position rather than leaving the last frame's value on screen. */
+    function tick(){
+      raf=0;
+      paint();
+      if(!v.paused&&!v.ended) raf=requestAnimationFrame(tick);
     }
+    function run(){ if(!raf) raf=requestAnimationFrame(tick); }
+    v.addEventListener('play',run);
+    v.addEventListener('playing',run);
+    /* the film is muted, so a phone may hold it at a frame the rail should still
+       be drawn against, and timeupdate is the only thing that fires there */
     v.addEventListener('timeupdate',paint);
     v.addEventListener('seeked',paint);
-    v.addEventListener('ended',function(){ snap(); prev=0; paint(); });
+    v.addEventListener('pause',paint);
+    v.addEventListener('ended',paint);
 
     chaps.forEach(function(btn,i){
       btn.addEventListener('click',function(){
@@ -4624,7 +4734,7 @@ __LOGO_SPRITE__
           v.removeEventListener('loadedmetadata',h);
           try{ v.currentTime=t; }catch(e){}
         });
-        snap(); prev=t; paint();
+        paint();
       });
     });
   })();
