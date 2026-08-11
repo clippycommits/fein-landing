@@ -381,6 +381,25 @@
      plain block, no align-content anywhere on the sticky's ancestor chain, no
      overflow but the store's own clip, and no will-change on .rec-pin (it would
      make the pin a containing block and Safari drops the stick). */
+  /* the heading, and the smallest one that does the job.
+
+     The intro block that used to stand here was dropped on purpose so the walk
+     opens cold, and it took this section's only heading with it: of the seven
+     sections on the page this was the one with no h2, no eyebrow and nothing
+     naming it in the document outline, which is a hole for a reader moving
+     between headings and for anything reading the page as a document.
+
+     So the heading comes back and the intro does not. One kicker and one line,
+     above the track and outside the pin, so it scrolls away before the stage
+     takes the viewport and the cold open survives. None of the lead, legend or
+     guide copy returns with it.
+
+     Named outside the rec- namespace deliberately: .rec-head is already taken
+     by the record pane's own header bar further down this stylesheet, and
+     reusing it puts a grid, a fixed height and a border-bottom on this heading
+     while leaking a max-width onto every pane header in the walk. */
+  .change-head{padding-bottom:clamp(1.4rem,3.4vw,2.3rem);max-width:70ch}
+  .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:22ch}
   /* the static default is a document, so it takes the page measure; the pinned
      stage sets its own width and resets this */
   .rec-track{display:block;position:relative;max-width:var(--maxw);margin-inline:auto;padding:0 24px}
@@ -1666,7 +1685,11 @@ setTimeout(go,1200);})()</script>
        a plain block, no align-content anywhere on the sticky's ancestor chain,
        no overflow but the store's own clip, and no will-change on .rec-pin (it
        would make the pin a containing block and Safari drops the stick). -->
-  <section id="change" class="band">
+  <section id="change" class="band" aria-labelledby="change-h">
+    <div class="change-head wrap">
+      <span class="eyebrow">THE RECORD</span>
+      <h2 id="change-h">Every fact lands on the right record.</h2>
+    </div>
     <div class="rec-track" id="rec-track">
       <div class="rec-pin" id="rec-pin">
         <div class="rec-stage">
