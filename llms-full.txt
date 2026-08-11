@@ -10,6 +10,18 @@ Welcome to agentic venture capital. fein is an open source tool and platform tha
 
 It reads and answers in the tools you already use: Gmail, Google Calendar, Drive, Attio, LinkedIn, Granola, Notion, Slack, Claude, ChatGPT, Gemini, Cursor, Perplexity, and Copilot.
 
+## The film: fein in twenty-six seconds
+
+There is a twenty-six second narrated walkthrough on the page, at https://fein.vc/#demo (video: https://fein.vc/video/fein-demo-1440.mp4). Its narration, verbatim:
+
+"Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base."
+
+What it shows: a partner asks "Who is the warmest path into Halo Compute, and what did we say when we passed?" fein reads seven documents across four sources in 1.8 seconds and answers with six citations. Dev Raman is the warmest path. The firm passed in January 2025 for two stated reasons, and three of the facts behind that decision are no longer true. The film then shows the memory behind the answer, every fact carrying the document it was read out of, and the eight systems fein reads continuously.
+
+## What changes when a fact stops being true
+
+fein holds one live record per company and retires facts that stop being true rather than overwriting them. A retired fact keeps the dates it was true between, so the history stays queryable: you can ask what the firm believed at the moment it made a decision, not only what is true now. Nobody opens a CRM to correct a title, and no stale row survives because the person who knew was on holiday.
+
 ## How it works: nobody enters data, the graph builds itself
 
 fein reads the record your team already makes. It resolves that record into one live graph: who exists, who knows whom, and how well. Your AI tools read the graph. They stop guessing.
