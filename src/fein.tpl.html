@@ -835,17 +835,19 @@
   .hero-lead .hero-actions .btn .tlogo{width:16px;height:16px}
 
   /* ---- the announcement pill: the top rung of the fold ----
-     one capsule above the kicker carrying whatever shipped last. it is the
-     ribbon's message in the copy block's own voice, so it borrows the ghost
-     button's shell (hairline ring, frosted black) rather than inventing a
-     third surface, and the chevron slides on hover like every other link
-     here. it sits a full step above the kicker (2.05rem against the kicker's
-     1.05rem to the headline) so it reads as its own line, not as a second
-     eyebrow. */
-  .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 18px;margin-bottom:2.05rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:15px;font-weight:450;letter-spacing:-.011em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
+     one capsule carrying whatever shipped last. it is the ribbon's message in
+     the copy block's own voice, so it borrows the ghost button's shell
+     (hairline ring, frosted black) rather than inventing a third surface, and
+     the chevron slides on hover like every other link here.
+
+     it is the rung the mono kicker used to be, and it is sized as one: small
+     enough that the headline is unambiguously the first thing read, and set
+     one step off it rather than the two steps it needed when it had a kicker
+     underneath to clear. */
+  .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px 0 14px;margin-bottom:.95rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:13.5px;font-weight:450;letter-spacing:-.008em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
   .hero-lead .hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
   .hpill .chev{display:inline-flex;flex:none;color:var(--dim);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
-  .hpill .chev svg{width:12px;height:12px;display:block}
+  .hpill .chev svg{width:11px;height:11px;display:block}
   .hero-lead .hpill:hover .chev{transform:translateX(3px);color:#fff}
   /* the seam: the ring is a flat hairline all the way round, and this is the
      one place it catches light. Not an edge, a wisp. A lit bottom edge, however
@@ -1101,11 +1103,11 @@
   }
 
   /* the announcement pill is one unbroken line, so it is sized off the
-     narrowest phone rather than left to overflow: it steps down to the nav's
-     14px, and below 520 it drops the version prefix the way the ribbon drops
-     its own, leaving "deal memory, warm intros, and more" at 300px. */
+     narrowest phone rather than left to overflow, and below 520 it drops the
+     version prefix the way the ribbon drops its own, leaving "deal memory,
+     warm intros, and more" at 300px. */
   @media (max-width:600px){
-    .hero-lead .hpill{height:36px;padding:0 12px 0 15px;font-size:14px;margin-bottom:1.7rem}
+    .hero-lead .hpill{height:29px;padding:0 9px 0 12px;font-size:12.75px;margin-bottom:.8rem}
   }
   @media (max-width:519px){
     .hpill .hp-pre{display:none}
@@ -1196,10 +1198,16 @@
      and the transport control after */
   .demo-frame.paused .demo-big,.demo-frame.intro .demo-big{opacity:1;scale:1}
   .demo-hit:hover .demo-big{scale:1.04}
-  /* the price, next to the thing being bought. A play triangle asks for an
-     unpriced commitment; twenty six seconds is a commitment anyone will make.
-     It shows in the stopped state only, which is the only state where the
-     question is still open. */
+  /* the price, next to the thing being bought: a play triangle asks for an
+     unpriced commitment, and twenty six seconds is a commitment anyone makes.
+
+     That was written when this showed to a reader who had not watched yet. It
+     no longer does, and the argument no longer holds: the entry state is a
+     white button and nothing else, so what is left here is a reader who has
+     already watched some of the film and stopped by hand, and the length is
+     not news to them. The rail's own 0:26 sits a few pixels below in every
+     state including entry, so nothing is lost by this never firing. It is kept
+     only because deleting it is a design call for whoever owns this section. */
   .demo-dur{position:absolute;left:50%;top:41%;translate:-50% calc(-50% + clamp(48px,4.8vw,58px));font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;color:var(--fg-2);text-shadow:0 1px 12px rgba(0,0,0,.9);opacity:0;transition:opacity .22s ease;pointer-events:none;white-space:nowrap}
   /* not in the entry state: the film's burned captions run in a band right
      under the button, so the words land on top of words. The rail carries 0:26
@@ -1492,7 +1500,6 @@ __LOGO_SPRITE__
 
     <div class="wrap" id="content" tabindex="-1">
       <a class="hpill" href="#features"><span><span class="hp-pre">fein 1.0: </span>deal memory, warm intros, and more</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg></span></a>
-      <span class="eyebrow">OPEN SOURCE</span>
       <h1>Welcome to agentic venture capital.</h1>
       <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
       <div class="hero-actions">
