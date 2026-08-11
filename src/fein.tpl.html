@@ -2,12 +2,6 @@
   @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__GEIST_SANS_B64__) format('woff2');}
   @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:swap;src:url(data:font/woff2;base64,__GEIST_MONO_B64__) format('woff2');}
   @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2');}
-  /* one instance, italic only, and it is the only italic on the page. It sets
-     the section labels: see --serif below. font-display is block rather than
-     swap because a label is one short phrase and the two faces set it at
-     visibly different widths; 100ms of nothing reads better than a flash of
-     Geist that jumps sideways under the heading. */
-  @font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:block;src:url(data:font/woff2;base64,__NEWSREADER_B64__) format('woff2');}
 
   :root{
     color-scheme:dark;
@@ -26,10 +20,6 @@
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    /* Newsreader italic, and it does one job: every label that names a section
-       is set in it, lowercase, at reading size. It is the third voice on the
-       page and the only one that is not a grotesk, which is the point of it. */
-    --serif:'Newsreader',ui-serif,Georgia,'Times New Roman',serif;
     --maxw:1080px;
     --nav-h:76px;
     /* the announcement ribbon above the bar. it is a variable, not a constant,
@@ -54,23 +44,21 @@
   .skip{position:fixed;top:12px;left:12px;z-index:100;background:#fff;color:#000;padding:.6rem 1rem;border-radius:9999px;font-weight:550;font-size:.92rem;transform:translateY(-300%);transition:transform .2s ease}
   .skip:focus{transform:none}
 
-  /* ---- display type: white statements, grey continuations, serif labels ----
+  /* ---- display type: white statements, grey continuations, small grey labels ----
 
-     The label above a heading used to be mono, 0.72rem, uppercase, tracked out
-     to .14em. So is the one on every other product page with a black
-     background, and a reader who has seen forty of them does not read the
-     forty-first: tracked-out mono caps has stopped being a voice and become a
-     texture. This is the same information set as an aside instead of a tab:
-     Newsreader italic, lower case, at the size the copy is set at, tracking
-     left alone. It is quieter than what it replaced and it gets read, because
-     an italic serif under a 3rem grotesk is the only thing on the page that
-     looks like a person wrote it rather than a system emitted it.
+     The label above a heading has been three things. It was mono, 0.72rem,
+     uppercase, tracked out to .14em, which is what every other product page on
+     a black background does. It was then Newsreader italic at reading size,
+     which was a voice, but an italic serif is a loud way to say one word and it
+     was the only face on the page doing it.
+
+     It is now the interface face at label size in grey: small Inter, lower
+     case, sitting under the heading rather than in front of it. Nothing on the
+     page is now set in a face the rest of the page does not already use.
 
      Lower case is forced rather than typed so the labels stay legible as
-     sentences in the markup, in the CMS, and to a screen reader. Every label
-     in this voice carries one of the classes in SERIF_CLASSES in build.js,
-     which is what the serif charset guard reads. ---- */
-  .eyebrow{display:block;font-family:var(--serif);font-style:italic;font-size:1.14rem;font-weight:400;line-height:1.25;letter-spacing:0;text-transform:lowercase;color:#9aa0aa}
+     sentences in the markup, in the CMS, and to a screen reader. ---- */
+  .eyebrow{display:block;font-family:var(--font);font-size:.8rem;font-weight:500;line-height:1.25;letter-spacing:0;text-transform:lowercase;color:var(--fg-3)}
   h1,h2,h3{color:#fff;letter-spacing:-.025em;font-weight:600}
   h1,h2{font-family:var(--display)}
   .th{font-size:clamp(1.7rem,3.3vw,2.4rem);font-weight:600;letter-spacing:-.03em;line-height:1.14;color:#fff;max-width:34ch;text-wrap:balance}
@@ -317,7 +305,7 @@
 
   /* works-with strip — slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(2.6rem,5vw,3.6rem) 0 0;text-align:center;position:relative;z-index:2}
-  .works .lab{font-family:var(--serif);font-style:italic;font-size:1.14rem;color:#9aa0aa;font-weight:400;letter-spacing:0;text-transform:lowercase;padding:0 24px}
+  .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
   .marquee{margin-top:1.35rem;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
   .marquee .row{display:flex;align-items:center;gap:.6rem 2.1rem;width:max-content;padding:2px 0}
   .marquee.moving .row{animation:marq var(--marq-t,40s) linear infinite}
@@ -620,10 +608,10 @@
   .rec-on .rec-core{opacity:var(--core,1)}
   /* the counters and the line, in DOM rather than on the canvas: crisp at every
      device ratio, and readable by a screen reader that will never see a pixel */
-  .rec-on .rec-wide{display:block;position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;opacity:var(--wide,0);padding:clamp(60px,11svh,120px) 0 2px}
+  .rec-on .rec-wide{display:block;position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;opacity:var(--wide,0);padding:clamp(44px,8svh,92px) 0 2px}
   /* the field runs under the copy, and a headline read through a record is not
      a headline. The ground comes back just far enough to carry the type. */
-  .rec-on .rec-wide::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent,rgba(0,0,0,.72) 42%,rgba(0,0,0,.93))}
+  .rec-on .rec-wide::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6) 46%,rgba(0,0,0,.92))}
   .rec-wq{margin:0;max-width:34ch;font-size:clamp(1.15rem,1.9vw,1.6rem);line-height:1.24;letter-spacing:-.025em;font-weight:600;color:#fff;text-wrap:balance;opacity:var(--wqo,0);transform:translate3d(0,var(--wqy,0px),0)}
   .rec-wq b{color:var(--blue-l);font-weight:600}
   /* the counts are read off the picture every frame, so they are a readout and
@@ -704,7 +692,7 @@
   /* the three steps: a legend for the figure above, column per zone */
   .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(1.6rem,3vw,2.2rem)}
   .why3 .wcard{border-top:1px solid var(--line-2);padding-top:1.2rem}
-  .why3 .wstep{display:block;font-family:var(--serif);font-style:italic;font-size:1.02rem;font-weight:400;letter-spacing:0;text-transform:lowercase;color:#8d939d;margin-bottom:.5rem}
+  .why3 .wstep{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d;margin-bottom:.5rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
   .code-card{position:relative;background:#0a0a0c;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
@@ -740,7 +728,7 @@
   /* the labels ride the same three columns as the steps: a zone's name at the
      top of the stage and its step at the bottom sit on one vertical */
   .zlabels{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);align-self:start}
-  .dlab{font-family:var(--serif);font-style:italic;font-size:1.02rem;font-weight:400;letter-spacing:0;text-transform:lowercase;color:#8d939d;white-space:nowrap;transition:color .5s cubic-bezier(.22,.61,.36,1)}
+  .dlab{font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d;white-space:nowrap;transition:color .5s cubic-bezier(.22,.61,.36,1)}
   .dlab.on{color:var(--blue-l)}
   .dlab.dim{color:#43464b}
   .stage-mid{display:grid;place-items:center;min-height:0}
@@ -1251,11 +1239,12 @@
      copy takes, so it is told: --demo-h2-lines and --demo-lead-lines. Change
      the heading or the lead and check the count still holds.
 
-     The eyebrow term is 1.14rem of serif on a 1.25 line, which is 1.425rem of
-     one line, and it is exact rather than measured because both numbers are set
-     in .eyebrow above: the label is a block with a fixed line-height, so its
-     height does not depend on which face resolves. It replaces the 1.7rem the
-     mono eyebrow was measured at. If the label ever wraps to two lines here,
+     The eyebrow term is .8rem of Inter on a 1.25 line, which is 1rem of one
+     line, and it is exact rather than measured because both numbers are set in
+     .eyebrow above: the label is a block with a fixed line-height, so its
+     height does not depend on which face resolves. It has been 1.7rem (mono
+     caps) and 1.425rem (serif) before now, so if you change the label's size,
+     change it here in the same edit. If the label ever wraps to two lines here,
      this term doubles.
 
      The max() is the floor. Without it a short enough window drives the whole
@@ -1266,7 +1255,7 @@
      out of the way: measured, it does not bind until the window is under about
      690px tall, so the windows that can fit all of this still do. A floor set
      too high is not a safety net, it is the thing that breaks the fit. */
-  .demo-stage{--demo-intro-h:calc(1.425rem + .75rem + var(--demo-h2-lines) * 1.05 * var(--demo-h2-size) + .95rem + var(--demo-lead-lines) * 1.5 * var(--demo-lead-size));--film-w:min(100%,max(28rem,calc((100svh - var(--demo-top) - var(--demo-pad-t) - var(--demo-intro-h) - var(--demo-gap) - var(--demo-rail-h) - var(--demo-air)) * 16 / 9)));margin:var(--demo-gap) 0 0}
+  .demo-stage{--demo-intro-h:calc(1rem + .75rem + var(--demo-h2-lines) * 1.05 * var(--demo-h2-size) + .95rem + var(--demo-lead-lines) * 1.5 * var(--demo-lead-size));--film-w:min(100%,max(28rem,calc((100svh - var(--demo-top) - var(--demo-pad-t) - var(--demo-intro-h) - var(--demo-gap) - var(--demo-rail-h) - var(--demo-air)) * 16 / 9)));margin:var(--demo-gap) 0 0}
   .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate}
   .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
   .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
@@ -2125,7 +2114,7 @@ __LOGO_SPRITE__
           <a href="mailto:sales@fein.vc">sales@fein.vc</a>
         </nav>
       </div>
-      <p class="fbottom">© 2026 fein · free and open source · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+      <p class="fbottom">© 2026 fein · free and open source · <a href="/privacy">privacy</a> · <a href="/terms">terms</a></p>
     </div>
   </footer>
 </main>
@@ -3830,6 +3819,14 @@ __LOGO_SPRITE__
      than a pixel, and a graph of a firm comes out as confetti; fine enough and
      the same data draws itself as what it is. */
   var HANDOFF=6, CAM=76, ZMIN=0.0082, SKY_CL=110, SKY_N=6400;
+  /* how squashed the field is. The clusters are laid out on an ellipse and the
+     front travels through that same squashed space, so this is one number and
+     not two; it was 0.55 in both places, which left the graph a wide band with
+     a screen's worth of black above and below it at the last frame. 0.64 fills
+     that room. It cannot go much past this: the outermost knot sits at 0.87 of
+     the half width, so above about 0.66 the top of the field crosses the top of
+     the stage on a wide window and the graph reads as a crop of a bigger one. */
+  var FASP=0.64;
   var BLUE='82,168,255';
   /* the field's own inks: one per record type, plus the light the mesh is drawn
      in. Cooler and a little more saturated than the chips they are taken from,
@@ -3924,7 +3921,7 @@ __LOGO_SPRITE__
     for(c=0;c<SKY_CL;c++){
       var rc=RAD[c],
           ac=6.28318*((c*0.6180339887)%1)+rn()*0.6;
-      hx=fx+Math.cos(ac)*rc; hy=fy+Math.sin(ac)*rc*0.55;
+      hx=fx+Math.cos(ac)*rc; hy=fy+Math.sin(ac)*rc*FASP;
       /* a cluster is sized by the area of the radial band it stands in, so the
          field has one density throughout rather than a dense middle */
       /* an ellipse, turned, rather than a disc: a hundred identical circles
@@ -4003,7 +4000,7 @@ __LOGO_SPRITE__
       /* the front travels as a circle in the same squashed space the clusters
          were laid out in, so it crosses the field as one even sweep rather than
          reaching the top and bottom long before the sides */
-      var ddx=N[i].x-fx, ddy=(N[i].y-fy)/0.55;
+      var ddx=N[i].x-fx, ddy=(N[i].y-fy)/FASP;
       N[i].dr=Math.sqrt(ddx*ddx+ddy*ddy);
     }
     WD={n:N,e:E,fx:fx,fy:fy};
@@ -4110,13 +4107,20 @@ __LOGO_SPRITE__
        the camera: it holds the light off the near half of the walk entirely. far
        is the records themselves, and it is measured in the only unit that counts
        here, which is how many pixels wide one of them still is. While a record
-       is eleven pixels across it is a record, and a bloom laid over it is fog on
-       a window; under four it is a node, and light is the only thing left that
-       can say anything about it. Everything below that is lit rather than drawn
-       hangs off far, so the section keeps the flat, quiet picture it was tuned
-       with right up to the point where that picture stops working. */
-    var aw=geo.bodyW*z, card=aw>=24,
-        glow=clamp01((ke-0.28)/0.32), far=glow*clamp01((11-aw)/6);
+       is eighteen pixels across it is still a record, and a bloom laid over it
+       is fog on a window; by the time it is nine it is a node, and light is the
+       only thing left that can say anything about it. Everything below that is
+       lit rather than drawn hangs off far.
+
+       Both gates used to open much later -- glow at 0.28 of the walk, far only
+       under eleven pixels -- and the cost was that the field spent most of the
+       pull back as a grey page of little rectangles and only became a graph in
+       the last few screens. The mesh, the inks and the knots are the picture,
+       so they now come up while the records are still large enough to be seen
+       as records, and what the camera does from there is make the same graph
+       finer rather than turn one thing into another. */
+    var aw=geo.bodyW*z, card=aw>=18,
+        glow=clamp01((ke-0.10)/0.26), far=glow*clamp01((18-aw)/9);
     /* ---- the knots, as light. From far off a firm's memory is not an even
        dust: it is bright where the work is, and dark between. One blit per
        cluster under the mesh is what gives the field that depth, and it is the
@@ -4164,7 +4168,7 @@ __LOGO_SPRITE__
        come out bright on their own. A flat stroke at a fixed alpha cannot show
        that, and it is the one thing about a graph worth seeing from this far. */
     if(far>0.01) sctx.globalCompositeOperation='lighter';
-    sctx.strokeStyle='rgba('+MESH+','+(0.032+0.070*ke).toFixed(3)+')';
+    sctx.strokeStyle='rgba('+MESH+','+(0.058+0.075*ke).toFixed(3)+')';
     sctx.stroke(dim);
     /* the spine rides far, not the camera. While the field is still arriving the
        same three links per knot span whole screens, and three long straight
@@ -4172,7 +4176,7 @@ __LOGO_SPRITE__
        is a handful of rays laid over the picture. They are worth almost nothing
        until the knots they join are small enough to be seen as knots, and worth
        more than anything else once they are. */
-    if(spN){ sctx.strokeStyle='rgba('+BLUE+','+(0.03+0.20*far).toFixed(3)+')'; sctx.stroke(spine); }
+    if(spN){ sctx.strokeStyle='rgba('+BLUE+','+(0.07+0.18*far).toFixed(3)+')'; sctx.stroke(spine); }
     if(hotN){ sctx.strokeStyle='rgba('+BLUE+',.42)'; sctx.stroke(hot); }
     sctx.globalCompositeOperation='source-over';
     /* ---- the records. A card while it is big enough to be one, a dot once it
@@ -4186,19 +4190,20 @@ __LOGO_SPRITE__
        what keeps the field from ending at a hard edge, since the ground ahead
        of the front is faint rather than absent. */
     var hotd=new Path2D(), bag=[], bi2, spark=[],
-        /* the last few pixels of a record's life. Above eight pixels wide it is
-           still a small wide thing lying on its side, which is what a record
-           looks like; below four it is a node in a graph, and a node is square.
+        /* the last few pixels of a record's life. Above fourteen pixels wide it
+           is still a small wide thing lying on its side, which is what a record
+           looks like; below seven it is a node in a graph, and a node is square.
            Morphing between the two rather than switching keeps the change off
            any one frame, and it is what stops a field of six thousand from
            reading as a field of dashes all lying the same way. */
-        dq=clamp01((8-aw)/4), ds=Math.max(1.15,Math.min(3.4,aw*0.52));
+        dq=clamp01((14-aw)/7), ds=Math.max(1.15,Math.min(3.4,aw*0.52));
     for(i=0;i<6;i++) bag.push(new Path2D());
     for(i=0;i<L;i++){
       if(!vz[i]) continue;
       n=NN[i];
       if(n.real&&canv<=0.002) continue;
-      /* below twenty four pixels a record has no readable parts left, so it is
+      /* below eighteen pixels a record has no readable parts left -- the label
+         gate above needs about twenty four to put a name on one -- so it is
          drawn as the rectangle it is, and every one of them goes into a single
          path. Six thousand records then cost two fills rather than twelve
          thousand calls, which is the whole performance story of this section. */
@@ -4271,29 +4276,13 @@ __LOGO_SPRITE__
       }
       sctx.globalCompositeOperation='source-over';
     }
-    /* ---- the front, drawn. Everything in this field already hangs off it: which
-       records hold their facts, which duplicate has folded, what is lit. It was
-       the one thing about the picture you could not see. An ellipse rather than a
-       circle because the field is laid out in a squashed space, so a circle
-       there is this here, and it leaves with the front rather than lingering. ---- */
-    var fa=clamp01(C.k*4)*(1-clamp01(C.st*1.3))*glow;
-    if(fa>0.01&&sctx.ellipse){
-      var frx=C.wr*z;
-      if(frx>40&&frx<Math.max(sw,sh)*3){
-        sctx.globalCompositeOperation='lighter';
-        sctx.lineWidth=1;
-        sctx.strokeStyle='rgba('+BLUE+','+(0.34*fa).toFixed(3)+')';
-        sctx.beginPath(); sctx.ellipse(px,py,frx,frx*0.55,0,0,6.28318); sctx.stroke();
-        /* the trailing edge of the band, so the front has a width and reads as a
-           thing sweeping rather than as a line drawn on the picture */
-        var brx=frx-C.wb*z*0.6;
-        if(brx>10){
-          sctx.strokeStyle='rgba('+BLUE+','+(0.12*fa).toFixed(3)+')';
-          sctx.beginPath(); sctx.ellipse(px,py,brx,brx*0.55,0,0,6.28318); sctx.stroke();
-        }
-        sctx.globalCompositeOperation='source-over';
-      }
-    }
+    /* ---- the front is NOT drawn. It used to be stroked as a pair of ellipses
+       riding the camera, and at the width it reaches it stopped reading as a
+       wave and started reading as a boundary: an oval ruled around the field,
+       which says the firm's memory ends there. Everything the front does is
+       already visible without a line around it -- which records hold their
+       facts, which duplicate has folded, what is lit and blooming -- and that
+       is the version of it worth seeing. ---- */
     /* ---- the one you were just reading. Once the field is large enough to have
        lost it, put it back: a hairline and a name on the node the whole walk was
        about. It is the difference between a picture of scale and a picture of
@@ -4332,8 +4321,23 @@ __LOGO_SPRITE__
       sctx.textBaseline='alphabetic';
       sctx.fillStyle='#fff'; sctx.font='600 13px Inter,system-ui,sans-serif';
       sctx.fillText('Halo Compute',tx+12,ty+17);
-      sctx.fillStyle='#8a8f98'; sctx.font='500 8.5px ui-monospace,Menlo,monospace';
-      sctx.fillText('THE RECORD YOU JUST WATCHED',tx+12,ty+29);
+      /* two of the record's own fields rather than a caption about the walk.
+         A label that narrates what just happened is a note from us; a pair of
+         chips is the row itself, and the plate stops explaining and starts
+         being the thing it points at. Two, because a full row of them is a
+         legend again. */
+      var chips=['COMPANY','DUE DILIGENCE'], ci, cw, cx=tx+12, cy=ty+21, ch=13;
+      sctx.font='600 8px ui-monospace,Menlo,monospace';
+      sctx.textBaseline='middle';
+      for(ci=0;ci<chips.length;ci++){
+        cw=sctx.measureText(chips[ci]).width+13;
+        rrect(sctx,cx,cy,cw,ch,4);
+        sctx.fillStyle='rgba('+BLUE+',.14)'; sctx.fill();
+        sctx.strokeStyle='rgba('+BLUE+',.32)'; sctx.stroke();
+        sctx.fillStyle='#9fb0d6'; sctx.fillText(chips[ci],cx+6.5,cy+ch/2+0.5);
+        cx+=cw+6;
+      }
+      sctx.textBaseline='alphabetic';
       sctx.globalAlpha=1;
     }
     return {rec:nvis,fact:nfacts,edge:nedge,cam:C};

@@ -2172,7 +2172,7 @@ setTimeout(go,1200);})()</script>
           <a href="mailto:sales@fein.vc">sales@fein.vc</a>
         </nav>
       </div>
-      <p class="fbottom">© 2026 fein · free and open source · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+      <p class="fbottom">© 2026 fein · free and open source · <a href="/privacy">privacy</a> · <a href="/terms">terms</a></p>
     </div>
   </footer>
 </main>
@@ -4157,13 +4157,20 @@ setTimeout(go,1200);})()</script>
        the camera: it holds the light off the near half of the walk entirely. far
        is the records themselves, and it is measured in the only unit that counts
        here, which is how many pixels wide one of them still is. While a record
-       is eleven pixels across it is a record, and a bloom laid over it is fog on
-       a window; under four it is a node, and light is the only thing left that
-       can say anything about it. Everything below that is lit rather than drawn
-       hangs off far, so the section keeps the flat, quiet picture it was tuned
-       with right up to the point where that picture stops working. */
-    var aw=geo.bodyW*z, card=aw>=24,
-        glow=clamp01((ke-0.28)/0.32), far=glow*clamp01((11-aw)/6);
+       is eighteen pixels across it is still a record, and a bloom laid over it
+       is fog on a window; by the time it is nine it is a node, and light is the
+       only thing left that can say anything about it. Everything below that is
+       lit rather than drawn hangs off far.
+
+       Both gates used to open much later -- glow at 0.28 of the walk, far only
+       under eleven pixels -- and the cost was that the field spent most of the
+       pull back as a grey page of little rectangles and only became a graph in
+       the last few screens. The mesh, the inks and the knots are the picture,
+       so they now come up while the records are still large enough to be seen
+       as records, and what the camera does from there is make the same graph
+       finer rather than turn one thing into another. */
+    var aw=geo.bodyW*z, card=aw>=18,
+        glow=clamp01((ke-0.10)/0.26), far=glow*clamp01((18-aw)/9);
     /* ---- the knots, as light. From far off a firm's memory is not an even
        dust: it is bright where the work is, and dark between. One blit per
        cluster under the mesh is what gives the field that depth, and it is the
@@ -4211,7 +4218,7 @@ setTimeout(go,1200);})()</script>
        come out bright on their own. A flat stroke at a fixed alpha cannot show
        that, and it is the one thing about a graph worth seeing from this far. */
     if(far>0.01) sctx.globalCompositeOperation='lighter';
-    sctx.strokeStyle='rgba('+MESH+','+(0.032+0.070*ke).toFixed(3)+')';
+    sctx.strokeStyle='rgba('+MESH+','+(0.058+0.075*ke).toFixed(3)+')';
     sctx.stroke(dim);
     /* the spine rides far, not the camera. While the field is still arriving the
        same three links per knot span whole screens, and three long straight
@@ -4318,29 +4325,13 @@ setTimeout(go,1200);})()</script>
       }
       sctx.globalCompositeOperation='source-over';
     }
-    /* ---- the front, drawn. Everything in this field already hangs off it: which
-       records hold their facts, which duplicate has folded, what is lit. It was
-       the one thing about the picture you could not see. An ellipse rather than a
-       circle because the field is laid out in a squashed space, so a circle
-       there is this here, and it leaves with the front rather than lingering. ---- */
-    var fa=clamp01(C.k*4)*(1-clamp01(C.st*1.3))*glow;
-    if(fa>0.01&&sctx.ellipse){
-      var frx=C.wr*z;
-      if(frx>40&&frx<Math.max(sw,sh)*3){
-        sctx.globalCompositeOperation='lighter';
-        sctx.lineWidth=1;
-        sctx.strokeStyle='rgba('+BLUE+','+(0.34*fa).toFixed(3)+')';
-        sctx.beginPath(); sctx.ellipse(px,py,frx,frx*0.55,0,0,6.28318); sctx.stroke();
-        /* the trailing edge of the band, so the front has a width and reads as a
-           thing sweeping rather than as a line drawn on the picture */
-        var brx=frx-C.wb*z*0.6;
-        if(brx>10){
-          sctx.strokeStyle='rgba('+BLUE+','+(0.12*fa).toFixed(3)+')';
-          sctx.beginPath(); sctx.ellipse(px,py,brx,brx*0.55,0,0,6.28318); sctx.stroke();
-        }
-        sctx.globalCompositeOperation='source-over';
-      }
-    }
+    /* ---- the front is NOT drawn. It used to be stroked as a pair of ellipses
+       riding the camera, and at the width it reaches it stopped reading as a
+       wave and started reading as a boundary: an oval ruled around the field,
+       which says the firm's memory ends there. Everything the front does is
+       already visible without a line around it -- which records hold their
+       facts, which duplicate has folded, what is lit and blooming -- and that
+       is the version of it worth seeing. ---- */
     /* ---- the one you were just reading. Once the field is large enough to have
        lost it, put it back: a hairline and a name on the node the whole walk was
        about. It is the difference between a picture of scale and a picture of
@@ -4379,8 +4370,23 @@ setTimeout(go,1200);})()</script>
       sctx.textBaseline='alphabetic';
       sctx.fillStyle='#fff'; sctx.font='600 13px Inter,system-ui,sans-serif';
       sctx.fillText('Halo Compute',tx+12,ty+17);
-      sctx.fillStyle='#8a8f98'; sctx.font='500 8.5px ui-monospace,Menlo,monospace';
-      sctx.fillText('THE RECORD YOU JUST WATCHED',tx+12,ty+29);
+      /* two of the record's own fields rather than a caption about the walk.
+         A label that narrates what just happened is a note from us; a pair of
+         chips is the row itself, and the plate stops explaining and starts
+         being the thing it points at. Two, because a full row of them is a
+         legend again. */
+      var chips=['COMPANY','DUE DILIGENCE'], ci, cw, cx=tx+12, cy=ty+21, ch=13;
+      sctx.font='600 8px ui-monospace,Menlo,monospace';
+      sctx.textBaseline='middle';
+      for(ci=0;ci<chips.length;ci++){
+        cw=sctx.measureText(chips[ci]).width+13;
+        rrect(sctx,cx,cy,cw,ch,4);
+        sctx.fillStyle='rgba('+BLUE+',.14)'; sctx.fill();
+        sctx.strokeStyle='rgba('+BLUE+',.32)'; sctx.stroke();
+        sctx.fillStyle='#9fb0d6'; sctx.fillText(chips[ci],cx+6.5,cy+ch/2+0.5);
+        cx+=cw+6;
+      }
+      sctx.textBaseline='alphabetic';
       sctx.globalAlpha=1;
     }
     return {rec:nvis,fact:nfacts,edge:nedge,cam:C};

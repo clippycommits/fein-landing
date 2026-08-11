@@ -25,13 +25,10 @@ const monoB64 = fs.readFileSync("GeistMono.subset.woff2").toString("base64");
 // Inter (variable 400-600, latin cut) carries body copy, sub headings, buttons
 // and nav; Geist is the display face for h1 and h2 only.
 const interB64 = fs.readFileSync("Inter.subset.woff2").toString("base64");
-// Newsreader italic sets the section labels and nothing else, so it is cut
-// against its own charset (see subset-fonts.py) and costs 6 KB rather than 15.
-const SERIF_CHARSET = fs.readFileSync("fonts.serif.charset.txt", "utf8").replace(/\n$/, "");
-const serifB64 = fs.readFileSync("Newsreader.subset.woff2").toString("base64");
-// The classes that render in it. Kept here because this list and the charset
-// are one fact: these elements are the only text the serif has glyphs for.
-const SERIF_CLASSES = ["eyebrow", "wstep", "dlab", "lab"];
+// Newsreader italic used to set the section labels here, cut against its own
+// charset. The labels are small grey Inter now, so the face, its subset guard
+// and its 6 KB of base64 are gone; Newsreader.subset.woff2 and
+// fonts.serif.charset.txt are left on disk in case that voice comes back.
 
 // Everything the page can actually render: element text, attributes that surface
 // as text (alt/aria-label/title/placeholder/content), CSS content: strings, and
