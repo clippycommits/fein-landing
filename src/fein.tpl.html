@@ -842,28 +842,33 @@
      here. it sits a full step above the kicker (2.05rem against the kicker's
      1.05rem to the headline) so it reads as its own line, not as a second
      eyebrow. */
-  .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 18px;margin-bottom:2.05rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:15px;font-weight:450;letter-spacing:-.011em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top),0 9px 24px -12px rgba(0,112,243,.6);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
-  .hero-lead .hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top),0 11px 28px -12px rgba(0,112,243,.8)}
+  .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 18px;margin-bottom:2.05rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:15px;font-weight:450;letter-spacing:-.011em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
+  .hero-lead .hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
   .hpill .chev{display:inline-flex;flex:none;color:var(--dim);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
   .hpill .chev svg{width:12px;height:12px;display:block}
   .hero-lead .hpill:hover .chev{transform:translateX(3px);color:#fff}
   /* the seam: the ring is a flat hairline all the way round, and this is the
-     one place it catches light. It rides the ring itself rather than lying
-     under it, which is the whole difference: a straight bar under a capsule
-     cuts across the two bottom corners and reads as a scratch on the picture,
-     where a gradient laid into the ring follows the shape round and reads as
-     an edge catching light. It is the page's one blue for its whole length,
-     because the old bar bloomed to cyan off centre and the asymmetry read as
-     a smudge. The bloom below is the same light falling off the capsule, and
-     it is round because it is cast by the box itself.
+     one place it catches light. Not an edge, a wisp. A lit bottom edge, however
+     well it follows the corners, is still a line under a word and reads as a
+     rule or a progress bar; the light that reads as light is a short segment
+     high on one shoulder, off centre, dying out well before either end. So it
+     is a radial cast at the top edge just right of the chevron, about half the
+     capsule wide, and nothing anywhere else on the ring.
+
+     It is deliberately near the floor of what renders: at .34 it is a tint on a
+     hairline rather than a colour of its own, and the only place it resolves as
+     blue is where it crosses the top arc. There is no bloom under the capsule.
+     A glow says "look at me", which is the wrong volume for the smallest thing
+     in the fold, and it was what made this read as a smudge on the picture.
 
      The ring is a gradient punched hollow by two masks, and a browser that
-     cannot subtract the second one would paint the gradient as a filled block
-     over the whole capsule, so it is asked for only where it can be had. What
-     is left without it is the hairline and the bloom, which is a finished
-     object rather than a broken one. */
+     cannot subtract the second one would paint it as a filled block over the
+     whole capsule, so it is asked for only where it can be had. What is left
+     without it is the hairline, which is a finished object rather than a
+     broken one. */
   @supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
-    .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(180deg,transparent 46%,rgba(0,112,243,.5) 82%,rgba(82,168,255,.92) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+    .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(42% 120% at 66% 0%,rgba(146,214,255,.34) 0%,rgba(0,112,243,.16) 46%,transparent 74%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;transition:opacity .18s ease}
+    .hero-lead .hpill:hover::after{opacity:.6}
   }
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
@@ -1196,7 +1201,10 @@
      It shows in the stopped state only, which is the only state where the
      question is still open. */
   .demo-dur{position:absolute;left:50%;top:41%;translate:-50% calc(-50% + clamp(48px,4.8vw,58px));font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;color:var(--fg-2);text-shadow:0 1px 12px rgba(0,0,0,.9);opacity:0;transition:opacity .22s ease;pointer-events:none;white-space:nowrap}
-  .demo-frame.paused .demo-dur,.demo-frame.intro .demo-dur{opacity:1}
+  /* not in the entry state: the film's burned captions run in a band right
+     under the button, so the words land on top of words. The rail carries 0:26
+     a few pixels below anyway, and the entry state is a play button, full stop. */
+  .demo-frame.paused:not(.intro) .demo-dur{opacity:1}
 
   /* ---- the way in ----
 
