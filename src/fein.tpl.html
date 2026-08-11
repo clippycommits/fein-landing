@@ -1162,21 +1162,6 @@
     .demo-ctl{padding:0 11px;min-width:44px}
     .demo-stage{margin-top:1.5rem}
   }
-  /* the transcript. Closed by default because the film says it better, open to
-     anyone who cannot hear it, and present in the DOM either way so a crawler
-     reads it without opening anything. */
-  .demo-cap{display:block;max-width:var(--maxw);margin:1.35rem auto 0;padding:0 24px}
-  .demo-tx summary{display:inline-flex;align-items:center;gap:.4rem;width:-moz-fit-content;width:fit-content;padding:.3rem .1rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);cursor:pointer;list-style:none;transition:color .2s ease}
-  .demo-tx summary::-webkit-details-marker{display:none}
-  .demo-tx summary::before{content:"+";font-size:.85rem;line-height:1;color:var(--dim)}
-  .demo-tx[open] summary::before{content:"\2212"}
-  .demo-tx summary:hover{color:var(--fg)}
-  .demo-tx summary:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px;border-radius:4px}
-  .demo-txb{max-width:38rem;margin-top:.85rem;padding-left:1.1rem;border-left:1px solid var(--line)}
-  .demo-txb p{margin:0 0 .7rem;font-size:.95rem;line-height:1.6;color:var(--fg-2);text-wrap:pretty}
-  .demo-txb p:last-child{margin-bottom:0}
-  .demo-txs{color:var(--fg-3)}
-
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -1346,7 +1331,7 @@ __LOGO_SPRITE__
     </div>
     <figure class="demo-stage">
       <div class="demo-frame paused" id="demo-frame">
-        <video id="demo-video" class="demo-video" width="2560" height="1440" aria-label="A twenty-six second walkthrough of fein. The transcript is below the film." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
+        <video id="demo-video" class="demo-video" width="2560" height="1440" aria-label="A twenty-six second walkthrough of fein." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
           <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
           <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
           <p class="demo-lead">Your browser will not play this one. <a href="/video/fein-demo-1440.mp4">Download the walkthrough</a> instead.</p>
@@ -1367,27 +1352,15 @@ __LOGO_SPRITE__
           </button>
         </div>
       </div>
-      <!-- The film's whole argument is fifty-one words of narration and a set
-           of captions burned into the pixels, which means that until this
-           block existed it was invisible to every search engine, every AI
-           assistant, and every screen reader that has ever opened this page.
-           Deliberately NOT a <track>: Safari and Chromium force-enable a
-           caption track whenever the reader has captions turned on at the OS
-           level, and this film already carries its captions in the image, so
-           that reader would get two stacked caption layers in a frame that is
-           about 220px tall on a phone. Text under the film serves the same
-           three audiences with none of that. -->
-      <figcaption class="demo-cap">
-        <details class="demo-tx">
-          <summary>Read the transcript</summary>
-          <div class="demo-txb">
-            <p>Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital.</p>
-            <p>Humans and agents can speak with fein to query and understand facts over time.</p>
-            <p>Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC&rsquo;s knowledge base.</p>
-            <p class="demo-txs">On screen: a partner asks &ldquo;Who is the warmest path into Halo Compute, and what did we say when we passed?&rdquo; fein reads seven documents across four sources in 1.8 seconds and answers with six citations. Dev Raman is the warmest path. The firm passed in January 2025 for two reasons, and three of the facts behind that decision are no longer true. The film then shows the memory the answer came from, every fact carrying the document it was read out of, and the eight systems fein reads continuously.</p>
-          </div>
-        </details>
-      </figcaption>
+      <!-- No visible transcript under the film. The narration still reaches
+           machines two other ways: the VideoObject in the JSON-LD carries it as
+           a transcript property, and video/fein-demo.en.vtt carries the same
+           words with timings. The .vtt is deliberately NOT wired up as a
+           <track>: Safari and Chromium force-enable a caption track whenever
+           the reader has captions on at the OS level, and this film already
+           carries its captions burned into the picture, so that reader would
+           get two stacked caption layers in a frame about 220px tall on a
+           phone. -->
     </figure>
   </section>
 

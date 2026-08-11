@@ -151,7 +151,8 @@ const FEATURES = [
 // as an audio track, which is to say it is invisible to every search engine and
 // every AI assistant that has ever looked at this page. It is transcribed from
 // the narration (see video/fein-demo.en.vtt, which carries the same words with
-// timings), and it also appears as real text on the page under the film.
+// timings). Since the on-page transcript was removed, this property and that
+// .vtt are the only places the narration exists as text.
 const VIDEO_NAME = "fein in twenty-six seconds";
 const VIDEO_DESC = "A short walkthrough of fein: a partner asks who the warmest path into a company is and what the firm said when it passed, and fein answers with citations from seven documents across four sources, then shows the memory behind the answer and the eight systems it reads.";
 const VIDEO_TRANSCRIPT = "Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base.";
