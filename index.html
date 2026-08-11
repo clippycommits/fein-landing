@@ -128,15 +128,24 @@
   .grain-overlay{position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px}
   .grain-overlay.on-dark{opacity:.22;mix-blend-mode:soft-light}
 
-  /* ============ nav: black frost, Stripe-replica metrics ============ */
+  /* ============ nav: solid black, Stripe-replica metrics ============ */
   header{position:relative;z-index:5;--nav-font:var(--font)}
   /* ribbon and bar travel as one fixed shell. the shell is what scrolls: the
      ribbon slides out under the top edge exactly as far as the page has moved,
      up to its own height, and the bar lands pinned at 0. one transform, no
      second fixed layer, no reflow. */
   #view-home .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left;will-change:transform}
-  #view-home header{background:transparent;border-bottom:1px solid transparent;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease}
-  #view-home header.scrolled{background:rgba(0,0,0,.62);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
+  /* the bar is an opaque plane, not a frosted one. it used to start transparent
+     and fade to rgba(0,0,0,.62) with a blur behind it, which let the hero's
+     starburst read through the row and put moving light under the wordmark and
+     the links. on the page's own black there is nothing for a backdrop-filter to
+     do that the fill does not already do, so the blur goes with it: one less
+     compositing layer over the tallest element on the page. the ribbon above is
+     already var(--bg), so the shell now reads as a single black band, and the
+     only thing scroll still changes is the hairline that separates it from what
+     is passing underneath. */
+  #view-home header{background:var(--bg);border-bottom:1px solid transparent;transition:border-color .25s ease,box-shadow .25s ease}
+  #view-home header.scrolled{border-bottom-color:var(--line)}
   /* 1440/32: the reference nav measure. content lands at 1376px, so the
      wordmark and the buttons sit level with the widest sections below */
   .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1440px;margin:0 auto;padding:0 32px;box-sizing:border-box}
@@ -146,16 +155,10 @@
   /* 34, not 28: each link carries a -12px pill margin, so the gap a reader sees
      is 34 - 24 = 10px between hover pills, not the 4px the old value left */
   nav.links{display:flex;gap:34px;margin-left:12px}
-  /* the links rest at grey and only the one under the cursor is white. at --fg
-     all five read as equally live, which is why the bar used to compete with the
-     wordmark beside it; from --muted the pill is the only lit thing in the row,
-     so hover is the whole signal instead of a small brightness step. 5.9:1 on
-     black, so the resting state still clears AA on its own. */
-  nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--muted);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;padding:8px 12px;margin:-8px -12px;border-radius:999px;transition:color .18s ease,background .18s ease}
-  nav.links a:hover{color:#fff;background:rgba(255,255,255,.08)}
-  /* the chevron rides the label's colour rather than carrying its own, so the
-     glyph and the word it belongs to travel grey to white as one mark */
-  nav.links a .chev{display:inline-flex;margin-top:1px;color:inherit}
+  nav.links a{display:inline-flex;align-items:center;gap:.45rem;color:var(--fg);font-family:var(--nav-font);font-weight:425;font-size:15px;letter-spacing:0;line-height:1;padding:8px 12px;margin:-8px -12px;border-radius:999px;transition:color .18s ease,background .18s ease}
+  nav.links a:hover{color:#fff;background:rgba(255,255,255,.07)}
+  nav.links a .chev{display:inline-flex;margin-top:1px;color:var(--fg-3);transition:color .18s ease}
+  nav.links a:hover .chev{color:#fff}
   nav.links a .chev svg{width:10px;height:10px;display:block}
   .bar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
   .sbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:10px;border:0;font-family:var(--nav-font);font-size:14px;font-weight:500;letter-spacing:0;line-height:1;white-space:nowrap;cursor:pointer;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
@@ -165,14 +168,9 @@
   .sbtn .arw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
   .sbtn:hover .arw{transform:translateX(3px)}
   .sbtn .arw svg{width:11px;height:11px;stroke-width:3}
-  nav.links a.ddon{color:#fff;background:rgba(255,255,255,.08)}
-  /* the panel is a plane in front of the bar, not a hole cut in it. at
-     rgba(10,10,12,.94) it was within a shade of the black behind it and only the
-     hairline said where it began; lifting the ground to #1a1a1d lets the edge be
-     read from the fill, and the shadow under it finally has something to fall
-     away from. the bar stays the darkest surface in the shell, which is the order
-     the reference bar sets: ground, then panel, then the lit row inside it. */
-  .ddwrap{position:absolute;top:calc(var(--nav-h) - 6px);left:0;width:0;height:0;z-index:60;background:rgba(26,26,29,.96);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1),visibility 0s .18s}
+  nav.links a.ddon{color:#fff;background:rgba(255,255,255,.07)}
+  nav.links a.ddon .chev{color:#fff}
+  .ddwrap{position:absolute;top:calc(var(--nav-h) - 6px);left:0;width:0;height:0;z-index:60;background:rgba(10,10,12,.94);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1),visibility 0s .18s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1),left .28s cubic-bezier(.22,.61,.36,1),width .28s cubic-bezier(.22,.61,.36,1),height .28s cubic-bezier(.22,.61,.36,1)}
   .ddwrap.snap{transition:opacity .18s ease,transform .28s cubic-bezier(.22,.61,.36,1)}
   .ddpanel{position:absolute;top:0;left:0;display:flex;align-items:stretch;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .16s ease}
@@ -191,10 +189,7 @@
   .dd-rail{flex:none;width:228px;border-left:1px solid var(--line);padding:22px 28px 26px}
   /* section eyebrows: they name the group, they do not compete with the item
      titles under them, so they sit two steps below the 14.5px row title. */
-  /* --muted, the same grey the resting nav links now take: the eyebrow and the
-     bar above it are the one voice that labels things, and against the lifted
-     panel ground --dim had gone quiet enough to lose the group names entirely */
-  .dd-label{font-size:9.5px;font-weight:560;letter-spacing:.085em;text-transform:uppercase;color:var(--muted);margin:16px 0 5px}
+  .dd-label{font-size:9.5px;font-weight:560;letter-spacing:.085em;text-transform:uppercase;color:var(--dim);margin:16px 0 5px}
   .dd-label:first-child{margin-top:0}
   .dd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 28px}
   .dd-grid.one{grid-template-columns:minmax(0,1fr)}
@@ -219,13 +214,9 @@
      last thing that may be seen. a lifted plane (bg-2 with a lit top edge) put
      the brightest surface of the whole page above the wordmark and inverted the
      hierarchy: news over headline. so the ground goes back to the page's own
-     black and the sentence drops a step to fg-2. what
+     black and the sentence drops a step to fg-2, one below the nav links. what
      is left of the row is a hairline and a grey line of type; hover lifts the
      sentence to white, which is where the only reward for looking belongs.
-     NOTE: fg-2 used to be one step below the nav links; the links have since
-     dropped to --muted, so this row now sits one step ABOVE them. it is still
-     the quietest thing in the shell by weight and size, but if the news ever
-     reads louder than the bar, this is the value to take down to --muted too. */
      opaque, not transparent: the shell is fixed and the hero scrolls under it. */
   /* spacing is the reference bar's, measured off it: 20px line, -.16px tracking,
      6px from the sentence to the arrow, in a 48px row on black. the size is not:
@@ -686,34 +677,16 @@
   /* the void is the one beat with no document to point at, so it is the one
      that most needs saying out loud: this is the failure mode, not an interval
      between two features */
-  /* ---- the strip: every document, laid on the calendar, and the way back ----
-     This replaces a vertical pile of read documents that said the same thing in
-     two hundred and eighty pixels. Here each document is a target: it says what
-     has been read, what is being read, and what is still coming, and clicking
-     one takes the reader to it. A reader who looked away does not have to
-     re-scroll the section to find the beat they lost, which is the difference
-     between a story that runs at the page's speed and one that runs at theirs. */
-  .rec-on .rec-strip{display:block;flex:none;padding-top:clamp(14px,2.2svh,22px);margin-top:auto;border-top:1px solid var(--line);opacity:.9}
-  .rec-striph{display:flex;align-items:baseline;gap:.5rem;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-bottom:.55rem}
+  /* ---- the strip: where the reader is, in one line ----
+     This used to carry a row of six source marks as jump targets. They were the
+     third place on the stage showing the same logos the card chrome and the
+     narration already show, and the only thing they added was navigation the
+     step buttons already do, so the row is gone and the sentence it sat under
+     is the whole strip: what fein is doing, and which document it is on. */
+  .rec-on .rec-strip{display:block;flex:none;padding-top:clamp(12px,2svh,18px);margin-top:auto;border-top:1px solid var(--line);opacity:.9}
+  .rec-striph{display:flex;align-items:baseline;gap:.5rem;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:0}
   .rec-striph b{color:#fff;font-weight:500}
   .rec-striph .now{color:var(--blue-l)}
-  .rec-dchips{display:flex;align-items:stretch;gap:5px}
-  .rec-dchip{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:.34rem;height:34px;padding:0 6px;border:1px solid var(--line);border-radius:9px;background:var(--bg-2);color:var(--dim);font-family:var(--mono);font-size:.54rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;white-space:nowrap;overflow:hidden;transition:border-color .18s ease,background .18s ease,color .18s ease,opacity .18s ease;opacity:.5}
-  .rec-dchip .tlogo{width:13px;height:13px;flex:none;opacity:.55;transition:opacity .18s ease}
-  /* ten targets across one column is about sixty pixels each, which truncates
-     every date to nonsense. The mark alone identifies a document the reader has
-     just watched arrive; only the one being read spends width on its date. */
-  .rec-dchip i{display:none;font-style:normal;overflow:hidden;text-overflow:ellipsis}
-  .rec-dchip.now i,.rec-dchip.gap i{display:block}
-  .rec-dchip.read{opacity:1;color:var(--fg-3)}
-  .rec-dchip.read .tlogo{opacity:1}
-  .rec-dchip.now{opacity:1;color:#fff;border-color:rgba(82,168,255,.45);background:rgba(0,112,243,.10);flex-grow:1.7}
-  .rec-dchip.now .tlogo{opacity:1}
-  /* the two voids are documents too, in the only sense that matters here: they
-     are stretches of the calendar the reader has to cross, so they are on the
-     strip at the width the calendar gives them */
-  .rec-dchip.gap{flex-grow:.55;letter-spacing:.2em;color:var(--dim);background:transparent;border-style:dashed}
-  .rec-dchip.gap.now{color:var(--fg-3);background:transparent}
   /* ---- the transport ---- */
   .rec-on .rec-ctl{display:flex;align-items:center;gap:10px;height:32px;opacity:.92}
   .rec-cbtn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;height:30px;padding:0 11px;border:0;border-radius:8px;background:rgba(12,12,15,.7);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top);color:var(--fg);font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:box-shadow .18s ease,color .18s ease,background .18s ease}
@@ -912,18 +885,21 @@
      here. it sits a full step above the kicker (2.05rem against the kicker's
      1.05rem to the headline) so it reads as its own line, not as a second
      eyebrow. */
-  .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 18px;margin-bottom:2.05rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:15px;font-weight:450;letter-spacing:-.011em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
-  .hero-lead .hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
+  .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px 0 18px;margin-bottom:2.05rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:15px;font-weight:450;letter-spacing:-.011em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top),0 9px 24px -12px rgba(0,112,243,.6);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
+  .hero-lead .hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top),0 11px 28px -12px rgba(0,112,243,.8)}
   .hpill .chev{display:inline-flex;flex:none;color:var(--dim);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
   .hpill .chev svg{width:12px;height:12px;display:block}
   .hero-lead .hpill:hover .chev{transform:translateX(3px);color:#fff}
   /* the seam: the ring is a flat hairline all the way round, and this is the
-     one place it catches light. a blurred bar lying on the bottom edge,
-     brightest just right of centre and fading out before either shoulder, so
-     the capsule reads as lit from under rather than outlined in blue. it is
-     the same accent the rest of the page spends, and it is the only colour
-     above the fold. */
-  .hpill::after{content:"";position:absolute;left:14%;right:7%;bottom:-1px;height:2px;border-radius:2px;pointer-events:none;background:linear-gradient(90deg,rgba(0,112,243,0) 0%,rgba(0,112,243,.45) 24%,var(--blue-l) 56%,rgba(126,226,255,.95) 72%,rgba(82,168,255,0) 100%);filter:blur(1.1px)}
+     one place it catches light. It rides the ring itself rather than lying
+     under it, which is the whole difference: a straight bar under a capsule
+     cuts across the two bottom corners and reads as a scratch on the picture,
+     where a gradient laid into the ring follows the shape round and reads as
+     an edge catching light. It is the page's one blue for its whole length,
+     because the old bar bloomed to cyan off centre and the asymmetry read as
+     a smudge. The bloom below is the same light falling off the capsule, and
+     it is round because it is cast by the box itself. */
+  .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(180deg,transparent 46%,rgba(0,112,243,.5) 82%,rgba(82,168,255,.92) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
   .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
@@ -1048,7 +1024,7 @@
        denser and more opaque in this band: at 901 the panel is only as wide as
        the viewport allows, so the rail and gutters give back the width the
        subtitles need to stay on one line */
-    .ddwrap{background:rgba(24,24,27,.99)}
+    .ddwrap{background:rgba(8,8,10,.985)}
     .dd-main{padding:20px 20px 24px}
     .dd-rail{width:186px;padding:20px 20px 24px}
     .dd-grid{gap:2px 22px}
@@ -1060,7 +1036,7 @@
        browser laying out a 1220px-tall panel on every mobile pass */
     .ddwrap{display:none}
     .menu-btn{display:inline-flex;width:44px;height:44px;margin-left:0}
-    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:32px;width:min(320px,calc(100vw - 64px));background:rgba(26,26,29,.94);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
+    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:32px;width:min(320px,calc(100vw - 64px));background:rgba(10,10,12,.88);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1)}
     .mmenu a{display:block;padding:.72rem .8rem;border-radius:10px;color:var(--fg);font-weight:500;font-size:1rem;transition:background .15s ease}
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
@@ -1240,15 +1216,22 @@
      for a gesture that already works rather than the only way in */
   .demo-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
   .demo-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
-  .demo-big{position:absolute;left:50%;top:50%;translate:-50% -50%;width:clamp(58px,7vw,78px);height:clamp(58px,7vw,78px);border-radius:50%;display:grid;place-items:center;background:rgba(10,10,12,.6);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 20px 50px -18px rgba(0,0,0,.9);opacity:0;scale:.94;transition:opacity .22s ease,scale .22s cubic-bezier(.22,.61,.36,1);pointer-events:none}
-  .demo-big svg{width:26px;height:26px;fill:var(--fg);stroke:none;margin-left:3px}
-  .demo-frame.paused .demo-big{opacity:1;scale:1}
+  /* white, and the only solid white object on a page built out of hairlines and
+     glass, because it is the only thing on the page asking to be pressed. It was
+     dark glass like everything else here, which is correct for a control and
+     wrong for an invitation. */
+  .demo-big{position:absolute;left:50%;top:41%;translate:-50% -50%;width:clamp(62px,7.2vw,80px);height:clamp(62px,7.2vw,80px);border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 24px 60px -20px rgba(0,0,0,.95);opacity:0;scale:.94;transition:opacity .22s ease,scale .22s cubic-bezier(.22,.61,.36,1);pointer-events:none}
+  .demo-big svg{width:27px;height:27px;fill:#000;stroke:none;margin-left:3px}
+  /* one button for both states: the way in before anything has been pressed,
+     and the transport control after */
+  .demo-frame.paused .demo-big,.demo-frame.intro .demo-big{opacity:1;scale:1}
+  .demo-hit:hover .demo-big{scale:1.04}
   /* the price, next to the thing being bought. A play triangle asks for an
      unpriced commitment; twenty six seconds is a commitment anyone will make.
      It shows in the stopped state only, which is the only state where the
      question is still open. */
-  .demo-dur{position:absolute;left:50%;top:50%;translate:-50% calc(-50% + clamp(46px,4.6vw,56px));font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;color:var(--fg-2);text-shadow:0 1px 12px rgba(0,0,0,.9);opacity:0;transition:opacity .22s ease;pointer-events:none;white-space:nowrap}
-  .demo-frame.paused:not(.intro) .demo-dur{opacity:1}
+  .demo-dur{position:absolute;left:50%;top:41%;translate:-50% calc(-50% + clamp(48px,4.8vw,58px));font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;color:var(--fg-2);text-shadow:0 1px 12px rgba(0,0,0,.9);opacity:0;transition:opacity .22s ease;pointer-events:none;white-space:nowrap}
+  .demo-frame.paused .demo-dur,.demo-frame.intro .demo-dur{opacity:1}
 
   /* ---- the way in ----
 
@@ -1263,9 +1246,12 @@
      and what it costs (twenty six seconds), which the bare triangle could not.
      One click and it is gone for good: after that the frame is the pause/play
      transport it already was, and nothing sits on the film. */
-  .demo-veil{position:absolute;inset:0;background:radial-gradient(58% 58% at 50% 50%,rgba(0,0,0,.66),rgba(0,0,0,.26) 68%,rgba(0,0,0,.12));opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1}
+  /* both of these sit at 41% rather than dead centre, because the film's
+     captions are burned into the picture in a band across the middle of it and
+     a pill parked on top of that reads as two labels fighting */
+  .demo-veil{position:absolute;inset:0;background:radial-gradient(58% 58% at 50% 41%,rgba(0,0,0,.7),rgba(0,0,0,.28) 66%,rgba(0,0,0,.12));opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1}
   .demo-frame.intro .demo-veil{opacity:1}
-  .demo-cta{position:absolute;left:50%;top:50%;translate:-50% -50%;display:flex;align-items:center;gap:.72rem;padding:.5rem 1.05rem .5rem .5rem;border-radius:999px;background:rgba(10,10,12,.66);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);box-shadow:0 0 0 1px rgba(255,255,255,.17),0 24px 60px -20px rgba(0,0,0,.95);opacity:0;scale:.96;transition:opacity .24s ease,scale .24s cubic-bezier(.22,.61,.36,1);pointer-events:none;white-space:nowrap}
+  .demo-cta{display:none}
   /* the glyph is the one solid white object on a page of hairlines, because it
      is the one thing on the page that is asking to be pressed */
   .demo-cta-i{flex:none;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center}
@@ -1388,8 +1374,20 @@
     .demo-cta-t{font-size:13.5px}
     .demo-cta-t i{font-size:.58rem}
   }
+  /* a touchscreen laptop still reports hover, so it keeps the rail button and
+     needs it at a real touch size */
   @media (pointer:coarse){
     .demo-snd{height:40px;padding:0 14px}
+  }
+  /* and here it goes away entirely. This button was only ever earning its place
+     against the corner control being hover-hidden, and hover:none is the exact
+     condition under which that stops being true: the corner glyph is pinned
+     permanently visible a few lines up. Keeping both would put three ways to
+     ask for the same narration on one 390px screen, counting the invitation on
+     the frame, and the corner one is the only one that has to stay because it
+     is the live mute toggle. The duration keeps the slot. */
+  @media (hover:none){
+    .demo-snd{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -1691,7 +1689,7 @@ setTimeout(go,1200);})()</script>
               <div class="rec-well" id="rec-well">
                 <article class="rec-card rec-c0" data-c="-1" aria-hidden="true">
                   <p class="rec-lede">Five records. Six documents. Nobody filed a thing.</p>
-                  <p class="rec-why"><b>Left,</b> what arrived, in the tool it arrived in. <b>Right,</b> the records your firm already has. <b>In the middle,</b> fein, deciding which record each sentence belongs to.</p>
+                  <p class="rec-why"><b>Left,</b> what arrived, in the tool it arrived in. <b>Right,</b> the records your firm already has. <b>Between them,</b> fein, matching every sentence to the record it belongs to.</p>
                 </article>
                 <article class="rec-card" data-c="0">
                   <p class="rec-lede">One <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>email</span>. Three records.</p>
@@ -1742,14 +1740,6 @@ setTimeout(go,1200);})()</script>
               </div>
               <div class="rec-strip" id="rec-strip">
                 <p class="rec-striph"><span id="rec-stripn">Reading</span> <b id="rec-stripd">document 1 of 5</b></p>
-                <div class="rec-dchips" id="rec-dchips" role="group" aria-label="Jump to a document in the walk">
-                  <button type="button" class="rec-dchip" data-goto="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><i>8 Nov</i><span class="rec-vh">Gmail, 8 November 2024</span></button>
-                  <button type="button" class="rec-dchip" data-goto="2"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><i>21 Nov</i><span class="rec-vh">Granola, 21 November 2024</span></button>
-                  <button type="button" class="rec-dchip" data-goto="3"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><i>3 Jun</i><span class="rec-vh">LinkedIn, 3 June 2025</span></button>
-                  <button type="button" class="rec-dchip" data-goto="4"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><i>12 Mar</i><span class="rec-vh">Calendar, 12 March 2026</span></button>
-                  <button type="button" class="rec-dchip" data-goto="5"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><i>2 Jun</i><span class="rec-vh">Gmail, 2 June 2026</span></button>
-                  <button type="button" class="rec-dchip" data-goto="6"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><i>Ask</i><span class="rec-vh">The answer, 28 July 2026</span></button>
-                </div>
               </div>
             </div>
             <div class="rec-core" id="rec-core" aria-hidden="true">
@@ -3652,7 +3642,6 @@ setTimeout(go,1200);})()</script>
       counts=[].slice.call(track.querySelectorAll('.rec-rc')),
       hls=[].slice.call(track.querySelectorAll('.rec-hl')),
       ask=document.getElementById('rec-ask'),
-      chips=[].slice.call(track.querySelectorAll('.rec-dchip')),
       stripn=document.getElementById('rec-stripn'), stripd=document.getElementById('rec-stripd'),
       say=document.getElementById('rec-say'),
       playb=document.getElementById('rec-play'), playl=document.getElementById('rec-playl'),
@@ -4135,7 +4124,7 @@ setTimeout(go,1200);})()</script>
        centres that block rather than hanging it from a constant. The floor is
        the room the tallest narration needs above the card. */
     var wellH=well.getBoundingClientRect().height;
-    var floor=Math.max(104,Math.round(tallLede+40));
+    var floor=Math.max(104,Math.round(tallLede+30));
     var cardTop=Math.round(Math.max(floor,Math.min(Math.max(floor,210),(wellH-(tallest+22+tallwhy))/2)));
     well.style.setProperty('--card-top',cardTop+'px');
     if(ask){
@@ -4410,13 +4399,7 @@ setTimeout(go,1200);})()</script>
     if(vis) raf=requestAnimationFrame(paint);
   }
   function markBeat(bi){
-    var i,cardNow=CARDOF[bi];
-    for(i=0;i<chips.length;i++){
-      var cb=parseInt(chips[i].getAttribute('data-goto'),10);
-      chips[i].classList.toggle('now',cb===bi);
-      chips[i].classList.toggle('read',cb<bi);
-      chips[i].setAttribute('aria-current',cb===bi?'true':'false');
-    }
+    var cardNow=CARDOF[bi];
     var wideNow=bi>=B_OUT;
     if(stripn) stripn.textContent=wideNow?'Pulling back':(bi===B_FIN?'Answering':(cardNow>0?'Reading':'Ready'));
     if(stripd) stripd.textContent=wideNow?(bi===B_ALL?'your whole firm, one graph':'past the five, into the rest')
@@ -4472,9 +4455,6 @@ setTimeout(go,1200);})()</script>
     });
     if(prevb) prevb.addEventListener('click',function(){ setPlay(false); gotoBeat(beatNow()-1); });
     if(nextb) nextb.addEventListener('click',function(){ setPlay(false); gotoBeat(beatNow()+1); });
-    chips.forEach(function(c){
-      c.addEventListener('click',function(){ setPlay(false); gotoBeat(parseInt(c.getAttribute('data-goto'),10)); });
-    });
     ['wheel','touchstart','pointerdown'].forEach(function(ev){
       window.addEventListener(ev,function(){ if(play) setPlay(false); },{passive:true});
     });
@@ -4608,6 +4588,11 @@ setTimeout(go,1200);})()</script>
     if(engaged) return;
     engaged=true;
     frame.classList.remove('intro');
+    /* from here the frame is a transport control and has to be named as one.
+       mark() is normally reached through a play or pause event, and engaging
+       from the sound button or the rail fires neither: the film was already
+       running and carries on running, so nothing would rename it. */
+    mark(v.paused);
   }
   frame.classList.add('intro');
   hit.setAttribute('aria-label','Play the walkthrough with sound');
