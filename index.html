@@ -433,28 +433,21 @@
   .rec-chrome .tlogo{width:15px;height:15px;flex:none}
   .rec-cs{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
   .rec-cd{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-  /* the narration. It lives inside the document it describes, so with no
-     script it reads as that document's heading, and on the pinned stage it is
-     lifted above the card and cross-fades with it for free.
+  /* the heading, and it is an action: first fein reads, then it files, then it
+     opens a record, and so on to the answer. It lives inside the document it
+     describes, so with no script it reads as that document's heading, and on the
+     pinned stage it is lifted above the card and cross-fades with it for free.
 
      It is the loudest thing in the section on purpose: the documents are
-     evidence, this is the guide talking. The step number is a CSS counter off
-     the cards themselves, so the walk numbers itself and no markup carries an
-     index that could drift out of order. */
+     evidence, this is the machine saying what it is doing to them. The step
+     number is a CSS counter off the cards themselves, so the walk numbers itself
+     and no markup carries an index that could drift out of order. */
   .rec-well{counter-reset:beat}
   .rec-card{counter-increment:beat}
   /* padded to the chrome row's inset, so as a document heading it lines up with
      the document. The pinned stage lifts it out of the card and drops both */
   .rec-lede{padding:1.05rem 14px 0;font-size:clamp(1.55rem,2.9vw,2.35rem);font-weight:580;letter-spacing:-.032em;line-height:1.1;color:#fff;margin:0 0 .55rem;text-wrap:balance}
   .rec-lede::before{content:counter(beat,decimal-leading-zero);margin-right:.62em;font-family:var(--mono);font-size:.46em;font-weight:500;letter-spacing:.12em;color:var(--blue-l);vertical-align:.34em}
-  /* the source's own mark, set into the sentence beside the word it names, so
-     "email" in the narration and the Gmail plate on the document below it are
-     the same badge, and the line reads as a caption for the card before you
-     reach the chrome row. Sized in em so it tracks the clamp; .rec-lw keeps
-     mark and word on one line. The ring is for a plate darker than the page. */
-  .rec-lw{white-space:nowrap}
-  .rec-lede .tlogo{width:.78em;height:.78em;margin-right:.22em;vertical-align:-.07em}
-  .rec-lede .tlogo.rec-ring{border-radius:.2em;box-shadow:0 0 0 1px rgba(255,255,255,.16)}
   .rec-mh{padding:.9rem 14px .6rem}
   .rec-mfrom{font-size:.86rem;color:var(--fg-2)}
   .rec-mfrom b{color:var(--fg);font-weight:550}
@@ -474,18 +467,12 @@
   .rec-why{padding:0 14px 1.05rem;font-size:.93rem;line-height:1.55;color:var(--fg-3);text-wrap:pretty}
   .rec-why b{color:var(--fg);font-weight:550}
   .rec-why::before{content:"";display:block;width:26px;height:1px;background:var(--line-2);margin:0 0 .7rem}
-  /* the opening key: the legend again, at the moment the stage takes over.
-     Static readers already have it in the intro two hundred pixels up, so it is
-     the one card that only exists on the pinned stage. */
-  .rec-c0{display:none;counter-increment:none}
-  .rec-c0 .rec-lede::before{content:none}
   /* ---- the answer: what all of this was for ----
      The walk earns a question. Seven documents in, the reader has watched the
      graph build itself; this is the first time they see it used, and every
      clause carries the document that produced it. It is a normal card at the
      end of the static document and the last beat of the pinned one. */
-  .rec-ask{position:static;margin:0;max-width:600px;background:var(--bg-2);border:1px solid rgba(82,168,255,.22);border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,112,243,.06),0 26px 64px -32px rgba(0,0,0,.92);counter-increment:none}
-  .rec-ask .rec-lede::before{content:none}
+  .rec-ask{position:static;margin:0;max-width:600px;background:var(--bg-2);border:1px solid rgba(82,168,255,.22);border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,112,243,.06),0 26px 64px -32px rgba(0,0,0,.92);counter-increment:beat}
   .rec-q{display:flex;gap:.55rem;padding:1rem 14px .5rem;font-size:1rem;font-weight:550;color:#fff}
   .rec-q::before{content:">";font-family:var(--mono);font-weight:500;color:var(--blue-l)}
   .rec-alist{list-style:none;margin:0;padding:0 14px .3rem}
@@ -504,8 +491,6 @@
   .rec-head{display:grid;grid-template-columns:1fr auto;align-items:center;height:46px;padding:0 16px;border-bottom:1px solid var(--line)}
   .rec-brand{grid-row:1;font-family:var(--mono);font-size:.56rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-l)}
   .rec-subj{grid-row:2;font-size:.92rem;font-weight:550;color:#fff;margin-top:-2px}
-  .rec-asof{grid-column:2;grid-row:1/3;display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-  .rec-asv{color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:.15rem .35rem}
   .rec-body{position:relative;padding:.4rem 0}
   /* ---- the records ----
      A record is a real object here, not a heading over a list: it has an
@@ -524,9 +509,6 @@
   .rec-ric.lp{color:var(--mem-new)}
   .rec-rn{font-size:.93rem;font-weight:550;color:#fff;letter-spacing:-.012em}
   .rec-rt{font-family:var(--mono);font-size:.53rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:.1rem .3rem}
-  /* the count is the record answering "how much do you know about this", and it
-     is the one number that moves when a fact lands */
-  .rec-rc{margin-left:auto;font-family:var(--mono);font-size:.62rem;font-weight:500;color:var(--fg-3);font-variant-numeric:tabular-nums}
   .rec-facts{list-style:none;margin:0;padding:0}
   .rec-row{position:static;display:grid;grid-template-columns:12px minmax(0,1fr) auto;column-gap:9px;align-items:baseline;padding:3px 12px;font-size:14.5px;line-height:1.4}
   .rec-g{position:relative;display:inline-block;width:12px;height:1.4em;font-family:var(--mono);font-size:12px;transform:scale(var(--gs,1));opacity:calc(.5 + .5 * var(--gf,0))}
@@ -551,7 +533,7 @@
   .rec-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
   /* ---- the pin: only reachable if the script ran ---- */
-  .rec-on .rec-track{--rec-travel:312;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
+  .rec-on .rec-track{--rec-travel:180;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
   .rec-on .rec-pin{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h))}
   /* three rows: the calendar, the two panes, and the transport. The transport is
      the answer to the one failure this pattern always has, which is that a
@@ -574,7 +556,6 @@
      under it never changes */
   .rec-on .rec-well{--card-top:104px}
   .rec-on .rec-card{overflow:visible;position:absolute;top:var(--card-top);left:0;width:100%;max-width:none;margin:0;opacity:0;transform:translate3d(0,var(--cy,0px),0)}
-  .rec-on .rec-c0{display:block;background:transparent;border-color:transparent;box-shadow:none}
   /* the loudest line in the section, and the gap under it is what makes it read
      as the card's title rather than a paragraph above a box: the type goes up a
      step, the index goes down one, and the two close on the document. */
@@ -610,7 +591,7 @@
   .rec-on .rec-store{grid-column:3;display:flex;flex-direction:column;min-height:0;margin:0;box-shadow:var(--hl-top),0 26px 64px -32px rgba(0,0,0,.92);font-variant-numeric:tabular-nums}
   .rec-on .rec-body{position:relative;flex:1 1 auto;min-height:0;padding:0;overflow:hidden;overflow:clip}
   .rec-on .rec-recs{position:absolute;inset:0}
-  .rec-on .rec-rec{position:absolute;left:0;right:0;top:0;margin:0;height:var(--rfh,60px);overflow:hidden;opacity:var(--ro,0);transform:translate3d(0,var(--ry,0px),0);box-shadow:inset 0 0 0 1px rgba(82,168,255,calc(.34 * var(--rhot,0))),0 0 30px -6px rgba(0,112,243,calc(.4 * var(--rhot,0)));transition:box-shadow .25s ease}
+  .rec-on .rec-rec{position:absolute;left:0;right:0;top:0;margin:0;height:var(--rfh,60px);overflow:hidden;opacity:calc(var(--ro,0) * (1 - .62 * var(--rmute,0)));transition:opacity .3s ease,box-shadow .25s ease;transform:translate3d(0,var(--ry,0px),0);box-shadow:inset 0 0 0 1px rgba(82,168,255,calc(.34 * var(--rhot,0))),0 0 30px -6px rgba(0,112,243,calc(.4 * var(--rhot,0)))}
   .rec-on .rec-rec.ans{box-shadow:inset 0 0 0 1px rgba(82,168,255,.4),0 0 34px -8px rgba(0,112,243,.45)}
   .rec-on .rec-facts{position:absolute;left:0;right:0;top:0}
   .rec-on .rec-row{position:absolute;left:0;right:0;top:0;transform:translate3d(0,calc(var(--y,0px) + var(--dy,0px)),0);opacity:var(--o,1);z-index:1;box-shadow:inset 2px 0 0 rgba(0,112,243,var(--acc,0))}
@@ -631,46 +612,12 @@
   .rec-on .rec-wires circle.tok.red{fill:var(--mem-ret)}
   .rec-on .rec-wires circle.halo{fill:none;stroke:var(--blue-l);stroke-width:1;opacity:calc(var(--w,0) * var(--tv,1) * .5)}
   .rec-on .rec-wires circle.halo.red{stroke:var(--mem-ret)}
-  /* ---- the pull back ----------------------------------------------------
-     The canvas sits above the panels, not below them, because the handoff is a
-     dissolve at matched coordinates: the canvas draws the five records as cards
-     at the pixels the DOM is using, the DOM store fades under it, and only then
-     does the camera start to move. Below the panels it would be a background
-     appearing, which reads as a slide change. --------------------------------*/
-  .rec-sky,.rec-wide{display:none}
+  /* the closing line for the readers the pinned stage never reaches: a narrow
+     screen, no script, or reduced motion. They get the six documents and then
+     nothing, so the scale the last beat carries is written out for them here. */
   .rec-after{margin:1.6rem 0 0;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty;max-width:60ch}
   .rec-after b{color:#fff;font-weight:550}
   .rec-on .rec-after{display:none}
-  .rec-on .rec-sky{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6;opacity:var(--sky,0)}
-  /* the store keeps its own box until the canvas has copied it. The camera
-     scales these three about the panes' own origin, which is the same origin
-     the canvas draws in, so one matrix moves the page and the picture together. */
-  .rec-on .rec-src,.rec-on .rec-core,.rec-on .rec-store{transform-origin:0 0}
-  .rec-on .rec-store{opacity:var(--store,1)}
-  .rec-on .rec-src{opacity:var(--srco,1)}
-  .rec-on .rec-core{opacity:var(--core,1)}
-  /* the counters and the line, in DOM rather than on the canvas: crisp at every
-     device ratio, and readable by a screen reader that will never see a pixel */
-  .rec-on .rec-wide{display:block;position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;opacity:var(--wide,0);padding:clamp(44px,8svh,92px) 0 2px}
-  /* the field runs under the copy, and a headline read through a record is not
-     a headline. The ground comes back just far enough to carry the type. */
-  .rec-on .rec-wide::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6) 46%,rgba(0,0,0,.92))}
-  .rec-wq{margin:0;max-width:34ch;font-size:clamp(1.15rem,1.9vw,1.6rem);line-height:1.24;letter-spacing:-.025em;font-weight:600;color:#fff;text-wrap:balance;opacity:var(--wqo,0);transform:translate3d(0,var(--wqy,0px),0)}
-  .rec-wq b{color:var(--blue-l);font-weight:600}
-  /* the counts are read off the picture every frame, so they are a readout and
-     not a caption. The rule and its lit segment are the only chrome that says
-     so, and one lit segment is cheaper than any amount of extra type. */
-  .rec-wm{position:relative;display:flex;gap:clamp(18px,2.4vw,34px);margin:1.1rem 0 0;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07);font-family:var(--mono);opacity:var(--wmo,0)}
-  .rec-wm::before{content:"";position:absolute;left:0;top:-1px;width:46px;height:1px;background:var(--blue-l);box-shadow:0 0 9px rgba(82,168,255,.75)}
-  .rec-wm span{display:flex;flex-direction:column;gap:.28rem}
-  .rec-wm b{font-size:clamp(1.1rem,1.7vw,1.45rem);font-weight:500;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 0 22px rgba(120,180,255,.32)}
-  .rec-wm i{font-style:normal;font-size:.6rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-3)}
-  .rec-wk{display:flex;gap:16px;margin:.85rem 0 0;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--wmo,0)}
-  .rec-wk span{display:inline-flex;align-items:center;gap:.42rem}
-  /* the swatch carries the same light the field is drawn in, so the key looks
-     like a sample of the picture rather than a legend printed next to it */
-  .rec-wk span::before{content:"";width:9px;height:4px;border-radius:1px;background:currentColor;box-shadow:0 0 7px currentColor}
-  .rec-wk .co{color:#aaceff}.rec-wk .pe{color:#e2e7f0}.rec-wk .lp{color:#96eccd}
   /* the rail is the only thing that says how far through twenty-one months you are */
   /* the rail is a real calendar: every tick sits at its true distance from the
      last, so five documents crowd the first ninth of twenty-one months and then
@@ -688,11 +635,6 @@
      the content is: five in nine weeks, then nothing for a year */
   .rec-since{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-l);border:1px solid rgba(82,168,255,.25);border-radius:4px;padding:.1rem .3rem;margin-left:auto}
   .rec-since+.rec-cd{margin-left:.5rem}
-  /* what fein is doing to the graph on this beat, in its own words */
-  .rec-op{display:none}
-  .rec-on .rec-op{display:block;flex:none;padding:.55rem 16px .1rem;font-family:var(--mono);font-size:.63rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-2);min-height:1.6rem}
-  .rec-on .rec-op span{opacity:var(--opo,0);border-left:2px solid var(--blue-l);padding-left:.5rem}
-  .rec-on .rec-op.ret span{border-left-color:var(--mem-ret)}
   /* twelve months of nothing, drawn into the empty well the cards leave behind */
   /* the void is the one beat with no document to point at, so it is the one
      that most needs saying out loud: this is the failure mode, not an interval
@@ -717,16 +659,6 @@
   .rec-cverb.dn{top:calc(var(--corey,42%) + 74px)}
   .rec-cverb b{display:block;font-weight:500;color:var(--fg-3);opacity:calc(.35 + .65 * var(--vb,0))}
   .rec-cverb .ar{display:block;margin:.3rem 0;color:var(--line-2)}
-  /* the count of what this beat did, under the machine, in the machine's colour */
-  .rec-ccount{position:absolute;left:0;right:0;top:calc(var(--corey,42%) + 108px);text-align:center;font-family:var(--mono);font-size:.53rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--cco,0)}
-  .rec-ccount b{color:#fff;font-weight:500}
-  .rec-ccount.ret b{color:var(--mem-ret)}
-  /* the last beat outlines the records the answer crossed. That is the graph,
-     made out of the things the reader has watched fein fill, rather than an
-     abstract cloud of dots standing in for them. */
-  .rec-gcap{display:none}
-  .rec-on .rec-gcap{display:block;position:absolute;left:12px;right:12px;bottom:6px;z-index:3;font-family:var(--mono);font-size:.57rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);opacity:var(--gv,0)}
-  .rec-gcap b{color:var(--blue-l);font-weight:500}
   /* the pane names it: two halves of one machine, each labelled once */
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   /* how it works: one bright subhead carries the whole mechanism, so the head
@@ -1206,31 +1138,22 @@
      it is not a poster that happens to move. */
   /* the header is a caption for the film, not a second hero. It had the band's
      full padding above it and a 3.4rem gap below it, which put 380px of black
-     between the fold and the one thing on the page that argues for itself.
-
-     The padding is a named variable because the film's height is measured off
-     it below. Everything between the top of this section and the bottom of the
-     rail is one budget, and the terms have to be readable in one place or the
-     next person to nudge one of them silently pushes the rail off the screen. */
-  /* the type sizes are variables because the film's height is subtracted from
-     them: the heading block is the largest single term in that budget, and a
-     budget that reads a hardcoded height for type set somewhere else is a
-     budget that goes wrong the first time anyone resizes the heading. Which
-     happened, within the hour, in this rule. Set the size here and both the
-     heading and the reservation move together. */
+     between the fold and the one thing on the page that argues for itself. */
+  /* the type sizes used to be capped in svh because the film's height was
+     subtracted from them: heading, lead and rail were one budget and the film
+     took what was left, which on a 1440x900 laptop was a 747px picture on a
+     1440px screen. The film is sized off the window now (see --film-w), so the
+     heading is set at the size it wants and reads in the same register as every
+     other section head. */
   /* where the top of this section comes to rest, which is not the nav's height:
      the section's own scroll-margin-top clears the nav by a further 18px, and
-     that is the position a reader who scrolls to the film actually stops at. It
-     is 18px, so it looks like rounding and is not: measured against the nav
-     alone the rail cleared the fold by three pixels, which is the difference
-     between fitting and appearing not to. */
-  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:min(clamp(1.85rem,4.5vw,3.3rem),5.4svh);--demo-h2-lines:2;--demo-lead-size:min(1.0625rem,1.95svh);--demo-lead-lines:2;--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-rail-h:6.1rem;--demo-air:1.1rem;padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
+     that is the position a reader who scrolls to the film actually stops at. */
+  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-air:1.1rem;--film-gutter:min(4vw,4.5rem);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
   .demo-intro{text-align:center;max-width:46rem}
-  /* both step down on a short window, and the step is off the height rather than
-     the width: a 1440x1600 display has room for the full setting and a 1440x760
-     laptop does not, and it is the second one that has to give the film its
-     inches back. The measure widens as the type shrinks so the heading stays on
-     two lines and the lead on two rather than trading size for a third.
+  /* the heading and the lead used to step down on a short window as well as a
+     narrow one, because a 1440x760 laptop had to give the film its inches back
+     out of the type. The film no longer takes them from here, so both are set
+     off the width alone.
 
      The width term used to top out at 2.55rem, which made this the smallest
      section heading on a page whose other section heads run to 3.5rem, so the
@@ -1242,63 +1165,51 @@
      text-wrap:balance is the guard for the same shape, as it is on the others. */
   .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;text-wrap:balance}
   .demo-lead{margin-top:.95rem;color:var(--fg-2);font-size:var(--demo-lead-size);line-height:1.5;text-wrap:pretty}
-  /* a wider measure than the 46rem this had, and it buys height rather than
-     spending it: the lead set to three lines there and sets to two here, and
-     that line is 25px the film gets back as 45px of width. It is a wide setting
-     for centred copy, which is the trade.
-
-     Under about 1200px the lead takes the third line back, because the measure
-     is a percentage of the window before it is 62rem. The count is declared
-     rather than discovered: nothing in CSS can ask how many lines a paragraph
-     took, so the budget below is told, and the breakpoint is where measurement
-     says the wrap actually happens. */
+  /* a wider measure than the 46rem this had: the lead set to three lines there
+     and sets to two here, which is a line of black the film does not have to
+     push down the page. It is a wide setting for centred copy, which is the
+     trade. Under about 1200px the lead takes the third line back, because the
+     measure is a percentage of the window before it is 62rem. Nothing is
+     measured against that any more, so it is free to wrap where it wants. */
   @media (min-width:861px){
     .demo-intro{max-width:min(62rem,88vw)}
   }
-  @media (min-width:861px) and (max-width:1049px){
-    #demo{--demo-lead-lines:3}
-  }
   /* the frame and the rail under it are one object and share one width, so the
      measurement lives here and both read it */
-  /* as wide as the viewport allows at 16:9, but never so tall that the rail
-     under it lands below the fold: the second term trades width for height on a
-     short landscape window instead of letterboxing into one.
+  /* ---- how big the film is: theatre, not thumbnail ----
 
-     What it reserves is the whole of the rest of the section, not the film's
-     own surroundings: where this section comes to rest under the nav, its own top padding, the heading
-     block, the gap under it, the rail, and a little air beneath the rail. That
-     is the point of the change. The old term reserved 7.25rem, which covered
-     the rail and nothing else, so the heading pushed the rail off the bottom of
-     the window and the reader could see the film or its chapters but never both
-     at once. The film is smaller for it. It is smaller because a 16:9 picture,
-     a heading and a three column rail genuinely do not fit in 900px otherwise,
-     and the whole argument of the rail is that it is read against the film.
+     This used to be a budget. The heading, the gap, the rail and a little air
+     under it were all subtracted from the window, and the film took whatever
+     16:9 fitted in the remainder, so that a reader could see the picture and
+     its three chapters at once without scrolling. It held that promise and paid
+     for it in inches: 747px of film on a 1440px laptop, a little under half the
+     screen, with black on both sides of the one thing on this page that argues
+     for itself. Two thirds of the width went to margin so that a caption could
+     stay above the fold.
 
-     --demo-intro-h is built out of the same variables the heading is set from,
-     so resizing the type moves the reservation with it and the rail keeps its
-     place without anyone remembering this line exists. The eyebrow and the two
-     margins are the only measured constants left, and they are the two terms
-     nothing here is likely to touch. What it cannot know is how many lines the
-     copy takes, so it is told: --demo-h2-lines and --demo-lead-lines. Change
-     the heading or the lead and check the count still holds.
+     The film is the section. It is sized off the window now and the rest of the
+     section arranges itself around it, which is the trade the old rule made in
+     the other direction. Three terms, and the smallest wins:
 
-     The eyebrow term is .8rem of Inter on a 1.25 line, which is 1rem of one
-     line, and it is exact rather than measured because both numbers are set in
-     .eyebrow above: the label is a block with a fixed line-height, so its
-     height does not depend on which face resolves. It has been 1.7rem (mono
-     caps) and 1.425rem (serif) before now, so if you change the label's size,
-     change it here in the same edit. If the label ever wraps to two lines here,
-     this term doubles.
+       1. the window, less --film-gutter. That gutter scales with the window
+          rather than sitting at a constant: 58px on a laptop, 72px on a 27 inch
+          display, and nothing at all on a phone, where the query at the bottom
+          of this section zeroes it and the film runs edge to edge. It is 100%
+          and not 100vw on purpose, because 100vw counts the scrollbar and would
+          hand this section a horizontal one on every desktop.
+       2. 1760px. Past that the picture stops gaining and starts showing its
+          own resolution: the master is 2560x1440, and on a retina display 1760
+          CSS px is already asking for 3520.
+       3. the height of the window under the nav, at 16:9. This is what keeps a
+          short landscape window honest: the film goes as wide as it can while
+          the picture itself still fits between the nav and the bottom of the
+          screen. The rail lives under it and is now a scroll away rather than
+          guaranteed in frame, which is the promise being spent here.
 
-     The max() is the floor. Without it a short enough window drives the whole
-     subtraction towards zero and the film goes with it, which is a worse answer
-     than the one the fold gives: past that point the section simply stops
-     fitting, and a legible picture that runs a little long beats a legible rail
-     over a postage stamp. It is set at 28rem because that is low enough to stay
-     out of the way: measured, it does not bind until the window is under about
-     690px tall, so the windows that can fit all of this still do. A floor set
-     too high is not a safety net, it is the thing that breaks the fit. */
-  .demo-stage{--demo-intro-h:calc(1rem + .75rem + var(--demo-h2-lines) * 1.05 * var(--demo-h2-size) + .95rem + var(--demo-lead-lines) * 1.5 * var(--demo-lead-size));--film-w:min(100%,max(28rem,calc((100svh - var(--demo-top) - var(--demo-pad-t) - var(--demo-intro-h) - var(--demo-gap) - var(--demo-rail-h) - var(--demo-air)) * 16 / 9)));margin:var(--demo-gap) 0 0}
+     The max() is the floor, and it only exists so a very short window cannot
+     drive term 3 to nothing. Measured, it does not bind above about 350px of
+     window height, which is not a window anyone has. */
+  .demo-stage{--film-w:min(calc(100% - var(--film-gutter)),1760px,max(30rem,calc((100svh - var(--demo-top) - var(--demo-air)) * 16 / 9)));margin:var(--demo-gap) 0 0}
   .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate}
   .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
   .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
@@ -1415,32 +1326,28 @@
   .demo-chap.done{--cp:1}
   .demo-chap i{font-family:var(--mono);font-style:normal;font-size:.66rem;font-weight:500;letter-spacing:.15em;color:var(--dim);margin-right:.6em;transition:color .3s ease}
   .demo-chap b{font-family:var(--font);font-size:.95rem;font-weight:550;letter-spacing:-.012em;color:var(--fg-2);transition:color .3s ease}
-  /* two lines, held open whether the words fill them or not, and that fixed box
-     is load bearing rather than tidiness. The film's height is measured against
-     a reserved rail height, and the rail is as tall as this line of text wraps:
-     let it wrap freely and a narrower film gives each of the three columns less
-     width, which takes a third line, which reserves more, which narrows the film
-     again. It converged on a postage stamp at 1280x800. A fixed box breaks the
-     loop, and it lines the three descriptions up on one baseline besides. The
-     copy is written to fit it at the narrowest desktop column. */
+  /* two lines, held open whether the words fill them or not. It was load
+     bearing when the film's height was measured against a reserved rail height:
+     a rail free to take a third line reserved more, which narrowed the film,
+     which narrowed the columns, which took a third line, and the whole thing
+     converged on a postage stamp at 1280x800. The film no longer reads the
+     rail, so the fixed box is now only what it always also was, which is the
+     thing that lines the three descriptions up on one baseline. The copy is
+     written to fit it at the narrowest desktop column. */
   .demo-chap span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;height:2.8em;margin-top:.22rem;font-size:.855rem;line-height:1.4;color:var(--dim);text-wrap:pretty;transition:color .3s ease}
-  /* the rail's three descriptions, and the height reserved for them, are one
-     decision and have to move together, so the query that drops the one drops
-     the other. It has to sit after the rule it overrides, which is the whole
-     reason it is down here rather than up with the budget it belongs to.
+  /* there was a second rule here that dropped these three lines on any window
+     under 865px tall. The rail is as wide as the film, but the chapters are
+     not: the duration and the sound button take about 290px off the right of
+     that row first, and under about 110px a column cannot set this line at any
+     length worth writing. That used to happen on a short window, because the
+     film was measured against the window's leftover height and a 900px laptop
+     drove it down to a 747px picture with 132px columns.
 
-     The rail is as wide as the film, but the chapters are not: the duration and
-     the sound button take about 290px off the right of that row first, so at a
-     759px film the three columns are 132px each, not 253. Under about 110px a
-     column cannot set this line at any length worth writing, and the honest move
-     is to drop it rather than clamp it into an ellipsis. That works out at a
-     film of about 695px, which the budget above reaches at a window around 865px
-     tall. What survives is 01 Ask, 02 Memory, 03 Sources over three filled
-     rules, which was always the part doing the work. */
-  @media (max-height:864px){
-    .demo-chap span{display:none}
-    #demo{--demo-rail-h:3.85rem}
-  }
+     The film is sized off the window itself now and a short window still gets a
+     wide one: at 865px tall the picture is 1338px across, so the columns are
+     over 330px and the line sets comfortably. The only thing that can still
+     starve them is a narrow window, and the 860px query below already drops
+     them there. */
   .demo-chap.on i{color:var(--blue-l)}
   .demo-chap.on b{color:#fff}
   .demo-chap.on span{color:var(--fg-3)}
@@ -1487,6 +1394,10 @@
     .lbl-fs{display:inline}
     /* 37px wide was under the 44px touch minimum with the label gone */
     .demo-ctl{padding:0 11px;min-width:44px}
+    /* full bleed on a phone. There is nothing for a gutter to separate here:
+       the film grades to #000 and so does the page, so all a margin buys on a
+       390px screen is a smaller picture. */
+    #demo{--film-gutter:0px}
     .demo-stage{margin-top:1.5rem}
     /* six lines of lead before the film is a wall on a 390px screen, and the
        film is the section. The measure cannot give any back, so the step does. */
@@ -1761,14 +1672,12 @@ setTimeout(go,1200);})()</script>
     </div>
   </section>
 
-  <!-- WHERE IT GOES: five records, six documents, and the only question that
-       matters, which is who each sentence belongs to.
+  <!-- WHERE IT GOES: six steps, in order, each one a thing fein does.
 
-       The earlier version of this section walked one company, and with one
-       record there is no filing to watch: everything obviously goes to the only
-       place there is. The work fein actually does is deciding, per sentence,
-       which record it belongs on, so the store is a set of records now and one
-       document routes to three of them.
+       Every heading in the walk is an action in a sequence -- first, then,
+       after that, finally -- and the document under it is the evidence for that
+       one action. The reader is never asked to work out what they are looking
+       at: the sentence says what the machine is doing while they watch it do it.
 
        The static document is the DEFAULT here and the pinned stage is an
        override guarded by .rec-on, which the script sets before first paint. It
@@ -1790,70 +1699,47 @@ setTimeout(go,1200);})()</script>
         <div class="rec-stage">
           <div class="rec-rail" aria-hidden="true"><span class="rec-gapband"></span><u style="left:0%"></u><u style="left:2%"></u><u style="left:32%"></u><u style="left:77%"></u><u style="left:90%"></u><u style="left:98%"></u><i class="rec-rfill" id="rec-rfill"></i><span class="rec-rl">Nov 2024</span><span class="rec-rg">nine months, nothing filed</span><span class="rec-rr">Jul 2026</span></div>
           <div class="rec-panes" id="rec-panes">
-            <!-- the pull back. One canvas, in the panes' own coordinate space,
-                 which is the same space the wires are drawn in. That shared
-                 space is the whole trick: the five records the reader has been
-                 watching are handed to the canvas at the exact pixels the DOM
-                 had them, so the camera appears to pull back through the page
-                 rather than cut to a picture of one. -->
-            <canvas class="rec-sky" id="rec-sky" aria-hidden="true"></canvas>
-            <div class="rec-wide" id="rec-wide" aria-hidden="true">
-              <p class="rec-wq" id="rec-wq"></p>
-              <p class="rec-wm" id="rec-wm">
-                <span><b id="rec-wr">5</b><i>records</i></span>
-                <span><b id="rec-wf">10</b><i>facts</i></span>
-                <span><b id="rec-we">4</b><i>links</i></span>
-              </p>
-              <!-- the field is coloured with the same three inks the record
-                   chips use in the store, so the key costs the reader nothing
-                   they have not already learned -->
-              <p class="rec-wk" id="rec-wk"><span class="co">Companies</span><span class="pe">People</span><span class="lp">LPs</span></p>
-            </div>
             <svg class="rec-wires" id="rec-wires" aria-hidden="true"></svg>
             <div class="rec-src">
               <h3 class="rec-paneh">What arrived</h3>
               <div class="rec-well" id="rec-well">
-                <article class="rec-card rec-c0" data-c="-1" aria-hidden="true">
-                  <p class="rec-lede">Five records. Six documents. Nobody filed a thing.</p>
-                  <p class="rec-why"><b>Left,</b> what arrived, in the tool it arrived in. <b>Right,</b> the records your firm already has. <b>Between them,</b> fein, matching every sentence to the record it belongs to.</p>
-                </article>
                 <article class="rec-card" data-c="0">
-                  <p class="rec-lede">One <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>email</span>. Three records.</p>
+                  <p class="rec-lede">First, fein reads what arrives.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-cd">8 Nov 2024</span></div>
                   <div class="rec-mh"><p class="rec-mfrom"><b><mark class="rec-hl" data-hl="0">Dev Raman<span class="rec-hn" aria-hidden="true">1</span></mark></b> <span>&lt;dev@raman.vc&gt;</span></p><p class="rec-mto">to Marcus</p><p class="rec-msub">Fwd: Halo Compute, seed deck</p></div>
                   <p class="rec-mb">Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <mark class="rec-hl" data-hl="1">raising a $4M seed<span class="rec-hn" aria-hidden="true">2</span></mark> and I think <mark class="rec-hl" data-hl="2">you are the right partner<span class="rec-hn" aria-hidden="true">3</span></mark> for it.</p>
-                  <p class="rec-why">Three sentences, three different records: <b>a company, the person who opened the door, and the partner who now owns it.</b> Nobody chose any of them, and nobody will have to remember this in eighteen months.</p>
+                  <p class="rec-why">Three sentences, <b>three different records</b>. Nobody chose any of them.</p>
                 </article>
                 <article class="rec-card" data-c="1">
-                  <p class="rec-lede">fein reads the <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>call</span> nobody wrote up.</p>
+                  <p class="rec-lede">Then, fein files the call nobody wrote up.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span class="rec-cs">Granola</span><span class="rec-since">13 days later</span><span class="rec-cd">21 Nov 2024</span></div>
                   <div class="rec-mh"><p class="rec-msub">Coffee with Halo Compute</p><p class="rec-mto">41 min &middot; auto-transcribed</p></div>
                   <p class="rec-mb">Both founders are <mark class="rec-hl" data-hl="3">ex-Anthropic infra<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="4">No design partners live<span class="rec-hn" aria-hidden="true">2</span></mark> yet, they want two before they raise again.</p>
-                  <p class="rec-why">The call was on a Tuesday and nobody wrote it up. By Wednesday both lines are on the company, <b>beside the email that introduced it</b>, and neither one came from a form.</p>
+                  <p class="rec-why">The call was on a Tuesday. By Wednesday both lines are on the company, <b>beside the email that introduced it</b>.</p>
                 </article>
                 <article class="rec-card" data-c="2">
-                  <p class="rec-lede">A <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>hire</span> opens a new record.</p>
+                  <p class="rec-lede">After that, fein opens a new record.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span class="rec-cs">Linkedin</span><span class="rec-since">6 months later</span><span class="rec-cd">3 Jun 2025</span></div>
                   <div class="rec-mh"><p class="rec-msub">Priya Nayar</p><p class="rec-mto">started a new position</p></div>
                   <p class="rec-mb"><mark class="rec-hl" data-hl="5">VP Engineering at Halo Compute<span class="rec-hn" aria-hidden="true">1</span></mark>. <mark class="rec-hl" data-hl="6">Previously Databricks<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
-                  <p class="rec-why">fein had no record for Priya Nayar, so it <b>opened one</b>, and put the other half of the same sentence on the company she joined. The two records now point at each other.</p>
+                  <p class="rec-why">There was no record for Priya Nayar, so fein <b>opened one</b>. The two records now point at each other.</p>
                 </article>
                 <article class="rec-card" data-c="3">
-                  <p class="rec-lede">Your <span class="rec-lw"><svg class="tlogo rec-ring" aria-hidden="true"><use href="#l-gcal"/></svg>LP</span> is a record too.</p>
+                  <p class="rec-lede">Then, fein files your LPs the same way.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><span class="rec-cs">Calendar</span><span class="rec-since">9 months later</span><span class="rec-cd">12 Mar 2026</span></div>
                   <div class="rec-mh"><p class="rec-msub">Northwind Capital &middot; quarterly review</p><p class="rec-mto">60 min &middot; Marcus, Elena Sarr</p></div>
                   <p class="rec-mb">Elena: the allocation is working. For the next fund they want <mark class="rec-hl" data-hl="7">more exposure to AI infrastructure<span class="rec-hn" aria-hidden="true">1</span></mark>.</p>
-                  <p class="rec-why">This one has nothing to do with Halo Compute, which is the point: <b>the same machine files your LPs.</b> In four months this sentence is the reason a $30M round finds an investor.</p>
+                  <p class="rec-why">Nothing to do with Halo Compute, which is the point. In four months <b>this sentence finds a $30M round its investor</b>.</p>
                 </article>
                 <article class="rec-card" data-c="4">
-                  <p class="rec-lede">The <span class="rec-lw"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>update</span> that changes an old fact.</p>
+                  <p class="rec-lede">After that, fein retires an old fact.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-since">12 weeks later</span><span class="rec-cd">2 Jun 2026</span></div>
                   <div class="rec-mh"><p class="rec-mfrom"><b>Nadia Osei</b> <span>&lt;nadia@halocompute.com&gt;</span></p><p class="rec-mto">to investors@</p><p class="rec-msub">Halo Compute, June update</p></div>
                   <p class="rec-mb">We are <mark class="rec-hl" data-hl="8">opening a $30M Series A<span class="rec-hn" aria-hidden="true">1</span></mark>, and <mark class="rec-hl" data-hl="9">six design partners are live<span class="rec-hn" aria-hidden="true">2</span></mark>.</p>
-                  <p class="rec-why">The second line contradicts something fein wrote in 2024, so <b>the old fact is struck and dated, not deleted.</b> Ask what the firm believed in November and it can still tell you.</p>
+                  <p class="rec-why">The 2024 line is <b>struck and dated, not deleted</b>. Ask what the firm believed in November and it can still tell you.</p>
                 </article>
                 <article class="rec-ask" id="rec-ask">
-                  <p class="rec-lede">Nobody filed a note. You can still ask.</p>
+                  <p class="rec-lede">Finally, fein answers from all of it.</p>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><span class="rec-cs">Claude</span><span class="rec-cd">28 Jul 2026</span></div>
                   <p class="rec-q">Who should I bring into Halo Compute's Series A?</p>
                   <ul class="rec-alist">
@@ -1861,10 +1747,17 @@ setTimeout(go,1200);})()</script>
                     <li>Halo Compute is <b>opening a $30M Series A</b>, and the design partner objection is gone.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</span></li>
                     <li>Warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024.<span class="rec-cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></li>
                   </ul>
-                  <p class="rec-askf">That answer crossed <b>three separate records</b>, and no person put a single line on any of them.</p>
+                  <p class="rec-askf">Five documents, <b>three records</b>, and not one line filed by a person. A firm running this for a year holds thousands more, built exactly the same way.</p>
                 </article>
               </div>
             </div>
+            <!-- ============ the core: fein, between the document and the graph ==
+                 Everything the section claims happens here, so it is drawn rather
+                 than described: a phrase leaves the document, is carried into
+                 fein, and comes out the other side as a fact on a record. The two
+                 verbs name the only two things the machine does and light in turn
+                 as the token passes them, so the direction of travel is legible
+                 before the reader has read a word of it. -->
             <div class="rec-core" id="rec-core" aria-hidden="true">
               <span class="rec-crail"></span>
               <span class="rec-cverb up"><b id="rec-vread">Reads</b><span class="ar">&darr;</span></span>
@@ -1872,16 +1765,14 @@ setTimeout(go,1200);})()</script>
               <span class="rec-cdot"></span>
               <span class="rec-cname">fein</span>
               <span class="rec-cverb dn"><span class="ar">&darr;</span><b id="rec-vwrite">Files</b></span>
-              <span class="rec-ccount" id="rec-ccount"></span>
             </div>
             <section class="rec-store" id="rec-store" aria-labelledby="rec-paneh2">
               <h3 class="rec-paneh">What fein filed</h3>
-              <div class="rec-head"><h3 class="rec-brand" id="rec-paneh2">fein &middot; records</h3><p class="rec-subj">Your firm</p><p class="rec-asof"><span class="rec-asl">As of</span><span class="rec-asv" id="rec-asv" aria-hidden="true">28 Jul 2026</span><span class="rec-vh">Showing what fein knows as of 28 July 2026.</span></p></div>
-              <p class="rec-op" id="rec-op" aria-hidden="true"><span></span></p>
+              <div class="rec-head"><h3 class="rec-brand" id="rec-paneh2">fein &middot; records</h3><p class="rec-subj">Your firm</p></div>
               <div class="rec-body" id="rec-body">
                 <ol class="rec-recs" id="rec-recs">
                   <li class="rec-rec" data-r="0">
-                    <p class="rec-rh"><span class="rec-ric co" aria-hidden="true"><svg viewBox="0 0 16 16"><rect x="2.5" y="4" width="11" height="9" rx="1.4"/><path d="M5.5 7h1.4M9.1 7h1.4M5.5 9.6h1.4M9.1 9.6h1.4"/></svg></span><b class="rec-rn">Halo Compute</b><span class="rec-rt">Company</span><span class="rec-rc" data-c="0">5</span></p>
+                    <p class="rec-rh"><span class="rec-ric co" aria-hidden="true"><svg viewBox="0 0 16 16"><rect x="2.5" y="4" width="11" height="9" rx="1.4"/><path d="M5.5 7h1.4M9.1 7h1.4M5.5 9.6h1.4M9.1 9.6h1.4"/></svg></span><b class="rec-rn">Halo Compute</b><span class="rec-rt">Company</span></p>
                     <ul class="rec-facts">
                       <li class="rec-row" data-f="1"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Raising a <b>$4M seed</b>.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></span></li>
                       <li class="rec-row" data-f="3"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Two ex-<b>Anthropic</b> infra engineers.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola &middot; 21 Nov 2024</span></span></li>
@@ -1892,38 +1783,37 @@ setTimeout(go,1200);})()</script>
                     </ul>
                   </li>
                   <li class="rec-rec" data-r="1">
-                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Dev Raman</b><span class="rec-rt">Co-investor</span><span class="rec-rc" data-c="1">1</span></p>
+                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Dev Raman</b><span class="rec-rt">Co-investor</span></p>
                     <ul class="rec-facts">
                       <li class="rec-row" data-f="0"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Introduced <b>Halo Compute</b>. Warmest path in.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></span></li>
                     </ul>
                   </li>
                   <li class="rec-rec" data-r="2">
-                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Marcus Feld</b><span class="rec-rt">Your partner</span><span class="rec-rc" data-c="2">1</span></p>
+                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Marcus Feld</b><span class="rec-rt">Your partner</span></p>
                     <ul class="rec-facts">
                       <li class="rec-row" data-f="2"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Owns the <b>Halo Compute</b> conversation.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</span></span></li>
                     </ul>
                   </li>
                   <li class="rec-rec" data-r="3">
-                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Priya Nayar</b><span class="rec-rt">Person</span><span class="rec-rc" data-c="3">1</span></p>
+                    <p class="rec-rh"><span class="rec-ric pe" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="2.4"/><path d="M3.8 13c.5-2.3 2.2-3.4 4.2-3.4S11.7 10.7 12.2 13"/></svg></span><b class="rec-rn">Priya Nayar</b><span class="rec-rt">Person</span></p>
                     <ul class="rec-facts">
                       <li class="rec-row" data-f="5"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t"><b>VP Engineering</b> at Halo Compute.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>LinkedIn &middot; 3 Jun 2025</span></span></li>
                     </ul>
                   </li>
                   <li class="rec-rec" data-r="4">
-                    <p class="rec-rh"><span class="rec-ric lp" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3l5 2.6H3z"/><path d="M4.8 6.6v5M8 6.6v5M11.2 6.6v5M3 12.6h10"/></svg></span><b class="rec-rn">Northwind Capital</b><span class="rec-rt">LP</span><span class="rec-rc" data-c="4">1</span></p>
+                    <p class="rec-rh"><span class="rec-ric lp" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3l5 2.6H3z"/><path d="M4.8 6.6v5M8 6.6v5M11.2 6.6v5M3 12.6h10"/></svg></span><b class="rec-rn">Northwind Capital</b><span class="rec-rt">LP</span></p>
                     <ul class="rec-facts">
                       <li class="rec-row" data-f="7"><span class="rec-g" aria-hidden="true"><i class="gp">+</i><i class="gm">&minus;</i></span><span class="rec-vh">Added. </span><span class="rec-t">Wants more <b>AI infrastructure</b> exposure.<span class="rec-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar &middot; 12 Mar 2026</span></span></li>
                     </ul>
                   </li>
                 </ol>
-                <p class="rec-gcap" id="rec-gcap">Five records &middot; <b>ten facts</b> &middot; every one traced to a document</p>
               </div>
             </section>
-            <!-- the pull back is the pinned stage's ending, and the pinned stage
-                 does not exist on a narrow screen, without script, or when the
-                 reader has asked for less motion. Those readers get the walk and
-                 then nothing, so the claim the pull back makes is written down
-                 here in a sentence instead. -->
+            <!-- the pinned stage does not exist on a narrow screen, without
+                 script, or when the reader has asked for less motion. Those
+                 readers get the walk as six documents and then nothing, so the
+                 scale the last beat carries is written down here in a sentence
+                 instead. -->
             <p class="rec-after">Five records is the demonstration. A firm this machine has been running on for a year holds <b>thousands</b> of them, built the same way, from the same documents, with nobody filing a thing.</p>
           </div>
           <!-- the visible transport (play head, step buttons, strip) is gone; the
@@ -3722,13 +3612,18 @@ setTimeout(go,1200);})()</script>
 })();
 
 /* where it goes: the scrub.
-   One pinned stage, nine beats, priced per event rather than per fact. Every
-   value below derives from one number, how far through the track the reader is,
-   so scrolling back runs it backwards for free and there is no state to keep in
-   sync. One getBoundingClientRect per frame, on the track, read before any
-   write. The pin itself only exists because this file set .rec-on before first
-   paint, so a browser that never runs this gets the static document instead of
-   an empty stage.
+   One pinned stage and six beats, and every beat is one thing the machine does:
+   read, file, open a record, file an LP, retire a fact, answer. The heading says
+   which one, the document under it is the evidence, and the store on the right
+   is the consequence, so the reader is never working out what they are looking
+   at while it moves.
+
+   Every value below derives from one number, how far through the track the
+   reader is, so scrolling back runs it backwards for free and there is no state
+   to keep in sync. One getBoundingClientRect per frame, on the track, read
+   before any write. The pin itself only exists because this file set .rec-on
+   before first paint, so a browser that never runs this gets the static
+   document instead of an empty stage.
 
    The store is five records, not one list. A record is drawn only once it holds
    something, its height is its facts, and every record below it is pushed down
@@ -3745,14 +3640,10 @@ setTimeout(go,1200);})()</script>
       body=document.getElementById('rec-body'),
       wires=document.getElementById('rec-wires'),
       rfill=document.getElementById('rec-rfill'),
-      opline=document.getElementById('rec-op'),
-      asv=document.getElementById('rec-asv'),
       core=document.getElementById('rec-core'),
-      ccount=document.getElementById('rec-ccount'),
       vread=document.getElementById('rec-vread'), vwrite=document.getElementById('rec-vwrite'),
       cards=[].slice.call(track.querySelectorAll('.rec-card')),
       recs=[].slice.call(track.querySelectorAll('.rec-rec')),
-      counts=[].slice.call(track.querySelectorAll('.rec-rc')),
       hls=[].slice.call(track.querySelectorAll('.rec-hl')),
       ask=document.getElementById('rec-ask'),
       say=document.getElementById('rec-say'),
@@ -3769,64 +3660,44 @@ setTimeout(go,1200);})()</script>
       ROWREC[parseInt(r.getAttribute('data-f'),10)]=ri;
     });
   });
-  /* beat table: [key, length]. T is the table's own total, never a second
+  /* the walk: [name, length, which document]. One beat per heading and one
+     heading per action, so there is no beat here whose purpose the reader has
+     not been told in a sentence. T is the table's own total, never a second
      number to keep in step with it. */
-  var T=0;
-  /* 'out' and 'all' are the pull back: the walk earns the reader's attention on
-     one record, and then the camera answers the question that earns is for,
-     which is how much of this there is. They are long on purpose. A zoom that
-     resolves in half a screen of scroll reads as a transition; one that takes
-     two reads as distance. */
-  var BEATS=[['s0',20],['b1',34,0],['b2',26,1],['b3',28,2],['b4',24,3],['b5',34,4],['fin',44],['out',62],['all',42]];
+  var BEATS=[['read',32,0],['file',26,1],['open',26,2],['lp',22,3],['retire',34,4],['answer',40,-1]];
   var edge=[],acc=0;
   BEATS.forEach(function(b){ edge.push([acc,acc+b[1]]); acc+=b[1]; });
-  T=acc;
+  var T=acc;
+  var CARDOF=BEATS.map(function(b){ return b[2]; });
+  var B_FIN=BEATS.length-1;
   /* events, in beat-local units. new: bloom, wire, land. ret: wire, strike,
      dwell, land, so the doomed sentence is struck and then sits still long
      enough to be read. */
   var EV=[
-    {b:1,f:0,t0:5,t1:12},  {b:1,f:1,t0:10,t1:17}, {b:1,f:2,t0:15,t1:22},
-    {b:2,f:3,t0:5,t1:12},  {b:2,f:4,t0:11,t1:18},
-    {b:3,f:5,t0:5,t1:12},  {b:3,f:6,t0:11,t1:18},
-    {b:4,f:7,t0:5,t1:13},
-    {b:5,f:8,t0:5,t1:12},  {b:5,f:9,t0:11,t1:18}, {b:5,f:4,t0:19,t1:30,r:1}
+    {b:0,f:0,t0:5,t1:12},  {b:0,f:1,t0:10,t1:17}, {b:0,f:2,t0:15,t1:22},
+    {b:1,f:3,t0:5,t1:12},  {b:1,f:4,t0:11,t1:18},
+    {b:2,f:5,t0:5,t1:12},  {b:2,f:6,t0:11,t1:18},
+    {b:3,f:7,t0:5,t1:13},
+    {b:4,f:8,t0:5,t1:12},  {b:4,f:9,t0:11,t1:18}, {b:4,f:4,t0:19,t1:30,r:1}
   ];
   /* where each beat starts and ends on the real calendar, in percent of the
      twenty-one months. The long crossings are the months nobody filed anything */
-  var RAIL=[[0,0],[0,2],[2,32],[32,77],[77,90],[90,98],[98,100],[100,100],[100,100]];
-  /* the same voice as the narration on the left, one clause: left says what
-     arrived, this says what fein did with it */
-  var OPS=['fein reads',
-           'fein writes 3 facts &middot; 3 records',
-           'fein writes 2 facts &middot; 1 record',
-           'fein opens a record &middot; writes 2 facts',
-           'fein opens a record &middot; writes 1 fact',
-           'fein writes 2 facts &middot; retires 1, keeps the dates',
-           'fein holds 10 facts &middot; 5 records &middot; every one sourced',
-           'the same machine &middot; every record your firm has',
-           'your firm, in full'];
-  var RETOP=[0,0,0,0,0,1,0,0,0];
-  var DATES=['','8 Nov 2024','21 Nov 2024','3 Jun 2025','12 Mar 2026','2 Jun 2026','28 Jul 2026','',''];
-  /* cards[0] is the key card, which only exists on the pinned stage, so every
-     document sits one further along than its data-c. The last beat has no
-     document at all: the answer takes the well. */
-  var CARDOF=[0,1,2,3,4,5,-1,-1,-1];
-  var SAY=['The key','Gmail','Granola','LinkedIn','Calendar','Gmail','The answer','Pulling back','Your firm'];
-  /* the two finale beats, by index, so the checks below read as what they mean */
-  var B_FIN=6, B_OUT=7, B_ALL=8;
-  /* how many records each beat writes to, and how many of those are new. Counted
-     off the event table so the core can never contradict the store. */
-  var WR=[],RE=[],NREC=[];
-  (function(){
-    var i,seen={};
-    for(i=0;i<BEATS.length;i++){ WR.push(0); RE.push(0); NREC.push(0); }
-    EV.forEach(function(e){ if(e.r) RE[e.b]++; else WR[e.b]++; });
-    for(i=0;i<BEATS.length;i++){
-      var here={};
-      EV.forEach(function(e){ if(e.b===i && !e.r) here[ROWREC[e.f]]=1; });
-      Object.keys(here).forEach(function(k){ NREC[i]++; if(!seen[k]) seen[k]=1; });
-    }
-  })();
+  var RAIL=[[0,2],[2,32],[32,77],[77,90],[90,98],[98,100]];
+  /* the same six actions, for the live region. A reader who cannot see the
+     stage gets the sequence in the order everyone else reads it off the page,
+     and the clause after it is what that action did to the store. */
+  var SAY=['First, fein reads what arrives',
+           'Then, fein files the call nobody wrote up',
+           'After that, fein opens a new record',
+           'Then, fein files your LPs the same way',
+           'After that, fein retires an old fact',
+           'Finally, fein answers from all of it'];
+  var OPS=['3 facts, on 3 records',
+           '2 facts, on the company',
+           'a record that did not exist, and 2 facts',
+           '1 fact, on your LP',
+           '2 facts, and 1 retired with its dates kept',
+           'across 3 records, every line sourced'];
   /* the records the closing answer crosses */
   var ANSR={0:1,1:1,4:1};
 
@@ -3841,566 +3712,13 @@ setTimeout(go,1200);})()</script>
   var NS='http://www.w3.org/2000/svg';
   function el(tag,cls,parent){ var e=document.createElementNS(NS,tag); if(cls) e.setAttribute('class',cls); parent.appendChild(e); return e; }
 
-  /* ================= the pull back =======================================
-     A world, built once, and a camera over it. Nothing is ever spawned: the
-     field is at full size from the first frame and the camera reveals it, which
-     is the whole difference between a zoom and a thing that fades in. Every
-     quantity below is a function of fu, the units elapsed since the finale
-     began, so this scrubs backwards for free like the rest of the section.
-
-     The handoff is the part worth reading twice. For the first half of the pull
-     back there is no handoff at all: the real DOM store, with its real text and
-     its real struck fact, is put under the same camera matrix as the canvas and
-     physically scales down. The canvas draws a faithful miniature of that same
-     store, at the same scale, and the two are crossfaded only once the type has
-     gone below three pixels, where there is nothing left to tell apart. -------*/
-  var sky=document.getElementById('rec-sky'), sctx=(sky&&sky.getContext)?sky.getContext('2d'):null,
-      wide=document.getElementById('rec-wide'), wq=document.getElementById('rec-wq'),
-      wnr=document.getElementById('rec-wr'), wnf=document.getElementById('rec-wf'), wne=document.getElementById('rec-we');
-  var WD=null, sdp=1, sw=0, sh=0, lastWQ=-1, GLOW=null;
-  /* how far the camera goes, how many knots the field has, and how many records
-     it holds. The field always ends up filling the screen, whatever these are,
-     so ZMIN is not really how far out the camera gets: it is how fine the grain
-     is when it stops. Grain is the whole argument of the last frame. Too coarse
-     and every record touches its neighbours, the mesh between them is shorter
-     than a pixel, and a graph of a firm comes out as confetti; fine enough and
-     the same data draws itself as what it is. */
-  var HANDOFF=6, CAM=76, ZMIN=0.0082, SKY_CL=110, SKY_N=6400;
-  /* how squashed the field is. The clusters are laid out on an ellipse and the
-     front travels through that same squashed space, so this is one number and
-     not two; it was 0.55 in both places, which left the graph a wide band with
-     a screen's worth of black above and below it at the last frame. 0.64 fills
-     that room. It cannot go much past this: the outermost knot sits at 0.87 of
-     the half width, so above about 0.66 the top of the field crosses the top of
-     the stage on a wide window and the graph reads as a crop of a bigger one. */
-  var FASP=0.64;
-  var BLUE='82,168,255';
-  /* the field's own inks: one per record type, plus the light the mesh is drawn
-     in. Cooler and a little more saturated than the chips they are taken from,
-     because at two pixels a colour has nothing left but its hue to carry it. */
-  var INK=['170,206,255','226,231,240','150,236,205'], MESH='150,190,255';
-  /* mulberry32. The field must be identical on every frame and every resize, so
-     nothing in here may call Math.random. */
-  function seeded(s){ return function(){ s=s+0x6D2B79F5|0; var t=Math.imul(s^s>>>15,1|s); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
-  /* the ring just outside the five. The reader gets to read these, which is what
-     turns "five records" into "a firm" before the count runs away from them. One
-     is a duplicate, and watching it fold into Halo Compute is the only place in
-     the section where resolution happens at a size you can still read.
-
-     Their offsets are in clearances, not pixels. The camera locks onto the
-     store, which sits in the right hand third of the stage, so "far enough left
-     to be off screen" is a different number from "far enough right" and neither
-     of them is half the stage. One pixel constant here and a record pokes into
-     the corner of the frame the whole way through the walk, which is exactly
-     what it did until this was written down properly. */
-  var NEAR=[
-    {ux:-1.05,uy:-0.25,label:'Cadence Robotics',kind:'Company',facts:7,t:0},
-    {ux:-1.32,uy:0.55,label:'Ridgeline Partners',kind:'Co-investor',facts:5,t:0},
-    {ux:1.18,uy:-0.50,label:'Ines Duarte',kind:'Founder',facts:4,t:1},
-    {ux:-0.45,uy:-1.16,label:'Halo Compute Inc',kind:'Duplicate',facts:2,mg:0,mw:[21,34],t:0},
-    {ux:1.40,uy:0.62,label:'Thea Alvarsson',kind:'Person',facts:3,t:1},
-    {ux:-1.62,uy:-0.06,label:'Meridian Fund II',kind:'LP',facts:6,t:2}
-  ];
-  function buildWorld(){
-    if(!sctx||!geo||!geo.full||!geo.full.length) return;
-    var rn=seeded(0x5EED17), i, c, m, N=[], E=[], G=geo.full, RT=[0,1,1,1,2];
-    /* 1. the five, at the pixels the store is using for them */
-    var fx=0, fy=0;
-    for(i=0;i<G.length;i++){
-      var f=G[i];
-      N.push({x:f.x+f.w/2,y:f.y+f.h/2,w:f.w,h:f.h,facts:f.n,real:1,g:f,ph:rn(),mg:-1,mw:null,t:RT[i]||0});
-      fx+=f.x+f.w/2; fy+=f.y+f.h/2;
-    }
-    fx/=G.length; fy/=G.length;
-    E.push([1,0],[2,0],[3,0],[4,0],[4,2]);
-    /* 2. the readable ring. One clearance is the distance from the camera's lock
-       point to that edge of the stage, plus half a record, plus a margin: at
-       scale one, anything a whole clearance out cannot touch the frame. */
-    var CW=geo.bodyW, P0=G[0], CH0=P0.h,
-        UL=fx+CW/2+60, UR=(geo.paneW-fx)+CW/2+60,
-        UT=fy+CH0/2+50, UB=(geo.paneH-fy)+CH0/2+50;
-    for(i=0;i<NEAR.length;i++){
-      var nr=NEAR[i], nh=RH+RPAD+FH*nr.facts,
-          ndx=nr.ux*(nr.ux<0?UL:UR), ndy=nr.uy*(nr.uy<0?UT:UB);
-      N.push({x:fx+ndx,y:fy+ndy,w:CW,h:nh,facts:nr.facts,real:0,near:1,ph:rn(),
-              t:nr.t,g:{label:nr.label,kind:nr.kind,lx:P0.lx,ly:P0.ly,lfs:P0.lfs,kx:P0.kx,ky:P0.ky,kfs:P0.kfs},
-              mg:nr.mg===undefined?-1:nr.mg,mw:nr.mw||null});
-      E.push([N.length-1, i===3?0:(i===2?3:(i===4?3:(i%2?2:1)))]);
-    }
-    /* 3. the field.
-       Three numbers decide everything here and they are solved against each
-       other, not chosen. R1 is where the field ends, and it is set so the whole
-       annulus lands just inside the frame at the moment the camera stops. AREA
-       is the room one record is given, and it is the number that decides whether
-       the last frame is a graph. At three record areas apiece the spacing came
-       out about one record wide: every record touched its neighbours, the links
-       between them were shorter than a pixel, and four thousand of them read as
-       confetti with a few long lines across it. At eight and a half the gap
-       between two records is wider than either of them, which is the whole of
-       the difference: the mesh has somewhere to be drawn. R0 is where the field
-       starts, and it is set so the first of it arrives about a third of the way
-       into the pull, after the ring of names has been read and before the
-       reader is bored. */
-    /* the 0.87 is the outermost knot's own radius, given back. R1 is a hub
-       position, not a field edge, and a hub at the frame edge has half a cluster
-       hanging over it: the last frame used to end on a row of clusters sliced
-       down the middle by the canvas, which reads as a crop of something bigger
-       rather than as all of it. */
-    var R0=Math.max(3400,UL*1.95), R1=(geo.paneW*0.5/ZMIN)*0.87,
-        AREA=CW*(RH+RPAD+FH*5)*8.5, RATIO=R1/R0,
-        hubs=[], hx, hy;
-    /* where the knots stand. Evenly spaced in the log of the radius put half of
-       them inside a fifth of the field, and the middle of the last frame came
-       out as one bright mush with the record you had just watched lost inside
-       it. The warp pushes the bulk outward while leaving the innermost knot
-       where it was, so the field still arrives at the same point in the pull and
-       still ends at the frame edge; only the crowding goes. */
-    var RAD=[], SUM=0, c2;
-    for(c2=0;c2<SKY_CL;c2++){
-      var uu=(c2+0.5)/SKY_CL, rr=R0*Math.pow(RATIO,Math.pow(uu,0.62));
-      RAD.push(rr); SUM+=(rr/R0)*(rr/R0);
-    }
-    /* and then the per cluster coefficient that lands the whole field on SKY_N,
-       solved against those radii rather than derived for one distribution. The
-       closed form this replaces was only correct for even log spacing, which
-       made the spacing the one thing that could not be changed. */
-    var KC=SKY_N/SUM;
-    for(c=0;c<SKY_CL;c++){
-      var rc=RAD[c],
-          ac=6.28318*((c*0.6180339887)%1)+rn()*0.6;
-      hx=fx+Math.cos(ac)*rc; hy=fy+Math.sin(ac)*rc*FASP;
-      /* a cluster is sized by the area of the radial band it stands in, so the
-         field has one density throughout rather than a dense middle */
-      /* an ellipse, turned, rather than a disc: a hundred identical circles
-         reads as a pattern, and a firm is not a pattern */
-      var n=Math.max(8,Math.round(KC*Math.pow(rc/R0,2))),
-          asp=0.5+rn()*0.8, rot=rn()*3.1416, crot=Math.cos(rot), srot=Math.sin(rot),
-          spread=Math.sqrt(n*AREA/(3.1416*asp)), hi=N.length, mem=[];
-      /* the knot carries its own extent, because the light behind a cluster has
-         to be the size of that cluster and nothing else knows what that is */
-      N.push({x:hx,y:hy,w:CW,h:RH+RPAD+FH*4,facts:3+((c*7)%7),real:0,ph:rn(),mg:-1,mw:null,g:null,hub:1,hr:spread,t:c%3===0?0:(c%3===1?1:2)});
-      hubs.push(hi);
-      /* members go down on a phyllotaxis spiral, jittered. This is worth the
-         two lines it costs: on a golden angle spiral a point's nearest
-         neighbours are always its Fibonacci offsets, so the mesh can be wired
-         by index with no distance test at all, and it comes out even. Nearest
-         of a random sample, which is the obvious thing to write here, keeps
-         picking something across the cluster, and a cluster wired that way
-         reads from far off as a starburst. Fifty starbursts is a firework
-         display, which is not what a firm's memory looks like. */
-      /* which Fibonacci offsets are the near neighbours depends on how many
-         records the cluster holds: on a spiral of nine, eight is the far side.
-         Fixing the offsets at 8/13/21 left every small cluster with no edges at
-         all, which is why the inner half of the field came out as loose records
-         with nothing between them. */
-      var FIB=[2,3,5,8,13,21,34], OFF=[], fi;
-      for(fi=FIB.length-1;fi>=0&&OFF.length<3;fi--) if(FIB[fi]<=Math.max(2,n/2.6)) OFF.push(FIB[fi]);
-      while(OFF.length<3) OFF.push(OFF[OFF.length-1]||2);
-      var sp=spread/Math.sqrt(n);
-      for(m=0;m<n;m++){
-        var rad=spread*Math.sqrt((m+0.5)/n), ang=m*2.39996, idx=N.length,
-            dup=m>=8&&rn()<0.075, fc=2+(idx%8),
-            tr=rn(), tt=tr<0.44?0:(tr<0.93?1:2),
-            ex=Math.cos(ang)*rad, ey=Math.sin(ang)*rad*asp;
-        N.push({x:hx+ex*crot-ey*srot+(rn()-0.5)*sp*1.5,
-                y:hy+ex*srot+ey*crot+(rn()-0.5)*sp*1.5,
-                w:CW,h:RH+RPAD+FH*fc,
-                facts:fc,real:0,ph:rn(),g:null,
-                /* a duplicate folds into its lattice neighbour, never into the
-                   cluster's first record. Merging a twelfth of a cluster into
-                   one point drags every one of their edges with it, and what
-                   the reader sees from far off is not resolution, it is a
-                   starburst. Resolution is local, and it should look local. */
-                mg:dup?idx-8:-1,mw:null,t:tt});
-        mem.push(idx);
-        /* each record wires to two of its three Fibonacci neighbours, chosen
-           per record rather than for the whole cluster. Wiring them all to the
-           same offset picks out one family of spiral arms and the cluster comes
-           out looking like a drawing of a galaxy; interleaving the families is
-           what makes it a mesh. */
-        var f1=rn(), o1=OFF[f1<0.4?0:(f1<0.78?1:2)], o2=OFF[f1<0.4?1:(f1<0.78?2:0)];
-        if(m>=o1) E.push([idx,idx-o1]);
-        if(m>=o2&&rn()<0.4) E.push([idx,idx-o2]);
-        if(m>=OFF[2]*1.6&&rn()<0.05) E.push([idx,idx-Math.round(OFF[2]*1.6)]);
-      }
-      /* the spine: the long links between knots, and the only thing holding the
-         field together at the widest frame. It used to be one link per cluster,
-         to the nearest already placed, which is a tree, and a tree read from far
-         off is a chain of beads. Three closes loops, and loops are what make a
-         picture read as a graph rather than as a route. They are flagged so they
-         can be drawn in their own light: at the last frame the structure between
-         the knots should be the first thing seen, not the last. */
-      if(c>0){
-        var cand=[], q;
-        for(q=0;q<hubs.length-1;q++){
-          var qx=N[hubs[q]].x-hx, qy=N[hubs[q]].y-hy;
-          cand.push([qx*qx+qy*qy,hubs[q]]);
-        }
-        cand.sort(function(a,b){ return a[0]-b[0]; });
-        for(q=0;q<cand.length&&q<3;q++) E.push([hi,cand[q][1],1]);
-      }
-    }
-    /* the resting place, kept apart from x/y so a merge stays a pure function of
-       fu rather than something that has already happened */
-    for(i=0;i<N.length;i++){
-      N[i].hx=N[i].x; N[i].hy=N[i].y;
-      /* the front travels as a circle in the same squashed space the clusters
-         were laid out in, so it crosses the field as one even sweep rather than
-         reaching the top and bottom long before the sides */
-      var ddx=N[i].x-fx, ddy=(N[i].y-fy)/FASP;
-      N[i].dr=Math.sqrt(ddx*ddx+ddy*ddy);
-    }
-    WD={n:N,e:E,fx:fx,fy:fy};
-  }
-  function skySize(){
-    if(!sctx||!panes) return;
-    var r=panes.getBoundingClientRect();
-    sdp=Math.min(window.devicePixelRatio||1,1.5);
-    sw=r.width; sh=r.height;
-    sky.width=Math.max(1,Math.round(sw*sdp)); sky.height=Math.max(1,Math.round(sh*sdp));
-    sctx.setTransform(sdp,0,0,sdp,0,0);
-  }
-  /* one sprite, built once, drawn small behind every knot and every record the
-     front is passing over. A radial gradient per node would be a hundred and
-     ten gradient objects a frame; a bitmap scaled by drawImage is a blit, and
-     the two are indistinguishable at the sizes this is used at. */
-  function glowSprite(){
-    var c=document.createElement('canvas'); c.width=c.height=64;
-    var g=c.getContext('2d'), rg=g.createRadialGradient(32,32,0,32,32,32);
-    rg.addColorStop(0,'rgba(168,205,255,.62)');
-    rg.addColorStop(0.35,'rgba(120,170,255,.16)');
-    rg.addColorStop(1,'rgba(70,130,255,0)');
-    g.fillStyle=rg; g.fillRect(0,0,64,64);
-    return c;
-  }
-  function rrect(g,x,y,w,h,r){
-    if(g.roundRect){ g.beginPath(); g.roundRect(x,y,w,h,r); return; }
-    g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r);
-    g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath();
-  }
-  /* the camera, solved for fu. Kept separate from the drawing because the DOM
-     panels are moved by the same numbers, and there must be exactly one place
-     that decides where the world is. */
-  function cam(fu){
-    var k=clamp01((fu-HANDOFF)/CAM),
-        /* near linear in the exponent, eased a little at both ends. Linear in
-           the exponent is a constant number of halvings per screen of scroll,
-           which is the only curve under which a zoom this deep reads as one
-           continuous move rather than a lurch followed by a crawl. */
-        ke=k<=0?0:0.65*k+0.35*(k*k*(3-2*k)),
-        z=Math.pow(ZMIN,ke),
-        pe=1-Math.pow(1-clamp01(ke*1.9),3),
-        /* the wavefront. It rides just inside the edge of what the camera can
-           see, so a record arriving at the rim of the frame is a record being
-           written at that moment, and then it runs on past the field once the
-           camera stops so the last thing the reader sees is settled rather than
-           permanently half done. */
-        settle=clamp01((fu-(HANDOFF+CAM))/16),
-        wr=(Math.max(sw,sh)*0.5/z)*(0.82+0.62*settle);
-    return {k:k,ke:ke,z:z,wr:wr,wb:wr*0.24,st:settle,
-            /* 0.49 rather than the middle, and not by taste: the field is a
-               squashed ellipse two thirds as tall as it is wide, and at the last
-               frame it is very nearly the height of the stage. A camera parked
-               any higher than this slices the top row of clusters off along a
-               flat line, and a flat line across a graph reads as a crop of
-               something larger rather than as the whole of it. Nothing is lost
-               at the bottom, which the copy's scrim covers either way. */
-            px:WD.fx+(sw/2-WD.fx)*pe, py:WD.fy+(sh*0.49-WD.fy)*pe,
-            /* the DOM holds the record until its type is under about three
-               pixels; below that the canvas miniature is the same picture */
-            dom:clamp01((z-0.15)/0.13)};
-  }
-  function paintSky(fu){
-    if(!sctx||!WD){ return null; }
-    sctx.setTransform(sdp,0,0,sdp,0,0);
-    sctx.clearRect(0,0,sw,sh);
-    if(fu<=0) return null;
-    var C=cam(fu), z=C.z, ke=C.ke, px=C.px, py=C.py, canv=1-C.dom,
-        NN=WD.n, EE=WD.e, L=NN.length, i, e, n;
-    var sx=new Float32Array(L), sy=new Float32Array(L), vz=new Uint8Array(L),
-        lit=new Float32Array(L), wrt=new Float32Array(L), nvis=0, nfacts=0, nedge=0;
-    for(i=0;i<L;i++){
-      n=NN[i];
-      /* how much of this record the front has passed. Everything downstream
-         hangs off this one number: whether it has its facts yet, whether its
-         duplicate has folded in, and how brightly it is drawn. */
-      var wv=n.real||n.near?1:clamp01((C.wr-n.dr)/C.wb);
-      wrt[i]=wv;
-      var X=n.hx, Y=n.hy, mq=-1;
-      if(n.mg>=0){
-        /* the ring's duplicate has its own window, because it happens while a
-           record is still big enough to read and wants to be watched. Out in
-           the field, a duplicate folds in when the front reaches it, so
-           resolution is something the wave does rather than something that
-           happens to be going on. */
-        mq=n.mw?clamp01((fu-n.mw[0])/(n.mw[1]-n.mw[0])):wv;
-        var me=mq<=0?0:out3(mq), tg=NN[n.mg];
-        if(me>0){ X=X+(tg.hx-X)*me; Y=Y+(tg.hy-Y)*me; }
-      }
-      var ax=px+(X-WD.fx)*z, ay=py+(Y-WD.fy)*z;
-      sx[i]=ax; sy[i]=ay;
-      if(ax>-90&&ax<sw+90&&ay>-90&&ay<sh+90&&wv>0.02){ vz[i]=1; nvis++; nfacts+=Math.round(n.facts*wv); }
-      /* lit is the blue: the crest of the front, a fold in progress, and after
-         the front has gone by, the ordinary business of a record changing */
-      if(wv>0&&wv<0.42) lit[i]=Math.sin(wv/0.42*Math.PI)*0.9;
-      if(mq>0&&mq<1) lit[i]=Math.max(lit[i],0.95);
-      if(wv>0.98){
-        var ph=(fu*0.055+n.ph)%1;
-        if(ph<0.022) lit[i]=Math.max(lit[i],Math.sin(ph/0.022*Math.PI));
-      }
-    }
-    /* how far the field has gone from being a page of records to being a picture
-       of a graph. Two gates, and the second one is the one that matters. glow is
-       the camera: it holds the light off the near half of the walk entirely. far
-       is the records themselves, and it is measured in the only unit that counts
-       here, which is how many pixels wide one of them still is. While a record
-       is eighteen pixels across it is still a record, and a bloom laid over it
-       is fog on a window; by the time it is nine it is a node, and light is the
-       only thing left that can say anything about it. Everything below that is
-       lit rather than drawn hangs off far.
-
-       Both gates used to open much later -- glow at 0.28 of the walk, far only
-       under eleven pixels -- and the cost was that the field spent most of the
-       pull back as a grey page of little rectangles and only became a graph in
-       the last few screens. The mesh, the inks and the knots are the picture,
-       so they now come up while the records are still large enough to be seen
-       as records, and what the camera does from there is make the same graph
-       finer rather than turn one thing into another. */
-    var aw=geo.bodyW*z, card=aw>=18,
-        glow=clamp01((ke-0.10)/0.26), far=glow*clamp01((18-aw)/9);
-    /* ---- the knots, as light. From far off a firm's memory is not an even
-       dust: it is bright where the work is, and dark between. One blit per
-       cluster under the mesh is what gives the field that depth, and it is the
-       only thing in here drawn at cluster scale rather than record scale. ---- */
-    if(far>0.01){
-      if(!GLOW) GLOW=glowSprite();
-      sctx.globalCompositeOperation='lighter';
-      for(i=0;i<L;i++){
-        n=NN[i];
-        if(!n.hub||wrt[i]<=0.02) continue;
-        var gr=n.hr*z*1.25;
-        if(gr<7||sx[i]<-gr||sx[i]>sw+gr||sy[i]<-gr||sy[i]>sh+gr) continue;
-        sctx.globalAlpha=far*0.42*wrt[i];
-        sctx.drawImage(GLOW,sx[i]-gr,sy[i]-gr*0.72,gr*2,gr*1.44);
-      }
-      sctx.globalAlpha=1;
-      sctx.globalCompositeOperation='source-over';
-    }
-    /* ---- edges: three paths, three strokes, whatever the node count ---- */
-    var dim=new Path2D(), hot=new Path2D(), spine=new Path2D(), hotN=0, spN=0;
-    for(e=0;e<EE.length;e++){
-      var a=EE[e][0], b=EE[e][1];
-      if(!vz[a]&&!vz[b]) continue;
-      var ex=sx[a]-sx[b], ey=sy[a]-sy[b], d2=ex*ex+ey*ey;
-      /* a link shorter than a pixel is the same point twice. The floor used to
-         be four pixels, which at the last frame threw away most of the mesh:
-         the field's own wiring was being culled exactly where it was the only
-         thing left saying that this is a graph. */
-      if(d2<0.9) continue;
-      nedge++;
-      /* the spine keeps its own path. It is a hundred lines against ten
-         thousand, and it is the only structure legible at the widest frame. */
-      if(EE[e][2]){ spN++; spine.moveTo(sx[a],sy[a]); spine.lineTo(sx[b],sy[b]); continue; }
-      /* only a short edge is allowed to light. The few long links that hold the
-         field together join clusters half a screen apart, and lighting one
-         because a record at its far end happened to change draws a blue line
-         across the whole frame, which reads as a beam rather than as work. */
-      var h=(lit[a]>0.3&&lit[b]>0.3)&&(d2<22500);
-      if(h){ hotN++; hot.moveTo(sx[a],sy[a]); hot.lineTo(sx[b],sy[b]); }
-      else { dim.moveTo(sx[a],sy[a]); dim.lineTo(sx[b],sy[b]); }
-    }
-    sctx.lineWidth=1;
-    /* additive, once the records are small enough that the mesh is the picture.
-       Links that cross add up, so the parts of the field that are densely wired
-       come out bright on their own. A flat stroke at a fixed alpha cannot show
-       that, and it is the one thing about a graph worth seeing from this far. */
-    if(far>0.01) sctx.globalCompositeOperation='lighter';
-    sctx.strokeStyle='rgba('+MESH+','+(0.058+0.075*ke).toFixed(3)+')';
-    sctx.stroke(dim);
-    /* the spine rides far, not the camera. While the field is still arriving the
-       same three links per knot span whole screens, and three long straight
-       lines out of every cluster at any readable strength is not structure, it
-       is a handful of rays laid over the picture. They are worth almost nothing
-       until the knots they join are small enough to be seen as knots, and worth
-       more than anything else once they are. */
-    if(spN){ sctx.strokeStyle='rgba('+BLUE+','+(0.07+0.18*far).toFixed(3)+')'; sctx.stroke(spine); }
-    if(hotN){ sctx.strokeStyle='rgba('+BLUE+',.42)'; sctx.stroke(hot); }
-    sctx.globalCompositeOperation='source-over';
-    /* ---- the records. A card while it is big enough to be one, a dot once it
-       is not, and every dot in a single batched path so four thousand of them
-       cost one fill call. ---- */
-    /* six batches, three record types by whether the front has reached them
-       yet, plus one for whatever is lit. Seven fills for four thousand records.
-       Each fill rasterises over its own bounding box and at the widest frame
-       every box is the whole canvas, so the batch count is the frame budget:
-       twelve of them was thirty frames a second. The unwritten batch is also
-       what keeps the field from ending at a hard edge, since the ground ahead
-       of the front is faint rather than absent. */
-    var hotd=new Path2D(), bag=[], bi2, spark=[],
-        /* the last few pixels of a record's life. Above fourteen pixels wide it
-           is still a small wide thing lying on its side, which is what a record
-           looks like; below seven it is a node in a graph, and a node is square.
-           Morphing between the two rather than switching keeps the change off
-           any one frame, and it is what stops a field of six thousand from
-           reading as a field of dashes all lying the same way. */
-        dq=clamp01((14-aw)/7), ds=Math.max(1.15,Math.min(3.4,aw*0.52));
-    for(i=0;i<6;i++) bag.push(new Path2D());
-    for(i=0;i<L;i++){
-      if(!vz[i]) continue;
-      n=NN[i];
-      if(n.real&&canv<=0.002) continue;
-      /* below eighteen pixels a record has no readable parts left -- the label
-         gate above needs about twenty four to put a name on one -- so it is
-         drawn as the rectangle it is, and every one of them goes into a single
-         path. Six thousand records then cost two fills rather than twelve
-         thousand calls, which is the whole performance story of this section. */
-      if(!card){
-        var bw=aw+(ds-aw)*dq, bh=Math.max(0.9,n.h*z+(ds-n.h*z)*dq);
-        bw=Math.max(0.9,bw);
-        /* a knot is drawn bigger than the records around it. It stands for a
-           part of the firm rather than one record, and a graph whose hubs are
-           the same size as its leaves has no hierarchy to read. */
-        if(n.hub){ bw*=1+1.4*dq; bh*=1+1.4*dq; }
-        if(lit[i]>0.3){ hotd.rect(sx[i]-bw/2,sy[i]-bh/2,bw,bh); if(far>0.01&&spark.length<520) spark.push(i,Math.max(7,bw*4.5)); }
-        else bag[n.t*2+(wrt[i]<0.5?1:0)].rect(sx[i]-bw/2,sy[i]-bh/2,bw,bh);
-        continue;
-      }
-      var ah=n.h*z, x=sx[i]-aw/2, y=sy[i]-ah/2, wv2=wrt[i];
-      sctx.globalAlpha=(n.real?canv:1)*(0.3+0.7*wv2);
-      sctx.fillStyle='rgba(255,255,255,'+(0.028+0.05*ke+0.06*lit[i]).toFixed(3)+')';
-      rrect(sctx,x,y,aw,ah,Math.min(8,aw*0.02)); sctx.fill();
-      sctx.strokeStyle=lit[i]>0.3?'rgba('+BLUE+','+(0.24+0.5*lit[i]).toFixed(2)+')'
-                     :(n.real?'rgba('+BLUE+',.3)':'rgba(255,255,255,'+(0.11+0.12*ke).toFixed(3)+')');
-      sctx.stroke();
-      var g=n.g;
-      if(g&&g.lfs*z>=3.2){
-        sctx.fillStyle='#fff';
-        sctx.font='600 '+(g.lfs*z).toFixed(1)+'px Inter,system-ui,sans-serif';
-        sctx.textBaseline='middle';
-        sctx.fillText(g.label,x+g.lx*z,y+g.ly*z);
-        if(g.kfs*z>=3.2){
-          sctx.fillStyle='#8a8f98';
-          sctx.font='500 '+(g.kfs*z).toFixed(1)+'px ui-monospace,Menlo,monospace';
-          sctx.fillText(g.kind.toUpperCase(),x+g.kx*z,y+g.ky*z);
-        }
-      }
-      /* the facts, once the names have gone: a record is still a stack of
-         lines, and the front fills them in as it passes */
-      if(FH*z>=1.7){
-        sctx.fillStyle='rgba(255,255,255,'+(0.14+0.08*ke).toFixed(3)+')';
-        var got=n.facts*wv2;
-        for(var q=0;q<n.facts;q++){
-          var fq=clamp01(got-q); if(fq<=0) break;
-          sctx.fillRect(x+14*z,y+(RH+RPAD*0.5+FH*q+FH*0.35)*z,aw*(q%2?0.42:0.6)*fq,Math.max(0.7,FH*0.18*z));
-        }
-      }
-      sctx.globalAlpha=1;
-    }
-    if(!card){
-      /* the three type inks are the ones the record chips already use in the
-         store, at a fraction of their strength. At this size no single record
-         is legibly coloured; what the eye picks up is that one part of the
-         field is companies and another is people, which is the only structure
-         worth carrying this far out. */
-      var BAND=[1,0.26];
-      if(far>0.01) sctx.globalCompositeOperation='lighter';
-      for(bi2=0;bi2<6;bi2++){
-        sctx.fillStyle='rgba('+INK[(bi2/2)|0]+','+((0.23+0.15*far)*BAND[bi2%2]).toFixed(3)+')';
-        sctx.fill(bag[bi2]);
-      }
-      sctx.fillStyle='rgba('+BLUE+',.62)'; sctx.fill(hotd);
-      /* the records the front is over, given a halo apiece. This is the only
-         motion left once the field is too small to show a fact landing, and it
-         is the difference between a still of a graph and one being written. */
-      if(spark.length){
-        if(!GLOW) GLOW=glowSprite();
-        sctx.globalAlpha=0.34*far;
-        for(i=0;i<spark.length;i+=2){
-          var si=spark[i], sr=spark[i+1];
-          sctx.drawImage(GLOW,sx[si]-sr,sy[si]-sr,sr*2,sr*2);
-        }
-        sctx.globalAlpha=1;
-      }
-      sctx.globalCompositeOperation='source-over';
-    }
-    /* ---- the front is NOT drawn. It used to be stroked as a pair of ellipses
-       riding the camera, and at the width it reaches it stopped reading as a
-       wave and started reading as a boundary: an oval ruled around the field,
-       which says the firm's memory ends there. Everything the front does is
-       already visible without a line around it -- which records hold their
-       facts, which duplicate has folded, what is lit and blooming -- and that
-       is the version of it worth seeing. ---- */
-    /* ---- the one you were just reading. Once the field is large enough to have
-       lost it, put it back: a hairline and a name on the node the whole walk was
-       about. It is the difference between a picture of scale and a picture of
-       your own record inside it. ---- */
-    var pin=clamp01((ke-0.55)/0.22)*clamp01((1-C.dom)*3);
-    if(pin>0.01&&vz[0]){
-      var lx=sx[0], ly=sy[0], PW=182, PH=38,
-          left=lx>sw*0.55, tx=left?lx-64-PW:lx+64, ty=ly-58;
-      if(ty<8) ty=ly+34;
-      sctx.globalAlpha=pin;
-      /* the leader first, so the plate covers where it lands */
-      sctx.strokeStyle='rgba('+BLUE+',.55)'; sctx.lineWidth=1;
-      sctx.beginPath(); sctx.moveTo(lx,ly); sctx.lineTo(left?tx+PW:tx,ty+PH/2); sctx.stroke();
-      sctx.beginPath(); sctx.arc(lx,ly,4.5,0,6.28318); sctx.stroke();
-      /* a reticle rather than a ring. Your record is one dot in six thousand, on
-         a field that is now lit, and a single hairline circle is a shape the
-         field makes by accident several times a frame. A second circle breathing
-         outside it and four ticks square to the frame are not: nothing else in
-         this picture is aligned to the screen, so the alignment alone reads as
-         something aimed rather than something drawn. */
-      var brr=11+2.4*Math.sin(fu*0.22), tk, tc, ts;
-      sctx.strokeStyle='rgba('+BLUE+','+(0.30+0.12*Math.sin(fu*0.22)).toFixed(3)+')';
-      sctx.beginPath(); sctx.arc(lx,ly,brr,0,6.28318); sctx.stroke();
-      sctx.beginPath();
-      for(tk=0;tk<4;tk++){
-        tc=Math.cos(tk*1.5708); ts=Math.sin(tk*1.5708);
-        sctx.moveTo(lx+tc*(brr+3.5),ly+ts*(brr+3.5));
-        sctx.lineTo(lx+tc*(brr+8),ly+ts*(brr+8));
-      }
-      sctx.stroke();
-      /* a plate, because a white name laid straight onto four thousand records
-         is the one place this picture could still turn into noise */
-      rrect(sctx,tx,ty,PW,PH,7);
-      sctx.fillStyle='rgba(0,0,0,.9)'; sctx.fill();
-      sctx.strokeStyle='rgba('+BLUE+',.34)'; sctx.stroke();
-      sctx.textBaseline='alphabetic';
-      sctx.fillStyle='#fff'; sctx.font='600 13px Inter,system-ui,sans-serif';
-      sctx.fillText('Halo Compute',tx+12,ty+17);
-      /* two of the record's own fields rather than a caption about the walk.
-         A label that narrates what just happened is a note from us; a pair of
-         chips is the row itself, and the plate stops explaining and starts
-         being the thing it points at. Two, because a full row of them is a
-         legend again. */
-      var chips=['COMPANY','DUE DILIGENCE'], ci, cw, cx=tx+12, cy=ty+21, ch=13;
-      sctx.font='600 8px ui-monospace,Menlo,monospace';
-      sctx.textBaseline='middle';
-      for(ci=0;ci<chips.length;ci++){
-        cw=sctx.measureText(chips[ci]).width+13;
-        rrect(sctx,cx,cy,cw,ch,4);
-        sctx.fillStyle='rgba('+BLUE+',.14)'; sctx.fill();
-        sctx.strokeStyle='rgba('+BLUE+',.32)'; sctx.stroke();
-        sctx.fillStyle='#9fb0d6'; sctx.fillText(chips[ci],cx+6.5,cy+ch/2+0.5);
-        cx+=cw+6;
-      }
-      sctx.textBaseline='alphabetic';
-      sctx.globalAlpha=1;
-    }
-    return {rec:nvis,fact:nfacts,edge:nedge,cam:C};
-  }
   function measure(){
-    /* the camera writes transforms onto these three, and measuring a transformed
-       box would fold the last frame's zoom into the next one's geometry */
-    [src,core,store].forEach(function(e){ if(e) e.style.transform=''; });
     NAV=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
     PINH=pin.getBoundingClientRect().height;
     var pr=panes.getBoundingClientRect(), sr=store.getBoundingClientRect(), br=body.getBoundingClientRect();
     /* the store's rhythm comes from the space it has. Five headers and ten facts
        have to fit one column exactly, so the fact line gives up height first and
        the header keeps its own, because the header is the record's identity. */
-    /* the identity rows give up height before the facts do, because five
-       headers cost more than ten lines when the window is short */
     RH=34; RGAP=10; RPAD=10;
     if(recs.length*(RH+RGAP+RPAD)+rows.length*26>br.height){ RH=29; RGAP=6; RPAD=6; }
     var slack=br.height-(recs.length*(RH+RGAP+RPAD)+rows.length*26);
@@ -4417,12 +3735,11 @@ setTimeout(go,1200);})()</script>
       var l=c.querySelector('.rec-lede'); if(l){ var lh=l.getBoundingClientRect().height; if(lh>tallLede) tallLede=lh; }
     });
     cards.forEach(function(c){
-      c.style.setProperty('--whyoff',c.classList.contains('rec-c0')?'8px'
-        :Math.round(tallest-c.getBoundingClientRect().height+22)+'px');
+      c.style.setProperty('--whyoff',Math.round(tallest-c.getBoundingClientRect().height+22)+'px');
     });
-    /* the narration, the document and its payoff are one block, and the well
+    /* the heading, the document and its payoff are one block, and the well
        centres that block rather than hanging it from a constant. The floor is
-       the room the tallest narration needs above the card. */
+       the room the tallest heading needs above the card. */
     var wellH=well.getBoundingClientRect().height;
     var floor=Math.max(104,Math.round(tallLede+30));
     var cardTop=Math.round(Math.max(floor,Math.min(Math.max(floor,210),(wellH-(tallest+22+tallwhy))/2)));
@@ -4442,38 +3759,6 @@ setTimeout(go,1200);})()</script>
           coreX:coreX, coreY:coreY,
           hl:hls.map(function(m){ var q=m.getClientRects(); var r=q.length?q[q.length-1]:m.getBoundingClientRect();
             return {x:r.right-pr.left-2, y:r.top-pr.top+r.height/2}; }) };
-    /* where the five records sit once every fact has landed. paint() lays the
-       column out from the top each frame from the same three numbers, so this
-       is that layout solved for the finished state, and it is the only thing
-       the canvas needs in order to take the records over at the exact pixels
-       the DOM had them. */
-    var yy=0; geo.full=[];
-    for(var rq=0;rq<recs.length;rq++){
-      var nf=0; for(var ii=0;ii<rows.length;ii++) if(ROWREC[ii]===rq) nf++;
-      var hh=RH+RPAD+FH*nf, rcr=recs[rq].getBoundingClientRect(),
-          nmE=recs[rq].querySelector('.rec-rn'), tpE=recs[rq].querySelector('.rec-rt'),
-          nmR=nmE?nmE.getBoundingClientRect():null, tpR=tpE?tpE.getBoundingClientRect():null;
-      /* the name's offset inside its own record, and the size it is drawn at.
-         The canvas copy is the DOM at scale z, so it needs the real numbers,
-         not a guess: a label in the wrong place is the one thing that would
-         make the swap visible. */
-      geo.full.push({x:geo.bodyLeft,y:geo.bodyTop+yy,w:geo.bodyW,h:hh,n:nf,
-        label:nmE?nmE.textContent:'', kind:tpE?tpE.textContent:'',
-        lx:nmR?nmR.left-rcr.left:14, ly:nmR?nmR.top-rcr.top+nmR.height/2:RH/2,
-        lfs:nmE?parseFloat(getComputedStyle(nmE).fontSize)||15:15,
-        kx:tpR?tpR.left-rcr.left:120, ky:tpR?tpR.top-rcr.top+tpR.height/2:RH/2,
-        kfs:tpE?parseFloat(getComputedStyle(tpE).fontSize)||9:9});
-      yy+=hh+RGAP;
-    }
-    /* the three panels the camera moves, and where each one sits when it does
-       not. The transform is solved against these, so scale(1) is exactly the
-       page the reader has been looking at. */
-    geo.cams=[src,core,store].filter(Boolean).map(function(e){
-      var q=e.getBoundingClientRect();
-      return {e:e,ox:q.left-pr.left,oy:q.top-pr.top};
-    });
-    skySize();
-    buildWorld();
     if(!paths.length){
       EV.forEach(function(e){
         var p=document.createElementNS(NS,'path');
@@ -4517,12 +3802,10 @@ setTimeout(go,1200);})()</script>
       cards[c].style.opacity=o;
       cards[c].style.setProperty('--cy',cy.toFixed(1)+'px');
     }
-    /* units into the pull back. Zero or less everywhere before it, which is what
-       keeps the finale from costing anything during the walk. */
-    var fu=bi>=B_OUT?(u-edge[B_OUT][0]):0;
-    var gv=bi>=B_OUT?1:(bi===B_FIN?seg(local,12,24):0);
+    /* the answer takes the well on the last beat, in the space five documents
+       have just vacated */
+    var ao=bi===B_FIN?clamp01(local/4):0;
     if(ask){
-      var ao=bi===B_FIN?clamp01(local/4):(bi===B_OUT?1-clamp01(local/7):0);
       ask.style.setProperty('--ao',ao.toFixed(3));
       ask.style.setProperty('--ay',((1-out3(ao))*18).toFixed(1)+'px');
       ask.classList.toggle('live',ao>0.6);
@@ -4574,7 +3857,11 @@ setTimeout(go,1200);})()</script>
       row.style.setProperty('--gf',(gq*(1-clamp01((s2.born-0.8)/0.18))).toFixed(3));
     }
     /* the record itself: present once it holds something, lit while it is being
-       written to, so the reader's eye is taken to the place fein chose */
+       written to, so the reader's eye is taken to the place fein chose. On the
+       last beat the three records the answer crossed are outlined and the two it
+       did not are stood down, so the section ends on the answer and exactly the
+       records it came from. */
+    var ansv=bi===B_FIN?seg(local,8,18):0;
     for(r=0;r<recs.length;r++){
       var hot=0;
       for(k=0;k<EV.length;k++) if(EV[k].b===bi && ROWREC[EV[k].f]===r && q[k]>0 && q[k]<1) hot=1;
@@ -4582,11 +3869,8 @@ setTimeout(go,1200);})()</script>
       recs[r].style.setProperty('--ro',recShown[r].toFixed(3));
       recs[r].style.setProperty('--rhot',hot?'1':'0');
       recs[r].style.setProperty('--rfh',(RH+RPAD+FH*live[r]).toFixed(1)+'px');
-      if(counts[r]){
-        var n=0;
-        for(i=0;i<rows.length;i++) if(ROWREC[i]===r && st[i].born>0.5 && st[i].cut<0.5) n++;
-        if(counts[r].textContent!==String(n)) counts[r].textContent=n;
-      }
+      recs[r].style.setProperty('--rmute',(ANSR[r]?0:ansv).toFixed(3));
+      recs[r].classList.toggle('ans',ansv>0.05&&!!ANSR[r]);
     }
 
     /* --- the wires: phrase, ring, fact. Two curves and one waypoint, which is
@@ -4625,83 +3909,18 @@ setTimeout(go,1200);})()</script>
       core.style.setProperty('--pulse',pulse.toFixed(3));
       if(vread) vread.parentNode.style.setProperty('--vb',tRead.toFixed(2));
       if(vwrite) vwrite.parentNode.style.setProperty('--vb',tWrite.toFixed(2));
-      if(ccount){
-        var nw=WR[bi],nr=RE[bi],nc=NREC[bi];
-        ccount.innerHTML=(nw?'<b>+'+nw+'</b> fact'+(nw>1?'s':'')+'<br>to <b>'+nc+'</b> record'+(nc>1?'s':''):'')
-                        +(nw&&nr?'<br>':'')+(nr?'<b>&minus;'+nr+'</b> retired':'');
-        ccount.className='rec-ccount'+(nr&&!nw?' ret':'');
-        ccount.style.setProperty('--cco',((nw||nr)?Math.min(1,local/3):0).toFixed(2));
-      }
-    }
-    /* --- the last beat: the records the answer crossed, joined --- */
-    body.style.setProperty('--gv',gv.toFixed(3));
-    for(r=0;r<recs.length;r++) recs[r].classList.toggle('ans',gv>0.05&&!!ANSR[r]);
-
-    /* --- the pull back. The canvas and the three DOM panels are moved by one
-       camera, so the page and the picture cannot drift apart. --- */
-    var sc=paintSky(fu);
-    if(sky) sky.style.setProperty('--sky',(fu>0?clamp01(fu/3):0).toFixed(3));
-    if(geo&&geo.cams){
-      for(k=0;k<geo.cams.length;k++){
-        var cm=geo.cams[k];
-        if(!sc){ cm.e.style.transform=''; continue; }
-        var C2=sc.cam;
-        cm.e.style.transform='translate3d('+(C2.px+(cm.ox-WD.fx)*C2.z-cm.ox).toFixed(2)+'px,'
-          +(C2.py+(cm.oy-WD.fy)*C2.z-cm.oy).toFixed(2)+'px,0) scale('+C2.z.toFixed(5)+')';
-      }
-    }
-    if(store) store.style.setProperty('--store',(sc?sc.cam.dom:1).toFixed(3));
-    if(src) src.style.setProperty('--srco',(sc?sc.cam.dom:1).toFixed(3));
-    if(core) core.style.setProperty('--core',(fu>0?(1-clamp01(fu/10)):1).toFixed(3));
-    if(rail) rail.style.setProperty('--chrome',(fu>0?(1-clamp01(fu/12)):1).toFixed(3));
-    /* the line and the counts. The counts are what the canvas actually drew, so
-       the number under the picture can never claim more than the picture holds. */
-    if(wide){
-      wide.style.setProperty('--wide',(fu>0?clamp01((fu-6)/5):0).toFixed(3));
-      /* three lines across the hundred and four units of the finale. The gaps
-         are four units, which is about a fifth of a second of scrolling: long
-         enough that the lines do not cross fade into each other, short enough
-         that the counters never stand there on their own under nothing. */
-      var WQ=[[12,42,'That was one company, over twenty-one months.'],
-              [46,78,'Your firm is doing this on every record it has.'],
-              [82,1e6,'Nobody filed <b>any</b> of it.']], wi=-1, wo=0;
-      for(k=0;k<WQ.length;k++) if(fu>=WQ[k][0]&&fu<WQ[k][1]){
-        wi=k; wo=Math.min(clamp01((fu-WQ[k][0])/4),WQ[k][1]>1e5?1:clamp01((WQ[k][1]-fu)/4));
-      }
-      if(wi!==lastWQ){ lastWQ=wi; if(wq) wq.innerHTML=wi<0?'':WQ[wi][2]; }
-      if(wq){ wq.style.setProperty('--wqo',wo.toFixed(3));
-              wq.style.setProperty('--wqy',((1-out3(wo))*14).toFixed(1)+'px'); }
-      if(sc){
-        wide.style.setProperty('--wmo',clamp01((fu-12)/6).toFixed(3));
-        if(wnr) wnr.textContent=sc.rec.toLocaleString('en-US');
-        if(wnf) wnf.textContent=sc.fact.toLocaleString('en-US');
-        if(wne) wne.textContent=sc.edge.toLocaleString('en-US');
-      } else wide.style.setProperty('--wmo','0');
     }
 
-    /* --- chrome --- */
+    /* --- chrome: the calendar, and nothing else --- */
     if(rfill){
       var rr2=RAIL[bi], rp=(rr2[0]+(rr2[1]-rr2[0])*Math.min(1,local/Math.max(1,BEATS[bi][1])))/100;
       rfill.style.setProperty('--rp',rp.toFixed(4));
-    }
-    if(opline){
-      /* beat-gated, and not for the parse cost: rewriting this every frame
-         perturbed layout enough to jitter p, which defeated the memo above on
-         roughly one frame in five. Gated, every idle frame early-outs. */
-      if(opline.__b!==bi){ opline.__b=bi; opline.firstChild.innerHTML=OPS[bi]; opline.classList.toggle('ret',!!RETOP[bi]); }
-      opline.style.setProperty('--opo',Math.min(1,local/2.5).toFixed(2));
-    }
-    if(asv){
-      if(DATES[bi]) asv.textContent=DATES[bi];
-      asv.parentNode.style.opacity=DATES[bi]?'':'0';
     }
     if(bi!==lastBi){ lastBi=bi; markBeat(bi); }
     if(vis) raf=requestAnimationFrame(paint);
   }
   function markBeat(bi){
-    var cardNow=CARDOF[bi];
-    if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+cardNow+' of 5. ':(bi===B_FIN?'All 5 documents read. ':''))
-      +OPS[bi].replace(/\s*&middot;\s*/g,', ')+'.';
+    if(say) say.textContent='Step '+(bi+1)+' of '+BEATS.length+'. '+SAY[bi]+': '+OPS[bi]+'.';
   }
   function kick(){ if(!raf&&vis&&on) raf=requestAnimationFrame(paint); }
 
@@ -4723,32 +3942,15 @@ setTimeout(go,1200);})()</script>
     for(i=0;i<edge.length;i++) if(u>=edge[i][0]) b=i;
     return b;
   }
-  var play=false, ptime=0, pacc=0, PDUR=100000;
-  function setPlay(v){
-    play=v;
-    if(v){ ptime=0; pacc=window.scrollY; requestAnimationFrame(step); }
-  }
-  function step(ts){
-    if(!play) return;
-    if(progress()>=0.9995){ setPlay(false); return; }
-    var dt=ptime?Math.min(64,ts-ptime):0; ptime=ts;
-    var r=track.getBoundingClientRect(), travel=r.height-PINH;
-    pacc+=travel*(dt/PDUR);
-    window.scrollTo({top:Math.round(pacc),behavior:'instant'});
-    requestAnimationFrame(step);
-  }
   function bindCtl(){
-    ['wheel','touchstart','pointerdown'].forEach(function(ev){
-      window.addEventListener(ev,function(){ if(play) setPlay(false); },{passive:true});
-    });
     document.addEventListener('keydown',function(e){
       if(!on||!vis||e.metaKey||e.ctrlKey||e.altKey) return;
       var t=e.target,tag=t&&t.tagName;
       if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(t&&t.isContentEditable)) return;
       var p=progress();
       if(p<=0.0005||p>=0.9995) return;
-      if(e.key==='ArrowRight'||e.key==='j'){ setPlay(false); gotoBeat(beatNow()+1); e.preventDefault(); }
-      else if(e.key==='ArrowLeft'||e.key==='k'){ setPlay(false); gotoBeat(beatNow()-1); e.preventDefault(); }
+      if(e.key==='ArrowRight'||e.key==='j'){ gotoBeat(beatNow()+1); e.preventDefault(); }
+      else if(e.key==='ArrowLeft'||e.key==='k'){ gotoBeat(beatNow()-1); e.preventDefault(); }
     });
   }
   function start(){
@@ -4762,23 +3964,20 @@ setTimeout(go,1200);})()</script>
     paint();
     io=new IntersectionObserver(function(en){
       vis=en[0].isIntersecting;
-      if(vis) kick(); else { if(play) setPlay(false); if(raf){ cancelAnimationFrame(raf); raf=0; } }
+      if(vis) kick(); else { if(raf){ cancelAnimationFrame(raf); raf=0; } }
     },{rootMargin:'240px 0px'});
     io.observe(track);
   }
   function stop(){
     if(!on) return;
     on=false; vis=false; lastBi=-1; lastP=-1;
-    setPlay(false);
     if(raf){ cancelAnimationFrame(raf); raf=0; }
     if(io){ io.disconnect(); io=null; }
     document.documentElement.classList.remove('rec-on');
-    if(body){ body.classList.remove('rec-tight'); body.style.removeProperty('--gv'); }
+    if(body){ body.classList.remove('rec-tight'); }
     [].concat(cards,rows,recs,hls,paths,toks,halos,ask?[ask]:[],well?[well]:[],core?[core]:[],
-              src?[src]:[],store?[store]:[],rail?[rail]:[],sky?[sky]:[],wide?[wide]:[],wq?[wq]:[])
+              src?[src]:[],store?[store]:[],rail?[rail]:[])
       .forEach(function(e){ e.removeAttribute('style'); });
-    if(sctx){ sctx.setTransform(1,0,0,1,0,0); sctx.clearRect(0,0,sky.width,sky.height); }
-    lastWQ=-1;
     recs.forEach(function(e){ e.classList.remove('ans'); });
   }
   function remeasure(){ if(!on) return; lastP=-1; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
