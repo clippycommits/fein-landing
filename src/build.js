@@ -55,36 +55,11 @@ function assertCharsetCovers(html, label) {
   }
 }
 
-// The same guard one level down, for the one face that is not cut against the
-// whole charset. Newsreader carries lowercase letters, figures and a handful of
-// marks; the CSS lowercases the labels, so what the browser asks the face for
-// is the label text in lower case. Anything else in a label -- a capital that
-// text-transform cannot reach, an em dash, an arrow -- would fall back to Geist
-// mid-phrase, which is exactly the seam this is here to catch.
-function assertSerifCharsetCovers(html, label) {
-  const covered = new Set(Array.from(SERIF_CHARSET));
-  const re = new RegExp(`<(\\w+)[^>]*\\bclass="[^"]*\\b(?:${SERIF_CLASSES.join("|")})\\b[^"]*"[^>]*>([^<]*)<`, "g");
-  const missing = new Map();
-  let m, seen = 0;
-  while ((m = re.exec(html))) {
-    seen++;
-    for (const ch of m[2].toLowerCase()) if (!covered.has(ch)) missing.set(ch, (missing.get(ch) || 0) + 1);
-  }
-  if (!seen) throw new Error(`${label}: no .${SERIF_CLASSES[0]} elements found -- the serif guard is matching nothing.`);
-  if (missing.size) {
-    const list = [...missing].map(([c, n]) => `U+${c.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")} ${JSON.stringify(c)} x${n}`);
-    throw new Error(
-      `${label}: ${missing.size} codepoint(s) in a section label are outside the serif subset:\n  ` +
-      list.join("\n  ") + `\nAdd them to src/fonts.serif.charset.txt and re-run subset-fonts.py.`);
-  }
-}
-
 // ---- inject fonts into shared body ----
 let body = fs.readFileSync("fein.tpl.html", "utf8")
   .replace("__GEIST_SANS_B64__", sansB64)
   .replace("__GEIST_MONO_B64__", monoB64)
-  .replace("__INTER_B64__", interB64)
-  .replace("__NEWSREADER_B64__", serifB64);
+  .replace("__INTER_B64__", interB64);
 if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1 || body.indexOf("__NEWSREADER") > -1) throw new Error("font placeholder left");
 
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
@@ -372,7 +347,6 @@ ${analytics}${posthog}${intercom}
 const out = "..";
 fs.mkdirSync(out, { recursive: true });
 assertCharsetCovers(indexHtml, "index.html");
-assertSerifCharsetCovers(indexHtml, "index.html");
 fs.writeFileSync(path.join(out, "index.html"), indexHtml);
 
 // robots.txt — welcome AI answer engines explicitly
