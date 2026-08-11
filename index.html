@@ -898,8 +898,16 @@
      an edge catching light. It is the page's one blue for its whole length,
      because the old bar bloomed to cyan off centre and the asymmetry read as
      a smudge. The bloom below is the same light falling off the capsule, and
-     it is round because it is cast by the box itself. */
-  .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(180deg,transparent 46%,rgba(0,112,243,.5) 82%,rgba(82,168,255,.92) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+     it is round because it is cast by the box itself.
+
+     The ring is a gradient punched hollow by two masks, and a browser that
+     cannot subtract the second one would paint the gradient as a filled block
+     over the whole capsule, so it is asked for only where it can be had. What
+     is left without it is the hairline and the bloom, which is a finished
+     object rather than a broken one. */
+  @supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
+    .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(180deg,transparent 46%,rgba(0,112,243,.5) 82%,rgba(82,168,255,.92) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+  }
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
   .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
@@ -1261,8 +1269,12 @@
   .demo-ctl{-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);background:rgba(10,10,12,.62)}
   .demo-ctl svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   /* the controls come up on intent, and stay up whenever the film is stopped */
-  .demo-frame:hover .demo-scrim,.demo-frame:focus-within .demo-scrim,.demo-frame.paused .demo-scrim{opacity:1}
-  .demo-frame:hover .demo-ctls,.demo-frame:focus-within .demo-ctls,.demo-frame.paused .demo-ctls{opacity:1;translate:0 0;pointer-events:auto}
+  /* ...and while the film has never been touched, because that is the state
+     where the white button on the picture is asking a question the corner
+     button is the answer to. Hiding the words behind a hover was the original
+     fault: the reader had to already know the sound was there to go looking. */
+  .demo-frame:hover .demo-scrim,.demo-frame:focus-within .demo-scrim,.demo-frame.paused .demo-scrim,.demo-frame.intro .demo-scrim{opacity:1}
+  .demo-frame:hover .demo-ctls,.demo-frame:focus-within .demo-ctls,.demo-frame.paused .demo-ctls,.demo-frame.intro .demo-ctls{opacity:1;translate:0 0;pointer-events:auto}
   /* no hover to reveal them with, so they are simply always there */
   @media (hover:none){
     .demo-scrim{opacity:1}
