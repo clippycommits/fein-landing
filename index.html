@@ -381,28 +381,6 @@
      plain block, no align-content anywhere on the sticky's ancestor chain, no
      overflow but the store's own clip, and no will-change on .rec-pin (it would
      make the pin a containing block and Safari drops the stick). */
-  .rec-intro{min-height:32svh;display:grid;align-content:center;justify-items:start;max-width:70ch;padding-block:clamp(1rem,3svh,2rem)}
-  .rec-intro h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance;margin-top:.7rem;max-width:20ch}
-  .rec-lead{margin-top:.9rem;font-size:1.01rem;line-height:1.58;color:var(--fg-2);text-wrap:pretty;max-width:60ch}
-  /* the key. Three marks carry the whole walk and none of them is self
-     evident, so they are named once, in full, before anything moves. The stage
-     repeats this in miniature on its opening beat, because by the time the pin
-     takes over this paragraph has scrolled off the top of the screen. */
-  .rec-legend{list-style:none;margin:1.35rem 0 0;padding:0;display:grid;gap:.6rem;max-width:66ch}
-  .rec-legend li{display:grid;grid-template-columns:20px minmax(0,1fr);align-items:baseline;gap:.65rem;font-size:.93rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
-  .rec-legend b{color:#fff;font-weight:550}
-  .rec-lgm{font-family:var(--mono);font-size:.88rem;line-height:1.5;text-align:center;font-style:normal}
-  .rec-lgm.p{color:var(--mem-new)}
-  .rec-lgm.m{color:var(--mem-ret)}
-  .rec-lgm.w{color:var(--blue-l)}
-  /* the invitation. It names the shape of the walk before it starts, so the
-     first pinned frame is a step in something rather than a surprise, and it
-     names the two ways through it: the scroll, and the button that does the
-     scrolling for you */
-  .rec-gp{display:none}
-  .rec-on .rec-gp{display:inline}
-  .rec-on .rec-gs{display:none}
-  .rec-guide{margin-top:1.25rem;padding-left:.7rem;border-left:2px solid var(--blue-l);font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;line-height:1.7;color:var(--fg-3)}
   /* the static default is a document, so it takes the page measure; the pinned
      stage sets its own width and resets this */
   .rec-track{display:block;position:relative;max-width:var(--maxw);margin-inline:auto;padding:0 24px}
@@ -531,7 +509,6 @@
      never change a row's height, which is what the y-scrub depends on. */
   .rec-prov{display:flex;align-items:center;gap:.3rem;margin-top:.16rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);white-space:nowrap;opacity:calc(1 - .45 * var(--cut,0))}
   .rec-prov .tlogo{width:11px;height:11px;flex:none;opacity:.8}
-  .rec-strip,.rec-ctl{display:none}
   .rec-wires,.rec-rail,.rec-seam{display:none}
   .rec-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
@@ -634,7 +611,6 @@
   .rec-on .rec-store{opacity:var(--store,1)}
   .rec-on .rec-src{opacity:var(--srco,1)}
   .rec-on .rec-core{opacity:var(--core,1)}
-  .rec-on .rec-strip{opacity:calc(.9 * var(--chrome,1))}
   /* the counters and the line, in DOM rather than on the canvas: crisp at every
      device ratio, and readable by a screen reader that will never see a pixel */
   .rec-on .rec-wide{display:block;position:absolute;left:0;right:0;bottom:0;z-index:7;pointer-events:none;opacity:var(--wide,0);padding:clamp(60px,11svh,120px) 0 2px}
@@ -677,31 +653,6 @@
   /* the void is the one beat with no document to point at, so it is the one
      that most needs saying out loud: this is the failure mode, not an interval
      between two features */
-  /* ---- the strip: where the reader is, in one line ----
-     This used to carry a row of six source marks as jump targets. They were the
-     third place on the stage showing the same logos the card chrome and the
-     narration already show, and the only thing they added was navigation the
-     step buttons already do, so the row is gone and the sentence it sat under
-     is the whole strip: what fein is doing, and which document it is on. */
-  .rec-on .rec-strip{display:block;flex:none;padding-top:clamp(12px,2svh,18px);margin-top:auto;border-top:1px solid var(--line);opacity:.9}
-  .rec-striph{display:flex;align-items:baseline;gap:.5rem;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:0}
-  .rec-striph b{color:#fff;font-weight:500}
-  .rec-striph .now{color:var(--blue-l)}
-  /* ---- the transport ---- */
-  .rec-on .rec-ctl{display:flex;align-items:center;gap:10px;height:32px;opacity:.92}
-  .rec-cbtn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;height:30px;padding:0 11px;border:0;border-radius:8px;background:rgba(12,12,15,.7);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top);color:var(--fg);font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:box-shadow .18s ease,color .18s ease,background .18s ease}
-  .rec-cbtn:hover{color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.3),var(--hl-top)}
-  .rec-cbtn[disabled]{opacity:.35;cursor:default}
-  .rec-cbtn[disabled]:hover{color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
-  .rec-cbtn.sq{width:30px;padding:0;font-size:.72rem}
-  .rec-cbtn.play{padding-left:9px}
-  .rec-cbtn.play .gl{color:var(--blue-l);font-size:.66rem;line-height:1}
-  .rec-cbtn.play[aria-pressed="true"]{background:rgba(0,112,243,.14);box-shadow:0 0 0 1px rgba(82,168,255,.45),var(--hl-top);color:#fff}
-  /* left of the bar, not right: the far bottom corner is where the support
-     launcher sits, and a hint the reader has to look behind a bubble to find
-     is not a hint */
-  .rec-hint{margin-left:.35rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
-  .rec-hint kbd{font-family:inherit;font-size:inherit;color:var(--fg-3);border:1px solid var(--line);border-radius:4px;padding:.1rem .28rem;margin:0 .1rem}
   /* ============ the core: fein, between the document and the graph ============
      Everything the section claims happens here, so it is drawn rather than
      described. A rail runs the height of the stage; the ring sits on it at the
@@ -1653,18 +1604,6 @@ setTimeout(go,1200);})()</script>
        no overflow but the store's own clip, and no will-change on .rec-pin (it
        would make the pin a containing block and Safari drops the stick). -->
   <section id="change" class="band">
-    <div class="rec-intro wrap">
-      <span class="eyebrow">Where it goes</span>
-      <h2>Nobody files anything. Everything lands anyway.</h2>
-      <p class="rec-lead">Your firm holds a record for every company, every person and every LP it has ever touched. fein reads the tools your team already works in, and puts each sentence on the record it belongs to. One email can open three of them.</p>
-      <ul class="rec-legend">
-        <li><i class="rec-lgm p" aria-hidden="true">+</i><span><b>A fact fein wrote</b>, and the record it chose for it. Nobody typed it, and nobody filed it.</span></li>
-        <li><i class="rec-lgm m" aria-hidden="true">&minus;</i><span><b>A fact that stopped being true.</b> Struck, dated and kept, so you can still ask what the firm believed at the time.</span></li>
-        <li><i class="rec-lgm w" aria-hidden="true">&rarr;</i><span><b>The phrase it came from.</b> Every fact keeps its source document, which is the difference between an answer you can check and one you have to trust.</span></li>
-      </ul>
-      <p class="rec-guide">Five records &middot; six documents &middot; twenty-one months. <span class="rec-gp">Scroll to walk it, or press play and watch it run.</span><span class="rec-gs">Every document below, and the record fein put it on.</span></p>
-    </div>
-
     <div class="rec-track" id="rec-track">
       <div class="rec-pin" id="rec-pin">
         <div class="rec-stage">
@@ -1744,9 +1683,6 @@ setTimeout(go,1200);})()</script>
                   <p class="rec-askf">That answer crossed <b>three separate records</b>, and no person put a single line on any of them.</p>
                 </article>
               </div>
-              <div class="rec-strip" id="rec-strip">
-                <p class="rec-striph"><span id="rec-stripn">Reading</span> <b id="rec-stripd">document 1 of 5</b></p>
-              </div>
             </div>
             <div class="rec-core" id="rec-core" aria-hidden="true">
               <span class="rec-crail"></span>
@@ -1809,21 +1745,11 @@ setTimeout(go,1200);})()</script>
                  here in a sentence instead. -->
             <p class="rec-after">Five records is the demonstration. A firm this machine has been running on for a year holds <b>thousands</b> of them, built the same way, from the same documents, with nobody filing a thing.</p>
           </div>
-          <!-- the transport. A scrubbed story that can only be reached by
-               scrolling at exactly the right speed is a story most readers
-               half-read, so this gives the walk a play head, a step, and a
-               place that always says which beat they are on. -->
-          <div class="rec-ctl" id="rec-ctl">
-            <button type="button" class="rec-cbtn play" id="rec-play" aria-pressed="false"><span class="gl" aria-hidden="true">&#9654;</span><span id="rec-playl">Play the walk</span></button>
-            <button type="button" class="rec-cbtn sq" id="rec-prev" aria-label="Previous beat" title="Previous beat">&#8592;</button>
-            <button type="button" class="rec-cbtn sq" id="rec-next" aria-label="Next beat" title="Next beat">&#8594;</button>
-            <!-- no beat counter here on purpose: the documents are already
-                 numbered on the narration and counted on the strip, and a
-                 second, larger number counting something else only ever reads
-                 as a contradiction of the first -->
-            <span class="rec-hint" aria-hidden="true"><kbd>&#8592;</kbd><kbd>&#8594;</kbd> step &middot; scroll runs it</span>
-            <span class="rec-vh" id="rec-say" role="status" aria-live="polite"></span>
-          </div>
+          <!-- the visible transport (play head, step buttons, strip) is gone; the
+               walk is driven by scroll, and by the arrow keys the keydown handler
+               still binds. This live region stays: it is the only thing that tells
+               a screen reader which beat the walk is on, and it draws nothing. -->
+          <span class="rec-vh" id="rec-say" role="status" aria-live="polite"></span>
         </div>
       </div>
     </div>
@@ -3648,10 +3574,7 @@ setTimeout(go,1200);})()</script>
       counts=[].slice.call(track.querySelectorAll('.rec-rc')),
       hls=[].slice.call(track.querySelectorAll('.rec-hl')),
       ask=document.getElementById('rec-ask'),
-      stripn=document.getElementById('rec-stripn'), stripd=document.getElementById('rec-stripd'),
       say=document.getElementById('rec-say'),
-      playb=document.getElementById('rec-play'), playl=document.getElementById('rec-playl'),
-      prevb=document.getElementById('rec-prev'), nextb=document.getElementById('rec-next'),
       well=document.getElementById('rec-well'),
       src=track.querySelector('.rec-src'),
       rail=track.querySelector('.rec-rail');
@@ -4406,13 +4329,6 @@ setTimeout(go,1200);})()</script>
   }
   function markBeat(bi){
     var cardNow=CARDOF[bi];
-    var wideNow=bi>=B_OUT;
-    if(stripn) stripn.textContent=wideNow?'Pulling back':(bi===B_FIN?'Answering':(cardNow>0?'Reading':'Ready'));
-    if(stripd) stripd.textContent=wideNow?(bi===B_ALL?'your whole firm, one graph':'past the five, into the rest')
-      :(bi===B_FIN?'all 5 documents read'
-      :(cardNow>0?SAY[bi]+' · document '+cardNow+' of 5':'5 documents, 5 records'));
-    if(prevb) prevb.disabled=bi<=0;
-    if(nextb) nextb.disabled=bi>=BEATS.length-1;
     if(say) say.textContent=SAY[bi]+'. '+(cardNow>0?'Document '+cardNow+' of 5. ':(bi===B_FIN?'All 5 documents read. ':''))
       +OPS[bi].replace(/\s*&middot;\s*/g,', ')+'.';
   }
@@ -4439,13 +4355,11 @@ setTimeout(go,1200);})()</script>
   var play=false, ptime=0, pacc=0, PDUR=100000;
   function setPlay(v){
     play=v;
-    if(playb) playb.setAttribute('aria-pressed',v?'true':'false');
-    if(playl) playl.textContent=v?'Pause':(progress()>0.995?'Play it again':'Play the walk');
     if(v){ ptime=0; pacc=window.scrollY; requestAnimationFrame(step); }
   }
   function step(ts){
     if(!play) return;
-    if(progress()>=0.9995){ setPlay(false); if(playl) playl.textContent='Play it again'; return; }
+    if(progress()>=0.9995){ setPlay(false); return; }
     var dt=ptime?Math.min(64,ts-ptime):0; ptime=ts;
     var r=track.getBoundingClientRect(), travel=r.height-PINH;
     pacc+=travel*(dt/PDUR);
@@ -4453,14 +4367,6 @@ setTimeout(go,1200);})()</script>
     requestAnimationFrame(step);
   }
   function bindCtl(){
-    if(playb) playb.addEventListener('click',function(){
-      if(play){ setPlay(false); return; }
-      if(progress()>0.995) gotoBeat(0,false);
-      else if(progress()<=0.0005) window.scrollTo({top:Math.round(yFor(0)),behavior:'instant'});
-      setPlay(true);
-    });
-    if(prevb) prevb.addEventListener('click',function(){ setPlay(false); gotoBeat(beatNow()-1); });
-    if(nextb) nextb.addEventListener('click',function(){ setPlay(false); gotoBeat(beatNow()+1); });
     ['wheel','touchstart','pointerdown'].forEach(function(ev){
       window.addEventListener(ev,function(){ if(play) setPlay(false); },{passive:true});
     });
