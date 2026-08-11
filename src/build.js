@@ -25,6 +25,13 @@ const monoB64 = fs.readFileSync("GeistMono.subset.woff2").toString("base64");
 // Inter (variable 400-600, latin cut) carries body copy, sub headings, buttons
 // and nav; Geist is the display face for h1 and h2 only.
 const interB64 = fs.readFileSync("Inter.subset.woff2").toString("base64");
+// Newsreader italic sets the section labels and nothing else, so it is cut
+// against its own charset (see subset-fonts.py) and costs 6 KB rather than 15.
+const SERIF_CHARSET = fs.readFileSync("fonts.serif.charset.txt", "utf8").replace(/\n$/, "");
+const serifB64 = fs.readFileSync("Newsreader.subset.woff2").toString("base64");
+// The classes that render in it. Kept here because this list and the charset
+// are one fact: these elements are the only text the serif has glyphs for.
+const SERIF_CLASSES = ["eyebrow", "wstep", "dlab", "lab"];
 
 // Everything the page can actually render: element text, attributes that surface
 // as text (alt/aria-label/title/placeholder/content), CSS content: strings, and
@@ -51,12 +58,37 @@ function assertCharsetCovers(html, label) {
   }
 }
 
+// The same guard one level down, for the one face that is not cut against the
+// whole charset. Newsreader carries lowercase letters, figures and a handful of
+// marks; the CSS lowercases the labels, so what the browser asks the face for
+// is the label text in lower case. Anything else in a label -- a capital that
+// text-transform cannot reach, an em dash, an arrow -- would fall back to Geist
+// mid-phrase, which is exactly the seam this is here to catch.
+function assertSerifCharsetCovers(html, label) {
+  const covered = new Set(Array.from(SERIF_CHARSET));
+  const re = new RegExp(`<(\\w+)[^>]*\\bclass="[^"]*\\b(?:${SERIF_CLASSES.join("|")})\\b[^"]*"[^>]*>([^<]*)<`, "g");
+  const missing = new Map();
+  let m, seen = 0;
+  while ((m = re.exec(html))) {
+    seen++;
+    for (const ch of m[2].toLowerCase()) if (!covered.has(ch)) missing.set(ch, (missing.get(ch) || 0) + 1);
+  }
+  if (!seen) throw new Error(`${label}: no .${SERIF_CLASSES[0]} elements found -- the serif guard is matching nothing.`);
+  if (missing.size) {
+    const list = [...missing].map(([c, n]) => `U+${c.codePointAt(0).toString(16).toUpperCase().padStart(4, "0")} ${JSON.stringify(c)} x${n}`);
+    throw new Error(
+      `${label}: ${missing.size} codepoint(s) in a section label are outside the serif subset:\n  ` +
+      list.join("\n  ") + `\nAdd them to src/fonts.serif.charset.txt and re-run subset-fonts.py.`);
+  }
+}
+
 // ---- inject fonts into shared body ----
 let body = fs.readFileSync("fein.tpl.html", "utf8")
   .replace("__GEIST_SANS_B64__", sansB64)
   .replace("__GEIST_MONO_B64__", monoB64)
-  .replace("__INTER_B64__", interB64);
-if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1) throw new Error("font placeholder left");
+  .replace("__INTER_B64__", interB64)
+  .replace("__NEWSREADER_B64__", serifB64);
+if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1 || body.indexOf("__NEWSREADER") > -1) throw new Error("font placeholder left");
 
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
 const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", affinity: "logos/affinity.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg", github: "logos/github.svg" };
@@ -343,6 +375,7 @@ ${analytics}${posthog}${intercom}
 const out = "..";
 fs.mkdirSync(out, { recursive: true });
 assertCharsetCovers(indexHtml, "index.html");
+assertSerifCharsetCovers(indexHtml, "index.html");
 fs.writeFileSync(path.join(out, "index.html"), indexHtml);
 
 // robots.txt — welcome AI answer engines explicitly
