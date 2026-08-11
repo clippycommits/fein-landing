@@ -1193,34 +1193,22 @@
   /* ---- the way in ----
 
      The film autoplays muted the moment it is on screen, so it is never in the
-     stopped state and the play glyph above never shows: on arrival the reader
-     gets a silent loop already somewhere in its middle, and the only door to
-     the narrated twenty six seconds is a 32px Sound button in the corner. That
-     is the whole problem. The door belongs on the picture.
+     stopped state and the play button above never showed: on arrival the reader
+     got a silent loop already somewhere in its middle, and the only door to the
+     narrated twenty six seconds was a 32px Sound button in the corner. That was
+     the whole problem. The door belongs on the picture, so the button shows
+     until the reader presses it once, and pressing it starts the film over with
+     the voice on. Nothing is written on the film to explain that: a white play
+     button on a silent loop is already the most legible thing on the page, and
+     the corner button carries the words.
 
-     So until the reader engages once, the frame carries a named invitation and
-     the entire frame is that button. It says what the click buys (the voice)
-     and what it costs (twenty six seconds), which the bare triangle could not.
-     One click and it is gone for good: after that the frame is the pause/play
-     transport it already was, and nothing sits on the film. */
-  /* both of these sit at 41% rather than dead centre, because the film's
-     captions are burned into the picture in a band across the middle of it and
-     a pill parked on top of that reads as two labels fighting */
-  .demo-veil{position:absolute;inset:0;background:radial-gradient(58% 58% at 50% 41%,rgba(0,0,0,.7),rgba(0,0,0,.28) 66%,rgba(0,0,0,.12));opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1}
+     Both the button and the vignette under it sit at 41% rather than dead
+     centre, because this film's captions are burned into the picture in a band
+     across the middle and the button would land in them. */
+  .demo-veil{position:absolute;inset:0;background:radial-gradient(58% 58% at 50% 41%,rgba(0,0,0,.58),rgba(0,0,0,.24) 66%,rgba(0,0,0,.1));opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1}
   .demo-frame.intro .demo-veil{opacity:1}
-  .demo-cta{display:none}
-  /* the glyph is the one solid white object on a page of hairlines, because it
-     is the one thing on the page that is asking to be pressed */
-  .demo-cta-i{flex:none;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center}
-  .demo-cta-i svg{width:17px;height:17px;fill:#000;stroke:none;margin-left:2px}
-  .demo-cta-t{display:flex;flex-direction:column;gap:.14rem;font-size:14.5px;font-weight:560;letter-spacing:-.012em;line-height:1.1;color:var(--fg);text-align:left}
-  .demo-cta-t i{font-family:var(--mono);font-style:normal;font-size:.62rem;font-weight:500;letter-spacing:.15em;color:var(--fg-3)}
-  .demo-frame.intro .demo-cta{opacity:1;scale:1}
-  .demo-frame.intro .demo-big{opacity:0}
-  .demo-frame.intro .demo-hit:hover .demo-cta{scale:1.025}
   @media (prefers-reduced-motion: reduce){
-    .demo-cta{transition:opacity .24s ease}
-    .demo-frame.intro .demo-hit:hover .demo-cta{scale:1}
+    .demo-hit:hover .demo-big{scale:1}
   }
   /* bottom left, not bottom right: the Intercom launcher is fixed to the
      bottom right of every page at z-index 2147483000, so anything parked in
@@ -1323,13 +1311,10 @@
     .demo-chap b{font-size:.9rem}
     .demo-act{flex-direction:column;align-items:stretch}
     .demo-act .btn{width:100%}
-    /* the frame renders about 220px tall here, so the invitation takes a step
-       down to sit inside the picture rather than across it */
-    .demo-cta{gap:.6rem;padding:.42rem .85rem .42rem .42rem}
-    .demo-cta-i{width:34px;height:34px}
-    .demo-cta-i svg{width:15px;height:15px}
-    .demo-cta-t{font-size:13.5px}
-    .demo-cta-t i{font-size:.58rem}
+    /* the frame renders about 220px tall here, so the button takes a step down
+       to sit inside the picture rather than across it */
+    .demo-big{width:54px;height:54px}
+    .demo-big svg{width:23px;height:23px}
   }
   /* a touchscreen laptop still reports hover, so it keeps the rail button and
      needs it at a real touch size */
@@ -1526,18 +1511,12 @@ __LOGO_SPRITE__
         <button class="demo-hit" id="demo-hit" type="button" aria-label="Play the walkthrough">
           <span class="demo-big" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
           <span class="demo-dur" aria-hidden="true">26 SECONDS</span>
-          <!-- the invitation rides inside the hit target rather than beside it,
-               so the whole frame stays one button and one focus stop -->
-          <span class="demo-cta" aria-hidden="true">
-            <span class="demo-cta-i"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-            <span class="demo-cta-t">Play with sound<i>26 SECONDS</i></span>
-          </span>
         </button>
         <div class="demo-ctls">
-          <button class="btn btn-ghost demo-ctl" id="demo-sound" type="button" aria-pressed="false" aria-label="Turn the narration on">
+          <button class="btn btn-ghost demo-ctl" id="demo-sound" type="button" aria-pressed="false" aria-label="Turn the sound on">
             <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9.5 5 5m0-5-5 5"/></svg>
             <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.8a4.4 4.4 0 0 1 0 6.4M18.4 6a8.3 8.3 0 0 1 0 12"/></svg>
-            <span class="lbl-snd">Sound</span>
+            <span class="lbl-snd">Sound on</span>
           </button>
           <button class="btn btn-ghost demo-ctl" id="demo-fs" type="button" aria-label="Play full screen">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
@@ -4622,7 +4601,8 @@ __LOGO_SPRITE__
      that holds the state. The rail proxies its click rather than repeating the
      logic, which is what keeps the two labels from ever disagreeing. */
   var snd2=document.getElementById('demo-snd2'),
-      snd2l=document.getElementById('demo-snd2l');
+      snd2l=document.getElementById('demo-snd2l'),
+      sndl=snd?snd.querySelector('.lbl-snd'):null;
   if(snd2&&snd) snd2.addEventListener('click',function(){ snd.click(); });
 
   if(snd) snd.addEventListener('click',function(){
@@ -4633,7 +4613,11 @@ __LOGO_SPRITE__
     v.loop=!on;
     frame.classList.toggle('sound',on);
     snd.setAttribute('aria-pressed',on?'true':'false');
-    snd.setAttribute('aria-label',on?'Mute the narration':'Turn the narration on');
+    /* the corner button names the press, not the state: with the voice running
+       the thing it does is turn it off. It is the only words on the frame, so
+       it also has to carry what the white button on the picture cannot say. */
+    snd.setAttribute('aria-label',on?'Turn the sound off':'Turn the sound on');
+    if(sndl) sndl.textContent=on?'Sound off':'Sound on';
     if(snd2l) snd2l.textContent=on?'Mute':'Watch with sound';
     if(snd2) snd2.setAttribute('aria-pressed',on?'true':'false');
     /* the narration is a written twenty-six seconds with a first line, and by
