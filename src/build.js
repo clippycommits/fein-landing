@@ -66,7 +66,7 @@ let body = fs.readFileSync("fein.tpl.html", "utf8")
 if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1 || body.indexOf("__NEWSREADER") > -1) throw new Error("font placeholder left");
 
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
-const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", affinity: "logos/affinity.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg", github: "logos/github.svg", salesforce: "logos/si-salesforce.svg", dropbox: "logos/si-dropbox.svg", box: "logos/si-box.svg", crunchbase: "logos/si-crunchbase.svg", googlesheets: "logos/si-googlesheets.svg" };
+const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", affinity: "logos/affinity.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg", github: "logos/github.svg", salesforce: "logos/si-salesforce.svg", dropbox: "logos/si-dropbox.svg", box: "logos/si-box.svg", crunchbase: "logos/si-crunchbase.svg", googlesheets: "logos/si-googlesheets.svg", whatsapp: "logos/whatsapp.svg" };
 const MONO = { openai: 1, cursor: 1, gemini: 1, perplexity: 1, copilot: 1, github: 1 }; // monochrome marks -> recolor via currentColor
 function symbolFor(name, file) {
   let s = fs.readFileSync(file, "utf8").replace(/<\?xml[^>]*\?>/i, "").trim();
@@ -102,7 +102,7 @@ function spriteOf(names) {
 // the answer can be asked in, and the citation on every claim. All of those
 // marks paint above the fold, so they ship in the head sprite rather than the
 // end-of-body one. The guard below is what tells you when this list is stale.
-const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "affinity", "slack", "claude", "openai", "cursor"];
+const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "affinity", "slack", "claude", "openai", "cursor", "whatsapp"];
 const spriteHero = spriteOf(SPRITE_EARLY);
 const spriteRest = spriteOf(Object.keys(LOGOS).filter(k => SPRITE_EARLY.indexOf(k) < 0));
 

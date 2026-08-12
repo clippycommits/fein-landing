@@ -1253,6 +1253,24 @@
    and its own logo. Full colour marks keep their own fills; currentColor tints
    only the monochrome ones, which is why this sets a colour at all */
 .nmk{display:inline-block;width:.62em;height:.62em;vertical-align:.05em;margin-left:.17em;color:#fff;fill:currentColor}
+  /* the three products the fold closes on are their marks rather than their names.
+     Unlike .nmk above, these keep their own colour: that one sets a mark beside a
+     word it is already reading, where a second hue is noise, and here the mark IS
+     the word, so recolouring it to grey would leave three grey shapes nobody can
+     name. Claude and WhatsApp carry their brand fills, which nothing here touches
+     because both paths declare their own. The OpenAI mark is in build's MONO list,
+     so it has no fill of its own and takes currentColor: the color:#fff below is
+     for that one mark alone, and it is there because inheriting the lead's grey
+     left ChatGPT visibly dimmer than the two either side of it.
+
+     Sized in em so they track the lead's clamp, and set a shade above the cap
+     rather than on the baseline, where a square glyph reads as having dropped.
+     Spacing is margin and not a word space, because a space between two 1em marks
+     sets them further apart than the eye reads as one group. Each carries its own
+     label: an icon standing in for a word still has to be that word to a reader
+     who cannot see it. */
+  .inmk{display:inline-block;width:1.02em;height:1.02em;vertical-align:-.2em;color:#fff}
+  .inmk+.inmk{margin-left:.34em}
 .nmn{white-space:nowrap}
 .brandrow{display:flex;align-items:center;--bi:17px}
 .brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
@@ -1960,7 +1978,7 @@ __LOGO_SPRITE__
            the page already uses. The audience moves to the front so the first thing
            the line does is say who it is for, which lets "your team" stand alone
            later instead of carrying "venture capital" a second time. -->
-      <p>Purpose built for venture capital, fein is an open source context graph that transforms your team's raw data into intelligent, searchable memory for agents and humans. Available in Claude, ChatGPT and WhatsApp.</p>
+      <p>Purpose built for venture capital, fein is an open source context graph that transforms your team's raw data into intelligent, searchable memory for agents and humans. Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg></p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <a class="btn btn-ghost" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
