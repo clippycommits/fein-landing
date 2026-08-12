@@ -1404,28 +1404,37 @@
     -webkit-mask-image:linear-gradient(180deg,#000 0,#000 80%,rgba(0,0,0,.35) 93%,transparent 100%);
             mask-image:linear-gradient(180deg,#000 0,#000 80%,rgba(0,0,0,.35) 93%,transparent 100%)}
 
-  /* the neck: the one line that says this was a call and not a lookup */
-  .fn-call{display:inline-flex;align-items:center;gap:.44rem;padding:.28rem .62rem;border-radius:999px;background:rgba(255,255,255,.035);font-family:var(--mono);font-size:10.4px;letter-spacing:.01em;color:var(--dim)}
-  .fn-call b{color:var(--fg-2);font-weight:600}
-  .fn-call em{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
-  .fn-live{width:5px;height:5px;border-radius:50%;background:#3ecf8e;box-shadow:0 0 0 2px rgba(62,207,142,.16)}
+  /* the neck. No capsule: at this size a filled pill reads as a button, and
+     nothing on this fold is pressable. A dot and a name is the whole line. */
+  .fn-call{display:inline-flex;align-items:center;gap:.42rem;font-family:var(--mono);font-size:10.1px;letter-spacing:.02em;color:var(--dim)}
+  .fn-call b{color:var(--fg-3);font-weight:600}
+  .fn-live{width:4px;height:4px;border-radius:50%;background:#3ecf8e}
 
-  .fn-read{list-style:none;margin:clamp(.75rem,1.7vh,1.2rem) 0 0;padding:0;width:min(620px,100%);display:flex;flex-direction:column}
-  .fn-src{display:grid;grid-template-columns:15px minmax(0,1fr) auto;align-items:center;gap:.58rem;padding:.36rem .55rem;border-radius:7px;transition:background .45s ease,opacity .55s ease,transform .55s cubic-bezier(.16,.84,.44,1)}
-  .fn-src .tlogo{width:14px;height:14px;opacity:.68;transition:opacity .45s ease}
-  .fn-src b{min-width:0;font-size:12.3px;font-weight:450;letter-spacing:-.008em;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .45s ease}
-  .fn-src em{font-style:normal;font-size:10.4px;color:var(--dim);white-space:nowrap;transition:color .45s ease}
-  .fn-src.scan{background:rgba(255,255,255,.05);transition-duration:.12s}
-  .fn-src.hot{background:rgba(82,168,255,.11)}
+  .fn-read{list-style:none;margin:clamp(.85rem,2vh,1.35rem) 0 0;padding:0;width:min(560px,100%);display:flex;flex-direction:column}
+  /* a row lights by saturating its mark and whitening its title, with a short
+     rule in the gutter where the fill used to be. A filled block behind a line
+     of text reads as a selected state, which is something the reader did; this
+     is something the answer did, so it is given a mark and not a highlight. */
+  .fn-src{position:relative;display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:.55rem;padding:.34rem 0 .34rem .62rem;transition:opacity .55s ease,transform .55s cubic-bezier(.16,.84,.44,1)}
+  .fn-src::before{content:"";position:absolute;left:0;top:50%;width:2px;height:0;translate:0 -50%;border-radius:1px;background:var(--blue-l);transition:height .42s cubic-bezier(.16,.84,.44,1)}
+  .fn-src .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .45s ease}
+  .fn-src b{min-width:0;font-size:12.2px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .45s ease}
+  .fn-src em{font-style:normal;font-size:10.2px;color:rgba(255,255,255,.2);white-space:nowrap;transition:color .45s ease}
+  .fn-src.scan .tlogo{opacity:.82;transition-duration:.12s}
+  .fn-src.scan b{color:var(--fg-3);transition-duration:.12s}
+  .fn-src.hot::before{height:14px}
   .fn-src.hot .tlogo{opacity:1}
   .fn-src.hot b{color:#fff}
   .fn-src.hot em{color:var(--fg-3)}
 
-  /* the record the seven came out of. Widest, quietest, and cut off by the mask
-     rather than by a count. */
-  .fn-rest{list-style:none;margin:clamp(.6rem,1.5vh,1rem) 0 0;padding:0;width:min(1120px,100%);display:flex;flex-wrap:wrap;justify-content:center;gap:.34rem .42rem}
-  .fn-rest li{display:inline-flex;align-items:center;gap:.3rem;padding:.15rem .42rem;border-radius:6px;background:rgba(255,255,255,.025);font-size:10.1px;color:var(--dim);white-space:nowrap}
-  .fn-rest .tlogo{width:10px;height:10px;opacity:.46}
+  /* the record the seven came out of: one dim line of it, wrapped, running
+     wider than the rows and dying into the page. Middots rather than chips,
+     because sixteen filled shapes is a quieter version of the wall this
+     replaced and not a different idea. */
+  .fn-rest{list-style:none;margin:clamp(.8rem,1.9vh,1.25rem) 0 0;padding:0;width:min(1000px,100%);display:flex;flex-wrap:wrap;justify-content:center;gap:.12rem .34rem;font-size:10px;color:rgba(255,255,255,.2)}
+  .fn-rest li{display:inline-flex;align-items:center;gap:.28rem;white-space:nowrap}
+  .fn-rest li+li::before{content:"\00b7";margin-right:.34rem;color:rgba(255,255,255,.12)}
+  .fn-rest .tlogo{width:9px;height:9px;opacity:.32}
 
   /* .armed is added only when the script commits to playing, and a watchdog
      takes it off again, so there is no state in which the funnel is blank. */
@@ -2071,7 +2080,7 @@ setTimeout(go,1200);})()</script>
              white in its title, which is all the emphasis a line of text needs
              once it is not competing with a border. -->
         <div class="lead-funnel" aria-hidden="true">
-          <p class="fn-call"><i class="fn-live"></i><b>fein</b><span>search_memory</span><em>0.9s</em></p>
+          <p class="fn-call"><i class="fn-live"></i><b>fein</b><span>search_memory</span></p>
           <ol class="fn-read">
             <li class="fn-src" data-d="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
             <li class="fn-src" data-d="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
