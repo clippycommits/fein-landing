@@ -473,8 +473,11 @@
   .fig-hl:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
 
   /* ---- what fein filed ---- */
-  .fig-rows{list-style:none;margin:0;padding:0}
-  .fig-row{display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:.72rem;padding:13px 15px;border-bottom:1px solid var(--line);transition:background .18s ease,opacity .2s ease}
+  /* the two panels share a bottom line, so a panel with three rows against a
+     document with eight has slack to place. It goes into the rows, evenly,
+     rather than pooling into one dead block above the foot */
+  .fig-rows{list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column}
+  .fig-row{flex:1;display:grid;align-content:start;grid-template-columns:20px minmax(0,1fr);column-gap:.72rem;padding:13px 15px;border-bottom:1px solid var(--line);transition:background .18s ease,opacity .2s ease}
   .fig-row:last-child{border-bottom:0}
   .fig-row.on{background:rgba(255,255,255,.022)}
   .fig-n{display:grid;place-items:center;width:20px;height:20px;margin-top:1px;border-radius:5px;background:rgba(0,112,243,.26);font-size:11px;font-weight:550;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums}
@@ -517,12 +520,69 @@
   .fig-d.armed [data-side="out"] .fig-row{opacity:0;translate:0 7px;transition:opacity .4s cubic-bezier(.22,.61,.36,1),translate .4s cubic-bezier(.22,.61,.36,1)}
   .fig-d.armed [data-side="out"] .fig-row.lit{opacity:1;translate:0 0}
   .fig-d.armed.lit [data-side="out"] .fig-row.lit:not(.on){opacity:.4}
+  /* ---- 01: the message, as it actually looks in the client it came from ----
+     A landing page that redraws an email as grey prose is asking the reader to
+     take its word for it. This is the thing on their second monitor: subject,
+     avatar, to me, the attachment card, reply and forward. The phrases fein
+     lifted are the only part of it that is not Gmail. */
+  .gm-sub{display:flex;align-items:center;gap:.55rem;padding:.9rem 15px .55rem;font-size:1.04rem;font-weight:550;letter-spacing:-.018em;color:#fff}
+  .gm-lab{padding:.1rem .38rem;border-radius:4px;background:rgba(255,255,255,.07);font-size:.68rem;font-weight:500;color:var(--fg-3)}
+  .gm-from{display:grid;grid-template-columns:34px minmax(0,1fr) auto;column-gap:.7rem;align-items:center;padding:0 15px .75rem}
+  .gm-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#584f9e;color:#fff;font-size:.8rem;font-weight:600;letter-spacing:.01em}
+  .gm-nm{font-size:.89rem;font-weight:550;color:#fff}
+  .gm-nm span{font-weight:400;color:var(--dim)}
+  .gm-to{font-size:.78rem;color:var(--dim);margin-top:.05rem}
+  .gm-meta{display:flex;align-items:center;gap:.55rem;font-size:.76rem;color:var(--dim);white-space:nowrap}
+  .gm-meta svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .gm-body{padding:.35rem 15px .9rem;font-size:.95rem;line-height:1.72;color:var(--fg-2);max-width:48ch}
+  .gm-att{display:flex;align-items:center;gap:.6rem;margin:0 15px .9rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:9px;width:max-content;max-width:calc(100% - 30px)}
+  .gm-att .pdf{flex:none;display:grid;place-items:center;width:27px;height:27px;border-radius:6px;background:rgba(255,122,114,.14);color:#ff7a72;font-size:.55rem;font-weight:600;letter-spacing:.02em}
+  .gm-att b{display:block;font-size:.82rem;font-weight:500;color:var(--fg)}
+  .gm-att i{font-style:normal;font-size:.72rem;color:var(--dim)}
+  .gm-acts{margin-top:auto;display:flex;gap:.5rem;padding:.2rem 15px 1rem}
+  .gm-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.34rem .85rem;border:1px solid var(--line-2);border-radius:999px;font-size:.8rem;color:var(--fg-2)}
+  .gm-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---- 02: four tools, one column. The shape is the argument: a feed of
+     different products, not another page of prose ---- */
+  .feed{list-style:none;margin:0;padding:0}
+  .feed-row{display:grid;grid-template-columns:27px minmax(0,1fr);column-gap:.7rem;padding:.72rem 15px;border-bottom:1px solid var(--line)}
+  .feed-row:last-child{border-bottom:0}
+  .feed-ic{flex:none;display:grid;place-items:center;width:27px;height:27px;margin-top:1px;border-radius:7px;background:rgba(255,255,255,.05)}
+  .feed-ic .tlogo{width:14px;height:14px}
+  .feed-h{display:flex;align-items:baseline;gap:.6rem;font-size:.87rem;font-weight:550;color:#fff;letter-spacing:-.01em}
+  .feed-h em{margin-left:auto;font-style:normal;font-size:.73rem;font-weight:400;color:var(--dim);white-space:nowrap}
+  .feed-t{margin-top:.2rem;font-size:.88rem;line-height:1.55;color:var(--fg-3)}
+  .fig-new{margin-left:.1rem;padding:.06rem .32rem;border-radius:4px;background:rgba(63,191,127,.14);font-size:.66rem;font-weight:500;color:var(--mem-new)}
+
+  /* ---- 03: the outcome. One box, one question, one answer, and the documents
+     it was built from sitting in the sentence where the claim is made ---- */
+  .fig--mid .fig-head{max-width:58ch;margin-inline:auto;text-align:center}
+  .fig--mid .fig-after{text-align:center}
+  .fig--mid .fig-after span{margin-inline:auto}
+  .ask{width:min(860px,100%);margin-inline:auto;background:var(--bg-2);border:1px solid rgba(82,168,255,.20);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 0 0 1px rgba(0,112,243,.05),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
+  .ask-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
+  .ask-bar .mag{width:16px;height:16px;flex:none;color:var(--blue-l);fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+  .ask-q{font-size:1.02rem;font-weight:550;color:#fff;letter-spacing:-.014em}
+  .ask-caret{display:inline-block;width:.46em;height:1.02em;margin-left:2px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
+  .ask-in{margin-left:auto;display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:var(--dim);white-space:nowrap}
+  .ask-in .tlogo{width:15px;height:15px}
+  .ask-a{padding:1.1rem 16px 1.15rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left}
+  .ask-a b{color:#fff;font-weight:600}
+  /* the citation is the product, so it is a real object in the sentence rather
+     than a footnote number the reader has to go and look up */
+  .cite{display:inline-flex;align-items:center;gap:.26rem;margin:0 0 0 .22rem;padding:.06rem .3rem;translate:0 -1px;border:1px solid var(--line);border-radius:5px;background:rgba(255,255,255,.03);font-size:.69rem;color:var(--fg-3);white-space:nowrap;vertical-align:middle}
+  .cite .tlogo{width:11px;height:11px;flex:none;opacity:.85}
+  .ask-f{display:flex;align-items:center;gap:.45rem;padding:.72rem 16px;border-top:1px solid var(--line);font-size:.79rem;color:var(--dim)}
+  .ask-f .tlogo{width:12px;height:12px;opacity:.8}
+  .ask-f b{margin-left:auto;font-weight:400;color:#5f636b}
   /* stacked, the two panels are one column: there is no gap for a wire to run
      down, so the column and its wires go and the numbers carry the mapping */
   @media (max-width:900px){
     .fig-d{grid-template-columns:minmax(0,1fr);row-gap:14px}
     .fig-mid,.fig-wires{display:none}
-    .fig-mb{max-width:none}
+    .fig-mb,.gm-body,.ask-a{max-width:none}
+    .gm-meta{display:none}
     .fig-head{margin-bottom:1.15rem}
   }
 
@@ -908,8 +968,10 @@
     .rb-pre{display:none}
     .rb-x{right:6px}
     /* one line per fact is worth more here than a tenth of a rem of type size */
-    .fig-mb{font-size:.92rem}
-    .fig-row{padding:11px 13px}
+    .fig-mb,.gm-body{font-size:.92rem}
+    .fig-row,.feed-row{padding:11px 13px}
+    .ask-a{font-size:.98rem;padding:.95rem 14px 1rem}
+    .ask-q{font-size:.96rem}
     .fig-f,.fig-rn{font-size:.88rem}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
     .fcol{gap:.1rem}
@@ -1587,16 +1649,16 @@ setTimeout(go,1200);})()</script>
     <div class="change-head">
       <span class="eyebrow">WHY FEIN EXISTS</span>
       <h2 id="change-h">A memory layer built for the next generation of venture capital.</h2>
-      <p class="sub">Your firm knows more than it can find. It sits in ten thousand emails, call notes and decks, and every quarter you lose more of it. fein reads all of it. It files every fact on the record it belongs to, with a date and a source. What your firm learned two years ago is there when you need it.</p>
+      <p class="sub">Your firm knows more than it can find. fein reads every message, call note and invite that reaches it, files each fact on the record it belongs to with a date and a source, and answers out of all of it.</p>
     </div>
 
     <div class="figs">
 
-      <!-- 01: three facts out of one forwarded email -->
+      <!-- 01: one message, as it looks in the client it arrived in -->
       <section class="fig" aria-labelledby="fig1-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig1-h"><i>01</i>First, fein reads what arrives.</h3>
-          <p class="fig-sub">A partner forwards a deck and moves on. fein reads the sentence, not the attachment, and files three facts on three different records. <b>Nothing was typed and nothing was tagged.</b></p>
+          <p class="fig-sub">A partner forwards a deck and moves on. <b>Three facts, three records, nothing typed.</b></p>
         </div>
         <div class="fig-d" data-fig="1">
           <svg class="fig-wires" aria-hidden="true"></svg>
@@ -1604,15 +1666,26 @@ setTimeout(go,1200);})()</script>
             <span class="fig-scan" aria-hidden="true"></span>
             <div class="fig-bar">
               <h4>What arrived</h4>
-              <span class="fig-tool"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Gmail</b> &middot; 8 Nov 2024</span>
+              <span class="fig-tool"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Gmail</b> &middot; inbox</span>
             </div>
-            <div class="fig-mh">
-              <p class="fig-mfrom"><b><button class="fig-hl" type="button" data-w="1" aria-describedby="f1r1">Dev Raman<sup aria-hidden="true">1</sup></button></b> <span>&lt;dev@raman.vc&gt;</span></p>
-              <p class="fig-mto">to Marcus Feld</p>
-              <p class="fig-msub">Fwd: Halo Compute, seed deck</p>
+            <p class="gm-sub">Fwd: Halo Compute, seed deck <span class="gm-lab">Inbox</span></p>
+            <div class="gm-from">
+              <span class="gm-av" aria-hidden="true">DR</span>
+              <div>
+                <p class="gm-nm"><button class="fig-hl" type="button" data-w="1" aria-describedby="f1r1">Dev Raman<sup aria-hidden="true">1</sup></button> <span>&lt;dev@raman.vc&gt;</span></p>
+                <p class="gm-to">to me</p>
+              </div>
+              <span class="gm-meta">09:14, 8 Nov 2024
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>
+              </span>
             </div>
-            <p class="fig-mb">Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <button class="fig-hl" type="button" data-w="2" aria-describedby="f1r2">raising a $4M seed<sup aria-hidden="true">2</sup></button> and I think <button class="fig-hl" type="button" data-w="3" aria-describedby="f1r3">you are the right partner<sup aria-hidden="true">3</sup></button> for it.</p>
-            <p class="fig-foot"><svg class="clip" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>Halo-Compute-Seed.pdf<em>2.4 MB</em></p>
+            <p class="gm-body">Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <button class="fig-hl" type="button" data-w="2" aria-describedby="f1r2">raising a $4M seed<sup aria-hidden="true">2</sup></button> and I think <button class="fig-hl" type="button" data-w="3" aria-describedby="f1r3">you are the right partner<sup aria-hidden="true">3</sup></button> for it.</p>
+            <p class="gm-att"><span class="pdf" aria-hidden="true">PDF</span><span><b>Halo-Compute-Seed.pdf</b><i>2.4 MB</i></span></p>
+            <p class="gm-acts">
+              <span class="gm-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>Reply</span>
+              <span class="gm-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>Forward</span>
+            </p>
           </article>
           <div class="fig-mid"><span class="fig-name">fein</span></div>
           <article class="fig-p" data-side="out">
@@ -1648,63 +1721,86 @@ setTimeout(go,1200);})()</script>
         </div>
       </section>
 
-      <!-- 02: the same machine, eighteen months later, against facts it already
-           holds. The retired rows are the argument: fein dates a fact out, it
-           does not delete it. -->
+      <!-- 02: four tools, eighteen months, three records. The retired line is
+           the argument: a fact that stops being true is struck and dated. -->
       <section class="fig" aria-labelledby="fig2-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig2-h"><i>02</i>Then it updates what it already knew.</h3>
-          <p class="fig-sub">Eighteen months later the company writes to its investor list. fein files the two new facts and strikes the two they replace, dated. <b>Ask what your firm believed in November 2024 and it can still tell you.</b></p>
+          <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line untrue, so <b>fein strikes it and dates it instead of deleting it.</b></p>
         </div>
         <div class="fig-d" data-fig="2">
           <svg class="fig-wires" aria-hidden="true"></svg>
           <article class="fig-p" data-side="in">
             <span class="fig-scan" aria-hidden="true"></span>
             <div class="fig-bar">
-              <h4>What arrived</h4>
-              <span class="fig-tool"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Gmail</b> &middot; 2 Jun 2026</span>
+              <h4>What arrived next</h4>
+              <span class="fig-tool">4 documents &middot; 18 months</span>
             </div>
-            <div class="fig-mh">
-              <p class="fig-mfrom"><b>Nadia Osei</b> <span>&lt;nadia@halocompute.com&gt;</span></p>
-              <p class="fig-mto">to investors@</p>
-              <p class="fig-msub">Halo Compute, June update</p>
-            </div>
-            <p class="fig-mb">Quick update for the list. Revenue held through the spring, so we are <button class="fig-hl" type="button" data-w="1" aria-describedby="f2r1">opening a $30M Series A<sup aria-hidden="true">1</sup></button> this month. On the product side <button class="fig-hl" type="button" data-w="2" aria-describedby="f2r2">six design partners are live<sup aria-hidden="true">2</sup></button> in production, up from none at the seed.</p>
-            <p class="fig-foot"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Reply-all to 22 investors<em>2 Jun 2026</em></p>
+            <ol class="feed">
+              <li class="feed-row">
+                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg></span>
+                <div>
+                  <p class="feed-h">Coffee with Halo Compute <em>21 Nov 2024</em></p>
+                  <p class="feed-t">Both founders are <button class="fig-hl" type="button" data-w="1" aria-describedby="f2r1">ex-Anthropic infra<sup aria-hidden="true">1</sup></button>.</p>
+                </div>
+              </li>
+              <li class="feed-row">
+                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg></span>
+                <div>
+                  <p class="feed-h">Priya Nayar started a new position <em>3 Jun 2025</em></p>
+                  <p class="feed-t"><button class="fig-hl" type="button" data-w="2" aria-describedby="f2r2">VP Engineering at Halo Compute<sup aria-hidden="true">2</sup></button>.</p>
+                </div>
+              </li>
+              <li class="feed-row">
+                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg></span>
+                <div>
+                  <p class="feed-h">Northwind Capital, quarterly review <em>12 Mar 2026</em></p>
+                  <p class="feed-t">For the next fund they want <button class="fig-hl" type="button" data-w="3" aria-describedby="f2r3">more AI infrastructure<sup aria-hidden="true">3</sup></button>.</p>
+                </div>
+              </li>
+              <li class="feed-row">
+                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg></span>
+                <div>
+                  <p class="feed-h">Halo Compute, June update <em>2 Jun 2026</em></p>
+                  <p class="feed-t">We are <button class="fig-hl" type="button" data-w="4" aria-describedby="f2r4">opening a $30M Series A<sup aria-hidden="true">4</sup></button>.</p>
+                </div>
+              </li>
+            </ol>
           </article>
           <div class="fig-mid"><span class="fig-name">fein</span></div>
           <article class="fig-p" data-side="out">
             <div class="fig-bar">
-              <h4>What fein changed</h4>
-              <span class="fig-tool">Halo Compute &middot; company</span>
+              <h4>What fein filed</h4>
+              <span class="fig-tool">3 records touched</span>
             </div>
             <ol class="fig-rows">
               <li class="fig-row" data-w="1" id="f2r1">
                 <span class="fig-n" aria-hidden="true">1</span>
                 <div>
-                  <p class="fig-f">Opening a <b>$30M Series A</b>.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</p>
-                </div>
-              </li>
-              <li class="fig-row">
-                <span class="fig-n q" aria-hidden="true">&minus;</span>
-                <div>
-                  <p class="fig-f ret"><s>Raising a <b>$4M seed</b>.</s><span class="fig-when">Nov 2024 &rarr; Jun 2026</span></p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</p>
+                  <p class="fig-rn">Halo Compute <span class="fig-rt">Company</span></p>
+                  <p class="fig-f">Two <b>ex-Anthropic</b> infra engineers.</p>
                 </div>
               </li>
               <li class="fig-row" data-w="2" id="f2r2">
                 <span class="fig-n" aria-hidden="true">2</span>
                 <div>
-                  <p class="fig-f"><b>Six design partners</b> live.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</p>
+                  <p class="fig-rn">Priya Nayar <span class="fig-rt">Person</span> <span class="fig-new">new record</span></p>
+                  <p class="fig-f"><b>VP Engineering</b> at Halo Compute.</p>
                 </div>
               </li>
-              <li class="fig-row">
-                <span class="fig-n q" aria-hidden="true">&minus;</span>
+              <li class="fig-row" data-w="3" id="f2r3">
+                <span class="fig-n" aria-hidden="true">3</span>
                 <div>
-                  <p class="fig-f ret"><s><b>No design partners</b> live.</s><span class="fig-when">Nov 2024 &rarr; Jun 2026</span></p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Granola &middot; 21 Nov 2024</p>
+                  <p class="fig-rn">Northwind Capital <span class="fig-rt">LP</span></p>
+                  <p class="fig-f">Wants more <b>AI infrastructure</b> exposure.</p>
+                </div>
+              </li>
+              <li class="fig-row" data-w="4" id="f2r4">
+                <span class="fig-n" aria-hidden="true">4</span>
+                <div>
+                  <p class="fig-rn">Halo Compute <span class="fig-rt">Company</span></p>
+                  <p class="fig-f">Opening a <b>$30M Series A</b>.</p>
+                  <p class="fig-f ret"><s>Raising a $4M seed.</s><span class="fig-when">Nov 2024 &rarr; Jun 2026</span></p>
                 </div>
               </li>
             </ol>
@@ -1712,81 +1808,33 @@ setTimeout(go,1200);})()</script>
         </div>
       </section>
 
-      <!-- 03: the loop closes. The documents are gone and the records are the
-           input now, which is the only way to show that the answer is made of
-           them and not of the model. -->
-      <section class="fig" aria-labelledby="fig3-h">
+      <!-- 03: the outcome, and the only place the two panels give way. One box,
+           one answer, and the documents behind it in the sentence itself. -->
+      <section class="fig fig--mid" aria-labelledby="fig3-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig3-h"><i>03</i>Finally, it answers from all of it.</h3>
-          <p class="fig-sub">Three records, written by three documents, across three different years. You ask in the tool you already use and every line comes back with the document it was read from. <b>You can click through to it.</b></p>
+          <p class="fig-sub">Ask in Claude, ChatGPT or Cursor. <b>One answer, and every claim carries the document it came from.</b></p>
         </div>
-        <div class="fig-d" data-fig="3">
-          <svg class="fig-wires" aria-hidden="true"></svg>
-          <article class="fig-p" data-side="in">
-            <div class="fig-bar">
-              <h4>What fein remembers</h4>
-              <span class="fig-tool">your firm &middot; 3 of 4,180 records</span>
-            </div>
-            <ol class="fig-rows">
-              <li class="fig-row">
-                <span class="fig-n" aria-hidden="true">1</span>
-                <div>
-                  <p class="fig-rn">Northwind Capital <span class="fig-rt">LP</span></p>
-                  <p class="fig-f">Wants more <button class="fig-hl" type="button" data-w="1" aria-describedby="f3r1">AI infrastructure exposure<sup aria-hidden="true">1</sup></button>.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar &middot; 12 Mar 2026</p>
-                </div>
-              </li>
-              <li class="fig-row">
-                <span class="fig-n" aria-hidden="true">2</span>
-                <div>
-                  <p class="fig-rn">Halo Compute <span class="fig-rt">Company</span></p>
-                  <p class="fig-f"><button class="fig-hl" type="button" data-w="2" aria-describedby="f3r2">Opening a $30M Series A<sup aria-hidden="true">2</sup></button>. Six design partners live.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</p>
-                </div>
-              </li>
-              <li class="fig-row">
-                <span class="fig-n" aria-hidden="true">3</span>
-                <div>
-                  <p class="fig-rn">Dev Raman <span class="fig-rt">Co-investor</span></p>
-                  <p class="fig-f"><button class="fig-hl" type="button" data-w="3" aria-describedby="f3r3">Introduced Halo Compute<sup aria-hidden="true">3</sup></button>. Warmest path in.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</p>
-                </div>
-              </li>
-            </ol>
-          </article>
-          <div class="fig-mid"><span class="fig-name">fein</span></div>
-          <article class="fig-p" data-side="out">
-            <div class="fig-bar">
-              <h4>What you get back</h4>
-              <span class="fig-tool"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><b>Claude</b> &middot; 28 Jul 2026</span>
-            </div>
-            <p class="fig-q">Who should I bring into Halo Compute&rsquo;s Series A?</p>
-            <ol class="fig-rows">
-              <li class="fig-row" data-w="1" id="f3r1">
-                <span class="fig-n" aria-hidden="true">1</span>
-                <div>
-                  <p class="fig-f"><b>Northwind Capital.</b> They asked for AI infrastructure exposure at the March review.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Calendar &middot; 12 Mar 2026</p>
-                </div>
-              </li>
-              <li class="fig-row" data-w="2" id="f3r2">
-                <span class="fig-n" aria-hidden="true">2</span>
-                <div>
-                  <p class="fig-f">Halo Compute is <b>opening a $30M Series A</b>, and the design partner objection is gone.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 2 Jun 2026</p>
-                </div>
-              </li>
-              <li class="fig-row" data-w="3" id="f3r3">
-                <span class="fig-n" aria-hidden="true">3</span>
-                <div>
-                  <p class="fig-f">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024.</p>
-                  <p class="fig-prov"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Gmail &middot; 8 Nov 2024</p>
-                </div>
-              </li>
-            </ol>
-          </article>
+        <div class="ask">
+          <div class="ask-bar">
+            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <p class="ask-q">Who should I bring into Halo Compute&rsquo;s Series A?<span class="ask-caret" aria-hidden="true"></span></p>
+            <span class="ask-in">
+              <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
+              <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
+              <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
+            </span>
+          </div>
+          <p class="ask-a"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>, and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>. The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</p>
+          <p class="ask-f">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
+            Read from 4,180 records across your firm<b>0.9s</b>
+          </p>
         </div>
-        <p class="fig-after"><span>Five documents. Three records. <b>Nobody filed a single line by hand.</b> Run this over your firm&rsquo;s last five years and it holds thousands more, built the same way, from the documents you already have.</span></p>
+        <p class="fig-after"><span>Five documents, four tools, three records. <b>Nobody filed a single line by hand.</b> Run it over your firm&rsquo;s last five years and it holds thousands more, built exactly the same way.</span></p>
       </section>
 
     </div>
