@@ -263,10 +263,6 @@
      it. the copy keeps the band type scale (.head), so the geometry below reads
      a smaller box than the old hero did and the ellipse gets more room */
   .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:2rem}
-  /* the open source signal left the fold with the old subhead, so it sits
-     under the buttons instead: the claim, not a third thing to click. it takes
-     its own row so the two buttons stay centred on the fold's axis */
-  .hero-actions .ha-note{flex:0 0 100%;text-align:center;margin-top:.1rem;color:var(--dim);font-size:14.5px;letter-spacing:-.008em}
   .hero-inner{position:relative;z-index:2;outline:none;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
   .hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
   .hero-copy .lead{margin-left:auto;margin-right:auto}
@@ -1649,11 +1645,10 @@ __LOGO_SPRITE__
     <div class="wrap" id="content" tabindex="-1">
       
       <h1>A state of the art memory layer. Purpose built for investors.</h1>
-      <p>fein reads every founder email, LP update, call note, and board deck across the tools you already use and connects the dots. Ask about any company, person, or fund: who talked to them, what was said, what changed.</p>
+      <p>fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <a class="btn btn-ghost" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
-        <span class="ha-note">Open source and self-hostable.</span>
       </div>
 
       <div class="ah-fig" id="ahfig">
