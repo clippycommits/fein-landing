@@ -487,11 +487,29 @@
   /* the clients as tabs: the one being asked is lit, the other two are the
      same endpoint waiting. This is the sentence the proof band makes in words,
      made in the picture instead, and it is why the frame is worth having. */
-  .ah-cli{display:inline-flex;align-items:center;gap:.34rem;padding:.2rem .48rem;border-radius:6px;font-size:11.4px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap}
-  .ah-cli .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .3s ease}
-  .ah-cli b{font-weight:450}
+  .ah-tabs{display:flex;align-items:center;gap:.2rem}
+  /* buttons now, so the claim can be checked with a press or a tab key */
+  .ah-cli{display:inline-flex;align-items:center;gap:.34rem;margin:0;padding:.2rem .48rem;border:0;border-radius:6px;font-family:inherit;font-size:11.4px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap;background:transparent;cursor:pointer;-webkit-appearance:none;appearance:none;transition:color .18s ease,background .18s ease}
+  .ah-cli:hover{color:var(--fg-2);background:rgba(255,255,255,.035)}
+  .ah-cli:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
+  /* each client lights in its own colour, which is most of what tells you the
+     frame changed at all */
+  .ah-fig[data-client="claude"]{--cli:#d97757}
+  .ah-fig[data-client="openai"]{--cli:#10a37f}
+  .ah-fig[data-client="cursor"]{--cli:#8a8f98}
   .ah-cli.on{color:var(--fg);background:rgba(255,255,255,.055);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
   .ah-cli.on .tlogo{opacity:1}
+  /* THE TOOL CALL: the row that makes this about fein and not about the
+     assistant. A client shows a server by name when it uses one, with what it
+     did; that is exactly the value being claimed, so it is drawn the same way.
+     It does not change when the client does, which is the argument. */
+  .ah-tool{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem .6rem;margin:.4rem .95rem .1rem;padding:.34rem .55rem;border:1px solid rgba(255,255,255,.08);border-left:2px solid var(--cli,#d97757);border-radius:0 7px 7px 0;background:rgba(255,255,255,.022)}
+  .ah-tool-n{display:inline-flex;align-items:baseline;gap:.38rem;white-space:nowrap}
+  .ah-tool-n b{font-size:11.6px;font-weight:600;letter-spacing:-.012em;color:var(--fg)}
+  .ah-tool-n i{font-family:var(--mono);font-style:normal;font-size:10.4px;color:var(--fg-3)}
+  .ah-tool em{font-style:normal;font-size:10.6px;color:var(--dim)}
+  .ah-cli .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .3s ease}
+  .ah-cli b{font-weight:450}
   /* what we are in this picture: the connection, not the application */
   .ah-mcp{margin-left:auto;font-family:var(--mono);font-size:9.6px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
   /* the ask bar carried the same three marks. With the frame naming them it was
@@ -1895,12 +1913,14 @@ __LOGO_SPRITE__
              already are and fein answers through one endpoint. So the frame is
              the client, the three it serves are its tabs, and what we are in
              this picture is the connection named on the right. -->
-        <div class="ah-top" aria-hidden="true">
-          <span class="ah-dots"><i></i><i></i><i></i></span>
-          <span class="ah-cli on"><svg class="tlogo"><use href="#l-claude"/></svg><b>Claude</b></span>
-          <span class="ah-cli"><svg class="tlogo"><use href="#l-openai"/></svg><b>ChatGPT</b></span>
-          <span class="ah-cli"><svg class="tlogo"><use href="#l-cursor"/></svg><b>Cursor</b></span>
-          <span class="ah-mcp">fein MCP</span>
+        <div class="ah-top">
+          <span class="ah-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <div class="ah-tabs" role="group" aria-label="Where fein answers">
+            <button class="ah-cli on" type="button" aria-pressed="true" data-cli="claude" data-icon="l-claude" data-name="Claude"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><b>Claude</b></button>
+            <button class="ah-cli" type="button" aria-pressed="false" data-cli="openai" data-icon="l-openai" data-name="ChatGPT"><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><b>ChatGPT</b></button>
+            <button class="ah-cli" type="button" aria-pressed="false" data-cli="cursor" data-icon="l-cursor" data-name="Cursor"><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg><b>Cursor</b></button>
+          </div>
+          <span class="ah-mcp" aria-hidden="true">fein MCP</span>
         </div>
 
         <ol class="ah-srcs">
@@ -1924,7 +1944,15 @@ __LOGO_SPRITE__
             </span>
           </div>
 
-          <div class="ah-reply" aria-hidden="true"><svg class="tlogo"><use href="#l-claude"/></svg><span>Claude</span></div>
+          <div class="ah-reply" aria-hidden="true"><svg class="tlogo"><use href="#l-claude" id="ahmark"/></svg><span id="ahname">Claude</span></div>
+          <!-- the tool call. Without it this picture is an assistant that
+               happens to know things, which is a claim about the assistant and
+               not about us. The row is where the answer comes from: our server,
+               named, with what it read and how long it took. -->
+          <div class="ah-tool" aria-hidden="true">
+            <span class="ah-tool-n"><b>fein</b><i>search_memory</i></span>
+            <em>read 7 documents across 4 sources &middot; 1.8s</em>
+          </div>
           <p class="ask-a ah-p" id="ahp1" role="tabpanel" aria-labelledby="ahq1" data-q="What do we know about Halo Compute?">
             <span class="cl" data-s="0">You met them through <b>Dev Raman</b> in November 2024.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
             <span class="cl" data-s="1">Two ex-Anthropic infra engineers out of the scheduling team.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
@@ -1947,7 +1975,7 @@ __LOGO_SPRITE__
           </p>
 
           <div class="ah-compose" aria-hidden="true">
-            <span class="ah-ph">Message Claude</span>
+            <span class="ah-ph" id="ahph">Message Claude</span>
             <span class="ah-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
           </div>
           <p class="ask-f">
@@ -4571,6 +4599,33 @@ __LOGO_SPRITE__
 (function(){
   var fig=document.getElementById('ahfig');
   if(!fig) return;
+
+  /* the clients are switchable, because "it answers where you already work" is
+     a claim you should be able to check rather than read. Everything that
+     changes is the frame: the lit tab, the name on the reply and the composer's
+     placeholder. The tool call and the answer under it do not change, which is
+     the point being made -- one endpoint, the same cited answer, whichever of
+     them is asking. */
+  (function(){
+    var tabs=[].slice.call(fig.querySelectorAll('.ah-cli')),
+        mark=document.getElementById('ahmark'),
+        name=document.getElementById('ahname'),
+        ph=document.getElementById('ahph');
+    if(!tabs.length||!mark||!name||!ph) return;
+    function pick(btn){
+      tabs.forEach(function(t){
+        var on=t===btn;
+        t.classList.toggle('on',on);
+        t.setAttribute('aria-pressed',on?'true':'false');
+      });
+      var n=btn.getAttribute('data-name');
+      mark.setAttribute('href','#'+btn.getAttribute('data-icon'));
+      name.textContent=n;
+      ph.textContent='Message '+n;
+      fig.setAttribute('data-client',btn.getAttribute('data-cli'));
+    }
+    tabs.forEach(function(t){ t.addEventListener('click',function(){ pick(t); }); });
+  })();
   var svg=document.getElementById('ahwires'),
       card=document.getElementById('ahcard'),
       qEl=document.getElementById('ahq'),
