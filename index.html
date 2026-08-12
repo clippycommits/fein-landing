@@ -400,13 +400,10 @@
      The row is quiet outlines and the answer is the one filled object on the
      page, so the eye goes to the output. There is no accent in here beyond the
      logos and a single struck fact; the blue belongs to the rest of the site. */
-  .askhero{position:relative;border-bottom:1px solid var(--line);padding:calc(var(--ribbon-h) + var(--nav-h) + clamp(1.6rem,4vh,3rem)) 0 clamp(2.6rem,6vh,4.2rem)}
+  /* the section carries the picture: five documents, the question, the answer */
+  .askfig{position:relative;background:#000;padding:clamp(2rem,5vh,3.6rem) 0 clamp(3rem,7vh,5rem)}
   .ah-wrap{width:min(1120px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto;text-align:center}
-  .ah-wrap>.eyebrow{display:block;color:var(--fg-3)}
-  .ah-h{margin-top:1.05rem;font-family:var(--display);font-size:clamp(2rem,4.3vw,3.15rem);font-weight:600;letter-spacing:-.04em;line-height:1.06;color:#fff;max-width:24ch;margin-inline:auto;text-wrap:balance}
-  .ah-sub{margin:1.15rem auto 0;max-width:62ch;font-size:clamp(1rem,1.42vw,1.11rem);line-height:1.55;color:var(--fg-2);text-wrap:pretty}
-
-  .ah-fig{margin-top:clamp(2rem,4.4vh,3.2rem)}
+  .ah-fig{margin:0}
   /* the documents: outlines, not objects. They are what fein read, and the
      thing worth looking at is what it said back */
   .ah-srcs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(.4rem,.8vw,.6rem);list-style:none;width:min(920px,100%);margin:0 auto;padding:0}
@@ -441,7 +438,6 @@
   .ask-f em{font-style:normal;color:var(--fg-3);white-space:nowrap}
   .ask-f i{font-style:normal;white-space:nowrap}
 
-  .ah-cta{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.7rem;margin-top:clamp(1.8rem,3.6vh,2.5rem)}
 
   /* four things the picture above has just demonstrated, said plainly */
   .ah-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1rem,2.4vw,2.2rem);list-style:none;margin:clamp(2.2rem,4.5vh,3.2rem) 0 0;padding:clamp(1.4rem,2.6vh,1.9rem) 0 0;border-top:1px solid var(--line);text-align:left}
@@ -491,9 +487,6 @@
     .ah-src b{font-size:.75rem}
     .ah-proof{grid-template-columns:minmax(0,1fr)}
   }
-  /* the fold below is no longer the fold, so it keeps its screen and its light
-     but not the nav clearance the section above it now carries */
-  .askhero + .cta-dark.hero-lead{padding-top:clamp(2.5rem,7vh,5rem)}
   /* ============ what changed: three figures, one grammar =====================
      The section used to be one pinned stage and six beats, driven by scroll.
      It is three figures now, and every one of them is the same sentence drawn
@@ -886,7 +879,11 @@
 
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:#000;color:var(--fg-3);padding:3.5rem 0 2.2rem}
-  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:2rem}
+  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2rem}
+  /* four columns need more room than three, and the 1fr collapse below only
+     arrives at 640px. Without this the Firms column is a 129px track on a
+     tablet and "For private equity" wraps onto three lines. */
+  @media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr;gap:2rem 1.5rem}}
   .fbrand .brand{font-size:1.15rem}
   .fbrand p{margin-top:.6rem;font-size:.92rem;max-width:26ch}
   .fcol{display:flex;flex-direction:column;gap:.55rem;align-items:flex-start;font-size:.92rem}
@@ -1533,139 +1530,38 @@ function go(){d.classList.remove("hold");}
 document.addEventListener("DOMContentLoaded",function(){requestAnimationFrame(go);});
 setTimeout(go,1200);})()</script>
 
-<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-github" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></g></symbol></svg>
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-github" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></g></symbol><symbol id="l-gmail" viewBox="0 0 256 193">
+    <g>
+        <path d="M58.1818182,192.049515 L58.1818182,93.1404244 L27.5066233,65.0770089 L0,49.5040608 L0,174.59497 C0,184.253152 7.82545455,192.049515 17.4545455,192.049515 L58.1818182,192.049515 Z" fill="#4285F4"></path>
+        <path d="M197.818182,192.049515 L238.545455,192.049515 C248.203636,192.049515 256,184.224061 256,174.59497 L256,49.5040608 L224.844415,67.3422767 L197.818182,93.1404244 L197.818182,192.049515 Z" fill="#34A853"></path>
+        <polygon fill="#EA4335" points="58.1818182 93.1404244 54.0077618 54.4932827 58.1818182 17.5040608 128 69.8676972 197.818182 17.5040608 202.487488 52.4960089 197.818182 93.1404244 128 145.504061"></polygon>
+        <path d="M197.818182,17.5040608 L197.818182,93.1404244 L256,49.5040608 L256,26.2313335 C256,4.64587897 231.36,-7.65957557 214.109091,5.28587897 L197.818182,17.5040608 Z" fill="#FBBC04"></path>
+        <path d="M0,49.5040608 L26.7588051,69.5731646 L58.1818182,93.1404244 L58.1818182,17.5040608 L41.8909091,5.28587897 C24.6109091,-7.65957557 0,4.64587897 0,26.2313335 L0,49.5040608 Z" fill="#C5221F"></path>
+    </g>
+</symbol><symbol id="l-granola" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#F0E5D0"/><g stroke="#B4762E" stroke-width="1.8" stroke-linecap="round" fill="none"><path d="M7 9H17"/><path d="M7 12.4H17"/><path d="M7 15.8H13"/></g></symbol><symbol id="l-linkedin" viewBox="0 0 16 16"><rect width="16" height="16" rx="3.2" fill="#0A66C2"/><path fill="#fff" d="M4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></symbol><symbol id="l-gcal" viewBox="0 0 256 256">
+    <g>
+        <polygon fill="#FFFFFF" points="195.368421 60.6315789 60.6315789 60.6315789 60.6315789 195.368421 195.368421 195.368421"></polygon>
+        <polygon fill="#EA4335" points="195.368421 256 256 195.368421 225.684211 190.196005 195.368421 195.368421 189.835162 223.098002"></polygon>
+        <path d="M1.42108547e-14,195.368421 L1.42108547e-14,235.789474 C1.42108547e-14,246.955789 9.04421053,256 20.2105263,256 L60.6315789,256 L66.8568645,225.684211 L60.6315789,195.368421 L27.5991874,190.196005 L1.42108547e-14,195.368421 Z" fill="#188038"></path>
+        <path d="M256,60.6315789 L256,20.2105263 C256,9.04421053 246.955789,1.42108547e-14 235.789474,1.42108547e-14 L195.368421,1.42108547e-14 C191.679582,15.0358547 189.835162,26.1010948 189.835162,33.1957202 C189.835162,40.2903456 191.679582,49.4356319 195.368421,60.6315789 C208.777986,64.4714866 218.883249,66.3914404 225.684211,66.3914404 C232.485172,66.3914404 242.590435,64.4714866 256,60.6315789 Z" fill="#1967D2"></path>
+        <polygon fill="#FBBC04" points="256 60.6315789 195.368421 60.6315789 195.368421 195.368421 256 195.368421"></polygon>
+        <polygon fill="#34A853" points="195.368421 195.368421 60.6315789 195.368421 60.6315789 256 195.368421 256"></polygon>
+        <path d="M195.368421,0 L20.2105263,0 C9.04421053,0 0,9.04421053 0,20.2105263 L0,195.368421 L60.6315789,195.368421 L60.6315789,60.6315789 L195.368421,60.6315789 L195.368421,0 Z" fill="#4285F4"></path>
+        <path d="M88.2694737,165.153684 C83.2336842,161.751579 79.7473684,156.783158 77.8442105,150.214737 L89.5326316,145.397895 C90.5936842,149.44 92.4463158,152.572632 95.0905263,154.795789 C97.7178947,157.018947 100.917895,158.113684 104.656842,158.113684 C108.48,158.113684 111.764211,156.951579 114.509474,154.627368 C117.254737,152.303158 118.635789,149.338947 118.635789,145.751579 C118.635789,142.08 117.187368,139.082105 114.290526,136.757895 C111.393684,134.433684 107.755789,133.271579 103.410526,133.271579 L96.6568421,133.271579 L96.6568421,121.701053 L102.72,121.701053 C106.458947,121.701053 109.608421,120.690526 112.168421,118.669474 C114.728421,116.648421 116.008421,113.886316 116.008421,110.366316 C116.008421,107.233684 114.863158,104.741053 112.572632,102.871579 C110.282105,101.002105 107.385263,100.058947 103.865263,100.058947 C100.429474,100.058947 97.7010526,100.968421 95.68,102.804211 C93.6602819,104.644885 92.1418208,106.968942 91.2673684,109.557895 L79.6968421,104.741053 C81.2294737,100.395789 84.0421053,96.5557895 88.1684211,93.2378947 C92.2947368,89.92 97.5663158,88.2526316 103.966316,88.2526316 C108.698947,88.2526316 112.96,89.1621053 116.732632,90.9978947 C120.505263,92.8336842 123.469474,95.3768421 125.608421,98.6105263 C127.747368,101.861053 128.808421,105.498947 128.808421,109.541053 C128.808421,113.667368 127.814737,117.153684 125.827368,120.016842 C123.84,122.88 121.397895,125.069474 118.501053,126.602105 L118.501053,127.292632 C122.241568,128.834789 125.490747,131.367752 127.898947,134.618947 C130.341053,137.903158 131.570526,141.827368 131.570526,146.408421 C131.570526,150.989474 130.408421,155.082105 128.084211,158.669474 C125.76,162.256842 122.543158,165.086316 118.467368,167.141053 C114.374737,169.195789 109.776842,170.240124 104.673684,170.240124 C98.7621053,170.256842 93.3052632,168.555789 88.2694737,165.153684 L88.2694737,165.153684 Z M160.067368,107.149474 L147.233684,116.429474 L140.816842,106.694737 L163.84,90.0884211 L172.665263,90.0884211 L172.665263,168.421053 L160.067368,168.421053 L160.067368,107.149474 Z" fill="#4285F4"></path>
+    </g>
+</symbol><symbol id="l-claude" viewBox="0 0 256 257">
+    <title>Claude</title>
+    <g>
+        <path d="M50.2278481,170.321013 L100.585316,142.063797 L101.427848,139.601013 L100.585316,138.24 L98.1225316,138.24 L89.6972152,137.721519 L60.921519,136.943797 L35.9696203,135.906835 L11.795443,134.610633 L5.70329114,133.31443 L0,125.796456 L0.583291139,122.037468 L5.70329114,118.602532 L13.0268354,119.250633 L29.2293671,120.352405 L53.5331646,122.037468 L71.161519,123.07443 L97.28,125.796456 L101.427848,125.796456 L102.011139,124.111392 L100.585316,123.07443 L99.4835443,122.037468 L74.3372152,104.992405 L47.116962,86.9751899 L32.8587342,76.6055696 L25.1463291,71.3559494 L21.2577215,66.4303797 L19.5726582,55.6718987 L26.5721519,47.9594937 L35.9696203,48.6075949 L38.3675949,49.2556962 L47.8946835,56.5792405 L68.2450633,72.3281013 L94.8172152,91.9007595 L98.7058228,95.1412658 L100.261266,94.0394937 L100.455696,93.2617722 L98.7058228,90.3453165 L84.2531646,64.2268354 L68.8283544,37.6546835 L61.958481,26.636962 L60.1437975,20.0263291 C59.4956962,17.3043038 59.0420253,15.0359494 59.0420253,12.2491139 L67.0136709,1.42582278 L71.4207595,-1.42108547e-14 L82.0496203,1.42582278 L86.521519,5.31443038 L93.1321519,20.4151899 L103.825823,44.2005063 L120.417215,76.5407595 L125.277975,86.1326582 L127.87038,95.0116456 L128.842532,97.7336709 L130.527595,97.7336709 L130.527595,96.1782278 L131.888608,77.9665823 L134.416203,55.6070886 L136.878987,26.8313924 L137.721519,18.7301266 L141.739747,9.00860759 L149.711392,3.75898734 L155.933165,6.74025316 L161.053165,14.0637975 L160.340253,18.7949367 L157.294177,38.5620253 L151.331646,69.5412658 L147.443038,90.2805063 L149.711392,90.2805063 L152.303797,87.6881013 L162.803038,73.7539241 L180.431392,51.718481 L188.208608,42.9691139 L197.282025,33.3124051 L203.114937,28.7108861 L214.132658,28.7108861 L222.233924,40.7655696 L218.604557,53.2091139 L207.262785,67.596962 L197.865316,79.7812658 L184.38481,97.9281013 L175.959494,112.44557 L176.737215,113.612152 L178.746329,113.417722 L209.207089,106.936709 L225.668861,103.955443 L245.306329,100.585316 L254.185316,104.733165 L255.157468,108.945823 L251.657722,117.56557 L230.659241,122.75038 L206.031392,127.675949 L169.348861,136.360506 L168.89519,136.684557 L169.413671,137.332658 L185.940253,138.888101 L193.004557,139.276962 L210.308861,139.276962 L242.519494,141.674937 L250.94481,147.248608 L256,154.053671 L255.157468,159.238481 L242.195443,165.849114 L224.696709,161.701266 L183.866329,151.979747 L169.867342,148.48 L167.923038,148.48 L167.923038,149.646582 L179.588861,161.053165 L200.976203,180.366582 L227.742785,205.253671 L229.103797,211.410633 L225.668861,216.271392 L222.039494,215.752911 L198.513418,198.059747 L189.44,190.088101 L168.89519,172.783797 L167.534177,172.783797 L167.534177,174.598481 L172.265316,181.533165 L197.282025,219.123038 L198.578228,230.659241 L196.763544,234.418228 L190.282532,236.686582 L183.153418,235.39038 L168.506329,214.84557 L153.40557,191.708354 L141.221266,170.969114 L139.730633,171.811646 L132.536709,249.259747 L129.166582,253.213165 L121.389367,256.19443 L114.908354,251.268861 L111.473418,243.297215 L114.908354,227.548354 L119.056203,207.003544 L122.426329,190.671392 L125.472405,170.385823 L127.287089,163.64557 L127.157468,163.191899 L125.666835,163.386329 L110.371646,184.38481 L87.1048101,215.817722 L68.6987342,235.52 L64.2916456,237.269873 L56.6440506,233.316456 L57.356962,226.252152 L61.6344304,219.96557 L87.1048101,187.560506 L102.46481,167.469367 L112.380759,155.868354 L112.315949,154.183291 L111.732658,154.183291 L44.0708861,198.124557 L32.0162025,199.68 L26.8313924,194.819241 L27.4794937,186.847595 L29.9422785,184.25519 L50.2926582,170.256203 L50.2278481,170.321013 Z" fill="#D97757"></path>
+    </g>
+</symbol><symbol id="l-openai" viewBox="0 0 256 260"><g fill="currentColor">
+    <title>OpenAI</title>
+    <g>
+        <path d="M239.183914,106.202783 C245.054304,88.5242096 243.02228,69.1733805 233.607599,53.0998864 C219.451678,28.4588021 190.999703,15.7836129 163.213007,21.739505 C147.554077,4.32145883 123.794909,-3.42398554 100.87901,1.41873898 C77.9631105,6.26146349 59.3690093,22.9572536 52.0959621,45.2214219 C33.8436494,48.9644867 18.0901721,60.392749 8.86672513,76.5818033 C-5.443491,101.182962 -2.19544431,132.215255 16.8986662,153.320094 C11.0060865,170.990656 13.0197283,190.343991 22.4238231,206.422991 C36.5975553,231.072344 65.0680342,243.746566 92.8695738,237.783372 C105.235639,251.708249 123.001113,259.630942 141.623968,259.52692 C170.105359,259.552169 195.337611,241.165718 204.037777,214.045661 C222.28734,210.296356 238.038489,198.869783 247.267014,182.68528 C261.404453,158.127515 258.142494,127.262775 239.183914,106.202783 L239.183914,106.202783 Z M141.623968,242.541207 C130.255682,242.559177 119.243876,238.574642 110.519381,231.286197 L112.054146,230.416496 L163.724595,200.590881 C166.340648,199.056444 167.954321,196.256818 167.970781,193.224005 L167.970781,120.373788 L189.815614,133.010026 C190.034132,133.121423 190.186235,133.330564 190.224885,133.572774 L190.224885,193.940229 C190.168603,220.758427 168.442166,242.484864 141.623968,242.541207 Z M37.1575749,197.93062 C31.456498,188.086359 29.4094818,176.546984 31.3766237,165.342426 L32.9113895,166.263285 L84.6329973,196.088901 C87.2389349,197.618207 90.4682717,197.618207 93.0742093,196.088901 L156.255402,159.663793 L156.255402,184.885111 C156.243557,185.149771 156.111725,185.394602 155.89729,185.550176 L103.561776,215.733903 C80.3054953,229.131632 50.5924954,221.165435 37.1575749,197.93062 Z M23.5493181,85.3811273 C29.2899861,75.4733097 38.3511911,67.9162648 49.1287482,64.0478825 L49.1287482,125.438515 C49.0891492,128.459425 50.6965386,131.262556 53.3237748,132.754232 L116.198014,169.025864 L94.3531808,181.662102 C94.1132325,181.789434 93.8257461,181.789434 93.5857979,181.662102 L41.3526015,151.529534 C18.1419426,138.076098 10.1817681,108.385562 23.5493181,85.125333 L23.5493181,85.3811273 Z M203.0146,127.075598 L139.935725,90.4458545 L161.7294,77.8607748 C161.969348,77.7334434 162.256834,77.7334434 162.496783,77.8607748 L214.729979,108.044502 C231.032329,117.451747 240.437294,135.426109 238.871504,154.182739 C237.305714,172.939368 225.050719,189.105572 207.414262,195.67963 L207.414262,134.288998 C207.322521,131.276867 205.650697,128.535853 203.0146,127.075598 Z M224.757116,94.3850867 L223.22235,93.4642272 L171.60306,63.3828173 C168.981293,61.8443751 165.732456,61.8443751 163.110689,63.3828173 L99.9806554,99.8079259 L99.9806554,74.5866077 C99.9533004,74.3254088 100.071095,74.0701869 100.287609,73.9215426 L152.520805,43.7889738 C168.863098,34.3743518 189.174256,35.2529043 204.642579,46.0434841 C220.110903,56.8340638 227.949269,75.5923959 224.757116,94.1804513 L224.757116,94.3850867 Z M88.0606409,139.097931 L66.2158076,126.512851 C65.9950399,126.379091 65.8450965,126.154176 65.8065367,125.898945 L65.8065367,65.684966 C65.8314495,46.8285367 76.7500605,29.6846032 93.8270852,21.6883055 C110.90411,13.6920079 131.063833,16.2835462 145.5632,28.338998 L144.028434,29.2086986 L92.3579852,59.0343142 C89.7419327,60.5687513 88.1282597,63.3683767 88.1117998,66.4011901 L88.0606409,139.097931 Z M99.9294965,113.5185 L128.06687,97.3011417 L156.255402,113.5185 L156.255402,145.953218 L128.169187,162.170577 L99.9806554,145.953218 L99.9294965,113.5185 Z" ></path>
+    </g>
+</g></symbol><symbol id="l-cursor" viewBox="0 0 24 24"><g fill="currentColor"><title>Cursor</title><path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></g></symbol></svg>
 <a class="skip" href="#content">Skip to content</a>
 <main id="view-home">
-  <!-- THE FOLD: what fein does, in one vertical run. Five documents on a
-       twenty month rail, one machine, one answer. The question is chosen inside
-       the card so that nothing sits in the middle of the picture. -->
-  <section id="ask" class="askhero" aria-labelledby="ask-h">
-    <div class="ah-wrap">
-      <span class="eyebrow">A CONTEXT GRAPH</span>
-      <h1 class="ah-h" id="ask-h">A state of the art memory layer. Purpose built for investors.</h1>
-      <p class="ah-sub">fein reads every founder email, LP update, call note, and board deck across the tools you already use and connects the dots. Ask about any company, person, or fund: who talked to them, what was said, what changed.</p>
-
-      <div class="ah-fig" id="ahfig">
-
-        <ol class="ah-srcs">
-          <li class="ah-src" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Seed deck forwarded</b><em>Gmail &middot; Nov 2024</em></span></li>
-          <li class="ah-src" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span><b>Founder coffee</b><em>Granola &middot; Nov 2024</em></span></li>
-          <li class="ah-src" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>New VP Engineering</b><em>LinkedIn &middot; Jun 2025</em></span></li>
-          <li class="ah-src" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><span><b>LP quarterly review</b><em>Calendar &middot; Mar 2026</em></span></li>
-          <li class="ah-src" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Series A opening</b><em>Gmail &middot; Jun 2026</em></span></li>
-        </ol>
-
-
-        <div class="ask ask--hero" id="ahcard">
-          <div class="ask-ctx" role="tablist" aria-label="What to ask about">
-            <span>ask about</span>
-            <button type="button" role="tab" id="ahq1" aria-controls="ahp1" aria-selected="true">A company</button>
-            <button type="button" role="tab" id="ahq2" aria-controls="ahp2" aria-selected="false" tabindex="-1">An LP</button>
-            <button type="button" role="tab" id="ahq3" aria-controls="ahp3" aria-selected="false" tabindex="-1">Your team</button>
-          </div>
-          <div class="ask-bar">
-            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q"><span id="ahq">What do we know about Halo Compute?</span><span class="ah-cursor" aria-hidden="true"></span></p>
-            <span class="ask-in">
-              <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
-            </span>
-          </div>
-
-          <p class="ask-a ah-p" id="ahp1" role="tabpanel" aria-labelledby="ahq1" data-q="What do we know about Halo Compute?">
-            <span class="cl" data-s="0">You met them through <b>Dev Raman</b> in November 2024.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
-            <span class="cl" data-s="1">Two ex-Anthropic infra engineers out of the scheduling team.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
-            <span class="cl" data-s="2">They hired a <b>VP Engineering</b> out of Databricks the following June.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span></span>
-            <span class="cl" data-s="4">They are now <b>opening a $30M Series A</b>, not the <s>$4M seed</s> you saw.<span class="was">Nov 2024 &rarr; Jun 2026</span><span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span></span>
-          </p>
-
-          <p class="ask-a ah-p" id="ahp2" role="tabpanel" aria-labelledby="ahq2" data-q="Which LP should I take this round to?" hidden>
-            <span class="cl" data-s="3"><b>Northwind Capital.</b> They asked you for more AI infrastructure in March.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span></span>
-            <span class="cl" data-s="4">The round is a <b>$30M Series A</b> now, not the <s>$4M seed</s> they saw.<span class="was">Nov 2024 &rarr; Jun 2026</span><span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span></span>
-            <span class="cl" data-s="1">The founders are ex-Anthropic infra, which is the thesis Elena described.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
-            <span class="cl" data-s="0"><b>Marcus Feld</b> owns both relationships, so the introduction is one email.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
-          </p>
-
-          <p class="ask-a ah-p" id="ahp3" role="tabpanel" aria-labelledby="ahq3" data-q="Who on the team has the warmest path in?" hidden>
-            <span class="cl" data-s="0"><b>Dev Raman</b> made the introduction and still co-invests.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
-            <span class="cl" data-s="0"><b>Marcus Feld</b> has owned the conversation on your side since.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>41 threads</span></span>
-            <span class="cl" data-s="2">Their VP Engineering, <b>Priya Nayar</b>, came out of Databricks.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span></span>
-            <span class="cl" data-s="1">Nobody here has met the founders since the coffee in <b>2024</b>.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
-          </p>
-
-          <p class="ask-f">
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
-            <i>4,180 records</i><em>46 facts updated this week</em><b>0.9s</b>
-          </p>
-        </div>
-      </div>
-
-      <div class="ah-cta">
-        <a class="btn btn-primary" href="#get-started">Talk to sales</a>
-        <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Use it for free: the source on GitHub"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Use it for free</a>
-      </div>
-
-      <ul class="ah-proof">
-        <li>
-          <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
-          <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
-        </li>
-        <li>
-          <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
-          <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
-        </li>
-        <li>
-          <b>Every claim cited</b>
-          <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
-        </li>
-        <li>
-          <b>Nothing is deleted</b>
-          <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- THE OBJECTION: everyone arrives with it, so it gets answered directly and
-       early rather than being implied by the picture above. The honest version
-       of the argument is that connectors are the way in and not the memory, so
-       the table concedes the first column rather than caricaturing it. -->
-  <section id="why" class="band why-band" aria-labelledby="why-h">
-    <div class="wrap">
-      <div class="head">
-        <span class="eyebrow">THE OBJECTION</span>
-        <h2 id="why-h">Why not just connect Gmail to Claude?</h2>
-        <p class="lead">You should, and fein does. A connector is how a model reaches your data, and it is the right way in. It is just not a memory, and four things go wrong the moment you use it as one.</p>
-      </div>
-      <div class="why-grid">
-        <p class="hd"></p>
-        <p class="hd you">With a connector alone</p>
-        <p class="hd us">With fein</p>
-
-        <p class="rl">What it reads</p>
-        <p class="a">Whatever matches your query, this minute, out of one tool at a time.</p>
-        <p class="b">Every message, call and meeting, <b>resolved onto the people and companies they belong to.</b></p>
-
-        <p class="rl">Across tools</p>
-        <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone.</p>
-        <p class="b">One graph. The email, the transcript and the invite <b>land on the same record</b>, so an answer can cross all three.</p>
-
-        <p class="rl">When a fact changes</p>
-        <p class="a">It returns what it finds, including the line that stopped being true eighteen months ago. Search has no idea.</p>
-        <p class="b">The old fact is <b>struck, dated and kept.</b> You get what is true now, and you can still ask what your firm believed in 2024.</p>
-
-        <p class="rl">What comes back</p>
-        <p class="a">A paraphrase of some documents, as good as whatever happened to be retrieved that time.</p>
-        <p class="b">A fact with <b>the document behind it</b>, one click away, the same answer every time you ask.</p>
-      </div>
-      <p class="why-note"><b>Connectors are the pipe. fein is what your firm remembers.</b> It reads through the same connectors you already have, and what it leaves behind is a graph your team, and any model you point at it, can rely on.</p>
-    </div>
-  </section>
-
   <section id="home" class="cta-dark hero-lead">
     <div class="grain-overlay on-dark"></div>
     <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas><canvas id="burstfx"></canvas></div>
@@ -1765,7 +1661,7 @@ setTimeout(go,1200);})()</script>
 
     <div class="wrap" id="content" tabindex="-1">
       <a class="hpill" href="#features"><span><span class="hp-pre">fein 1.0: </span>deal memory, warm intros, and more</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg></span></a>
-      <h2>Welcome to agentic venture capital.</h2>
+      <h1>Welcome to agentic venture capital.</h1>
       <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
@@ -1773,6 +1669,128 @@ setTimeout(go,1200);})()</script>
       </div>
     </div>
 
+  </section>
+
+  <!-- The hero's own screen is a fixed composition: the burst canvas is drawn
+       to its box, and growing that box moves the flare off the fold. So the
+       picture lives in its own section directly under it, on the same ground
+       with no rule between them, and reads as the rest of the same screen. -->
+  <section id="ask" class="askfig" aria-label="Ask fein">
+    <div class="ah-wrap">
+      <div class="ah-fig" id="ahfig">
+
+        <ol class="ah-srcs">
+          <li class="ah-src" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Seed deck forwarded</b><em>Gmail &middot; Nov 2024</em></span></li>
+          <li class="ah-src" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span><b>Founder coffee</b><em>Granola &middot; Nov 2024</em></span></li>
+          <li class="ah-src" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>New VP Engineering</b><em>LinkedIn &middot; Jun 2025</em></span></li>
+          <li class="ah-src" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><span><b>LP quarterly review</b><em>Calendar &middot; Mar 2026</em></span></li>
+          <li class="ah-src" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Series A opening</b><em>Gmail &middot; Jun 2026</em></span></li>
+        </ol>
+
+
+        <div class="ask ask--hero" id="ahcard">
+          <div class="ask-ctx" role="tablist" aria-label="What to ask about">
+            <span>ask about</span>
+            <button type="button" role="tab" id="ahq1" aria-controls="ahp1" aria-selected="true">A company</button>
+            <button type="button" role="tab" id="ahq2" aria-controls="ahp2" aria-selected="false" tabindex="-1">An LP</button>
+            <button type="button" role="tab" id="ahq3" aria-controls="ahp3" aria-selected="false" tabindex="-1">Your team</button>
+          </div>
+          <div class="ask-bar">
+            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <p class="ask-q"><span id="ahq">What do we know about Halo Compute?</span><span class="ah-cursor" aria-hidden="true"></span></p>
+            <span class="ask-in">
+              <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
+              <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
+              <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
+            </span>
+          </div>
+
+          <p class="ask-a ah-p" id="ahp1" role="tabpanel" aria-labelledby="ahq1" data-q="What do we know about Halo Compute?">
+            <span class="cl" data-s="0">You met them through <b>Dev Raman</b> in November 2024.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
+            <span class="cl" data-s="1">Two ex-Anthropic infra engineers out of the scheduling team.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
+            <span class="cl" data-s="2">They hired a <b>VP Engineering</b> out of Databricks the following June.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span></span>
+            <span class="cl" data-s="4">They are now <b>opening a $30M Series A</b>, not the <s>$4M seed</s> you saw.<span class="was">Nov 2024 &rarr; Jun 2026</span><span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span></span>
+          </p>
+
+          <p class="ask-a ah-p" id="ahp2" role="tabpanel" aria-labelledby="ahq2" data-q="Which LP should I take this round to?" hidden>
+            <span class="cl" data-s="3"><b>Northwind Capital.</b> They asked you for more AI infrastructure in March.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span></span>
+            <span class="cl" data-s="4">The round is a <b>$30M Series A</b> now, not the <s>$4M seed</s> they saw.<span class="was">Nov 2024 &rarr; Jun 2026</span><span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span></span>
+            <span class="cl" data-s="1">The founders are ex-Anthropic infra, which is the thesis Elena described.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
+            <span class="cl" data-s="0"><b>Marcus Feld</b> owns both relationships, so the introduction is one email.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
+          </p>
+
+          <p class="ask-a ah-p" id="ahp3" role="tabpanel" aria-labelledby="ahq3" data-q="Who on the team has the warmest path in?" hidden>
+            <span class="cl" data-s="0"><b>Dev Raman</b> made the introduction and still co-invests.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
+            <span class="cl" data-s="0"><b>Marcus Feld</b> has owned the conversation on your side since.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>41 threads</span></span>
+            <span class="cl" data-s="2">Their VP Engineering, <b>Priya Nayar</b>, came out of Databricks.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span></span>
+            <span class="cl" data-s="1">Nobody here has met the founders since the coffee in <b>2024</b>.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
+          </p>
+
+          <p class="ask-f">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
+            <i>4,180 records</i><em>46 facts updated this week</em><b>0.9s</b>
+          </p>
+        </div>
+      </div>
+
+      <ul class="ah-proof">
+        <li>
+          <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
+          <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
+        </li>
+        <li>
+          <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
+          <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
+        </li>
+        <li>
+          <b>Every claim cited</b>
+          <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
+        </li>
+        <li>
+          <b>Nothing is deleted</b>
+          <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- THE OBJECTION: everyone arrives with it, so it gets answered directly and
+       early rather than being implied by the picture above. The honest version
+       of the argument is that connectors are the way in and not the memory, so
+       the table concedes the first column rather than caricaturing it. -->
+  <section id="why" class="band why-band" aria-labelledby="why-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">THE OBJECTION</span>
+        <h2 id="why-h">Why not just connect Gmail to Claude?</h2>
+        <p class="lead">You should, and fein does. A connector is how a model reaches your data, and it is the right way in. It is just not a memory, and four things go wrong the moment you use it as one.</p>
+      </div>
+      <div class="why-grid">
+        <p class="hd"></p>
+        <p class="hd you">With a connector alone</p>
+        <p class="hd us">With fein</p>
+
+        <p class="rl">What it reads</p>
+        <p class="a">Whatever matches your query, this minute, out of one tool at a time.</p>
+        <p class="b">Every message, call and meeting, <b>resolved onto the people and companies they belong to.</b></p>
+
+        <p class="rl">Across tools</p>
+        <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone.</p>
+        <p class="b">One graph. The email, the transcript and the invite <b>land on the same record</b>, so an answer can cross all three.</p>
+
+        <p class="rl">When a fact changes</p>
+        <p class="a">It returns what it finds, including the line that stopped being true eighteen months ago. Search has no idea.</p>
+        <p class="b">The old fact is <b>struck, dated and kept.</b> You get what is true now, and you can still ask what your firm believed in 2024.</p>
+
+        <p class="rl">What comes back</p>
+        <p class="a">A paraphrase of some documents, as good as whatever happened to be retrieved that time.</p>
+        <p class="b">A fact with <b>the document behind it</b>, one click away, the same answer every time you ask.</p>
+      </div>
+      <p class="why-note"><b>Connectors are the pipe. fein is what your firm remembers.</b> It reads through the same connectors you already have, and what it leaves behind is a graph your team, and any model you point at it, can rely on.</p>
+    </div>
   </section>
 
   <!-- THE FILM: the whole argument at speed, before the slow version of it.
@@ -1787,9 +1805,9 @@ setTimeout(go,1200);})()</script>
        before anything is fetched, since preload is none. -->
   <section id="demo" class="band" aria-labelledby="demo-h">
     <div class="wrap demo-intro">
-      <span class="eyebrow">THE WALKTHROUGH</span>
-      <h2 id="demo-h">Twenty-six seconds, in the product.</h2>
-      <p class="demo-lead">The same graph, running: a founder email lands, three records change, and the answer comes back with the documents behind it.</p>
+      <span class="eyebrow">A CONTEXT GRAPH</span>
+      <h2 id="demo-h">A state of the art memory layer. Purpose built for investors.</h2>
+      <p class="demo-lead">fein reads every founder email, LP update, call note, and board deck across the tools you already use and connects the dots. Ask about any company, person, or fund: who talked to them, what was said, what changed.</p>
     </div>
     <figure class="demo-stage">
       <div class="demo-frame paused" id="demo-frame">
@@ -2291,6 +2309,11 @@ setTimeout(go,1200);})()</script>
           <a href="#features">Features</a>
           <a href="#how">How it works</a>
           <a href="#security">Security</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer firms">
+          <b>Firms</b>
+          <a href="#home">For venture capital</a>
+          <a href="/pe">For private equity</a>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>
@@ -4460,26 +4483,7 @@ setTimeout(go,1200);})()</script>
 })();
 </script>
 
-<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-gmail" viewBox="0 0 256 193">
-    <g>
-        <path d="M58.1818182,192.049515 L58.1818182,93.1404244 L27.5066233,65.0770089 L0,49.5040608 L0,174.59497 C0,184.253152 7.82545455,192.049515 17.4545455,192.049515 L58.1818182,192.049515 Z" fill="#4285F4"></path>
-        <path d="M197.818182,192.049515 L238.545455,192.049515 C248.203636,192.049515 256,184.224061 256,174.59497 L256,49.5040608 L224.844415,67.3422767 L197.818182,93.1404244 L197.818182,192.049515 Z" fill="#34A853"></path>
-        <polygon fill="#EA4335" points="58.1818182 93.1404244 54.0077618 54.4932827 58.1818182 17.5040608 128 69.8676972 197.818182 17.5040608 202.487488 52.4960089 197.818182 93.1404244 128 145.504061"></polygon>
-        <path d="M197.818182,17.5040608 L197.818182,93.1404244 L256,49.5040608 L256,26.2313335 C256,4.64587897 231.36,-7.65957557 214.109091,5.28587897 L197.818182,17.5040608 Z" fill="#FBBC04"></path>
-        <path d="M0,49.5040608 L26.7588051,69.5731646 L58.1818182,93.1404244 L58.1818182,17.5040608 L41.8909091,5.28587897 C24.6109091,-7.65957557 0,4.64587897 0,26.2313335 L0,49.5040608 Z" fill="#C5221F"></path>
-    </g>
-</symbol><symbol id="l-gcal" viewBox="0 0 256 256">
-    <g>
-        <polygon fill="#FFFFFF" points="195.368421 60.6315789 60.6315789 60.6315789 60.6315789 195.368421 195.368421 195.368421"></polygon>
-        <polygon fill="#EA4335" points="195.368421 256 256 195.368421 225.684211 190.196005 195.368421 195.368421 189.835162 223.098002"></polygon>
-        <path d="M1.42108547e-14,195.368421 L1.42108547e-14,235.789474 C1.42108547e-14,246.955789 9.04421053,256 20.2105263,256 L60.6315789,256 L66.8568645,225.684211 L60.6315789,195.368421 L27.5991874,190.196005 L1.42108547e-14,195.368421 Z" fill="#188038"></path>
-        <path d="M256,60.6315789 L256,20.2105263 C256,9.04421053 246.955789,1.42108547e-14 235.789474,1.42108547e-14 L195.368421,1.42108547e-14 C191.679582,15.0358547 189.835162,26.1010948 189.835162,33.1957202 C189.835162,40.2903456 191.679582,49.4356319 195.368421,60.6315789 C208.777986,64.4714866 218.883249,66.3914404 225.684211,66.3914404 C232.485172,66.3914404 242.590435,64.4714866 256,60.6315789 Z" fill="#1967D2"></path>
-        <polygon fill="#FBBC04" points="256 60.6315789 195.368421 60.6315789 195.368421 195.368421 256 195.368421"></polygon>
-        <polygon fill="#34A853" points="195.368421 195.368421 60.6315789 195.368421 60.6315789 256 195.368421 256"></polygon>
-        <path d="M195.368421,0 L20.2105263,0 C9.04421053,0 0,9.04421053 0,20.2105263 L0,195.368421 L60.6315789,195.368421 L60.6315789,60.6315789 L195.368421,60.6315789 L195.368421,0 Z" fill="#4285F4"></path>
-        <path d="M88.2694737,165.153684 C83.2336842,161.751579 79.7473684,156.783158 77.8442105,150.214737 L89.5326316,145.397895 C90.5936842,149.44 92.4463158,152.572632 95.0905263,154.795789 C97.7178947,157.018947 100.917895,158.113684 104.656842,158.113684 C108.48,158.113684 111.764211,156.951579 114.509474,154.627368 C117.254737,152.303158 118.635789,149.338947 118.635789,145.751579 C118.635789,142.08 117.187368,139.082105 114.290526,136.757895 C111.393684,134.433684 107.755789,133.271579 103.410526,133.271579 L96.6568421,133.271579 L96.6568421,121.701053 L102.72,121.701053 C106.458947,121.701053 109.608421,120.690526 112.168421,118.669474 C114.728421,116.648421 116.008421,113.886316 116.008421,110.366316 C116.008421,107.233684 114.863158,104.741053 112.572632,102.871579 C110.282105,101.002105 107.385263,100.058947 103.865263,100.058947 C100.429474,100.058947 97.7010526,100.968421 95.68,102.804211 C93.6602819,104.644885 92.1418208,106.968942 91.2673684,109.557895 L79.6968421,104.741053 C81.2294737,100.395789 84.0421053,96.5557895 88.1684211,93.2378947 C92.2947368,89.92 97.5663158,88.2526316 103.966316,88.2526316 C108.698947,88.2526316 112.96,89.1621053 116.732632,90.9978947 C120.505263,92.8336842 123.469474,95.3768421 125.608421,98.6105263 C127.747368,101.861053 128.808421,105.498947 128.808421,109.541053 C128.808421,113.667368 127.814737,117.153684 125.827368,120.016842 C123.84,122.88 121.397895,125.069474 118.501053,126.602105 L118.501053,127.292632 C122.241568,128.834789 125.490747,131.367752 127.898947,134.618947 C130.341053,137.903158 131.570526,141.827368 131.570526,146.408421 C131.570526,150.989474 130.408421,155.082105 128.084211,158.669474 C125.76,162.256842 122.543158,165.086316 118.467368,167.141053 C114.374737,169.195789 109.776842,170.240124 104.673684,170.240124 C98.7621053,170.256842 93.3052632,168.555789 88.2694737,165.153684 L88.2694737,165.153684 Z M160.067368,107.149474 L147.233684,116.429474 L140.816842,106.694737 L163.84,90.0884211 L172.665263,90.0884211 L172.665263,168.421053 L160.067368,168.421053 L160.067368,107.149474 Z" fill="#4285F4"></path>
-    </g>
-</symbol><symbol id="l-gdrive" viewBox="0 0 256 229">
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-gdrive" viewBox="0 0 256 229">
     <g>
         <path d="M19.3542312,196.033928 L30.644172,215.534816 C32.9900287,219.64014 36.3622164,222.86588 40.3210929,225.211737 C51.6602421,210.818376 59.5534225,199.772864 64.000634,192.075201 C68.5137119,184.263529 74.0609657,172.045039 80.6423954,155.41973 C62.9064315,153.085282 49.4659974,151.918058 40.3210929,151.918058 C31.545465,151.918058 18.1051007,153.085282 0,155.41973 C0,159.964996 1.17298825,164.510261 3.51893479,168.615586 L19.3542312,196.033928 Z" fill="#0066DA"></path>
         <path d="M215.681443,225.211737 C219.64032,222.86588 223.012507,219.64014 225.358364,215.534816 L230.050377,207.470615 L252.483511,168.615586 C254.829368,164.510261 256.002446,159.964996 256.002446,155.41973 C237.79254,153.085282 224.376613,151.918058 215.754667,151.918058 C206.488712,151.918058 193.072785,153.085282 175.506888,155.41973 C182.010479,172.136093 187.484394,184.354584 191.928633,192.075201 C196.412073,199.863919 204.329677,210.909431 215.681443,225.211737 Z" fill="#EA4335"></path>
@@ -4488,17 +4492,7 @@ setTimeout(go,1200);})()</script>
         <path d="M128.001268,73.3111515 L87.680265,3.51893479 C83.7213885,5.86488134 80.3489013,9.09044179 78.0030446,13.1960654 L3.51893479,142.223575 C1.17298825,146.329198 0,150.874464 0,155.41973 L80.6423954,155.41973 L128.001268,73.3111515 Z" fill="#00AC47"></path>
         <path d="M215.241501,77.7099697 L177.999492,13.1960654 C175.653635,9.09044179 172.281148,5.86488134 168.322271,3.51893479 L128.001268,73.3111515 L175.360141,155.41973 L255.855999,155.41973 C255.855999,150.874464 254.682921,146.329198 252.337064,142.223575 L215.241501,77.7099697 Z" fill="#FFBA00"></path>
     </g>
-</symbol><symbol id="l-attio" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#141417"/><g fill="#fff"><circle cx="12" cy="6.6" r="1.5"/><circle cx="12" cy="17.4" r="1.5"/><circle cx="6.6" cy="12" r="1.5"/><circle cx="17.4" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.85"/></g></symbol><symbol id="l-affinity" viewBox="0 0.19 41.12 41.14"><path fill-rule="evenodd" clip-rule="evenodd" d="M36.2425 20.7692C36.2418 21.1012 36.2 21.4318 36.118 21.7535L38.1678 23.8166C42.1219 27.8365 42.0939 34.2895 38.1051 38.2749C34.1162 42.2603 27.6577 42.2883 23.6345 38.3376L21.6018 36.3067C20.9344 36.4836 20.2323 36.4836 19.5649 36.3067L17.5451 38.3269C13.5318 42.3373 7.02457 42.3378 3.01071 38.3279C-1.00315 34.3181 -1.00363 27.8163 3.00964 23.8059L5.28054 21.5348C5.17894 21.0251 5.17894 20.5004 5.28054 19.9907L3.01178 17.7217C0.415654 15.1274 -0.598046 11.3463 0.352536 7.80279C1.30312 4.25924 4.07356 1.49156 7.62028 0.542315C11.167 -0.406933 14.9511 0.606461 17.5473 3.20076L19.3266 4.97862C20.1441 4.71219 21.0259 4.71745 21.8401 4.99363L23.6366 3.19862C27.6599 -0.752113 34.1184 -0.724137 38.1072 3.2613C42.0961 7.24674 42.1241 13.6997 38.17 17.7196L36.1137 19.7741C36.1991 20.0989 36.2424 20.4333 36.2425 20.7692ZM26.4135 5.98842L24.4818 7.91854C24.5467 8.2057 24.5798 8.49913 24.5805 8.79353C24.5808 9.21316 24.5141 9.63014 24.383 10.0288L31.2472 16.8807C31.5683 16.7978 31.8987 16.756 32.2303 16.7564C32.6258 16.7559 33.0193 16.8137 33.3979 16.9279L35.3791 14.9463C37.7845 12.461 37.7514 8.50761 35.3046 6.06287C32.8577 3.61814 28.901 3.58501 26.4135 5.98842ZM24.4521 31.4274L31.2283 24.6548C31.9434 24.8416 32.6966 24.8245 33.4026 24.6055L35.3859 26.5871C37.7913 29.0725 37.7582 33.0258 35.3113 35.4706C32.8645 37.9153 28.9078 37.9484 26.4203 35.545L24.4199 33.5441C24.5261 33.1789 24.5803 32.8006 24.5808 32.4204C24.5809 32.0852 24.5376 31.7515 24.4521 31.4274ZM21.7277 28.5837L28.3816 21.9355L28.3837 21.9398C28.1505 21.1766 28.1505 20.3612 28.3837 19.598L21.483 12.7031C20.893 12.845 20.2781 12.8487 19.6864 12.7138L12.9961 19.3942C13.3195 20.28 13.3195 21.2514 12.9961 22.1371L19.4353 28.5709C20.1844 28.3522 20.9811 28.3566 21.7277 28.5837ZM16.7583 10.0723L16.7551 10.0755C16.5154 9.3679 16.4808 8.60699 16.6553 7.88053L14.76 5.98686C12.2725 3.58345 8.31578 3.61658 5.86896 6.06132C3.42214 8.50605 3.38898 12.4594 5.79444 14.9448L7.85714 17.0036C8.54324 16.7504 9.2859 16.691 10.0036 16.832L16.7551 10.0755L16.7562 10.0787L16.7583 10.0723ZM10.0035 24.7069C9.2862 24.8478 8.54394 24.7899 7.85714 24.5396L5.79444 26.5877C3.38898 29.0731 3.42214 33.0264 5.86896 35.4711C8.31578 37.9159 12.2725 37.949 14.76 35.5456L16.7175 33.5876C16.6031 33.2093 16.5452 32.8162 16.5458 32.4209C16.5455 32.0704 16.5917 31.7214 16.6832 31.383L10.0035 24.7069Z" fill="#2665F1"/></symbol><symbol id="l-linkedin" viewBox="0 0 16 16"><rect width="16" height="16" rx="3.2" fill="#0A66C2"/><path fill="#fff" d="M4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></symbol><symbol id="l-notion" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="#fff"/><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="none" stroke="#d9d9d4" stroke-width="1"/><path fill="#111" d="M7.1 6.2h2.9l4.7 8.1V6.2h-1.3v-.9h3.9v.9h-1.2v11.6h-1.8L9.4 8.6v8.3h1.3v.9H6.8v-.9h1.2V7.1H6.8z"/></symbol><symbol id="l-slack" viewBox="0 0 24 24"><path fill="#E01E5A" d="M6 15a2 2 0 1 1-2-2h2zM7 15a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0z"/><path fill="#36C5F0" d="M9 6a2 2 0 1 1 2-2v2zM9 7a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4z"/><path fill="#2EB67D" d="M18 9a2 2 0 1 1 2 2h-2zM17 9a2 2 0 0 1-4 0V4a2 2 0 0 1 4 0z"/><path fill="#ECB22E" d="M15 18a2 2 0 1 1-2 2v-2zM15 17a2 2 0 0 1 0-4h5a2 2 0 0 1 0 4z"/></symbol><symbol id="l-granola" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#F0E5D0"/><g stroke="#B4762E" stroke-width="1.8" stroke-linecap="round" fill="none"><path d="M7 9H17"/><path d="M7 12.4H17"/><path d="M7 15.8H13"/></g></symbol><symbol id="l-claude" viewBox="0 0 256 257">
-    <title>Claude</title>
-    <g>
-        <path d="M50.2278481,170.321013 L100.585316,142.063797 L101.427848,139.601013 L100.585316,138.24 L98.1225316,138.24 L89.6972152,137.721519 L60.921519,136.943797 L35.9696203,135.906835 L11.795443,134.610633 L5.70329114,133.31443 L0,125.796456 L0.583291139,122.037468 L5.70329114,118.602532 L13.0268354,119.250633 L29.2293671,120.352405 L53.5331646,122.037468 L71.161519,123.07443 L97.28,125.796456 L101.427848,125.796456 L102.011139,124.111392 L100.585316,123.07443 L99.4835443,122.037468 L74.3372152,104.992405 L47.116962,86.9751899 L32.8587342,76.6055696 L25.1463291,71.3559494 L21.2577215,66.4303797 L19.5726582,55.6718987 L26.5721519,47.9594937 L35.9696203,48.6075949 L38.3675949,49.2556962 L47.8946835,56.5792405 L68.2450633,72.3281013 L94.8172152,91.9007595 L98.7058228,95.1412658 L100.261266,94.0394937 L100.455696,93.2617722 L98.7058228,90.3453165 L84.2531646,64.2268354 L68.8283544,37.6546835 L61.958481,26.636962 L60.1437975,20.0263291 C59.4956962,17.3043038 59.0420253,15.0359494 59.0420253,12.2491139 L67.0136709,1.42582278 L71.4207595,-1.42108547e-14 L82.0496203,1.42582278 L86.521519,5.31443038 L93.1321519,20.4151899 L103.825823,44.2005063 L120.417215,76.5407595 L125.277975,86.1326582 L127.87038,95.0116456 L128.842532,97.7336709 L130.527595,97.7336709 L130.527595,96.1782278 L131.888608,77.9665823 L134.416203,55.6070886 L136.878987,26.8313924 L137.721519,18.7301266 L141.739747,9.00860759 L149.711392,3.75898734 L155.933165,6.74025316 L161.053165,14.0637975 L160.340253,18.7949367 L157.294177,38.5620253 L151.331646,69.5412658 L147.443038,90.2805063 L149.711392,90.2805063 L152.303797,87.6881013 L162.803038,73.7539241 L180.431392,51.718481 L188.208608,42.9691139 L197.282025,33.3124051 L203.114937,28.7108861 L214.132658,28.7108861 L222.233924,40.7655696 L218.604557,53.2091139 L207.262785,67.596962 L197.865316,79.7812658 L184.38481,97.9281013 L175.959494,112.44557 L176.737215,113.612152 L178.746329,113.417722 L209.207089,106.936709 L225.668861,103.955443 L245.306329,100.585316 L254.185316,104.733165 L255.157468,108.945823 L251.657722,117.56557 L230.659241,122.75038 L206.031392,127.675949 L169.348861,136.360506 L168.89519,136.684557 L169.413671,137.332658 L185.940253,138.888101 L193.004557,139.276962 L210.308861,139.276962 L242.519494,141.674937 L250.94481,147.248608 L256,154.053671 L255.157468,159.238481 L242.195443,165.849114 L224.696709,161.701266 L183.866329,151.979747 L169.867342,148.48 L167.923038,148.48 L167.923038,149.646582 L179.588861,161.053165 L200.976203,180.366582 L227.742785,205.253671 L229.103797,211.410633 L225.668861,216.271392 L222.039494,215.752911 L198.513418,198.059747 L189.44,190.088101 L168.89519,172.783797 L167.534177,172.783797 L167.534177,174.598481 L172.265316,181.533165 L197.282025,219.123038 L198.578228,230.659241 L196.763544,234.418228 L190.282532,236.686582 L183.153418,235.39038 L168.506329,214.84557 L153.40557,191.708354 L141.221266,170.969114 L139.730633,171.811646 L132.536709,249.259747 L129.166582,253.213165 L121.389367,256.19443 L114.908354,251.268861 L111.473418,243.297215 L114.908354,227.548354 L119.056203,207.003544 L122.426329,190.671392 L125.472405,170.385823 L127.287089,163.64557 L127.157468,163.191899 L125.666835,163.386329 L110.371646,184.38481 L87.1048101,215.817722 L68.6987342,235.52 L64.2916456,237.269873 L56.6440506,233.316456 L57.356962,226.252152 L61.6344304,219.96557 L87.1048101,187.560506 L102.46481,167.469367 L112.380759,155.868354 L112.315949,154.183291 L111.732658,154.183291 L44.0708861,198.124557 L32.0162025,199.68 L26.8313924,194.819241 L27.4794937,186.847595 L29.9422785,184.25519 L50.2926582,170.256203 L50.2278481,170.321013 Z" fill="#D97757"></path>
-    </g>
-</symbol><symbol id="l-openai" viewBox="0 0 256 260"><g fill="currentColor">
-    <title>OpenAI</title>
-    <g>
-        <path d="M239.183914,106.202783 C245.054304,88.5242096 243.02228,69.1733805 233.607599,53.0998864 C219.451678,28.4588021 190.999703,15.7836129 163.213007,21.739505 C147.554077,4.32145883 123.794909,-3.42398554 100.87901,1.41873898 C77.9631105,6.26146349 59.3690093,22.9572536 52.0959621,45.2214219 C33.8436494,48.9644867 18.0901721,60.392749 8.86672513,76.5818033 C-5.443491,101.182962 -2.19544431,132.215255 16.8986662,153.320094 C11.0060865,170.990656 13.0197283,190.343991 22.4238231,206.422991 C36.5975553,231.072344 65.0680342,243.746566 92.8695738,237.783372 C105.235639,251.708249 123.001113,259.630942 141.623968,259.52692 C170.105359,259.552169 195.337611,241.165718 204.037777,214.045661 C222.28734,210.296356 238.038489,198.869783 247.267014,182.68528 C261.404453,158.127515 258.142494,127.262775 239.183914,106.202783 L239.183914,106.202783 Z M141.623968,242.541207 C130.255682,242.559177 119.243876,238.574642 110.519381,231.286197 L112.054146,230.416496 L163.724595,200.590881 C166.340648,199.056444 167.954321,196.256818 167.970781,193.224005 L167.970781,120.373788 L189.815614,133.010026 C190.034132,133.121423 190.186235,133.330564 190.224885,133.572774 L190.224885,193.940229 C190.168603,220.758427 168.442166,242.484864 141.623968,242.541207 Z M37.1575749,197.93062 C31.456498,188.086359 29.4094818,176.546984 31.3766237,165.342426 L32.9113895,166.263285 L84.6329973,196.088901 C87.2389349,197.618207 90.4682717,197.618207 93.0742093,196.088901 L156.255402,159.663793 L156.255402,184.885111 C156.243557,185.149771 156.111725,185.394602 155.89729,185.550176 L103.561776,215.733903 C80.3054953,229.131632 50.5924954,221.165435 37.1575749,197.93062 Z M23.5493181,85.3811273 C29.2899861,75.4733097 38.3511911,67.9162648 49.1287482,64.0478825 L49.1287482,125.438515 C49.0891492,128.459425 50.6965386,131.262556 53.3237748,132.754232 L116.198014,169.025864 L94.3531808,181.662102 C94.1132325,181.789434 93.8257461,181.789434 93.5857979,181.662102 L41.3526015,151.529534 C18.1419426,138.076098 10.1817681,108.385562 23.5493181,85.125333 L23.5493181,85.3811273 Z M203.0146,127.075598 L139.935725,90.4458545 L161.7294,77.8607748 C161.969348,77.7334434 162.256834,77.7334434 162.496783,77.8607748 L214.729979,108.044502 C231.032329,117.451747 240.437294,135.426109 238.871504,154.182739 C237.305714,172.939368 225.050719,189.105572 207.414262,195.67963 L207.414262,134.288998 C207.322521,131.276867 205.650697,128.535853 203.0146,127.075598 Z M224.757116,94.3850867 L223.22235,93.4642272 L171.60306,63.3828173 C168.981293,61.8443751 165.732456,61.8443751 163.110689,63.3828173 L99.9806554,99.8079259 L99.9806554,74.5866077 C99.9533004,74.3254088 100.071095,74.0701869 100.287609,73.9215426 L152.520805,43.7889738 C168.863098,34.3743518 189.174256,35.2529043 204.642579,46.0434841 C220.110903,56.8340638 227.949269,75.5923959 224.757116,94.1804513 L224.757116,94.3850867 Z M88.0606409,139.097931 L66.2158076,126.512851 C65.9950399,126.379091 65.8450965,126.154176 65.8065367,125.898945 L65.8065367,65.684966 C65.8314495,46.8285367 76.7500605,29.6846032 93.8270852,21.6883055 C110.90411,13.6920079 131.063833,16.2835462 145.5632,28.338998 L144.028434,29.2086986 L92.3579852,59.0343142 C89.7419327,60.5687513 88.1282597,63.3683767 88.1117998,66.4011901 L88.0606409,139.097931 Z M99.9294965,113.5185 L128.06687,97.3011417 L156.255402,113.5185 L156.255402,145.953218 L128.169187,162.170577 L99.9806554,145.953218 L99.9294965,113.5185 Z" ></path>
-    </g>
-</g></symbol><symbol id="l-cursor" viewBox="0 0 24 24"><g fill="currentColor"><title>Cursor</title><path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></g></symbol><symbol id="l-gemini" viewBox="0 0 24 24"><g fill="currentColor"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></g></symbol><symbol id="l-perplexity" viewBox="0 0 24 24"><g fill="currentColor"><title>Perplexity</title><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></g></symbol><symbol id="l-copilot" viewBox="0 0 24 24"><g fill="currentColor"><title>GitHub Copilot</title><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"/></g></symbol></svg>
+</symbol><symbol id="l-attio" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#141417"/><g fill="#fff"><circle cx="12" cy="6.6" r="1.5"/><circle cx="12" cy="17.4" r="1.5"/><circle cx="6.6" cy="12" r="1.5"/><circle cx="17.4" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.85"/></g></symbol><symbol id="l-affinity" viewBox="0 0.19 41.12 41.14"><path fill-rule="evenodd" clip-rule="evenodd" d="M36.2425 20.7692C36.2418 21.1012 36.2 21.4318 36.118 21.7535L38.1678 23.8166C42.1219 27.8365 42.0939 34.2895 38.1051 38.2749C34.1162 42.2603 27.6577 42.2883 23.6345 38.3376L21.6018 36.3067C20.9344 36.4836 20.2323 36.4836 19.5649 36.3067L17.5451 38.3269C13.5318 42.3373 7.02457 42.3378 3.01071 38.3279C-1.00315 34.3181 -1.00363 27.8163 3.00964 23.8059L5.28054 21.5348C5.17894 21.0251 5.17894 20.5004 5.28054 19.9907L3.01178 17.7217C0.415654 15.1274 -0.598046 11.3463 0.352536 7.80279C1.30312 4.25924 4.07356 1.49156 7.62028 0.542315C11.167 -0.406933 14.9511 0.606461 17.5473 3.20076L19.3266 4.97862C20.1441 4.71219 21.0259 4.71745 21.8401 4.99363L23.6366 3.19862C27.6599 -0.752113 34.1184 -0.724137 38.1072 3.2613C42.0961 7.24674 42.1241 13.6997 38.17 17.7196L36.1137 19.7741C36.1991 20.0989 36.2424 20.4333 36.2425 20.7692ZM26.4135 5.98842L24.4818 7.91854C24.5467 8.2057 24.5798 8.49913 24.5805 8.79353C24.5808 9.21316 24.5141 9.63014 24.383 10.0288L31.2472 16.8807C31.5683 16.7978 31.8987 16.756 32.2303 16.7564C32.6258 16.7559 33.0193 16.8137 33.3979 16.9279L35.3791 14.9463C37.7845 12.461 37.7514 8.50761 35.3046 6.06287C32.8577 3.61814 28.901 3.58501 26.4135 5.98842ZM24.4521 31.4274L31.2283 24.6548C31.9434 24.8416 32.6966 24.8245 33.4026 24.6055L35.3859 26.5871C37.7913 29.0725 37.7582 33.0258 35.3113 35.4706C32.8645 37.9153 28.9078 37.9484 26.4203 35.545L24.4199 33.5441C24.5261 33.1789 24.5803 32.8006 24.5808 32.4204C24.5809 32.0852 24.5376 31.7515 24.4521 31.4274ZM21.7277 28.5837L28.3816 21.9355L28.3837 21.9398C28.1505 21.1766 28.1505 20.3612 28.3837 19.598L21.483 12.7031C20.893 12.845 20.2781 12.8487 19.6864 12.7138L12.9961 19.3942C13.3195 20.28 13.3195 21.2514 12.9961 22.1371L19.4353 28.5709C20.1844 28.3522 20.9811 28.3566 21.7277 28.5837ZM16.7583 10.0723L16.7551 10.0755C16.5154 9.3679 16.4808 8.60699 16.6553 7.88053L14.76 5.98686C12.2725 3.58345 8.31578 3.61658 5.86896 6.06132C3.42214 8.50605 3.38898 12.4594 5.79444 14.9448L7.85714 17.0036C8.54324 16.7504 9.2859 16.691 10.0036 16.832L16.7551 10.0755L16.7562 10.0787L16.7583 10.0723ZM10.0035 24.7069C9.2862 24.8478 8.54394 24.7899 7.85714 24.5396L5.79444 26.5877C3.38898 29.0731 3.42214 33.0264 5.86896 35.4711C8.31578 37.9159 12.2725 37.949 14.76 35.5456L16.7175 33.5876C16.6031 33.2093 16.5452 32.8162 16.5458 32.4209C16.5455 32.0704 16.5917 31.7214 16.6832 31.383L10.0035 24.7069Z" fill="#2665F1"/></symbol><symbol id="l-notion" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="#fff"/><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="none" stroke="#d9d9d4" stroke-width="1"/><path fill="#111" d="M7.1 6.2h2.9l4.7 8.1V6.2h-1.3v-.9h3.9v.9h-1.2v11.6h-1.8L9.4 8.6v8.3h1.3v.9H6.8v-.9h1.2V7.1H6.8z"/></symbol><symbol id="l-slack" viewBox="0 0 24 24"><path fill="#E01E5A" d="M6 15a2 2 0 1 1-2-2h2zM7 15a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0z"/><path fill="#36C5F0" d="M9 6a2 2 0 1 1 2-2v2zM9 7a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4z"/><path fill="#2EB67D" d="M18 9a2 2 0 1 1 2 2h-2zM17 9a2 2 0 0 1-4 0V4a2 2 0 0 1 4 0z"/><path fill="#ECB22E" d="M15 18a2 2 0 1 1-2 2v-2zM15 17a2 2 0 0 1 0-4h5a2 2 0 0 1 0 4z"/></symbol><symbol id="l-gemini" viewBox="0 0 24 24"><g fill="currentColor"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></g></symbol><symbol id="l-perplexity" viewBox="0 0 24 24"><g fill="currentColor"><title>Perplexity</title><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></g></symbol><symbol id="l-copilot" viewBox="0 0 24 24"><g fill="currentColor"><title>GitHub Copilot</title><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"/></g></symbol></svg>
 <script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>

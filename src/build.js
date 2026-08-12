@@ -95,7 +95,11 @@ function spriteOf(names) {
 // Only the GitHub mark is above the fold (the hero's "Use it for free" button),
 // so it stays; the other fifteen are first referenced in #change and below, and
 // ride at the end of <body> where they cost the hero nothing.
-const SPRITE_EARLY = ["github"];
+// The hero carries the picture now: five source documents, the three assistants
+// the answer can be asked in, and the citation on every claim. All of those
+// marks paint above the fold, so they ship in the head sprite rather than the
+// end-of-body one. The guard below is what tells you when this list is stale.
+const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "claude", "openai", "cursor"];
 const spriteHero = spriteOf(SPRITE_EARLY);
 const spriteRest = spriteOf(Object.keys(LOGOS).filter(k => SPRITE_EARLY.indexOf(k) < 0));
 
