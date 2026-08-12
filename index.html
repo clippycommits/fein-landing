@@ -428,10 +428,19 @@
   .tlogo{flex:none;vertical-align:middle}
   .works .row .tlogo{width:17px;height:17px;margin:-1px .5rem 0 -.15rem}
 
-  /* ============ sections: hairline-separated black bands ============ */
+  /* ============ sections: black bands, separated by their own air ============ */
   section{scroll-margin-top:20px}
   section[id],.feat[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
-  .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0;border-top:1px solid var(--line)}
+  /* no rule between sections. This carried a border-top, which drew a full-bleed
+     hairline above all eleven bands: a line the width of the viewport, cutting
+     the page into stacked boxes and running out past the measure everything else
+     on the page is held to. The reference rules nothing horizontally -- the
+     figure row's columns are ruled off *each other*, which is a relationship
+     between three things sitting side by side, and that is the only place a rule
+     is saying anything. Space does the separating now, and there is a lot of it:
+     the clamp below is 64-104px top and bottom, so two neighbouring sections put
+     up to 208px between them. */
+  .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0}
   .head{max-width:60ch}
   .head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);letter-spacing:-.026em;font-weight:500;text-wrap:balance;margin-top:.7rem;line-height:1.09}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
@@ -440,10 +449,15 @@
   /* ---- the feature grid ----
      Four alternating copy/mock rows became one ruled grid, off the reference.
      Measured from it rather than judged: the container and its dividers are a
-     single hairline at rgb(19,20,21), which against #000 is what --line already
-     is; the cells carry no ground of their own, so the page shows through and the
-     grid is nothing but its rules; the caption sits on a 36px gutter; and the
-     title and the body are the SAME size, separated by weight and colour only.
+     single hairline at rgb(19,20,21), which is what --line came to against the
+     #000 this page used to be painted on. On the #08090A ground it is painted on
+     now the same .09 lands at rgb(30,31,32), so every rule left on the page sits
+     a little brighter than the one it was measured against. Dropping --line to
+     about .045 would put it back on rgb(19,20,21); that is a page-wide move and
+     is deliberately not made here. The cells carry no ground of their own, so
+     the page shows through and the grid is nothing but its rules; the caption
+     sits on a 36px gutter; and the title and the body are the SAME size,
+     separated by weight and colour only.
      That last one is the whole character of the pattern and the easiest thing to
      get wrong: a bigger heading turns each cell back into a little article.
 
