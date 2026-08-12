@@ -1461,17 +1461,7 @@
   .fn-src.hot b{color:#fff}
   .fn-src.hot em{opacity:1}
 
-  .fn-rest{list-style:none;margin:1.05rem 0 0;padding:0 .85rem;display:flex;flex-wrap:wrap;gap:.08rem .28rem;font-size:9.5px;line-height:1.65;color:rgba(255,255,255,.2)}
-  .fn-rest li{display:inline-flex;align-items:center;gap:.24rem;white-space:nowrap}
-  .fn-rest li+li::before{content:"\00b7";margin-right:.28rem;color:rgba(255,255,255,.12)}
-  .fn-rest .tlogo{width:9px;height:9px;opacity:.3}
 
-  /* the call sits at the foot of the rail the way an application puts its
-     status there, and is ordered last rather than written last so the entrance
-     can still stagger it first */
-  .fn-call{order:9;margin-top:auto;padding:.85rem .85rem 0;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:9.6px;letter-spacing:.02em;color:var(--dim)}
-  .fn-call b{color:var(--fg-3);font-weight:600}
-  .fn-live{width:4px;height:4px;border-radius:50%;background:#3ecf8e;flex:none}
 
   /* stacked, the rail becomes what it was two revisions ago: the sources under
      the answer. The feed-through mark moves to the left edge, which is the one
@@ -1481,21 +1471,16 @@
     .app-main{order:1}
     .app-rail{order:2;border-right:0;border-top:1px solid var(--line)}
     .fn-src::after{right:auto;left:0}
-    .fn-rest li:nth-child(n+11){display:none}
+    .fn-src:nth-child(n+9){display:none}
   }
 
   /* .armed is added only when the script commits to playing, and a watchdog
      takes it off again, so there is no state in which the funnel is blank. */
-  .lead-stage.armed .fn-call,.lead-stage.armed .fn-rest{opacity:0;transition:opacity .6s ease}
-  .lead-stage.armed .fn-call.in,.lead-stage.armed .fn-rest.in{opacity:1}
   .lead-stage.armed .fn-src{opacity:0;transform:translateY(9px)}
   .lead-stage.armed .fn-src.in{opacity:1;transform:translateY(0)}
 
-  @media (max-width:760px){
-    .fn-rest li:nth-child(n+9){display:none}
-  }
   @media (prefers-reduced-motion:reduce){
-    .fn-src,.fn-call,.fn-rest,.lead-p .cl{opacity:1;transform:none;transition:none}
+    .fn-src,.lead-p .cl{opacity:1;transform:none;transition:none}
   }
 
   /* ---- the announcement pill: the top rung of the fold ----
@@ -2091,7 +2076,6 @@ setTimeout(go,1200);})()</script>
              a second column of dates nobody is reading yet. -->
         <div class="lead-app">
           <aside class="app-rail" aria-hidden="true">
-            <p class="fn-call"><i class="fn-live"></i><b>fein</b><span>search_memory</span></p>
             <ol class="fn-read">
             <li class="fn-src" data-d="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
             <li class="fn-src" data-d="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
@@ -2100,25 +2084,14 @@ setTimeout(go,1200);})()</script>
             <li class="fn-src" data-d="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Coffee with Halo Compute</b><em>21 Nov 2024</em></li>
             <li class="fn-src" data-d="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Priya Nayar, new position</b><em>3 Jun 2025</em></li>
             <li class="fn-src" data-d="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Halo Compute, moved to IC</b><em>14 Jul 2026</em></li>
+            <li class="fn-src" data-d="7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Q3 LP letter, draft 2</b><em>4 Aug 2026</em></li>
+            <li class="fn-src" data-d="8"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Partner sync, pipeline review</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="9"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>IC Monday, 09:00</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="10"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Reference call, Priya Nayar</b><em>22 Jul 2026</em></li>
+            <li class="fn-src" data-d="11"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #research</b><em>Yesterday 16:04</em></li>
+            <li class="fn-src" data-d="12"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Pipeline stage, 24 changes</b><em>11 Aug 2026</em></li>
+            <li class="fn-src" data-d="13"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Series A hires, 6 updates</b><em>5 Aug 2026</em></li>
             </ol>
-            <ul class="fn-rest">
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>41 threads</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>18 meeting notes</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>9 events</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>6 profile updates</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow, #lps</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>24 field changes</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Q3 LP letter</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Partner sync</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>IC Monday</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Reference calls</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#research</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>Pipeline stage</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Data room access</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Founder call</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Series A hires</li>
-            <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Board prep</li>
-            </ul>
           </aside>
 
           <div class="app-main" id="lcard">
@@ -5093,7 +5066,6 @@ setTimeout(go,1200);})()</script>
   var qEl=document.getElementById('lq'),
       countEl=document.getElementById('lcount'),
       srcs=[].slice.call(stage.querySelectorAll('.fn-src')),
-      extras=[].slice.call(stage.querySelectorAll('.fn-call,.fn-rest')),
       panels=[].slice.call(stage.querySelectorAll('.lead-p'));
   if(!qEl||!panels.length||!srcs.length) return;
 
@@ -5178,9 +5150,8 @@ setTimeout(go,1200);})()</script>
   }
 
   function play(){
-    var parts=[].concat(extras.slice(0,1),srcs,extras.slice(1));
-    parts.forEach(function(d,i){ at(70+i*58,function(){ d.classList.add('in'); }); });
-    var t=70+parts.length*58+180;
+    srcs.forEach(function(d,i){ at(70+i*44,function(){ d.classList.add('in'); }); });
+    var t=70+srcs.length*44+180;
     at(t,tally);
     at(t,function(){
       show(0,true);
