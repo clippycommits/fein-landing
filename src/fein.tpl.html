@@ -1218,13 +1218,22 @@
   /* where the top of this section comes to rest, which is not the nav's height:
      the section's own scroll-margin-top clears the nav by a further 18px, and
      that is the position a reader who scrolls to the film actually stops at. */
-  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-air:1.1rem;--film-gutter:min(4vw,4.5rem);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
+  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-air:1.1rem;--film-w:min(calc(100% - var(--film-gutter)),1760px,max(30rem,calc((100svh - var(--demo-top) - var(--demo-air)) * 16 / 9)));--film-gutter:min(4vw,4.5rem);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
   /* the band reads left, not centred. It now sits directly under the fold, and
      two centred screens running made the second read as a repeat of the first
      rather than as the next beat. Left is also the measure every other band
      heading on the page is set to, so the film is the odd one out no longer. */
+  /* The band opens on copy alone and closes on the one action. The CTA used to
+     sit here, above the film, which is the worst place for it: the reader meets
+     it before they have seen anything, and it competes with the same words in
+     the nav. It now sits under the film, where intent is highest. */
   .demo-intro{text-align:left;max-width:var(--maxw)}
   .demo-intro .demo-lead{margin-inline:0;max-width:52ch}
+  /* The row that catches the reader coming off the film. It takes the film's
+     width, not the page's, so it starts on the same left edge as the chapter
+     rail immediately above it rather than on the text column's, which is a
+     thousand pixels further up the page and reads as unrelated down here. */
+  .demo-after{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;width:var(--film-w);box-sizing:border-box;margin:clamp(1.5rem,3vw,2.2rem) auto 0;padding:0 24px}
   /* the heading and the lead used to step down on a short window as well as a
      narrow one, because a 1440x760 laptop had to give the film its inches back
      out of the type. The film no longer takes them from here, so both are set
@@ -1286,7 +1295,10 @@
      The max() is the floor, and it only exists so a very short window cannot
      drive term 3 to nothing. Measured, it does not bind above about 350px of
      window height, which is not a window anyone has. */
-  .demo-stage{--film-w:min(calc(100% - var(--film-gutter)),1760px,max(30rem,calc((100svh - var(--demo-top) - var(--demo-air)) * 16 / 9)));margin:var(--demo-gap) 0 0}
+  /* --film-w moved up to #demo so the CTA row under the figure can take the
+     film's width too. The 100% inside it resolves where it is used, and #demo
+     and .demo-stage are the same width, so the film measures as before. */
+  .demo-stage{margin:var(--demo-gap) 0 0}
   .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate}
   .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
   .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
@@ -1428,6 +1440,11 @@
   .demo-chap.on i{color:var(--blue-l)}
   .demo-chap.on b{color:#fff}
   .demo-chap.on span{color:var(--fg-3)}
+  /* the chapters seek the film, so they have to read as things you can press:
+     until now they looked like three captions that happened to sit under it */
+  .demo-chap:hover{border-top-color:var(--fg-3)}
+  .demo-chap:hover b{color:#fff}
+  .demo-chap:hover span{color:var(--fg-3)}
   .demo-chap:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px}
   /* the loop rewinds all three rules at once. That used to need a class to kill
      the transition for a frame; with no transition to kill, the rewind is simply
@@ -1453,9 +1470,7 @@
      the page to ask and the wrong one to whisper. It sits under a rail of
      hairlines and a picture that grades to black, so a ghost button here is the
      one object on screen with nothing to separate it from the page. */
-  .demo-act{display:flex;justify-content:flex-start;align-items:center;gap:1.15rem;margin-top:clamp(1.7rem,3.2vw,2.35rem);padding:0 24px}
-.demo-intro .demo-act{margin-top:clamp(1.15rem,2vw,1.6rem);padding:0}
-  .demo-act .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
+  .demo-after .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
 
   @media (max-width:860px){
     .demo-rail{flex-wrap:wrap;gap:.95rem 1.2rem}
@@ -1485,12 +1500,12 @@
     /* the subtitle is gone by this width, leaving a 37px row to tap. The pad
        goes on the bottom so the hairline it hangs from does not move */
     .demo-chap{padding-bottom:.45rem}
-    .demo-act{flex-direction:column;align-items:center}
+    .demo-after{flex-direction:column;align-items:stretch}
     /* stretched, this came out 342px on a 390px screen: a white slab as wide as
        the film above it, which is the one thing on the page it should not
        compete with. Wide enough to be an obvious target, capped so it still
        reads as a button rather than a bar */
-    .demo-act .btn{width:100%;max-width:20rem}
+    .demo-after .btn{width:100%;max-width:20rem}
     /* the frame renders about 220px tall here, so the button takes a step down
        to sit inside the picture rather than across it */
     .demo-big{width:54px;height:54px}
@@ -1713,10 +1728,9 @@ __LOGO_SPRITE__
 
   <section id="demo" class="band" aria-labelledby="demo-h">
     <div class="wrap demo-intro">
-      <h2 id="demo-h">Welcome to agentic venture capital.</h2>
-      <p class="demo-lead">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
-      <div class="demo-act">
-        <a class="btn btn-white" href="#get-started">Talk to sales</a>
+      <div class="demo-copy">
+        <h2 id="demo-h">Welcome to agentic venture capital.</h2>
+        <p class="demo-lead">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
       </div>
     </div>
     <figure class="demo-stage">
@@ -1789,6 +1803,16 @@ __LOGO_SPRITE__
         </p>
       </figcaption>
     </figure>
+
+    <!-- The conversion moment. Intent peaks at the end of the film, not at the
+         top of the section, and until now the only way out of here was a CTA
+         the reader passed before they had seen anything. Self-serve leads,
+         because someone who has just watched twenty-six seconds is closer to
+         trying it than to booking a call; the call is kept beside it. -->
+    <div class="demo-after">
+      <a class="btn btn-white" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
+      <a class="btn btn-ghost" href="#get-started">Talk to sales</a>
+    </div>
   </section>
 
 
