@@ -810,10 +810,12 @@
   .dbit{gap:.4rem;height:24px;max-width:var(--bitw,230px);padding:0 8px;background:rgba(255,255,255,.014);border:1px solid rgba(255,255,255,.05);border-radius:6px;font-family:var(--mono);font-size:10px;line-height:1;color:#6d727b;white-space:nowrap}
   .dbit svg{width:11px;height:11px;flex:none;opacity:.55}
   .dbit span{min-width:0;overflow:hidden;text-overflow:ellipsis}
-  /* the refined side: the receipt that rides out behind an answer. Same mono as
-     the raw fragments on purpose, one tint further into the blue, so the two
-     ends of the funnel are legibly the same material at different stages */
-  .dfin{height:24px;padding:0 9px;background:rgba(0,112,243,.05);border:1px solid rgba(82,168,255,.16);border-radius:6px;font-family:var(--mono);font-size:10px;line-height:1;color:#93a3ba;white-space:nowrap}
+  /* the second thing riding out of the core: another read, shorter than the
+     headline one and set back from it. It is written, not counted. The mono
+     belongs to the raw end of the funnel and nothing that has been through the
+     middle should still be wearing it: the size and the weight carry the
+     hierarchy here, not the typeface */
+  .dfin{height:27px;padding:0 11px;background:rgba(0,112,243,.055);border:1px solid rgba(82,168,255,.17);border-radius:8px;font-family:var(--font);font-size:11.5px;font-weight:450;letter-spacing:-.005em;line-height:1;color:#aab6c6;white-space:nowrap}
 
   /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon.
      The canvas owns the whole section, so the fan runs off every edge instead of
@@ -3322,13 +3324,17 @@ setTimeout(go,1200);})()</script>
       ["copilot","Monday's follow-ups, with owners","GRANOLA"],
       ["cursor","Pipeline reranked by heat, not by stage","ATTIO"],
       ["openai","Sarah asked for the model. Nobody sent it.","SLACK"]];
-    /* the receipt riding out behind each answer. Every one of these is a claim
-       the product makes elsewhere in words, said here as a property of the
-       thing coming out of the machine */
-    var RFIN=["3 sources, all dated","from 4 emails and 1 call",
-      "checked against the crm","6 duplicates merged into one",
-      "cited: gmail, granola, attio","scored on replies and meetings",
-      "resolved to one person","no llm guess in this one"];
+    /* and the shorter read riding out behind each answer. These were counts of
+       the work at one point, three sources and six duplicates merged, which is
+       a thing to say about a machine and not a thing to tell a partner. Nothing
+       leaves this end of the funnel that is not something somebody would want
+       to be told */
+    var RFIN=["She replies to David in a day","Three founders went quiet",
+      "The memo is stale on price","You met them twice, both at events",
+      "Co-invest history: three firms","Last touch was six weeks ago",
+      "Two mutuals, both warm","The hiring spike began in March",
+      "Your LP asked this in June","Nobody answered her question",
+      "The intro path runs through David","Their round is oversubscribed"];
     var pIdx=0,fIdx=0,inUse={},items=[],glowK=0,rings=[];
     /* the funnel itself: lane rails in four batches (intake lanes, intake walls,
        exit lanes, exit walls) so a frame is four strokes and not thirty */
