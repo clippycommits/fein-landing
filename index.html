@@ -344,6 +344,7 @@
   .hero-lead .wrap>h1,.hero-lead .wrap>h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .02s both}
   .hero-lead .wrap>p{animation-delay:.12s}
   .hero-lead .hero-actions{animation-delay:.22s}
+  .hero-lead .wrap>.ask--lead{animation-delay:.3s}
 
   /* the orbit stage: one centered statement with the composition turning around
      it. the copy keeps the band type scale (.head), so the geometry below reads
@@ -656,7 +657,7 @@
   .hero-lead .ask--hero .was{font-size:9.8px}
   /* the stat strip becomes the window's status bar, which is where a number
      like this belongs in an interface and stops it reading as a badge */
-  .hero-lead .ask-f{margin-top:auto;padding:.55rem 1.15rem;font-size:10.4px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015)}
+  .hero-lead .ask--hero .ask-f{margin-top:auto;padding:.55rem 1.15rem;font-size:10.4px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015)}
 
   .ah-cursor{display:inline-block;width:.42em;height:1.02em;translate:0 2px;background:var(--fg-2);animation:caretB 1s steps(2,start) infinite}
 
@@ -898,21 +899,17 @@
   }
 
   /* ============ one memory, asked from the thread it is about ================
-     The shape is a headline on the left, the sentence that qualifies it on the
-     right, and under both of them one picture drawn in two layers: the raw
-     material in front at reading size, the product behind it.
+     Headline left, the sentence that qualifies it right, and under both a picture
+     in two layers: the raw material in front at reading size, the product behind.
 
-     Both layers are already on this page in another form, which is the point of
-     putting them together. The thread is the #dealflow message the film's own
-     answer cites, and the film is the same twenty-six second walkthrough #demo
-     plays, on its second showing. Everything that makes the first one a player
-     is deliberately absent here -- no sound, no chapters, no scrubber -- because
-     this is the right half of a picture and not the film's own section. #demo is
-     four screens above it, so the file is in cache by the time anyone arrives:
-     the second copy costs a decode and no bytes.
-
-     One accent, as in the figures above. Blue is the mention in the composer and
-     the send button, and nothing else in either layer is coloured. */
+     The panel is a replica of the client, so it is measured like one rather than
+     styled like the rest of the page. Slack's own geometry: a 36px avatar on an
+     8px radius, a 15px semibold name, 15px body on a 22px leading, and a 20px
+     gutter that the avatar and the composer both start on. The one thing here
+     that is not a copy is the accent, which is this page's blue and not Slack's
+     aubergine, because the mention and the send button are the two things in the
+     picture the reader is meant to connect and blue is what connects them
+     everywhere else on this page. */
   .mem-head{width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.1rem,3vw,3.6rem);align-items:start}
   .mem-head h2{font-size:clamp(2rem,4.2vw,3.15rem);line-height:1.05;letter-spacing:-.035em;color:#fff;max-width:19ch;text-wrap:balance}
   /* the right column is set at lead size rather than body size, so it reads as
@@ -933,45 +930,96 @@
   .mem-video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
   /* the seam is a fade, not a hairline butting into the back of a card */
   .mem-film::after{content:"";position:absolute;inset:0 auto 0 0;width:24%;background:linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,.28) 55%,transparent);pointer-events:none;z-index:1}
-  /* the whole frame is the stop target. It is the only control the loop carries,
-     and it is here because moving content that starts on its own has to have
-     one; it is named for what the press does rather than for the state it is in */
+  /* stopped, the picture sits under a wash so the button on it is the brightest
+     thing in the frame. Running, the wash lifts and the film is just the film. */
+  .mem-veil{position:absolute;inset:0;z-index:1;background:radial-gradient(56% 56% at 50% 50%,rgba(0,0,0,.5),rgba(0,0,0,.2) 68%,rgba(0,0,0,.06));opacity:0;transition:opacity .3s ease;pointer-events:none}
+  .mem-film.paused .mem-veil{opacity:1}
   .mem-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
   .mem-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
-  .mem-glyph{position:absolute;right:clamp(.6rem,1.5vw,1rem);bottom:clamp(.6rem,1.5vw,1rem);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:rgba(10,10,13,.7);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top);-webkit-backdrop-filter:blur(10px) saturate(150%);backdrop-filter:blur(10px) saturate(150%);opacity:0;transition:opacity .2s ease}
-  .mem-glyph svg{width:14px;height:14px;display:block;fill:currentColor}
-  /* stopped, the glyph is the way back in and is always up. Running, it is a
-     control for something nobody asked to start, so it waits to be reached for */
-  .mem-film.paused .mem-glyph,.mem-film:hover .mem-glyph,.mem-film:focus-within .mem-glyph{opacity:1}
+  /* glass, not the white disc the hero film uses. That one is the only solid
+     white object on the page because it is the one thing asking to be pressed;
+     this is a control on a picture that is already making its point, and the
+     page keeps exactly one invitation. */
+  .mem-big{position:absolute;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:clamp(46px,4.4vw,58px);aspect-ratio:1;border-radius:50%;background:rgba(10,10,13,.62);box-shadow:0 0 0 1px rgba(255,255,255,.2),var(--hl-top),0 10px 30px -12px rgba(0,0,0,.9);-webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%);transition:opacity .2s ease,scale .2s cubic-bezier(.22,.61,.36,1)}
+  .mem-big svg{width:42%;height:42%;display:block;fill:currentColor;translate:1px 0}
+  .mem-big .g-stop{translate:0 0}
+  .mem-hit:hover .mem-big{scale:1.05}
+  /* running, the pause is a control nobody asked to have on screen, so it waits
+     to be reached for; stopped, the play glyph is the way in and is always up */
+  .mem-film:not(.paused) .mem-big{opacity:0}
+  .mem-film:not(.paused) .mem-hit:hover .mem-big,.mem-film:not(.paused) .mem-hit:focus-visible .mem-big{opacity:1}
   .mem-film.paused .g-stop,.mem-film:not(.paused) .g-play{display:none}
 
-  /* ---- the thread. Same panel as the two in the figures above, so the pictures
-     in this section and the last one are one object drawn four times ---- */
-  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-md);box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
-  .mem-bar{display:flex;align-items:center;gap:.55rem;height:44px;padding:0 15px;border-bottom:1px solid var(--line);font-size:.82rem;color:var(--fg-3)}
-  .mem-bar .tlogo{width:15px;height:15px;flex:none}
-  .mem-bar b{color:#fff;font-weight:550}
-  .mem-thread{list-style:none;margin:0;padding:.8rem 0 .3rem}
-  .mem-t{display:grid;grid-template-columns:32px minmax(0,1fr);column-gap:.7rem;padding:.48rem 15px}
-  .mem-av{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:.71rem;font-weight:600;color:#fff;letter-spacing:.01em}
-  .mem-nm{display:flex;align-items:baseline;gap:.45rem;font-size:.86rem;font-weight:600;color:#fff;letter-spacing:-.012em}
-  .mem-nm em{font-style:normal;font-size:.72rem;font-weight:400;color:var(--dim)}
-  .mem-guest{padding:.06rem .3rem;border-radius:4px;background:rgba(255,255,255,.07);font-size:.64rem;font-weight:500;color:var(--fg-3)}
-  .mem-t p{margin-top:.16rem;font-size:.9rem;line-height:1.58;color:var(--fg-2)}
-  /* the composer is where the section makes its claim: the question is typed
-     into the thread it is about, by the partner who was never on the deal */
-  .mem-box{margin:.5rem 15px 15px;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.02)}
-  .mem-q{padding:.78rem .8rem 1.45rem;font-size:.92rem;line-height:1.6;color:var(--fg)}
-  .mem-at{margin-right:.3rem;padding:.06rem .32rem;border-radius:4px;background:rgba(0,112,243,.24);color:var(--blue-l);font-weight:550}
+  /* ---- the thread ---- */
+  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line-2);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
+  .mem-bar{display:flex;align-items:center;gap:.6rem;padding:.85rem 20px;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--fg-2)}
+  .mem-bar .tlogo{width:16px;height:16px;flex:none}
+  .mem-bar b{color:#fff;font-weight:600}
+  .mem-kebab{margin-left:auto;display:flex;flex-direction:column;gap:2.5px}
+  .mem-kebab i{width:3px;height:3px;border-radius:50%;background:var(--dim)}
+  /* no visible bar: the clip against the top edge is the point, a scrollbar drawn
+     down the side of a picture of a product is not */
+  .mem-scroll{max-height:clamp(232px,25vw,318px);overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain;scroll-behavior:smooth}
+  .mem-scroll::-webkit-scrollbar{display:none}
+  .mem-thread{list-style:none;margin:0;padding:.9rem 0}
+  .mem-t{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:10px;padding:.42rem 20px}
+  .mem-av{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-size:.76rem;font-weight:600;color:#fff;letter-spacing:.01em}
+  .mem-av-fein{background:#0e0e12;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  /* the mark off favicon.svg, drawn the way that file draws it: the two runs are
+     stroked and the three nodes are filled. Stroke and fill on the same element
+     closes the run into a solid triangle, which is a different logo. */
+  .mem-av-fein svg{width:21px;height:21px;display:block}
+  .mem-av-fein path{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round}
+  .mem-av-fein circle{fill:#fff;stroke:none}
+  .mem-nm{display:flex;align-items:baseline;gap:.4rem;font-size:.94rem;font-weight:600;color:#fff;letter-spacing:-.012em}
+  .mem-nm em{font-style:normal;font-size:.76rem;font-weight:400;color:var(--dim)}
+  .mem-guest,.mem-app{padding:.08rem .3rem;border-radius:4px;background:rgba(255,255,255,.08);font-size:.62rem;font-weight:600;letter-spacing:.04em;color:var(--fg-3);text-transform:uppercase}
+  .mem-t p{margin-top:.1rem;font-size:.94rem;line-height:1.48;color:var(--fg-2)}
+  /* sent, a mention is coloured text in the sentence. Typed, it is still a token
+     the composer is holding, which is the chip further down. */
+  .mem-ment{color:var(--blue-l);font-weight:500}
+  /* the reply arrives, so it arrives from somewhere: it fades up under its own
+     rule rather than appearing between two frames */
+  .mem-posted-in,.mem-reply-in{animation:memIn .34s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes memIn{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+  /* the evidence, in the shape the client gives a list: the document is the link
+     and the fact is the line. Not interactive, because it is a picture of an
+     answer and a link that goes nowhere is worse than no link. */
+  .mem-cites{list-style:none;margin:.4rem 0 0;padding:0}
+  .mem-cites li{position:relative;padding-left:1.05rem;margin-top:.24rem;font-size:.94rem;line-height:1.48;color:var(--fg-2)}
+  .mem-cites li::before{content:"";position:absolute;left:.3rem;top:.62em;width:3.5px;height:3.5px;border-radius:50%;background:var(--dim)}
+  .mem-cites b{color:var(--blue-l);font-weight:500}
+  .mem-read{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+  .mem-read b{margin-left:auto;font-weight:400;color:var(--fg-3)}
+
+  /* ---- the composer ---- */
+  .mem-box{margin:.35rem 20px 20px;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.02)}
+  .mem-q,.mem-ph{padding:.8rem .8rem 1.5rem;font-size:.94rem;line-height:1.5;color:var(--fg)}
+  .mem-ph{color:var(--dim)}
+  .mem-at{margin-right:.3rem;padding:.08rem .34rem;border-radius:4px;background:rgba(0,112,243,.24);color:var(--blue-l);font-weight:550}
   .mem-caret{display:inline-block;width:.44em;height:1.02em;margin-left:1px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
-  .mem-acts{display:flex;align-items:center;gap:.85rem;padding:.45rem .6rem;border-top:1px solid var(--line)}
-  .mem-acts svg{width:16px;height:16px;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;color:var(--dim)}
-  .mem-send{margin-left:auto;display:grid;place-items:center;width:32px;height:26px;border-radius:6px;background:var(--blue)}
-  .mem-send svg{width:13px;height:13px;fill:#fff;stroke:none}
+  .mem-acts{display:flex;align-items:center;gap:.62rem;padding:.5rem .6rem}
+  .mem-acts .mem-ic{width:17px;height:17px;display:block;flex:none;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;color:var(--fg-3)}
+  .mem-plus{display:grid;place-items:center;width:22px;height:22px;flex:none;border-radius:50%;background:rgba(255,255,255,.09);color:var(--fg-2)}
+  .mem-plus svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+  .mem-aa{flex:none;font-size:.88rem;font-weight:500;color:var(--fg-3);letter-spacing:-.01em}
+  .mem-sep{flex:none;width:1px;height:17px;background:var(--line-2)}
+  /* armed it is the one blue object in the panel, and it is a real button. Once
+     the question is sent there is nothing left to send, so it goes quiet rather
+     than staying lit and inviting a second press that would do nothing. */
+  .mem-send{margin-left:auto;display:inline-flex;align-items:center;gap:.34rem;padding:.3rem .42rem;border:0;border-radius:6px;background:var(--blue);color:#fff;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background .18s ease,opacity .18s ease}
+  .mem-send:hover{background:#0b80ff}
+  .mem-send .mem-arrow{width:14px;height:14px;display:block;fill:currentColor}
+  .mem-send .mem-chev{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+  .mem-sdiv{width:1px;height:14px;background:rgba(255,255,255,.34)}
+  .mem-box.sent .mem-send{background:transparent;color:var(--dim);cursor:default}
+  .mem-box.sent .mem-send:hover{background:transparent}
+  .mem-box.sent .mem-sdiv{background:var(--line-2)}
+
   /* the head and the stage break at the same width, and the stage is the reason
      it is this width and not 900. Two layers side by side only work while both
-     are worth looking at: the thread sets its own height off three messages and
-     a composer, the film takes whatever the column gives it at 16:9, and below
+     are worth looking at: the thread sets its own height off its messages and a
+     composer, the film takes whatever the column gives it at 16:9, and below
      about 1080 the film is the shorter of the two by enough that the row reads
      as a card with a picture stranded next to it. Stacked, both are full width
      and the fade goes with the overlap it was there to cover. */
@@ -983,6 +1031,11 @@
     .mem-msg{grid-area:1/1/2/2}
     .mem-film{grid-area:2/1/3/2;margin-left:0}
     .mem-film::after{display:none}
+  }
+  @media (max-width:560px){
+    .mem-bar,.mem-t{padding-left:14px;padding-right:14px}
+    .mem-box{margin-inline:14px}
+    .mem-scroll{max-height:none}
   }
 
   /* how it works: one bright subhead carries the whole mechanism, so the head
@@ -1243,6 +1296,14 @@
   .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
   .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) 0 0;max-width:52ch;font-size:1.05rem}
   .hero-lead .wrap>.ah-fig{width:auto;margin:clamp(2.4rem,6vh,5.5rem) 0 0}
+  /* the card takes the whole row, which is the figure's old footprint and the
+     only width on this fold that lines up with anything: left edge under the
+     wordmark and the headline, right edge on the actions and the bar above
+     them. Held to its own 860 measure it ends 375px short of the button beside
+     it and the fold reads as a block that failed to reach its margin.
+     margin-left:0 because .ask centres itself everywhere else and this is set
+     left with the rest of the copy. */
+  .hero-lead .wrap>.ask--lead{width:100%;margin:clamp(2.4rem,6vh,5.5rem) auto 0 0}
   .hero-lead .hero-actions{justify-content:flex-start}
   /* the lede and the actions share one row, which is the shape the reference
      gets its calm from: a line of type on the left, the thing to press on the
@@ -1253,6 +1314,7 @@
     .hero-lead .wrap>p{grid-column:1;grid-row:2}
     .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:2;justify-content:flex-end;margin:0 0 .15rem}
     .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:3}
+    .hero-lead .wrap>.ask--lead{grid-column:1 / -1;grid-row:3}
   }
 
   /* ---- the announcement pill: the top rung of the fold ----
@@ -2140,95 +2202,30 @@ setTimeout(go,1200);})()</script>
         <a class="btn btn-ghost" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
       </div>
 
-      <div class="ah-fig" id="ahfig" data-client="claude">
-        <svg class="ah-wires" id="ahwires" aria-hidden="true"></svg>
-        <!-- the window's own bar. Without it the figure was six cards and a
-             panel floating on the page, which is a diagram of software rather
-             than a picture of it; the frame is what says this is a thing that
-             runs. The label is the pane the reader is looking at. -->
-        <!-- the window belongs to the assistant, not to us. The whole claim of
-             the product is that you never open a fein app: you ask where you
-             already are and fein answers through one endpoint. So the frame is
-             the client, the three it serves are its tabs, and what we are in
-             this picture is the connection named on the right. -->
-        <div class="ah-top">
-          <span class="ah-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <div class="ah-tabs" role="group" aria-label="Where fein answers">
-            <button class="ah-cli on" type="button" aria-pressed="true" data-cli="claude" data-ph="Reply to Claude&hellip;" data-icon="l-claude" data-name="Claude"><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><b>Claude</b></button>
-            <button class="ah-cli" type="button" aria-pressed="false" data-cli="openai" data-ph="Ask anything" data-icon="l-openai" data-name="ChatGPT"><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><b>ChatGPT</b></button>
-            <button class="ah-cli" type="button" aria-pressed="false" data-cli="cursor" data-ph="Ask Cursor&hellip;" data-icon="l-cursor" data-name="Cursor"><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg><b>Cursor</b></button>
-          </div>
+      <!-- the fold's picture is the answer itself. The figure that stood here
+           drew the plumbing -- six documents, the runs between them and the
+           client frame around it -- which is a diagram of how it works, and the
+           fold is not where that argument is made. 01/02/03 below still make it.
+           What belongs above it is the outcome: one question, one answer, and
+           the document behind every claim in it. -->
+      <div class="ask ask--lead">
+        <div class="ask-bar">
+          <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+          <p class="ask-q">Who should I bring into Halo Compute&rsquo;s Series A?<span class="ask-caret" aria-hidden="true"></span></p>
+          <span class="ask-in">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
+          </span>
         </div>
-
-        <ol class="ah-srcs">
-          <li class="ah-src" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Deck forwarded</b><em>Gmail &middot; Nov 2024</em></span></li>
-          <li class="ah-src" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><span><b>Founder coffee</b><em>Granola &middot; Nov 2024</em></span></li>
-          <li class="ah-src" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>New VP Engineering</b><em>LinkedIn &middot; Jun 2025</em></span></li>
-          <li class="ah-src" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><span><b>LP quarterly review</b><em>Calendar &middot; Mar 2026</em></span></li>
-          <li class="ah-src" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Series A opening</b><em>Gmail &middot; Jun 2026</em></span></li>
-          <li class="ah-src" data-s="5"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><span><b>Moved to IC</b><em>Affinity &middot; Jul 2026</em></span></li>
-        </ol>
-
-
-        <div class="ask ask--hero" id="ahcard">
-          <div class="ask-bar">
-            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q"><span id="ahq">What do we know about Halo Compute?</span><span class="ah-cursor" aria-hidden="true"></span></p>
-            <span class="ask-in">
-              <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
-            </span>
-          </div>
-
-          <div class="ah-reply" aria-hidden="true"><svg class="tlogo"><use href="#l-claude" id="ahmark"/></svg><span id="ahname">Claude</span></div>
-          <!-- the tool call. Without it this picture is an assistant that
-               happens to know things, which is a claim about the assistant and
-               not about us. The row is where the answer comes from: our server,
-               named, with what it read and how long it took. -->
-          <div class="ah-tool" aria-hidden="true">
-            <span class="ah-tool-n"><b>fein</b><i>search_memory</i></span>
-            <em>read 7 documents across 4 sources &middot; 1.8s</em>
-          </div>
-          <p class="ask-a ah-p" id="ahp1" role="tabpanel" aria-labelledby="ahq1" data-q="What do we know about Halo Compute?">
-            <span class="cl" data-s="0">You met them through <b>Dev Raman</b> in November 2024.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
-            <span class="cl" data-s="1">Two ex-Anthropic infra engineers out of the scheduling team.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
-            <span class="cl" data-s="2">They hired a <b>VP Engineering</b> out of Databricks the following June.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span></span>
-            <span class="cl" data-s="4">They are now <b>opening a $30M Series A</b>, not the <s>$4M seed</s> you saw.<span class="was">Nov 2024 &rarr; Jun 2026</span><span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span></span>
-            <span class="cl cl-do" data-s="0"><b>Marcus Feld</b> owns both relationships, so the introduction is one email.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>41 threads</span></span>
-          </p>
-
-          <p class="ask-a ah-p" id="ahp2" role="tabpanel" aria-labelledby="ahq2" data-q="Which LP should I take this round to?" hidden>
-            <span class="cl" data-s="3"><b>Northwind Capital.</b> They asked you for more AI infrastructure in March.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span></span>
-            <span class="cl" data-s="4">The round is a <b>$30M Series A</b> now, not the <s>$4M seed</s> they saw.<span class="was">Nov 2024 &rarr; Jun 2026</span><span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span></span>
-            <span class="cl" data-s="1">The founders are ex-Anthropic infra, which is the thesis Elena described.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
-            <span class="cl" data-s="0"><b>Marcus Feld</b> owns both relationships, so the introduction is one email.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
-          </p>
-
-          <p class="ask-a ah-p" id="ahp3" role="tabpanel" aria-labelledby="ahq3" data-q="Who on the team has the warmest path in?" hidden>
-            <span class="cl" data-s="0"><b>Dev Raman</b> made the introduction and still co-invests.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
-            <span class="cl" data-s="0"><b>Marcus Feld</b> has owned the conversation on your side since.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>41 threads</span></span>
-            <span class="cl" data-s="2">Their VP Engineering, <b>Priya Nayar</b>, came out of Databricks.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span></span>
-            <span class="cl" data-s="1">Nobody here has met the founders since the coffee in <b>2024</b>.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
-          </p>
-
-          <div class="ah-compose" aria-hidden="true">
-            <span class="ah-ph" id="ahph">Reply to Claude&hellip;</span>
-            <div class="ah-crow">
-              <span class="ah-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-              <span class="ah-mcp"><i class="ah-live"></i>fein MCP</span>
-              <span class="ah-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
-            </div>
-          </div>
-          <p class="ask-f">
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>
-            <i>4,180 records</i><em>46 facts updated this week</em><b>0.9s</b>
-          </p>
-        </div>
+        <p class="ask-a"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>, and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>. The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</p>
+        <p class="ask-f">
+          <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
+          <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
+          <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
+          <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
+          Read from 4,180 records across your firm<b>0.9s</b>
+        </p>
       </div>
     </div>
 
@@ -2276,6 +2273,135 @@ setTimeout(go,1200);})()</script>
         </figcaption>
       </figure>
     </div>
+  </section>
+
+
+  <!-- ONE MEMORY, ASKED FROM THE THREAD IT IS ABOUT. The three figures above name
+       what fein does; this is the first place on the page the reader watches it
+       happen. A thread nobody in it can answer, the question put to fein in the
+       thread itself, and the answer coming back carrying the documents it was read
+       from.
+
+       The panel is a replica of the client the message is actually in, down to the
+       overflow dots, the APP badge on the reply and the empty "Reply..." composer
+       it leaves behind. A landing page that redraws chat as grey prose is asking to
+       be taken on trust. Only the words are ours.
+
+       The send button works, and the answer it returns is scripted and always the
+       same: this is a picture that runs, not a product demo. It also runs itself
+       about a second after the section is on screen, so a reader who never presses
+       anything still ends up looking at the answer, which is the whole claim of
+       the heading. -->
+  <section id="memory" class="band" aria-labelledby="mem-h">
+    <div class="mem-head">
+      <h2 id="mem-h">The same answer to any question, for anyone on the team.</h2>
+      <div>
+        <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
+        <a class="arrowlink mem-more" href="#why"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+
+    <figure class="mem-stage" aria-label="A thread in Slack where fein is asked a question, and the walkthrough of it answering">
+      <article class="mem-msg" id="mem-msg">
+        <div class="mem-bar">
+          <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
+          <span>Thread in <b>#dealflow</b></span>
+          <span class="mem-kebab" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <!-- the thread is a scroller with no visible bar, so the newest message
+             clips the oldest against the top edge exactly as it does in the real
+             client once a reply lands -->
+        <div class="mem-scroll" id="mem-scroll">
+          <ol class="mem-thread">
+            <li class="mem-t">
+              <span class="mem-av" style="background:#584f9e" aria-hidden="true">DR</span>
+              <div>
+                <p class="mem-nm">Dev Raman <span class="mem-guest">Guest</span> <em>14:12</em></p>
+                <p>Halo Compute closes next week. Do you want the introduction again?</p>
+              </div>
+            </li>
+            <li class="mem-t">
+              <span class="mem-av" style="background:#3d5a6c" aria-hidden="true">MF</span>
+              <div>
+                <p class="mem-nm">Marcus Feld <em>14:16</em></p>
+                <p>We passed in January 2025. I do not remember the reason we gave.</p>
+              </div>
+            </li>
+            <li class="mem-t">
+              <span class="mem-av" style="background:#6a4b63" aria-hidden="true">AL</span>
+              <div>
+                <p class="mem-nm">Anna Lindqvist <em>14:18</em></p>
+                <p>I was not on that deal. Is the memo written down anywhere?</p>
+              </div>
+            </li>
+            <!-- what the send button posts. The mention is plain accent text here
+                 and a chip in the composer, which is the difference between a
+                 mention that has been sent and one that is still being typed -->
+            <li class="mem-t" id="mem-posted" hidden>
+              <span class="mem-av" style="background:#6a4b63" aria-hidden="true">AL</span>
+              <div>
+                <p class="mem-nm">Anna Lindqvist <em>14:19</em></p>
+                <p><span class="mem-ment">@fein</span> Why did we pass on Halo Compute, and what changed?</p>
+              </div>
+            </li>
+            <li class="mem-t mem-reply" id="mem-reply" hidden>
+              <span class="mem-av mem-av-fein" aria-hidden="true">
+                <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 24 22 9M22 9l2.5 15"/><circle cx="7" cy="24" r="3.6"/><circle cx="22" cy="9" r="3.6"/><circle cx="24.5" cy="24" r="2.4"/></svg>
+              </span>
+              <div>
+                <p class="mem-nm">fein <span class="mem-app">APP</span> <em>14:19</em></p>
+                <p>You passed in January 2025. Three of the facts behind that decision are no longer true.</p>
+                <ul class="mem-cites">
+                  <li><b>Monday memo</b> Passing for now, no design partners live</li>
+                  <li><b>June update</b> Six design partners live, $2.4M ARR</li>
+                  <li><b>Seed deck</b> Dev Raman is the warmest path in</li>
+                </ul>
+                <p class="mem-read">Read 7 documents across 4 sources<b>1.8s</b></p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="mem-box" id="mem-box">
+          <p class="mem-q" id="mem-qtext"><span class="mem-at">@fein</span>Why did we pass on Halo Compute, and what changed?<span class="mem-caret" aria-hidden="true"></span></p>
+          <p class="mem-ph" id="mem-ph" hidden>Reply&hellip;</p>
+          <div class="mem-acts">
+            <span class="mem-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></span>
+            <span class="mem-aa" aria-hidden="true">Aa</span>
+            <svg class="mem-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.4"/><path d="M9.2 10h.01M14.8 10h.01M8.6 14.4a4.4 4.4 0 0 0 6.8 0"/></svg>
+            <svg class="mem-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M15.8 12v1.6a2.6 2.6 0 0 0 5.2 0V12a9 9 0 1 0-3.6 7.2"/></svg>
+            <i class="mem-sep" aria-hidden="true"></i>
+            <svg class="mem-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.6" y="7" width="11.4" height="10" rx="2.4"/><path d="M14 11.4l6.4-3.2v7.6L14 12.6z"/></svg>
+            <svg class="mem-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9.2" y="2.8" width="5.6" height="10.4" rx="2.8"/><path d="M5.6 11.6a6.4 6.4 0 0 0 12.8 0M12 18v3.2"/></svg>
+            <i class="mem-sep" aria-hidden="true"></i>
+            <svg class="mem-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.4" y="3.4" width="17.2" height="17.2" rx="4"/><path d="M13.8 7.6l-3.6 8.8"/></svg>
+            <button class="mem-send" id="mem-send" type="button" aria-label="Send the question to fein">
+              <svg class="mem-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.2 21 12 3.4 3.8 7 12z"/></svg>
+              <i class="mem-sdiv" aria-hidden="true"></i>
+              <svg class="mem-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- the film is #demo's, and it does not start on its own here: that section
+           is the one that plays a film, this one shows a thread and offers the
+           walkthrough beside it. So it is a poster with a play button on it until
+           somebody asks, and it stays silent when they do, because the narrated cut
+           with a sound control and chapters is what #demo is for. -->
+      <div class="mem-film paused" id="mem-film">
+        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A silent twenty-six second walkthrough of fein answering this question." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
+          <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
+          <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
+        </video>
+        <div class="mem-veil" aria-hidden="true"></div>
+        <button class="mem-hit" id="mem-hit" type="button" aria-label="Play the walkthrough">
+          <span class="mem-big" aria-hidden="true">
+            <svg class="g-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="g-stop" viewBox="0 0 24 24"><path d="M7 6h3.6v12H7zM13.4 6H17v12h-3.6z"/></svg>
+          </span>
+        </button>
+      </div>
+    </figure>
   </section>
 
   <section id="demo" class="band" aria-labelledby="demo-h">
@@ -2711,81 +2837,6 @@ setTimeout(go,1200);})()</script>
       </section>
 
     </div>
-  </section>
-
-
-  <!-- ONE MEMORY, ASKED FROM THE THREAD IT IS ABOUT. The figures above prove
-       that a fact can be filed and that a stale one can be retired. This is what
-       that is for, and it is deliberately the same story continued rather than a
-       new one: the thread on the left is the #dealflow message the film on the
-       right cites in its own answer, and the person asking is the partner who was
-       not on the deal. That is the heading, drawn.
-
-       The film is the walkthrough from #demo, silent and looping. See the note on
-       the styles for why a second copy of it is cheap here. -->
-  <section id="memory" class="band" aria-labelledby="mem-h">
-    <div class="mem-head">
-      <h2 id="mem-h">The same answer to any question, for anyone on the team.</h2>
-      <div>
-        <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
-        <a class="arrowlink mem-more" href="#why"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
-      </div>
-    </div>
-
-    <figure class="mem-stage" aria-label="A thread in Slack, and fein answering the question asked in it">
-      <article class="mem-msg">
-        <div class="mem-bar">
-          <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
-          <span>Thread in <b>#dealflow</b></span>
-        </div>
-        <ol class="mem-thread">
-          <li class="mem-t">
-            <span class="mem-av" style="background:#584f9e" aria-hidden="true">DR</span>
-            <div>
-              <p class="mem-nm">Dev Raman <span class="mem-guest">Guest</span> <em>14:12</em></p>
-              <p>Halo Compute closes next week. Do you want the introduction again?</p>
-            </div>
-          </li>
-          <li class="mem-t">
-            <span class="mem-av" style="background:#3d5a6c" aria-hidden="true">MF</span>
-            <div>
-              <p class="mem-nm">Marcus Feld <em>14:16</em></p>
-              <p>We passed in January 2025. I do not remember the reason we gave.</p>
-            </div>
-          </li>
-          <li class="mem-t">
-            <span class="mem-av" style="background:#6a4b63" aria-hidden="true">AL</span>
-            <div>
-              <p class="mem-nm">Anna Lindqvist <em>14:18</em></p>
-              <p>I was not on that deal. Is the memo written down anywhere?</p>
-            </div>
-          </li>
-        </ol>
-        <div class="mem-box">
-          <p class="mem-q"><span class="mem-at">@fein</span>Why did we pass on Halo Compute, and what changed?<span class="mem-caret" aria-hidden="true"></span></p>
-          <p class="mem-acts">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7V5h16v2M12 5v14M9 19h6"/></svg>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M9.2 10h.01M14.8 10h.01M8.6 14.4a4.4 4.4 0 0 0 6.8 0"/></svg>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M15.8 12v1.6a2.6 2.6 0 0 0 5.2 0V12a9 9 0 1 0-3.6 7.2"/></svg>
-            <span class="mem-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.2 21 12 3.4 3.8 7 12z"/></svg></span>
-          </p>
-        </div>
-      </article>
-
-      <div class="mem-film paused" id="mem-film">
-        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="fein answers the question from the thread and cites the four documents it read." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
-          <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
-          <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
-        </video>
-        <button class="mem-hit" id="mem-hit" type="button" aria-label="Play the loop">
-          <span class="mem-glyph" aria-hidden="true">
-            <svg class="g-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg class="g-stop" viewBox="0 0 24 24"><path d="M7 6h3.6v12H7zM13.4 6H17v12h-3.6z"/></svg>
-          </span>
-        </button>
-      </div>
-    </figure>
   </section>
 
 
@@ -5416,27 +5467,26 @@ setTimeout(go,1200);})()</script>
   });
 })();
 
-/* #memory's film. The same file as the one above, on its second showing, and
-   none of that one's transport: it is the right half of a picture, so it runs
-   while it is on screen and stops the frame it leaves.
+/* #memory's film. The same file #demo plays, and deliberately not a second copy
+   of that section's behaviour: it does not start on its own, it never carries
+   sound, and it loops. #demo is the narrated cut with chapters and a sound
+   control; this is the walkthrough offered beside a thread, so it waits to be
+   asked and the play button is always the way in.
 
-   The one control it does carry is not decoration. Moving content that starts on
-   its own has to be stoppable, and the frame is the target, named for what the
-   press does. The gates are the same three as above, and they fail the same way:
-   reduced motion, Save-Data and a 2G-class connection never start it, and those
-   readers keep the poster, which is itself a frame of the answer. */
+   Not starting on its own is also what lets it sit above #demo without two
+   decoders competing for the same scroll. Nothing is fetched until the first
+   press, because preload is none and the 720 swap happens on that press too. */
 (function(){
   var f=document.getElementById('mem-film'); if(!f) return;
   var v=document.getElementById('mem-video'), hit=document.getElementById('mem-hit');
   if(!v||!hit) return;
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
   var conn=navigator.connection||{};
   var thrifty=conn.saveData===true||/(^|-)([23])g$/.test(conn.effectiveType||'');
-  var vis=false, held=false, cut=false;
+  var cut=false;
 
-  /* the 720 cut, on the same terms as the film above: source selection already
+  /* the 720 cut, on the same terms as the film below: source selection already
      ran at parse time, so swapping the children is inert without load(), and
-     load() is the one call here that can start a fetch. It waits for a play. */
+     load() is the one call here that can start a fetch. It waits for a press. */
   function cutIn(){
     if(cut) return; cut=true;
     if(!(window.matchMedia('(max-width:900px)').matches||thrifty)) return;
@@ -5447,41 +5497,99 @@ setTimeout(go,1200);})()</script>
     v.insertBefore(s,v.firstChild);
     v.load();
   }
-  function play(){
-    cutIn();
-    var p=v.play();
-    if(p&&p['catch']) p['catch'](function(){ mark(true); });
-  }
   function mark(p){
     f.classList.toggle('paused',p);
-    hit.setAttribute('aria-label',p?'Play the loop':'Stop the loop');
+    hit.setAttribute('aria-label',p?'Play the walkthrough':'Pause the walkthrough');
   }
   v.addEventListener('play',function(){ mark(false); });
   v.addEventListener('pause',function(){ mark(true); });
-
-  /* a press is a standing instruction, as it is on the film above: stopped by
-     hand stays stopped when it comes back into view */
   hit.addEventListener('click',function(){
-    if(v.paused){ held=false; play(); } else { held=true; v.pause(); }
+    if(v.paused){ cutIn(); var p=v.play(); if(p&&p['catch']) p['catch'](function(){ mark(true); }); }
+    else v.pause();
   });
 
-  if(reduce.matches||thrifty||!('IntersectionObserver' in window)) return;
-
-  new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      vis=e.isIntersecting&&e.intersectionRatio>=0.4;
-      if(vis){ if(!held&&v.paused) play(); }
-      else if(!v.paused){ v.pause(); }
-    });
-  },{threshold:[0,0.4,0.8]}).observe(f);
-
+  /* it was asked for, so it keeps running while it is on screen and stops when it
+     is not. A decoder left running behind the reader is the same waste here as
+     anywhere, and a tab switch is the case the observer never sees. */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting&&!v.paused) v.pause();
+      });
+    },{threshold:[0,0.25]}).observe(f);
+  }
   document.addEventListener('visibilitychange',function(){
-    if(document.hidden){ if(!v.paused) v.pause(); }
-    else if(vis&&!held) play();
+    if(document.hidden&&!v.paused) v.pause();
   });
 })();
-</script>
 
+/* #memory's thread. The send button is real and the answer behind it is fixed:
+   one question, one reply, written into the markup and revealed rather than
+   fetched. That is the honest shape for a picture on a landing page, and it is
+   why it works with the network off.
+
+   It also runs itself a beat after the section is on screen. The heading claims
+   anyone on the team gets the same answer, and a reader who never presses
+   anything would otherwise be looking at a thread with the claim unproved. The
+   press and the timer are the same path, so whichever happens first wins and the
+   other becomes a no-op.
+
+   Reduced motion gets the finished state with no beat between the two messages:
+   the sequence is the decoration, the answer is the content. */
+(function(){
+  var box=document.getElementById('mem-box'); if(!box) return;
+  var send=document.getElementById('mem-send'),
+      q=document.getElementById('mem-qtext'),
+      ph=document.getElementById('mem-ph'),
+      posted=document.getElementById('mem-posted'),
+      reply=document.getElementById('mem-reply'),
+      scroll=document.getElementById('mem-scroll');
+  if(!send||!q||!ph||!posted||!reply) return;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var ran=false;
+
+  /* the thread is a scroller, and the reason the newest message has to be at the
+     bottom of it is that this is where the picture makes its point. Written as a
+     scroll rather than a layout so the clip at the top edge is the real thing the
+     client does and not a gradient pretending to be one. */
+  function toBottom(){
+    if(!scroll) return;
+    scroll.scrollTop=scroll.scrollHeight;
+  }
+  function show(el){
+    el.hidden=false;
+    if(!reduce.matches) el.classList.add('mem-reply-in');
+    toBottom();
+  }
+  function run(){
+    if(ran) return; ran=true;
+    /* the composer empties in the same frame the message appears in it, because
+       that is the one thing every client does and the thing that makes a picture
+       of a composer read as a composer */
+    q.hidden=true; ph.hidden=false; box.classList.add('sent');
+    send.setAttribute('aria-label','The question has been sent');
+    send.setAttribute('aria-disabled','true');
+    show(posted);
+    if(reduce.matches){ show(reply); return; }
+    /* long enough to read as fein having gone and looked, short enough that
+       nobody scrolls past while it thinks. The film beside it says 1.8 seconds
+       and the readout under the answer says 1.8 seconds, so this does too. */
+    setTimeout(function(){ show(reply); },900);
+  }
+  send.addEventListener('click',run);
+
+  if(!('IntersectionObserver' in window)){ run(); return; }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&e.intersectionRatio>=0.45){
+        io.disconnect();
+        setTimeout(run,1000);
+      }
+    });
+  },{threshold:[0,0.45]});
+  io.observe(box);
+})();
+</script>
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-gdrive" viewBox="0 0 256 229">
     <g>
         <path d="M19.3542312,196.033928 L30.644172,215.534816 C32.9900287,219.64014 36.3622164,222.86588 40.3210929,225.211737 C51.6602421,210.818376 59.5534225,199.772864 64.000634,192.075201 C68.5137119,184.263529 74.0609657,172.045039 80.6423954,155.41973 C62.9064315,153.085282 49.4659974,151.918058 40.3210929,151.918058 C31.545465,151.918058 18.1051007,153.085282 0,155.41973 C0,159.964996 1.17298825,164.510261 3.51893479,168.615586 L19.3542312,196.033928 Z" fill="#0066DA"></path>
