@@ -3,10 +3,13 @@ const path = require("path");
 
 const SITE = "https://fein.vc";
 const TITLE = "fein · the shared memory of a venture capital team";
-// DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD,
-// synced to the live hero + lede; both obey the copy rules (no em dashes).
-const DESC = "The open-source agentic memory layer for venture capital teams. It reads your email, calendar, and CRM. It resolves them into one graph. It answers in Claude, ChatGPT, and Cursor.";
-const DESC_LONG = "Welcome to agentic venture capital. fein is the open-source memory layer for investment teams. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. It gives the warm introduction, the meeting brief, and the reason you passed, from your team's history in seconds. It is self-hosted and open source. It is live in 14 days.";
+// DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD.
+// Both are written in Simplified Technical English, one idea to a sentence, and
+// both hold the approved terms: "your team" for the customer, "context graph"
+// for the structure, "source document" for provenance. Never swap in a synonym
+// here, because these two strings are what an answer engine quotes back.
+const DESC = "fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.";
+const DESC_LONG = "fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.";
 const LASTMOD = "2026-08-12";
 
 // ---- fonts ----
@@ -408,7 +411,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the open-source data layer for an investment team. It is the shared memory that the whole firm can query. It serves venture capital firms and private equity firms. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. It is free if the team runs it.`;
+const LLMS_SUMMARY = `> fein is the open-source context graph for an investment team. It is the shared memory that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. It is free if the team runs it.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -422,7 +425,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - Flag relationships that go cold, by each contact's own cadence.
 
 ## How it works
-- fein reads your existing systems: email, calendar, Google Drive, LinkedIn, and CRMs like Attio and Affinity. It builds a relationship graph automatically. You keep no CRM up to date by hand.
+- fein reads your existing systems: email, calendar, Google Drive, LinkedIn, and CRMs like Attio and Affinity. It builds the context graph automatically. You keep no CRM up to date by hand.
 - It serves answers over one MCP endpoint. You query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
 - We deploy it into your stack. It is live in 14 days. Your team joins two short calls.
 
@@ -479,7 +482,9 @@ Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assis
 
 ## What fein is
 
-Welcome to agentic venture capital. fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans. It reads your email, calendar, notes, and CRM. It resolves them into one live graph of every relationship your firm has. It answers in Claude, ChatGPT, and Cursor. It shows the source for each answer. You add no new CRM. Your team logs nothing. It is self-hosted and open source. It is live in 14 days.
+fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.
+
+You add no new CRM. Your team logs nothing. The context graph builds itself from the record your team already makes.
 
 It reads and answers in the tools you already use: Gmail, Google Calendar, Drive, Attio, LinkedIn, Granola, Notion, Slack, Claude, ChatGPT, Gemini, Cursor, Perplexity, and Copilot.
 
