@@ -1436,7 +1436,17 @@
 
   .app-rail{position:relative;display:flex;flex-direction:column;padding:.85rem 0 .8rem;border-right:1px solid var(--line);background:rgba(255,255,255,.015)}
   .app-main{display:flex;flex-direction:column;min-width:0}
-  .app-main .ask-f{margin-top:auto;background:rgba(255,255,255,.012)}
+  /* the query line sits at the foot of the pane, where the read-out used to. What
+     that buys is the reading order: the answer owns the top of the box and grows
+     down into it, and the question is underneath as the thing that produced it,
+     which is also where the composer is in every assistant a reader already uses.
+
+     margin-top:auto is what the footer row had, and it does the same job here:
+     the rail is fourteen rows tall and sets the height, so the bar is pushed to
+     the bottom edge and the space between it and the answer is the room the
+     answer has to fill. The border flips with the position. Scoped to .app-main,
+     because #change's card still has its bar on top and should keep it. */
+  .app-main .ask-bar{margin-top:auto;border-bottom:0;border-top:1px solid var(--line)}
 
   .fn-read{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
   .fn-src{position:relative;display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:.5rem;padding:.33rem .85rem;transition:opacity .55s ease,transform .55s cubic-bezier(.16,.84,.44,1)}
@@ -2064,19 +2074,17 @@ __LOGO_SPRITE__
           </aside>
 
           <div class="app-main" id="lcard">
-            <div class="ask-bar">
-            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
-            <span class="ask-in">
-            <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
-            </span>
-            </div>
-            <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2">
+            <!-- the fourth claim is the one that argues for the product rather than
+                 describing it. The first three are history, and any search over a
+                 tidy archive could have found them. This one is four hours old: the
+                 answer's own warmest path was two years stale until a Slack message
+                 this afternoon superseded it, and the record had already read that
+                 message. Rail row 3 is that thread, which is why data-d gains it. -->
+            <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2,3">
             <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
             <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
             <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>This changed four hours ago:</b> Dev offered that introduction again in #dealflow<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Today 14:16</span>, so the path is open today and not two years old.</span>
             </p>
 
             <p class="ask-a lead-p" data-q="What changed since we passed on Halo Compute?" data-d="2,1,5,6" hidden>
@@ -2091,15 +2099,15 @@ __LOGO_SPRITE__
             <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
             <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
             </p>
-            <p class="ask-f">
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>
-            Read from <b class="lead-n" id="lcount">4,180</b> records across your firm<b>0.9s</b>
-            </p>
+            <div class="ask-bar">
+            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
+            <span class="ask-in">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
+            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -5033,7 +5041,6 @@ __LOGO_SPRITE__
   var stage=document.getElementById('lstage');
   if(!stage) return;
   var qEl=document.getElementById('lq'),
-      countEl=document.getElementById('lcount'),
       srcs=[].slice.call(stage.querySelectorAll('.fn-src')),
       panels=[].slice.call(stage.querySelectorAll('.lead-p'));
   if(!qEl||!panels.length||!srcs.length) return;
@@ -5096,32 +5103,20 @@ __LOGO_SPRITE__
     });
   }
 
-  /* the count is the one number on the fold that has to feel like a machine
-     read it rather than a designer typed it */
-  function tally(){
-    if(reduce||!countEl) return;
-    var end=4180, dur=950, t0=null;
-    (function step(ts){
-      if(t0===null) t0=ts;
-      var t=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-t,3);
-      countEl.textContent=Math.round(e*end).toLocaleString('en-US');
-      if(t<1) requestAnimationFrame(step); else countEl.textContent='4,180';
-    })(window.performance&&performance.now?performance.now():0);
-  }
+  /* the record count went with the read-out row it lived in, and so did the
+     count-up that drove it. */
 
   function finish(){
     if(done) return;
     done=true;
     clearAll(); dark();
     stage.classList.remove('armed');
-    if(countEl) countEl.textContent='4,180';
     settle(cur);
   }
 
   function play(){
     srcs.forEach(function(d,i){ at(70+i*44,function(){ d.classList.add('in'); }); });
     var t=70+srcs.length*44+180;
-    at(t,tally);
     at(t,function(){
       show(0,true);
       if(!cycle) cycle=setInterval(function(){ show((cur+1)%panels.length,true); },11000);
