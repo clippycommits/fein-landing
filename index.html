@@ -1576,6 +1576,16 @@
     .app-rail{order:2;border-right:0;border-top:1px solid var(--line)}
     .fn-src::after{right:auto;left:0}
     .fn-src:nth-child(n+9){display:none}
+    /* and the answers hold each other's height. All three sit in one grid cell,
+       so the cell is the tallest of them and a turn changes what the card says
+       without changing how big it is. The one that is not showing keeps its
+       space and gives up its ink: [hidden] is display:none by default, which is
+       what let the box collapse, so here it is laid out and made invisible
+       instead. visibility:hidden takes it out of the accessibility tree the same
+       way display:none does, so a screen reader still reads one answer. */
+    .lead-ps{display:grid}
+    .lead-ps>.lead-p{grid-area:1/1}
+    .lead-ps>.lead-p[hidden]{display:block!important;visibility:hidden}
   }
 
   /* .armed is added only when the script commits to playing, and a watchdog
@@ -2274,6 +2284,18 @@ setTimeout(go,1200);})()</script>
                  answer's own warmest path was two years stale until a Slack message
                  this afternoon superseded it, and the record had already read that
                  message. Rail row 3 is that thread, which is why data-d gains it. -->
+            <!-- the three answers, stacked in one cell rather than swapped in one
+                 slot. Beside the rail their height never mattered: fourteen rows
+                 are taller than any of them, so the rail set the box and the
+                 answers turned inside it. Stacked, the rail is underneath and the
+                 answer is the only thing setting the height, so a four claim turn
+                 following a three claim one stepped the card 140px and took the
+                 query line and every row under it with it. A grid cell is as tall
+                 as its tallest child whatever the copy says, which is the part a
+                 measured min-height would not survive: the answers on this fold
+                 get rewritten, and a number in a stylesheet would go stale
+                 silently. -->
+            <div class="lead-ps">
             <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2,3">
             <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
             <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
@@ -2293,6 +2315,7 @@ setTimeout(go,1200);})()</script>
             <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
             <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
             </p>
+            </div>
 
             <!-- what a source actually says, on hover. It reads into the pane rather
                  than into a card floating over the rail, for two reasons: the pane is
@@ -5254,6 +5277,17 @@ setTimeout(go,1200);})()</script>
   if(!qEl||!panels.length||!srcs.length) return;
 
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* the same sequence, played at a phone's distance. On a wide screen the card
+     is one object among several in the fold and the rail is beside it, so the
+     pane can sit quiet for a beat while the question types and the read runs.
+     Stacked, the rail is underneath and the pane IS the fold: 285px of the
+     first screen, directly under the buttons. Every millisecond the answer
+     takes to arrive is a millisecond of empty box where the product should be,
+     and the reader is scrolling. So the read is quicker and the claims land
+     closer together -- the whole turn is under half what it was. */
+  var phone=window.matchMedia('(max-width:900px)').matches;
+  var TYPE=phone?9:15, SCAN=phone?26:62, HELD=phone?70:155,
+      TAIL=phone?120:200, BEAT=phone?140:240, LAND=phone?300:560;
   var timers=[], typer=null, cycle=null, cur=0, done=false;
 
   function at(ms,fn){ timers.push(setTimeout(fn,ms)); }
@@ -5274,13 +5308,19 @@ setTimeout(go,1200);})()</script>
     })();
   }
 
-  /* the read. Every document is touched, in the order they sit on screen. */
+  /* the read. Every document is touched, in the order they sit on screen.
+     On screen is the operative part: stacked, the rail shows eight of its
+     fourteen rows and the rest are display:none. Timing the sweep off srcs
+     spent six rows' worth of it -- a third of the read -- lighting nothing a
+     reader could see, and the answer waited behind all of it. */
+  function lit(){ return srcs.filter(function(d){ return d.offsetParent!==null; }); }
   function sweep(then){
-    srcs.forEach(function(d,i){
-      at(i*62,function(){ d.classList.add('scan'); });
-      at(i*62+155,function(){ d.classList.remove('scan'); });
+    var rows=lit();
+    rows.forEach(function(d,i){
+      at(i*SCAN,function(){ d.classList.add('scan'); });
+      at(i*SCAN+HELD,function(){ d.classList.remove('scan'); });
     });
-    at(srcs.length*62+200,then);
+    at(rows.length*SCAN+TAIL,then);
   }
 
   function settle(i){
@@ -5296,23 +5336,64 @@ setTimeout(go,1200);})()</script>
     var cl=claims(i), src=sources(i);
     if(!animate||reduce){ settle(i); return; }
     cl.forEach(function(c){ c.classList.remove('in'); });
-    type(panels[i].getAttribute('data-q'),15,function(){
-      at(240,function(){
+    function read(){
+      at(BEAT,function(){
         sweep(function(){
           cl.forEach(function(c,k){
-            at(k*560,function(){
+            at(k*LAND,function(){
               c.classList.add('in');
               var d=row(src[k]); if(d) d.classList.add('hot');
             });
           });
-          at(cl.length*560+2900,dark);
+          at(cl.length*LAND+2900,dark);
         });
       });
-    });
+    }
+    /* the question is placed, not typed, on a phone. Typing grows the line it is
+       typed into: these questions run to two lines at 390 and three at 320, so a
+       turn started on one line and stepped the card down 24px, then 24px again,
+       as the wrap found its final shape -- and the query line and the whole rail
+       under it moved each time. The claims solved this years ago by holding
+       their space and giving up only their ink, but a caret has to sit at the
+       end of what has been typed, so the same trick on the question would part
+       the caret from the text. It is a nicety either way, and on a phone it
+       costs the card's height to keep. The read and the answer still play. */
+    if(phone){ qEl.textContent=panels[i].getAttribute('data-q'); read(); }
+    else type(panels[i].getAttribute('data-q'),TYPE,read);
   }
 
   /* the record count went with the read-out row it lived in, and so did the
      count-up that drove it. */
+
+  /* the last thing on the card that could still step it. The answers hold each
+     other open in their grid cell and the question is no longer typed, but the
+     three questions are different lengths, and at 320 and 375 one of them wraps
+     to a line fewer than the others: the card lost 24px on that turn and the
+     rail under it came up to meet it. Same rule as the answers -- the longest
+     holds the line open -- but a line of text cannot be stacked in a cell the
+     way three paragraphs can, so it is measured instead. Measured, not written
+     down: which question is longest depends on the width and on the copy, and
+     this fold's copy gets rewritten. Read again once the faces are loaded,
+     because the fallback's metrics are not the ones that end up on screen, and
+     again on a rotation, which changes every wrap on the card. */
+  function holdQuery(){
+    if(!phone||!qEl.parentNode) return;
+    var line=qEl.parentNode, keep=qEl.textContent, max=0;
+    line.style.minHeight='';
+    panels.forEach(function(p){
+      qEl.textContent=p.getAttribute('data-q');
+      if(line.offsetHeight>max) max=line.offsetHeight;
+    });
+    qEl.textContent=keep;
+    line.style.minHeight=max+'px';
+  }
+  if(phone){
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ if(cycle) holdQuery(); });
+    var rsz=null;
+    window.addEventListener('resize',function(){
+      clearTimeout(rsz); rsz=setTimeout(function(){ if(cycle) holdQuery(); },200);
+    },{passive:true});
+  }
 
   function finish(){
     if(done) return;
@@ -5323,6 +5404,31 @@ setTimeout(go,1200);})()</script>
   }
 
   function play(){
+    /* a phone does not get the reveal, it gets the answer.
+       The rule this file set for the funnel is that there is no state in which
+       it is blank, and on a wide screen the sequence keeps it: the rail is
+       beside the pane, so while the question types there are still fourteen
+       documents to look at. Stacked, the rail is below the fold's edge and the
+       pane is the only thing on screen -- and it opened empty for 2.7 seconds,
+       then filled a claim at a time, and did not finish until five. A reader
+       on a phone is gone by then, and what they saw of the product was an
+       empty rounded rectangle under the buttons.
+       So the first turn is served settled: sources up, panel one whole, no
+       type, no read, no waiting. The demo is not lost -- .armed goes on with
+       the first cycle and every turn after this one plays in full, quicker
+       than it did. What is lost is the one turn nobody was watching. */
+    if(phone){
+      srcs.forEach(function(d){ d.classList.add('in'); });
+      panels.forEach(function(p,k){
+        if(k===0) p.removeAttribute('hidden'); else p.setAttribute('hidden','');
+      });
+      cur=0; settle(0); holdQuery();
+      if(!cycle) cycle=setInterval(function(){
+        stage.classList.add('armed');
+        show((cur+1)%panels.length,true);
+      },11000);
+      return;
+    }
     srcs.forEach(function(d,i){ at(70+i*44,function(){ d.classList.add('in'); }); });
     var t=70+srcs.length*44+180;
     at(t,function(){
@@ -5332,7 +5438,10 @@ setTimeout(go,1200);})()</script>
   }
 
   if(reduce||!('IntersectionObserver' in window)){ finish(); return; }
-  stage.classList.add('armed');
+  /* armed hides the claims so the sequence can bring them back, so on a phone
+     it waits for the first cycle: arming now would blank a card that is about
+     to be served whole, which is the flash this change exists to remove. */
+  if(!phone) stage.classList.add('armed');
   var watchdog=setTimeout(finish,18000);
   var io=new IntersectionObserver(function(en){
     en.forEach(function(e){
