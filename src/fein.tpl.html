@@ -516,8 +516,31 @@
 
   /* the answer pane */
   .hero-lead .ask.ask--hero{grid-column:2;grid-row:2;display:flex;flex-direction:column;width:auto;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-  .hero-lead .ask--hero .ask-bar{padding:.75rem .95rem;border-bottom:1px solid rgba(255,255,255,.06)}
-  .hero-lead .ask--hero .ask-q{font-size:13.2px;line-height:1.4}
+  /* THE PANE AS A CONVERSATION, because that is where this product is used.
+     A search field with an answer under it is a database with a nice front on
+     it; the thing being shown is a question asked in an assistant the firm
+     already has open, and answered out of their own history. So the pane takes
+     the shape every one of those clients uses: the question sits in the reader's
+     own bubble on the right, the assistant answers under its name on the left,
+     and a composer waits at the foot.
+
+     The layout convention is the client's; the palette, the type and the answer
+     are ours. It is fein's picture of working inside Claude, not a copy of
+     Claude's window with our text pasted into it. */
+  .hero-lead .ask--hero .ask-bar{display:flex;justify-content:flex-end;padding:.9rem .95rem .1rem;border-bottom:0;background:transparent}
+  .hero-lead .ask--hero .ask-bar .mag{display:none}
+  .hero-lead .ask--hero .ask-q{max-width:78%;padding:.44rem .7rem;border-radius:12px 12px 4px 12px;background:rgba(255,255,255,.075);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font-size:13px;font-weight:450;line-height:1.45;color:var(--fg)}
+  /* the assistant's turn, named the way a client names it */
+  .ah-reply{display:flex;align-items:center;gap:.4rem;padding:.75rem .95rem .1rem}
+  .ah-reply .tlogo{width:14px;height:14px}
+  .ah-reply span{font-size:11.6px;font-weight:500;color:var(--fg-2)}
+  /* the composer. Nothing about it invites a press: it is the resting state of
+     the box the question was typed into, which is what makes the turn above it
+     read as having just happened */
+  .ah-compose{display:flex;align-items:center;gap:.6rem;margin:.35rem .95rem .1rem;padding:.5rem .7rem;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.022)}
+  .ah-ph{flex:1;min-width:0;font-size:12.4px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ah-send{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.1);color:var(--fg-2)}
+  .ah-send svg{width:12px;height:12px}
   /* UI scale, not prose scale. This was 16.6px against a page lede of 16.8:
      the panel was setting its body copy larger than the page it sits on. */
   .hero-lead .ask--hero .ask-a{padding:.7rem .95rem;font-size:12.8px;line-height:1.62;min-height:0}
@@ -1901,6 +1924,7 @@ __LOGO_SPRITE__
             </span>
           </div>
 
+          <div class="ah-reply" aria-hidden="true"><svg class="tlogo"><use href="#l-claude"/></svg><span>Claude</span></div>
           <p class="ask-a ah-p" id="ahp1" role="tabpanel" aria-labelledby="ahq1" data-q="What do we know about Halo Compute?">
             <span class="cl" data-s="0">You met them through <b>Dev Raman</b> in November 2024.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span></span>
             <span class="cl" data-s="1">Two ex-Anthropic infra engineers out of the scheduling team.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
@@ -1922,6 +1946,10 @@ __LOGO_SPRITE__
             <span class="cl" data-s="1">Nobody here has met the founders since the coffee in <b>2024</b>.<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span></span>
           </p>
 
+          <div class="ah-compose" aria-hidden="true">
+            <span class="ah-ph">Message Claude</span>
+            <span class="ah-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
+          </div>
           <p class="ask-f">
             <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
             <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
