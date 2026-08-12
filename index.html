@@ -51,6 +51,11 @@
     --bg:#000000; --bg-2:#0a0a0c; --bg-3:#101014;
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --muted:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+    /* the outline of a form control, which WCAG 1.4.11 holds to 3:1 against the
+       control's own fill. --line-2 reads 1.44:1 on the black an input sits on,
+       so the fields carry their own step: .36 is 3.14:1 there, .5 the hover and
+       open lift above it. The decorative hairlines stay on --line/--line-2 */
+    --line-ctl:rgba(255,255,255,.36); --line-ctl-2:rgba(255,255,255,.5);
     --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
     /* the only two colours outside the blue accent, and they live on a 0.7rem
        glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
@@ -427,7 +432,7 @@
   .ah-src{display:grid;grid-template-columns:20px minmax(0,1fr);gap:.55rem;align-items:center;padding:.62rem .75rem;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.06);border-radius:9px;text-align:left;transition:border-color .35s ease,background .35s ease,opacity .5s ease,translate .5s cubic-bezier(.22,.61,.36,1)}
   .ah-src .tlogo{width:14px;height:14px;justify-self:center;opacity:.85;transition:opacity .35s ease}
   .ah-src b{display:block;font-size:.79rem;font-weight:500;line-height:1.25;letter-spacing:-.01em;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ah-src em{display:block;font-style:normal;font-size:.72rem;color:#5f636b;margin-top:.08rem}
+  .ah-src em{display:block;font-style:normal;font-size:.72rem;color:var(--fg-3);margin-top:.08rem}
   /* a document lights while the claim it wrote is landing, and again when the
      reader hovers that claim. That is the whole wiring diagram */
   .ah-src.hot{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.035)}
@@ -573,7 +578,7 @@
   .fig-foot{margin-top:auto;display:flex;align-items:center;gap:.5rem;padding:.72rem 15px;border-top:1px solid var(--line);font-size:.8rem;color:var(--dim)}
   .fig-foot svg.clip{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
   .fig-foot .tlogo{width:13px;height:13px;flex:none;opacity:.85}
-  .fig-foot em{margin-left:auto;font-style:normal;color:#5f636b;font-variant-numeric:tabular-nums}
+  .fig-foot em{margin-left:auto;font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
 
   /* the phrase in transit: the thing on the page that becomes a fact */
   .fig-hl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;margin:0;padding:1px 5px;border:0;border-radius:4px;background:rgba(0,112,243,.18);box-shadow:inset 0 0 0 1px rgba(82,168,255,.24);font:inherit;color:#fff;cursor:pointer;transition:background .2s ease,box-shadow .2s ease,opacity .2s ease}
@@ -604,7 +609,7 @@
   .fig-when{display:inline-block;margin-left:.4rem;padding:.06rem .32rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
   /* every fact carries the document it came from. On the first figure all three
      come from one email, so it is said once in the foot instead of three times */
-  .fig-prov{display:flex;align-items:center;gap:.34rem;margin-top:.26rem;font-size:.74rem;color:#5f636b}
+  .fig-prov{display:flex;align-items:center;gap:.34rem;margin-top:.26rem;font-size:.74rem;color:var(--dim)}
   .fig-prov .tlogo{width:12px;height:12px;flex:none;opacity:.8}
 
   /* ---- the answer ---- */
@@ -684,7 +689,7 @@
   .cite .tlogo{width:11px;height:11px;flex:none;opacity:.85}
   .ask-f{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .5rem;padding:.68rem 20px;border-top:1px solid var(--line);font-size:.79rem;color:var(--dim)}
   .ask-f .tlogo{width:12px;height:12px;opacity:.8}
-  .ask-f b{margin-left:auto;font-weight:400;color:#5f636b}
+  .ask-f b{margin-left:auto;font-weight:400;color:var(--fg-3)}
   /* stacked, the two panels are one column: there is no gap for a wire to run
      down, so the column and its wires go and the numbers carry the mapping */
   @media (max-width:900px){
@@ -726,20 +731,38 @@
      slow auto-walk that runs for touch and keyboard — lights its half of the
      field and dims the other two. ============================================ */
   .stagesec{padding:0;overflow:hidden}
-  .stage{position:relative;min-height:min(100svh,1100px);font-family:var(--font);isolation:isolate}
+  /* the floor is not decoration. A headline, a label row and three steps come to
+     roughly 570px whatever the window is; on a 720px laptop that leaves the
+     funnel about 150px to be a funnel in, and the geometry starts borrowing
+     space back off the copy. 780 buys the band its own room and costs a short
+     screen one scroll */
+  .stage{position:relative;min-height:max(780px,min(100svh,1100px));font-family:var(--font);isolation:isolate}
   .dscene{position:absolute;inset:0;z-index:0}
   .dscene canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   .dfield{position:absolute;inset:0;overflow:hidden}
+  /* the core. Above the field, and opaque, so a system arriving at its face
+     goes behind it rather than over it: the funnel has to actually swallow
+     something for the direction to read. Box and type size come from the loop,
+     which measures them off the band the funnel is running in */
+  .dcore{position:absolute;left:0;top:0;width:var(--cw,144px);height:var(--ch,166px);display:grid;place-items:center;transform:translate3d(var(--cx,0),var(--cy,0),0);will-change:transform;pointer-events:none;filter:drop-shadow(0 0 22px rgba(0,112,243,.28))}
+  .dcore svg{position:absolute;inset:0;width:100%;height:100%}
+  .dcore .hexb{fill:rgba(7,8,11,.96);stroke:rgba(82,168,255,.5);stroke-width:1;vector-effect:non-scaling-stroke}
+  .dcore b{position:relative;font-size:var(--cf,25px);font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1}
   /* the field is masked away from the copy on the stacked layout, where the
      flow runs in a band above the words instead of through them */
   .stage.stacked .dscene canvas,.stage.stacked .dfield{-webkit-mask-image:linear-gradient(180deg,#000 var(--fade-a,70%),transparent var(--fade-b,88%));mask-image:linear-gradient(180deg,#000 var(--fade-a,70%),transparent var(--fade-b,88%))}
-  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr auto;min-height:min(100svh,1100px);gap:clamp(1.6rem,3vh,2.6rem);width:min(1560px,100% - clamp(2.5rem,7vw,7rem));margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) 0 clamp(2rem,5vh,3.4rem)}
+  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr auto;min-height:max(780px,min(100svh,1100px));gap:clamp(1.6rem,3vh,2.6rem);width:min(1560px,100% - clamp(2.5rem,7vw,7rem));margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) 0 clamp(2rem,5vh,3.4rem)}
   /* the labels ride the same three columns as the steps: a zone's name at the
-     top of the stage and its step at the bottom sit on one vertical */
+     top of the stage and its step at the bottom sit on one vertical. Each one
+     is also set over its own end of the funnel, which is why the middle is
+     centred and the last is flushed right rather than all three sitting on
+     their column's left edge */
   .zlabels{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);align-self:start}
+  .zlabels .dlab:nth-child(2){text-align:center}
+  .zlabels .dlab:nth-child(3){text-align:right}
   .dlab{font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d;white-space:nowrap;transition:color .5s cubic-bezier(.22,.61,.36,1)}
   .dlab.on{color:var(--blue-l)}
-  .dlab.dim{color:#43464b}
+  .dlab.dim{color:var(--dim)}
   .stage-mid{display:grid;place-items:center;min-height:0}
   .stage-head{max-width:none;text-align:center}
   .stage-head .eyebrow{display:block;color:#8d939d}
@@ -762,8 +785,8 @@
   .stage-why3 .wcard.dim{border-top-color:var(--line)}
   .stage-why3 .wcard.dim::before{opacity:.4}
   .stage-why3 .wcard.dim h3{color:#7e828a}
-  .stage-why3 .wcard.dim p{color:#55585f}
-  .stage-why3 .wcard.dim .wstep{color:#45484e}
+  .stage-why3 .wcard.dim p{color:var(--dim)}
+  .stage-why3 .wcard.dim .wstep{color:var(--dim)}
   /* opacity:0 until the loop places them: an untransformed drift element sits
      stacked in the frame's top-left corner, which used to flash on first paint */
   .drift{position:absolute;left:0;top:0;opacity:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
@@ -976,7 +999,7 @@
   .form-row+.field,.field+.field,.field+.form-row{margin-top:1.2rem}
   .form-row .field+.field{margin-top:0}
   .field label{font-size:.92rem;font-weight:550;color:var(--fg)}
-  .field input,.field select,.field textarea{font-family:var(--font);font-size:1rem;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:10px;padding:10px 14px;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
+  .field input,.field select,.field textarea{font-family:var(--font);font-size:1rem;color:var(--fg);background:#000;border:1px solid var(--line-ctl);border-radius:10px;padding:10px 14px;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
   .field input,.field select{height:46px;padding:0 14px}
   .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
   .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
@@ -988,11 +1011,11 @@
      plain native select, untouched. ---- */
   .sel{position:relative}
   .sel-native{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .sel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;height:46px;padding:0 12px 0 14px;font-family:var(--font);font-size:1rem;font-weight:400;line-height:1;text-align:left;color:var(--fg);background:#000;border:1px solid var(--line-2);border-radius:10px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
-  .sel-btn:hover{border-color:rgba(255,255,255,.26)}
+  .sel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;height:46px;padding:0 12px 0 14px;font-family:var(--font);font-size:1rem;font-weight:400;line-height:1;text-align:left;color:var(--fg);background:#000;border:1px solid var(--line-ctl);border-radius:10px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+  .sel-btn:hover{border-color:var(--line-ctl-2)}
   .sel-btn.empty{color:var(--dim)}
   .sel-btn:focus-visible{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
-  .sel-btn[aria-expanded="true"]{border-color:rgba(255,255,255,.26)} /* open reads through the panel, not a ring */
+  .sel-btn[aria-expanded="true"]{border-color:var(--line-ctl-2)} /* open reads through the panel, not a ring */
   .sel-btn .chev{width:15px;height:15px;flex:none;color:var(--fg-3);transition:transform .2s cubic-bezier(.22,.61,.36,1)}
   .sel-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
   .sel-list{position:absolute;z-index:5;top:calc(100% + 6px);left:0;width:100%;max-height:240px;margin:0;padding:5px;list-style:none;overflow:auto;overscroll-behavior:contain;background:var(--bg-3);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.6),0 20px 48px -14px rgba(0,0,0,.95);animation:selIn .15s cubic-bezier(.22,.61,.36,1)}
@@ -1082,6 +1105,9 @@
     .stage,.stage-grid{min-height:0}
     .stage-grid{grid-template-rows:auto auto auto auto;padding-top:clamp(4.75rem,11vh,6.5rem);padding-bottom:clamp(2.5rem,6vh,3.5rem);gap:clamp(1.8rem,4vh,2.8rem)}
     .dband{display:block;height:clamp(160px,27vh,250px)}
+    /* the strip keeps its labels: source order puts them under the copy, and a
+       funnel's ends want naming where the funnel actually is */
+    .dband{order:1}.zlabels{order:2;gap:1rem}.stage-mid{order:3}.stage-why3{order:4}
     .stage-mid{align-items:start}
     .stage-head h2{max-width:19ch}
   }
@@ -1992,12 +2018,21 @@ setTimeout(go,1200);})()</script>
        all three, and keep each step's data-zone matching its 0N prefix. -->
   <section id="how" class="band stagesec">
     <div class="stage" id="dlive">
-      <div class="dscene" role="img" aria-label="Diagram: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) flow in from the left. fein resolves them into one graph at the center. Sourced answers fan out on the right to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
+      <div class="dscene" role="img" aria-label="Diagram: a funnel. Your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) run in on rails across the left edge and are taken in by fein at the centre. Sourced answers leave the other side and fan back out to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
         <!-- the label on the wrapper is the whole description; role="img" does
              not prune a subtree in practice, so without these the drifting
              answer pills get read out one by one as they recycle -->
         <canvas id="dcanvas" aria-hidden="true"></canvas>
         <div class="dfield" id="dfield" aria-hidden="true"></div>
+        <!-- the throat, and the only opaque thing in the scene: the rails end on
+             its left face and the answers leave its right one, so the taper has
+             something to taper to. Placed and sized by the loop -->
+        <div class="dcore" id="dcore" aria-hidden="true">
+          <svg viewBox="0 0 100 115.47" preserveAspectRatio="none" focusable="false">
+            <path class="hexb" d="M50 0 100 28.87 100 86.6 50 115.47 0 86.6 0 28.87Z"/>
+          </svg>
+          <b>fein</b>
+        </div>
       </div>
       <div class="stage-grid">
         <div class="dband" aria-hidden="true"></div>
@@ -2007,10 +2042,15 @@ setTimeout(go,1200);})()</script>
             <p class="sub">Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
           </div>
         </div>
+        <div class="zlabels">
+          <span class="dlab" data-zone="1">raw data in</span>
+          <span class="dlab" data-zone="2">fein</span>
+          <span class="dlab" data-zone="3">answers out</span>
+        </div>
         <div class="why3 stage-why3" data-reveal-group="90">
-          <div class="wcard reveal" data-zone="1"><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
-          <div class="wcard reveal" data-zone="2"><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
-          <div class="wcard reveal" data-zone="3"><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
+          <div class="wcard reveal" data-zone="1"><span class="wstep">01</span><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
+          <div class="wcard reveal" data-zone="2"><span class="wstep">02</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
+          <div class="wcard reveal" data-zone="3"><span class="wstep">03</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
         </div>
       </div>
     </div>
@@ -3166,35 +3206,45 @@ setTimeout(go,1200);})()</script>
     wstart();
   }
 
-  /* ===== the stage — the funnel, at the size of the page =====
-     Your systems enter across the whole left edge and converge on the headline,
-     which is the core: there is no hexagon to absorb them any more, the words
-     do it. Each one dissolves at the throat, pulls a thread in behind it, pushes
-     the glow, and rings the copy. Sourced answers surface out of the right of
-     the same throat and fan back out over the full height.
+  /* ===== the stage: the funnel, at the size of the page =====
+     Left edge, core, right edge, and which way it runs has to be legible before
+     a word of it is read. Your systems ride in on rails that converge across the
+     whole left edge onto the flat left face of the hexagon; each one is taken in
+     there, pulses the core and rings out of it as a hex wave; sourced answers
+     leave the opposite face on rails that open back out to the right edge.
 
-     Everything is measured, nothing is a constant: the throat is the real
-     bounding box of the h2 and its subhead, so the flow always clears the copy
-     at whatever size the clamp lands on. Below 1080 the stage stacks and the
-     flow moves up into .dband, its own strip above the words, because there is
-     no longer room to pass either side of them.
+     The rails are the paths. One curve places both the hairline that is drawn
+     and the thing that flies along it, so nothing ever rides beside the funnel
+     it is meant to be inside, and the still frame reduced motion gets is the
+     whole diagram rather than an empty field. Two motes slide down every lane,
+     which is what carries the direction in the seconds when that lane is empty.
 
-     The three steps below are wired to the three zones. Pointing at one lights
-     its half of the field and dims the others; a slow auto-walk does the same
+     Nothing here is a constant. The band is the gap the layout leaves between
+     the zone labels and the steps, the core is sized off that band, and the
+     throat is the core's own two faces: the rails end on the left one at the
+     same fraction of its height as their lane sits at in the band, so the taper
+     is the band narrowing onto the hexagon rather than everything collapsing to
+     a point. Below 1080 the stage stacks, because there is no width either side
+     of the copy for a system to travel in and an answer to travel out, and the
+     funnel moves into .dband, its own strip above the words.
+
+     The three steps are wired to the three zones. Pointing at one lights its
+     stretch of the funnel and dims the rest; a slow auto-walk runs the same
      round for touch and keyboard, which is the only way that mapping is
-     available without a pointer. Reduced motion gets a still and no walk;
-     offscreen pauses the loop and the walk both. */
+     available without a pointer. Offscreen pauses the loop and the walk both. */
   var dl=document.getElementById("dlive"),dc=document.getElementById("dcanvas"),
       df=document.getElementById("dfield"),dhead=document.getElementById("dhead"),
+      dcore=document.getElementById("dcore"),
       dband=dl&&dl.querySelector(".dband"),
       dzl=dl&&dl.querySelector(".zlabels"),dwhy=dl&&dl.querySelector(".stage-why3");
-  if(dl&&dc&&df&&dhead&&dband&&dwhy){
+  if(dl&&dc&&df&&dhead&&dcore&&dband&&dwhy){
     var g=dc.getContext("2d"),draf=0,dvis=false,dlast=null,SPEED=68;
-    var W=0,H=0,CX=0,CY=0,TL=0,TR=0,TOP=0,BOT=0,THH=0,CW2=0,PAD=0,HHE=1,stacked=false,wantPill=true;
+    var W=0,H=0,CX=0,CY=0,CR=0,CW2=0,FH=0,TL=0,TR=0,TOP=0,BOT=0,
+        IHALF=0,PHALF=0,PRUN=1,stacked=false,wantPill=true;
     var FINED=!(window.matchMedia&&!window.matchMedia("(pointer:fine)").matches);
     var HASP=typeof Path2D!=="undefined"&&!!Path2D.prototype.addPath;
     var rngD=mulberry32(2468);
-    var LAY=[{s:.62,b:2.4,a:.30,v:.42},{s:.82,b:1.15,a:.54,v:.70},{s:1,b:0,a:1,v:1}];
+    var LAY=[{s:.62,b:2.2,a:.40,v:.42},{s:.82,b:1.05,a:.62,v:.70},{s:1,b:0,a:1,v:1}];
     var ICONS=["gmail","gcal","gdrive","attio","granola","linkedin","notion","slack"];
     var ANSW=[["claude","Intro path: two steps, both warm","ATTIO"],
       ["openai","Why we passed, and what changed","GMAIL"],
@@ -3212,7 +3262,10 @@ setTimeout(go,1200);})()</script>
       ["openai","Last touch: six weeks ago","GMAIL"],
       ["claude","Board pack: metrics assembled","DRIVE"],
       ["copilot","Follow-ups from Monday's call","GRANOLA"]];
-    var pIdx=0,inUse={},items=[],glowK=0,rings=[],SLOTS=[],sIdx=0;
+    var pIdx=0,inUse={},items=[],glowK=0,rings=[];
+    /* the funnel itself: lane rails in four batches (intake lanes, intake walls,
+       exit lanes, exit walls) so a frame is four strokes and not thirty */
+    var SEG=18,X0=-8,ILN=[],PLN=[],RAILS=[],BATCH=[[],[],[],[]],WEDGE=[null,null];
 
     /* ---- geometry, re-derived from the live box on every resize ---- */
     function measure(){
@@ -3220,77 +3273,140 @@ setTimeout(go,1200);})()</script>
       W=Math.max(320,Math.round(r.width));H=Math.max(320,Math.round(r.height));
       stacked=dband.offsetHeight>2;
       dl.classList.toggle("stacked",stacked);
-      var cw,pad;
       if(stacked){
-        /* the flow gets its own strip above the copy; the core is the strip's
-           middle, and the field is masked off below it so nothing drifts
-           behind the words */
+        /* the funnel gets its own strip above the copy; the core is the strip's
+           middle, and the field is masked off below it so nothing drifts behind
+           the words */
         var br=dband.getBoundingClientRect();
         TOP=br.top-r.top;BOT=TOP+br.height;
         CX=W/2;CY=TOP+br.height/2;
-        cw=Math.min(120,W*0.13);pad=Math.max(18,W*0.02);
-        THH=br.height*0.34;HHE=br.height*0.3;
+        CR=Math.max(26,Math.min(52,Math.min(br.height*0.25,W*0.10)));
         dl.style.setProperty("--fade-a",(100*Math.min(1,(BOT+14)/H)).toFixed(2)+"%");
         dl.style.setProperty("--fade-b",(100*Math.min(1,(BOT+80)/H)).toFixed(2)+"%");
       }else{
-        /* offsetWidth, not the rect: the head is a .reveal, and its pre-reveal
-           translate must not be allowed to move the throat */
-        var hr=dhead.getBoundingClientRect(),h2=dhead.querySelector("h2"),sb=dhead.querySelector(".sub");
-        cw=Math.max(h2?h2.offsetWidth:0,sb?sb.offsetWidth:0);
-        CX=hr.left-r.left+hr.width/2;CY=hr.top-r.top+hr.height/2;
-        /* the flow runs in the gap the layout leaves it: under the zone labels,
-           over the steps. Left to the full height it drifted pills across both */
-        var zr=(dzl||dhead).getBoundingClientRect(),wr=dwhy.getBoundingClientRect();
-        TOP=Math.max(6,zr.bottom-r.top+16);
-        BOT=Math.min(H-6,wr.top-r.top-20);
-        if(BOT-TOP<160){TOP=Math.round(H*0.055);BOT=Math.round(H*0.945);}
-        pad=Math.max(30,Math.min(76,W*0.036));
-        THH=Math.min(H*0.17,hr.height*0.44);HHE=hr.height/2;
+        /* the band is what the layout leaves between the labels and the steps.
+           The copy is not the core any more, so the funnel wants a strip it owns
+           outright rather than a throat cut around a headline */
+        var zr=(dzl&&dzl.offsetHeight>2?dzl:dhead).getBoundingClientRect(),
+            wr=dwhy.getBoundingClientRect();
+        TOP=Math.max(6,zr.bottom-r.top+22);
+        BOT=Math.min(H-6,wr.top-r.top-26);
+        /* a short window gets a narrower funnel, never one that runs through the
+           words: the last thing to give is the clearance either side of the
+           band, and after that the band just is what the layout left */
+        if(BOT-TOP<150){TOP=Math.max(6,zr.bottom-r.top+10);BOT=Math.min(H-6,wr.top-r.top-10);}
+        if(BOT-TOP<90)BOT=TOP+90;
+        CX=W/2;CY=(TOP+BOT)/2;
+        CR=Math.max(30,Math.min(94,Math.min((BOT-TOP)*0.23,W*0.062)));
         dl.style.removeProperty("--fade-a");dl.style.removeProperty("--fade-b");
       }
-      CW2=cw/2;PAD=pad;
-      TL=CX-CW2-pad;TR=CX+CW2+pad;
-      if(TL<70)TL=70;
-      if(TR>W-70)TR=W-70;
-      /* a pill is ~200px wide and needs a fade in, a run, and a fade out: below
-         that the third zone is carried by its step copy alone */
-      wantPill=(W-CX)>300;
+      /* a pointy-top hexagon: half-width is r*cos(30), and the vertical faces it
+         is entered and left by run from -r/2 to +r/2 */
+      CW2=CR*0.866;FH=CR*0.5;
+      /* the throat is the core's own two faces, with nothing between: a system
+         is still fading as it crosses the face, and the hexagon is opaque and
+         painted over the field, so it goes behind the thing that is taking it
+         in. Answers leave the far face the same way, sliding out from behind */
+      TL=CX-CW2;TR=CX+CW2;
+      IHALF=Math.max(20,(BOT-TOP)/2-24);
+      PHALF=Math.max(20,(BOT-TOP)/2-22);
+      PRUN=Math.max(1,W+8-TR);
+      /* a pill is ~200px wide and needs somewhere to fade in, run and fade out:
+         below that the exit is carried by its rails and its step copy alone */
+      wantPill=(W-TR)>270;
+      dcore.style.setProperty("--cw",(CW2*2).toFixed(1)+"px");
+      dcore.style.setProperty("--ch",(CR*2).toFixed(1)+"px");
+      dcore.style.setProperty("--cx",(CX-CW2).toFixed(1)+"px");
+      dcore.style.setProperty("--cy",(CY-CR).toFixed(1)+"px");
+      dcore.style.setProperty("--cf",Math.max(11,Math.min(32,CR*0.34)).toFixed(1)+"px");
     }
     function wantCounts(){
       var band=BOT-TOP;
-      var ni=Math.round(W*band/68000);ni=ni<7?7:ni>14?14:ni;
-      var np=wantPill?Math.round(band/78):0;if(np>9)np=9;if(np&&np<4)np=4;
+      /* lanes are set by the band, not the area: they are 46px objects and they
+         converge, so a lane pitch that looks generous at the page edge is half
+         that by the time it is a third of the way in. Crowd the mouth and the
+         middle of the funnel turns into a pile */
+      var ni=Math.round(band/50);ni=ni<4?4:ni>10?10:ni;
+      /* answers need a lot more pitch than systems do. They are 40px tall and
+         200px wide, they all leave the same face, and they are only clear of
+         each other once the exit has opened out: five lanes that separate are
+         worth more than nine that print over one another on the way out */
+      var np=Math.round(band/80);if(np>6)np=6;if(np<3)np=3;
       return [ni,np];
     }
 
-    /* ---- the drifting field ---- */
-    function bob(it){it.amp=it.kind==="p"?2+rngD()*2:4+rngD()*5;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
-    /* Systems all dissolve at TL, the throat's widest point, because they are
-       46px square and 400px of intake is plenty. Answers are 200px wide and were
-       starving on the same budget, so each one leaves the copy at the point its
-       own lane actually meets it. A lane that crosses the words has to clear
-       their right edge; a lane above or below them has nothing in its way, so it
-       surfaces off the top or the bottom of the copy at the middle of the stage
-       and fans out to its lane with the whole right half to travel in. */
-    function laneY(it){
-      if(it.kind==="i"){it.y0=TOP+8+rngD()*Math.max(1,(BOT-TOP)-16);return;}
-      it.y0=SLOTS[it.slot];
-      var dy=it.y0+20-CY,clear=HHE+22,inside=Math.abs(dy)<clear;
-      it.ox=CX+(inside?CW2:0);
-      it.oy=(inside?it.y0+20:CY+(dy<0?-clear:clear))-20;
-      it.tr=it.ox+PAD;
-      it.run=Math.max(1,W-26-it.tr);
-      it.rr=Math.max(46,Math.min(110,it.run*0.2));
-      it.rf=Math.max(46,Math.min(100,it.run*0.18));
+    /* ---- the curve. n is where a lane sits between the axis and the edge of
+       the band, and it is the same number at both ends: a lane a third of the
+       way down the band lands a third of the way down the core's face ---- */
+    function inAt(n,u){var y0=CY+n*IHALF,ye=CY+n*FH*0.8;return ye+(y0-ye)*(1-u*u);}
+    function outAt(n,v){var y1=CY+n*PHALF,ye=CY+n*FH*0.8;return ye+(y1-ye)*v*(2-v);}
+    function inU(cx){var u=(cx-X0)/Math.max(1,TL-X0);return u<0?0:u>1?1:u;}
+    function outV(cx){var v=(cx-TR)/PRUN;return v<0?0:v>1?1:v;}
+
+    function buildRails(){
+      var rngR=mulberry32(7717);
+      RAILS=[];BATCH=[[],[],[],[]];
+      function rail(n,side,wall){
+        var pts=[],k,u,y;
+        for(k=0;k<=SEG;k++){
+          u=k/SEG;
+          if(side<0){
+            y=wall?CY+(n<0?-FH:FH)+((CY+n*(BOT-TOP)/2)-(CY+(n<0?-FH:FH)))*(1-u*u):inAt(n,u);
+            pts.push(X0+u*(TL-X0),y);
+          }else{
+            y=wall?CY+(n<0?-FH:FH)+((CY+n*(BOT-TOP)/2)-(CY+(n<0?-FH:FH)))*u*(2-u):outAt(n,u);
+            pts.push(TR+u*PRUN,y);
+          }
+        }
+        var r={p:pts,side:side,wall:!!wall,ph:rngR()};
+        RAILS.push(r);BATCH[(side<0?0:2)+(wall?1:0)].push(r);
+      }
+      var i;
+      for(i=0;i<ILN.length;i++)rail(ILN[i],-1,false);
+      rail(-1,-1,true);rail(1,-1,true);
+      for(i=0;i<PLN.length;i++)rail(PLN[i],1,false);
+      rail(-1,1,true);rail(1,1,true);
+      /* the body of the funnel: the two walls of an end closed across the face
+         they meet at. It carries almost no light on its own, but it is the
+         difference between a bundle of lines and a shape narrowing onto
+         something, which is the whole thing the reader is meant to see */
+      WEDGE[0]=wedge(BATCH[1]);
+      WEDGE[1]=wedge(BATCH[3]);
     }
-    function mkIco(li,i){
+    /* one wall out, the other back: whichever end it is, the segment the path
+       closes on is the core's face and the one it opens on is the page edge */
+    function wedge(walls){
+      if(walls.length<2)return null;
+      var a=walls[0].p,b=walls[1].p,k,pts=[];
+      for(k=0;k<a.length;k+=2)pts.push(a[k],a[k+1]);
+      for(k=b.length-2;k>=0;k-=2)pts.push(b[k],b[k+1]);
+      return pts;
+    }
+
+    /* ---- the drifting field ---- */
+    function bob(it){it.amp=it.kind==="p"?2+rngD()*2:3+rngD()*4;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
+    function setLane(it){
+      var n=it.n;
+      it.ye=CY+n*FH*0.8;
+      it.y0=CY+n*(it.kind==="i"?IHALF:PHALF);
+      if(it.kind==="p"){
+        /* an answer is held at zero until the exit has opened far enough to
+           give it its own air, then thrown; the thread back to the face is what
+           says where it came from over that first stretch */
+        it.rd=Math.max(90,PRUN*0.16);
+        it.rr=Math.max(40,Math.min(90,PRUN*0.1));
+        it.rf=Math.max(46,Math.min(110,PRUN*0.18));
+      }
+      bob(it);
+    }
+    function mkIco(li,i,n){
       var k=ICONS[i%ICONS.length];
       var el=document.createElement("div");el.className="drift dico ico-"+k;
       el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+k+'"/></svg>';
       var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
       df.appendChild(el);
-      var it={el:el,l:li,kind:"i",x:-70+rngD()*(TL+70),w:46};
-      laneY(it);bob(it);items.push(it);
+      var it={el:el,l:li,kind:"i",n:n,w:46,x:-70+rngD()*(TL+70)};
+      setLane(it);items.push(it);
     }
     function fillPill(it){
       if(it.ai!=null)delete inUse[it.ai];
@@ -3299,73 +3415,91 @@ setTimeout(go,1200);})()</script>
       var a=ANSW[idx];
       it.el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+a[0]+'"/></svg><span>'+a[1]+'</span><b>'+a[2]+'</b>';
     }
-    function mkPill(li){
+    function mkPill(li,n){
       var el=document.createElement("div");el.className="drift dpill";
       var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
       df.appendChild(el);
-      var it={el:el,l:li,kind:"p",slot:(sIdx++)%SLOTS.length};
+      var it={el:el,l:li,kind:"p",n:n};
       fillPill(it);it.w=el.offsetWidth||220;
-      laneY(it);bob(it);
-      it.x=it.tr-40+rngD()*Math.max(1,W-it.tr-40);
+      setLane(it);
+      it.x=TR-it.w/2+rngD()*PRUN*0.8;
       items.push(it);
     }
     function build(){
-      df.textContent="";items=[];inUse={};sIdx=0;
+      df.textContent="";items=[];inUse={};
       var c=wantCounts(),ni=c[0],np=c[1],i;
-      /* one lane per answer pill, held for the pill's whole life: pills used to
-         share a rotating pool, so two could ride the same lane at different
-         speeds and print over each other mid-flight */
-      SLOTS=[];
-      var lo=TOP+10,hi=BOT-46,span=Math.max(1,hi-lo);
-      for(i=0;i<np;i++)SLOTS.push(lo+(np<2?span/2:span*i/(np-1)));
-      for(i=SLOTS.length-1;i>0;i--){var j=(rngD()*(i+1))|0,tv=SLOTS[i];SLOTS[i]=SLOTS[j];SLOTS[j]=tv;}
+      /* one lane per thing, held for its whole life. A lane is a rail that is
+         drawn, so anything sharing one would be riding another object's line */
+      ILN=[];for(i=0;i<ni;i++)ILN.push(ni<2?0:-1+2*i/(ni-1));
+      PLN=[];for(i=0;i<np;i++)PLN.push(np<2?0:-1+2*i/(np-1));
+      /* narrow, there is no room to fly an answer: it would be 200px of pill in
+         160px of page. The exit still gets its rails and its motes, because a
+         funnel with nothing coming out of it is not a funnel */
+      if(!wantPill)np=0;
       /* the far layers carry the depth, so they get the bulk of the icons; the
-         near layer is the one you actually read, and stays sparse */
-      var split=[Math.round(ni*0.38),Math.round(ni*0.34)];split.push(ni-split[0]-split[1]);
-      var psplit=np?[Math.round(np*0.28),Math.round(np*0.3)]:[0,0];
+         near layer is the one you actually read, and stays sparse. Lanes are
+         dealt out shuffled, or the blurriest layer takes the top of the band */
+      var iord=[];for(i=0;i<ni;i++)iord.push(i);
+      for(i=iord.length-1;i>0;i--){var j=(rngD()*(i+1))|0,tv=iord[i];iord[i]=iord[j];iord[j]=tv;}
+      var pord=[];for(i=0;i<np;i++)pord.push(i);
+      for(i=pord.length-1;i>0;i--){var j2=(rngD()*(i+1))|0,tv2=pord[i];pord[i]=pord[j2];pord[j2]=tv2;}
+      var split=[Math.round(ni*0.30),Math.round(ni*0.33)];split.push(ni-split[0]-split[1]);
+      /* the answers are the payoff, so they sit forward: most of them on the
+         near layer, where they are legible, and only one or two set back */
+      var psplit=np?[Math.round(np*0.2),Math.round(np*0.3)]:[0,0];
       if(np)psplit.push(np-psplit[0]-psplit[1]);else psplit.push(0);
-      var icoN=0;
+      var icoN=0,ic=0,pc=0;
       for(var li=0;li<3;li++){
-        for(i=0;i<split[li];i++)mkIco(li,icoN++);
-        for(i=0;i<psplit[li];i++)mkPill(li);
+        for(i=0;i<split[li];i++)mkIco(li,icoN++,ILN[iord[ic++]]);
+        for(i=0;i<psplit[li];i++)mkPill(li,PLN[pord[pc++]]);
       }
+      buildRails();
     }
     function respawn(it){
-      laneY(it);bob(it);
-      if(it.kind==="i")it.x=-66-rngD()*Math.max(180,TL);
-      /* the extra setback is dead time behind the throat, where alpha is still
-         0: it staggers pills that would otherwise leave together */
-      else{it.x=it.tr-44-rngD()*Math.max(60,(W-it.tr)*0.4);fillPill(it);it.w=it.el.offsetWidth||it.w;}
+      setLane(it);
+      if(it.kind==="i")it.x=-66-rngD()*Math.max(180,TL*0.7);
+      else{
+        /* the setback is dead time behind the core, where alpha is still 0: it
+           staggers answers that would otherwise leave together */
+        fillPill(it);it.w=it.el.offsetWidth||it.w;
+        it.x=TR-it.w/2-rngD()*Math.max(60,PRUN*0.35);
+      }
     }
-    function alphaOf(it){
-      var rise,fall;
-      if(it.kind==="i"){rise=(it.x+56)/96;fall=(TL-it.x)/Math.max(60,Math.min(150,TL*0.35));}
-      else{rise=(it.x-it.tr)/it.rr;fall=(W-24-it.x-it.w*LAY[it.l].s)/it.rf;}
-      var o=Math.min(rise,fall);return o<0?0:o>1?1:o;
+    function alphaOf(it,cx){
+      var rise,fall,S=LAY[it.l].s;
+      if(it.kind==="i"){
+        rise=(cx+34)/96;
+        fall=(TL-cx)/Math.max(40,Math.min(150,(TL-X0)*0.26));
+      }else{
+        rise=(cx-TR-it.rd)/it.rr;
+        fall=(W-14-(it.x+it.w/2+it.w*S/2))/it.rf;
+      }
+      var o=rise<fall?rise:fall;return o<0?0:o>1?1:o;
     }
     function stepItems(t,dt){
       glowK*=Math.exp(-dt/0.45);
-      for(var i=0;i<items.length;i++){var it=items[i],L=LAY[it.l];
+      for(var i=0;i<items.length;i++){
+        var it=items[i],L=LAY[it.l],cx,u,y;
         it.x+=SPEED*L.v*dt;
-        if(it.kind==="i"){if(it.x>=TL){
-          glowK=Math.min(1,glowK+0.08+0.14*L.a);
-          if(rings.length<5&&L.a>0.4)rings.push({t:t,a:L.a});
-          respawn(it);
-        }}
-        else if(it.x+it.w*L.s>=W-26)respawn(it);
-        var p,q,y;
-        if(it.kind==="i"){ /* hold the lane, then swoop into the throat */
-          p=(it.x+66)/Math.max(1,TL+66);p=p<0?0:p>1?1:p;q=p*p;
-          y=it.y0+(CY-it.y0)*0.92*q+Math.sin(t*it.fq+it.ph)*it.amp*(1-q*0.85);
-        }else{ /* fan into the lane within the first third, so pills are never
-                  legible while they are still stacked at the throat */
-          p=(it.x-it.tr)/it.run;p=p<0?0:p>1?1:p;
-          q=p/0.34;if(q>1)q=1;q=1-(1-q)*(1-q)*(1-q);
-          y=it.oy+(it.y0-it.oy)*q+Math.sin(t*it.fq+it.ph)*it.amp*(0.2+0.8*q);
+        if(it.kind==="i"){
+          cx=it.x+23;
+          if(cx>=TL){
+            glowK=Math.min(1,glowK+0.08+0.14*L.a);
+            if(rings.length<5&&L.a>0.4)rings.push({t:t,a:L.a});
+            respawn(it);cx=it.x+23;
+          }
+          u=inU(cx);
+          y=it.ye+(it.y0-it.ye)*(1-u*u)+Math.sin(t*it.fq+it.ph)*it.amp*(1-u*0.9);
+          it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+(y-23).toFixed(1)+"px,0) scale("+L.s+")";
+        }else{
+          if(it.x+it.w/2+it.w*L.s/2>=W-6){respawn(it);}
+          cx=it.x+it.w/2;
+          u=outV(cx);
+          y=it.ye+(it.y0-it.ye)*u*(2-u)+Math.sin(t*it.fq+it.ph)*it.amp*(0.2+0.8*u);
+          it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+(y-20).toFixed(1)+"px,0) scale("+L.s+")";
         }
-        it.p=p;it.cy=y;
-        it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+y.toFixed(1)+"px,0) scale("+L.s+")";
-        it.el.style.opacity=(alphaOf(it)*L.a*(it.kind==="i"?M_ICO:M_PIL)).toFixed(3);
+        it.p=u;it.cy=y;
+        it.el.style.opacity=(alphaOf(it,cx)*L.a*(it.kind==="i"?M_ICO:M_PIL)).toFixed(3);
       }
     }
 
@@ -3395,6 +3529,12 @@ setTimeout(go,1200);})()</script>
         k?g.lineTo(px,py):g.moveTo(px,py);}
       g.closePath();g.stroke();
     }
+    function hexPath(rad){
+      g.beginPath();
+      for(var k=0;k<6;k++){var a=Math.PI/6+k*Math.PI/3,px=CX+rad*Math.cos(a),py=CY+rad*Math.sin(a);
+        k?g.lineTo(px,py):g.moveTo(px,py);}
+      g.closePath();
+    }
 
     /* ---- zone lighting: one weight per zone plus one for "none", eased ---- */
     var ZT=0,ZW=[1,0,0,0],M_ICO=1,M_PIL=1,M_GLOW=1;
@@ -3409,8 +3549,11 @@ setTimeout(go,1200);})()</script>
     function zoneStep(dt){
       var k=1-Math.exp(-dt/0.30);
       for(var i=0;i<4;i++)ZW[i]+=((i===ZT?1:0)-ZW[i])*k;
-      M_ICO=ZW[0]+ZW[1]*1.15+ZW[2]*0.5+ZW[3]*0.2;
-      M_PIL=ZW[0]+ZW[1]*0.2+ZW[2]*0.5+ZW[3]*1.15;
+      /* the dimmed end of the funnel is still a funnel: it drops back rather
+         than going out, or the section spends five seconds in three looking
+         like it only has one end */
+      M_ICO=ZW[0]+ZW[1]*1.15+ZW[2]*0.62+ZW[3]*0.45;
+      M_PIL=ZW[0]+ZW[1]*0.45+ZW[2]*0.62+ZW[3]*1.15;
       M_GLOW=ZW[0]+ZW[1]*0.85+ZW[2]*2.1+ZW[3]*0.85;
       if(M_ICO>1)M_ICO=1;if(M_PIL>1)M_PIL=1;
     }
@@ -3426,9 +3569,33 @@ setTimeout(go,1200);})()</script>
 
     /* ---- paint ---- */
     var BUCK=10;
+    function strokeBatch(b,style){
+      if(!b.length)return;
+      g.strokeStyle=style;g.beginPath();
+      for(var i=0;i<b.length;i++){var p=b[i].p;
+        g.moveTo(p[0],p[1]);
+        for(var k=2;k<p.length;k+=2)g.lineTo(p[k],p[k+1]);}
+      g.stroke();
+    }
+    function grad(x0,x1,peak,mul){
+      var lg=g.createLinearGradient(x0,0,x1,0);
+      lg.addColorStop(0,"rgba(158,196,255,"+(peak*0.22*mul).toFixed(3)+")");
+      lg.addColorStop(0.62,"rgba(158,196,255,"+(peak*0.52*mul).toFixed(3)+")");
+      lg.addColorStop(1,"rgba(158,196,255,"+(peak*mul).toFixed(3)+")");
+      return lg;
+    }
+    function fillWedge(pts,x0,x1,mul){
+      if(!pts)return;
+      var fg=g.createLinearGradient(x0,0,x1,0);
+      fg.addColorStop(0,"rgba(0,112,243,0)");
+      fg.addColorStop(1,"rgba(0,112,243,"+(0.075*mul).toFixed(3)+")");
+      g.fillStyle=fg;g.beginPath();g.moveTo(pts[0],pts[1]);
+      for(var k=2;k<pts.length;k+=2)g.lineTo(pts[k],pts[k+1]);
+      g.closePath();g.fill();
+    }
     function ddraw(t){
       g.clearRect(0,0,W,H);g.lineWidth=1;
-      var i,h,a;
+      var i,k,h,a;
       if(HASP){
         var bk=[],peak=0.2;
         for(i=0;i<HEXES.length;i++){h=HEXES[i];
@@ -3444,57 +3611,65 @@ setTimeout(go,1200);})()</script>
           if(a<=0.006)continue;if(a>0.2)a=0.2;
           g.strokeStyle="rgba(255,255,255,"+a.toFixed(3)+")";hexStroke(h);}
       }
-      /* the hourglass: two hairlines gathering the field into the throat, two
-         more letting the answers back out */
-      var lg=g.createLinearGradient(0,0,TL,0);
-      lg.addColorStop(0,"rgba(255,255,255,0.015)");
-      lg.addColorStop(0.72,"rgba(255,255,255,"+(0.06*M_ICO).toFixed(3)+")");
-      lg.addColorStop(1,"rgba(255,255,255,"+(0.13*M_ICO).toFixed(3)+")");
-      g.strokeStyle=lg;g.beginPath();
-      g.moveTo(-10,TOP);g.quadraticCurveTo(TL*0.74,TOP+(CY-TOP)*0.07,TL,CY-THH);
-      g.moveTo(-10,BOT);g.quadraticCurveTo(TL*0.74,BOT-(BOT-CY)*0.07,TL,CY+THH);
-      g.stroke();
-      var rg2=g.createLinearGradient(W,0,TR,0);
-      rg2.addColorStop(0,"rgba(255,255,255,0.015)");
-      rg2.addColorStop(0.72,"rgba(255,255,255,"+(0.06*M_PIL).toFixed(3)+")");
-      rg2.addColorStop(1,"rgba(255,255,255,"+(0.13*M_PIL).toFixed(3)+")");
-      g.strokeStyle=rg2;g.beginPath();
-      g.moveTo(W+10,TOP);g.quadraticCurveTo(TR+(W-TR)*0.26,TOP+(CY-TOP)*0.07,TR,CY-THH);
-      g.moveTo(W+10,BOT);g.quadraticCurveTo(TR+(W-TR)*0.26,BOT-(BOT-CY)*0.07,TR,CY+THH);
-      g.stroke();
-      /* threads: the last stretch of each system's approach, drawn in behind it,
-         and the first stretch of each answer's exit */
-      /* the drift elements scale about their own centre, so a thread has to
-         start from x + w/2 and only then step back by the scaled half-width */
+      /* the funnel: every lane, then the two walls that hold each end of it, in
+         four strokes. The gradient is what points them: dim at the edges of the
+         page, brightest where they meet the core */
+      fillWedge(WEDGE[0],0,TL,M_ICO);
+      fillWedge(WEDGE[1],W,TR,M_PIL);
+      strokeBatch(BATCH[0],grad(0,TL,0.15,M_ICO));
+      strokeBatch(BATCH[1],grad(0,TL,0.30,M_ICO));
+      strokeBatch(BATCH[2],grad(W,TR,0.15,M_PIL));
+      strokeBatch(BATCH[3],grad(W,TR,0.30,M_PIL));
+      /* motes: two to a lane, sliding the way that lane runs. In a still second
+         with nothing in a lane this is the only thing saying which way it goes */
+      var mo=t*0.00011;
+      for(i=0;i<RAILS.length;i++){
+        var r=RAILS[i];if(r.wall)continue;
+        var mul=r.side<0?M_ICO:M_PIL;if(mul<0.06)continue;
+        for(k=0;k<2;k++){
+          var u=(mo+r.ph+k*0.5)%1,fi=u*SEG,i0=fi|0,fr=fi-i0;
+          if(i0>=SEG){i0=SEG-1;fr=1;}
+          a=Math.sin(Math.PI*u)*0.5*mul;
+          if(a<=0.012)continue;
+          g.fillStyle="rgba(150,196,255,"+a.toFixed(3)+")";
+          g.beginPath();
+          g.arc(r.p[i0*2]+(r.p[i0*2+2]-r.p[i0*2])*fr,
+                r.p[i0*2+1]+(r.p[i0*2+3]-r.p[i0*2+1])*fr,1.7,0,7);
+          g.fill();
+        }
+      }
+      /* the last stretch of each system's approach, drawn in behind it, and the
+         first stretch of each answer's exit, drawn in front: the two ends of the
+         line that says this thing came out of that hexagon */
       for(i=0;i<items.length;i++){var it=items[i],S=LAY[it.l].s;
         if(it.p==null)continue;
         if(it.kind==="i"){
-          if(it.p<=0.55)continue;
-          a=(it.p-0.55)/0.45*0.11*LAY[it.l].a*M_ICO;
+          if(it.p<=0.45)continue;
+          a=(it.p-0.45)/0.55*0.17*LAY[it.l].a*M_ICO;
           g.strokeStyle="rgba(150,196,255,"+a.toFixed(3)+")";
-          g.beginPath();g.moveTo(it.x+23+23*S,it.cy+23);g.lineTo(TL,CY);g.stroke();
-        }else if(it.p<0.3){
-          a=(1-it.p/0.3)*0.09*LAY[it.l].a*M_PIL;
+          g.beginPath();g.moveTo(it.x+23+23*S,it.cy);g.lineTo(CX-CW2,it.ye);g.stroke();
+        }else if(it.p<0.46){
+          a=(1-it.p/0.46)*0.15*LAY[it.l].a*M_PIL;
           g.strokeStyle="rgba(150,196,255,"+a.toFixed(3)+")";
-          g.beginPath();g.moveTo(it.ox,it.oy);g.lineTo(it.x+it.w/2-it.w*S/2,it.cy+20);g.stroke();
+          g.beginPath();g.moveTo(CX+CW2,it.ye);g.lineTo(it.x+it.w/2-it.w*S/2,it.cy);g.stroke();
         }}
-      /* the core is the copy, so the light is a halo around it, never a fill
-         under it: the peak sits out at 0.42 of the radius, past the words */
-      var R=Math.max(240,Math.min(W,H)*0.44)*(1+0.06*glowK);
-      var br=(0.075+0.028*Math.sin(t*0.0009)+0.06*glowK)*M_GLOW;
-      var hg=g.createRadialGradient(CX,CY,R*0.1,CX,CY,R);
-      hg.addColorStop(0,"rgba(0,112,243,"+(br*0.5).toFixed(3)+")");
-      hg.addColorStop(0.42,"rgba(0,112,243,"+br.toFixed(3)+")");
+      /* the core's own light. The hexagon over it is opaque, so this can be a
+         fill and not the halo it had to be when the copy was the core */
+      var R=Math.max(200,Math.min(W*0.33,(BOT-TOP)*1.05))*(1+0.07*glowK);
+      var br=(0.10+0.03*Math.sin(t*0.0009)+0.10*glowK)*M_GLOW;
+      var hg=g.createRadialGradient(CX,CY,CR*0.4,CX,CY,R);
+      hg.addColorStop(0,"rgba(0,112,243,"+(br*0.9).toFixed(3)+")");
+      hg.addColorStop(0.34,"rgba(0,112,243,"+(br*0.5).toFixed(3)+")");
       hg.addColorStop(1,"rgba(0,112,243,0)");
       g.fillStyle=hg;g.beginPath();g.arc(CX,CY,R,0,7);g.fill();
-      /* one ring per absorbed system, riding out through the copy */
-      if(g.ellipse)for(i=rings.length-1;i>=0;i--){
-        var rr=rings[i],age=(t-rr.t)/1150;
+      /* one wave per system taken in, in the shape of the thing that took it */
+      for(i=rings.length-1;i>=0;i--){
+        var rr=rings[i],age=(t-rr.t)/1250;
         if(!(age>=0&&age<1)){rings.splice(i,1);continue;}
         var e=1-Math.pow(1-age,3);
-        a=(1-age)*0.15*rr.a*M_GLOW;
+        a=(1-age)*0.26*rr.a*M_GLOW;
         g.strokeStyle="rgba(82,168,255,"+a.toFixed(3)+")";
-        g.beginPath();g.ellipse(CX,CY,20+e*R*0.62,(20+e*R*0.62)*0.6,0,0,7);g.stroke();
+        hexPath(CR*(1+e*2.1));g.stroke();
       }
     }
 
@@ -3507,7 +3682,7 @@ setTimeout(go,1200);})()</script>
     var lastKey="";
     function relayout(force){
       measure();
-      var c=wantCounts(),key=W+"x"+H+"|"+stacked+"|"+c[0]+"|"+c[1];
+      var c=wantCounts(),key=W+"x"+H+"|"+stacked+"|"+Math.round(TOP)+"|"+Math.round(BOT)+"|"+c[0]+"|"+c[1];
       if(!force&&key===lastKey)return;
       lastKey=key;csize();buildHex();build();
       if(REDUCE.matches||!draf)dstill();
@@ -3526,8 +3701,8 @@ setTimeout(go,1200);})()</script>
     function onResize(){clearTimeout(drz);drz=setTimeout(function(){relayout(false);},150);}
     window.addEventListener("resize",onResize);
     if("ResizeObserver" in window)new ResizeObserver(onResize).observe(dl);
-    /* the head is a .reveal and the display face loads late; both move the
-       throat after first paint, so take one more reading each time */
+    /* the head is a .reveal and the display face loads late; both move the band
+       after first paint, so take one more reading each time */
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){relayout(true);});
     setTimeout(function(){relayout(true);},1200);
     if(REDUCE.addEventListener)REDUCE.addEventListener("change",function(){

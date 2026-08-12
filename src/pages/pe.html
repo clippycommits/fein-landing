@@ -33,6 +33,11 @@
     --bg:#000000; --bg-2:#0a0a0c; --bg-3:#101014;
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+    /* the outline of a form control, held to the 3:1 WCAG 1.4.11 asks of it
+       against the control's own fill. --line reads 1.22:1 on --bg-2, --line-2
+       1.52:1; .36 is 3.25:1 there and .5 the hover above it. The decorative
+       hairlines stay on --line/--line-2 */
+    --line-ctl:rgba(255,255,255,.36); --line-ctl-2:rgba(255,255,255,.5);
     --blue:#0070F3; --blue-l:#52A8FF;
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
@@ -174,8 +179,8 @@
   .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:560px){.frow{grid-template-columns:1fr}}
   label{display:block;font-size:.82rem;color:var(--fg-3);margin-bottom:.4rem;font-weight:450}
-  input,select,textarea{width:100%;font-family:var(--font);font-size:16px;color:var(--fg);background:var(--bg-2);border:0;box-shadow:0 0 0 1px var(--line),var(--hl-top);border-radius:10px;padding:.72rem .8rem;line-height:1.4}
-  input:hover,select:hover,textarea:hover{box-shadow:0 0 0 1px var(--line-2),var(--hl-top)}
+  input,select,textarea{width:100%;font-family:var(--font);font-size:16px;color:var(--fg);background:var(--bg-2);border:0;box-shadow:0 0 0 1px var(--line-ctl),var(--hl-top);border-radius:10px;padding:.72rem .8rem;line-height:1.4}
+  input:hover,select:hover,textarea:hover{box-shadow:0 0 0 1px var(--line-ctl-2),var(--hl-top)}
   textarea{resize:vertical;min-height:88px}
   input::placeholder,textarea::placeholder{color:var(--dim)}
   select{appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4.5L6 8.5L10 4.5' stroke='%238a8f98' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center;background-size:12px;padding-right:2rem}
