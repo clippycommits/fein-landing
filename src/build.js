@@ -151,7 +151,7 @@ const FEATURES = [
   "One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"
 ];
 
-// ---- the film (#demo) ----
+// ---- the film (#memory) ----
 // 622 frames at 24 fps is 25.916s; PT26S matches the h2 on the page, so the
 // markup and the visible copy tell a crawler the same thing. contentUrl points
 // at the H.264 cut rather than the AV1 webm because it is the one every crawler
@@ -189,7 +189,7 @@ const ld = {
         "@type": "MediaObject", contentUrl: SITE + "/video/fein-demo.en.vtt",
         encodingFormat: "text/vtt", inLanguage: "en"
       },
-      embedUrl: SITE + "/#demo",
+      embedUrl: SITE + "/#memory",
       publisher: { "@id": SITE + "/#org" },
       isPartOf: { "@id": SITE + "/#webpage" },
       about: { "@id": SITE + "/#app" }
@@ -490,7 +490,7 @@ It reads and answers in the tools you already use: Gmail, Google Calendar, Drive
 
 ## The film: fein in twenty-six seconds
 
-There is a twenty-six second narrated walkthrough on the page, at ${SITE}/#demo (video: ${SITE}/video/fein-demo-1440.mp4). Its narration, verbatim:
+There is a twenty-six second narrated walkthrough on the page, at ${SITE}/#memory (video: ${SITE}/video/fein-demo-1440.mp4). Its narration, verbatim:
 
 "Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base."
 

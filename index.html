@@ -910,18 +910,26 @@
      aubergine, because the mention and the send button are the two things in the
      picture the reader is meant to connect and blue is what connects them
      everywhere else on this page. */
-  /* the split is the reference's, measured off it: the second column starts a
-     shade past the middle at 58% and runs to the same right edge as the picture
-     below, so the head and the stage are one block and not two measures. The
-     heading keeps its own 19ch and stops well short of that column, which is also
-     what the reference does. */
-  .mem-head{width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:clamp(1.1rem,3vw,3.6rem);align-items:start}
-  .mem-head h2{font-size:clamp(2rem,4.2vw,3.15rem);line-height:1.05;letter-spacing:-.035em;color:#fff;max-width:19ch;text-wrap:balance}
+  /* THE PAGE MEASURE. The reference runs its whole page down one column: the
+     wordmark, the stance line, the figure row and the head of the section under
+     them all start on the same rule and end on the same rule. This section used
+     to keep a 1260px measure of its own, which put the heading 58px inside the
+     figures above it and left its right edge 58px short of theirs. It takes the
+     page measure now, the one the nav and the fold are already on. */
+  .mem-head,.mem-stage{width:100%;max-width:1440px;margin-inline:auto;padding-inline:var(--bar-pad)}
+  /* and the split is the reference's: two equal halves of the measure with a
+     64px gutter cut out of the middle, so the heading starts on FIG 0.1's rule
+     and the lead starts on the midpoint. The old 1.16/.84 pushed the right
+     column past the middle and squeezed it. */
+  .mem-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(1.5rem,4.4vw,4rem);align-items:start}
+  /* both blocks of type are held at ~89% of their column, which is where the
+     reference sets its own two: near enough the same width as each other, and
+     each stopping just short of the gutter rather than at a count of characters
+     that has nothing to do with the column it is in. */
+  .mem-head h2{font-size:clamp(2rem,4.2vw,3.15rem);line-height:1.05;letter-spacing:-.035em;color:#fff;max-width:11.6em;text-wrap:balance}
   /* the right column is set at lead size rather than body size, so it reads as
-     the headline's second half and not as a caption underneath it. No measure of
-     its own: the column is the measure, which is what puts its right edge on the
-     film's. */
-  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;text-wrap:pretty}
+     the headline's second half and not as a caption underneath it. */
+  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
   .mem-more{margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
   .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
 
@@ -932,7 +940,7 @@
 
      The pull is about the width of the app's own sidebar in the film, which is
      the one column of that picture carrying no part of the answer. */
-  .mem-stage{position:relative;width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;padding:0;display:grid;grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);align-items:center}
+  .mem-stage{position:relative;margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;display:grid;grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);align-items:center}
   .mem-film{grid-area:1/2/2/3;position:relative;margin-left:calc(-1 * clamp(1.5rem,4.4vw,5rem));aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;isolation:isolate}
   .mem-video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
   /* the seam is a fade, not a hairline butting into the back of a card */
@@ -1779,56 +1787,29 @@
     .sbtn::after{content:"";position:absolute;top:50%;left:0;right:0;translate:0 -50%;height:44px}
   }
 
-  /* ============ the film ============
-
-     A narrated capture of the product, full bleed. The frame carries no radius,
-     border or shadow on purpose: the source grades to #000 and so does the
-     page, so the 16:9 letterbox and the ground are the same colour and the
-     video has no visible edge at all. Giving it a card would draw the one line
-     the material does not have.
-
-     It sits above #change, which is the deliberate order. This is the fast read
-     of the whole argument for someone who will not scrub a pinned stage;
-     #change is the slow read for someone who will. The film is also why that
-     section can stay long.
-
-     Playback is gated on visibility in the script. #change is a scroll-pinned
-     stage taking a rect every frame, and a decoder left running off screen
-     would be competing with it for the main thread during precisely the scroll
-     that matters most.
-
-     Captions are burned into the source, which is what makes muted autoplay
-     worth doing here: the film still says what it means with the sound off, so
-     it is not a poster that happens to move. */
-  /* the header is a caption for the film, not a second hero. It had the band's
-     full padding above it and a 3.4rem gap below it, which put 380px of black
-     between the fold and the one thing on the page that argues for itself. */
-  /* the type sizes used to be capped in svh because the film's height was
-     subtracted from them: heading, lead and rail were one budget and the film
-     took what was left, which on a 1440x900 laptop was a 747px picture on a
-     1440px screen. The film is sized off the window now (see --film-w), so the
-     heading is set at the size it wants and reads in the same register as every
-     other section head. */
-  /* where the top of this section comes to rest, which is not the nav's height:
-     the section's own scroll-margin-top clears the nav by a further 18px, and
-     that is the position a reader who scrolls to the film actually stops at. */
-  /* the statement takes the fold's measure and the fold's left edge, so the
-     page still runs on one line from the wordmark down. White is the claim,
-     grey is the reason: one sentence, one size, two weights of attention. */
   /* the figure row. Columns ruled off each other, the drawing given most of the
      height, the words held to two lines so the three read as one row. */
   #figures{padding:0 0 clamp(3rem,7vh,5.5rem)}
   .fcards .wrap{width:100%;max-width:1440px;padding-inline:var(--bar-pad)}
   .figrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
   .figcard{margin:0;padding:clamp(1.4rem,2.4vw,2.1rem) clamp(1.2rem,2.2vw,2rem) 0;border-left:1px solid var(--line)}
+  /* the row is inset from its rules and flush with the page's: a column pads
+     away from the rule it is ruled off, and the two outer columns drop the
+     padding on the side that faces the margin. Without that last part the row
+     starts on the measure and stops 32px short of it, which is the one edge on
+     the page that does not line up. */
   .figcard:first-child{border-left:0;padding-left:0}
+  .figcard:last-child{padding-right:0}
   .fignum{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;color:var(--dim)}
   .figart{display:block;width:100%;height:auto;max-width:340px;margin:clamp(1.4rem,3vw,2.6rem) auto clamp(1.6rem,3.4vw,3rem);
     stroke:rgba(255,255,255,.26);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
   .figart .lid{stroke:rgba(255,255,255,.4)}
   .figart ellipse{stroke:rgba(255,255,255,.16)}
   .figcard h3{margin:0 0 .55rem;font-size:1rem;font-weight:550;letter-spacing:-.012em;color:#fff}
-  .figcard figcaption p{margin:0;font-size:.95rem;line-height:1.5;color:var(--fg-3);max-width:34ch;text-wrap:pretty}
+  /* 23rem is the reference's measure for this line, and it is a width rather
+     than a character count on purpose: the column is 395px of type, and 34ch
+     was breaking the two lines a third of the way inside it. */
+  .figcard figcaption p{margin:0;font-size:.95rem;line-height:1.5;color:var(--fg-3);max-width:23rem;text-wrap:pretty}
   @media (max-width:860px){
     .figrow{grid-template-columns:minmax(0,1fr)}
     .figcard{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-right:0}
@@ -1845,307 +1826,6 @@
   .stance-line b{font-weight:inherit;color:#fff}
   @media (max-width:640px){
     .stance-line{font-size:1.32rem;line-height:1.3}
-  }
-  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(2.2rem,4.4vw,4rem);--demo-air:1.1rem;--film-w:min(calc(var(--maxw) - 48px),calc(100% - 48px),max(30rem,calc((100svh - var(--demo-top) - var(--demo-air)) * 16 / 9)));--film-r:clamp(10px,1.1vw,16px);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
-  /* the band reads left, not centred. It now sits directly under the fold, and
-     two centred screens running made the second read as a repeat of the first
-     rather than as the next beat. Left is also the measure every other band
-     heading on the page is set to, so the film is the odd one out no longer. */
-  /* The band opens on copy alone and closes on the one action. The CTA used to
-     sit here, above the film, which is the worst place for it: the reader meets
-     it before they have seen anything, and it competes with the same words in
-     the nav. It now sits under the film, where intent is highest. */
-  .demo-intro{text-align:center;max-width:var(--maxw)}
-  .demo-intro .demo-lead{margin-inline:auto;max-width:62ch}
-  /* The two actions, sitting with the copy at the head of the band. No width of
-     its own: inside the intro it fills the text column, which is the same edge
-     the film and the chapters below it start on. Taking --film-w here would
-     measure it against the intro rather than the section and inset it 24px. */
-  .demo-after{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.8rem;margin-top:clamp(1.35rem,2.4vw,1.9rem)}
-  /* the heading and the lead used to step down on a short window as well as a
-     narrow one, because a 1440x760 laptop had to give the film its inches back
-     out of the type. The film no longer takes them from here, so both are set
-     off the width alone.
-
-     The width term used to top out at 2.55rem, which made this the smallest
-     section heading on a page whose other section heads run to 3.5rem, so the
-     one line that says what the product is read as a caption. It now tops out
-     at 3.3rem, in the same register as the close and the stage above it. The
-     cap is set off the copy, not picked: the first sentence sets to 874px at
-     3.3rem against the 62rem measure below, and the 118px left over is the
-     margin that keeps it on two lines. Retune it if the sentence gets longer.
-     text-wrap:balance is the guard for the same shape, as it is on the others. */
-  /* the heading takes a measure of its own rather than the column's: set across
-     the full width it ran as one long line and the lede under it read as a
-     second, longer line of the same thing. Stacked, the two are distinct. */
-  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;max-width:33ch;margin-inline:auto;text-wrap:balance}
-  /* the lead reads on the hero's measure, 33.5rem, and not on the block's:
-     centred copy set to the 62rem the heading needs ran the better part of
-     1300px on a wide screen, which is a longer line than anything else on the
-     page and longer than the hero's lede it echoes. Narrow here rather than on
-     .demo-intro, because the heading wants the wide measure to hold its
-     authored two-line break. It costs a line or two of height under the
-     headline; that is the trade for a line the eye can track. */
-  .demo-lead{margin-top:.95rem;color:var(--fg-2);font-size:var(--demo-lead-size);line-height:1.5;max-width:33.5rem;margin-inline:auto;text-wrap:pretty}
-  /* the heading used to be narrowed to 62rem so a centred line broke in two at
-     the authored place. Set left against the page measure it needs no such
-     help: it runs from the same left edge as the nav and wraps where the
-     window says, so the old width step has gone rather than sitting dead. */
-  /* the frame and the rail under it are one object and share one width, so the
-     measurement lives here and both read it */
-  /* ---- how big the film is: theatre, not thumbnail ----
-
-     This used to be a budget. The heading, the gap, the rail and a little air
-     under it were all subtracted from the window, and the film took whatever
-     16:9 fitted in the remainder, so that a reader could see the picture and
-     its three chapters at once without scrolling. It held that promise and paid
-     for it in inches: 747px of film on a 1440px laptop, a little under half the
-     screen, with black on both sides of the one thing on this page that argues
-     for itself. Two thirds of the width went to margin so that a caption could
-     stay above the fold.
-
-     The film sat on its own width, wider than every other thing in the band, so
-     the section had three different left edges: the heading on the text column,
-     the film on the window, the rail somewhere between. It is on the text
-     column now. One edge runs from the heading down through the film, the
-     chapters and the buttons, and the picture reads as part of the page rather
-     than as a slab dropped behind it. Three terms, and the smallest wins:
-
-       1. the text column, which is --maxw less the 24px the wrap pads with on
-          each side. This is the term that binds on any normal window and it is
-          the one that puts the film on the heading's edge.
-       2. the window less the same 48px, for anything narrower than the column.
-          It is 100% and not 100vw on purpose, because 100vw counts the
-          scrollbar and would hand this section a horizontal one on every
-          desktop.
-       3. the height of the window under the nav, at 16:9. This is what keeps a
-          short landscape window honest: the film goes as wide as it can while
-          the picture itself still fits between the nav and the bottom of the
-          screen.
-
-     The max() is the floor, and it only exists so a very short window cannot
-     drive term 3 to nothing. Measured, it does not bind above about 350px of
-     window height, which is not a window anyone has.
-
-     --film-w lives on #demo, not .demo-stage, so the chapter grid and the CTA
-     row outside the figure can take the film's width too. */
-  .demo-stage{margin:var(--demo-gap) 0 0}
-  /* the frame and the chapter grid under it are one object: the picture rounds
-     at the top, the grid closes it at the bottom, and the hairline they meet on
-     is the grid's own top edge, which is also the progress track */
-  .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate;border:1px solid var(--line);border-bottom:0;border-radius:var(--film-r) var(--film-r) 0 0}
-  .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
-  .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
-  /* the frame itself is the play target, so the button in the corner is a name
-     for a gesture that already works rather than the only way in */
-  .demo-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
-  .demo-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
-  /* white, and the only solid white object on a page built out of hairlines and
-     glass, because it is the only thing on the page asking to be pressed. It was
-     dark glass like everything else here, which is correct for a control and
-     wrong for an invitation. */
-  .demo-big{position:absolute;left:50%;top:41%;translate:-50% -50%;width:clamp(62px,7.2vw,80px);height:clamp(62px,7.2vw,80px);border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 24px 60px -20px rgba(0,0,0,.95);opacity:0;scale:.94;transition:opacity .22s ease,scale .22s cubic-bezier(.22,.61,.36,1);pointer-events:none}
-  .demo-big svg{width:27px;height:27px;fill:#000;stroke:none;margin-left:3px}
-  /* one button for both states: the way in before anything has been pressed,
-     and the transport control after */
-  .demo-frame.paused .demo-big,.demo-frame.intro .demo-big{opacity:1;scale:1}
-  .demo-hit:hover .demo-big{scale:1.04}
-  /* the price, next to the thing being bought: a play triangle asks for an
-     unpriced commitment, and twenty six seconds is a commitment anyone makes.
-
-     That was written when this showed to a reader who had not watched yet. It
-     no longer does, and the argument no longer holds: the entry state is a
-     white button and nothing else, so what is left here is a reader who has
-     already watched some of the film and stopped by hand, and the length is
-     not news to them. The rail's own 0:26 sits a few pixels below in every
-     state including entry, so nothing is lost by this never firing. It is kept
-     only because deleting it is a design call for whoever owns this section. */
-  .demo-dur{position:absolute;left:50%;top:41%;translate:-50% calc(-50% + clamp(48px,4.8vw,58px));font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.16em;color:var(--fg-2);text-shadow:0 1px 12px rgba(0,0,0,.9);opacity:0;transition:opacity .22s ease;pointer-events:none;white-space:nowrap}
-  /* not in the entry state: the film's burned captions run in a band right
-     under the button, so the words land on top of words. The rail carries 0:26
-     a few pixels below anyway, and the entry state is a play button, full stop. */
-  .demo-frame.paused:not(.intro) .demo-dur{opacity:1}
-
-  /* ---- the way in ----
-
-     The film autoplays muted the moment it is on screen, so it is never in the
-     stopped state and the play button above never showed: on arrival the reader
-     got a silent loop already somewhere in its middle, and the only door to the
-     narrated twenty six seconds was a 32px Sound button in the corner. That was
-     the whole problem. The door belongs on the picture, so the button shows
-     until the reader presses it once, and pressing it starts the film over with
-     the voice on. Nothing is written on the film to explain that: a white play
-     button on a silent loop is already the most legible thing on the page, and
-     the corner button carries the words.
-
-     Both the button and the vignette under it sit at 41% rather than dead
-     centre, because this film's captions are burned into the picture in a band
-     across the middle and the button would land in them. */
-  .demo-veil{position:absolute;inset:0;background:radial-gradient(58% 58% at 50% 41%,rgba(0,0,0,.58),rgba(0,0,0,.24) 66%,rgba(0,0,0,.1));opacity:0;transition:opacity .3s ease;pointer-events:none;z-index:1}
-  .demo-frame.intro .demo-veil{opacity:1}
-  @media (prefers-reduced-motion: reduce){
-    .demo-hit:hover .demo-big{scale:1}
-  }
-  /* bottom left, not bottom right: the Intercom launcher is fixed to the
-     bottom right of every page at z-index 2147483000, so anything parked in
-     that corner loses to it on any viewport short enough to bring the two
-     together. Left is the corner nothing else claims. */
-  /* a bar across the foot of the picture rather than a cluster in its corner:
-     the controls sit left, the running time closes the line on the right */
-  .demo-ctls{position:absolute;left:0;right:0;bottom:0;padding:clamp(.85rem,2vw,1.6rem);display:flex;align-items:center;gap:.5rem;z-index:3;opacity:0;translate:0 6px;transition:opacity .24s ease,translate .24s ease;pointer-events:none}
-  .demo-ctl{-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);background:rgba(10,10,12,.62)}
-  .demo-ctl svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  /* the controls come up on intent, and stay up whenever the film is stopped */
-  /* ...and while the film has never been touched, because that is the state
-     where the white button on the picture is asking a question the corner
-     button is the answer to. Hiding the words behind a hover was the original
-     fault: the reader had to already know the sound was there to go looking. */
-  .demo-frame:hover .demo-scrim,.demo-frame:focus-within .demo-scrim,.demo-frame.paused .demo-scrim,.demo-frame.intro .demo-scrim{opacity:1}
-  .demo-frame:hover .demo-ctls,.demo-frame:focus-within .demo-ctls,.demo-frame.paused .demo-ctls,.demo-frame.intro .demo-ctls{opacity:1;translate:0 0;pointer-events:auto}
-  /* no hover to reveal them with, so they are simply always there */
-  @media (hover:none){
-    .demo-scrim{opacity:1}
-    .demo-ctls{opacity:1;translate:0 0;pointer-events:auto}
-  }
-  .demo-frame:not(.sound) .i-on{display:none}
-  .demo-frame.sound .i-off{display:none}
-  /* the label swaps rather than disappearing. A phone renders this 16:9 frame
-     about 220px tall, which is enough for the burned captions and nowhere near
-     enough for the interface behind them, so on a phone the important control
-     is not the sound, it is the one that makes the thing actually watchable.
-     It gets the words and the sound keeps the glyph. */
-  .lbl-fs{display:none}
-
-  /* ---- the rail ----
-
-     Three hairlines under the film, and they are doing three jobs at once.
-
-     Unwatched, the rail is a table of contents: the visitor who will never press
-     play still leaves knowing the film is Ask, then Memory, then Sources, which
-     is the whole argument in three words. Watched, it is the position, because
-     the filled rule is the playhead and the film carries no scrubber of its own.
-     Clicked, it is a seek, which in a twenty six second film is the only way to
-     see a beat twice.
-
-     The three words are not invented for the page. They are the product's own
-     primary navigation, so the rail teaches the interface the film is showing.
-
-     The playhead lives here rather than on the frame on purpose: the film grades
-     to #000 and so does the page, and a progress bar across the bottom of the
-     picture would draw the one edge the material does not have. */
-  /* three equal cells ruled off from each other, closing the frame above them.
-     They were three floating captions separated by air, which read as a stray
-     row of text under the picture rather than as the film's own contents. */
-  .demo-rail{display:block;width:var(--film-w);box-sizing:border-box;margin:0 auto;padding:0}
-  .demo-chaps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;margin:0;padding:0;border:1px solid var(--line);border-top:0;border-radius:0 0 var(--film-r) var(--film-r);overflow:hidden}
-  .demo-chaps>li{min-width:0;border-left:1px solid var(--line)}
-  .demo-chaps>li:first-child{border-left:0}
-  .demo-chap{display:block;position:relative;width:100%;height:100%;margin:0;padding:clamp(.85rem,1.5vw,1.15rem) clamp(.95rem,1.7vw,1.35rem);border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
-  /* the rule above each beat is that beat's own share of the timeline, so the
-     three of them are one scrubber cut into the three pieces that mean something */
-  /* no transition on the fill, and that is the fix rather than an omission. The
-     rule used to interpolate .28s linear between timeupdate samples, which are
-     about four a second: the smoothing was doing the work of the missing frames,
-     but it was also holding the fill a fifth of a second behind the picture the
-     whole way down, and against a twenty six second film that reads as the rail
-     belonging to some other clip. The script drives this off rAF now, so there
-     is a fresh value every frame and nothing left for a transition to smooth.
-     Leaving it in would only add the lag back on top. */
-  .demo-chap::before{content:"";position:absolute;left:0;top:-1px;width:100%;height:1px;background:var(--blue-l);transform:scaleX(var(--cp,0));transform-origin:0 50%}
-  .demo-chap.done{--cp:1}
-  .demo-chap i{font-family:var(--mono);font-style:normal;font-size:.66rem;font-weight:500;letter-spacing:.15em;color:var(--dim);margin-right:.6em;transition:color .3s ease}
-  .demo-chap b{font-family:var(--font);font-size:.95rem;font-weight:550;letter-spacing:-.012em;color:var(--fg-2);transition:color .3s ease}
-  /* two lines, held open whether the words fill them or not. It was load
-     bearing when the film's height was measured against a reserved rail height:
-     a rail free to take a third line reserved more, which narrowed the film,
-     which narrowed the columns, which took a third line, and the whole thing
-     converged on a postage stamp at 1280x800. The film no longer reads the
-     rail, so the fixed box is now only what it always also was, which is the
-     thing that lines the three descriptions up on one baseline. The copy is
-     written to fit it at the narrowest desktop column. */
-  .demo-chap span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;height:2.8em;margin-top:.22rem;font-size:.855rem;line-height:1.4;color:var(--dim);text-wrap:pretty;transition:color .3s ease}
-  /* there was a second rule here that dropped these three lines on any window
-     under 865px tall. The rail is as wide as the film, but the chapters are
-     not: the duration and the sound button take about 290px off the right of
-     that row first, and under about 110px a column cannot set this line at any
-     length worth writing. That used to happen on a short window, because the
-     film was measured against the window's leftover height and a 900px laptop
-     drove it down to a 747px picture with 132px columns.
-
-     The film is sized off the window itself now and a short window still gets a
-     wide one: at 865px tall the picture is 1338px across, so the columns are
-     over 330px and the line sets comfortably. The only thing that can still
-     starve them is a narrow window, and the 860px query below already drops
-     them there. */
-  .demo-chap.on i{color:var(--blue-l)}
-  .demo-chap.on b{color:#fff}
-  .demo-chap.on span{color:var(--fg-3)}
-  /* the chapters seek the film, so they have to read as things you can press:
-     until now they looked like three captions that happened to sit under it */
-  .demo-chap:hover{border-top-color:var(--fg-3)}
-  .demo-chap:hover b{color:#fff}
-  .demo-chap:hover span{color:var(--fg-3)}
-  .demo-chap:focus-visible{outline:2px solid var(--blue-l);outline-offset:3px}
-  /* the loop rewinds all three rules at once. That used to need a class to kill
-     the transition for a frame; with no transition to kill, the rewind is simply
-     the next frame's value and the class has nothing left to do. */
-
-  /* the running time closes the control bar on the right. It used to sit in the
-     rail beside a second sound button that said the same thing as the one on
-     the picture; the grid below is three chapters and nothing else now. */
-  .demo-ctls .demo-time{margin-left:auto;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.15em;color:var(--fg-3);white-space:nowrap}
-
-  /* the strongest proof on the page ended on nothing, and the next ask was five
-     sections down.
-
-     It was ghost weight on the argument that the fold above and the close below
-     should keep the primary. White now, and matching the nav's: the reader who
-     reaches this has just watched the film, which makes this the best moment on
-     the page to ask and the wrong one to whisper. It sits under a rail of
-     hairlines and a picture that grades to black, so a ghost button here is the
-     one object on screen with nothing to separate it from the page. */
-  .demo-after .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
-
-  /* three cells side by side stop being readable somewhere under 860px: the
-     descriptions wrap to three lines in a 130px column. They stack instead, and
-     the rule that divided them turns from a vertical to a horizontal one. */
-  @media (max-width:860px){
-    .demo-chaps{grid-template-columns:minmax(0,1fr)}
-    .demo-chaps>li{border-left:0}
-  }
-  @media (max-width:640px){
-    .lbl-snd{display:none}
-    .lbl-fs{display:inline}
-    /* 37px wide was under the 44px touch minimum with the label gone */
-    .demo-ctl{padding:0 11px;min-width:44px}
-    .demo-stage{margin-top:1.5rem}
-    /* six lines of lead before the film is a wall on a 390px screen, and the
-       film is the section. The measure cannot give any back, so the step does. */
-    .demo-lead{font-size:1rem;line-height:1.5;margin-top:.8rem}
-    .demo-chap b{font-size:.9rem}
-    .demo-after{flex-direction:column;align-items:center}
-    /* stretched, this came out 342px on a 390px screen: a white slab as wide as
-       the film above it, which is the one thing on the page it should not
-       compete with. Wide enough to be an obvious target, capped so it still
-       reads as a button rather than a bar */
-    .demo-after .btn{width:100%;max-width:20rem}
-    /* the frame renders about 220px tall here, so the button takes a step down
-       to sit inside the picture rather than across it */
-    .demo-big{width:54px;height:54px}
-    .demo-big svg{width:23px;height:23px}
-  }
-  /* a touchscreen laptop still reports hover, so it keeps the rail button and
-     needs it at a real touch size */
-  @media (pointer:coarse){
-  }
-  /* and here it goes away entirely. This button was only ever earning its place
-     against the corner control being hover-hidden, and hover:none is the exact
-     condition under which that stops being true: the corner glyph is pinned
-     permanently visible a few lines up. Keeping both would put three ways to
-     ask for the same narration on one 390px screen, counting the invitation on
-     the frame, and the corner one is the only one that has to stay because it
-     is the live mute toggle. The duration keeps the slot. */
-  @media (hover:none){
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -2171,7 +1851,7 @@
     #burst{animation:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoObject","@id":"https://fein.vc/#demo-film","name":"fein in twenty-six seconds","description":"A short walkthrough of fein: a partner asks who the warmest path into a company is and what the firm said when it passed, and fein answers with citations from seven documents across four sources, then shows the memory behind the answer and the eight systems it reads.","contentUrl":"https://fein.vc/video/fein-demo-1440.mp4","thumbnailUrl":["https://fein.vc/video/fein-demo-poster.jpg"],"uploadDate":"2026-08-11","duration":"PT26S","width":2560,"height":1440,"encodingFormat":"video/mp4","inLanguage":"en","isFamilyFriendly":true,"transcript":"Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base.","caption":{"@type":"MediaObject","contentUrl":"https://fein.vc/video/fein-demo.en.vtt","encodingFormat":"text/vtt","inLanguage":"en"},"embedUrl":"https://fein.vc/#demo","publisher":{"@id":"https://fein.vc/#org"},"isPartOf":{"@id":"https://fein.vc/#webpage"},"about":{"@id":"https://fein.vc/#app"}},{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","alternateName":"Fein","url":"https://fein.vc/","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","slogan":"the shared memory of a venture capital team","email":"sales@fein.vc","logo":"https://fein.vc/icon-512.png","image":"https://fein.vc/og.png","sameAs":["https://github.com/clippycommits/fein"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"sales@fein.vc","url":"https://fein.vc/#get-started"}},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein · the shared memory of a venture capital team","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"mainEntity":{"@id":"https://fein.vc/#app"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"video":{"@id":"https://fein.vc/#demo-film"},"datePublished":"2026-08-07","dateModified":"2026-08-12","inLanguage":"en"},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","alternateName":"Fein","applicationCategory":"BusinessApplication","applicationSubCategory":"Relationship intelligence","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"featureList":["Warm introduction paths: the weighted shortest path to a founder, an LP, or an operator, and the best person to make the introduction","Meeting briefs: the attendees, how you know each of them, and what was open, from your calendar and inbox, before the meeting starts","Deal memory: every company you saw, the memo, and the exact reason you passed, with each line traced to its source document","Cadence alerts: relationships that drift from their learned rhythm, flagged before they go cold","Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals, not an LLM guess","One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"],"audience":{"@type":"Audience","audienceType":"Venture capital teams"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoObject","@id":"https://fein.vc/#demo-film","name":"fein in twenty-six seconds","description":"A short walkthrough of fein: a partner asks who the warmest path into a company is and what the firm said when it passed, and fein answers with citations from seven documents across four sources, then shows the memory behind the answer and the eight systems it reads.","contentUrl":"https://fein.vc/video/fein-demo-1440.mp4","thumbnailUrl":["https://fein.vc/video/fein-demo-poster.jpg"],"uploadDate":"2026-08-11","duration":"PT26S","width":2560,"height":1440,"encodingFormat":"video/mp4","inLanguage":"en","isFamilyFriendly":true,"transcript":"Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base.","caption":{"@type":"MediaObject","contentUrl":"https://fein.vc/video/fein-demo.en.vtt","encodingFormat":"text/vtt","inLanguage":"en"},"embedUrl":"https://fein.vc/#memory","publisher":{"@id":"https://fein.vc/#org"},"isPartOf":{"@id":"https://fein.vc/#webpage"},"about":{"@id":"https://fein.vc/#app"}},{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","alternateName":"Fein","url":"https://fein.vc/","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","slogan":"the shared memory of a venture capital team","email":"sales@fein.vc","logo":"https://fein.vc/icon-512.png","image":"https://fein.vc/og.png","sameAs":["https://github.com/clippycommits/fein"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"sales@fein.vc","url":"https://fein.vc/#get-started"}},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein · the shared memory of a venture capital team","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"mainEntity":{"@id":"https://fein.vc/#app"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"video":{"@id":"https://fein.vc/#demo-film"},"datePublished":"2026-08-07","dateModified":"2026-08-12","inLanguage":"en"},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","alternateName":"Fein","applicationCategory":"BusinessApplication","applicationSubCategory":"Relationship intelligence","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"featureList":["Warm introduction paths: the weighted shortest path to a founder, an LP, or an operator, and the best person to make the introduction","Meeting briefs: the attendees, how you know each of them, and what was open, from your calendar and inbox, before the meeting starts","Deal memory: every company you saw, the memo, and the exact reason you passed, with each line traced to its source document","Cadence alerts: relationships that drift from their learned rhythm, flagged before they go cold","Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals, not an LLM guess","One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"],"audience":{"@type":"Audience","audienceType":"Venture capital teams"}}]}</script>
 </head>
 <body>
 
@@ -2604,11 +2284,11 @@ setTimeout(go,1200);})()</script>
         </div>
       </article>
 
-      <!-- the film is #demo's, and it does not start on its own here: that section
-           is the one that plays a film at you, this one shows a thread and offers
-           the walkthrough beside it. So it is a poster with a play button on it
-           until somebody asks, and when they do they get the whole thing: the
-           narration, from the top, once through rather than on a loop. -->
+      <!-- the walkthrough. It is the only film on the page now, and it still does
+           not start on its own: this section shows a thread and offers the film
+           beside it, so it is a poster with a play button on it until somebody
+           asks. When they do they get the whole thing, narration included, from
+           the top, once through rather than on a loop. -->
       <div class="mem-film paused" id="mem-film">
         <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A twenty-six second narrated walkthrough of fein answering this question." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
           <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
@@ -2623,113 +2303,6 @@ setTimeout(go,1200);})()</script>
         </button>
       </div>
     </figure>
-  </section>
-
-  <section id="demo" class="band" aria-labelledby="demo-h">
-    <div class="wrap demo-intro">
-      <div class="demo-copy">
-        <h2 id="demo-h">A state of the art memory layer. Purpose built for investors.</h2>
-        <p class="demo-lead">fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.</p>
-      </div>
-      <!-- The two actions sit with the copy at the head of the band now, not
-           under the film. -->
-      <div class="demo-after">
-        <a class="btn btn-white" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
-        <a class="btn btn-ghost" href="#get-started">Talk to sales</a>
-      </div>
-    </div>
-    <figure class="demo-stage">
-      <div class="demo-frame paused" id="demo-frame">
-        <video id="demo-video" class="demo-video" width="2560" height="1440" aria-label="A twenty-six second walkthrough of fein." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
-          <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
-          <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
-          <p class="demo-lead">Your browser will not play this one. <a href="/video/fein-demo-1440.mp4">Download the walkthrough</a> instead.</p>
-        </video>
-        <div class="demo-scrim" aria-hidden="true"></div>
-        <div class="demo-veil" aria-hidden="true"></div>
-        <button class="demo-hit" id="demo-hit" type="button" aria-label="Play the walkthrough">
-          <span class="demo-big" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-          <span class="demo-dur" aria-hidden="true">26 SECONDS</span>
-        </button>
-        <div class="demo-ctls">
-          <button class="btn btn-ghost demo-ctl" id="demo-sound" type="button" aria-pressed="false" aria-label="Turn the sound on">
-            <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9.5 5 5m0-5-5 5"/></svg>
-            <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.8a4.4 4.4 0 0 1 0 6.4M18.4 6a8.3 8.3 0 0 1 0 12"/></svg>
-            <span class="lbl-snd">Sound on</span>
-          </button>
-          <button class="btn btn-ghost demo-ctl" id="demo-fs" type="button" aria-label="Play full screen">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
-            <span class="lbl-fs">Full screen</span>
-          </button>
-          <span class="demo-time">0:26</span>
-        </div>
-      </div>
-      <!-- The rail. The three marks were the film's own picture cuts, measured
-           off the file: it holds on Ask until 11.83, on the Halo Compute record
-           until 18.83, and on Sources until it fades at 24.17. They are now the
-           narration's cuts instead, read straight off video/fein-demo.en.vtt: a
-           beat turns over when its line does, at 11.68 and 18.06, which is a
-           beat ahead of the picture in both places. That order is deliberate.
-           The voice names a thing a moment before the cut shows it, so a rail
-           keyed to the picture always reads as lagging the film even when it is
-           exactly on it. Keyed to the words, it lands with them.
-
-           The lines under each word are the narration's too, cut down to the
-           phrase each beat turns on: "query and understand facts over time",
-           "the same system of record", "a single endpoint for all of your AI
-           agents". They are that short because the column they set in is about
-           130px wide, and a line written to the transcript's own length wrapped
-           to three lines and then truncated mid word. Short enough to set is a
-           condition of being read at all. The words above them are the
-           product's primary navigation, which is what lets the same three do
-           both jobs, table of contents and scrubber.
-
-           No visible transcript under the film. The narration still reaches
-           machines two other ways: the VideoObject in the JSON-LD carries it as
-           a transcript property, and video/fein-demo.en.vtt carries the same
-           words with timings. The .vtt is deliberately NOT wired up as a
-           <track>: Safari and Chromium force-enable a caption track whenever
-           the reader has captions on at the OS level, and this film already
-           carries its captions burned into the picture, so that reader would
-           get two stacked caption layers in a frame about 220px tall on a
-           phone. -->
-      <figcaption class="demo-rail" id="demo-rail">
-        <ol class="demo-chaps" aria-label="Chapters">
-          <li><button class="demo-chap" type="button" data-t="0" aria-label="Ask, from the start"><i>01</i><b>Ask</b><span>Query facts over time</span></button></li>
-          <li><button class="demo-chap" type="button" data-t="11.68" aria-label="Memory, at eleven seconds"><i>02</i><b>Memory</b><span>One system of record</span></button></li>
-          <li><button class="demo-chap" type="button" data-t="18.06" aria-label="Sources, at eighteen seconds"><i>03</i><b>Sources</b><span>One endpoint, every agent</span></button></li>
-        </ol>
-      </figcaption>
-    </figure>
-
-  </section>
-
-
-  <!-- The four claims the picture above has just demonstrated. They sit in a
-       section of their own so they begin where the hero's screen ends: inside
-       it they were competing with the answer for the same eyeline. Same black
-       ground, no rule, so the page does not look joined. -->
-  <section id="proof" class="proofband" aria-label="What fein gives you">
-    <div class="ah-wrap">
-    <ul class="ah-proof">
-      <li>
-        <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
-        <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
-      </li>
-      <li>
-        <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
-        <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
-      </li>
-      <li>
-        <b>Every claim cited</b>
-        <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
-      </li>
-      <li>
-        <b>Nothing is deleted</b>
-        <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
-      </li>
-    </ul>
-    </div>
   </section>
 
 
@@ -3057,6 +2630,40 @@ setTimeout(go,1200);})()</script>
         </div>
       </section>
 
+    </div>
+  </section>
+
+
+  <!-- The four claims the three figures above have just demonstrated, which is why
+       this band moved here when the film band it used to close was removed. It is a
+       better home than the old one on the argument: figure 02 strikes a fact and
+       dates it rather than deleting it, and figure 03 puts a document on every line
+       of the answer. Those are two of these four, already proved a screen earlier,
+       so the band reads as the receipt for the figures instead of as a list of
+       assertions. #why then takes over with the assistants.
+
+       Same black ground and no rule, so the page still does not look joined. -->
+
+  <section id="proof" class="proofband" aria-label="What fein gives you">
+    <div class="ah-wrap">
+    <ul class="ah-proof">
+      <li>
+        <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
+        <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
+      </li>
+      <li>
+        <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
+        <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
+      </li>
+      <li>
+        <b>Every claim cited</b>
+        <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
+      </li>
+      <li>
+        <b>Nothing is deleted</b>
+        <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
+      </li>
+    </ul>
     </div>
   </section>
 
@@ -5584,248 +5191,17 @@ setTimeout(go,1200);})()</script>
   live.forEach(function(el){ io.observe(el); });
 })();
 
-/* the film.
-   Muted autoplay while it is on screen, and nothing at all while it is not.
-   The section under this one pins a stage and reads a rect every frame, so a
-   decoder left running behind it costs exactly the scroll that matters.
+/* #memory's film, which is now the only one on the page: the band that used to
+   autoplay a muted loop of it above the fold is gone, and this is where the
+   walkthrough lives.
 
-   Everything here degrades in one direction. No script: a poster and a native
-   video with two sources. No IntersectionObserver, reduced motion, or Save-Data:
-   the poster stays and the play button is the way in. Autoplay refused by the
-   platform (iOS low power is the common one): the rejected promise puts the
-   frame back in its paused state, which is the same state as never having
-   tried. */
-(function(){
-  var frame=document.getElementById('demo-frame'); if(!frame) return;
-  var v=document.getElementById('demo-video'),
-      hit=document.getElementById('demo-hit'),
-      snd=document.getElementById('demo-sound'),
-      fsb=document.getElementById('demo-fs');
-  if(!v||!hit) return;
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
-  var conn=navigator.connection||{};
-  var thrifty=conn.saveData===true||/(^|-)([23])g$/.test(conn.effectiveType||'');
-  var vis=false, held=false;
+   It does not start on its own, and the press IS the sound control: back to the
+   top, unmuted, once through. Once and not on repeat, because a voice track on a
+   loop is a worse thing than a silent one.
 
-  /* the entry state, set from script and never from the markup: with no script
-     nothing here runs, and the reader should get the page exactly as it was,
-     which is the poster and the play glyph. It comes off on the first sign of
-     interest from anywhere and does not come back. */
-  var engaged=false;
-  function engage(){
-    if(engaged) return;
-    engaged=true;
-    frame.classList.remove('intro');
-    /* from here the frame is a transport control and has to be named as one.
-       mark() is normally reached through a play or pause event, and engaging
-       from the sound button or the rail fires neither: the film was already
-       running and carries on running, so nothing would rename it. */
-    mark(v.paused);
-  }
-  frame.classList.add('intro');
-  hit.setAttribute('aria-label','Play the walkthrough with sound');
-
-  /* small screens and metered connections take the 720p cut.
-     Two things make this fiddly. The browser ran source selection while it
-     parsed the markup and has already committed a currentSrc, so removing and
-     replacing the <source> children is inert on its own: only load() makes it
-     choose again. And load() is the one call here that can start a fetch, so it
-     waits until something actually wants to play rather than running at parse
-     time. Deferring it costs nothing, because the swap it commits is a decision
-     about which file, not when. */
-  var cut=false;
-  function cutIn(){
-    if(cut) return; cut=true;
-    if(!(window.matchMedia('(max-width:768px)').matches||thrifty)) return;
-    [].forEach.call(v.querySelectorAll('source'),function(s){ v.removeChild(s); });
-    var s=document.createElement('source');
-    s.src='/video/fein-demo-720.mp4';
-    s.type='video/mp4; codecs="avc1.640028, mp4a.40.2"';
-    v.insertBefore(s,v.firstChild);
-    v.load();
-  }
-
-  function play(){
-    cutIn();
-    var p=v.play();
-    if(p&&p['catch']) p['catch'](function(){ mark(true); });
-  }
-  function mark(p){
-    frame.classList.toggle('paused',p);
-    /* while the invitation is up the frame is not a transport control, so it
-       does not read as one: it is named for what the first press actually does */
-    hit.setAttribute('aria-label',!engaged?'Play the walkthrough with sound':(p?'Play the walkthrough':'Pause the walkthrough'));
-  }
-  v.addEventListener('play',function(){ mark(false); });
-  v.addEventListener('pause',function(){ mark(true); });
-  v.addEventListener('ended',function(){ mark(true); v.currentTime=0; });
-
-  /* a click is a standing instruction: pausing by hand keeps it paused when it
-     scrolls back into view, which auto-resuming would quietly overrule */
-  hit.addEventListener('click',function(){
-    /* the first press is not a transport command. The film is already running
-       silently and somewhere in its middle, so pausing it there is the one
-       thing nobody wants; what the reader is reaching for is the version with
-       the voice, from the top. That is the corner button's own job, so this
-       presses it rather than repeating what it does, and #demo-sound stays the
-       only thing that writes muted, loop and the labels. */
-    if(!engaged){
-      engage();
-      if(snd&&v.muted) snd.click(); else { held=false; play(); }
-      return;
-    }
-    if(v.paused){ held=false; play(); } else { held=true; v.pause(); }
-  });
-
-  /* engagement is anything the reader does to the film, not just a press on the
-     picture: the corner and rail sound buttons, a chapter seek, full screen.
-     Those are read off the video, the rail element and the document rather than
-     off their own handlers, so this owns no part of them and cannot desync
-     their state.
-
-     Not 'seeked': a looping video seeks back to zero on every wrap, so that one
-     would retire the invitation after twenty six seconds of nobody touching
-     anything. The rail is listened to as an element instead. */
-  v.addEventListener('volumechange',engage);
-  var railEl=document.getElementById('demo-rail');
-  if(railEl) railEl.addEventListener('click',engage);
-  document.addEventListener('fullscreenchange',engage);
-  document.addEventListener('webkitfullscreenchange',engage);
-
-  var sndl=snd?snd.querySelector('.lbl-snd'):null;
-
-  if(snd) snd.addEventListener('click',function(){
-    v.muted=!v.muted;
-    var on=!v.muted;
-    /* a voice track on repeat is a worse thing than a silent one, so asking for
-       the narration also buys the right to have it end */
-    v.loop=!on;
-    frame.classList.toggle('sound',on);
-    snd.setAttribute('aria-pressed',on?'true':'false');
-    /* the corner button names the press, not the state: with the voice running
-       the thing it does is turn it off. It is the only words on the frame, so
-       it also has to carry what the white button on the picture cannot say. */
-    snd.setAttribute('aria-label',on?'Turn the sound off':'Turn the sound on');
-    if(sndl) sndl.textContent=on?'Sound off':'Sound on';
-    /* the narration is a written twenty-six seconds with a first line, and by
-       the time anyone reaches for the sound the silent loop is already somewhere
-       in the middle of it. Turning the voice on therefore starts the piece
-       rather than joining it. Pausing by hand is the opposite: that is a
-       bookmark, so the play button resumes and never rewinds. */
-    if(on){ v.currentTime=0; held=false; play(); }
-  });
-
-  if(fsb) fsb.addEventListener('click',function(){
-    if(document.fullscreenElement||document.webkitFullscreenElement){
-      (document.exitFullscreen||document.webkitExitFullscreen).call(document);
-    } else if(frame.requestFullscreen){ frame.requestFullscreen();
-    } else if(frame.webkitRequestFullscreen){ frame.webkitRequestFullscreen();
-    /* iPhone will not take an element full screen, only the video itself, and
-       it will not do that at all until the video has a source loaded */
-    } else if(v.webkitEnterFullscreen){ cutIn(); v.load(); v.webkitEnterFullscreen(); }
-  });
-
-  /* the rail, above the autoplay gate on purpose. Reduced motion and Save-Data
-     never start the film, and those are exactly the readers for whom three
-     labelled beats and a way to jump to one are worth the most. */
-  (function(){
-    var rail=document.getElementById('demo-rail'); if(!rail) return;
-    var chaps=[].slice.call(rail.querySelectorAll('.demo-chap'));
-    if(!chaps.length) return;
-    var marks=chaps.map(function(b){ return parseFloat(b.getAttribute('data-t'))||0; }),
-        raf=0;
-
-    /* timeupdate fires about four times a second, which was never enough to
-       carry a playhead: the old rule interpolated the gaps with a .28s linear
-       transition, and bought its smoothness by running a fifth of a second
-       behind the picture from start to finish. It is a rAF loop now, so the
-       fill is on the same frame as the film.
-
-       The cost was the reason it was not one before, and the loop is written to
-       not have it: it only runs while the film is actually playing, and the
-       film is paused by the observer below the moment it leaves the screen. By
-       the time the pinned stage in the next section is taking a rect every
-       frame, this has already stopped, so the two never share a frame. */
-    function paint(){
-      var t=v.currentTime||0, d=v.duration||25.92;
-      for(var i=0;i<chaps.length;i++){
-        var a=marks[i], b=(i+1<marks.length?marks[i+1]:d),
-            p=t>=b?1:(t<=a?0:(t-a)/(b-a));
-        chaps[i].style.setProperty('--cp',p.toFixed(3));
-        chaps[i].classList.toggle('done',t>=b);
-        var on=t>=a&&t<b;
-        chaps[i].classList.toggle('on',on);
-        if(on) chaps[i].setAttribute('aria-current','true');
-        else chaps[i].removeAttribute('aria-current');
-      }
-    }
-    /* the loop is the film's, not a repaint schedule: it stops itself the frame
-       the film stops, and every way the film can stop starts a paint of the
-       resting position rather than leaving the last frame's value on screen. */
-    function tick(){
-      raf=0;
-      paint();
-      if(!v.paused&&!v.ended) raf=requestAnimationFrame(tick);
-    }
-    function run(){ if(!raf) raf=requestAnimationFrame(tick); }
-    v.addEventListener('play',run);
-    v.addEventListener('playing',run);
-    /* the film is muted, so a phone may hold it at a frame the rail should still
-       be drawn against, and timeupdate is the only thing that fires there */
-    v.addEventListener('timeupdate',paint);
-    v.addEventListener('seeked',paint);
-    v.addEventListener('pause',paint);
-    v.addEventListener('ended',paint);
-
-    chaps.forEach(function(btn,i){
-      btn.addEventListener('click',function(){
-        var t=marks[i];
-        held=false; play();
-        /* preload is none, so on the first click there is no duration yet and a
-           currentTime write is dropped on the floor. Waiting for metadata is the
-           difference between the first click seeking and the first click only
-           starting the film from the top. */
-        if(v.readyState>0){ try{ v.currentTime=t; }catch(e){} }
-        else v.addEventListener('loadedmetadata',function h(){
-          v.removeEventListener('loadedmetadata',h);
-          try{ v.currentTime=t; }catch(e){}
-        });
-        paint();
-      });
-    });
-  })();
-
-  if(reduce.matches||thrifty||!('IntersectionObserver' in window)) return;
-
-  new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      vis=e.isIntersecting&&e.intersectionRatio>=0.35;
-      if(vis){ if(!held&&v.paused) play(); }
-      else if(!v.paused){ v.pause(); }
-    });
-  },{threshold:[0,0.35,0.7]}).observe(frame);
-
-  /* the observer never fires on a tab switch, and a backgrounded decoder is
-     the same waste as an off-screen one */
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){ if(!v.paused) v.pause(); }
-    else if(vis&&!held) play();
-  });
-})();
-
-/* #memory's film. The same file #demo plays, and deliberately not a second copy
-   of that section's behaviour: it does not start on its own, and when it is asked
-   for it plays the whole thing rather than a silent loop. #demo autoplays a muted
-   loop and hands you a sound control; here the press IS the sound control, so it
-   goes back to the top, unmutes, and runs once.
-
-   Once through and not on repeat because a voice track on a loop is a worse thing
-   than a silent one, which is the same reason #demo drops its loop the moment
-   anyone asks for the narration.
-
-   Not starting on its own is also what lets it sit above #demo without two
-   decoders competing for the same scroll. Nothing is fetched until the first
-   press, because preload is none and the 720 swap happens on that press too. */
+   Nothing is fetched until that press, because preload is none and the 720 swap
+   happens on the press too, which is what keeps a 3 MB film off the critical path
+   of a section sitting this high up the page. */
 (function(){
   var f=document.getElementById('mem-film'); if(!f) return;
   var v=document.getElementById('mem-video'), hit=document.getElementById('mem-hit');
@@ -5852,17 +5228,10 @@ setTimeout(go,1200);})()</script>
     hit.setAttribute('aria-label',p?'Play the walkthrough with sound':'Pause the walkthrough');
   }
 
-  /* two films on one page, both able to talk, and they are adjacent: #demo is the
-     next band down. It autoplays muted, so scrolling past it is silent and there
-     is nothing to do; but its corner button can unmute it, and a reader who has
-     done that and then comes back up here would get two narrations over each
-     other. So each one takes the floor from the other: this stops that film when
-     it starts, and stops itself if that film is unmuted while this one is running. */
-  var other=document.getElementById('demo-video');
-  function takeFloor(){ if(other&&!other.paused) other.pause(); }
-  if(other) other.addEventListener('volumechange',function(){
-    if(!other.muted&&!v.paused) v.pause();
-  });
+  /* the audio-floor handshake that used to live here is gone with the band it was
+     negotiating with. There is one film on the page now, so there is nothing to
+     take the floor from. The observer below is what keeps a narration from playing
+     to an empty screen, and that is the whole of it. */
 
   v.addEventListener('play',function(){ mark(false); });
   v.addEventListener('pause',function(){ mark(true); });
@@ -5873,7 +5242,6 @@ setTimeout(go,1200);})()</script>
   hit.addEventListener('click',function(){
     if(!v.paused){ v.pause(); return; }
     cutIn();
-    takeFloor();
     /* the press is a request for the film, not for the frame it stopped on: the
        narration is written with a first line, so it starts at the first line every
        time. On the very first press there is no metadata yet and the currentTime
