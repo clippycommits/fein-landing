@@ -8,11 +8,15 @@
     --bg:#000000; --bg-2:#0a0a0c; --bg-3:#101014;
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --muted:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
-    /* the outline of a form control, which WCAG 1.4.11 holds to 3:1 against the
-       control's own fill. --line-2 reads 1.44:1 on the black an input sits on,
-       so the fields carry their own step: .36 is 3.14:1 there, .5 the hover and
+    /* the outline of a form control. 1.4.11 asks 3:1 against *adjacent colours*,
+       plural, and a field in the contact modal has two of them: its own #000 fill
+       on the inside and the --bg-2 modal surface on the outside. A 1px border is
+       painted over the element's own background (background-clip is border-box),
+       so the outline composites on #000 either way -- .36 landed at 3.13:1 on the
+       fill but only 2.95:1 on the surface, which is the edge that was missing.
+       .38 is 3.39:1 on the fill and 3.19:1 on the surface, and .5 is the hover and
        open lift above it. The decorative hairlines stay on --line/--line-2 */
-    --line-ctl:rgba(255,255,255,.36); --line-ctl-2:rgba(255,255,255,.5);
+    --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
     --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
     /* the only two colours outside the blue accent, and they live on a 0.7rem
        glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
@@ -532,7 +536,12 @@
   .fig-mb{padding:1rem 15px;font-size:.96rem;line-height:1.72;color:var(--fg-2);max-width:46ch}
   /* the attachment is pinned to the foot of the card, which is what puts the
      two panels on the same bottom line without padding invented to fill a gap */
-  .fig-foot{margin-top:auto;display:flex;align-items:center;gap:.5rem;padding:.72rem 15px;border-top:1px solid var(--line);font-size:.8rem;color:var(--dim)}
+  /* the trailing date is the quietest thing in the card, so it steps down from
+     the line it sits on. The step used to be --dim -> #5f636b, but #5f636b is
+     3.28:1 on the --bg-2 the panel is actually painted with, so the step now
+     starts a rung higher: --fg-3 6.09:1 for the sentence, --dim 4.55:1 for the
+     date. Same de-emphasis, both ends above the 4.5 this 12.8px text needs */
+  .fig-foot{margin-top:auto;display:flex;align-items:center;gap:.5rem;padding:.72rem 15px;border-top:1px solid var(--line);font-size:.8rem;color:var(--fg-3)}
   .fig-foot svg.clip{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
   .fig-foot .tlogo{width:13px;height:13px;flex:none;opacity:.85}
   .fig-foot em{margin-left:auto;font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
@@ -564,10 +573,8 @@
   /* the date range is the whole point of a retired fact: it did not vanish, it
      stopped being true on a day fein can name */
   .fig-when{display:inline-block;margin-left:.4rem;padding:.06rem .32rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
-  /* every fact carries the document it came from. On the first figure all three
-     come from one email, so it is said once in the foot instead of three times */
-  .fig-prov{display:flex;align-items:center;gap:.34rem;margin-top:.26rem;font-size:.74rem;color:var(--dim)}
-  .fig-prov .tlogo{width:12px;height:12px;flex:none;opacity:.8}
+  /* (there is no per-row provenance rule here: every figure says where its facts
+     came from once, in .fig-foot, rather than repeating it on each row) */
 
   /* ---- the answer ---- */
   .fig-q{display:flex;gap:.5rem;padding:.95rem 15px;border-bottom:1px solid var(--line);font-size:.98rem;font-weight:550;color:#fff}
@@ -753,6 +760,17 @@
   .dpill{gap:.5rem;height:40px;padding:0 9px 0 12px;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:10px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);font-size:13px;font-weight:500;white-space:nowrap}
   .dpill svg{width:15px;height:15px;flex:none}
   .dpill b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:2.5px 6px}
+  /* the raw side. Mono, dim, and quoted the shape it arrived in: it is texture,
+     not reading matter, and the point it becomes comfortable to read is the
+     point it has stopped being raw. Sized so a lane can carry it between two
+     marks without either of them having to move */
+  .dbit{gap:.4rem;height:24px;max-width:var(--bitw,230px);padding:0 8px;background:rgba(255,255,255,.014);border:1px solid rgba(255,255,255,.05);border-radius:6px;font-family:var(--mono);font-size:10px;line-height:1;color:#6d727b;white-space:nowrap}
+  .dbit svg{width:11px;height:11px;flex:none;opacity:.55}
+  .dbit span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  /* the refined side: the receipt that rides out behind an answer. Same mono as
+     the raw fragments on purpose, one tint further into the blue, so the two
+     ends of the funnel are legibly the same material at different stages */
+  .dfin{height:24px;padding:0 9px;background:rgba(0,112,243,.05);border:1px solid rgba(82,168,255,.16);border-radius:6px;font-family:var(--mono);font-size:10px;line-height:1;color:#93a3ba;white-space:nowrap}
 
   /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon.
      The canvas owns the whole section, so the fan runs off every edge instead of
@@ -3192,32 +3210,53 @@ __LOGO_SPRITE__
   if(dl&&dc&&df&&dhead&&dcore&&dband&&dwhy){
     var g=dc.getContext("2d"),draf=0,dvis=false,dlast=null,SPEED=68;
     var W=0,H=0,CX=0,CY=0,CR=0,CW2=0,FH=0,TL=0,TR=0,TOP=0,BOT=0,
-        IHALF=0,PHALF=0,PRUN=1,stacked=false,wantPill=true;
+        IHALF=0,PHALF=0,PRUN=1,stacked=false,wantPill=true,wantBit=true;
     var FINED=!(window.matchMedia&&!window.matchMedia("(pointer:fine)").matches);
     var HASP=typeof Path2D!=="undefined"&&!!Path2D.prototype.addPath;
     var rngD=mulberry32(2468);
     var LAY=[{s:.62,b:2.2,a:.40,v:.42},{s:.82,b:1.05,a:.62,v:.70},{s:1,b:0,a:1,v:1}];
-    var ICONS=["gmail","gcal","gdrive","attio","granola","linkedin","notion","slack"];
-    var ANSW=[["claude","Intro path: two steps, both warm","ATTIO"],
-      ["openai","Why we passed, and what changed","GMAIL"],
-      ["cursor","Brief for the 9am, ready","CAL"],
-      ["gemini","Who knows this LP best","ATTIO"],
-      ["openai","Term sheet v2: what changed","DRIVE"],
-      ["claude","Gone quiet: 3 founders this week","GMAIL"],
-      ["perplexity","Every founder you met at Slush","CAL"],
-      ["copilot","Co-invest history: three firms","ATTIO"],
-      ["claude","Mutuals with the founder: 4","LINKEDIN"],
-      ["cursor","Hiring spike: 6 eng roles open","LINKEDIN"],
-      ["openai","Call notes, decisions pulled out","GRANOLA"],
-      ["gemini","The memo, with sources","DRIVE"],
-      ["cursor","Series A pipeline, ranked by heat","ATTIO"],
-      ["openai","Last touch: six weeks ago","GMAIL"],
-      ["claude","Board pack: metrics assembled","DRIVE"],
-      ["copilot","Follow-ups from Monday's call","GRANOLA"]];
-    var pIdx=0,inUse={},items=[],glowK=0,rings=[];
+    /* a lane is a source: its mark, and the raw traffic that source actually
+       produces. The fragments are deliberately unwritten, in the shape the
+       system emits them, because the whole claim of the section is that nobody
+       tidied any of this up on the way in */
+    var SRC=[
+      ["gmail","re: term sheet v2","from: sarah@northwind.io","\"we can do 18 pre\""],
+      ["gcal","09:00 sarah chen (30m)","invite: partner review","moved to thu 14:00"],
+      ["gdrive","northwind_model_v7.xlsx","memo.docx edited","shared with 3 people"],
+      ["attio","deal.stage: diligence","owner: david","last_touch: 41d"],
+      ["granola","\"...close by the 14th\"","call notes, 38 min","action: send the model"],
+      ["linkedin","3 new mutuals","title change: vp eng","6 eng roles open"],
+      ["notion","memo v3 edited","ic notes: 2 concerns","2 blocks updated"],
+      ["slack","#deals: who owns this?","dm from david","thread: 12 replies"]];
+    /* and what comes out the other side: not a row from a table, a thing a
+       partner would want said to them, with the system it was read out of */
+    var ANSW=[["claude","Northwind is closing: 3 signals this week","ATTIO"],
+      ["openai","You passed on burn. That reason is gone.","GMAIL"],
+      ["cursor","Warmest path in: David, ex-Stripe with her","LINKEDIN"],
+      ["gemini","Reply time slipped from 4 hours to 6 days","GMAIL"],
+      ["openai","v2 moved on price, not on the board","DRIVE"],
+      ["claude","Two partners are working the same founder","ATTIO"],
+      ["perplexity","You met their CTO at Slush, 14 months ago","CAL"],
+      ["copilot","Three of your LPs own this cap table","ATTIO"],
+      ["claude","Eng headcount doubled since the memo","LINKEDIN"],
+      ["cursor","Six weeks quiet. The thread ended on you.","GMAIL"],
+      ["openai","The 9am brief: five facts, all sourced","CAL"],
+      ["gemini","Diligence is stalled on one open item","NOTION"],
+      ["claude","She answers David in a day, you in a week","GMAIL"],
+      ["copilot","Monday's follow-ups, with owners","GRANOLA"],
+      ["cursor","Pipeline reranked by heat, not by stage","ATTIO"],
+      ["openai","Sarah asked for the model. Nobody sent it.","SLACK"]];
+    /* the receipt riding out behind each answer. Every one of these is a claim
+       the product makes elsewhere in words, said here as a property of the
+       thing coming out of the machine */
+    var RFIN=["3 sources, all dated","from 4 emails and 1 call",
+      "checked against the crm","6 duplicates merged into one",
+      "cited: gmail, granola, attio","scored on replies and meetings",
+      "resolved to one person","no llm guess in this one"];
+    var pIdx=0,fIdx=0,inUse={},items=[],glowK=0,rings=[];
     /* the funnel itself: lane rails in four batches (intake lanes, intake walls,
        exit lanes, exit walls) so a frame is four strokes and not thirty */
-    var SEG=18,X0=-8,ILN=[],PLN=[],RAILS=[],BATCH=[[],[],[],[]],WEDGE=[null,null];
+    var SEG=18,X0=-8,IX0=-170,ILN=[],PLN=[],RAILS=[],BATCH=[[],[],[],[]],WEDGE=[null,null];
 
     /* ---- geometry, re-derived from the live box on every resize ---- */
     function measure(){
@@ -3266,6 +3305,13 @@ __LOGO_SPRITE__
       /* a pill is ~200px wide and needs somewhere to fade in, run and fade out:
          below that the exit is carried by its rails and its step copy alone */
       wantPill=(W-TR)>270;
+      /* and the same test at the other end. A raw fragment that is still fading
+         up when it reaches the point it starts fading down is never once fully
+         on the page, so where the intake is that short the lane carries its
+         mark alone. The fragments also give up width before they give up: a
+         truncated line is a fair picture of raw data anyway */
+      df.style.setProperty("--bitw",Math.round(Math.min(230,SPAN_I()*0.42))+"px");
+      wantBit=(TL-Math.min(150,SPAN_I()*0.26))>230;
       dcore.style.setProperty("--cw",(CW2*2).toFixed(1)+"px");
       dcore.style.setProperty("--ch",(CR*2).toFixed(1)+"px");
       dcore.style.setProperty("--cx",(CX-CW2).toFixed(1)+"px");
@@ -3283,8 +3329,14 @@ __LOGO_SPRITE__
          200px wide, they all leave the same face, and they are only clear of
          each other once the exit has opened out: five lanes that separate are
          worth more than nine that print over one another on the way out */
-      var np=Math.round(band/80);if(np>6)np=6;if(np<3)np=3;
-      return [ni,np];
+      /* an answer is 40px tall and the lanes are still bunched where it fades
+         up, so the pitch that matters is the one at that point and not the one
+         at the page edge. Past six they print over each other on the way out */
+      var np=Math.round(band/76);if(np>6)np=6;if(np<3)np=3;
+      /* how many ride each intake lane. A third object needs about 900px of run
+         before its third of a cycle is a real gap rather than a tailgate */
+      var per=wantBit?Math.round(SPAN_I()/300):1;if(per<1)per=1;if(per>3)per=3;
+      return [ni,np,per];
     }
 
     /* ---- the curve. n is where a lane sits between the axis and the edge of
@@ -3335,30 +3387,47 @@ __LOGO_SPRITE__
       return pts;
     }
 
-    /* ---- the drifting field ---- */
-    function bob(it){it.amp=it.kind==="p"?2+rngD()*2:3+rngD()*4;it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;}
+    /* ---- the drifting field ----
+       A lane is a conveyor, not a slot. Everything riding one shares its depth
+       layer, so everything on it moves at one speed and the spacing set at build
+       is the spacing for good: that is what lets a lane carry three objects
+       without any of them ever catching another, and it is the only way to get
+       the intake dense enough to read as a firehose rather than a trickle.
+
+       Two kinds go in and two come out, and the contrast between them is the
+       argument. Intake lanes carry their source's mark and that source's raw
+       traffic, set in mono, dim, unedited, the shape it arrives in. Exit lanes
+       carry a written insight and the receipt underneath it. Same lane, both
+       ends: the tool that produced the mess is the tool the answer cites. */
+    function bob(it){
+      it.amp=it.big?3+rngD()*4:2+rngD()*2.5;
+      it.fq=(0.55+rngD()*0.55)*0.001;it.ph=rngD()*6.28;
+    }
     function setLane(it){
-      var n=it.n;
-      it.ye=CY+n*FH*0.8;
-      it.y0=CY+n*(it.kind==="i"?IHALF:PHALF);
-      if(it.kind==="p"){
-        /* an answer is held at zero until the exit has opened far enough to
-           give it its own air, then thrown; the thread back to the face is what
-           says where it came from over that first stretch */
-        it.rd=Math.max(90,PRUN*0.16);
-        it.rr=Math.max(40,Math.min(90,PRUN*0.1));
+      it.ye=CY+it.n*FH*0.8;
+      it.y0=CY+it.n*(it.side<0?IHALF:PHALF);
+      if(it.side>0){
+        /* an answer is held at nothing until the exit has opened far enough to
+           give it its own air. The receipt is smaller and can come out closer in;
+           the thread back to the face is what says where either of them came
+           from over that first stretch */
+        it.rd=(it.big?0.16:0.1)*PRUN;
+        it.rr=Math.max(36,Math.min(90,PRUN*0.1));
         it.rf=Math.max(46,Math.min(110,PRUN*0.18));
       }
       bob(it);
     }
-    function mkIco(li,i,n){
-      var k=ICONS[i%ICONS.length];
-      var el=document.createElement("div");el.className="drift dico ico-"+k;
-      el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+k+'"/></svg>';
-      var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
-      df.appendChild(el);
-      var it={el:el,l:li,kind:"i",n:n,w:46,x:-70+rngD()*(TL+70)};
-      setLane(it);items.push(it);
+    function measureEl(it){
+      it.hw=(it.el.offsetWidth||(it.big?220:120))/2;
+      it.hh=(it.el.offsetHeight||(it.big?40:24))/2;
+    }
+    /* content. Sources are dealt round robin so a lane's mark and a lane's raw
+       traffic are the same tool; answers and receipts are dealt off the top of
+       their decks, never twice at once */
+    function fillRaw(it){
+      var s=SRC[it.src],k=s[1+(it.rq++%(s.length-1))];
+      it.el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+s[0]+'"/></svg><span>'+k+'</span>';
+      measureEl(it);
     }
     function fillPill(it){
       if(it.ai!=null)delete inUse[it.ai];
@@ -3366,92 +3435,126 @@ __LOGO_SPRITE__
       inUse[idx]=1;it.ai=idx;
       var a=ANSW[idx];
       it.el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+a[0]+'"/></svg><span>'+a[1]+'</span><b>'+a[2]+'</b>';
+      measureEl(it);
     }
-    function mkPill(li,n){
-      var el=document.createElement("div");el.className="drift dpill";
-      var L=LAY[li];if(L.b)el.style.filter="blur("+L.b+"px)";
+    function fillFin(it){
+      it.el.innerHTML='<span>'+RFIN[(fIdx++)%RFIN.length]+'</span>';
+      measureEl(it);
+    }
+    function mk(cls,lane,big,kind,q){
+      var el=document.createElement("div");el.className="drift "+cls;
+      var L=LAY[lane.l];if(L.b)el.style.filter="blur("+L.b+"px)";
       df.appendChild(el);
-      var it={el:el,l:li,kind:"p",n:n};
-      fillPill(it);it.w=el.offsetWidth||220;
-      setLane(it);
-      it.x=TR-it.w/2+rngD()*PRUN*0.8;
-      items.push(it);
+      /* q, not a random seed: two fragments riding one lane are on screen at the
+         same time, so they have to start at different places in that source's
+         deck or the lane prints the same line twice */
+      var it={el:el,l:lane.l,n:lane.n,src:lane.s,side:lane.side,big:big,kind:kind,rq:q||0};
+      if(kind==="i"){
+        it.el.classList.add("ico-"+SRC[lane.s][0]);
+        it.el.innerHTML='<svg viewBox="0 0 24 24"><use href="#l-'+SRC[lane.s][0]+'"/></svg>';
+        measureEl(it);
+      }
+      else if(kind==="r")fillRaw(it);
+      else if(kind==="p")fillPill(it);
+      else fillFin(it);
+      setLane(it);items.push(it);
+      return it;
     }
     function build(){
       df.textContent="";items=[];inUse={};
-      var c=wantCounts(),ni=c[0],np=c[1],i;
-      /* one lane per thing, held for its whole life. A lane is a rail that is
-         drawn, so anything sharing one would be riding another object's line */
+      var c=wantCounts(),ni=c[0],np=c[1],per=c[2],i,k,li;
       ILN=[];for(i=0;i<ni;i++)ILN.push(ni<2?0:-1+2*i/(ni-1));
       PLN=[];for(i=0;i<np;i++)PLN.push(np<2?0:-1+2*i/(np-1));
       /* narrow, there is no room to fly an answer: it would be 200px of pill in
          160px of page. The exit still gets its rails and its motes, because a
          funnel with nothing coming out of it is not a funnel */
-      if(!wantPill)np=0;
-      /* the far layers carry the depth, so they get the bulk of the icons; the
-         near layer is the one you actually read, and stays sparse. Lanes are
-         dealt out shuffled, or the blurriest layer takes the top of the band */
-      var iord=[];for(i=0;i<ni;i++)iord.push(i);
-      for(i=iord.length-1;i>0;i--){var j=(rngD()*(i+1))|0,tv=iord[i];iord[i]=iord[j];iord[j]=tv;}
-      var pord=[];for(i=0;i<np;i++)pord.push(i);
-      for(i=pord.length-1;i>0;i--){var j2=(rngD()*(i+1))|0,tv2=pord[i];pord[i]=pord[j2];pord[j2]=tv2;}
-      var split=[Math.round(ni*0.30),Math.round(ni*0.33)];split.push(ni-split[0]-split[1]);
-      /* the answers are the payoff, so they sit forward: most of them on the
-         near layer, where they are legible, and only one or two set back */
-      var psplit=np?[Math.round(np*0.2),Math.round(np*0.3)]:[0,0];
-      if(np)psplit.push(np-psplit[0]-psplit[1]);else psplit.push(0);
-      var icoN=0,ic=0,pc=0;
-      for(var li=0;li<3;li++){
-        for(i=0;i<split[li];i++)mkIco(li,icoN++,ILN[iord[ic++]]);
-        for(i=0;i<psplit[li];i++)mkPill(li,PLN[pord[pc++]]);
+      var doPill=wantPill;
+      /* the far layers carry the depth and the near one is what you actually
+         read. Lanes are dealt a layer shuffled, or the blurriest would take the
+         top of the band every time and the field would be lit like a staircase */
+      function deal(nl,w0,w1){
+        var a=[],n0=Math.round(nl*w0),n1=Math.round(nl*w1),j,tv;
+        for(j=0;j<nl;j++)a.push(j<n0?0:j<n0+n1?1:2);
+        for(j=a.length-1;j>0;j--){var q=(rngD()*(j+1))|0;tv=a[j];a[j]=a[q];a[q]=tv;}
+        return a;
+      }
+      var ilay=deal(ni,0.30,0.33),play=deal(np,0.16,0.26);
+      /* intake: the mark, then that source's raw traffic behind it, spaced a
+         whole cycle over the number riding the lane */
+      var span=SPAN_I();
+      for(i=0;i<ni;i++){
+        var lane={n:ILN[i],l:ilay[i],s:i%SRC.length,side:-1};
+        var ph=rngD();
+        for(k=0;k<per;k++){
+          var it=mk(k?"dbit":"dico",lane,!k,k?"r":"i",k-1);
+          it.cx=IX0+(((k/per+ph)%1))*span;
+        }
+      }
+      if(doPill){
+        var pspan=SPAN_P();
+        for(i=0;i<np;i++){
+          var pl={n:PLN[i],l:play[i],s:i%SRC.length,side:1};
+          var pph=rngD();
+          for(k=0;k<2;k++){
+            var pt=mk(k?"dfin":"dpill",pl,!k,k?"f":"p");
+            pt.cx=TR+(((k/2+pph)%1))*pspan;
+          }
+        }
       }
       buildRails();
     }
-    function respawn(it){
+    function SPAN_I(){return TL-IX0;}
+    function SPAN_P(){return Math.max(1,W+40-TR);}
+    /* wrapping by subtracting exactly one cycle, never by reseeding a position:
+       the overshoot carries across, so a lane that started evenly spaced stays
+       evenly spaced for as long as the page is open */
+    function recycle(it){
+      if(it.side<0){it.cx-=SPAN_I();if(it.kind==="r")fillRaw(it);}
+      else{it.cx-=SPAN_P();if(it.kind==="p")fillPill(it);else fillFin(it);}
       setLane(it);
-      if(it.kind==="i")it.x=-66-rngD()*Math.max(180,TL*0.7);
-      else{
-        /* the setback is dead time behind the core, where alpha is still 0: it
-           staggers answers that would otherwise leave together */
-        fillPill(it);it.w=it.el.offsetWidth||it.w;
-        it.x=TR-it.w/2-rngD()*Math.max(60,PRUN*0.35);
-      }
     }
     function alphaOf(it,cx){
       var rise,fall,S=LAY[it.l].s;
-      if(it.kind==="i"){
-        rise=(cx+34)/96;
-        fall=(TL-cx)/Math.max(40,Math.min(150,(TL-X0)*0.26));
+      if(it.side<0){
+        /* a fragment is measured off its trailing edge, not its centre: 220px of
+           text fading up around its middle is half off the page while it does
+           it, and half a printed line reads as broken rather than as arriving.
+           A mark is 46px square and has nothing to truncate, so it keeps the
+           short centre fade and arrives solid. On a narrow stage that is the
+           difference between an intake and an empty strip */
+        rise=it.kind==="r"?(cx-it.hw*S+10)/115:(cx-IX0-40)/96;
+        fall=(TL-cx)/Math.max(40,Math.min(150,SPAN_I()*0.26));
       }else{
         rise=(cx-TR-it.rd)/it.rr;
-        fall=(W-14-(it.x+it.w/2+it.w*S/2))/it.rf;
+        fall=(W-14-(cx+it.hw*S))/it.rf;
       }
       var o=rise<fall?rise:fall;return o<0?0:o>1?1:o;
     }
     function stepItems(t,dt){
       glowK*=Math.exp(-dt/0.45);
       for(var i=0;i<items.length;i++){
-        var it=items[i],L=LAY[it.l],cx,u,y;
-        it.x+=SPEED*L.v*dt;
-        if(it.kind==="i"){
-          cx=it.x+23;
-          if(cx>=TL){
-            glowK=Math.min(1,glowK+0.08+0.14*L.a);
-            if(rings.length<5&&L.a>0.4)rings.push({t:t,a:L.a});
-            respawn(it);cx=it.x+23;
+        var it=items[i],L=LAY[it.l],u,y;
+        it.cx+=SPEED*L.v*dt;
+        if(it.side<0){
+          if(it.cx>=TL){
+            /* only the marks ring the core. Every fragment doing it made one
+               continuous flare instead of a beat */
+            if(it.kind==="i"){
+              glowK=Math.min(1,glowK+0.1+0.16*L.a);
+              if(rings.length<5&&L.a>0.4)rings.push({t:t,a:L.a});
+            }else glowK=Math.min(1,glowK+0.03*L.a);
+            recycle(it);
           }
-          u=inU(cx);
+          u=inU(it.cx);
           y=it.ye+(it.y0-it.ye)*(1-u*u)+Math.sin(t*it.fq+it.ph)*it.amp*(1-u*0.9);
-          it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+(y-23).toFixed(1)+"px,0) scale("+L.s+")";
         }else{
-          if(it.x+it.w/2+it.w*L.s/2>=W-6){respawn(it);}
-          cx=it.x+it.w/2;
-          u=outV(cx);
+          if(it.cx+it.hw*L.s>=W-6)recycle(it);
+          u=outV(it.cx);
           y=it.ye+(it.y0-it.ye)*u*(2-u)+Math.sin(t*it.fq+it.ph)*it.amp*(0.2+0.8*u);
-          it.el.style.transform="translate3d("+it.x.toFixed(1)+"px,"+(y-20).toFixed(1)+"px,0) scale("+L.s+")";
         }
         it.p=u;it.cy=y;
-        it.el.style.opacity=(alphaOf(it,cx)*L.a*(it.kind==="i"?M_ICO:M_PIL)).toFixed(3);
+        it.el.style.transform="translate3d("+(it.cx-it.hw).toFixed(1)+"px,"+(y-it.hh).toFixed(1)+"px,0) scale("+L.s+")";
+        it.el.style.opacity=(alphaOf(it,it.cx)*L.a*(it.side<0?M_ICO:M_PIL)).toFixed(3);
       }
     }
 
@@ -3595,15 +3698,15 @@ __LOGO_SPRITE__
          line that says this thing came out of that hexagon */
       for(i=0;i<items.length;i++){var it=items[i],S=LAY[it.l].s;
         if(it.p==null)continue;
-        if(it.kind==="i"){
+        if(it.side<0){
           if(it.p<=0.45)continue;
           a=(it.p-0.45)/0.55*0.17*LAY[it.l].a*M_ICO;
           g.strokeStyle="rgba(150,196,255,"+a.toFixed(3)+")";
-          g.beginPath();g.moveTo(it.x+23+23*S,it.cy);g.lineTo(CX-CW2,it.ye);g.stroke();
+          g.beginPath();g.moveTo(it.cx+it.hw*S,it.cy);g.lineTo(CX-CW2,it.ye);g.stroke();
         }else if(it.p<0.46){
           a=(1-it.p/0.46)*0.15*LAY[it.l].a*M_PIL;
           g.strokeStyle="rgba(150,196,255,"+a.toFixed(3)+")";
-          g.beginPath();g.moveTo(CX+CW2,it.ye);g.lineTo(it.x+it.w/2-it.w*S/2,it.cy);g.stroke();
+          g.beginPath();g.moveTo(CX+CW2,it.ye);g.lineTo(it.cx-it.hw*S,it.cy);g.stroke();
         }}
       /* the core's own light. The hexagon over it is opaque, so this can be a
          fill and not the halo it had to be when the copy was the core */
@@ -3634,7 +3737,7 @@ __LOGO_SPRITE__
     var lastKey="";
     function relayout(force){
       measure();
-      var c=wantCounts(),key=W+"x"+H+"|"+stacked+"|"+Math.round(TOP)+"|"+Math.round(BOT)+"|"+c[0]+"|"+c[1];
+      var c=wantCounts(),key=W+"x"+H+"|"+stacked+"|"+Math.round(TOP)+"|"+Math.round(BOT)+"|"+c[0]+"|"+c[1]+"|"+c[2];
       if(!force&&key===lastKey)return;
       lastKey=key;csize();buildHex();build();
       if(REDUCE.matches||!draf)dstill();

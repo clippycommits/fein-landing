@@ -33,11 +33,14 @@
     --bg:#000000; --bg-2:#0a0a0c; --bg-3:#101014;
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
-    /* the outline of a form control, held to the 3:1 WCAG 1.4.11 asks of it
-       against the control's own fill. --line reads 1.22:1 on --bg-2, --line-2
-       1.52:1; .36 is 3.25:1 there and .5 the hover above it. The decorative
+    /* the outline of a form control, held to the 3:1 WCAG 1.4.11 asks against
+       *every* adjacent colour. Here the outline is an outer box-shadow, which is
+       clipped to outside the border box, so it composites on the page (#000) and
+       has the --bg-2 field fill on its inside edge: .36 was 3.13:1 against the
+       page but 2.95:1 against the fill. .38 is 3.39:1 and 3.19:1, matching the
+       token in fein.tpl.html. .5 is the hover above it, and the decorative
        hairlines stay on --line/--line-2 */
-    --line-ctl:rgba(255,255,255,.36); --line-ctl-2:rgba(255,255,255,.5);
+    --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
     --blue:#0070F3; --blue-l:#52A8FF;
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
