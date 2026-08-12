@@ -400,7 +400,13 @@
      The row is quiet outlines and the answer is the one filled object on the
      page, so the eye goes to the output. There is no accent in here beyond the
      logos and a single struck fact; the blue belongs to the rest of the site. */
-  .ah-fig{position:relative;margin-top:clamp(1.5rem,3.2vh,2.4rem)}
+  .ah-fig{position:relative;margin-top:clamp(1.3rem,2.8vh,2.2rem)}
+  /* the hero copy is set to a reading measure and the picture is not: both are
+     centred on the same axis, but the documents, the box and the four claims
+     under them break out of .wrap into a column of their own */
+  /* widened with margins rather than a transform: the hero's entrance animates
+     translate on every child of .wrap, and a keyframe beats a static property */
+  .hero-lead .ah-fig,.hero-lead .ah-proof{--fw:min(1120px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--fw);margin-left:calc((100% - var(--fw)) / 2)}
   /* the inflow. Five documents, five runs into the top edge of the box, drawn
      in the ground's own grey rather than an accent: the point is the direction
      of travel, and a coloured line would be the loudest thing on the fold */
@@ -410,24 +416,24 @@
   .ah-wires circle{fill:rgba(255,255,255,.5)}
   /* the documents: outlines, not objects. They are what fein read, and the
      thing worth looking at is what it said back */
-  .ah-srcs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(.4rem,.8vw,.6rem);list-style:none;width:min(920px,100%);margin:0 auto;padding:0}
-  .ah-src{display:grid;grid-template-columns:20px minmax(0,1fr);gap:.5rem;align-items:center;padding:.6rem .7rem;border:1px solid var(--line);border-radius:9px;text-align:left;transition:border-color .35s ease,background .35s ease,opacity .5s ease,translate .5s cubic-bezier(.22,.61,.36,1)}
+  .ah-srcs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(.4rem,.85vw,.68rem);list-style:none;width:100%;margin:0;padding:0}
+  .ah-src{display:grid;grid-template-columns:20px minmax(0,1fr);gap:.55rem;align-items:center;padding:.66rem .8rem;border:1px solid var(--line);border-radius:9px;text-align:left;transition:border-color .35s ease,background .35s ease,opacity .5s ease,translate .5s cubic-bezier(.22,.61,.36,1)}
   .ah-src .tlogo{width:14px;height:14px;justify-self:center;opacity:.85;transition:opacity .35s ease}
-  .ah-src b{display:block;font-size:.76rem;font-weight:500;line-height:1.25;letter-spacing:-.01em;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ah-src em{display:block;font-style:normal;font-size:.7rem;color:#5f636b;margin-top:.08rem}
+  .ah-src b{display:block;font-size:.79rem;font-weight:500;line-height:1.25;letter-spacing:-.01em;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ah-src em{display:block;font-style:normal;font-size:.72rem;color:#5f636b;margin-top:.08rem}
   /* a document lights while the claim it wrote is landing, and again when the
      reader hovers that claim. That is the whole wiring diagram */
   .ah-src.hot{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.035)}
   .ah-src.hot b{color:#fff}
   .ah-src.hot .tlogo{opacity:1}
 
-  .ask--hero{width:min(920px,100%);margin:clamp(3.6rem,7.4vh,5.2rem) auto 0;position:relative;z-index:1;text-align:left;border-color:var(--line-2);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95)}
+  .ask.ask--hero{width:100%;margin:clamp(3.2rem,6.6vh,4.6rem) 0 0;position:relative;z-index:1;text-align:left;border-color:var(--line-2);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95)}
   /* the question is chosen inside the product: three jobs a firm actually has,
      each answered out of a different handful of the same documents */
   .ask--hero .ask-q{font-size:clamp(1rem,1.5vw,1.13rem)}
-  .ask--hero .ask-a{font-size:clamp(.98rem,1.35vw,1.04rem);line-height:1.58;min-height:9.4em}
+  .ask--hero .ask-a{font-size:clamp(.98rem,1.35vw,1.04rem);line-height:1.58;min-height:7.6em}
   .ask--hero .cl{display:block;padding-left:.95rem;text-indent:-.95rem;cursor:default}
-  .ask--hero .cl + .cl{margin-top:.6rem}
+  .ask.ask--hero .cl + .cl{margin-top:.52rem}
   .ask--hero .cl::before{content:"";display:inline-block;width:3px;height:3px;margin:0 .62rem .2rem 0;border-radius:50%;background:rgba(255,255,255,.3);text-indent:0}
   /* a fact fein has retired: struck and dated for the same reason it is struck
      and dated in the graph */
@@ -438,10 +444,10 @@
 
 
   /* four things the picture above has just demonstrated, said plainly */
-  .ah-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1rem,2.4vw,2.2rem);list-style:none;margin:clamp(2.2rem,4.5vh,3.2rem) 0 0;padding:clamp(1.4rem,2.6vh,1.9rem) 0 0;border-top:1px solid var(--line);text-align:left}
+  .ah-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.2rem,3vw,2.8rem);list-style:none;margin:clamp(2.4rem,5vh,3.6rem) 0 0;position:relative;padding:clamp(1.5rem,2.8vh,2.1rem) 0 0;border-top:1px solid var(--line);text-align:left}
   .ah-proof b{display:flex;align-items:center;gap:.4rem;font-size:.92rem;font-weight:550;letter-spacing:-.012em;color:#fff}
   .ah-proof .tlogo{width:14px;height:14px}
-  .ah-proof span{display:block;margin-top:.3rem;font-size:.87rem;line-height:1.45;color:var(--fg-3);text-wrap:pretty}
+  .ah-proof span{display:block;margin-top:.34rem;font-size:.88rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
 
   /* the sequence: nothing is removed from the page, only held back */
   .ah-fig.armed .ah-src{opacity:0;translate:0 6px}
@@ -470,6 +476,8 @@
     /* stacked, the documents sit in two columns and the runs would cross each
        other on the way down. The citation on each claim is doing the work */
     .ah-wires{display:none}
+    /* the gap above the box was room for the runs, and there are none here */
+    .ask.ask--hero{margin-top:1.6rem}
     .ah-srcs{grid-template-columns:repeat(2,minmax(0,1fr))}
     .ah-src:last-child{grid-column:span 2}
     .ah-fig{margin-top:1.8rem}
@@ -656,19 +664,19 @@
   .fig--mid .fig-after{text-align:center}
   .fig--mid .fig-after span{margin-inline:auto}
   .ask{width:min(860px,100%);margin-inline:auto;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
-  .ask-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
+  .ask-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
   .ask-bar .mag{width:16px;height:16px;flex:none;color:var(--fg-3);fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
   .ask-q{font-size:1.02rem;font-weight:550;color:#fff;letter-spacing:-.014em}
   .ask-caret{display:inline-block;width:.46em;height:1.02em;margin-left:2px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
   .ask-in{margin-left:auto;display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:var(--dim);white-space:nowrap}
   .ask-in .tlogo{width:15px;height:15px}
-  .ask-a{padding:1.1rem 16px 1.15rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left}
+  .ask-a{padding:.95rem 20px 1.05rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left}
   .ask-a b{color:#fff;font-weight:600}
   /* the citation is the product, so it is a real object in the sentence rather
      than a footnote number the reader has to go and look up */
   .cite{display:inline-flex;align-items:center;gap:.26rem;text-indent:0;margin:0 0 0 .22rem;padding:.06rem .3rem;translate:0 -1px;border:1px solid var(--line);border-radius:5px;background:rgba(255,255,255,.03);font-size:.69rem;color:var(--fg-3);white-space:nowrap;vertical-align:middle}
   .cite .tlogo{width:11px;height:11px;flex:none;opacity:.85}
-  .ask-f{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .5rem;padding:.72rem 16px;border-top:1px solid var(--line);font-size:.79rem;color:var(--dim)}
+  .ask-f{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .5rem;padding:.68rem 20px;border-top:1px solid var(--line);font-size:.79rem;color:var(--dim)}
   .ask-f .tlogo{width:12px;height:12px;opacity:.8}
   .ask-f b{margin-left:auto;font-weight:400;color:#5f636b}
   /* stacked, the two panels are one column: there is no gap for a wire to run
@@ -805,7 +813,7 @@
      and the fixed bar. the clamp above that is what the fold spends on air, and
      it gave back a third of itself when the ribbon took the top 48px, so the
      copy block lands where it did before rather than 48px lower. */
-  .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(1.5rem,3.6vh,3rem));padding-bottom:clamp(3rem,7vh,5rem)}
+  .cta-dark.hero-lead{min-height:100vh;min-height:100svh;padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(1.3rem,3vh,2.6rem));padding-bottom:clamp(3rem,7vh,5rem)}
   /* the burst is drawn to its own box and flares at the foot of it, so the
      canvas keeps one screen while the section grows past it. Without this the
      light walks off the fold the moment the picture is added */
