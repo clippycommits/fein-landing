@@ -1469,6 +1469,15 @@
   .fn-quote figcaption b{font-weight:450;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .fn-quote figcaption em{font-style:normal;flex:none}
   .fn-quote figcaption em::before{content:"\00b7";margin-right:.45rem}
+  /* the chips in the sentence are the other way in, so they have to look reachable
+     without becoming buttons. The border lifts to the one the panels already use
+     for an edge you can act on, and the date goes white. No underline, no pointer
+     cursor: nothing is navigated, the document is quoted in place. */
+  .lead-p .cite{transition:border-color .18s ease,color .18s ease,background-color .18s ease}
+  .lead-p .cite:hover{border-color:var(--line-2);background:rgba(255,255,255,.055);color:var(--fg)}
+  /* a claim that has not landed yet is transparent, and a transparent chip is still
+     a hover target, so it is taken out of the pointer's reach until it arrives */
+  .lead-stage.armed .lead-p .cl:not(.in){pointer-events:none}
   /* the hovered row reads like a lit one without borrowing .hot, which the
      animation owns and would fight over */
   .fn-src.peek .tlogo{opacity:1}
@@ -2108,23 +2117,23 @@ __LOGO_SPRITE__
                  this afternoon superseded it, and the record had already read that
                  message. Rail row 3 is that thread, which is why data-d gains it. -->
             <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2,3">
-            <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
-            <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
-            <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
-            <span class="cl"><b>This changed four hours ago:</b> Dev offered that introduction again in #dealflow<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Today 14:16</span>, so the path is open today and not two years old.</span>
+            <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
+            <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>This changed four hours ago:</b> Dev offered that introduction again in #dealflow<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Today 14:16</span>, so the path is open today and not two years old.</span>
             </p>
 
             <p class="ask-a lead-p" data-q="What changed since we passed on Halo Compute?" data-d="2,1,5,6" hidden>
-            <span class="cl"><b>Four things.</b> You saw a $4M seed<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>,</span>
-            <span class="cl">and it is a $30M Series A now with six design partners live<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
-            <span class="cl">They hired a <b>VP Engineering</b> out of Databricks<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span>,</span>
-            <span class="cl">and Marcus moved it to IC in July<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
+            <span class="cl"><b>Four things.</b> You saw a $4M seed<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>,</span>
+            <span class="cl">and it is a $30M Series A now with six design partners live<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">They hired a <b>VP Engineering</b> out of Databricks<span class="cite" data-s="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span>,</span>
+            <span class="cl">and Marcus moved it to IC in July<span class="cite" data-s="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
             </p>
 
             <p class="ask-a lead-p" data-q="Who on the team has the warmest path in?" data-d="2,3,4" hidden>
-            <span class="cl"><b>Dev Raman</b> made the introduction and still co-invests<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
-            <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
-            <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
+            <span class="cl"><b>Dev Raman</b> made the introduction and still co-invests<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
+            <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
             </p>
 
             <!-- what a source actually says, on hover. It reads into the pane rather
@@ -5237,6 +5246,30 @@ __LOGO_SPRITE__
     if(row) lift(row);
   });
   rail.addEventListener('mouseleave',drop);
+
+  /* the citations in the sentence do the same thing, which is the more useful of
+     the two: the chip is where a reader's doubt actually lands. "Nobody here has
+     met the founders since the coffee in 2024" is a claim, and the chip beside it
+     is the offer to check. Hovering it quotes the coffee.
+
+     Each chip carries the row it cites in data-s rather than being matched on the
+     date it prints, and it resolves to the row so the panel is filled by the same
+     one function. The row lights at the same time, so hovering a claim in the pane
+     also points at the document in the rail: the tie the fold argues for, drawn
+     from the other end.
+
+     Leave is bound to the pane and not to the chip, so crossing from one chip to
+     the next does not blink, and the quote holds while the sentence is read. */
+  var pane=stage.querySelector('.app-main');
+  if(pane){
+    pane.addEventListener('mouseover',function(ev){
+      var chip=ev.target&&ev.target.closest?ev.target.closest('.lead-p .cite[data-s]'):null;
+      if(!chip) return;
+      var row=rail.querySelector('.fn-src[data-d="'+chip.getAttribute('data-s')+'"]');
+      if(row) lift(row);
+    });
+    pane.addEventListener('mouseleave',drop);
+  }
 })();
 
 /* stat count-up on scroll (preserves prefix/commas/suffix); reduced-motion shows final */
