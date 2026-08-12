@@ -1223,7 +1223,12 @@
      the section's own scroll-margin-top clears the nav by a further 18px, and
      that is the position a reader who scrolls to the film actually stops at. */
   #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-air:1.1rem;--film-gutter:min(4vw,4.5rem);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
-  .demo-intro{text-align:center;max-width:46rem}
+  /* the band reads left, not centred. It now sits directly under the fold, and
+     two centred screens running made the second read as a repeat of the first
+     rather than as the next beat. Left is also the measure every other band
+     heading on the page is set to, so the film is the odd one out no longer. */
+  .demo-intro{text-align:left;max-width:var(--maxw)}
+  .demo-intro .demo-lead{margin-inline:0;max-width:52ch}
   /* the heading and the lead used to step down on a short window as well as a
      narrow one, because a 1440x760 laptop had to give the film its inches back
      out of the type. The film no longer takes them from here, so both are set
@@ -1246,12 +1251,10 @@
      authored two-line break. It costs a line or two of height under the
      headline; that is the trade for a line the eye can track. */
   .demo-lead{margin-top:.95rem;color:var(--fg-2);font-size:var(--demo-lead-size);line-height:1.5;max-width:33.5rem;margin-inline:auto;text-wrap:pretty}
-  /* the heading's measure: it sets to 874px at 3.3rem against 62rem, and the
-     118px left over is the margin that keeps it on two lines. Under 861px the
-     block falls back to 46rem and the heading steps down with the window. */
-  @media (min-width:861px){
-    .demo-intro{max-width:min(62rem,88vw)}
-  }
+  /* the heading used to be narrowed to 62rem so a centred line broke in two at
+     the authored place. Set left against the page measure it needs no such
+     help: it runs from the same left edge as the nav and wraps where the
+     window says, so the old width step has gone rather than sitting dead. */
   /* the frame and the rail under it are one object and share one width, so the
      measurement lives here and both read it */
   /* ---- how big the film is: theatre, not thumbnail ----
@@ -1454,7 +1457,7 @@
      the page to ask and the wrong one to whisper. It sits under a rail of
      hairlines and a picture that grades to black, so a ghost button here is the
      one object on screen with nothing to separate it from the page. */
-  .demo-act{display:flex;justify-content:center;align-items:center;gap:1.15rem;margin-top:clamp(1.7rem,3.2vw,2.35rem);padding:0 24px}
+  .demo-act{display:flex;justify-content:flex-start;align-items:center;gap:1.15rem;margin-top:clamp(1.7rem,3.2vw,2.35rem);padding:0 24px}
 .demo-intro .demo-act{margin-top:clamp(1.15rem,2vw,1.6rem);padding:0}
   .demo-act .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
 
@@ -1558,15 +1561,7 @@ __LOGO_SPRITE__
     <div class="grain-overlay on-dark"></div>
     <div class="burst-hold" aria-hidden="true"><canvas id="burst"></canvas><canvas id="burstfx"></canvas></div>
     <div class="topshell" id="topshell">
-    <div class="ribbon" id="ribbon">
-      <a class="rb-msg" href="#how">
-        <span class="rb-txt"><span class="rb-pre">See how </span>fein answers in Claude, ChatGPT, and Cursor</span>
-        <span class="arw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12.5 6L19 12l-6.5 6"/></svg></span>
-      </a>
-      <button class="rb-x" type="button" id="rbclose" aria-label="Dismiss announcement">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg>
-      </button>
-    </div>
+    
     <header>
       <div class="bar">
         <a class="brand" href="#home" aria-label="fein home">fein</a>
@@ -1652,7 +1647,7 @@ __LOGO_SPRITE__
     </div>
 
     <div class="wrap" id="content" tabindex="-1">
-      <a class="hpill" href="#features"><span><span class="hp-pre">fein 1.0: </span>deal memory, warm intros, and more</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg></span></a>
+      
       <h1>A state of the art memory layer. Purpose built for investors.</h1>
       <p>fein reads every founder email, LP update, call note, and board deck across the tools you already use and connects the dots. Ask about any company, person, or fund: who talked to them, what was said, what changed.</p>
       <div class="hero-actions">
@@ -1720,32 +1715,6 @@ __LOGO_SPRITE__
 
   </section>
 
-  <!-- The four claims the picture above has just demonstrated. They sit in a
-       section of their own so they begin where the hero's screen ends: inside
-       it they were competing with the answer for the same eyeline. Same black
-       ground, no rule, so the page does not look joined. -->
-  <section id="proof" class="proofband" aria-label="What fein gives you">
-    <div class="ah-wrap">
-    <ul class="ah-proof">
-      <li>
-        <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
-        <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
-      </li>
-      <li>
-        <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
-        <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
-      </li>
-      <li>
-        <b>Every claim cited</b>
-        <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
-      </li>
-      <li>
-        <b>Nothing is deleted</b>
-        <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
-      </li>
-    </ul>
-    </div>
-  </section>
 
   <section id="demo" class="band" aria-labelledby="demo-h">
     <div class="wrap demo-intro">
@@ -1826,6 +1795,143 @@ __LOGO_SPRITE__
       </figcaption>
     </figure>
   </section>
+
+
+  <!-- The four claims the picture above has just demonstrated. They sit in a
+       section of their own so they begin where the hero's screen ends: inside
+       it they were competing with the answer for the same eyeline. Same black
+       ground, no rule, so the page does not look joined. -->
+  <section id="proof" class="proofband" aria-label="What fein gives you">
+    <div class="ah-wrap">
+    <ul class="ah-proof">
+      <li>
+        <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
+        <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
+      </li>
+      <li>
+        <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
+        <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
+      </li>
+      <li>
+        <b>Every claim cited</b>
+        <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
+      </li>
+      <li>
+        <b>Nothing is deleted</b>
+        <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
+      </li>
+    </ul>
+    </div>
+  </section>
+
+
+  <!-- FEATURES: one claim, one sentence, one mock -->
+  <section id="features" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>One system of record. The same answer to any question, for anyone on the team.</h2>
+        <p class="lead">fein answers from your team's history in seconds.</p>
+      </div>
+      <div class="feats">
+        <div class="feat reveal" id="f-warm">
+          <div class="feat-copy">
+            <h3>Your team already has the introduction you need.</h3>
+            <p>Ask for the warmest path to a founder or an LP. fein reads the real graph of who meets and emails whom. It weighs each hop. It names the best person to make the introduction. This is not only the person who knows them.</p>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-title">Paths to Clara Voss</div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Marc Weber</b> · two hops, via Priya</span><b class="mtag">Warm</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> · not recommended</span><b class="mtag dim">Cold</b></div>
+          </div>
+        </div>
+        <div class="feat reveal" id="f-brief">
+          <div class="feat-copy">
+            <h3>Get a brief before each meeting.</h3>
+            <p>fein shows the attendees, how you know each of them, and what was open. It gets this from your calendar and inbox. It is on your screen before the meeting starts.</p>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-title">9:00 · Meridian follow-on</div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Clara Voss</b> · 12 threads · owes you the data room</span><b class="mtag">Founder</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · joining from your side</span><b class="mtag">Partner</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, parked on the last call</span><b class="mtag strong">Prep</b></div>
+          </div>
+        </div>
+        <div class="feat reveal" id="f-pass">
+          <div class="feat-copy">
+            <h3>Ask one question to see why you passed.</h3>
+            <p>A company can come back for its next round. Then fein shows the meeting, the memo, and the exact reason in seconds. It traces each line to its source document.</p>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-title">Meridian · first seen March 2024</div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gdrive"/></svg><span><b>Passed</b> · single-customer risk, memo p.2</span><b class="mtag">Memo</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Who met them</b> · Anna, twice, April 2024</span><b class="mtag">Meetings</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>What changed</b> · three new logos since</span><b class="mtag strong">Update</b></div>
+          </div>
+        </div>
+        <div class="feat reveal" id="f-cold">
+          <div class="feat-copy">
+            <h3>Relationships go cold. fein sees it first.</h3>
+            <p>fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.</p>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-title">Going quiet</div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Jonas Keller</b> · every 10 days · three weeks silent</span><b class="mtag strong">Flag</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Priya Shah</b> · monthly · six weeks silent</span><b class="mtag strong">Flag</b></div>
+            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Tom Aldridge</b> · quarterly · on cadence</span><b class="mtag dim">OK</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THE FILM: the whole argument at speed, before the slow version of it.
+
+       Three sources, narrowest acceptable format first. The AV1 line carries a
+       full codecs string rather than a bare video/webm, and that is load
+       bearing: Safari has taken WebM since 14.1 but only decodes AV1 on recent
+       Apple silicon, so on a bare type it would answer "maybe", win the
+       cascade, and then fail to paint. Spelling the codec out makes it say no
+       and fall through to the H.264 line, which every browser can play. The
+       720p cut is not listed here; the script swaps it in for small screens
+       before anything is fetched, since preload is none. -->
+
+  <!-- HOW IT WORKS: the hero sells the outcome, so this section owns the mechanism.
+       A whole viewport of it. The figure is no longer a framed widget under the
+       copy: the copy stands inside the figure, and it is what the flow converges
+       on, which is why there is no hexagon in the middle any more. The three
+       steps are anchored under the three zones they name and light them.
+
+       Zone order is load-bearing in three places at once — the label row, the
+       field's left-to-right flow, and the step row. Renumber one and renumber
+       all three, and keep each step's data-zone matching its 0N prefix. -->
+  <section id="how" class="band stagesec">
+    <div class="stage" id="dlive">
+      <div class="dscene" role="img" aria-label="Diagram: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) flow in from the left. fein resolves them into one graph at the center. Sourced answers fan out on the right to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
+        <!-- the label on the wrapper is the whole description; role="img" does
+             not prune a subtree in practice, so without these the drifting
+             answer pills get read out one by one as they recycle -->
+        <canvas id="dcanvas" aria-hidden="true"></canvas>
+        <div class="dfield" id="dfield" aria-hidden="true"></div>
+      </div>
+      <div class="stage-grid">
+        <div class="dband" aria-hidden="true"></div>
+        <div class="stage-mid">
+          <div class="head stage-head reveal" id="dhead">
+            <h2>Memory that understands when things change.</h2>
+            <p class="sub">Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
+          </div>
+        </div>
+        <div class="why3 stage-why3" data-reveal-group="90">
+          <div class="wcard reveal" data-zone="1"><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
+          <div class="wcard reveal" data-zone="2"><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
+          <div class="wcard reveal" data-zone="3"><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- WHAT CHANGED: three figures, in order, each one a thing fein does.
 
@@ -2032,6 +2138,7 @@ __LOGO_SPRITE__
     </div>
   </section>
 
+
   <!-- WHAT THE ASSISTANTS GET: the objection every reader arrives with, answered
        as a promise rather than as a defence. It sits after the figures because
        by then the reader has seen a fact filed and a fact retired, which is the
@@ -2071,112 +2178,6 @@ __LOGO_SPRITE__
     </div>
   </section>
 
-  <!-- THE FILM: the whole argument at speed, before the slow version of it.
-
-       Three sources, narrowest acceptable format first. The AV1 line carries a
-       full codecs string rather than a bare video/webm, and that is load
-       bearing: Safari has taken WebM since 14.1 but only decodes AV1 on recent
-       Apple silicon, so on a bare type it would answer "maybe", win the
-       cascade, and then fail to paint. Spelling the codec out makes it say no
-       and fall through to the H.264 line, which every browser can play. The
-       720p cut is not listed here; the script swaps it in for small screens
-       before anything is fetched, since preload is none. -->
-
-  <!-- HOW IT WORKS: the hero sells the outcome, so this section owns the mechanism.
-       A whole viewport of it. The figure is no longer a framed widget under the
-       copy: the copy stands inside the figure, and it is what the flow converges
-       on, which is why there is no hexagon in the middle any more. The three
-       steps are anchored under the three zones they name and light them.
-
-       Zone order is load-bearing in three places at once — the label row, the
-       field's left-to-right flow, and the step row. Renumber one and renumber
-       all three, and keep each step's data-zone matching its 0N prefix. -->
-  <section id="how" class="band stagesec">
-    <div class="stage" id="dlive">
-      <div class="dscene" role="img" aria-label="Diagram: your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) flow in from the left. fein resolves them into one graph at the center. Sourced answers fan out on the right to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
-        <!-- the label on the wrapper is the whole description; role="img" does
-             not prune a subtree in practice, so without these the drifting
-             answer pills get read out one by one as they recycle -->
-        <canvas id="dcanvas" aria-hidden="true"></canvas>
-        <div class="dfield" id="dfield" aria-hidden="true"></div>
-      </div>
-      <div class="stage-grid">
-        <div class="dband" aria-hidden="true"></div>
-        <div class="stage-mid">
-          <div class="head stage-head reveal" id="dhead">
-            <span class="eyebrow">How it works</span>
-            <h2>Memory that understands when things change.</h2>
-            <p class="sub">Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
-          </div>
-        </div>
-        <div class="why3 stage-why3" data-reveal-group="90">
-          <div class="wcard reveal" data-zone="1"><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
-          <div class="wcard reveal" data-zone="2"><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
-          <div class="wcard reveal" data-zone="3"><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES: one claim, one sentence, one mock -->
-  <section id="features" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <h2>Four questions your team asks every week.</h2>
-        <p class="lead">fein answers each one from your team's history in seconds.</p>
-      </div>
-      <div class="feats">
-        <div class="feat reveal" id="f-warm">
-          <div class="feat-copy">
-            <h3>Your team already has the introduction you need.</h3>
-            <p>Ask for the warmest path to a founder or an LP. fein reads the real graph of who meets and emails whom. It weighs each hop. It names the best person to make the introduction. This is not only the person who knows them.</p>
-          </div>
-          <div class="mock" aria-hidden="true">
-            <div class="mock-title">Paths to Clara Voss</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Marc Weber</b> · two hops, via Priya</span><b class="mtag">Warm</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> · not recommended</span><b class="mtag dim">Cold</b></div>
-          </div>
-        </div>
-        <div class="feat reveal" id="f-brief">
-          <div class="feat-copy">
-            <h3>Get a brief before each meeting.</h3>
-            <p>fein shows the attendees, how you know each of them, and what was open. It gets this from your calendar and inbox. It is on your screen before the meeting starts.</p>
-          </div>
-          <div class="mock" aria-hidden="true">
-            <div class="mock-title">9:00 · Meridian follow-on</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Clara Voss</b> · 12 threads · owes you the data room</span><b class="mtag">Founder</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · joining from your side</span><b class="mtag">Partner</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, parked on the last call</span><b class="mtag strong">Prep</b></div>
-          </div>
-        </div>
-        <div class="feat reveal" id="f-pass">
-          <div class="feat-copy">
-            <h3>Ask one question to see why you passed.</h3>
-            <p>A company can come back for its next round. Then fein shows the meeting, the memo, and the exact reason in seconds. It traces each line to its source document.</p>
-          </div>
-          <div class="mock" aria-hidden="true">
-            <div class="mock-title">Meridian · first seen March 2024</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gdrive"/></svg><span><b>Passed</b> · single-customer risk, memo p.2</span><b class="mtag">Memo</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Who met them</b> · Anna, twice, April 2024</span><b class="mtag">Meetings</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>What changed</b> · three new logos since</span><b class="mtag strong">Update</b></div>
-          </div>
-        </div>
-        <div class="feat reveal" id="f-cold">
-          <div class="feat-copy">
-            <h3>Relationships go cold. fein sees it first.</h3>
-            <p>fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.</p>
-          </div>
-          <div class="mock" aria-hidden="true">
-            <div class="mock-title">Going quiet</div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Jonas Keller</b> · every 10 days · three weeks silent</span><b class="mtag strong">Flag</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Priya Shah</b> · monthly · six weeks silent</span><b class="mtag strong">Flag</b></div>
-            <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Tom Aldridge</b> · quarterly · on cadence</span><b class="mtag dim">OK</b></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- WORKS WITH: the tool proof. it used to sit directly under the hook, where
        it answered "what does it read?" before the page had said what fein does.
@@ -2208,6 +2209,7 @@ __LOGO_SPRITE__
 
   </section>
 
+
   <!-- YOUR CRM STAYS: the second question after "what does it read?", and the
        one that kills deals if the page leaves it hanging. It sits directly
        under the tool strip because the strip raises it: a reader who has just
@@ -2218,7 +2220,6 @@ __LOGO_SPRITE__
   <section id="crm" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <span class="eyebrow">Your CRM stays</span>
         <h2>It sits on top of the systems you run today.</h2>
         <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.</p>
         <div class="sec-cta">
@@ -2237,6 +2238,7 @@ __LOGO_SPRITE__
     </div>
   </section>
 
+
   <!-- SECURITY: you control your data. Six short commitments in two columns,
        not three long ones in one: a 5/7 split whose right column fills the
        band at heading height. The detail behind each row lives in the
@@ -2244,7 +2246,6 @@ __LOGO_SPRITE__
   <section id="security" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <span class="eyebrow">Security</span>
         <h2>Your data never leaves your servers.</h2>
         <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
         <div class="sec-cta">
@@ -2262,6 +2263,7 @@ __LOGO_SPRITE__
     </div>
   </section>
 
+
   <!-- MANAGED INSTALLATION: the offer, and the orbit that shows what it buys.
        the orbit composition was the old second hero, where it repeated the
        promise the lead hero already makes. it belongs here: the art is fein
@@ -2277,7 +2279,7 @@ __LOGO_SPRITE__
 
     <div class="wrap hero-inner">
       <div class="hero-copy head">
-        <span class="badge"><span class="badge-dot" aria-hidden="true"></span>Managed setup</span>
+        
         <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
         <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
         <div class="hero-actions">
