@@ -910,6 +910,40 @@
   .hero-lead .hero-actions .btn{height:44px;padding:0 19px;font-size:15px;border-radius:11px}
   .hero-lead .hero-actions .btn .tlogo{width:16px;height:16px}
 
+  /* THE FOLD IN TWO COLUMNS: the argument on the left, the picture beside it.
+
+     Stacked and centred, the picture was a thing you scrolled to; the words
+     above it had to carry the fold on their own and the widest of them was set
+     across 1120px, which is a measure nobody reads a sentence at. Side by side
+     the two are read together, the copy takes a column it can hold a line in,
+     and the picture is above the fold on a laptop instead of below it.
+
+     The placement is explicit rather than a wrapper element around the copy:
+     h1, p and the actions stay direct children of .wrap, which is what the
+     fold's entrance animation is keyed to (.hero-lead .wrap>*, >h1, >p). A
+     wrapper would have silently dropped all three out of that sequence. */
+  @media (min-width:1000px){
+    /* the empty tracks top and bottom are what centre the copy against the
+       picture: the three text rows keep their own height and the slack goes
+       above and below them, so the column reads as one block rather than as
+       three things spread down the side of the figure. */
+    .hero-lead .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.06fr);grid-template-rows:1fr auto auto auto 1fr;column-gap:clamp(2rem,4vw,4.5rem);align-items:start;text-align:left}
+    .hero-lead .wrap>h1{grid-column:1;grid-row:2;width:auto;max-width:none;margin:0;font-size:clamp(2.1rem,3.3vw,3.4rem)}
+    .hero-lead .wrap>p{grid-column:1;grid-row:3;margin:1.3rem 0 0;max-width:44ch}
+    .hero-lead .wrap>.hero-actions{grid-column:1;grid-row:4;justify-content:flex-start;margin-top:2rem}
+    /* the figure stops breaking out of the column and simply fills the one it
+       is in, spanning every row so the copy centres against its full height */
+    .hero-lead .wrap>.ah-fig{grid-column:2;grid-row:1 / -1;align-self:center;width:auto;margin:0}
+    /* six source cards across half a fold is 80px each and every title elides.
+       Two across, three rows, is the same six at a width their names fit. */
+    .hero-lead .ah-srcs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    /* and the wires go with the single row that made sense of them. Drawn from
+       six cards standing side by side they read as six drops into one answer;
+       drawn from three stacked rows they cross the cards below them. The
+       narrow layout already drops them for the same reason. */
+    .hero-lead .wrap>.ah-fig .ah-wires{display:none}
+  }
+
   /* ---- the announcement pill: the top rung of the fold ----
      one capsule carrying whatever shipped last. it is the ribbon's message in
      the copy block's own voice, so it borrows the ghost button's shell
@@ -1296,13 +1330,13 @@
      sit here, above the film, which is the worst place for it: the reader meets
      it before they have seen anything, and it competes with the same words in
      the nav. It now sits under the film, where intent is highest. */
-  .demo-intro{text-align:left;max-width:var(--maxw)}
-  .demo-intro .demo-lead{margin-inline:0;max-width:62ch}
+  .demo-intro{text-align:center;max-width:var(--maxw)}
+  .demo-intro .demo-lead{margin-inline:auto;max-width:62ch}
   /* The two actions, sitting with the copy at the head of the band. No width of
      its own: inside the intro it fills the text column, which is the same edge
      the film and the chapters below it start on. Taking --film-w here would
      measure it against the intro rather than the section and inset it 24px. */
-  .demo-after{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;margin-top:clamp(1.35rem,2.4vw,1.9rem)}
+  .demo-after{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.8rem;margin-top:clamp(1.35rem,2.4vw,1.9rem)}
   /* the heading and the lead used to step down on a short window as well as a
      narrow one, because a 1440x760 laptop had to give the film its inches back
      out of the type. The film no longer takes them from here, so both are set
@@ -1319,7 +1353,7 @@
   /* the heading takes a measure of its own rather than the column's: set across
      the full width it ran as one long line and the lede under it read as a
      second, longer line of the same thing. Stacked, the two are distinct. */
-  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;max-width:33ch;text-wrap:balance}
+  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;max-width:33ch;margin-inline:auto;text-wrap:balance}
   /* the lead reads on the hero's measure, 33.5rem, and not on the block's:
      centred copy set to the 62rem the heading needs ran the better part of
      1300px on a wide screen, which is a longer line than anything else on the
@@ -1564,7 +1598,7 @@
        film is the section. The measure cannot give any back, so the step does. */
     .demo-lead{font-size:1rem;line-height:1.5;margin-top:.8rem}
     .demo-chap b{font-size:.9rem}
-    .demo-after{flex-direction:column;align-items:stretch}
+    .demo-after{flex-direction:column;align-items:center}
     /* stretched, this came out 342px on a 390px screen: a white slab as wide as
        the film above it, which is the one thing on the page it should not
        compete with. Wide enough to be an obvious target, capped so it still
