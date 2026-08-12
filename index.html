@@ -1491,6 +1491,33 @@
      because #change's card still has its bar on top and should keep it. */
   .app-main .ask-bar{margin-top:auto;border-bottom:0;border-top:1px solid var(--line)}
 
+  /* the hovered source, quoted. A hairline down the left and nothing else: no card,
+     no arrow, no shadow, because the pane is already a surface and a second one
+     floating on top of it would be the loudest object on the fold.
+
+     It sits in the flow between the answer and the query line, and the bar's
+     margin-top:auto is what makes that safe: the space it takes comes out of the
+     auto margin, so the bar does not move and neither does the answer. Absolute
+     positioning would have been the other way to hold the layout still, and this
+     one also keeps the quote on the answer's own left edge.
+
+     Off the reveal it is opacity only, for the same reason the claims are: the
+     rail is a fourteen-row hover target and a panel that slid or scaled on every
+     crossing would be a fidget. */
+  .fn-quote{margin:1rem 20px 0;padding:.1rem 0 .1rem .85rem;border-left:1px solid var(--line-2);opacity:0;transition:opacity .2s ease}
+  .fn-quote.on{opacity:1}
+  .fn-quote blockquote{margin:0;font-size:.95rem;line-height:1.6;color:var(--fg-2);text-wrap:pretty}
+  .fn-quote figcaption{display:flex;align-items:center;gap:.45rem;margin-top:.4rem;font-size:.78rem;color:var(--dim);min-width:0}
+  .fn-quote figcaption .tlogo{width:12px;height:12px;flex:none;opacity:.8}
+  .fn-quote figcaption b{font-weight:450;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fn-quote figcaption em{font-style:normal;flex:none}
+  .fn-quote figcaption em::before{content:"\00b7";margin-right:.45rem}
+  /* the hovered row reads like a lit one without borrowing .hot, which the
+     animation owns and would fight over */
+  .fn-src.peek .tlogo{opacity:1}
+  .fn-src.peek b{color:#fff}
+  .fn-src.peek em{opacity:1}
+
   .fn-read{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
   .fn-src{position:relative;display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:.5rem;padding:.33rem .85rem;transition:opacity .55s ease,transform .55s cubic-bezier(.16,.84,.44,1)}
   /* where it feeds through: the segment sits on the divider itself, level with
@@ -2132,20 +2159,20 @@ setTimeout(go,1200);})()</script>
         <div class="lead-app">
           <aside class="app-rail" aria-hidden="true">
             <ol class="fn-read">
-            <li class="fn-src" data-d="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
-            <li class="fn-src" data-d="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
-            <li class="fn-src" data-d="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fwd: Halo Compute, seed deck</b><em>8 Nov 2024</em></li>
-            <li class="fn-src" data-d="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #dealflow</b><em>Today 14:16</em></li>
-            <li class="fn-src" data-d="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Coffee with Halo Compute</b><em>21 Nov 2024</em></li>
-            <li class="fn-src" data-d="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Priya Nayar, new position</b><em>3 Jun 2025</em></li>
-            <li class="fn-src" data-d="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Halo Compute, moved to IC</b><em>14 Jul 2026</em></li>
-            <li class="fn-src" data-d="7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Q3 LP letter, draft 2</b><em>4 Aug 2026</em></li>
-            <li class="fn-src" data-d="8"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Partner sync, pipeline review</b><em>10 Aug 2026</em></li>
-            <li class="fn-src" data-d="9"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>IC Monday, 09:00</b><em>10 Aug 2026</em></li>
-            <li class="fn-src" data-d="10"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Reference call, Priya Nayar</b><em>22 Jul 2026</em></li>
-            <li class="fn-src" data-d="11"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #research</b><em>Yesterday 16:04</em></li>
-            <li class="fn-src" data-d="12"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Pipeline stage, 24 changes</b><em>11 Aug 2026</em></li>
-            <li class="fn-src" data-d="13"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Series A hires, 6 updates</b><em>5 Aug 2026</em></li>
+            <li class="fn-src" data-d="0" data-quote="For the next fund we want more AI infrastructure. Compute, tooling, the layer underneath the models."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
+            <li class="fn-src" data-d="1" data-quote="Six design partners live and $2.4M ARR. We are opening a $30M Series A and would like you in it."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
+            <li class="fn-src" data-d="2" data-quote="Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fwd: Halo Compute, seed deck</b><em>8 Nov 2024</em></li>
+            <li class="fn-src" data-d="3" data-quote="Halo Compute closes next week. Do you want the introduction again?"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #dealflow</b><em>Today 14:16</em></li>
+            <li class="fn-src" data-d="4" data-quote="Both founders came out of Anthropic infra. No design partners live yet. Raising $4M at $18M post."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Coffee with Halo Compute</b><em>21 Nov 2024</em></li>
+            <li class="fn-src" data-d="5" data-quote="VP Engineering at Halo Compute. Previously five years at Databricks."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Priya Nayar, new position</b><em>3 Jun 2025</em></li>
+            <li class="fn-src" data-d="6" data-quote="Stage changed from Diligence to IC by Marcus Feld."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Halo Compute, moved to IC</b><em>14 Jul 2026</em></li>
+            <li class="fn-src" data-d="7" data-quote="Two of our LPs asked for more exposure to the compute layer this quarter."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Q3 LP letter, draft 2</b><em>4 Aug 2026</em></li>
+            <li class="fn-src" data-d="8" data-quote="Halo is the one we passed on and should not have. Anna to re-open it."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Partner sync, pipeline review</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="9" data-quote="Halo Compute, Series A. Marcus presenting to Anna, Elena and three more."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>IC Monday, 09:00</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="10" data-quote="Her manager at Databricks: the strongest scheduling engineer he has hired."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Reference call, Priya Nayar</b><em>22 Jul 2026</em></li>
+            <li class="fn-src" data-d="11" data-quote="GPU scheduling is consolidating. Halo and two others left standing."><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #research</b><em>Yesterday 16:04</em></li>
+            <li class="fn-src" data-d="12" data-quote="24 fields updated across 9 companies. Halo Compute moved twice."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Pipeline stage, 24 changes</b><em>11 Aug 2026</em></li>
+            <li class="fn-src" data-d="13" data-quote="Six new engineers at Halo Compute since June. Four of them from Databricks."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Series A hires, 6 updates</b><em>5 Aug 2026</em></li>
             </ol>
           </aside>
 
@@ -2175,6 +2202,20 @@ setTimeout(go,1200);})()</script>
             <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
             <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
             </p>
+
+            <!-- what a source actually says, on hover. It reads into the pane rather
+                 than into a card floating over the rail, for two reasons: the pane is
+                 where document content belongs, and the space between the answer and
+                 the query line is already empty, so nothing has to move to make room.
+                 The row lights at the same moment, which is the tie this fold already
+                 uses everywhere instead of drawing a line between the two.
+                 Filled from the row's data-quote by script; empty and hidden without
+                 one, so it can never show a frame of blank furniture. -->
+            <figure class="fn-quote" id="lquote" aria-hidden="true" hidden>
+              <blockquote></blockquote>
+              <figcaption><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b></b><em></em></figcaption>
+            </figure>
+
             <div class="ask-bar">
             <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
             <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
@@ -5210,6 +5251,68 @@ setTimeout(go,1200);})()</script>
     });
   },{threshold:0.12});
   io.observe(stage);
+})();
+
+/* the rail's sources, quoted on hover.
+   Its own block rather than a hand inside the one above, because the two do not
+   share a single variable: that one plays a fixed sequence on a timer, this one
+   answers the pointer, and the only thing they touch in common is a row's classes.
+   Which is why the hover lights .peek and not .hot. .hot belongs to the sequence,
+   and hovering a row mid-sweep would otherwise hand the animation a state it did
+   not set and take one away that it did.
+
+   The quote lands in the pane's empty middle, and the bar's margin-top:auto is
+   what makes that free: the height it needs comes out of that auto margin, so
+   showing it moves neither the answer above nor the query line below. The panel is
+   hidden rather than merely transparent when idle, because an empty figure still
+   draws its own left hairline.
+
+   One listener on the rail rather than fourteen on the rows, and no hover styling
+   in CSS alone, because the same press has to fill the panel as lights the row. */
+(function(){
+  var stage=document.getElementById('lstage'); if(!stage) return;
+  var slot=document.getElementById('lquote'), rail=stage.querySelector('.app-rail');
+  if(!slot||!rail) return;
+  var body=slot.querySelector('blockquote'),
+      mark=slot.querySelector('use'),
+      name=slot.querySelector('figcaption b'),
+      when=slot.querySelector('figcaption em');
+  if(!body||!mark||!name||!when) return;
+  var lit=null, off=null;
+
+  function drop(){
+    if(lit){ lit.classList.remove('peek'); lit=null; }
+    slot.classList.remove('on');
+    clearTimeout(off);
+    /* hidden only after it has faded, so leaving the rail is not a cut */
+    off=setTimeout(function(){ slot.hidden=true; },220);
+  }
+  function lift(row){
+    var text=row.getAttribute('data-quote');
+    if(!text||row===lit) return;
+    clearTimeout(off);
+    if(lit) lit.classList.remove('peek');
+    lit=row; row.classList.add('peek');
+    body.textContent=text;
+    var b=row.querySelector('b'), e=row.querySelector('em'), u=row.querySelector('use');
+    name.textContent=b?b.textContent:'';
+    when.textContent=e?e.textContent:'';
+    if(u) mark.setAttribute('href',u.getAttribute('href'));
+    slot.hidden=false;
+    /* the fade needs a state to start from, and an element unhidden in this tick
+       has not been laid out yet. Reading a layout property flushes it, which is
+       synchronous and certain; a requestAnimationFrame hop is the usual way to buy
+       the same frame and it is not certain, because nothing guarantees the callback
+       runs before the class is wanted. */
+    void slot.offsetHeight;
+    slot.classList.add('on');
+  }
+
+  rail.addEventListener('mouseover',function(ev){
+    var row=ev.target&&ev.target.closest?ev.target.closest('.fn-src'):null;
+    if(row) lift(row);
+  });
+  rail.addEventListener('mouseleave',drop);
 })();
 
 /* stat count-up on scroll (preserves prefix/commas/suffix); reduced-motion shows final */
