@@ -72,12 +72,6 @@
        The decorative hairlines stay on --line/--line-2 */
     --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
     --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
-    /* the yellow the figures carry: one line in each drawing, and the number on
-       the link out of the memory band. It is a marking colour, not a surface one,
-       and it stays off the chrome (the kebab, the film's transport, the GitHub
-       mark) -- those are furniture, and lighting them spends the accent on things
-       fein is not saying. */
-    --acc:#E7F256; --acc-line:rgba(231,242,86,.55);
     /* the only two colours outside the blue accent, and they live on a 0.7rem
        glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
        uses; --mem-new is cyan shifted so the pair reads as siblings of the blue */
@@ -1013,7 +1007,7 @@
      the headline's second half and not as a caption underneath it. */
   .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
   .mem-more{margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
-  .mem-more i{font-style:normal;color:var(--acc);font-variant-numeric:tabular-nums}
+  .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
 
   /* one row, two layers. Grid rather than absolute positioning, so the row is as
      tall as whichever layer is the taller one and nothing has to be measured in
@@ -1883,11 +1877,12 @@
     stroke:rgba(255,255,255,.26);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
   .figart .lid{stroke:rgba(255,255,255,.4)}
   .figart ellipse{stroke:rgba(255,255,255,.16)}
-  /* one line in each drawing carries the accent: the signal at the centre of the
-     stack, the top face of the record the three copies resolve into, and the
-     panel the answer arrives on. Held at .55 so it reads as a highlight inside a
-     wireframe rather than a second colour the drawing is made of. */
-  .figart .hi{stroke:var(--acc-line)}
+  /* one line in each drawing is lifted: the signal at the centre of the stack,
+     the top face of the record the three copies resolve into, and the panel the
+     answer arrives on. It is the same white the rest of the wireframe is drawn
+     in, taken up from .26 to .75, so the emphasis is brightness rather than a
+     second colour in the drawing. */
+  .figart .hi{stroke:rgba(255,255,255,.75)}
   .figcard h3{margin:0 0 .55rem;font-size:1rem;font-weight:550;letter-spacing:-.012em;color:#fff}
   /* 23rem is the reference's measure for this line, and it is a width rather
      than a character count on purpose: the column is 395px of type, and 34ch
