@@ -674,24 +674,54 @@
      between two features */
   /* ============ the core: fein, between the document and the graph ============
      Everything the section claims happens here, so it is drawn rather than
-     described. A rail runs the height of the stage; the ring sits on it at the
-     height every wire is bent through; the two words name the only two things
+     described. A rail runs in from both ends of the stage and breaks for the
+     ring, which sits at the height every wire is bent through; the two words
+     hang off the ring at one gap, and they name the only two things
      the machine does. It breathes on its own clock, because a machine that only
      moves when the reader scrolls reads as an illustration of a machine. */
   .rec-core{display:none}
-  .rec-on .rec-core{display:block;position:relative;grid-column:2;justify-self:stretch}
-  .rec-crail{position:absolute;left:50%;top:2%;bottom:2%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,transparent,var(--line) 12%,var(--line) 88%,transparent)}
-  .rec-cring{position:absolute;left:50%;top:var(--corey,42%);width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:1px solid rgba(82,168,255,.28);background:radial-gradient(circle at 50% 50%,rgba(0,112,243,.20),rgba(0,112,243,.04) 62%,transparent 72%);box-shadow:0 0 0 6px rgba(0,112,243,.045),0 0 34px rgba(0,112,243,calc(.10 + .34 * var(--pulse,0)));transform:scale(calc(1 + .07 * var(--pulse,0)));animation:coreB 4.6s ease-in-out infinite}
+  /* every offset in the column is measured off the ring, so the stack has one
+     rhythm rather than six hand-set numbers: --cr is the ring, --cg the single
+     gap between any two things, --ctick the connector that closes each gap. The
+     ring itself cannot move -- the wires are bent through 42% of the panes in
+     script -- so the labels are hung off it in both directions instead, and
+     --ccap is the name plate below it that the lower verb has to clear. */
+  .rec-on .rec-core{display:block;position:relative;grid-column:2;justify-self:stretch;--cr:30px;--cg:clamp(12px,1.5svh,17px);--ctick:20px;--ccap:25px}
+  /* the rail is the column's spine, and it stops where the machine starts: it
+     runs in from both ends, gains as it approaches, and gives the cluster the
+     break to sit in. Before, it ran the full height at one weight and struck
+     straight through all three labels, which is what made the column read as a
+     line with words dropped on it rather than as one object. The break is set
+     off --corey in pixels, so it stays clamped to the ring at any stage height. */
+  .rec-crail{position:absolute;left:50%;top:0;bottom:0;width:1px;margin-left:-.5px;background:linear-gradient(180deg,transparent 3%,var(--line) 15%,var(--line-2) calc(var(--corey,42%) - 128px),transparent calc(var(--corey,42%) - 100px),transparent calc(var(--corey,42%) + 120px),var(--line-2) calc(var(--corey,42%) + 148px),var(--line) 72%,transparent 88%)}
+  .rec-cring{position:absolute;left:50%;top:var(--corey,42%);width:calc(var(--cr) * 2);height:calc(var(--cr) * 2);margin:calc(var(--cr) * -1) 0 0 calc(var(--cr) * -1);border-radius:50%;border:1px solid rgba(82,168,255,.28);background:radial-gradient(circle at 50% 50%,rgba(0,112,243,.20),rgba(0,112,243,.04) 62%,transparent 72%);box-shadow:0 0 0 6px rgba(0,112,243,.045),0 0 34px rgba(0,112,243,calc(.10 + .34 * var(--pulse,0)));transform:scale(calc(1 + .07 * var(--pulse,0)));animation:coreB 4.6s ease-in-out infinite}
+  /* the aperture: an inner ring, and two stubs of line on the axis the wires
+     actually run along. They are what turn a glow into a port -- the ring reads
+     as something the line passes through, and it says so before the first
+     token moves, which is the one thing the glow alone never said. */
+  .rec-cring::before{content:"";position:absolute;inset:calc(var(--cr) - 15px);border-radius:50%;border:1px solid rgba(82,168,255,calc(.10 + .26 * var(--pulse,0)))}
+  .rec-cring::after{content:"";position:absolute;left:-11px;right:-11px;top:50%;height:1px;margin-top:-.5px;background:linear-gradient(90deg,rgba(82,168,255,calc(.24 + .4 * var(--pulse,0))),transparent 16%,transparent 84%,rgba(82,168,255,calc(.24 + .4 * var(--pulse,0))))}
   @keyframes coreB{0%,100%{border-color:rgba(82,168,255,.22)}50%{border-color:rgba(82,168,255,.42)}}
   .rec-cdot{position:absolute;left:50%;top:var(--corey,42%);width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--blue-l);opacity:calc(.45 + .55 * var(--pulse,0));box-shadow:0 0 12px rgba(82,168,255,.7)}
-  .rec-cname{position:absolute;left:0;right:0;top:calc(var(--corey,42%) + 38px);text-align:center;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-l);opacity:calc(.55 + .45 * var(--pulse,0))}
+  /* the name belongs to the ring, so it sits closer to it than anything else in
+     the column does, and the two verbs are hung outside the pair */
+  .rec-cname{position:absolute;left:0;right:0;top:calc(var(--corey,42%) + var(--cr) + 11px);text-align:center;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-l);opacity:calc(.6 + .4 * var(--pulse,0))}
   /* the two verbs, one above the ring and one below, so the direction of travel
-     is legible before anything moves */
-  .rec-cverb{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.53rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-  .rec-cverb.up{top:calc(var(--corey,42%) - 92px)}
-  .rec-cverb.dn{top:calc(var(--corey,42%) + 74px)}
-  .rec-cverb b{display:block;font-weight:500;color:var(--fg-3);opacity:calc(.35 + .65 * var(--vb,0))}
-  .rec-cverb .ar{display:block;margin:.3rem 0;color:var(--line-2)}
+     is legible before anything moves. Each is anchored by the edge that faces
+     the ring -- the one above hangs from its bottom, the one below sits on its
+     top -- so a connector of a fixed length lands on the same gap at both ends
+     however the type wraps or resizes. */
+  .rec-cverb{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.55rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+  .rec-cverb.up{bottom:calc(100% - var(--corey,42%) + var(--cr) + var(--cg))}
+  .rec-cverb.dn{top:calc(var(--corey,42%) + var(--cr) + var(--ccap) + var(--cg))}
+  .rec-cverb b{display:block;font-weight:500;color:var(--fg-2);opacity:calc(.36 + .64 * var(--vb,0));text-shadow:0 0 1px rgba(82,168,255,calc(.85 * var(--vb,0))),0 0 18px rgba(82,168,255,calc(.5 * var(--vb,0)))}
+  /* the connector is drawn, not typed: a hairline that runs the gap and a head
+     at the end of it, so the two arrows are the same object at the same size on
+     both sides of the ring, and each lights with the half of the machine it
+     belongs to as the token passes. */
+  .rec-cverb .ar{display:block;position:relative;width:1px;height:var(--ctick);margin:.42rem auto 0;background:linear-gradient(180deg,var(--line),rgba(82,168,255,calc(.2 + .55 * var(--vb,0))))}
+  .rec-cverb.dn .ar{margin:0 auto .42rem;background:linear-gradient(180deg,rgba(82,168,255,calc(.2 + .55 * var(--vb,0))),var(--line))}
+  .rec-cverb .ar::after{content:"";position:absolute;left:50%;bottom:-1px;width:5px;height:5px;margin-left:-3px;border-right:1px solid rgba(82,168,255,calc(.22 + .5 * var(--vb,0)));border-bottom:1px solid rgba(82,168,255,calc(.22 + .5 * var(--vb,0)));transform:rotate(45deg)}
   /* the pane names it: two halves of one machine, each labelled once */
   .rec-on .rec-paneh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   /* how it works: one bright subhead carries the whole mechanism, so the head
@@ -1829,11 +1859,11 @@ setTimeout(go,1200);})()</script>
                  before the reader has read a word of it. -->
             <div class="rec-core" id="rec-core" aria-hidden="true">
               <span class="rec-crail"></span>
-              <span class="rec-cverb up"><b id="rec-vread">Reads</b><span class="ar">&darr;</span></span>
+              <span class="rec-cverb up"><b id="rec-vread">Reads</b><span class="ar"></span></span>
               <span class="rec-cring" id="rec-cring"></span>
               <span class="rec-cdot"></span>
               <span class="rec-cname">fein</span>
-              <span class="rec-cverb dn"><span class="ar">&darr;</span><b id="rec-vwrite">Files</b></span>
+              <span class="rec-cverb dn"><span class="ar"></span><b id="rec-vwrite">Files</b></span>
             </div>
             <section class="rec-store" id="rec-store" aria-labelledby="rec-paneh2">
               <h3 class="rec-paneh">What fein filed</h3>
@@ -4007,9 +4037,21 @@ setTimeout(go,1200);})()</script>
           toks[k].setAttribute('cx',pt.x.toFixed(1)); toks[k].setAttribute('cy',pt.y.toFixed(1));
           halos[k].setAttribute('cx',pt.x.toFixed(1)); halos[k].setAttribute('cy',pt.y.toFixed(1));
           toks[k].style.setProperty('--tv',tv); halos[k].style.setProperty('--tv',tv);
-          var nearCore=Math.max(0,1-Math.abs(d-0.5)*3.4);
+          /* everything the core does is a question about where the token is,
+             not how far along its path it is. The curve into fein is far longer
+             than the curve out of it -- a phrase crosses the whole document
+             pane to get here and lands on a row just past the column -- so the
+             old midpoint test flared the ring and switched the verbs while the
+             phrase was still visibly short of it. Both now read off the
+             token's distance from the ring: it flares when it is passed, and
+             the verbs crossfade through it. The envelope holds the pair down so
+             nothing is lit when nothing is moving. */
+          var dxc=pt.x-cx, span=Math.max(64,geo.paneW*0.075), side=seg(dxc,-span,span);
+          var nearCore=Math.max(0,1-Math.abs(dxc)/Math.max(90,geo.paneW*0.09));
           if(nearCore>pulse) pulse=nearCore;
-          if(d<0.5) tRead=1; else tWrite=1;
+          var env=seg(d,0.01,0.08)*(1-seg(d,0.96,1));
+          var rd=env*(1-side), wr=env*side;
+          if(rd>tRead) tRead=rd; if(wr>tWrite) tWrite=wr;
         } else { toks[k].style.setProperty('--tv',0); halos[k].style.setProperty('--tv',0); }
       }
     }
