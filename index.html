@@ -1453,14 +1453,6 @@
      carried a centred breakout of their own, and a fold that is left set at
      1512 and centred at 899 is two designs. Only the row is a wide idea. */
   .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
-  /* the headline can break on its own hyphen. "Sub-200ms" is one word to a
-     reader and two break opportunities to a browser, and text-wrap:balance
-     is free to take one of them: at 17ch the evenest pair of lines it can
-     find is "Sub-" against "200ms venture capital.", which sets the number
-     apart from the unit and opens the page on a fragment. nowrap removes
-     the opportunity rather than the balancing, so the break falls on the
-     space, which is the only place in this line it reads as a line. */
-  .hero-lead .wrap>h1 .nbr{white-space:nowrap}
   .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) 0 0;max-width:52ch;font-size:1.05rem}
   .hero-lead .wrap>.ah-fig{width:auto;margin:clamp(2.4rem,6vh,5.5rem) 0 0}
   /* the card takes the whole row, which is the figure's old footprint and the
@@ -1788,7 +1780,7 @@
        for a menu that opens over a picture; this one opens over the fold, and
        the fold is a 40px headline in solid white. Twelve percent of white is
        #1f1f1f, which is not a texture behind the links, it is the word
-       "Sub-200ms" legible through them, with "Sign in" and "Talk to sales"
+       "Welcome" legible through them, with "Sign in" and "Talk to sales"
        sitting in the middle of it. The surface is opaque now and the page
        behind it is dimmed instead, which is what the blur was reaching for. */
     .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:var(--bar-pad);width:min(320px,calc(100vw - var(--bar-pad) * 2));background:#0e0f13;border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
@@ -2203,13 +2195,13 @@ setTimeout(go,1200);})()</script>
 
     <div class="wrap" id="content" tabindex="-1">
       
-      <h1><span class="nbr">Sub-200ms</span> venture capital.</h1>
+      <h1>Welcome to agentic venture capital.</h1>
       <!-- "tool and platform" was two words for the same thing and named neither:
            it is a context graph, which is the approved term and the one the rest of
-           the page already uses. The fold above names the audience and spends its
-           whole line on speed, so this one opens on privacy instead: the other
-           property the rest of the page has to earn, and the one the headline has
-           no room for. It does not say "speed" a second time. The customer is
+           the page already uses. The fold above names the audience, so this line
+           opens on privacy rather than saying "venture capital" a second time:
+           the property the headline has no room to carry, and the one the rest of
+           the page has to earn. The customer is
            "your fund" here and "your team" in DESC and DESC_LONG in build.js,
            which are deliberately left alone: those two strings are what an answer
            engine quotes back. -->
