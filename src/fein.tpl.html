@@ -378,7 +378,12 @@
      by the record pane's own header bar further down this stylesheet, and
      reusing it puts a grid, a fixed height and a border-bottom on this heading
      while leaking a max-width onto every pane header in the walk. */
-  .change-head{padding-bottom:clamp(1.4rem,3.4vw,2.3rem);max-width:70ch}
+  /* the head is the walk's title card, so it is laid out on the walk's column
+     and not on .wrap's own. It was 70ch centred against a 1380px stage, which
+     put the heading 315px in from the document it titles: two unrelated things
+     sharing a screen. The h2 keeps its 22ch measure, which is what sets the
+     line break, so only the box it sits in moves. */
+  .change-head{padding-bottom:clamp(1.4rem,3.4vw,2.3rem)}
   .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:22ch}
   /* the static default is a document, so it takes the page measure; the pinned
      stage sets its own width and resets this */
@@ -494,13 +499,33 @@
   .rec-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
   /* ---- the pin: only reachable if the script ran ---- */
+  /* The stage is a whole screen and it is empty until the walk starts, so the
+     head is given a whole screen of its own to be the title card on, and the
+     stage is not shown at all until it has something in it. Before this the two
+     shared the first screen: the reader met the section as a heading, a rail
+     with no fill, an empty column and a record pane with no records, held there
+     for the height of the head. --stagev and --headv are the crossfade between
+     them, written by the scrub off the same rect it already reads, and the walk
+     is a beat in by the time --stagev reaches 1. */
+  .rec-on #change.band{padding-top:0}
+  .rec-on .change-head{width:min(1380px,100% - clamp(2rem,7vw,5rem));max-width:none;margin-inline:auto;padding:0;min-height:calc(100svh - var(--nav-h));display:grid;align-content:center;opacity:var(--headv,1)}
+  /* on its own screen it is a title card and not a section heading, so it is
+     set at the size the six beat headings are set at: the reader meets the
+     voice the walk is written in before the walk starts talking. */
+  .rec-on .change-head h2{font-size:clamp(1.75rem,3.35vw,2.9rem);letter-spacing:-.034em;line-height:1.06;margin-top:1rem}
   .rec-on .rec-track{--rec-travel:180;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
   .rec-on .rec-pin{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h))}
   /* three rows: the calendar, the two panes, and the transport. The transport is
      the answer to the one failure this pattern always has, which is that a
      reader who scrolls at their own speed sails past half of it and never knows
-     what they missed. It is a peer of the stage, not an overlay on it. */
-  .rec-on .rec-stage{height:100%;width:min(1380px,100% - clamp(2rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-rows:22px minmax(0,1fr) auto;row-gap:clamp(14px,2.4svh,26px);padding-block:clamp(14px,2.6svh,28px) clamp(12px,2svh,20px)}
+     what they missed. It is a peer of the stage, not an overlay on it.
+
+     --rec-intro is the handover band, declared here once and read off this rule
+     by the scrub. The transform is what makes the band watchable: the pin has
+     not taken yet, so the stage's own top is still that far below the nav and
+     its bottom is cut off by exactly as much. Held at the pinned position while
+     it fades, it comes in whole and then locks without moving. */
+  .rec-on .rec-stage{height:100%;width:min(1380px,100% - clamp(2rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-rows:22px minmax(0,1fr) auto;row-gap:clamp(14px,2.4svh,26px);padding-block:clamp(14px,2.6svh,28px) clamp(12px,2svh,20px);--rec-intro:420px;opacity:var(--stagev,1);transform:translateY(calc((var(--stagev,1) - 1) * var(--rec-intro)))}
   /* the middle column was a hairline and a gap. It is the only place on the page
      where the product itself can be shown working, so it gets real width: every
      wire now runs through it, the reader watches a phrase enter fein and a fact
@@ -3638,7 +3663,9 @@ __LOGO_SPRITE__
       say=document.getElementById('rec-say'),
       well=document.getElementById('rec-well'),
       src=track.querySelector('.rec-src'),
-      rail=track.querySelector('.rec-rail');
+      rail=track.querySelector('.rec-rail'),
+      stage=track.querySelector('.rec-stage'),
+      head=document.querySelector('#change .change-head');
   /* rows in document order, and the record each one belongs to. Both are read
      off the markup rather than declared twice, so a fact cannot end up filed in
      the script somewhere other than where it is written on the page. */
@@ -3663,7 +3690,7 @@ __LOGO_SPRITE__
      dwell, land, so the doomed sentence is struck and then sits still long
      enough to be read. */
   var EV=[
-    {b:0,f:0,t0:5,t1:12},  {b:0,f:1,t0:10,t1:17}, {b:0,f:2,t0:15,t1:22},
+    {b:0,f:0,t0:2,t1:9},   {b:0,f:1,t0:9,t1:16},  {b:0,f:2,t0:15,t1:22},
     {b:1,f:3,t0:5,t1:12},  {b:1,f:4,t0:11,t1:18},
     {b:2,f:5,t0:5,t1:12},  {b:2,f:6,t0:11,t1:18},
     {b:3,f:7,t0:5,t1:13},
@@ -3693,6 +3720,11 @@ __LOGO_SPRITE__
   var RH=34, RGAP=10, FH=26, RPAD=10, TAIL=0;
   var NAV=76, PINH=0, geo=null, raf=0, vis=false, on=false, io=null, rt=0, lastW=0, lastH=0;
   var paths=[], toks=[], halos=[], lastBi=-1, lastP=-1;
+  /* the handover: the last INTRO pixels before the pin takes, over which the
+     title card goes out and the stage comes in. It runs while p is still parked
+     at 0, so it is its own number and the memo below has to let it through.
+     INTRO is read off --rec-intro in measure(), so the band is declared once. */
+  var INTRO=420, intro=1, lastIn=-1;
 
   function clamp01(v){ return v<0?0:v>1?1:v; }
   function out3(e){ var k=1-e; return 1-k*k*k; }
@@ -3711,6 +3743,7 @@ __LOGO_SPRITE__
 
   function measure(){
     NAV=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||76;
+    INTRO=parseFloat(getComputedStyle(stage).getPropertyValue('--rec-intro'))||420;
     PINH=pin.getBoundingClientRect().height;
     var pr=panes.getBoundingClientRect(), sr=store.getBoundingClientRect(), br=body.getBoundingClientRect();
     /* the store's rhythm comes from the space it has. Five headers and ten facts
@@ -3779,15 +3812,26 @@ __LOGO_SPRITE__
       });
     }
   }
+  /* one rect, two numbers off it: how far through the track the reader is, and
+     how far into the handover. Still one getBoundingClientRect per frame. */
   function progress(){
     var r=track.getBoundingClientRect();
     var travel=r.height-PINH;
+    intro=clamp01(1+(NAV-r.top)/INTRO);
     if(travel<=0) return 0;
     return clamp01((NAV-r.top)/travel);
   }
   function paint(){
     raf=0;
     var p=progress(), u=p*T;
+    /* the handover moves while p is still 0, so it is checked on its own and
+       the memo below is let through whenever it did */
+    var handover=intro!==lastIn;
+    if(handover){
+      lastIn=intro;
+      if(stage) stage.style.setProperty('--stagev',intro.toFixed(3));
+      if(head) head.style.setProperty('--headv',(1-intro).toFixed(3));
+    }
     /* Every value this function writes derives from p, so an unchanged p writes
        a byte-identical frame. Without this the parked stage still cost ~22% of
        the main thread at 120Hz -- 120 layouts and 240 style recalcs a second,
@@ -3795,13 +3839,16 @@ __LOGO_SPRITE__
        top of #dlive because the observer holds a 240px rootMargin. Memoised it
        is ~4%. lastP is invalidated on remeasure() and stop(), where the
        geometry moves underneath an unchanged scroll position. */
-    if(p===lastP){ if(vis) raf=requestAnimationFrame(paint); return; }
+    if(p===lastP && !handover){ if(vis) raf=requestAnimationFrame(paint); return; }
     lastP=p;
     var bi=0,i,k; for(i=0;i<edge.length;i++){ if(u>=edge[i][0]) bi=i; }
     var local=u-edge[bi][0];
 
     /* --- the documents: one visible, crossfading over the first 3 units --- */
     var cardNow=CARDOF[bi], into=clamp01(local/3), c;
+    /* the first document rides in on the handover rather than waiting for the
+       pin, so the stage is never on screen with an empty column in it */
+    if(bi===0 && intro>into) into=intro;
     for(c=0;c<cards.length;c++){
       var o=0,cy=0;
       if(c===cardNow){ o=into; cy=(1-out3(into))*18; }
@@ -3977,17 +4024,17 @@ __LOGO_SPRITE__
   }
   function stop(){
     if(!on) return;
-    on=false; vis=false; lastBi=-1; lastP=-1;
+    on=false; vis=false; lastBi=-1; lastP=-1; lastIn=-1; intro=1;
     if(raf){ cancelAnimationFrame(raf); raf=0; }
     if(io){ io.disconnect(); io=null; }
     document.documentElement.classList.remove('rec-on');
     if(body){ body.classList.remove('rec-tight'); }
     [].concat(cards,rows,recs,hls,paths,toks,halos,ask?[ask]:[],well?[well]:[],core?[core]:[],
-              src?[src]:[],store?[store]:[],rail?[rail]:[])
+              src?[src]:[],store?[store]:[],rail?[rail]:[],stage?[stage]:[],head?[head]:[])
       .forEach(function(e){ e.removeAttribute('style'); });
     recs.forEach(function(e){ e.classList.remove('ans'); });
   }
-  function remeasure(){ if(!on) return; lastP=-1; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
+  function remeasure(){ if(!on) return; lastP=-1; lastIn=-1; measure(); if(vis){ if(raf) cancelAnimationFrame(raf); raf=0; paint(); } }
   window.addEventListener('resize',function(){
     var w=window.innerWidth,h=window.innerHeight;
     if(STACK.matches){ if(on) stop(); return; }
