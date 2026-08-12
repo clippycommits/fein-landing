@@ -1403,6 +1403,14 @@
      carried a centred breakout of their own, and a fold that is left set at
      1512 and centred at 899 is two designs. Only the row is a wide idea. */
   .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
+  /* the headline can break on its own hyphen. "Sub-200ms" is one word to a
+     reader and two break opportunities to a browser, and text-wrap:balance
+     is free to take one of them: at 17ch the evenest pair of lines it can
+     find is "Sub-" against "200ms venture capital.", which sets the number
+     apart from the unit and opens the page on a fragment. nowrap removes
+     the opportunity rather than the balancing, so the break falls on the
+     space, which is the only place in this line it reads as a line. */
+  .hero-lead .wrap>h1 .nbr{white-space:nowrap}
   .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) 0 0;max-width:52ch;font-size:1.05rem}
   .hero-lead .wrap>.ah-fig{width:auto;margin:clamp(2.4rem,6vh,5.5rem) 0 0}
   /* the card takes the whole row, which is the figure's old footprint and the
@@ -2101,7 +2109,7 @@ __LOGO_SPRITE__
 
     <div class="wrap" id="content" tabindex="-1">
       
-      <h1>Sub-200ms venture capital.</h1>
+      <h1><span class="nbr">Sub-200ms</span> venture capital.</h1>
       <!-- "tool and platform" was two words for the same thing and named neither:
            it is a context graph, which is the approved term and the one the rest of
            the page already uses. The fold above names the audience and spends its
