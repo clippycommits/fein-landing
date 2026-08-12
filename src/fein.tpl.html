@@ -535,8 +535,12 @@
   }
   .ah-cursor{display:inline-block;width:.42em;height:1.02em;translate:0 2px;background:var(--fg-2);animation:caretB 1s steps(2,start) infinite}
 
-  /* ---- the objection, on its own ---- */
-  .why-band .head{max-width:60ch}
+  /* ---- the objection, on its own ----
+     66ch and not 60: two inline marks are about a character and a half each, and
+     at 60 they pushed the heading onto a third line that ended "and your". The
+     lead underneath keeps its own 52ch measure, so this widens the display line
+     and nothing that is actually read in paragraphs */
+  .why-band .head{max-width:66ch}
   .why-grid{display:grid;grid-template-columns:minmax(0,10rem) minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:clamp(1.8rem,3.6vw,2.6rem);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--bg-2)}
   .why-grid>*{padding:.95rem 1.05rem;border-bottom:1px solid var(--line)}
   .why-grid>.hd{padding-block:.7rem;background:rgba(255,255,255,.02);font-size:.8rem;font-weight:500;color:var(--fg-3)}
@@ -920,6 +924,15 @@
    is "these belong together", and because a row of six spaced marks reads as
    a logo wall. Full-colour marks carry their own fills; the monochrome ones
    have none, so `fill:currentColor` tints only those. */
+/* a product's mark set inline, immediately after the word that names it, in a
+   heading that names two of them. Sized in em so it tracks the display clamp,
+   and raised off the baseline to sit on the caps rather than under them: Geist's
+   cap is about .72em, so .62em of mark wants .05em of lift to centre on it. The
+   name and its mark are one nowrap unit, or a line can break between a product
+   and its own logo. Full colour marks keep their own fills; currentColor tints
+   only the monochrome ones, which is why this sets a colour at all */
+.nmk{display:inline-block;width:.62em;height:.62em;vertical-align:.05em;margin-left:.17em;color:#fff;fill:currentColor}
+.nmn{white-space:nowrap}
 .brandrow{display:flex;align-items:center;--bi:17px}
 .brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
   background:#0b0b0e;box-shadow:0 0 0 1px var(--line);margin-left:-7px;color:#c8ccd2;fill:currentColor;flex:none}
@@ -2368,8 +2381,12 @@ __LOGO_SPRITE__
   <section id="why" class="band why-band" aria-labelledby="why-h">
     <div class="wrap">
       <div class="head">
-        <h2 id="why-h">Supercharging Claude, ChatGPT and your team&rsquo;s AI tools.</h2>
-        <span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-claude"/></svg><svg class="bi" aria-hidden="true"><use href="#l-openai"/></svg><svg class="bi" aria-hidden="true"><use href="#l-gemini"/></svg><svg class="bi" aria-hidden="true"><use href="#l-copilot"/></svg><svg class="bi" aria-hidden="true"><use href="#l-cursor"/></svg><svg class="bi" aria-hidden="true"><use href="#l-perplexity"/></svg></span><p class="lead">fein reads through the connectors you already have and leaves a graph behind them. Point an assistant at that instead of at a search box, and four things change.</p>
+        <h2 id="why-h">Supercharging <span class="nmn">Claude<svg class="nmk" aria-hidden="true"><use href="#l-claude"/></svg></span>, <span class="nmn">ChatGPT<svg class="nmk" aria-hidden="true"><use href="#l-openai"/></svg></span> and your team&rsquo;s AI tools.</h2>
+        <!-- the two the heading names now carry their own marks inline, so the
+             row underneath is the rest of the sentence: the tools it does not
+             stop to name. Putting claude and openai in both places said each of
+             them twice in the space of one line -->
+        <span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gemini"/></svg><svg class="bi" aria-hidden="true"><use href="#l-copilot"/></svg><svg class="bi" aria-hidden="true"><use href="#l-cursor"/></svg><svg class="bi" aria-hidden="true"><use href="#l-perplexity"/></svg></span><p class="lead">fein reads through the connectors you already have and leaves a graph behind them. Point an assistant at that instead of at a search box, and four things change.</p>
       </div>
       <div class="why-grid">
         <p class="hd"></p>
