@@ -215,7 +215,7 @@ const headMeta = `<meta charset="utf-8">
 <link rel="canonical" href="${SITE}/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#08090A">
 <meta name="author" content="fein">
 <meta name="application-name" content="fein">
 <meta name="apple-mobile-web-app-title" content="fein">
@@ -610,7 +610,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
   name: "fein", short_name: "fein", description: "The shared memory of a venture capital team.",
-  start_url: "/", display: "standalone", background_color: "#000000", theme_color: "#000000",
+  start_url: "/", display: "standalone", background_color: "#08090A", theme_color: "#08090A",
   icons: [
     { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
     { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
