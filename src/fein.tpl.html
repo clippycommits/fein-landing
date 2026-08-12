@@ -481,7 +481,13 @@
      third of the window to say it. The markup stays because the figure's script
      lights those rows from the citations and measures them; it is the layout it
      leaves, not the DOM. */
-  .hero-lead .ah-fig{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);padding:0;overflow:hidden;border-radius:14px}
+  .hero-lead .ah-fig{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);padding:0;overflow:hidden;border-radius:14px;position:relative}
+  /* the client, abstracted to a colour. A ribbon across the head of the window
+     and a wash of the same hue under it: at a glance, across the room, that is
+     which application you are looking at, and it needs none of their chrome. */
+  .hero-lead .ah-fig::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--cli,#d97757);z-index:4;transition:background .35s ease}
+  .hero-lead .ah-fig::after{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:0;pointer-events:none;background:radial-gradient(72% 100% at 50% 0%,var(--cli-soft,transparent),transparent 72%);transition:background .35s ease}
+  .hero-lead .ah-fig>*{position:relative;z-index:1}
   .hero-lead .ah-fig .ah-srcs{display:none}
   .hero-lead .ask.ask--hero{grid-column:1;grid-row:2}
   /* the wires went with the row that made sense of them */
@@ -517,9 +523,9 @@
      composer at about 15px and tints the reader's turn faintly; ChatGPT rounds
      its composer almost to a pill and gives the turn a solid grey block. Set
      side by side with the same words in them, that is the whole difference. */
-  .ah-fig[data-client="claude"]{--cli:#d97757;--cf-bg:#151515;--cf-panel:#20201f;--cf-line:rgba(255,255,255,.085);--cf-rail:#191918;--cf-bub:rgba(255,255,255,.055);--cf-brad:14px;--cf-crad:15px}
-  .ah-fig[data-client="openai"]{--cli:#10a37f;--cf-bg:#171717;--cf-panel:#2f2f2f;--cf-line:rgba(255,255,255,.085);--cf-rail:#1c1c1c;--cf-bub:#303030;--cf-brad:20px;--cf-crad:26px}
-  .ah-fig[data-client="cursor"]{--cli:#9aa0aa;--cf-bg:#141416;--cf-panel:#202024;--cf-line:rgba(255,255,255,.08);--cf-rail:#18181b;--cf-bub:rgba(255,255,255,.05);--cf-brad:8px;--cf-crad:9px}
+  .ah-fig[data-client="claude"]{--cli:#d97757;--cli-soft:rgba(217,119,87,.16);--cf-bg:#151515;--cf-panel:#20201f;--cf-line:rgba(255,255,255,.085);--cf-rail:#191918;--cf-bub:rgba(255,255,255,.055);--cf-brad:14px;--cf-crad:15px}
+  .ah-fig[data-client="openai"]{--cli:#10a37f;--cli-soft:rgba(16,163,127,.14);--cf-bg:#171717;--cf-panel:#2f2f2f;--cf-line:rgba(255,255,255,.085);--cf-rail:#1c1c1c;--cf-bub:#303030;--cf-brad:20px;--cf-crad:26px}
+  .ah-fig[data-client="cursor"]{--cli:#9aa0aa;--cli-soft:rgba(154,160,170,.10);--cf-bg:#141416;--cf-panel:#202024;--cf-line:rgba(255,255,255,.08);--cf-rail:#18181b;--cf-bub:rgba(255,255,255,.05);--cf-brad:8px;--cf-crad:9px}
   /* the window wears it */
   .hero-lead .ah-fig{background:var(--cf-bg,#0a0c10);border-color:var(--cf-line,rgba(255,255,255,.075));transition:background .35s ease,border-color .35s ease}
   .hero-lead .ah-fig .ah-srcs{background:var(--cf-rail,rgba(255,255,255,.012));border-right-color:var(--cf-line,rgba(255,255,255,.07));transition:background .35s ease}
@@ -1498,9 +1504,33 @@
   /* the statement takes the fold's measure and the fold's left edge, so the
      page still runs on one line from the wordmark down. White is the claim,
      grey is the reason: one sentence, one size, two weights of attention. */
+  /* the figure row. Columns ruled off each other, the drawing given most of the
+     height, the words held to two lines so the three read as one row. */
+  #figures{padding:0 0 clamp(3rem,7vh,5.5rem)}
+  .fcards .wrap{width:100%;max-width:1440px;padding-inline:var(--bar-pad)}
+  .figrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .figcard{margin:0;padding:clamp(1.4rem,2.4vw,2.1rem) clamp(1.2rem,2.2vw,2rem) 0;border-left:1px solid var(--line)}
+  .figcard:first-child{border-left:0;padding-left:0}
+  .fignum{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;color:var(--dim)}
+  .figart{display:block;width:100%;height:auto;max-width:340px;margin:clamp(1.4rem,3vw,2.6rem) auto clamp(1.6rem,3.4vw,3rem);
+    stroke:rgba(255,255,255,.26);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .figart .lid{stroke:rgba(255,255,255,.4)}
+  .figart ellipse{stroke:rgba(255,255,255,.16)}
+  .figcard h3{margin:0 0 .55rem;font-size:1rem;font-weight:550;letter-spacing:-.012em;color:#fff}
+  .figcard figcaption p{margin:0;font-size:.95rem;line-height:1.5;color:var(--fg-3);max-width:34ch;text-wrap:pretty}
+  @media (max-width:860px){
+    .figrow{grid-template-columns:minmax(0,1fr)}
+    .figcard{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-right:0}
+    .figcard:first-child{border-top:0}
+    .figart{max-width:250px;margin-inline:0}
+  }
   #stance{padding:clamp(3.2rem,8vh,6rem) 0;border-top:0}
   .stance .wrap{width:100%;max-width:1440px;padding-inline:var(--bar-pad)}
-  .stance-line{max-width:27em;margin:0;font-family:var(--display);font-size:clamp(1.45rem,2.9vw,2.45rem);line-height:1.24;letter-spacing:-.025em;font-weight:500;color:var(--fg-3);text-wrap:pretty}
+  /* measured off the reference at 2x: a 96px line pitch over 90px of ink on a
+     1727px window, which is 48px of leading on about 45px of type, or 2.6vw
+     with a line height of 1.09. Ours was capped at 39px and led at 1.24, so it
+     sat smaller and looser than the block it is copying. */
+  .stance-line{max-width:26em;margin:0;font-family:var(--display);font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;color:var(--fg-3);text-wrap:pretty}
   .stance-line b{font-weight:inherit;color:#fff}
   @media (max-width:640px){
     .stance-line{font-size:1.32rem;line-height:1.3}
@@ -2048,6 +2078,39 @@ __LOGO_SPRITE__
   <section id="stance" class="band stance" aria-label="What fein is">
     <div class="wrap">
       <p class="stance-line"><b>A state of the art memory layer.</b> fein is for venture capital teams that work with AI. It reads the tools your firm already uses. It builds one context graph of every relationship the team has. Humans and agents ask it the same questions.</p>
+    </div>
+  </section>
+
+  <!-- THREE FIGURES, in the reference's shape: a ruled row of columns, each one
+       a mono figure number, a wireframe drawn on one isometric projection, then
+       the claim and two lines under it. The drawings are built from a shared
+       rhombus so the three sit in the same space rather than three styles. -->
+  <section id="figures" class="band fcards" aria-label="How fein works">
+    <div class="wrap figrow">
+      <figure class="figcard">
+        <p class="fignum">FIG 0.1</p>
+        <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M160 62.343599999999995L246 112L160 161.65640000000002L74 112Z"/><path d="M160 80.4984L244 129L160 177.5016L76 129Z"/><path d="M160 98.6532L242 146L160 193.3468L78 146Z"/><path d="M160 116.80799999999999L240 163L160 209.192L80 163Z"/><path d="M160 134.96280000000002L238 180L160 225.03719999999998L82 180Z"/><path d="M160 153.11759999999998L236 197L160 240.88240000000002L84 197Z"/><path d="M160 36.343599999999995L246 86L160 135.65640000000002L74 86Z" class="lid"/><ellipse cx="160" cy="86" rx="44" ry="25"/><ellipse cx="160" cy="86" rx="30" ry="17"/><ellipse cx="160" cy="86" rx="16" ry="9"/></svg>
+        <figcaption>
+          <h3>Reads everything</h3>
+          <p>fein reads your inbox, calendar, Drive, LinkedIn and CRM. It reads them continuously.</p>
+        </figcaption>
+      </figure>
+      <figure class="figcard">
+        <p class="fignum">FIG 0.2</p>
+        <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M112 72.904L152 96L112 119.096L72 96ZM72 96L112 119.096L112 149.096L72 126ZM152 96L112 119.096L112 149.096L152 126Z"/><path d="M196 96.904L236 120L196 143.096L156 120ZM156 120L196 143.096L196 173.096L156 150ZM236 120L196 143.096L196 173.096L236 150Z"/><path d="M152 124.59440000000001L196 150L152 175.4056L108 150ZM108 150L152 175.4056L152 209.4056L108 184ZM196 150L152 175.4056L152 209.4056L196 184Z"/><path d="M214 156.3684L248 176L214 195.6316L180 176ZM180 176L214 195.6316L214 221.6316L180 202ZM248 176L214 195.6316L214 221.6316L248 202Z"/></svg>
+        <figcaption>
+          <h3>Resolves to one record</h3>
+          <p>Every copy of a person becomes one identity, and the whole team shares it.</p>
+        </figcaption>
+      </figure>
+      <figure class="figcard">
+        <p class="fignum">FIG 0.3</p>
+        <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M58.0 214.0L75.0 223.8L75.0 205.8L58.0 196.0Z"/><path d="M71.6 207.0L88.6 216.8L88.6 191.6L71.6 181.8Z"/><path d="M85.2 200.0L102.2 209.8L102.2 177.4L85.2 167.6Z"/><path d="M98.8 193.0L115.8 202.8L115.8 163.2L98.8 153.4Z"/><path d="M112.4 186.0L129.4 195.8L129.4 149.0L112.4 139.2Z"/><path d="M126.0 179.0L143.0 188.8L143.0 134.8L126.0 125.0Z"/><path d="M139.6 172.0L156.6 181.8L156.6 120.6L139.6 110.8Z"/><path d="M153.2 165.0L170.2 174.8L170.2 106.4L153.2 96.6Z"/><path d="M166.8 158.0L183.8 167.8L183.8 92.2L166.8 82.4Z"/><path d="M180.4 151.0L197.4 160.8L197.4 78.0L180.4 68.2Z"/><path d="M194.0 144.0L211.0 153.8L211.0 63.8L194.0 54.0Z"/><path d="M207.6 137.0L224.6 146.8L224.6 49.6L207.6 39.8Z"/><path d="M221.2 130.0L238.2 139.8L238.2 35.4L221.2 25.6Z"/><path d="M234.8 123.0L251.8 132.8L251.8 21.2L234.8 11.4Z"/></svg>
+        <figcaption>
+          <h3>Answers everywhere</h3>
+          <p>One endpoint serves Claude, ChatGPT and Cursor, with the source on every line.</p>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
