@@ -99,7 +99,7 @@ function spriteOf(names) {
 // the answer can be asked in, and the citation on every claim. All of those
 // marks paint above the fold, so they ship in the head sprite rather than the
 // end-of-body one. The guard below is what tells you when this list is stale.
-const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "claude", "openai", "cursor"];
+const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "attio", "claude", "openai", "cursor"];
 const spriteHero = spriteOf(SPRITE_EARLY);
 const spriteRest = spriteOf(Object.keys(LOGOS).filter(k => SPRITE_EARLY.indexOf(k) < 0));
 
@@ -426,6 +426,16 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - It serves answers over one MCP endpoint. You query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
 - We deploy it into your stack. It is live in 14 days. Your team joins two short calls.
 
+## Your CRM stays
+- fein works with 30+ tools. It reads the CRM and everything around it, then resolves the whole picture into one graph.
+- It replaces no system, migrates no data, and asks the team for no new data entry. If the CRM is out of date, fein is still current, because it reads the record the team makes anyway.
+- CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable.
+- Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365.
+- Files and data rooms: Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend.
+- Meetings, notes and chat: Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion.
+- People and market data: LinkedIn, PitchBook, Crunchbase, Harmonic.
+- Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel.
+
 ## For private equity
 - fein serves private equity firms as well as venture capital firms. The page for private equity is ${SITE}/pe.
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
@@ -508,6 +518,18 @@ A company can come back for its next round. Then fein shows the meeting, the mem
 
 ### Relationships go cold. fein sees it first.
 fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.
+
+## Your CRM stays: it sits on top of the systems you run today
+
+fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.
+
+- CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable
+- Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365
+- Files and data rooms: Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend
+- Meetings, notes and chat: Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion
+- People and market data: LinkedIn, PitchBook, Crunchbase, Harmonic
+- Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel
+- 30+ tools in all. If your team runs something else, we read that too.
 
 ## Security
 

@@ -46,6 +46,18 @@ A company can come back for its next round. Then fein shows the meeting, the mem
 ### Relationships go cold. fein sees it first.
 fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.
 
+## Your CRM stays: it sits on top of the systems you run today
+
+fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.
+
+- CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable
+- Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365
+- Files and data rooms: Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend
+- Meetings, notes and chat: Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion
+- People and market data: LinkedIn, PitchBook, Crunchbase, Harmonic
+- Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel
+- 30+ tools in all. If your team runs something else, we read that too.
+
 ## Security
 
 Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.

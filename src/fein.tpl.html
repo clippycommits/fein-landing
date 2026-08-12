@@ -367,7 +367,10 @@
      under them break out of .wrap into a column of their own */
   /* widened with margins rather than a transform: the hero's entrance animates
      translate on every child of .wrap, and a keyframe beats a static property */
-  .hero-lead .ah-fig,.hero-lead .ah-proof{--fw:min(1120px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--fw);margin-left:calc((100% - var(--fw)) / 2)}
+  .proofband{position:relative;background:#000;padding:0 0 clamp(3rem,7vh,5rem)}
+  .proofband .ah-wrap{width:min(1120px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto}
+  .ah-proof{margin-top:0}
+  .hero-lead .ah-fig,.proofband .ah-proof{--fw:min(1120px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--fw);margin-left:calc((100% - var(--fw)) / 2)}
   /* the inflow. Five documents, five runs into the top edge of the box, drawn
      in the ground's own grey rather than an accent: the point is the direction
      of travel, and a coloured line would be the loudest thing on the fold */
@@ -377,7 +380,7 @@
   .ah-wires circle{fill:rgba(255,255,255,.5)}
   /* the documents: outlines, not objects. They are what fein read, and the
      thing worth looking at is what it said back */
-  .ah-srcs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(.4rem,.85vw,.68rem);list-style:none;width:100%;margin:0;padding:0}
+  .ah-srcs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(.4rem,.85vw,.68rem);list-style:none;width:100%;margin:0;padding:0}
   .ah-src{display:grid;grid-template-columns:20px minmax(0,1fr);gap:.55rem;align-items:center;padding:.66rem .8rem;border:1px solid var(--line);border-radius:9px;text-align:left;transition:border-color .35s ease,background .35s ease,opacity .5s ease,translate .5s cubic-bezier(.22,.61,.36,1)}
   .ah-src .tlogo{width:14px;height:14px;justify-self:center;opacity:.85;transition:opacity .35s ease}
   .ah-src b{display:block;font-size:.79rem;font-weight:500;line-height:1.25;letter-spacing:-.01em;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -388,7 +391,7 @@
   .ah-src.hot b{color:#fff}
   .ah-src.hot .tlogo{opacity:1}
 
-  .ask.ask--hero{width:100%;margin:clamp(3.6rem,7.2vh,5rem) 0 0;position:relative;z-index:1;text-align:left;border-color:var(--line-2);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95)}
+  .ask.ask--hero{width:min(960px,100%);margin:clamp(3.6rem,7.2vh,5rem) auto 0;position:relative;z-index:1;text-align:left;border-color:var(--line-2);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95)}
   /* the question is chosen inside the product: three jobs a firm actually has,
      each answered out of a different handful of the same documents */
   .ask--hero .ask-q{font-size:clamp(1rem,1.5vw,1.13rem)}
@@ -757,6 +760,21 @@
   .sec-list b{display:block;color:#fff;font-weight:550;font-size:1.02rem;letter-spacing:-.016em;line-height:1.35}
   .sec-list p{margin-top:.35rem;color:var(--fg-2);font-size:.94rem;line-height:1.55;text-wrap:pretty}
 
+  /* YOUR CRM STAYS: the compatibility answer, on the same 5/7 grid as security,
+     because it is the same shape of question — the argument in the narrow
+     column, the receipt in the wide one. The stack is named rather than drawn:
+     the marquee above already carries the marks, and thirty of them would be a
+     logo wall. Each group is a hairline-topped row so the column reads as a
+     spec sheet, which is what a reader checking for their own CRM wants. */
+  .stack-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 2rem}
+  .stack-list li{border-top:1px solid var(--line);padding-top:.8rem}
+  .stack-list .sl{display:block;color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em}
+  .stack-list p{margin-top:.4rem;color:var(--fg-2);font-size:.93rem;line-height:1.6;text-wrap:pretty}
+  /* the count spans the column: it is the claim the six rows above are evidence
+     for, so it closes them rather than sitting as a seventh group */
+  .stack-list .sl-all{grid-column:1/-1;border-top-color:var(--line-2)}
+  .stack-list .sl-all p{color:var(--fg-3)}
+
   /* ============ CTA: the finale, given the room the animation was missing ============ */
   .cta-dark{position:relative;overflow:hidden;background:#000;color:#fff;min-height:clamp(600px,86vh,1000px);display:flex;justify-content:center;padding:clamp(4.5rem,9vh,7.5rem) 0 clamp(9rem,20vh,14rem);text-align:center;border-top:1px solid var(--line)}
   .cta-dark .wrap{position:relative;z-index:1;align-self:flex-start}
@@ -795,7 +813,7 @@
      the width of a paragraph. It breaks out to its own measure and sizes to
      hold on one line wherever one line fits, which buys back more height than
      the larger type costs and is why the picture below it still clears */
-  .hero-lead h1,.hero-lead h2{--hw:min(1360px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--hw);max-width:none;margin:1.55rem 0 0 calc((100% - var(--hw)) / 2);font-size:clamp(2.35rem,5.4vw,4.5rem);letter-spacing:-.046em;line-height:1.02;text-wrap:balance}
+  .hero-lead h1,.hero-lead h2{--hw:min(1360px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--hw);max-width:none;margin:1.55rem 0 0 calc((100% - var(--hw)) / 2);font-size:clamp(2.35rem,5.4vw,4.7rem);letter-spacing:-.046em;line-height:1.03;text-wrap:balance}
   .hero-lead .wrap>p{margin-top:1.5rem;font-size:1.08rem;line-height:1.55;max-width:38rem;text-wrap:pretty}
   .hero-lead .hero-actions{margin-top:1.85rem;gap:.7rem}
   .hero-lead .hero-actions .btn{height:44px;padding:0 19px;font-size:15px;border-radius:11px}
@@ -1022,6 +1040,7 @@
     .why3 p{max-width:52ch}
     .head .lead{font-size:1.06rem}
     .sec-list{grid-template-columns:1fr;gap:1.5rem}
+    .stack-list{grid-template-columns:1fr;gap:1.25rem}
   }
 
   @media (max-width:640px){
@@ -1620,6 +1639,7 @@ __LOGO_SPRITE__
           <li class="ah-src" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><span><b>New VP Engineering</b><em>LinkedIn &middot; Jun 2025</em></span></li>
           <li class="ah-src" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><span><b>LP quarterly review</b><em>Calendar &middot; Mar 2026</em></span></li>
           <li class="ah-src" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span><b>Series A opening</b><em>Gmail &middot; Jun 2026</em></span></li>
+          <li class="ah-src" data-s="5"><svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg><span><b>Moved to IC</b><em>Attio &middot; Jul 2026</em></span></li>
         </ol>
 
 
@@ -1660,31 +1680,40 @@ __LOGO_SPRITE__
             <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
             <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
             <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-attio"/></svg>
             <i>4,180 records</i><em>46 facts updated this week</em><b>0.9s</b>
           </p>
         </div>
       </div>
-
-      <ul class="ah-proof">
-        <li>
-          <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
-          <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
-        </li>
-        <li>
-          <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
-          <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
-        </li>
-        <li>
-          <b>Every claim cited</b>
-          <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
-        </li>
-        <li>
-          <b>Nothing is deleted</b>
-          <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
-        </li>
-      </ul>
     </div>
 
+  </section>
+
+  <!-- The four claims the picture above has just demonstrated. They sit in a
+       section of their own so they begin where the hero's screen ends: inside
+       it they were competing with the answer for the same eyeline. Same black
+       ground, no rule, so the page does not look joined. -->
+  <section id="proof" class="proofband" aria-label="What fein gives you">
+    <div class="ah-wrap">
+    <ul class="ah-proof">
+      <li>
+        <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
+        <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
+      </li>
+      <li>
+        <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
+        <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
+      </li>
+      <li>
+        <b>Every claim cited</b>
+        <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
+      </li>
+      <li>
+        <b>Nothing is deleted</b>
+        <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
+      </li>
+    </ul>
+    </div>
   </section>
 
   <section id="demo" class="band" aria-labelledby="demo-h">
@@ -2152,6 +2181,35 @@ __LOGO_SPRITE__
       </div></div>
     </div>
 
+  </section>
+
+  <!-- YOUR CRM STAYS: the second question after "what does it read?", and the
+       one that kills deals if the page leaves it hanging. It sits directly
+       under the tool strip because the strip raises it: a reader who has just
+       seen eight marks of other people's software wants to know what happens
+       to the software they already pay for. The answer is nothing, and the
+       stack column is there so a DealCloud firm can find DealCloud in it.
+       Ported from /pe, where the same band sits in the same place. -->
+  <section id="crm" class="band">
+    <div class="wrap secgrid">
+      <div class="head reveal">
+        <span class="eyebrow">Your CRM stays</span>
+        <h2>It sits on top of the systems you run today.</h2>
+        <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.</p>
+        <div class="sec-cta">
+          <a class="arrowlink" href="#get-started">Ask about your stack <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        </div>
+      </div>
+      <ul class="stack-list" data-reveal-group="70">
+        <li class="reveal"><span class="sl">CRM and deal systems</span><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></li>
+        <li class="reveal"><span class="sl">Email and calendar</span><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></li>
+        <li class="reveal"><span class="sl">Files and data rooms</span><p>Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend</p></li>
+        <li class="reveal"><span class="sl">Meetings, notes and chat</span><p>Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion</p></li>
+        <li class="reveal"><span class="sl">People and market data</span><p>LinkedIn, PitchBook, Crunchbase, Harmonic</p></li>
+        <li class="reveal"><span class="sl">Portfolio and back office</span><p>Carta, Standard Metrics, Google Sheets, Excel</p></li>
+        <li class="reveal sl-all"><span class="sl">30+ tools in all</span><p>If your team runs something else, we read that too. Ask us.</p></li>
+      </ul>
+    </div>
   </section>
 
   <!-- SECURITY: you control your data. Six short commitments in two columns,

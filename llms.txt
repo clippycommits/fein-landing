@@ -15,6 +15,16 @@ Updated: 2026-08-12. Full page content in Markdown: https://fein.vc/llms-full.tx
 - It serves answers over one MCP endpoint. You query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
 - We deploy it into your stack. It is live in 14 days. Your team joins two short calls.
 
+## Your CRM stays
+- fein works with 30+ tools. It reads the CRM and everything around it, then resolves the whole picture into one graph.
+- It replaces no system, migrates no data, and asks the team for no new data entry. If the CRM is out of date, fein is still current, because it reads the record the team makes anyway.
+- CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable.
+- Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365.
+- Files and data rooms: Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend.
+- Meetings, notes and chat: Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion.
+- People and market data: LinkedIn, PitchBook, Crunchbase, Harmonic.
+- Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel.
+
 ## For private equity
 - fein serves private equity firms as well as venture capital firms. The page for private equity is https://fein.vc/pe.
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
