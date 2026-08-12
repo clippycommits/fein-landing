@@ -57,8 +57,15 @@
     --bar-pad:32px;
     /* the announcement ribbon above the bar. it is a variable, not a constant,
        because dismissing it sets --ribbon-h to 0 on <html> and every offset
-       that depends on it (the fold's top padding) follows in one step */
-    --ribbon-h:48px;
+       that depends on it (the fold's top padding) follows in one step.
+       0ffe56f dropped the ribbon along with the eyebrows, the fold's pill and
+       the setup badge, but left the height behind: there has been no .ribbon
+       in the markup since, and every fold has gone on reserving 48px above
+       the bar for it. On a 390px phone that put the first word 193px down an
+       844px screen, a quarter of the fold spent on an element that is not
+       there. The variable stays -- the ribbon can come back by setting it --
+       but it measures what is actually rendered, which is nothing. */
+    --ribbon-h:0px;
     --r-sm:8px; --r-md:12px; --r-lg:16px;
     --hl-top:inset 0 1px 0 rgba(255,255,255,.06);
     --shadow-card:0 0 0 1px rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5),0 24px 60px -24px rgba(0,0,0,.9);
@@ -1719,6 +1726,17 @@
 
   @media (max-width:900px){
     nav.links,.bar .right a.link,.bar .right .sbtn-sec{display:none}
+    /* and with the links goes the thing that was holding the bar apart. The
+       right hand cluster is pushed over by nav.links' margin-left:auto, not by
+       any property of its own -- so hiding the links took the auto margin out
+       of the flex line with them, and the pill and the menu button collapsed
+       back against the wordmark. On a 390px screen that left the whole bar
+       inside its first 280px with 109px of nothing after it, and at 900px,
+       598px of nothing. The margin moves onto the cluster that actually needs
+       it, and the hairline goes: it divided the links from the actions, and
+       there are no links on this side of 900 for it to divide. */
+    .bar .right{margin-left:auto;padding-left:0}
+    .bar .right::before{display:none}
     /* the panels can never open here (show() bails at <=900), so stop the
        browser laying out a 1220px-tall panel on every mobile pass */
     .ddwrap{display:none}
