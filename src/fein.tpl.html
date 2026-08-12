@@ -357,7 +357,11 @@
      The row is quiet outlines and the answer is the one filled object on the
      page, so the eye goes to the output. There is no accent in here beyond the
      logos and a single struck fact; the blue belongs to the rest of the site. */
-  .ah-fig{position:relative;margin-top:clamp(1.3rem,2.8vh,2.2rem)}
+  .ah-fig{position:relative;margin-top:clamp(1.9rem,4vh,3rem)}
+  /* the picture stands on the burst, and the burst is at its densest exactly
+     where the documents are. A soft well under the whole figure gives it a
+     ground of its own without putting a box around it */
+  .ah-fig::before{content:"";position:absolute;inset:-9% -7% -12%;z-index:0;pointer-events:none;background:radial-gradient(62% 64% at 50% 52%,rgba(0,0,0,.9),rgba(0,0,0,.6) 52%,transparent 78%)}
   /* the hero copy is set to a reading measure and the picture is not: both are
      centred on the same axis, but the documents, the box and the four claims
      under them break out of .wrap into a column of their own */
@@ -368,7 +372,7 @@
      in the ground's own grey rather than an accent: the point is the direction
      of travel, and a coloured line would be the loudest thing on the fold */
   .ah-wires{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:visible}
-  .ah-wires path{fill:none;stroke:rgba(255,255,255,.26);stroke-width:1;transition:stroke .35s ease}
+  .ah-wires path{fill:none;stroke:rgba(255,255,255,.24);stroke-width:1;stroke-linecap:round;transition:stroke .35s ease}
   .ah-wires path.hot{stroke:rgba(255,255,255,.7)}
   .ah-wires circle{fill:rgba(255,255,255,.5)}
   /* the documents: outlines, not objects. They are what fein read, and the
@@ -384,7 +388,7 @@
   .ah-src.hot b{color:#fff}
   .ah-src.hot .tlogo{opacity:1}
 
-  .ask.ask--hero{width:100%;margin:clamp(3.2rem,6.6vh,4.6rem) 0 0;position:relative;z-index:1;text-align:left;border-color:var(--line-2);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95)}
+  .ask.ask--hero{width:100%;margin:clamp(3.6rem,7.2vh,5rem) 0 0;position:relative;z-index:1;text-align:left;border-color:var(--line-2);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95)}
   /* the question is chosen inside the product: three jobs a firm actually has,
      each answered out of a different handful of the same documents */
   .ask--hero .ask-q{font-size:clamp(1rem,1.5vw,1.13rem)}
@@ -787,12 +791,13 @@
      get the widest. the lede reads at 1.5 rather than the old 1.3, which was
      display leading applied to body copy three lines deep. */
   .hero-lead .wrap>.eyebrow{display:block;line-height:1;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
-  /* the picture is part of the fold now, so the copy is measured to leave it a
-     screen: a shorter display size, a wider lede that sets in two lines, and
-     less air under the buttons. The essence is untouched, only the scale */
-  .hero-lead h1,.hero-lead h2{font-size:clamp(2.35rem,5.4vw,4rem);letter-spacing:-.042em;line-height:1.04;margin-top:.95rem}
-  .hero-lead .wrap>p{margin-top:1.15rem;font-size:1.1rem;line-height:1.5;max-width:39rem;text-wrap:pretty}
-  .hero-lead .hero-actions{margin-top:1.45rem;gap:.7rem}
+  /* the display line is the loudest thing on the page and it was being set to
+     the width of a paragraph. It breaks out to its own measure and sizes to
+     hold on one line wherever one line fits, which buys back more height than
+     the larger type costs and is why the picture below it still clears */
+  .hero-lead h1,.hero-lead h2{--hw:min(1360px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--hw);max-width:none;margin:1.55rem 0 0 calc((100% - var(--hw)) / 2);font-size:clamp(2.35rem,5.4vw,4.5rem);letter-spacing:-.046em;line-height:1.02;text-wrap:balance}
+  .hero-lead .wrap>p{margin-top:1.5rem;font-size:1.08rem;line-height:1.55;max-width:38rem;text-wrap:pretty}
+  .hero-lead .hero-actions{margin-top:1.85rem;gap:.7rem}
   .hero-lead .hero-actions .btn{height:44px;padding:0 19px;font-size:15px;border-radius:11px}
   .hero-lead .hero-actions .btn .tlogo{width:16px;height:16px}
 
@@ -4007,6 +4012,8 @@ __LOGO_SPRITE__
     var p=document.createElementNS(NS,'path');
     svg.appendChild(p); paths.push(p);
   });
+  var rail=document.createElementNS(NS,'path'); svg.appendChild(rail);
+  var drop=document.createElementNS(NS,'path'); svg.appendChild(drop);
   var dots=srcs.map(function(){
     var c=document.createElementNS(NS,'circle');
     c.setAttribute('r','1.9'); svg.appendChild(c); return c;
@@ -4016,20 +4023,24 @@ __LOGO_SPRITE__
     var B=fig.getBoundingClientRect();
     if(!B.width) return;
     var C=card.getBoundingClientRect();
-    var top=C.top-B.top, cx=C.left+C.width/2-B.left;
-    /* the five runs land across the middle of the box's edge rather than on one
-       point: converging on a single spot reads as a funnel, and this is a feed */
-    var spread=Math.min(C.width*0.1,86);
+    var top=C.top-B.top;
+    var first=srcs[0].getBoundingClientRect(), last=srcs[srcs.length-1].getBoundingClientRect();
+    var bottom=first.bottom-B.top+3;
+    /* a rail, not a fan. Five curves across 1100px and 90px read as spaghetti
+       however they are eased; five stubs onto one line and a single drop is
+       what a feed actually looks like, and it never crosses itself */
+    var bus=bottom+(top-bottom)*0.52;
+    var x0=first.left+first.width/2-B.left, x1=last.left+last.width/2-B.left;
+    var cx=C.left+C.width/2-B.left, r=7;
     svg.setAttribute('viewBox','0 0 '+B.width+' '+B.height);
     srcs.forEach(function(s,i){
-      var r=s.getBoundingClientRect();
-      var sx=r.left+r.width/2-B.left, sy=r.bottom-B.top+2;
-      var ex=cx+(i-(srcs.length-1)/2)*spread;
-      var k=Math.max(20,(top-sy)*0.55);
-      paths[i].setAttribute('d','M'+sx.toFixed(1)+' '+sy.toFixed(1)+
-        ' C'+sx.toFixed(1)+' '+(sy+k).toFixed(1)+' '+ex.toFixed(1)+' '+(top-k).toFixed(1)+' '+ex.toFixed(1)+' '+top.toFixed(1));
-      dots[i].setAttribute('cx',sx.toFixed(1)); dots[i].setAttribute('cy',sy.toFixed(1));
+      var q=s.getBoundingClientRect(), sx=q.left+q.width/2-B.left;
+      paths[i].setAttribute('d','M'+sx.toFixed(1)+' '+bottom.toFixed(1)+' V'+bus.toFixed(1));
+      dots[i].setAttribute('cx',sx.toFixed(1)); dots[i].setAttribute('cy',bottom.toFixed(1));
     });
+    rail.setAttribute('d','M'+x0.toFixed(1)+' '+bus.toFixed(1)+' H'+x1.toFixed(1));
+    drop.setAttribute('d','M'+cx.toFixed(1)+' '+bus.toFixed(1)+' V'+(top-r).toFixed(1)+
+      ' Q'+cx.toFixed(1)+' '+top.toFixed(1)+' '+cx.toFixed(1)+' '+top.toFixed(1));
   }
 
   function claims(i){ return [].slice.call(panels[i].querySelectorAll('.cl')); }
