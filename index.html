@@ -422,7 +422,7 @@
   section[id],.feat[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
   .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0;border-top:1px solid var(--line)}
   .head{max-width:60ch}
-  .head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);letter-spacing:-.03em;font-weight:600;text-wrap:balance;margin-top:.7rem;line-height:1.12}
+  .head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);letter-spacing:-.026em;font-weight:500;text-wrap:balance;margin-top:.7rem;line-height:1.09}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
   /* ============ features: one claim, one sentence, one mock. alternating ============ */
   .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:center;margin-top:0}
@@ -971,7 +971,11 @@
      reference sets its own two: near enough the same width as each other, and
      each stopping just short of the gutter rather than at a count of characters
      that has nothing to do with the column it is in. */
-  .mem-head h2{font-size:clamp(2rem,4.2vw,3.15rem);line-height:1.05;letter-spacing:-.035em;color:#fff;max-width:11.6em;text-wrap:balance}
+  /* set off the stance line, which is this page's reference for a statement at
+     reading weight: 500 rather than 600, and its measure rather than a display
+     size. A heading that outweighs the sentence under it is doing the arguing by
+     being loud. */
+  .mem-head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;color:#fff;max-width:11.6em;text-wrap:balance}
   /* the right column is set at lead size rather than body size, so it reads as
      the headline's second half and not as a caption underneath it. */
   .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
