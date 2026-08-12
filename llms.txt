@@ -1,8 +1,8 @@
 # fein
 
-> fein is the open-source data layer for a venture capital team. It is the shared memory that the whole firm can query. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then $1,000 each month. It is free if the team runs it.
+> fein is the open-source data layer for an investment team. It is the shared memory that the whole firm can query. It serves venture capital firms and private equity firms. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. It is free if the team runs it.
 
-Updated: 2026-08-11. Full page content in Markdown: https://fein.vc/llms-full.txt
+Updated: 2026-08-12. Full page content in Markdown: https://fein.vc/llms-full.txt
 
 ## What fein does
 - Find the warmest introduction to a founder, an LP, or an operator. See who should make it.
@@ -15,11 +15,20 @@ Updated: 2026-08-11. Full page content in Markdown: https://fein.vc/llms-full.tx
 - It serves answers over one MCP endpoint. You query it from Claude, ChatGPT, Gemini, Cursor, or any MCP client.
 - We deploy it into your stack. It is live in 14 days. Your team joins two short calls.
 
+## For private equity
+- fein serves private equity firms as well as venture capital firms. The page for private equity is https://fein.vc/pe.
+- An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
+- fein lists every intermediary who sends the firm deals. It scores each relationship from real signal. It names the person at the firm who owns each relationship. It flags the relationships that go quiet.
+- It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
+- It works with DealCloud, Affinity, Salesforce, and Attio. It replaces no system and migrates no data.
+
 ## Pricing
-- $5,000 to build once.
-- $1,000 each month for maintenance. We keep the connectors working, keep the graph current, and build new answers on request.
-- About $17,000 in the first year.
+- $5,000 to build once. That fee builds fein into the firm's stack.
+- Then a monthly fee, priced on fund size, never per seat: under $250M is $1,000 each month; $250M to $1B is $2,500; $1B to $5B is $4,000; over $5B is priced on a call.
+- The monthly fee keeps the connectors working, keeps the graph current, and builds new answers on request.
+- An annual plan, paid in advance, costs 15% less.
 - It is month to month, with no lock-in. If you cancel, the self-hosted software and the graph stay yours.
+- Running it yourself is free forever. The code is MIT licensed.
 
 ## Security and data
 - It is self-hosted in the team's own environment. Data never leaves it. There is no telemetry and no control plane.
@@ -33,6 +42,7 @@ Updated: 2026-08-11. Full page content in Markdown: https://fein.vc/llms-full.tx
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
+- [fein for private equity](https://fein.vc/pe): the page for private equity firms, with pricing by fund size
 - [Source on GitHub](https://github.com/clippycommits/fein): MIT licensed, free to self-host
 - [Full page content for LLMs](https://fein.vc/llms-full.txt): the whole page in Markdown
 - [Sitemap](https://fein.vc/sitemap.xml): every indexable URL

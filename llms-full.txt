@@ -1,8 +1,8 @@
 # fein · the shared memory of a venture capital team
 
-> fein is the open-source data layer for a venture capital team. It is the shared memory that the whole firm can query. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then $1,000 each month. It is free if the team runs it.
+> fein is the open-source data layer for an investment team. It is the shared memory that the whole firm can query. It serves venture capital firms and private equity firms. It reads the team's email, calendar, notes, and CRM. It resolves them into one graph of every relationship the firm has. The graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with the source attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. It is free if the team runs it.
 
-Updated: 2026-08-11. This file mirrors the full content of https://fein.vc/ for AI assistants and answer engines. Summary version: https://fein.vc/llms.txt
+Updated: 2026-08-12. This file mirrors the full content of https://fein.vc/ for AI assistants and answer engines. Summary version: https://fein.vc/llms.txt
 
 ## What fein is
 
@@ -65,19 +65,38 @@ We deploy fein in two weeks. Then it works on its own. Your only part is two sho
 - Days 2-13, it reads your full history: it reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.
 - Day 14, you check it, then it goes live: on a second short call, you check the answers against what you know. Then fein goes live. It holds your team's full history, like a colleague of many years.
 
+## For private equity: https://fein.vc/pe
+
+fein serves private equity firms as well as venture capital firms. The page at https://fein.vc/pe describes the same product in the language a deal team uses.
+
+An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them, and the record of those relationships sits in ten thousand emails. Four problems follow from that. Coverage is a guess, because the CRM shows one picture and the inbox shows another. Relationships go quiet in silence, and the firm learns this when the next deal goes to a competitor. Ownership leaves when a partner leaves, because what the partner knew was never written down. Deal history is not searchable, because the memo, the reason, and the intermediary sit in three systems and one person's memory.
+
+fein answers four questions for a deal team. It lists every intermediary who sends the firm deals, scored from real signal, with the owner of each relationship named. It flags each relationship that drifts away from its own rhythm, with the last contact and the colleague who must make the call. It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line. It finds the shortest real path to a management team, a seller, an operator, or an LP, and names the best colleague to make the introduction.
+
+fein works with DealCloud, Affinity, Salesforce, and Attio. It reads the CRM and everything around it. It replaces no system, it migrates no data, and it asks the team for no new data entry.
+
 ## Pricing
 
-Every venture capital team needs a data engineer. Now every team can afford one.
+Every investment team needs a data engineer. Now every team can afford one.
 
 | Option | Price | What you get |
 | --- | --- | --- |
 | A data hire | $200,000 per year | Skilled, but one person. The graph stays in their head. |
-| fein | $5,000 once + $1,000 per month | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
+| fein | $5,000 once + a monthly fee priced on fund size | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
 | Clone it yourself | $0 forever | The same code we deploy for clients. You run it and you maintain it. |
 
-The fein plan reads your inbox, calendar, Drive, LinkedIn, and CRM. It resolves entities to one identity per person. It scores every relationship from real signals, not a guess. It answers over one MCP endpoint in Claude, ChatGPT, Gemini, and Cursor. It is open source and runs on your servers. We keep the connectors working through every API change. We build new answers when your team asks. There is no per-seat pricing.
+The monthly fee is priced on fund size, and never per seat.
 
-This is about $17,000 in the first year. It is less than one month of a data hire. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
+| Fund size | Monthly |
+| --- | --- |
+| Under $250M | $1,000 |
+| $250M to $1B | $2,500 |
+| $1B to $5B | $4,000 |
+| Over $5B | Priced on a call |
+
+The fein plan reads your inbox, calendar, Drive, LinkedIn, and CRM. It resolves entities to one identity per person. It scores every relationship from real signals, not a guess. It answers over one MCP endpoint in Claude, ChatGPT, Gemini, and Cursor. It is open source and runs on your servers. We keep the connectors working through every API change. We build new answers when your team asks.
+
+A firm under $250M pays about $17,000 in the first year. That is less than one month of a data hire. An annual plan, paid in advance, costs 15% less. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
 
 ## FAQ
 
@@ -88,7 +107,7 @@ fein is an open-source data layer for your firm's relationships. It reads your e
 A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry.
 
 ### What does it cost?
-It costs $5,000 once, then $1,000 each month. This is about $17,000 in the first year. There is no per-seat pricing.
+It costs $5,000 once to build it into your stack. Then you pay a monthly fee priced on fund size: $1,000 each month under $250M, $2,500 from $250M to $1B, $4,000 from $1B to $5B, and a price agreed on a call above $5B. An annual plan, paid in advance, costs 15% less. There is no per-seat pricing. Running it yourself is free forever.
 
 ### Can't we build this ourselves?
 Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it.
