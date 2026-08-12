@@ -427,7 +427,10 @@
      sharing a screen. The h2 keeps its 22ch measure, which is what sets the
      line break, so only the box it sits in moves. */
   .change-head{padding-bottom:clamp(1.4rem,3.4vw,2.3rem)}
-  .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:22ch}
+  .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:26ch}
+  /* the title card's second voice: the heading names what fein is, this says
+     why it exists. Body measure, not the heading's, so it reads as prose. */
+  .change-head .sub{max-width:52ch;margin:1.15rem 0 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);line-height:1.55;text-wrap:pretty}
   /* the static default is a document, so it takes the page measure; the pinned
      stage sets its own width and resets this */
   .rec-track{display:block;position:relative;max-width:var(--maxw);margin-inline:auto;padding:0 24px}
@@ -556,6 +559,7 @@
      set at the size the six beat headings are set at: the reader meets the
      voice the walk is written in before the walk starts talking. */
   .rec-on .change-head h2{font-size:clamp(1.75rem,3.35vw,2.9rem);letter-spacing:-.034em;line-height:1.06;margin-top:1rem}
+  .rec-on .change-head .sub{margin-top:clamp(1.3rem,2.2vw,1.8rem)}
   .rec-on .rec-track{--rec-travel:180;max-width:none;margin:0;padding:0;height:calc(100svh - var(--nav-h) + var(--rec-travel) * 1svh)}
   .rec-on .rec-pin{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h))}
   /* three rows: the calendar, the two panes, and the transport. The transport is
@@ -1756,8 +1760,9 @@ setTimeout(go,1200);})()</script>
        would make the pin a containing block and Safari drops the stick). -->
   <section id="change" class="band" aria-labelledby="change-h">
     <div class="change-head wrap">
-      <span class="eyebrow">THE RECORD</span>
-      <h2 id="change-h">Every fact lands on the right record.</h2>
+      <span class="eyebrow">WHY FEIN EXISTS</span>
+      <h2 id="change-h">A memory layer built for the next generation of venture capital.</h2>
+      <p class="sub">A firm is what it remembers. Yours is scattered across ten thousand emails, call notes and decks, and a little more of it goes dark every quarter. fein reads all of it and files every fact on the record it belongs to, dated and sourced, so what your firm learned two years ago is there the moment it matters.</p>
     </div>
     <div class="rec-track" id="rec-track">
       <div class="rec-pin" id="rec-pin">
@@ -1773,7 +1778,6 @@ setTimeout(go,1200);})()</script>
                   <div class="rec-chrome"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><span class="rec-cs">Gmail</span><span class="rec-cd">8 Nov 2024</span></div>
                   <div class="rec-mh"><p class="rec-mfrom"><b><mark class="rec-hl" data-hl="0">Dev Raman<span class="rec-hn" aria-hidden="true">1</span></mark></b> <span>&lt;dev@raman.vc&gt;</span></p><p class="rec-mto">to Marcus</p><p class="rec-msub">Fwd: Halo Compute, seed deck</p></div>
                   <p class="rec-mb">Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <mark class="rec-hl" data-hl="1">raising a $4M seed<span class="rec-hn" aria-hidden="true">2</span></mark> and I think <mark class="rec-hl" data-hl="2">you are the right partner<span class="rec-hn" aria-hidden="true">3</span></mark> for it.</p>
-                  <p class="rec-why">Three sentences, <b>three different records</b>. Nobody chose any of them.</p>
                 </article>
                 <article class="rec-card" data-c="1">
                   <p class="rec-lede">Then, fein files the call nobody wrote up.</p>
