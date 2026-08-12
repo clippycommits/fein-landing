@@ -1261,7 +1261,7 @@
   /* where the top of this section comes to rest, which is not the nav's height:
      the section's own scroll-margin-top clears the nav by a further 18px, and
      that is the position a reader who scrolls to the film actually stops at. */
-  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(1.05rem,2.2vw,1.6rem);--demo-air:1.1rem;--film-w:min(calc(100% - var(--film-gutter)),1760px,max(30rem,calc((100svh - var(--demo-top) - var(--demo-air)) * 16 / 9)));--film-gutter:min(4vw,4.5rem);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
+  #demo{--demo-top:calc(var(--nav-h) + 18px);--demo-pad-t:clamp(2.2rem,4vw,3.05rem);--demo-h2-size:clamp(1.85rem,4.5vw,3.3rem);--demo-lead-size:1.0625rem;--demo-gap:clamp(2.2rem,4.4vw,4rem);--demo-air:1.1rem;--film-w:min(calc(var(--maxw) - 48px),calc(100% - 48px),max(30rem,calc((100svh - var(--demo-top) - var(--demo-air)) * 16 / 9)));--film-r:clamp(10px,1.1vw,16px);padding-top:var(--demo-pad-t);padding-bottom:clamp(2.6rem,4.6vw,3.75rem)}
   /* the band reads left, not centred. It now sits directly under the fold, and
      two centred screens running made the second read as a repeat of the first
      rather than as the next beat. Left is also the measure every other band
@@ -1271,12 +1271,15 @@
      it before they have seen anything, and it competes with the same words in
      the nav. It now sits under the film, where intent is highest. */
   .demo-intro{text-align:left;max-width:var(--maxw)}
-  .demo-intro .demo-lead{margin-inline:0;max-width:52ch}
+  .demo-intro .demo-lead{margin-inline:0;max-width:62ch}
   /* The row that catches the reader coming off the film. It takes the film's
      width, not the page's, so it starts on the same left edge as the chapter
      rail immediately above it rather than on the text column's, which is a
      thousand pixels further up the page and reads as unrelated down here. */
-  .demo-after{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;width:var(--film-w);box-sizing:border-box;margin:clamp(1.5rem,3vw,2.2rem) auto 0;padding:0 24px}
+  /* no padding of its own: --film-w already has the gutter in it, and the rail
+     it used to match the inset of has none now either. With both it sat 24px
+     inside the one left edge the rest of the band is built on. */
+  .demo-after{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;width:var(--film-w);box-sizing:border-box;margin:clamp(1.5rem,3vw,2.2rem) auto 0}
   /* the heading and the lead used to step down on a short window as well as a
      narrow one, because a 1440x760 laptop had to give the film its inches back
      out of the type. The film no longer takes them from here, so both are set
@@ -1290,7 +1293,10 @@
      3.3rem against the 62rem measure below, and the 118px left over is the
      margin that keeps it on two lines. Retune it if the sentence gets longer.
      text-wrap:balance is the guard for the same shape, as it is on the others. */
-  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;text-wrap:balance}
+  /* the heading takes a measure of its own rather than the column's: set across
+     the full width it ran as one long line and the lede under it read as a
+     second, longer line of the same thing. Stacked, the two are distinct. */
+  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;max-width:20ch;text-wrap:balance}
   /* the lead reads on the hero's measure, 33.5rem, and not on the block's:
      centred copy set to the 62rem the heading needs ran the better part of
      1300px on a wide screen, which is a longer line than anything else on the
@@ -1316,33 +1322,36 @@
      for itself. Two thirds of the width went to margin so that a caption could
      stay above the fold.
 
-     The film is the section. It is sized off the window now and the rest of the
-     section arranges itself around it, which is the trade the old rule made in
-     the other direction. Three terms, and the smallest wins:
+     The film sat on its own width, wider than every other thing in the band, so
+     the section had three different left edges: the heading on the text column,
+     the film on the window, the rail somewhere between. It is on the text
+     column now. One edge runs from the heading down through the film, the
+     chapters and the buttons, and the picture reads as part of the page rather
+     than as a slab dropped behind it. Three terms, and the smallest wins:
 
-       1. the window, less --film-gutter. That gutter scales with the window
-          rather than sitting at a constant: 58px on a laptop, 72px on a 27 inch
-          display, and nothing at all on a phone, where the query at the bottom
-          of this section zeroes it and the film runs edge to edge. It is 100%
-          and not 100vw on purpose, because 100vw counts the scrollbar and would
-          hand this section a horizontal one on every desktop.
-       2. 1760px. Past that the picture stops gaining and starts showing its
-          own resolution: the master is 2560x1440, and on a retina display 1760
-          CSS px is already asking for 3520.
+       1. the text column, which is --maxw less the 24px the wrap pads with on
+          each side. This is the term that binds on any normal window and it is
+          the one that puts the film on the heading's edge.
+       2. the window less the same 48px, for anything narrower than the column.
+          It is 100% and not 100vw on purpose, because 100vw counts the
+          scrollbar and would hand this section a horizontal one on every
+          desktop.
        3. the height of the window under the nav, at 16:9. This is what keeps a
           short landscape window honest: the film goes as wide as it can while
           the picture itself still fits between the nav and the bottom of the
-          screen. The rail lives under it and is now a scroll away rather than
-          guaranteed in frame, which is the promise being spent here.
+          screen.
 
      The max() is the floor, and it only exists so a very short window cannot
      drive term 3 to nothing. Measured, it does not bind above about 350px of
-     window height, which is not a window anyone has. */
-  /* --film-w moved up to #demo so the CTA row under the figure can take the
-     film's width too. The 100% inside it resolves where it is used, and #demo
-     and .demo-stage are the same width, so the film measures as before. */
+     window height, which is not a window anyone has.
+
+     --film-w lives on #demo, not .demo-stage, so the chapter grid and the CTA
+     row outside the figure can take the film's width too. */
   .demo-stage{margin:var(--demo-gap) 0 0}
-  .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate}
+  /* the frame and the chapter grid under it are one object: the picture rounds
+     at the top, the grid closes it at the bottom, and the hairline they meet on
+     is the grid's own top edge, which is also the progress track */
+  .demo-frame{position:relative;width:var(--film-w);aspect-ratio:16/9;margin-inline:auto;background:#000;overflow:hidden;isolation:isolate;border:1px solid var(--line);border-bottom:0;border-radius:var(--film-r) var(--film-r) 0 0}
   .demo-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
   .demo-scrim{position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .28s ease;pointer-events:none;z-index:1}
   /* the frame itself is the play target, so the button in the corner is a name
@@ -1399,7 +1408,9 @@
      bottom right of every page at z-index 2147483000, so anything parked in
      that corner loses to it on any viewport short enough to bring the two
      together. Left is the corner nothing else claims. */
-  .demo-ctls{position:absolute;left:clamp(.85rem,2vw,1.6rem);bottom:clamp(.85rem,2vw,1.6rem);display:flex;gap:.5rem;z-index:3;opacity:0;translate:0 6px;transition:opacity .24s ease,translate .24s ease;pointer-events:none}
+  /* a bar across the foot of the picture rather than a cluster in its corner:
+     the controls sit left, the running time closes the line on the right */
+  .demo-ctls{position:absolute;left:0;right:0;bottom:0;padding:clamp(.85rem,2vw,1.6rem);display:flex;align-items:center;gap:.5rem;z-index:3;opacity:0;translate:0 6px;transition:opacity .24s ease,translate .24s ease;pointer-events:none}
   .demo-ctl{-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);background:rgba(10,10,12,.62)}
   .demo-ctl svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   /* the controls come up on intent, and stay up whenever the film is stopped */
@@ -1440,10 +1451,14 @@
      The playhead lives here rather than on the frame on purpose: the film grades
      to #000 and so does the page, and a progress bar across the bottom of the
      picture would draw the one edge the material does not have. */
-  .demo-rail{display:flex;align-items:flex-start;justify-content:space-between;gap:clamp(1rem,3vw,2.5rem);width:var(--film-w);box-sizing:border-box;margin:0 auto;padding:.95rem 24px 0}
-  .demo-chaps{display:flex;flex:1;min-width:0;gap:clamp(.9rem,2.6vw,2.5rem);list-style:none;margin:0;padding:0}
-  .demo-chaps>li{flex:1 1 0;min-width:0}
-  .demo-chap{display:block;position:relative;width:100%;margin:0;padding:.62rem 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
+  /* three equal cells ruled off from each other, closing the frame above them.
+     They were three floating captions separated by air, which read as a stray
+     row of text under the picture rather than as the film's own contents. */
+  .demo-rail{display:block;width:var(--film-w);box-sizing:border-box;margin:0 auto;padding:0}
+  .demo-chaps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;margin:0;padding:0;border:1px solid var(--line);border-top:0;border-radius:0 0 var(--film-r) var(--film-r);overflow:hidden}
+  .demo-chaps>li{min-width:0;border-left:1px solid var(--line)}
+  .demo-chaps>li:first-child{border-left:0}
+  .demo-chap{display:block;position:relative;width:100%;height:100%;margin:0;padding:clamp(.85rem,1.5vw,1.15rem) clamp(.95rem,1.7vw,1.35rem);border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
   /* the rule above each beat is that beat's own share of the timeline, so the
      three of them are one scrubber cut into the three pieces that mean something */
   /* no transition on the fill, and that is the fix rather than an omission. The
@@ -1493,16 +1508,10 @@
      the transition for a frame; with no transition to kill, the rewind is simply
      the next frame's value and the class has nothing left to do. */
 
-  /* the film autoplays muted, so the action here is never "play", it is the
-     narration, and that control was a hover-only glyph in a corner. This is the
-     section's real micro conversion and it now says what it is out loud. */
-  .demo-meta{display:flex;flex:none;align-items:center;gap:.75rem;padding:.62rem 0 0;border-top:1px solid transparent}
-  .demo-time{font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.15em;color:var(--dim);white-space:nowrap}
-  .demo-snd{height:32px;padding:0 12px;font-size:13px;border-radius:9px}
-  .demo-snd svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .demo-rail .i-on{display:none}
-  .demo-frame.sound~.demo-rail .i-off{display:none}
-  .demo-frame.sound~.demo-rail .i-on{display:block}
+  /* the running time closes the control bar on the right. It used to sit in the
+     rail beside a second sound button that said the same thing as the one on
+     the picture; the grid below is three chapters and nothing else now. */
+  .demo-ctls .demo-time{margin-left:auto;font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.15em;color:var(--fg-3);white-space:nowrap}
 
   /* the strongest proof on the page ended on nothing, and the next ask was five
      sections down.
@@ -1515,34 +1524,23 @@
      one object on screen with nothing to separate it from the page. */
   .demo-after .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
 
+  /* three cells side by side stop being readable somewhere under 860px: the
+     descriptions wrap to three lines in a 130px column. They stack instead, and
+     the rule that divided them turns from a vertical to a horizontal one. */
   @media (max-width:860px){
-    .demo-rail{flex-wrap:wrap;gap:.95rem 1.2rem}
-    .demo-chaps{flex:1 1 100%;gap:.9rem}
-    .demo-chap span{display:none}
-    /* the meta drops to its own full width row here, and the far right of that
-       row is where the Intercom launcher is parked at z-index 2147483000. The
-       order reverses so the button, which is the only thing in the rail anyone
-       taps, sits on the left and the duration takes the corner that loses. */
-    .demo-meta{flex:1 1 100%;flex-direction:row-reverse;justify-content:flex-end;gap:.85rem;padding-top:0;border-top:0}
+    .demo-chaps{grid-template-columns:minmax(0,1fr)}
+    .demo-chaps>li{border-left:0}
   }
   @media (max-width:640px){
     .lbl-snd{display:none}
     .lbl-fs{display:inline}
     /* 37px wide was under the 44px touch minimum with the label gone */
     .demo-ctl{padding:0 11px;min-width:44px}
-    /* full bleed on a phone. There is nothing for a gutter to separate here:
-       the film grades to #000 and so does the page, so all a margin buys on a
-       390px screen is a smaller picture. */
-    #demo{--film-gutter:0px}
     .demo-stage{margin-top:1.5rem}
     /* six lines of lead before the film is a wall on a 390px screen, and the
        film is the section. The measure cannot give any back, so the step does. */
     .demo-lead{font-size:1rem;line-height:1.5;margin-top:.8rem}
-    .demo-rail{padding-top:.8rem}
     .demo-chap b{font-size:.9rem}
-    /* the subtitle is gone by this width, leaving a 37px row to tap. The pad
-       goes on the bottom so the hairline it hangs from does not move */
-    .demo-chap{padding-bottom:.45rem}
     .demo-after{flex-direction:column;align-items:stretch}
     /* stretched, this came out 342px on a 390px screen: a white slab as wide as
        the film above it, which is the one thing on the page it should not
@@ -1557,7 +1555,6 @@
   /* a touchscreen laptop still reports hover, so it keeps the rail button and
      needs it at a real touch size */
   @media (pointer:coarse){
-    .demo-snd{height:40px;padding:0 14px}
   }
   /* and here it goes away entirely. This button was only ever earning its place
      against the corner control being hover-hidden, and hover:none is the exact
@@ -1567,7 +1564,6 @@
      the frame, and the corner one is the only one that has to stay because it
      is the live mute toggle. The duration keeps the slot. */
   @media (hover:none){
-    .demo-snd{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -1832,6 +1828,7 @@ setTimeout(go,1200);})()</script>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
             <span class="lbl-fs">Full screen</span>
           </button>
+          <span class="demo-time">0:26</span>
         </div>
       </div>
       <!-- The rail. The three marks were the film's own picture cuts, measured
@@ -1869,14 +1866,6 @@ setTimeout(go,1200);})()</script>
           <li><button class="demo-chap" type="button" data-t="11.68" aria-label="Memory, at eleven seconds"><i>02</i><b>Memory</b><span>One system of record</span></button></li>
           <li><button class="demo-chap" type="button" data-t="18.06" aria-label="Sources, at eighteen seconds"><i>03</i><b>Sources</b><span>One endpoint, every agent</span></button></li>
         </ol>
-        <p class="demo-meta">
-          <span class="demo-time">0:26</span>
-          <button class="btn btn-ghost demo-snd" id="demo-snd2" type="button">
-            <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m17 9.5 5 5m0-5-5 5"/></svg>
-            <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.8a4.4 4.4 0 0 1 0 6.4M18.4 6a8.3 8.3 0 0 1 0 12"/></svg>
-            <span id="demo-snd2l">Watch with sound</span>
-          </button>
-        </p>
       </figcaption>
     </figure>
 
@@ -4490,14 +4479,7 @@ setTimeout(go,1200);})()</script>
   document.addEventListener('fullscreenchange',engage);
   document.addEventListener('webkitfullscreenchange',engage);
 
-  /* the rail's button and the one in the corner are the same control in two
-     places, so there is one handler and the corner button is the only thing
-     that holds the state. The rail proxies its click rather than repeating the
-     logic, which is what keeps the two labels from ever disagreeing. */
-  var snd2=document.getElementById('demo-snd2'),
-      snd2l=document.getElementById('demo-snd2l'),
-      sndl=snd?snd.querySelector('.lbl-snd'):null;
-  if(snd2&&snd) snd2.addEventListener('click',function(){ snd.click(); });
+  var sndl=snd?snd.querySelector('.lbl-snd'):null;
 
   if(snd) snd.addEventListener('click',function(){
     v.muted=!v.muted;
@@ -4512,8 +4494,6 @@ setTimeout(go,1200);})()</script>
        it also has to carry what the white button on the picture cannot say. */
     snd.setAttribute('aria-label',on?'Turn the sound off':'Turn the sound on');
     if(sndl) sndl.textContent=on?'Sound off':'Sound on';
-    if(snd2l) snd2l.textContent=on?'Mute':'Watch with sound';
-    if(snd2) snd2.setAttribute('aria-pressed',on?'true':'false');
     /* the narration is a written twenty-six seconds with a first line, and by
        the time anyone reaches for the sound the silent loop is already somewhere
        in the middle of it. Turning the voice on therefore starts the piece
