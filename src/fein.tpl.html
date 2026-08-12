@@ -1451,6 +1451,7 @@
      hairlines and a picture that grades to black, so a ghost button here is the
      one object on screen with nothing to separate it from the page. */
   .demo-act{display:flex;justify-content:center;align-items:center;gap:1.15rem;margin-top:clamp(1.7rem,3.2vw,2.35rem);padding:0 24px}
+.demo-intro .demo-act{margin-top:clamp(1.15rem,2vw,1.6rem);padding:0}
   .demo-act .btn{height:40px;padding:0 17px;font-size:14.5px;border-radius:11px}
 
   @media (max-width:860px){
@@ -3096,7 +3097,7 @@ __LOGO_SPRITE__
       df=document.getElementById("dfield"),dhead=document.getElementById("dhead"),
       dband=dl&&dl.querySelector(".dband"),
       dzl=dl&&dl.querySelector(".zlabels"),dwhy=dl&&dl.querySelector(".stage-why3");
-  if(dl&&dc&&df&&dhead&&dband&&dzl&&dwhy){
+  if(dl&&dc&&df&&dhead&&dband&&dwhy){
     var g=dc.getContext("2d"),draf=0,dvis=false,dlast=null,SPEED=68;
     var W=0,H=0,CX=0,CY=0,TL=0,TR=0,TOP=0,BOT=0,THH=0,CW2=0,PAD=0,HHE=1,stacked=false,wantPill=true;
     var FINED=!(window.matchMedia&&!window.matchMedia("(pointer:fine)").matches);
@@ -3148,7 +3149,7 @@ __LOGO_SPRITE__
         CX=hr.left-r.left+hr.width/2;CY=hr.top-r.top+hr.height/2;
         /* the flow runs in the gap the layout leaves it: under the zone labels,
            over the steps. Left to the full height it drifted pills across both */
-        var zr=dzl.getBoundingClientRect(),wr=dwhy.getBoundingClientRect();
+        var zr=(dzl||dhead).getBoundingClientRect(),wr=dwhy.getBoundingClientRect();
         TOP=Math.max(6,zr.bottom-r.top+16);
         BOT=Math.min(H-6,wr.top-r.top-20);
         if(BOT-TOP<160){TOP=Math.round(H*0.055);BOT=Math.round(H*0.945);}
