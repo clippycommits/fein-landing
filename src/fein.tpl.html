@@ -854,6 +854,94 @@
     .fig-head{margin-bottom:1.15rem}
   }
 
+  /* ============ one memory, asked from the thread it is about ================
+     The shape is a headline on the left, the sentence that qualifies it on the
+     right, and under both of them one picture drawn in two layers: the raw
+     material in front at reading size, the product behind it.
+
+     Both layers are already on this page in another form, which is the point of
+     putting them together. The thread is the #dealflow message the film's own
+     answer cites, and the film is the same twenty-six second walkthrough #demo
+     plays, on its second showing. Everything that makes the first one a player
+     is deliberately absent here -- no sound, no chapters, no scrubber -- because
+     this is the right half of a picture and not the film's own section. #demo is
+     four screens above it, so the file is in cache by the time anyone arrives:
+     the second copy costs a decode and no bytes.
+
+     One accent, as in the figures above. Blue is the mention in the composer and
+     the send button, and nothing else in either layer is coloured. */
+  .mem-head{width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.1rem,3vw,3.6rem);align-items:start}
+  .mem-head h2{font-size:clamp(2rem,4.2vw,3.15rem);line-height:1.05;letter-spacing:-.035em;color:#fff;max-width:19ch;text-wrap:balance}
+  /* the right column is set at lead size rather than body size, so it reads as
+     the headline's second half and not as a caption underneath it */
+  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:37ch;text-wrap:pretty}
+  .mem-more{margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
+  .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
+
+  /* one row, two layers. Grid rather than absolute positioning, so the row is as
+     tall as whichever layer is the taller one and nothing has to be measured in
+     script: the film takes the right column and reaches back under the thread,
+     the thread holds the left column on top of it.
+
+     The pull is about the width of the app's own sidebar in the film, which is
+     the one column of that picture carrying no part of the answer. */
+  .mem-stage{position:relative;width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;padding:0;display:grid;grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);align-items:center}
+  .mem-film{grid-area:1/2/2/3;position:relative;margin-left:calc(-1 * clamp(1.5rem,4.4vw,5rem));aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;isolation:isolate}
+  .mem-video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+  /* the seam is a fade, not a hairline butting into the back of a card */
+  .mem-film::after{content:"";position:absolute;inset:0 auto 0 0;width:24%;background:linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,.28) 55%,transparent);pointer-events:none;z-index:1}
+  /* the whole frame is the stop target. It is the only control the loop carries,
+     and it is here because moving content that starts on its own has to have
+     one; it is named for what the press does rather than for the state it is in */
+  .mem-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
+  .mem-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
+  .mem-glyph{position:absolute;right:clamp(.6rem,1.5vw,1rem);bottom:clamp(.6rem,1.5vw,1rem);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:rgba(10,10,13,.7);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top);-webkit-backdrop-filter:blur(10px) saturate(150%);backdrop-filter:blur(10px) saturate(150%);opacity:0;transition:opacity .2s ease}
+  .mem-glyph svg{width:14px;height:14px;display:block;fill:currentColor}
+  /* stopped, the glyph is the way back in and is always up. Running, it is a
+     control for something nobody asked to start, so it waits to be reached for */
+  .mem-film.paused .mem-glyph,.mem-film:hover .mem-glyph,.mem-film:focus-within .mem-glyph{opacity:1}
+  .mem-film.paused .g-stop,.mem-film:not(.paused) .g-play{display:none}
+
+  /* ---- the thread. Same panel as the two in the figures above, so the pictures
+     in this section and the last one are one object drawn four times ---- */
+  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-md);box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
+  .mem-bar{display:flex;align-items:center;gap:.55rem;height:44px;padding:0 15px;border-bottom:1px solid var(--line);font-size:.82rem;color:var(--fg-3)}
+  .mem-bar .tlogo{width:15px;height:15px;flex:none}
+  .mem-bar b{color:#fff;font-weight:550}
+  .mem-thread{list-style:none;margin:0;padding:.8rem 0 .3rem}
+  .mem-t{display:grid;grid-template-columns:32px minmax(0,1fr);column-gap:.7rem;padding:.48rem 15px}
+  .mem-av{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:.71rem;font-weight:600;color:#fff;letter-spacing:.01em}
+  .mem-nm{display:flex;align-items:baseline;gap:.45rem;font-size:.86rem;font-weight:600;color:#fff;letter-spacing:-.012em}
+  .mem-nm em{font-style:normal;font-size:.72rem;font-weight:400;color:var(--dim)}
+  .mem-guest{padding:.06rem .3rem;border-radius:4px;background:rgba(255,255,255,.07);font-size:.64rem;font-weight:500;color:var(--fg-3)}
+  .mem-t p{margin-top:.16rem;font-size:.9rem;line-height:1.58;color:var(--fg-2)}
+  /* the composer is where the section makes its claim: the question is typed
+     into the thread it is about, by the partner who was never on the deal */
+  .mem-box{margin:.5rem 15px 15px;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.02)}
+  .mem-q{padding:.78rem .8rem 1.45rem;font-size:.92rem;line-height:1.6;color:var(--fg)}
+  .mem-at{margin-right:.3rem;padding:.06rem .32rem;border-radius:4px;background:rgba(0,112,243,.24);color:var(--blue-l);font-weight:550}
+  .mem-caret{display:inline-block;width:.44em;height:1.02em;margin-left:1px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
+  .mem-acts{display:flex;align-items:center;gap:.85rem;padding:.45rem .6rem;border-top:1px solid var(--line)}
+  .mem-acts svg{width:16px;height:16px;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;color:var(--dim)}
+  .mem-send{margin-left:auto;display:grid;place-items:center;width:32px;height:26px;border-radius:6px;background:var(--blue)}
+  .mem-send svg{width:13px;height:13px;fill:#fff;stroke:none}
+  /* the head and the stage break at the same width, and the stage is the reason
+     it is this width and not 900. Two layers side by side only work while both
+     are worth looking at: the thread sets its own height off three messages and
+     a composer, the film takes whatever the column gives it at 16:9, and below
+     about 1080 the film is the shorter of the two by enough that the row reads
+     as a card with a picture stranded next to it. Stacked, both are full width
+     and the fade goes with the overlap it was there to cover. */
+  @media (max-width:1080px){
+    .mem-head{grid-template-columns:minmax(0,1fr);gap:1.1rem}
+    .mem-head h2{max-width:26ch}
+    .mem-lead{max-width:58ch}
+    .mem-stage{grid-template-columns:minmax(0,1fr);row-gap:14px}
+    .mem-msg{grid-area:1/1/2/2}
+    .mem-film{grid-area:2/1/3/2;margin-left:0}
+    .mem-film::after{display:none}
+  }
+
   /* how it works: one bright subhead carries the whole mechanism, so the head
      stays a single block and the figure below does the rest of the explaining */
   .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
@@ -2547,6 +2635,81 @@ __LOGO_SPRITE__
       </section>
 
     </div>
+  </section>
+
+
+  <!-- ONE MEMORY, ASKED FROM THE THREAD IT IS ABOUT. The figures above prove
+       that a fact can be filed and that a stale one can be retired. This is what
+       that is for, and it is deliberately the same story continued rather than a
+       new one: the thread on the left is the #dealflow message the film on the
+       right cites in its own answer, and the person asking is the partner who was
+       not on the deal. That is the heading, drawn.
+
+       The film is the walkthrough from #demo, silent and looping. See the note on
+       the styles for why a second copy of it is cheap here. -->
+  <section id="memory" class="band" aria-labelledby="mem-h">
+    <div class="mem-head">
+      <h2 id="mem-h">The same answer to any question, for anyone on the team.</h2>
+      <div>
+        <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
+        <a class="arrowlink mem-more" href="#why"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+
+    <figure class="mem-stage" aria-label="A thread in Slack, and fein answering the question asked in it">
+      <article class="mem-msg">
+        <div class="mem-bar">
+          <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
+          <span>Thread in <b>#dealflow</b></span>
+        </div>
+        <ol class="mem-thread">
+          <li class="mem-t">
+            <span class="mem-av" style="background:#584f9e" aria-hidden="true">DR</span>
+            <div>
+              <p class="mem-nm">Dev Raman <span class="mem-guest">Guest</span> <em>14:12</em></p>
+              <p>Halo Compute closes next week. Do you want the introduction again?</p>
+            </div>
+          </li>
+          <li class="mem-t">
+            <span class="mem-av" style="background:#3d5a6c" aria-hidden="true">MF</span>
+            <div>
+              <p class="mem-nm">Marcus Feld <em>14:16</em></p>
+              <p>We passed in January 2025. I do not remember the reason we gave.</p>
+            </div>
+          </li>
+          <li class="mem-t">
+            <span class="mem-av" style="background:#6a4b63" aria-hidden="true">AL</span>
+            <div>
+              <p class="mem-nm">Anna Lindqvist <em>14:18</em></p>
+              <p>I was not on that deal. Is the memo written down anywhere?</p>
+            </div>
+          </li>
+        </ol>
+        <div class="mem-box">
+          <p class="mem-q"><span class="mem-at">@fein</span>Why did we pass on Halo Compute, and what changed?<span class="mem-caret" aria-hidden="true"></span></p>
+          <p class="mem-acts">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7V5h16v2M12 5v14M9 19h6"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M9.2 10h.01M14.8 10h.01M8.6 14.4a4.4 4.4 0 0 0 6.8 0"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M15.8 12v1.6a2.6 2.6 0 0 0 5.2 0V12a9 9 0 1 0-3.6 7.2"/></svg>
+            <span class="mem-send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.2 21 12 3.4 3.8 7 12z"/></svg></span>
+          </p>
+        </div>
+      </article>
+
+      <div class="mem-film paused" id="mem-film">
+        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="fein answers the question from the thread and cites the four documents it read." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
+          <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
+          <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
+        </video>
+        <button class="mem-hit" id="mem-hit" type="button" aria-label="Play the loop">
+          <span class="mem-glyph" aria-hidden="true">
+            <svg class="g-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="g-stop" viewBox="0 0 24 24"><path d="M7 6h3.6v12H7zM13.4 6H17v12h-3.6z"/></svg>
+          </span>
+        </button>
+      </div>
+    </figure>
   </section>
 
 
@@ -5171,6 +5334,71 @@ __LOGO_SPRITE__
 
   /* the observer never fires on a tab switch, and a backgrounded decoder is
      the same waste as an off-screen one */
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){ if(!v.paused) v.pause(); }
+    else if(vis&&!held) play();
+  });
+})();
+
+/* #memory's film. The same file as the one above, on its second showing, and
+   none of that one's transport: it is the right half of a picture, so it runs
+   while it is on screen and stops the frame it leaves.
+
+   The one control it does carry is not decoration. Moving content that starts on
+   its own has to be stoppable, and the frame is the target, named for what the
+   press does. The gates are the same three as above, and they fail the same way:
+   reduced motion, Save-Data and a 2G-class connection never start it, and those
+   readers keep the poster, which is itself a frame of the answer. */
+(function(){
+  var f=document.getElementById('mem-film'); if(!f) return;
+  var v=document.getElementById('mem-video'), hit=document.getElementById('mem-hit');
+  if(!v||!hit) return;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var conn=navigator.connection||{};
+  var thrifty=conn.saveData===true||/(^|-)([23])g$/.test(conn.effectiveType||'');
+  var vis=false, held=false, cut=false;
+
+  /* the 720 cut, on the same terms as the film above: source selection already
+     ran at parse time, so swapping the children is inert without load(), and
+     load() is the one call here that can start a fetch. It waits for a play. */
+  function cutIn(){
+    if(cut) return; cut=true;
+    if(!(window.matchMedia('(max-width:900px)').matches||thrifty)) return;
+    [].forEach.call(v.querySelectorAll('source'),function(s){ v.removeChild(s); });
+    var s=document.createElement('source');
+    s.src='/video/fein-demo-720.mp4';
+    s.type='video/mp4; codecs="avc1.640028, mp4a.40.2"';
+    v.insertBefore(s,v.firstChild);
+    v.load();
+  }
+  function play(){
+    cutIn();
+    var p=v.play();
+    if(p&&p['catch']) p['catch'](function(){ mark(true); });
+  }
+  function mark(p){
+    f.classList.toggle('paused',p);
+    hit.setAttribute('aria-label',p?'Play the loop':'Stop the loop');
+  }
+  v.addEventListener('play',function(){ mark(false); });
+  v.addEventListener('pause',function(){ mark(true); });
+
+  /* a press is a standing instruction, as it is on the film above: stopped by
+     hand stays stopped when it comes back into view */
+  hit.addEventListener('click',function(){
+    if(v.paused){ held=false; play(); } else { held=true; v.pause(); }
+  });
+
+  if(reduce.matches||thrifty||!('IntersectionObserver' in window)) return;
+
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      vis=e.isIntersecting&&e.intersectionRatio>=0.4;
+      if(vis){ if(!held&&v.paused) play(); }
+      else if(!v.paused){ v.pause(); }
+    });
+  },{threshold:[0,0.4,0.8]}).observe(f);
+
   document.addEventListener('visibilitychange',function(){
     if(document.hidden){ if(!v.paused) v.pause(); }
     else if(vis&&!held) play();
