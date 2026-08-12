@@ -1273,7 +1273,12 @@
      who cannot see it. */
   .inmk{display:inline-block;width:1.02em;height:1.02em;vertical-align:-.2em;color:#fff}
   .inmk+.inmk{margin-left:.34em}
-  /* where the marks are is a second statement, not the tail of the first, so it
+  /* the line closes on words rather than on a mark, which is what gives it a full
+     stop: three logos and then a fourth place that has no logo, because a command
+     line is not a product with a mark. So the sentence reads Claude, ChatGPT,
+     WhatsApp and the command line interface, three of them drawn and one named.
+
+     Where the marks are is a second statement, not the tail of the first, so it
      takes its own line. A block span inside the paragraph rather than a <br>,
      because the gap above it is the thing being set and a break cannot carry one;
      and rather than a second <p>, because .hero-lead .wrap>p owns the lead's
@@ -1991,7 +1996,7 @@ __LOGO_SPRITE__
            the page already uses. The audience moves to the front so the first thing
            the line does is say who it is for, which lets "your team" stand alone
            later instead of carrying "venture capital" a second time. -->
-      <p>Purpose built for venture capital, fein is an open source context graph that transforms your team's raw data into intelligent, searchable memory for agents and humans.<span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg></span></p>
+      <p>Purpose built for venture capital, fein is an open source context graph that transforms your team's raw data into intelligent, searchable memory for agents and humans.<span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg> and the command line interface.</span></p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <a class="btn btn-ghost" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
