@@ -179,7 +179,12 @@
 
      The hairline is always drawn now, at a weight the fold can carry, and takes
      the full --line on scroll, when there is something under it to separate. */
-  #view-home header{background:linear-gradient(180deg,rgba(19,19,23,.76),rgba(12,12,15,.72));-webkit-backdrop-filter:saturate(165%) blur(16px);backdrop-filter:saturate(165%) blur(16px);border-bottom:1px solid rgba(255,255,255,.055);transition:border-color .25s ease,box-shadow .25s ease}
+  /* the tint is measured off the reference rather than guessed. Sampled down a
+     clear column, its bar runs rgb(8,9,10) at the top to rgb(11,11,11) at the
+     bottom over a ground of rgb(8,9,10): a lift of one or two levels, and it
+     rises going down, not falls. The first pass here sat at 18 over a ground of
+     9, which is twice the reference and the gradient the other way up. */
+  #view-home header{background:linear-gradient(180deg,rgba(7,8,10,.72),rgba(11,11,13,.72));-webkit-backdrop-filter:saturate(130%) blur(16px);backdrop-filter:saturate(130%) blur(16px);border-bottom:1px solid rgba(255,255,255,.055);transition:border-color .25s ease,box-shadow .25s ease}
   #view-home header.scrolled{border-bottom-color:var(--line)}
   /* no backdrop to filter without it, and Safari paints the tint at full
      opacity when the filter is unsupported, which would be a solid slab */
