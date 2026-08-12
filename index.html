@@ -794,7 +794,7 @@
      rows in two columns rather than three long ones in one: the band fills at
      heading height instead of leaving two thirds of it black, and every row
      breaks at the same measure so the column ends square. */
-  .secgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
+  .secgrid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
   .sec-cta{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:1.6rem;font-size:.95rem}
   .sec-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.7rem 2rem}
   .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
@@ -811,6 +811,32 @@
   .stack-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 2rem}
   .stack-list li{border-top:1px solid var(--line);padding-top:.8rem}
   .stack-list .sl{display:block;color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em}
+/* ============ brand marks ============
+   Small overlapping tool marks. Layered rather than spaced because the point
+   is "these belong together", and because a row of six spaced marks reads as
+   a logo wall. Full-colour marks carry their own fills; the monochrome ones
+   have none, so `fill:currentColor` tints only those. */
+.brandrow{display:flex;align-items:center;--bi:17px}
+.brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
+  background:#0b0b0e;box-shadow:0 0 0 1px var(--line);margin-left:-7px;color:#c8ccd2;fill:currentColor;flex:none}
+.brandrow .bi:first-child{margin-left:0}
+.stack-list .brandrow{margin:0 0 .6rem}
+.why-band .head .brandrow{margin-top:1.05rem;--bi:21px}
+
+/* the retired-fact sentence is the argument of that figure, so it takes the
+   accent rather than another weight of grey */
+.fig-sub b.hl{color:var(--blue-l);font-weight:600}
+
+/* each fein cell opens with the property it buys you */
+.why-grid .b .ben{color:var(--blue-l);font-weight:650}
+
+/* ============ badge ============
+   Status label above a section headline. Uppercase and tracked so it cannot be
+   mistaken for the lead, accent-tinted so it carries at a glance. */
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font);font-size:.7rem;font-weight:650;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);
+  background:rgba(0,112,243,.12);border:1px solid rgba(0,112,243,.32);border-radius:999px;padding:.36rem .72rem}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 0 3px rgba(0,112,243,.18);flex:none}
   .stack-list p{margin-top:.4rem;color:var(--fg-2);font-size:.93rem;line-height:1.6;text-wrap:pretty}
   /* the count spans the column: it is the claim the six rows above are evidence
      for, so it closes them rather than sitting as a seventh group */
@@ -1796,6 +1822,9 @@ setTimeout(go,1200);})()</script>
       <span class="eyebrow">A CONTEXT GRAPH</span>
       <h2 id="demo-h">A state of the art memory layer. Purpose built for investors.</h2>
       <p class="demo-lead">fein reads every founder email, LP update, call note, and board deck across the tools you already use and connects the dots. Ask about any company, person, or fund: who talked to them, what was said, what changed.</p>
+      <div class="demo-act">
+        <a class="btn btn-white" href="#get-started">Talk to sales</a>
+      </div>
     </div>
     <figure class="demo-stage">
       <div class="demo-frame paused" id="demo-frame">
@@ -1867,9 +1896,6 @@ setTimeout(go,1200);})()</script>
         </p>
       </figcaption>
     </figure>
-    <div class="demo-act">
-      <a class="btn btn-white" href="#get-started">Talk to sales</a>
-    </div>
   </section>
 
   <!-- WHAT CHANGED: three figures, in order, each one a thing fein does.
@@ -1886,7 +1912,6 @@ setTimeout(go,1200);})()</script>
        are hidden, and in print. -->
   <section id="change" class="band" aria-labelledby="change-h">
     <div class="change-head">
-      <span class="eyebrow">WHY FEIN EXISTS</span>
       <h2 id="change-h">A memory layer built for the next generation of venture capital.</h2>
       <p class="sub">Your firm knows more than it can find. fein reads every message, call note and invite that reaches it, files each fact on the record it belongs to with a date and a source, and answers out of all of it.</p>
     </div>
@@ -1897,7 +1922,7 @@ setTimeout(go,1200);})()</script>
       <section class="fig" aria-labelledby="fig1-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig1-h"><i>01</i>First, fein reads what arrives.</h3>
-          <p class="fig-sub">A partner forwards a deck and moves on. <b>Three facts, three records, nothing typed.</b></p>
+          <p class="fig-sub">A partner forwards a deck and moves on.</p>
         </div>
         <div class="fig-d" data-fig="1">
           <svg class="fig-wires" aria-hidden="true"></svg>
@@ -1965,7 +1990,7 @@ setTimeout(go,1200);})()</script>
       <section class="fig" aria-labelledby="fig2-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig2-h"><i>02</i>Then it updates what it already knew.</h3>
-          <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line untrue, so <b>fein strikes it and dates it instead of deleting it.</b></p>
+          <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line no longer relevant, so <b class="hl">fein strikes it and dates it instead of deleting it.</b></p>
         </div>
         <div class="fig-d" data-fig="2">
           <svg class="fig-wires" aria-hidden="true"></svg>
@@ -2073,7 +2098,6 @@ setTimeout(go,1200);})()</script>
             Read from 4,180 records across your firm<b>0.9s</b>
           </p>
         </div>
-        <p class="fig-after"><span>Five documents, four tools, three records. <b>Nobody filed a single line by hand.</b> Run it over your firm&rsquo;s last five years and it holds thousands more, built exactly the same way.</span></p>
       </section>
 
     </div>
@@ -2088,7 +2112,7 @@ setTimeout(go,1200);})()</script>
     <div class="wrap">
       <div class="head">
         <h2 id="why-h">Supercharging Claude, ChatGPT and your team&rsquo;s AI tools.</h2>
-        <p class="lead">fein reads through the connectors you already have and leaves a graph behind them. Point an assistant at that instead of at a search box, and four things change.</p>
+        <span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-claude"/></svg><svg class="bi" aria-hidden="true"><use href="#l-openai"/></svg><svg class="bi" aria-hidden="true"><use href="#l-gemini"/></svg><svg class="bi" aria-hidden="true"><use href="#l-copilot"/></svg><svg class="bi" aria-hidden="true"><use href="#l-cursor"/></svg><svg class="bi" aria-hidden="true"><use href="#l-perplexity"/></svg></span><p class="lead">fein reads through the connectors you already have and leaves a graph behind them. Point an assistant at that instead of at a search box, and four things change.</p>
       </div>
       <div class="why-grid">
         <p class="hd"></p>
@@ -2097,21 +2121,24 @@ setTimeout(go,1200);})()</script>
 
         <p class="rl">What it reads</p>
         <p class="a">Whatever matches your query, this minute, out of one tool at a time.</p>
-        <p class="b">Every message, call and meeting, <b>resolved onto the people and companies they belong to.</b></p>
+        <p class="b"><b class="ben">A context graph.</b> Every message, call and meeting, resolved onto the people and companies they belong to.</p>
 
-        <p class="rl">Across tools</p>
+        <p class="rl">Across your stack</p>
         <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone.</p>
-        <p class="b">One graph. The email, the transcript and the invite <b>land on the same record</b>, so an answer can cross all three.</p>
+        <p class="b"><b class="ben">One graph, not many searches.</b> The email, the transcript and the invite land on the same record, so one answer can cross all three.</p>
 
         <p class="rl">When a fact changes</p>
         <p class="a">It returns what it finds, including the line that stopped being true eighteen months ago. Search has no idea.</p>
-        <p class="b">The old fact is <b>struck, dated and kept.</b> You get what is true now, and you can still ask what your firm believed in 2024.</p>
+        <p class="b"><b class="ben">Auditable.</b> The old fact is struck, dated and kept. You get what is true now, and can still ask what your firm believed in 2024.</p>
 
         <p class="rl">What comes back</p>
         <p class="a">A paraphrase of some documents, as good as whatever happened to be retrieved that time.</p>
-        <p class="b">A fact with <b>the document behind it</b>, one click away, the same answer every time you ask.</p>
+        <p class="b"><b class="ben">Deterministic.</b> The same answer every time you ask, with the document behind it one click away.</p>
+
+        <p class="rl">Where it runs</p>
+        <p class="a">Your data leaves your firm for whichever vendor the connector belongs to.</p>
+        <p class="b"><b class="ben">Yours.</b> It runs on your own servers, on code you can read.</p>
       </div>
-      <p class="why-note"><b>Connectors are the pipe. fein is what your firm remembers.</b> It reads through the same connectors you already have, and what it leaves behind is a graph your team, and any model you point at it, can rely on.</p>
     </div>
   </section>
 
@@ -2145,11 +2172,6 @@ setTimeout(go,1200);})()</script>
         <div class="dfield" id="dfield" aria-hidden="true"></div>
       </div>
       <div class="stage-grid">
-        <div class="zlabels" aria-hidden="true">
-          <span class="dlab" data-zone="1">01 · Your systems</span>
-          <span class="dlab" data-zone="2">02 · One graph</span>
-          <span class="dlab" data-zone="3">03 · Sourced answers</span>
-        </div>
         <div class="dband" aria-hidden="true"></div>
         <div class="stage-mid">
           <div class="head stage-head reveal" id="dhead">
@@ -2159,9 +2181,9 @@ setTimeout(go,1200);})()</script>
           </div>
         </div>
         <div class="why3 stage-why3" data-reveal-group="90">
-          <div class="wcard reveal" data-zone="1"><span class="wstep">01 · Reads</span><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
-          <div class="wcard reveal" data-zone="2"><span class="wstep">02 · Resolves</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
-          <div class="wcard reveal" data-zone="3"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
+          <div class="wcard reveal" data-zone="1"><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
+          <div class="wcard reveal" data-zone="2"><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
+          <div class="wcard reveal" data-zone="3"><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
         </div>
       </div>
     </div>
@@ -2171,7 +2193,6 @@ setTimeout(go,1200);})()</script>
   <section id="features" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">What you get</span>
         <h2>Four questions your team asks every week.</h2>
         <p class="lead">fein answers each one from your team's history in seconds.</p>
       </div>
@@ -2276,12 +2297,12 @@ setTimeout(go,1200);})()</script>
         </div>
       </div>
       <ul class="stack-list" data-reveal-group="70">
-        <li class="reveal"><span class="sl">CRM and deal systems</span><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></li>
-        <li class="reveal"><span class="sl">Email and calendar</span><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></li>
-        <li class="reveal"><span class="sl">Files and data rooms</span><p>Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend</p></li>
-        <li class="reveal"><span class="sl">Meetings, notes and chat</span><p>Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion</p></li>
-        <li class="reveal"><span class="sl">People and market data</span><p>LinkedIn, PitchBook, Crunchbase, Harmonic</p></li>
-        <li class="reveal"><span class="sl">Portfolio and back office</span><p>Carta, Standard Metrics, Google Sheets, Excel</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-attio"/></svg><svg class="bi" aria-hidden="true"><use href="#l-affinity"/></svg><svg class="bi" aria-hidden="true"><use href="#l-salesforce"/></svg></span><span class="sl">CRM and deal systems</span><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gmail"/></svg><svg class="bi" aria-hidden="true"><use href="#l-gcal"/></svg></span><span class="sl">Email and calendar</span><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gdrive"/></svg><svg class="bi" aria-hidden="true"><use href="#l-dropbox"/></svg><svg class="bi" aria-hidden="true"><use href="#l-box"/></svg></span><span class="sl">Files and data rooms</span><p>Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-granola"/></svg><svg class="bi" aria-hidden="true"><use href="#l-slack"/></svg><svg class="bi" aria-hidden="true"><use href="#l-notion"/></svg></span><span class="sl">Meetings, notes and chat</span><p>Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-linkedin"/></svg><svg class="bi" aria-hidden="true"><use href="#l-crunchbase"/></svg></span><span class="sl">People and market data</span><p>LinkedIn, PitchBook, Crunchbase, Harmonic</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-googlesheets"/></svg></span><span class="sl">Portfolio and back office</span><p>Carta, Standard Metrics, Google Sheets, Excel</p></li>
         <li class="reveal sl-all"><span class="sl">30+ tools in all</span><p>If your team runs something else, we read that too. Ask us.</p></li>
       </ul>
     </div>
@@ -2298,7 +2319,7 @@ setTimeout(go,1200);})()</script>
         <h2>Your data never leaves your servers.</h2>
         <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
         <div class="sec-cta">
-          <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source code <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
       <ul class="sec-list" data-reveal-group="70">
@@ -2327,7 +2348,7 @@ setTimeout(go,1200);})()</script>
 
     <div class="wrap hero-inner">
       <div class="hero-copy head">
-        <span class="eyebrow">Managed installation</span>
+        <span class="badge"><span class="badge-dot" aria-hidden="true"></span>Managed setup</span>
         <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
         <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
         <div class="hero-actions">
@@ -4583,7 +4604,7 @@ setTimeout(go,1200);})()</script>
         <path d="M128.001268,73.3111515 L87.680265,3.51893479 C83.7213885,5.86488134 80.3489013,9.09044179 78.0030446,13.1960654 L3.51893479,142.223575 C1.17298825,146.329198 0,150.874464 0,155.41973 L80.6423954,155.41973 L128.001268,73.3111515 Z" fill="#00AC47"></path>
         <path d="M215.241501,77.7099697 L177.999492,13.1960654 C175.653635,9.09044179 172.281148,5.86488134 168.322271,3.51893479 L128.001268,73.3111515 L175.360141,155.41973 L255.855999,155.41973 C255.855999,150.874464 254.682921,146.329198 252.337064,142.223575 L215.241501,77.7099697 Z" fill="#FFBA00"></path>
     </g>
-</symbol><symbol id="l-attio" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.4" fill="#fff"/><g stroke="#111" stroke-linecap="round" fill="none"><path d="M6.6 18.2 11.4 5.6" stroke-width="5"/><path d="M12.6 18.2 15.4 10.8" stroke-width="2.4"/></g><path d="M17.2 14.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 1 1 0-5.8z" fill="#111"/></symbol><symbol id="l-notion" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="#fff"/><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="none" stroke="#d9d9d4" stroke-width="1"/><path fill="#111" d="M7.1 6.2h2.9l4.7 8.1V6.2h-1.3v-.9h3.9v.9h-1.2v11.6h-1.8L9.4 8.6v8.3h1.3v.9H6.8v-.9h1.2V7.1H6.8z"/></symbol><symbol id="l-slack" viewBox="0 0 24 24"><path fill="#E01E5A" d="M6 15a2 2 0 1 1-2-2h2zM7 15a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0z"/><path fill="#36C5F0" d="M9 6a2 2 0 1 1 2-2v2zM9 7a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4z"/><path fill="#2EB67D" d="M18 9a2 2 0 1 1 2 2h-2zM17 9a2 2 0 0 1-4 0V4a2 2 0 0 1 4 0z"/><path fill="#ECB22E" d="M15 18a2 2 0 1 1-2 2v-2zM15 17a2 2 0 0 1 0-4h5a2 2 0 0 1 0 4z"/></symbol><symbol id="l-gemini" viewBox="0 0 24 24"><g fill="currentColor"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></g></symbol><symbol id="l-perplexity" viewBox="0 0 24 24"><g fill="currentColor"><title>Perplexity</title><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></g></symbol><symbol id="l-copilot" viewBox="0 0 24 24"><g fill="currentColor"><title>GitHub Copilot</title><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"/></g></symbol></svg>
+</symbol><symbol id="l-attio" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.4" fill="#fff"/><g stroke="#111" stroke-linecap="round" fill="none"><path d="M6.6 18.2 11.4 5.6" stroke-width="5"/><path d="M12.6 18.2 15.4 10.8" stroke-width="2.4"/></g><path d="M17.2 14.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 1 1 0-5.8z" fill="#111"/></symbol><symbol id="l-notion" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="#fff"/><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="none" stroke="#d9d9d4" stroke-width="1"/><path fill="#111" d="M7.1 6.2h2.9l4.7 8.1V6.2h-1.3v-.9h3.9v.9h-1.2v11.6h-1.8L9.4 8.6v8.3h1.3v.9H6.8v-.9h1.2V7.1H6.8z"/></symbol><symbol id="l-slack" viewBox="0 0 24 24"><path fill="#E01E5A" d="M6 15a2 2 0 1 1-2-2h2zM7 15a2 2 0 0 1 4 0v5a2 2 0 0 1-4 0z"/><path fill="#36C5F0" d="M9 6a2 2 0 1 1 2-2v2zM9 7a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4z"/><path fill="#2EB67D" d="M18 9a2 2 0 1 1 2 2h-2zM17 9a2 2 0 0 1-4 0V4a2 2 0 0 1 4 0z"/><path fill="#ECB22E" d="M15 18a2 2 0 1 1-2 2v-2zM15 17a2 2 0 0 1 0-4h5a2 2 0 0 1 0 4z"/></symbol><symbol id="l-gemini" viewBox="0 0 24 24"><g fill="currentColor"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></g></symbol><symbol id="l-perplexity" viewBox="0 0 24 24"><g fill="currentColor"><title>Perplexity</title><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></g></symbol><symbol id="l-copilot" viewBox="0 0 24 24"><g fill="currentColor"><title>GitHub Copilot</title><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"/></g></symbol><symbol id="l-salesforce" viewBox="0 0 24 24"><title>Salesforce</title><path d="M10.006 5.415a4.195 4.195 0 013.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.176 5.22c-.345 0-.69-.044-1.02-.104a3.75 3.75 0 01-3.3 1.95c-.6 0-1.155-.15-1.65-.375A4.314 4.314 0 018.88 20.4a4.302 4.302 0 01-4.05-2.82c-.27.062-.54.076-.825.076-2.204 0-4.005-1.8-4.005-4.05 0-1.5.811-2.805 2.01-3.51-.255-.57-.39-1.2-.39-1.846 0-2.58 2.1-4.65 4.65-4.65 1.53 0 2.85.705 3.72 1.8"/></symbol><symbol id="l-dropbox" viewBox="0 0 24 24"><title>Dropbox</title><path d="M6 1.807L0 5.629l6 3.822 6.001-3.822L6 1.807zM18 1.807l-6 3.822 6 3.822 6-3.822-6-3.822zM0 13.274l6 3.822 6.001-3.822L6 9.452l-6 3.822zM18 9.452l-6 3.822 6 3.822 6-3.822-6-3.822zM6 18.371l6.001 3.822 6-3.822-6-3.822L6 18.371z"/></symbol><symbol id="l-box" viewBox="0 0 24 24"><title>Box</title><path d="M.959 5.523c-.54 0-.959.42-.959.899v7.549a4.59 4.59 0 004.613 4.494 4.717 4.717 0 004.135-2.457c.779 1.438 2.337 2.457 4.074 2.457 2.577 0 4.674-2.037 4.674-4.613.06-2.457-2.037-4.495-4.613-4.495-1.738 0-3.295.959-4.074 2.397-.78-1.438-2.338-2.397-4.135-2.397-1.079 0-2.038.36-2.817.899V6.422a.92.92 0 00-.898-.899zM17.602 9.26a.95.95 0 00-.704.158c-.36.3-.479.899-.18 1.318l2.397 3.116-2.396 3.115c-.3.42-.24.96.18 1.26.419.3 1.016.298 1.316-.122l2.039-2.636 2.096 2.697c.3.36.899.419 1.318.12.36-.3.42-.84.121-1.259l-2.338-3.115 2.338-3.057c.3-.419.298-1.018-.121-1.318-.48-.3-1.019-.24-1.318.18l-2.096 2.576-2.04-2.695c-.149-.18-.373-.3-.612-.338zM4.613 11.154c1.558 0 2.817 1.26 2.817 2.758 0 1.558-1.259 2.756-2.817 2.756-1.558 0-2.816-1.198-2.816-2.756 0-1.498 1.258-2.758 2.816-2.758zm8.27 0c1.558 0 2.816 1.26 2.816 2.758-.06 1.558-1.318 2.756-2.816 2.756-1.558 0-2.817-1.198-2.817-2.756 0-1.498 1.259-2.758 2.817-2.758Z"/></symbol><symbol id="l-crunchbase" viewBox="0 0 24 24"><title>Crunchbase</title><path d="M21.6 0H2.4A2.41 2.41 0 0 0 0 2.4v19.2A2.41 2.41 0 0 0 2.4 24h19.2a2.41 2.41 0 0 0 2.4-2.4V2.4A2.41 2.41 0 0 0 21.6 0zM7.045 14.465A2.11 2.11 0 0 0 9.84 13.42h1.66a3.69 3.69 0 1 1 0-1.75H9.84a2.11 2.11 0 1 0-2.795 2.795zm11.345.845a3.55 3.55 0 0 1-1.06.63 3.68 3.68 0 0 1-3.39-.38v.38h-1.51V5.37h1.5v4.11a3.74 3.74 0 0 1 1.8-.63H16a3.67 3.67 0 0 1 2.39 6.46zm-.223-2.766a2.104 2.104 0 1 1-4.207 0 2.104 2.104 0 0 1 4.207 0z"/></symbol><symbol id="l-googlesheets" viewBox="0 0 24 24"><title>Google Sheets</title><path d="M11.318 12.545H7.91v-1.909h3.41v1.91zM14.728 0v6h6l-6-6zm1.363 10.636h-3.41v1.91h3.41v-1.91zm0 3.273h-3.41v1.91h3.41v-1.91zM20.727 6.5v15.864c0 .904-.732 1.636-1.636 1.636H4.909a1.636 1.636 0 0 1-1.636-1.636V1.636C3.273.732 4.005 0 4.909 0h9.318v6.5h6.5zm-3.273 2.773H6.545v7.909h10.91v-7.91zm-6.136 4.636H7.91v1.91h3.41v-1.91z"/></symbol></svg>
 <script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>

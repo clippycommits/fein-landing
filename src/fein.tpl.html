@@ -751,7 +751,7 @@
      rows in two columns rather than three long ones in one: the band fills at
      heading height instead of leaving two thirds of it black, and every row
      breaks at the same measure so the column ends square. */
-  .secgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
+  .secgrid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
   .sec-cta{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:1.6rem;font-size:.95rem}
   .sec-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.7rem 2rem}
   .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
@@ -768,6 +768,32 @@
   .stack-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 2rem}
   .stack-list li{border-top:1px solid var(--line);padding-top:.8rem}
   .stack-list .sl{display:block;color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em}
+/* ============ brand marks ============
+   Small overlapping tool marks. Layered rather than spaced because the point
+   is "these belong together", and because a row of six spaced marks reads as
+   a logo wall. Full-colour marks carry their own fills; the monochrome ones
+   have none, so `fill:currentColor` tints only those. */
+.brandrow{display:flex;align-items:center;--bi:17px}
+.brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
+  background:#0b0b0e;box-shadow:0 0 0 1px var(--line);margin-left:-7px;color:#c8ccd2;fill:currentColor;flex:none}
+.brandrow .bi:first-child{margin-left:0}
+.stack-list .brandrow{margin:0 0 .6rem}
+.why-band .head .brandrow{margin-top:1.05rem;--bi:21px}
+
+/* the retired-fact sentence is the argument of that figure, so it takes the
+   accent rather than another weight of grey */
+.fig-sub b.hl{color:var(--blue-l);font-weight:600}
+
+/* each fein cell opens with the property it buys you */
+.why-grid .b .ben{color:var(--blue-l);font-weight:650}
+
+/* ============ badge ============
+   Status label above a section headline. Uppercase and tracked so it cannot be
+   mistaken for the lead, accent-tinted so it carries at a glance. */
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font);font-size:.7rem;font-weight:650;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);
+  background:rgba(0,112,243,.12);border:1px solid rgba(0,112,243,.32);border-radius:999px;padding:.36rem .72rem}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 0 3px rgba(0,112,243,.18);flex:none}
   .stack-list p{margin-top:.4rem;color:var(--fg-2);font-size:.93rem;line-height:1.6;text-wrap:pretty}
   /* the count spans the column: it is the claim the six rows above are evidence
      for, so it closes them rather than sitting as a seventh group */
@@ -1720,6 +1746,9 @@ __LOGO_SPRITE__
       <span class="eyebrow">A CONTEXT GRAPH</span>
       <h2 id="demo-h">A state of the art memory layer. Purpose built for investors.</h2>
       <p class="demo-lead">fein reads every founder email, LP update, call note, and board deck across the tools you already use and connects the dots. Ask about any company, person, or fund: who talked to them, what was said, what changed.</p>
+      <div class="demo-act">
+        <a class="btn btn-white" href="#get-started">Talk to sales</a>
+      </div>
     </div>
     <figure class="demo-stage">
       <div class="demo-frame paused" id="demo-frame">
@@ -1791,9 +1820,6 @@ __LOGO_SPRITE__
         </p>
       </figcaption>
     </figure>
-    <div class="demo-act">
-      <a class="btn btn-white" href="#get-started">Talk to sales</a>
-    </div>
   </section>
 
   <!-- WHAT CHANGED: three figures, in order, each one a thing fein does.
@@ -1810,7 +1836,6 @@ __LOGO_SPRITE__
        are hidden, and in print. -->
   <section id="change" class="band" aria-labelledby="change-h">
     <div class="change-head">
-      <span class="eyebrow">WHY FEIN EXISTS</span>
       <h2 id="change-h">A memory layer built for the next generation of venture capital.</h2>
       <p class="sub">Your firm knows more than it can find. fein reads every message, call note and invite that reaches it, files each fact on the record it belongs to with a date and a source, and answers out of all of it.</p>
     </div>
@@ -1821,7 +1846,7 @@ __LOGO_SPRITE__
       <section class="fig" aria-labelledby="fig1-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig1-h"><i>01</i>First, fein reads what arrives.</h3>
-          <p class="fig-sub">A partner forwards a deck and moves on. <b>Three facts, three records, nothing typed.</b></p>
+          <p class="fig-sub">A partner forwards a deck and moves on.</p>
         </div>
         <div class="fig-d" data-fig="1">
           <svg class="fig-wires" aria-hidden="true"></svg>
@@ -1889,7 +1914,7 @@ __LOGO_SPRITE__
       <section class="fig" aria-labelledby="fig2-h">
         <div class="fig-head">
           <h3 class="fig-lede" id="fig2-h"><i>02</i>Then it updates what it already knew.</h3>
-          <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line untrue, so <b>fein strikes it and dates it instead of deleting it.</b></p>
+          <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line no longer relevant, so <b class="hl">fein strikes it and dates it instead of deleting it.</b></p>
         </div>
         <div class="fig-d" data-fig="2">
           <svg class="fig-wires" aria-hidden="true"></svg>
@@ -1997,7 +2022,6 @@ __LOGO_SPRITE__
             Read from 4,180 records across your firm<b>0.9s</b>
           </p>
         </div>
-        <p class="fig-after"><span>Five documents, four tools, three records. <b>Nobody filed a single line by hand.</b> Run it over your firm&rsquo;s last five years and it holds thousands more, built exactly the same way.</span></p>
       </section>
 
     </div>
@@ -2012,7 +2036,7 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="head">
         <h2 id="why-h">Supercharging Claude, ChatGPT and your team&rsquo;s AI tools.</h2>
-        <p class="lead">fein reads through the connectors you already have and leaves a graph behind them. Point an assistant at that instead of at a search box, and four things change.</p>
+        <span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-claude"/></svg><svg class="bi" aria-hidden="true"><use href="#l-openai"/></svg><svg class="bi" aria-hidden="true"><use href="#l-gemini"/></svg><svg class="bi" aria-hidden="true"><use href="#l-copilot"/></svg><svg class="bi" aria-hidden="true"><use href="#l-cursor"/></svg><svg class="bi" aria-hidden="true"><use href="#l-perplexity"/></svg></span><p class="lead">fein reads through the connectors you already have and leaves a graph behind them. Point an assistant at that instead of at a search box, and four things change.</p>
       </div>
       <div class="why-grid">
         <p class="hd"></p>
@@ -2021,21 +2045,24 @@ __LOGO_SPRITE__
 
         <p class="rl">What it reads</p>
         <p class="a">Whatever matches your query, this minute, out of one tool at a time.</p>
-        <p class="b">Every message, call and meeting, <b>resolved onto the people and companies they belong to.</b></p>
+        <p class="b"><b class="ben">A context graph.</b> Every message, call and meeting, resolved onto the people and companies they belong to.</p>
 
-        <p class="rl">Across tools</p>
+        <p class="rl">Across your stack</p>
         <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone.</p>
-        <p class="b">One graph. The email, the transcript and the invite <b>land on the same record</b>, so an answer can cross all three.</p>
+        <p class="b"><b class="ben">One graph, not many searches.</b> The email, the transcript and the invite land on the same record, so one answer can cross all three.</p>
 
         <p class="rl">When a fact changes</p>
         <p class="a">It returns what it finds, including the line that stopped being true eighteen months ago. Search has no idea.</p>
-        <p class="b">The old fact is <b>struck, dated and kept.</b> You get what is true now, and you can still ask what your firm believed in 2024.</p>
+        <p class="b"><b class="ben">Auditable.</b> The old fact is struck, dated and kept. You get what is true now, and can still ask what your firm believed in 2024.</p>
 
         <p class="rl">What comes back</p>
         <p class="a">A paraphrase of some documents, as good as whatever happened to be retrieved that time.</p>
-        <p class="b">A fact with <b>the document behind it</b>, one click away, the same answer every time you ask.</p>
+        <p class="b"><b class="ben">Deterministic.</b> The same answer every time you ask, with the document behind it one click away.</p>
+
+        <p class="rl">Where it runs</p>
+        <p class="a">Your data leaves your firm for whichever vendor the connector belongs to.</p>
+        <p class="b"><b class="ben">Yours.</b> It runs on your own servers, on code you can read.</p>
       </div>
-      <p class="why-note"><b>Connectors are the pipe. fein is what your firm remembers.</b> It reads through the same connectors you already have, and what it leaves behind is a graph your team, and any model you point at it, can rely on.</p>
     </div>
   </section>
 
@@ -2069,11 +2096,6 @@ __LOGO_SPRITE__
         <div class="dfield" id="dfield" aria-hidden="true"></div>
       </div>
       <div class="stage-grid">
-        <div class="zlabels" aria-hidden="true">
-          <span class="dlab" data-zone="1">01 · Your systems</span>
-          <span class="dlab" data-zone="2">02 · One graph</span>
-          <span class="dlab" data-zone="3">03 · Sourced answers</span>
-        </div>
         <div class="dband" aria-hidden="true"></div>
         <div class="stage-mid">
           <div class="head stage-head reveal" id="dhead">
@@ -2083,9 +2105,9 @@ __LOGO_SPRITE__
           </div>
         </div>
         <div class="why3 stage-why3" data-reveal-group="90">
-          <div class="wcard reveal" data-zone="1"><span class="wstep">01 · Reads</span><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
-          <div class="wcard reveal" data-zone="2"><span class="wstep">02 · Resolves</span><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
-          <div class="wcard reveal" data-zone="3"><span class="wstep">03 · Answers</span><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
+          <div class="wcard reveal" data-zone="1"><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
+          <div class="wcard reveal" data-zone="2"><h3>One person, not a hundred duplicates</h3><p>fein resolves every copy of a contact into one identity. It scores the strength from real signals: meetings, replies, and shared documents. It does not use an LLM guess.</p></div>
+          <div class="wcard reveal" data-zone="3"><h3>Wherever your team asks</h3><p>Ask in Claude, ChatGPT, Gemini, or Cursor. They all use one MCP endpoint. You get the same answer every time. fein shows the email behind it.</p></div>
         </div>
       </div>
     </div>
@@ -2095,7 +2117,6 @@ __LOGO_SPRITE__
   <section id="features" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">What you get</span>
         <h2>Four questions your team asks every week.</h2>
         <p class="lead">fein answers each one from your team's history in seconds.</p>
       </div>
@@ -2200,12 +2221,12 @@ __LOGO_SPRITE__
         </div>
       </div>
       <ul class="stack-list" data-reveal-group="70">
-        <li class="reveal"><span class="sl">CRM and deal systems</span><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></li>
-        <li class="reveal"><span class="sl">Email and calendar</span><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></li>
-        <li class="reveal"><span class="sl">Files and data rooms</span><p>Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend</p></li>
-        <li class="reveal"><span class="sl">Meetings, notes and chat</span><p>Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion</p></li>
-        <li class="reveal"><span class="sl">People and market data</span><p>LinkedIn, PitchBook, Crunchbase, Harmonic</p></li>
-        <li class="reveal"><span class="sl">Portfolio and back office</span><p>Carta, Standard Metrics, Google Sheets, Excel</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-attio"/></svg><svg class="bi" aria-hidden="true"><use href="#l-affinity"/></svg><svg class="bi" aria-hidden="true"><use href="#l-salesforce"/></svg></span><span class="sl">CRM and deal systems</span><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gmail"/></svg><svg class="bi" aria-hidden="true"><use href="#l-gcal"/></svg></span><span class="sl">Email and calendar</span><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gdrive"/></svg><svg class="bi" aria-hidden="true"><use href="#l-dropbox"/></svg><svg class="bi" aria-hidden="true"><use href="#l-box"/></svg></span><span class="sl">Files and data rooms</span><p>Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-granola"/></svg><svg class="bi" aria-hidden="true"><use href="#l-slack"/></svg><svg class="bi" aria-hidden="true"><use href="#l-notion"/></svg></span><span class="sl">Meetings, notes and chat</span><p>Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-linkedin"/></svg><svg class="bi" aria-hidden="true"><use href="#l-crunchbase"/></svg></span><span class="sl">People and market data</span><p>LinkedIn, PitchBook, Crunchbase, Harmonic</p></li>
+        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-googlesheets"/></svg></span><span class="sl">Portfolio and back office</span><p>Carta, Standard Metrics, Google Sheets, Excel</p></li>
         <li class="reveal sl-all"><span class="sl">30+ tools in all</span><p>If your team runs something else, we read that too. Ask us.</p></li>
       </ul>
     </div>
@@ -2222,7 +2243,7 @@ __LOGO_SPRITE__
         <h2>Your data never leaves your servers.</h2>
         <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
         <div class="sec-cta">
-          <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source code <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
       <ul class="sec-list" data-reveal-group="70">
@@ -2251,7 +2272,7 @@ __LOGO_SPRITE__
 
     <div class="wrap hero-inner">
       <div class="hero-copy head">
-        <span class="eyebrow">Managed installation</span>
+        <span class="badge"><span class="badge-dot" aria-hidden="true"></span>Managed setup</span>
         <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
         <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
         <div class="hero-actions">
