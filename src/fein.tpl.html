@@ -29,7 +29,16 @@
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    --maxw:1080px;
+    /* the page measure, and the only one. Everything that holds copy or a
+       picture is this wide: the bar, the fold, the stance line, the figure row,
+       the thread, the feature grid, the four claims and every .wrap below them.
+       It used to be four measures (1376, 1260, 1120 and 1032 of content) which
+       is why nothing on the page shared a left edge.
+
+       1232 less the bar's two 32px gutters is 1168 of content. That is taken off
+       the reference at a 1728px viewport, where its column measures 1164 and its
+       gutters 282: ours land at 1168 and 280. */
+    --maxw:1232px;
     --nav-h:76px;
     /* the bar's own gutter, as a variable because the mobile menu hangs off the
        bar's right edge and has to line up with it. on a phone it drops to
@@ -53,7 +62,7 @@
   a{color:inherit;text-decoration:none}
   [hidden]{display:none!important}
   ::selection{background:#0070F3;color:#fff}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--bar-pad)}
   .skip{position:fixed;top:12px;left:12px;z-index:100;background:#fff;color:#000;padding:.6rem 1rem;border-radius:9999px;font-weight:550;font-size:.92rem;transform:translateY(-300%);transition:transform .2s ease}
   .skip:focus{transform:none}
 
@@ -150,7 +159,7 @@
   }
   /* 1440/32: the reference nav measure. content lands at 1376px, so the
      wordmark and the buttons sit level with the widest sections below */
-  .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1440px;margin:0 auto;padding:0 var(--bar-pad);box-sizing:border-box}
+  .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:var(--maxw);margin:0 auto;padding:0 var(--bar-pad);box-sizing:border-box}
   /* the wordmark centers on its glyphs, not its text box, so it sits on the same
      optical line as the 15px links beside it */
   .brand{display:inline-flex;align-items:center;font-weight:600;font-size:1.5rem;line-height:1;letter-spacing:-.035em;color:#fff}
@@ -448,7 +457,7 @@
   /* widened with margins rather than a transform: the hero's entrance animates
      translate on every child of .wrap, and a keyframe beats a static property */
   .proofband{position:relative;background:#000;padding:0 0 clamp(3rem,7vh,5rem)}
-  .proofband .ah-wrap{width:min(1120px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto}
+  .proofband .ah-wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--bar-pad)}
   .ah-proof{margin-top:0}
   .hero-lead .ah-fig,.proofband .ah-proof{--fw:min(1180px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--fw);margin-left:calc((100% - var(--fw)) / 2)}
   /* the inflow. Five documents, five runs into the top edge of the box, drawn
@@ -711,12 +720,12 @@
      glance here, and the only one worth a second hue. */
   /* the head shares the figures' measure, not .wrap's, so the eyebrow, the
      heading and every panel below them start on one left edge */
-  .change-head{width:min(1260px,100% - clamp(2.5rem,7vw,5rem));max-width:none;margin-inline:auto;padding:0 0 clamp(1.4rem,3.4vw,2.3rem)}
+  .change-head{width:100%;max-width:var(--maxw);margin-inline:auto;padding:0 var(--bar-pad) clamp(1.4rem,3.4vw,2.3rem)}
   .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:26ch}
   .change-head .sub{max-width:52ch;margin:1.15rem 0 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);line-height:1.55;text-wrap:pretty}
   /* the figures run wider than the reading column: two panels of product at
      .wrap's 1080px would set the mail at 30ch and the facts would wrap twice */
-  .figs{display:grid;gap:clamp(3.4rem,6.5vw,5.6rem);width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin:clamp(2.2rem,4vw,3.2rem) auto 0}
+  .figs{display:grid;gap:clamp(3.4rem,6.5vw,5.6rem);width:100%;max-width:var(--maxw);margin:clamp(2.2rem,4vw,3.2rem) auto 0;padding-inline:var(--bar-pad)}
   /* the heading is an action in a sequence -- first, then, finally -- and the
      figure under it is the evidence for that one action, so the number is part
      of the sentence rather than a label sitting above it */
@@ -909,7 +918,7 @@
      to keep a 1260px measure of its own, which put the heading 58px inside the
      figures above it and left its right edge 58px short of theirs. It takes the
      page measure now, the one the nav and the fold are already on. */
-  .mem-head,.mem-stage{width:100%;max-width:1440px;margin-inline:auto;padding-inline:var(--bar-pad)}
+  .mem-head,.mem-stage{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--bar-pad)}
   /* and the split is the reference's: two equal halves of the measure with a
      64px gutter cut out of the middle, so the heading starts on FIG 0.1's rule
      and the lead starts on the midpoint. The old 1.16/.84 pushed the right
@@ -1305,7 +1314,7 @@
      without it the block shrinks to its contents, the max-width never binds,
      and the copy starts 107px inside the wordmark instead of under it. The
      measure taken is the bar's, not the page's, so the two share an edge. */
-  .hero-lead .wrap{width:100%;max-width:1440px;padding-inline:var(--bar-pad)}
+  .hero-lead .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
   /* the resets that put everything on that edge. They sit out here and not in
      the query below because the headline, the lede and the picture each
      carried a centred breakout of their own, and a fold that is left set at
@@ -1343,10 +1352,8 @@
      The mask is what makes the bottom a fade rather than a last row, which is
      the difference between "and more of it" and "and that is all of it". */
   .lead-stage{position:relative;display:flex;flex-direction:column}
-  .lead-stage>.ask--lead{width:100%;margin:0;position:relative;z-index:2}
   /* the three answers are different lengths and the funnel must not step up and
      down under them as they turn, so the tallest holds the box open */
-  .lead-stage .ask-a{min-height:5.9em}
   .ask-f b.lead-n{margin-left:0;font-weight:500;color:var(--fg-2);font-variant-numeric:tabular-nums}
 
   /* the answer arrives a claim at a time. The spans are inline and the text
@@ -1356,42 +1363,53 @@
   .lead-stage.armed .lead-p .cl{opacity:0}
   .lead-stage.armed .lead-p .cl.in{opacity:1}
 
-  .lead-funnel{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;
-    margin-top:clamp(1rem,2.2vh,1.6rem);
-    -webkit-mask-image:linear-gradient(180deg,#000 0,#000 80%,rgba(0,0,0,.35) 93%,transparent 100%);
-            mask-image:linear-gradient(180deg,#000 0,#000 80%,rgba(0,0,0,.35) 93%,transparent 100%)}
+  .lead-app{display:grid;grid-template-columns:clamp(214px,21%,262px) minmax(0,1fr);
+    border:1px solid var(--line);border-radius:14px;background:var(--bg-2);
+    box-shadow:var(--hl-top),0 40px 90px -42px rgba(0,0,0,.96);overflow:hidden}
 
-  /* the neck. No capsule: at this size a filled pill reads as a button, and
-     nothing on this fold is pressable. A dot and a name is the whole line. */
-  .fn-call{display:inline-flex;align-items:center;gap:.42rem;font-family:var(--mono);font-size:10.1px;letter-spacing:.02em;color:var(--dim)}
-  .fn-call b{color:var(--fg-3);font-weight:600}
-  .fn-live{width:4px;height:4px;border-radius:50%;background:#3ecf8e}
+  .app-rail{position:relative;display:flex;flex-direction:column;padding:.85rem 0 .8rem;border-right:1px solid var(--line);background:rgba(255,255,255,.015)}
+  .rail-lab{margin:0 0 .32rem;padding:0 .85rem;font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.26)}
+  .rail-lab.second{margin-top:1.05rem}
+  .app-main{display:flex;flex-direction:column;min-width:0}
+  .app-main .ask-f{margin-top:auto;background:rgba(255,255,255,.012)}
 
-  .fn-read{list-style:none;margin:clamp(.85rem,2vh,1.35rem) 0 0;padding:0;width:min(560px,100%);display:flex;flex-direction:column}
-  /* a row lights by saturating its mark and whitening its title, with a short
-     rule in the gutter where the fill used to be. A filled block behind a line
-     of text reads as a selected state, which is something the reader did; this
-     is something the answer did, so it is given a mark and not a highlight. */
-  .fn-src{position:relative;display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:.55rem;padding:.34rem 0 .34rem .62rem;transition:opacity .55s ease,transform .55s cubic-bezier(.16,.84,.44,1)}
-  .fn-src::before{content:"";position:absolute;left:0;top:50%;width:2px;height:0;translate:0 -50%;border-radius:1px;background:var(--blue-l);transition:height .42s cubic-bezier(.16,.84,.44,1)}
+  .fn-read{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+  .fn-src{position:relative;display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:.5rem;padding:.33rem .85rem;transition:opacity .55s ease,transform .55s cubic-bezier(.16,.84,.44,1)}
+  /* where it feeds through: the segment sits on the divider itself, level with
+     the row, so the claim landing in the pane beside it has a visible origin */
+  .fn-src::after{content:"";position:absolute;right:0;top:50%;width:2px;height:0;translate:0 -50%;border-radius:1px;background:var(--blue-l);transition:height .42s cubic-bezier(.16,.84,.44,1)}
   .fn-src .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .45s ease}
-  .fn-src b{min-width:0;font-size:12.2px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .45s ease}
-  .fn-src em{font-style:normal;font-size:10.2px;color:rgba(255,255,255,.2);white-space:nowrap;transition:color .45s ease}
+  .fn-src b{min-width:0;font-size:11.9px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .45s ease}
+  .fn-src em{font-style:normal;font-size:9.5px;color:var(--fg-3);white-space:nowrap;opacity:0;transition:opacity .45s ease}
   .fn-src.scan .tlogo{opacity:.82;transition-duration:.12s}
   .fn-src.scan b{color:var(--fg-3);transition-duration:.12s}
-  .fn-src.hot::before{height:14px}
+  .fn-src.hot::after{height:15px}
   .fn-src.hot .tlogo{opacity:1}
   .fn-src.hot b{color:#fff}
-  .fn-src.hot em{color:var(--fg-3)}
+  .fn-src.hot em{opacity:1}
 
-  /* the record the seven came out of: one dim line of it, wrapped, running
-     wider than the rows and dying into the page. Middots rather than chips,
-     because sixteen filled shapes is a quieter version of the wall this
-     replaced and not a different idea. */
-  .fn-rest{list-style:none;margin:clamp(.8rem,1.9vh,1.25rem) 0 0;padding:0;width:min(1000px,100%);display:flex;flex-wrap:wrap;justify-content:center;gap:.12rem .34rem;font-size:10px;color:rgba(255,255,255,.2)}
-  .fn-rest li{display:inline-flex;align-items:center;gap:.28rem;white-space:nowrap}
-  .fn-rest li+li::before{content:"\00b7";margin-right:.34rem;color:rgba(255,255,255,.12)}
-  .fn-rest .tlogo{width:9px;height:9px;opacity:.32}
+  .fn-rest{list-style:none;margin:0;padding:0 .85rem;display:flex;flex-wrap:wrap;gap:.08rem .28rem;font-size:9.5px;line-height:1.65;color:rgba(255,255,255,.2)}
+  .fn-rest li{display:inline-flex;align-items:center;gap:.24rem;white-space:nowrap}
+  .fn-rest li+li::before{content:"\00b7";margin-right:.28rem;color:rgba(255,255,255,.12)}
+  .fn-rest .tlogo{width:9px;height:9px;opacity:.3}
+
+  /* the call sits at the foot of the rail the way an application puts its
+     status there, and is ordered last rather than written last so the entrance
+     can still stagger it first */
+  .fn-call{order:9;margin-top:auto;padding:.85rem .85rem 0;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:9.6px;letter-spacing:.02em;color:var(--dim)}
+  .fn-call b{color:var(--fg-3);font-weight:600}
+  .fn-live{width:4px;height:4px;border-radius:50%;background:#3ecf8e;flex:none}
+
+  /* stacked, the rail becomes what it was two revisions ago: the sources under
+     the answer. The feed-through mark moves to the left edge, which is the one
+     the rows now share with the pane above them. */
+  @media (max-width:900px){
+    .lead-app{grid-template-columns:minmax(0,1fr)}
+    .app-main{order:1}
+    .app-rail{order:2;border-right:0;border-top:1px solid var(--line)}
+    .fn-src::after{right:auto;left:0}
+    .fn-rest li:nth-child(n+11){display:none}
+  }
 
   /* .armed is added only when the script commits to playing, and a watchdog
      takes it off again, so there is no state in which the funnel is blank. */
@@ -1401,7 +1419,6 @@
   .lead-stage.armed .fn-src.in{opacity:1;transform:translateY(0)}
 
   @media (max-width:760px){
-    .lead-stage .ask-a{min-height:0}
     .fn-rest li:nth-child(n+9){display:none}
   }
   @media (prefers-reduced-motion:reduce){
@@ -1752,7 +1769,7 @@
   /* the figure row. Columns ruled off each other, the drawing given most of the
      height, the words held to two lines so the three read as one row. */
   #figures{padding:0 0 clamp(3rem,7vh,5.5rem)}
-  .fcards .wrap{width:100%;max-width:1440px;padding-inline:var(--bar-pad)}
+  .fcards .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
   .figrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
   .figcard{margin:0;padding:clamp(1.4rem,2.4vw,2.1rem) clamp(1.2rem,2.2vw,2rem) 0;border-left:1px solid var(--line)}
   /* the row is inset from its rules and flush with the page's: a column pads
@@ -1779,7 +1796,7 @@
     .figart{max-width:250px;margin-inline:0}
   }
   #stance{padding:clamp(3.2rem,8vh,6rem) 0;border-top:0}
-  .stance .wrap{width:100%;max-width:1440px;padding-inline:var(--bar-pad)}
+  .stance .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
   /* measured off the reference at 2x: a 96px line pitch over 90px of ink on a
      1727px window, which is 48px of leading on about 45px of type, or 2.6vw
      with a line height of 1.09. Ours was capped at 39px and led at 1.24, so it
@@ -1948,64 +1965,24 @@ __LOGO_SPRITE__
            that the chip in the sentence carries the same date as the bar on the
            document. The sweep before the answer is the read itself. -->
       <div class="lead-stage" id="lstage">
-        <div class="ask ask--lead" id="lcard">
-          <div class="ask-bar">
-            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
-            <span class="ask-in">
-              <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
-            </span>
-          </div>
+        <!-- ONE WINDOW. The three tiers made three things to look at and the
+             fold wanted one, so the record becomes the rail of an application
+             and the answer becomes its main pane. A single frame, one border,
+             one radius, hairlines inside it instead of outlines around it.
 
-          <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2">
-            <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
-            <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
-            <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
-          </p>
+             The rail is also where the reading order wants the record. A list of
+             sources above an answer is a preamble; beside it, it is the thing
+             the answer was drawn from, and a claim landing on the right while
+             its row lights on the left is the whole mechanism in one gesture.
 
-          <p class="ask-a lead-p" data-q="What changed since we passed on Halo Compute?" data-d="2,1,5,6" hidden>
-            <span class="cl"><b>Four things.</b> You saw a $4M seed<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>,</span>
-            <span class="cl">and it is a $30M Series A now with six design partners live<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
-            <span class="cl">They hired a <b>VP Engineering</b> out of Databricks<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span>,</span>
-            <span class="cl">and Marcus moved it to IC in July<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
-          </p>
-
-          <p class="ask-a lead-p" data-q="Who on the team has the warmest path in?" data-d="2,3,4" hidden>
-            <span class="cl"><b>Dev Raman</b> made the introduction and still co-invests<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
-            <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
-            <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
-          </p>
-
-          <p class="ask-f">
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>
-            Read from <b class="lead-n" id="lcount">4,180</b> records across your firm<b>0.9s</b>
-          </p>
-        </div>
-
-        <!-- what the answer was called from, as a funnel rather than a wall.
-             The rank of replica windows that stood here was eleven bordered
-             boxes under a bordered card, and at that count the edges are the
-             thing you see: the fold read as a layout, not as a read.
-
-             So it narrows instead. The call is one line at the neck, the seven
-             documents it opened are rows under it at half the width, and the
-             rest of the record fans out past both of them and dies into the
-             page. Three tiers, each wider and quieter than the one above, which
-             is the shape of the claim: 4,180 records, seven opened, one answer.
-
-             Nothing here is a box. A row lights by taking colour in its mark and
-             white in its title, which is all the emphasis a line of text needs
-             once it is not competing with a border. -->
-        <div class="lead-funnel" aria-hidden="true">
-          <p class="fn-call"><i class="fn-live"></i><b>fein</b><span>search_memory</span></p>
-          <ol class="fn-read">
+             Each row's date is held back until its claim lands, so it arrives as
+             the tie to the chip in the sentence rather than sitting there being
+             a second column of dates nobody is reading yet. -->
+        <div class="lead-app">
+          <aside class="app-rail" aria-hidden="true">
+            <p class="fn-call"><i class="fn-live"></i><b>fein</b><span>search_memory</span></p>
+            <p class="rail-lab">Read for this answer</p>
+            <ol class="fn-read">
             <li class="fn-src" data-d="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
             <li class="fn-src" data-d="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
             <li class="fn-src" data-d="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fwd: Halo Compute, seed deck</b><em>8 Nov 2024</em></li>
@@ -2013,8 +1990,9 @@ __LOGO_SPRITE__
             <li class="fn-src" data-d="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Coffee with Halo Compute</b><em>21 Nov 2024</em></li>
             <li class="fn-src" data-d="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Priya Nayar, new position</b><em>3 Jun 2025</em></li>
             <li class="fn-src" data-d="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Halo Compute, moved to IC</b><em>14 Jul 2026</em></li>
-          </ol>
-          <ul class="fn-rest">
+            </ol>
+            <p class="rail-lab second">Elsewhere in the record</p>
+            <ul class="fn-rest">
             <li><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>41 threads</li>
             <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>18 meeting notes</li>
             <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>9 events</li>
@@ -2031,7 +2009,47 @@ __LOGO_SPRITE__
             <li><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Founder call</li>
             <li><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Series A hires</li>
             <li><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Board prep</li>
-          </ul>
+            </ul>
+          </aside>
+
+          <div class="app-main" id="lcard">
+            <div class="ask-bar">
+            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
+            <span class="ask-in">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
+            </span>
+            </div>
+            <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2">
+            <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
+            <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            </p>
+
+            <p class="ask-a lead-p" data-q="What changed since we passed on Halo Compute?" data-d="2,1,5,6" hidden>
+            <span class="cl"><b>Four things.</b> You saw a $4M seed<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>,</span>
+            <span class="cl">and it is a $30M Series A now with six design partners live<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">They hired a <b>VP Engineering</b> out of Databricks<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span>,</span>
+            <span class="cl">and Marcus moved it to IC in July<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
+            </p>
+
+            <p class="ask-a lead-p" data-q="Who on the team has the warmest path in?" data-d="2,3,4" hidden>
+            <span class="cl"><b>Dev Raman</b> made the introduction and still co-invests<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
+            <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
+            </p>
+            <p class="ask-f">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>
+            Read from <b class="lead-n" id="lcount">4,180</b> records across your firm<b>0.9s</b>
+            </p>
+          </div>
         </div>
       </div>
     </div>
