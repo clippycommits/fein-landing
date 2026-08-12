@@ -484,8 +484,25 @@
   .ah-top{grid-column:1 / -1;display:flex;align-items:center;gap:.62rem;height:36px;padding:0 .85rem;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02)}
   .ah-dots{display:inline-flex;gap:5px}
   .ah-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.13)}
-  .ah-app{font-size:12px;font-weight:600;letter-spacing:-.012em;color:var(--fg-2)}
-  .ah-pane{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+  /* the clients as tabs: the one being asked is lit, the other two are the
+     same endpoint waiting. This is the sentence the proof band makes in words,
+     made in the picture instead, and it is why the frame is worth having. */
+  .ah-cli{display:inline-flex;align-items:center;gap:.34rem;padding:.2rem .48rem;border-radius:6px;font-size:11.4px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap}
+  .ah-cli .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .3s ease}
+  .ah-cli b{font-weight:450}
+  .ah-cli.on{color:var(--fg);background:rgba(255,255,255,.055);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+  .ah-cli.on .tlogo{opacity:1}
+  /* what we are in this picture: the connection, not the application */
+  .ah-mcp{margin-left:auto;font-family:var(--mono);font-size:9.6px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  /* the ask bar carried the same three marks. With the frame naming them it was
+     the claim twice on one picture, so the row keeps only the question. */
+  .hero-lead .ask--hero .ask-in{display:none}
+  /* under 620px the three names will not sit in the bar beside the endpoint.
+     The lit one keeps its word, the other two hold their mark alone. */
+  @media (max-width:620px){
+    .ah-cli:not(.on) b{display:none}
+    .ah-top{gap:.45rem;padding:0 .7rem}
+  }
 
   /* the rail: one list, ruled, not six cards abreast */
   .hero-lead .ah-srcs{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:0;width:auto;padding:.45rem 0 .6rem;border-right:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}
@@ -1837,10 +1854,17 @@ __LOGO_SPRITE__
              panel floating on the page, which is a diagram of software rather
              than a picture of it; the frame is what says this is a thing that
              runs. The label is the pane the reader is looking at. -->
+        <!-- the window belongs to the assistant, not to us. The whole claim of
+             the product is that you never open a fein app: you ask where you
+             already are and fein answers through one endpoint. So the frame is
+             the client, the three it serves are its tabs, and what we are in
+             this picture is the connection named on the right. -->
         <div class="ah-top" aria-hidden="true">
           <span class="ah-dots"><i></i><i></i><i></i></span>
-          <span class="ah-app">fein</span>
-          <span class="ah-pane">Ask</span>
+          <span class="ah-cli on"><svg class="tlogo"><use href="#l-claude"/></svg><b>Claude</b></span>
+          <span class="ah-cli"><svg class="tlogo"><use href="#l-openai"/></svg><b>ChatGPT</b></span>
+          <span class="ah-cli"><svg class="tlogo"><use href="#l-cursor"/></svg><b>Cursor</b></span>
+          <span class="ah-mcp">fein MCP</span>
         </div>
 
         <ol class="ah-srcs">
