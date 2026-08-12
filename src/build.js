@@ -367,6 +367,7 @@ fs.writeFileSync(path.join(out, "robots.txt"), robots);
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image><video:video><video:thumbnail_loc>${SITE}/video/fein-demo-poster.jpg</video:thumbnail_loc><video:title>${VIDEO_NAME}</video:title><video:description>${VIDEO_DESC}</video:description><video:content_loc>${SITE}/video/fein-demo-1440.mp4</video:content_loc><video:duration>26</video:duration><video:publication_date>${VIDEO_UPLOADED}</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video></url>
+  <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/privacy</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>${SITE}/terms</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
@@ -380,6 +381,23 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
     .split("__INTER_B64__").join(interB64)
     .split("__LASTMOD__").join(LASTMOD);
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD__") > -1) throw new Error("legal placeholder left in " + slug);
+  fs.mkdirSync(path.join(out, slug), { recursive: true });
+  assertCharsetCovers(page, slug + "/index.html");
+  fs.writeFileSync(path.join(out, slug, "index.html"), page);
+});
+
+// ---- segment landing pages: standalone marketing docs served at /<slug> via a
+// directory-index file, the same shape as the legal pages. These are the pages
+// cold outbound points at, so unlike /privacy and /terms they carry the
+// analytics block: the whole point is knowing which sends convert. Their form
+// posts to the same /api/enquiry endpoint the modal on the index page uses. ----
+["pe"].forEach(function (slug) {
+  let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
+    .split("__GEIST_SANS_B64__").join(sansB64)
+    .split("__INTER_B64__").join(interB64)
+    .split("__LASTMOD__").join(LASTMOD)
+    .split("__ANALYTICS__").join(analytics);
+  if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);

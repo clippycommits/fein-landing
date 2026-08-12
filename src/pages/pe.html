@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fein for private equity · every intermediary relationship your firm has</title>
+<meta name="description" content="fein reads your firm's email, calendar, and CRM, and resolves it into one graph of every intermediary who has ever sent you a deal. Who owns each relationship, how strong it is, and which ones have gone quiet. Self-hosted, open source, live in 14 days.">
+<link rel="canonical" href="https://fein.vc/pe">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fein">
+<meta property="og:title" content="fein for private equity · every intermediary relationship your firm has">
+<meta property="og:description" content="Every banker, broker, and accountant who has ever sent you a deal. Ranked by real signal, with the owner named and the quiet ones flagged. Self-hosted, open source, live in 14 days.">
+<meta property="og:url" content="https://fein.vc/pe">
+<meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="fein for private equity">
+<meta name="twitter:description" content="Every banker, broker, and accountant who has ever sent you a deal. Ranked, owned, and current.">
+<meta name="twitter:image" content="https://fein.vc/og.png">
+<style>
+  @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__GEIST_SANS_B64__) format('woff2');}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2');}
+  :root{
+    color-scheme:dark;
+    --bg:#000000; --bg-2:#0a0a0c; --bg-3:#101014;
+    --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --dim:#767982;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+    --blue:#0070F3; --blue-l:#52A8FF;
+    --warm:#FF8A85;
+    --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --maxw:1080px;
+    --r-sm:8px; --r-md:12px; --r-lg:16px;
+    --hl-top:inset 0 1px 0 rgba(255,255,255,.06);
+    --shadow-card:0 0 0 1px rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5),0 24px 60px -24px rgba(0,0,0,.9);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;background:#000}
+  body{margin:0;background:var(--bg);color:var(--fg-2);font-family:var(--font);font-size:17px;line-height:1.55;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  h1,h2,h3,p{margin:0}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:#0070F3;color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .skip{position:fixed;top:12px;left:12px;z-index:100;background:#fff;color:#000;padding:.6rem 1rem;border-radius:9999px;font-weight:550;font-size:.92rem;transform:translateY(-300%)}
+  .skip:focus{transform:none}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
+
+  /* ---- bar ---- */
+  .bar{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.72);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+  .brand{display:inline-flex;align-items:baseline;gap:.5rem;font-family:var(--display);font-weight:600;font-size:1.2rem;color:var(--fg);letter-spacing:-.02em}
+  .brand .for{font-family:var(--font);font-size:.82rem;font-weight:450;color:var(--fg-3);letter-spacing:0}
+  .bar nav{display:flex;align-items:center;gap:22px;font-size:.9rem;color:var(--fg-3)}
+  .bar nav a:hover{color:#fff}
+  .bar .navlinks{display:flex;gap:22px}
+  @media(max-width:720px){.bar .navlinks{display:none}}
+
+  /* ---- buttons ---- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:var(--font);font-weight:500;font-size:14px;height:38px;padding:0 14px;border-radius:10px;cursor:pointer;border:0;white-space:nowrap;line-height:1;transition:background .2s ease,box-shadow .2s ease,color .2s ease}
+  .btn-primary{background:#fff;color:#000;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5)}
+  .btn-primary:hover{background:#e9e9e9}
+  .btn-ghost{background:rgba(12,12,15,.7);color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
+  .btn-ghost:hover{box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
+  .btn-lg{height:46px;padding:0 20px;font-size:15.5px;border-radius:12px}
+  .arw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
+  .btn:hover .arw{transform:translateX(3px)}
+
+  /* ---- sections ---- */
+  section{padding:5.5rem 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .eyebrow{font-family:var(--font);font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin:0 0 1rem}
+  h1{font-family:var(--display);color:#fff;font-weight:560;font-size:clamp(2.1rem,5.4vw,3.5rem);line-height:1.05;letter-spacing:-.035em}
+  h2{font-family:var(--display);color:#fff;font-weight:560;font-size:clamp(1.55rem,3.4vw,2.1rem);line-height:1.15;letter-spacing:-.03em}
+  h3{font-family:var(--font);color:var(--fg);font-weight:560;font-size:1.02rem;letter-spacing:-.015em}
+  .lede{font-size:1.12rem;color:var(--fg-2);max-width:62ch;margin-top:1.3rem}
+  .sub{color:var(--fg-3);max-width:64ch;margin-top:.9rem}
+
+  /* ---- hero ---- */
+  .hero{padding:4.6rem 0 5rem;position:relative;overflow:hidden}
+  .hero .wrap{position:relative;z-index:1}
+  .glow{position:absolute;top:-38%;left:50%;width:min(1100px,140%);height:640px;transform:translateX(-50%);background:radial-gradient(50% 50% at 50% 50%,rgba(0,112,243,.16),rgba(0,112,243,0) 70%);pointer-events:none}
+  .pill{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:999px;background:var(--bg-2);box-shadow:0 0 0 1px var(--line),var(--hl-top);font-size:.8rem;color:var(--fg-3);margin-bottom:1.6rem}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--blue-l)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:2.2rem}
+  .trust{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:1.8rem;font-size:.88rem;color:var(--dim)}
+  .trust span{display:inline-flex;align-items:center;gap:.45rem}
+  .trust span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--dim);flex:none}
+
+  /* ---- problem list ---- */
+  .plist{margin:2.4rem 0 0;padding:0;list-style:none;display:grid;gap:0;max-width:76ch}
+  .plist li{padding:1.15rem 0;border-top:1px solid var(--line);color:var(--fg-2)}
+  .plist li:first-child{border-top:0}
+  .plist b{color:var(--fg);font-weight:550}
+
+  /* ---- cards ---- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:2.6rem}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .card{padding:1.6rem;border-radius:var(--r-lg);background:linear-gradient(180deg,var(--bg-2),#08080a);box-shadow:var(--shadow-card)}
+  .card h3{margin-bottom:.6rem}
+  .card p{font-size:.98rem;color:var(--fg-3)}
+  .cnum{font-family:var(--display);font-size:.78rem;font-weight:550;color:var(--blue-l);letter-spacing:.08em;display:block;margin-bottom:.7rem}
+
+  /* ---- steps ---- */
+  .steps{counter-reset:s;margin-top:2.6rem;display:grid;gap:0}
+  .step{display:grid;grid-template-columns:44px 1fr;gap:20px;padding:1.7rem 0;border-top:1px solid var(--line)}
+  .step:first-child{border-top:0}
+  .step .n{font-family:var(--display);font-size:.85rem;font-weight:550;color:var(--blue-l);padding-top:.15rem}
+  .step p{color:var(--fg-3);margin-top:.4rem;max-width:60ch}
+  @media(max-width:560px){.step{grid-template-columns:28px 1fr;gap:12px}}
+
+  /* ---- security ---- */
+  .sec{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 32px;margin-top:2.4rem;list-style:none;padding:0}
+  @media(max-width:820px){.sec{grid-template-columns:1fr}}
+  .sec li{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:.55rem 0;font-size:.98rem;color:var(--fg-3)}
+  .sec .tk{color:var(--blue-l);font-size:.9rem;line-height:1.6}
+  .sec b{color:var(--fg);font-weight:550;display:block}
+
+  /* ---- pricing ---- */
+  .ptable{width:100%;border-collapse:collapse;margin-top:2.4rem;font-size:1rem}
+  .ptable th{text-align:left;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);padding:0 0 .9rem;border-bottom:1px solid var(--line-2)}
+  .ptable td{padding:1.05rem 0;border-bottom:1px solid var(--line);color:var(--fg-2);vertical-align:baseline}
+  .ptable td:first-child{color:var(--fg);font-weight:500}
+  .ptable td:last-child{text-align:right;font-family:var(--display);color:#fff;font-weight:550;white-space:nowrap}
+  .ptable .per{color:var(--dim);font-weight:400;font-size:.85rem;font-family:var(--font)}
+  .pnote{margin-top:1.6rem;color:var(--fg-3);font-size:.97rem;max-width:66ch}
+  .pnote b{color:var(--fg);font-weight:550}
+
+  /* ---- offer ---- */
+  .offer{padding:2.2rem;border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(0,112,243,.10),rgba(0,112,243,.02));box-shadow:0 0 0 1px rgba(82,168,255,.22),var(--hl-top);margin-top:2.6rem}
+  .offer h3{color:#fff;font-size:1.1rem;margin-bottom:1.1rem}
+  .offer ul{margin:0;padding:0;list-style:none;display:grid;gap:.75rem}
+  .offer li{display:grid;grid-template-columns:18px 1fr;gap:12px;color:var(--fg-2);font-size:.99rem}
+  .offer .tk{color:var(--blue-l)}
+
+  /* ---- faq ---- */
+  .faq{margin-top:2.4rem;max-width:76ch}
+  .faq details{border-top:1px solid var(--line);padding:1.15rem 0}
+  .faq details:first-of-type{border-top:0}
+  .faq summary{cursor:pointer;list-style:none;color:var(--fg);font-weight:550;font-size:1.01rem;display:flex;justify-content:space-between;gap:20px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"↓";color:var(--fg-3);font-size:.85rem;transition:transform .2s ease;flex:none}
+  .faq details[open] summary::after{transform:rotate(180deg)}
+  .faq p{margin-top:.75rem;color:var(--fg-3);font-size:.99rem;max-width:66ch}
+
+  /* ---- form ---- */
+  .formwrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  @media(max-width:900px){.formwrap{grid-template-columns:1fr;gap:34px}}
+  form{display:grid;gap:14px}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.frow{grid-template-columns:1fr}}
+  label{display:block;font-size:.82rem;color:var(--fg-3);margin-bottom:.4rem;font-weight:450}
+  input,select,textarea{width:100%;font-family:var(--font);font-size:15px;color:var(--fg);background:var(--bg-2);border:0;box-shadow:0 0 0 1px var(--line),var(--hl-top);border-radius:10px;padding:.7rem .8rem;line-height:1.4}
+  textarea{resize:vertical;min-height:88px}
+  input::placeholder,textarea::placeholder{color:var(--dim)}
+  select{appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4.5L6 8.5L10 4.5' stroke='%238a8f98' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center;background-size:12px;padding-right:2rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .fnote{font-size:.84rem;color:var(--dim);margin-top:.2rem}
+  .fmsg{font-size:.92rem;padding:.8rem .9rem;border-radius:10px;display:none}
+  .fmsg.on{display:block}
+  .fmsg.ok{color:#cfe9ff;background:rgba(0,112,243,.12);box-shadow:0 0 0 1px rgba(82,168,255,.25)}
+  .fmsg.err{color:#ffd9d7;background:rgba(255,138,133,.10);box-shadow:0 0 0 1px rgba(255,138,133,.28)}
+  .fmsg a{color:var(--blue-l);text-decoration:underline;text-underline-offset:3px}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);padding:2.4rem 0 3.2rem;font-size:.86rem;color:var(--dim)}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;align-items:center}
+  footer a{color:var(--fg-3)}
+  footer a:hover{color:#fff}
+  footer .sep{color:var(--line-2)}
+</style>
+</head>
+<body>
+<a class="skip" href="#start">Skip to the form</a>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="/">fein <span class="for">for private equity</span></a>
+    <nav>
+      <span class="navlinks">
+        <a href="#what">What you get</a>
+        <a href="#security">Security</a>
+        <a href="#pricing">Pricing</a>
+      </span>
+      <a class="btn btn-primary" href="#start">Book 20 minutes</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="glow"></div>
+    <div class="wrap">
+      <span class="pill"><span class="dot"></span> Self-hosted · open source · live in 14 days</span>
+      <h1>Every banker who ever<br>sent you a deal.<br>Ranked, owned, and current.</h1>
+      <p class="lede">Your proprietary deal flow lives in ten thousand emails. fein reads them. It resolves every intermediary into one record, scores the relationship from real signal, names the person at your firm who owns it, and flags the ones that have gone quiet. You ask in Claude, ChatGPT, or Cursor, and every answer arrives with its source attached.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="#start">Book 20 minutes <span class="arw">→</span></a>
+        <a class="btn btn-ghost btn-lg" href="#pricing">See pricing</a>
+      </div>
+      <div class="trust">
+        <span>Runs on your infrastructure</span>
+        <span>Reads your CRM, replaces nothing</span>
+        <span>Nobody enters data</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="wrap">
+      <p class="eyebrow">The problem</p>
+      <h2>Your edge is proprietary deal flow.<br>Nobody at the firm can see it.</h2>
+      <ul class="plist">
+        <li><b>Coverage is a guess.</b> You have thousands of relationships with bankers, brokers, accountants, lawyers, and operators. The CRM says one thing. The inbox says another. Nobody knows which is true.</li>
+        <li><b>Relationships go quiet without anyone noticing.</b> An intermediary who sent you three deals goes eleven months without a call. You find out when the next one goes to somebody else.</li>
+        <li><b>Ownership leaves when people do.</b> The partner who held the relationship moves firms. What they knew about it was never written down anywhere a colleague can read.</li>
+        <li><b>Deal history is unsearchable.</b> A company you passed on in 2023 comes back at a lower multiple. The memo, the reason, and the banker who brought it are in three different systems and one person's memory.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="what">
+    <div class="wrap">
+      <p class="eyebrow">What you get</p>
+      <h2>Four questions your deal team asks every week.</h2>
+      <p class="sub">fein answers each one from the record your firm already makes, in seconds, with the document behind it.</p>
+      <div class="grid">
+        <div class="card">
+          <span class="cnum">01</span>
+          <h3>Your coverage map</h3>
+          <p>Every intermediary who has ever sent you a deal, in one list, scored by real signal. Meetings, replies, and shared documents, not a field somebody remembered to fill in. Each one carries the person at your firm who actually owns the relationship.</p>
+        </div>
+        <div class="card">
+          <span class="cnum">02</span>
+          <h3>The relationships going quiet</h3>
+          <p>fein learns each contact's own rhythm from your real history. Then it flags the ones drifting away from it, with the last touch, the deals they brought, and who should make the call. It uses dates and intervals, not a guess.</p>
+        </div>
+        <div class="card">
+          <span class="cnum">03</span>
+          <h3>Every deal, and where it came from</h3>
+          <p>Which intermediary brought it, when, what your team said, and the exact reason you passed. Each line traced to the email or document it was read out of. Ask once, in plain language, and get the history back with citations.</p>
+        </div>
+        <div class="card">
+          <span class="cnum">04</span>
+          <h3>The warm path in</h3>
+          <p>The shortest real path to a management team, a seller, an operator, or an LP. fein weighs each hop against how well your firm actually knows the person, then names the best colleague to make the introduction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <p class="eyebrow">How it works</p>
+      <h2>Nobody enters data. The graph builds itself.</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="n">01</span>
+          <div>
+            <h3>It reads what your team already writes</h3>
+            <p>Email, calendar, Drive, LinkedIn, and your CRM, read continuously. Years of history on the first pass. Your deal team logs nothing and changes nothing about how it works.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="n">02</span>
+          <div>
+            <h3>It resolves the mess into one record per person</h3>
+            <p>Every duplicate copy of a contact joined into one identity. Every relationship scored from real signals, not an LLM guess. A fact that stops being true is retired with the dates it was true between, so the history stays queryable.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="n">03</span>
+          <div>
+            <h3>It answers where your team already works</h3>
+            <p>One MCP endpoint. Ask in Claude, ChatGPT, Gemini, or Cursor and get the same answer every time, with the source document attached. Your agents traverse a deterministic map instead of scraping files and guessing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="crm">
+    <div class="wrap">
+      <p class="eyebrow">Your CRM stays</p>
+      <h2>It sits on top of what you already run.</h2>
+      <p class="lede">DealCloud, Affinity, Salesforce, Attio. fein reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, it migrates nothing, and it asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.</p>
+    </div>
+  </section>
+
+  <section id="security">
+    <div class="wrap">
+      <p class="eyebrow">Security</p>
+      <h2>Your data never leaves your servers.</h2>
+      <p class="sub">fein reads your inbox, your calendar, and your CRM to do its work. It does that on your own infrastructure, and you can read every line of the code before you run it.</p>
+      <ul class="sec">
+        <li><span class="tk">→</span><span><b>Always self-hosted</b>It runs in your environment and sends nothing to us.</span></li>
+        <li><span class="tk">→</span><span><b>Open source, end to end</b>Every line that touches your data is public. Audit it before you run it.</span></li>
+        <li><span class="tk">→</span><span><b>Private by person</b>Each person's sensitive sources stay in their own layer inside the shared graph, enforced inside every query.</span></li>
+        <li><span class="tk">→</span><span><b>Every change is written down</b>Ingests, merges, and decisions are logged with the person or agent that made them.</span></li>
+        <li><span class="tk">→</span><span><b>One token, every surface</b>The dashboard, the API, and the agent endpoint sit behind the same gate.</span></li>
+        <li><span class="tk">→</span><span><b>Nothing phones home</b>No telemetry, no analytics, and no control plane of ours to trust.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <p class="eyebrow">Pricing</p>
+      <h2>Priced on fund size. Never per seat.</h2>
+      <p class="sub">Hiring an analyst to keep this current costs six figures and the graph still lives in one person's head. fein costs less than one month of that, and every person at the firm can query it.</p>
+      <table class="ptable">
+        <thead><tr><th>Fund size</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Under $250M</td><td>$1,000 <span class="per">/ month</span></td></tr>
+          <tr><td>$250M to $1B</td><td>$2,500 <span class="per">/ month</span></td></tr>
+          <tr><td>$1B to $5B</td><td>$4,000 <span class="per">/ month</span></td></tr>
+          <tr><td>Over $5B</td><td>Talk to us</td></tr>
+          <tr><td>Clone it and run it yourself</td><td>$0 <span class="per">/ forever</span></td></tr>
+        </tbody>
+      </table>
+      <p class="pnote">Plus <b>$5,000 once</b> to build it into your stack. Live in 14 days. <b>Annual, paid up front, takes 15% off.</b> The code is MIT licensed, so running it yourself is always free. The fee pays for the engineer who builds it into your environment and keeps every connector working through each API change.</p>
+
+      <div class="offer">
+        <h3>We are taking five firms this quarter.</h3>
+        <ul>
+          <li><span class="tk">→</span><span><b>Live in 14 days.</b> The date is a commitment, not an estimate. Your part is two short calls.</span></li>
+          <li><span class="tk">→</span><span><b>Thirty days to decide.</b> If it is not useful to your deal team, we refund the whole thing, the build fee included.</span></li>
+          <li><span class="tk">→</span><span><b>Your price is locked</b> at the band you join on, for as long as you are a customer, through every fund you raise.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <p class="eyebrow">Questions</p>
+      <h2>What deal teams ask first.</h2>
+      <div class="faq">
+        <details>
+          <summary>We already have DealCloud. Why would we add this?</summary>
+          <p>A CRM is a database your team fills in by hand, and it is only as current as the last person who remembered to update it. fein is not a CRM and it replaces nothing. It reads your CRM and everything around it, resolves the whole picture into one graph, and keeps that graph current without anyone touching a field. It answers questions your CRM cannot: the strength of a relationship measured from real behaviour, the intermediaries drifting quiet, and the reason you passed on a deal three years ago with the document that says so.</p>
+        </details>
+        <details>
+          <summary>Where does our data go?</summary>
+          <p>Nowhere. fein runs on your infrastructure. It sends nothing to us, it has no telemetry, and there is no control plane of ours in the path. Every line of the code that touches your data is public and you can read it before you run anything.</p>
+        </details>
+        <details>
+          <summary>What do we actually have to do?</summary>
+          <p>Two short calls. On the first we connect your email, calendar, Drive, LinkedIn, and CRM. We do everything in between. On the second, fourteen days later, you check the answers against what you already know, and then it goes live.</p>
+        </details>
+        <details>
+          <summary>How far back does it read?</summary>
+          <p>As far back as your mail retention goes. Most firms hand us years on the first pass, which is the point: on day fourteen it answers like a colleague who has been at the firm the whole time.</p>
+        </details>
+        <details>
+          <summary>Can we just run it ourselves?</summary>
+          <p>Yes. It is MIT licensed and the repository is public. The same code we deploy for clients is the code you would clone. The paid offer is the build and the upkeep, so your engineers can build on top of the graph instead of maintaining connectors.</p>
+        </details>
+        <details>
+          <summary>What happens if we cancel?</summary>
+          <p>Nothing stops. It runs on your servers, so the graph, the connectors, and every answer stay where they are and keep working.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="start">
+    <div class="wrap">
+      <div class="formwrap">
+        <div>
+          <p class="eyebrow">Get started</p>
+          <h2>Twenty minutes, and we will show you your own graph.</h2>
+          <p class="sub">Tell us the firm and we will come to the call with what we can already see from public deal data: the intermediaries who have brought you deals, and the ones who have gone quiet. If it is not interesting, we will have wasted twenty minutes of your time and none of your money.</p>
+          <p class="sub">Or email <a href="mailto:sales@fein.vc" style="color:var(--blue-l)">sales@fein.vc</a> directly.</p>
+        </div>
+        <form id="lead" novalidate>
+          <div class="frow">
+            <div><label for="first">First name</label><input id="first" name="first" autocomplete="given-name" required></div>
+            <div><label for="last">Last name</label><input id="last" name="last" autocomplete="family-name" required></div>
+          </div>
+          <div><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@firm.com" required></div>
+          <div class="frow">
+            <div><label for="fund">Firm</label><input id="fund" name="fund" autocomplete="organization" required></div>
+            <div><label for="size">Fund size</label>
+              <select id="size" name="size">
+                <option value="">Select</option>
+                <option>Under $250M</option>
+                <option>$250M to $1B</option>
+                <option>$1B to $5B</option>
+                <option>Over $5B</option>
+              </select>
+            </div>
+          </div>
+          <div><label for="crm">Current CRM</label><input id="crm" name="crm" placeholder="DealCloud, Affinity, Salesforce, none"></div>
+          <div><label for="ask">Anything you want answered on the call</label><textarea id="ask" name="ask" placeholder="Optional"></textarea></div>
+          <div class="hp"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-primary btn-lg" type="submit" id="submit">Book 20 minutes <span class="arw">→</span></button>
+          <p class="fnote">We reply the same day. No sequence, no newsletter.</p>
+          <p class="fmsg ok" id="ok" role="status">Thank you. We have it, and we will come back to you today with times.</p>
+          <p class="fmsg err" id="err" role="alert">Something broke on our side. Email <a href="mailto:sales@fein.vc">sales@fein.vc</a> and we will pick it up straight away.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="/">fein.vc</a><span class="sep">·</span>
+    <a href="https://github.com/clippycommits/fein">Source on GitHub</a><span class="sep">·</span>
+    <a href="/privacy">Privacy</a><span class="sep">·</span>
+    <a href="/terms">Terms</a><span class="sep">·</span>
+    <span>© 2026 fein</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var loadedAt = Date.now();
+  var form = document.getElementById("lead");
+  var ok = document.getElementById("ok"), err = document.getElementById("err");
+  var btn = document.getElementById("submit");
+  if(!form) return;
+
+  function show(el){ ok.classList.remove("on"); err.classList.remove("on"); if(el) el.classList.add("on"); }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var d = {};
+    ["first","last","email","fund","size","crm","ask","website"].forEach(function(k){
+      var el = document.getElementById(k); d[k] = el ? el.value.trim() : "";
+    });
+    if(!d.email || d.email.indexOf("@") < 1){ show(err); return; }
+    // the API rejects anything faster than 2.5s after the form appeared
+    d.t = Math.max(2600, Date.now() - loadedAt);
+    d.source = "pe";
+    btn.disabled = true; btn.textContent = "Sending";
+    fetch("/api/enquiry", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(d)
+    }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
+      .then(function(){
+        show(ok); form.reset(); btn.disabled = true; btn.textContent = "Sent";
+        if(window.goatcounter && goatcounter.count) goatcounter.count({path:"/pe#sent", title:"pe lead"});
+      })
+      .catch(function(){
+        show(err); btn.disabled = false; btn.innerHTML = 'Book 20 minutes <span class="arw">→</span>';
+      });
+  });
+})();
+</script>
+__ANALYTICS__
+</body>
+</html>
