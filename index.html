@@ -1218,13 +1218,17 @@
      margin that keeps it on two lines. Retune it if the sentence gets longer.
      text-wrap:balance is the guard for the same shape, as it is on the others. */
   .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;text-wrap:balance}
-  .demo-lead{margin-top:.95rem;color:var(--fg-2);font-size:var(--demo-lead-size);line-height:1.5;text-wrap:pretty}
-  /* a wider measure than the 46rem this had: the lead set to three lines there
-     and sets to two here, which is a line of black the film does not have to
-     push down the page. It is a wide setting for centred copy, which is the
-     trade. Under about 1200px the lead takes the third line back, because the
-     measure is a percentage of the window before it is 62rem. Nothing is
-     measured against that any more, so it is free to wrap where it wants. */
+  /* the lead reads on the hero's measure, 33.5rem, and not on the block's:
+     centred copy set to the 62rem the heading needs ran the better part of
+     1300px on a wide screen, which is a longer line than anything else on the
+     page and longer than the hero's lede it echoes. Narrow here rather than on
+     .demo-intro, because the heading wants the wide measure to hold its
+     authored two-line break. It costs a line or two of height under the
+     headline; that is the trade for a line the eye can track. */
+  .demo-lead{margin-top:.95rem;color:var(--fg-2);font-size:var(--demo-lead-size);line-height:1.5;max-width:33.5rem;margin-inline:auto;text-wrap:pretty}
+  /* the heading's measure: it sets to 874px at 3.3rem against 62rem, and the
+     118px left over is the margin that keeps it on two lines. Under 861px the
+     block falls back to 46rem and the heading steps down with the window. */
   @media (min-width:861px){
     .demo-intro{max-width:min(62rem,88vw)}
   }
@@ -1934,7 +1938,7 @@ setTimeout(go,1200);})()</script>
       <div class="head reveal">
         <span class="eyebrow">What you get</span>
         <h2>Four questions your team asks every week.</h2>
-        <p class="lead">The warm introduction. The brief before the meeting. The reason you passed. The relationship that goes quiet. fein answers each one from your team's history, in seconds.</p>
+        <p class="lead">fein answers each one from your team's history in seconds.</p>
       </div>
       <div class="feats">
         <div class="feat reveal" id="f-warm">
