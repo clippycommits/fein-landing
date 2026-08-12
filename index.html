@@ -1298,14 +1298,11 @@
      the nav. It now sits under the film, where intent is highest. */
   .demo-intro{text-align:left;max-width:var(--maxw)}
   .demo-intro .demo-lead{margin-inline:0;max-width:62ch}
-  /* The row that catches the reader coming off the film. It takes the film's
-     width, not the page's, so it starts on the same left edge as the chapter
-     rail immediately above it rather than on the text column's, which is a
-     thousand pixels further up the page and reads as unrelated down here. */
-  /* no padding of its own: --film-w already has the gutter in it, and the rail
-     it used to match the inset of has none now either. With both it sat 24px
-     inside the one left edge the rest of the band is built on. */
-  .demo-after{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;width:var(--film-w);box-sizing:border-box;margin:clamp(1.5rem,3vw,2.2rem) auto 0}
+  /* The two actions, sitting with the copy at the head of the band. No width of
+     its own: inside the intro it fills the text column, which is the same edge
+     the film and the chapters below it start on. Taking --film-w here would
+     measure it against the intro rather than the section and inset it 24px. */
+  .demo-after{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;margin-top:clamp(1.35rem,2.4vw,1.9rem)}
   /* the heading and the lead used to step down on a short window as well as a
      narrow one, because a 1440x760 laptop had to give the film its inches back
      out of the type. The film no longer takes them from here, so both are set
@@ -1322,7 +1319,7 @@
   /* the heading takes a measure of its own rather than the column's: set across
      the full width it ran as one long line and the lede under it read as a
      second, longer line of the same thing. Stacked, the two are distinct. */
-  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;max-width:20ch;text-wrap:balance}
+  .demo-intro h2{font-family:var(--display);font-size:var(--demo-h2-size);letter-spacing:-.036em;line-height:1.05;margin-top:.75rem;max-width:33ch;text-wrap:balance}
   /* the lead reads on the hero's measure, 33.5rem, and not on the block's:
      centred copy set to the 62rem the heading needs ran the better part of
      1300px on a wide screen, which is a longer line than anything else on the
@@ -1757,8 +1754,8 @@ setTimeout(go,1200);})()</script>
 
     <div class="wrap" id="content" tabindex="-1">
       
-      <h1>A state of the art memory layer. Purpose built for investors.</h1>
-      <p>fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.</p>
+      <h1>Welcome to agentic venture capital.</h1>
+      <p>fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <a class="btn btn-ghost" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
@@ -1827,8 +1824,14 @@ setTimeout(go,1200);})()</script>
   <section id="demo" class="band" aria-labelledby="demo-h">
     <div class="wrap demo-intro">
       <div class="demo-copy">
-        <h2 id="demo-h">Welcome to agentic venture capital.</h2>
-        <p class="demo-lead">fein is an open source tool and platform that transforms your venture capital team's raw data into intelligent, searchable memory for agents and humans.</p>
+        <h2 id="demo-h">A state of the art memory layer. Purpose built for investors.</h2>
+        <p class="demo-lead">fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.</p>
+      </div>
+      <!-- The two actions sit with the copy at the head of the band now, not
+           under the film. -->
+      <div class="demo-after">
+        <a class="btn btn-white" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
+        <a class="btn btn-ghost" href="#get-started">Talk to sales</a>
       </div>
     </div>
     <figure class="demo-stage">
@@ -1895,15 +1898,6 @@ setTimeout(go,1200);})()</script>
       </figcaption>
     </figure>
 
-    <!-- The conversion moment. Intent peaks at the end of the film, not at the
-         top of the section, and until now the only way out of here was a CTA
-         the reader passed before they had seen anything. Self-serve leads,
-         because someone who has just watched twenty-six seconds is closer to
-         trying it than to booking a call; the call is kept beside it. -->
-    <div class="demo-after">
-      <a class="btn btn-white" href="https://app.fein.vc/signup" aria-label="Start for free: create your fein workspace">Start for free</a>
-      <a class="btn btn-ghost" href="#get-started">Talk to sales</a>
-    </div>
   </section>
 
 
