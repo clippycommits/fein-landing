@@ -29,9 +29,11 @@
        The decorative hairlines stay on --line/--line-2 */
     --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
     --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
-    /* the yellow the figures carry. It is a marking colour, not a surface one:
-       one line in a drawing, one glyph, one number, one 15px logo. Nothing on
-       the page is filled with it, which is what keeps it readable as a mark. */
+    /* the yellow the figures carry: one line in each drawing, and the number on
+       the link out of the memory band. It is a marking colour, not a surface one,
+       and it stays off the chrome (the kebab, the film's transport, the GitHub
+       mark) -- those are furniture, and lighting them spends the accent on things
+       fein is not saying. */
     --acc:#E7F256; --acc-line:rgba(231,242,86,.55);
     /* the only two colours outside the blue accent, and they live on a 0.7rem
        glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
@@ -115,10 +117,6 @@
   .btn-primary,.btn-white{background:#fff;color:#000;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5)}
   .btn-ghost{background:rgba(12,12,15,.7);color:var(--fg);box-shadow:0 0 0 1px rgba(255,255,255,.16),var(--hl-top)}
   .btn .tlogo{width:15px;height:15px;margin-right:-1px}
-  /* the github mark is monochrome in the sprite, so it takes the accent from
-     colour; the label stays --fg, since a whole button in the accent would be a
-     second primary next to the white one */
-  .btn-gh .tlogo{color:var(--acc)}
   .btn .arw{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
   .btn:hover .arw{transform:translateX(3px)}
   .arrowlink{display:inline-flex;align-items:center;gap:.35rem;color:var(--fg);font-weight:550;transition:color .18s ease}
@@ -997,7 +995,7 @@
      this is a control on a picture that is already making its point, and the
      page keeps exactly one invitation. */
   .mem-big{position:absolute;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:clamp(46px,4.4vw,58px);aspect-ratio:1;border-radius:50%;background:rgba(10,10,13,.62);box-shadow:0 0 0 1px rgba(255,255,255,.2),var(--hl-top),0 10px 30px -12px rgba(0,0,0,.9);-webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%);transition:opacity .2s ease,scale .2s cubic-bezier(.22,.61,.36,1)}
-  .mem-big svg{width:42%;height:42%;display:block;fill:var(--acc);translate:1px 0}
+  .mem-big svg{width:42%;height:42%;display:block;fill:currentColor;translate:1px 0}
   .mem-big .g-stop{translate:0 0}
   .mem-hit:hover .mem-big{scale:1.05}
   /* running, the pause is a control nobody asked to have on screen, so it waits
@@ -1023,12 +1021,10 @@
   .mem-bar .tlogo{width:16px;height:16px;flex:none}
   .mem-bar b{color:#fff;font-weight:600}
   .mem-kebab{margin-left:auto;display:flex;flex-direction:column;gap:2.5px}
-  /* the three marks in this band -- the kebab, the transport glyph on the film
-     and the number on the link out of it -- are the accent's other use. They were
-     --dim, --fg and --dim, which read as three different pieces of furniture; one
-     hue makes them one set. The kebab is 3px, so it is dropped to .7 rather than
-     left at full strength. */
-  .mem-kebab i{width:3px;height:3px;border-radius:50%;background:var(--acc);opacity:.7}
+  /* stays --dim: it is chrome on a picture of somebody else's client, and the
+     accent is for the things fein is saying. The number on the link out of the
+     band is the one mark in here that takes it. */
+  .mem-kebab i{width:3px;height:3px;border-radius:50%;background:var(--dim)}
   /* no visible bar: the clip against the top edge is the point, a scrollbar drawn
      down the side of a picture of a product is not */
   .mem-scroll{max-height:clamp(232px,25vw,318px);overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain;scroll-behavior:smooth}
@@ -2015,9 +2011,9 @@ __LOGO_SPRITE__
         <a class="btn btn-primary" href="#get-started">Talk to sales</a>
         <!-- the second action is the repository again, as it was before it pointed
              at the app: the fold says open source, and this is the only place a
-             reader can act on that. The mark carries the accent, so the two
-             actions read as white primary and one lit glyph beside it. -->
-        <a class="btn btn-ghost btn-gh" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="Get the code on GitHub: the fein source repository"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Get the code on GitHub</a>
+             reader can act on that. "View on GitHub" is what the button is called
+             everywhere else, so it is what it is called here. -->
+        <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="View on GitHub: the fein source repository"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>View on GitHub</a>
       </div>
 
       <!-- THE FOLD'S PICTURE: one answer, and the record it was read from.
