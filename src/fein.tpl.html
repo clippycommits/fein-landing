@@ -867,11 +867,18 @@
      aubergine, because the mention and the send button are the two things in the
      picture the reader is meant to connect and blue is what connects them
      everywhere else on this page. */
-  .mem-head{width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.1rem,3vw,3.6rem);align-items:start}
+  /* the split is the reference's, measured off it: the second column starts a
+     shade past the middle at 58% and runs to the same right edge as the picture
+     below, so the head and the stage are one block and not two measures. The
+     heading keeps its own 19ch and stops well short of that column, which is also
+     what the reference does. */
+  .mem-head{width:min(1260px,100% - clamp(2.5rem,7vw,5rem));margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:clamp(1.1rem,3vw,3.6rem);align-items:start}
   .mem-head h2{font-size:clamp(2rem,4.2vw,3.15rem);line-height:1.05;letter-spacing:-.035em;color:#fff;max-width:19ch;text-wrap:balance}
   /* the right column is set at lead size rather than body size, so it reads as
-     the headline's second half and not as a caption underneath it */
-  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:37ch;text-wrap:pretty}
+     the headline's second half and not as a caption underneath it. No measure of
+     its own: the column is the measure, which is what puts its right edge on the
+     film's. */
+  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;text-wrap:pretty}
   .mem-more{margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
   .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
 
@@ -907,9 +914,20 @@
   .mem-film:not(.paused) .mem-hit:hover .mem-big,.mem-film:not(.paused) .mem-hit:focus-visible .mem-big{opacity:1}
   .mem-film.paused .g-stop,.mem-film:not(.paused) .g-play{display:none}
 
-  /* ---- the thread ---- */
-  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line-2);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
-  .mem-bar{display:flex;align-items:center;gap:.6rem;padding:.85rem 20px;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--fg-2)}
+  /* ---- the thread ----
+     The panel's ground, its stroke and the two tones inside it are sampled off the
+     reference rather than picked: #111213 for the card, rgb(39,40,41) for the
+     stroke, rgb(29,30,31) for the rule under the header, and a composer that is
+     *lighter* than the card it sits in at #161718 on rgb(34,35,36). That last one
+     is the one worth naming, because a composer drawn darker than its panel is the
+     tell that gives a mock away, and it is the mistake this had. These are absolute
+     values, not alphas over the page: the panel is a picture of another product and
+     it should not take a tint from whatever is behind it. */
+  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;display:flex;flex-direction:column;background:#111213;border:1px solid rgb(39,40,41);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
+  /* the rule plus a short shadow under it: in the reference there is a darker band
+     below the header, which is the thread being scrolled under a fixed bar. That
+     shadow is the only thing in the panel saying there is more above. */
+  .mem-bar{position:relative;z-index:1;display:flex;align-items:center;gap:.6rem;padding:.85rem 20px;border-bottom:1px solid rgb(29,30,31);box-shadow:0 3px 6px -3px rgba(0,0,0,.75);font-size:.9rem;color:var(--fg-2)}
   .mem-bar .tlogo{width:16px;height:16px;flex:none}
   .mem-bar b{color:#fff;font-weight:600}
   .mem-kebab{margin-left:auto;display:flex;flex-direction:column;gap:2.5px}
@@ -946,11 +964,9 @@
   .mem-cites li{position:relative;padding-left:1.05rem;margin-top:.24rem;font-size:.94rem;line-height:1.48;color:var(--fg-2)}
   .mem-cites li::before{content:"";position:absolute;left:.3rem;top:.62em;width:3.5px;height:3.5px;border-radius:50%;background:var(--dim)}
   .mem-cites b{color:var(--blue-l);font-weight:500}
-  .mem-read{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
-  .mem-read b{margin-left:auto;font-weight:400;color:var(--fg-3)}
 
   /* ---- the composer ---- */
-  .mem-box{margin:.35rem 20px 20px;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.02)}
+  .mem-box{margin:.35rem 20px 20px;border:1px solid rgb(34,35,36);border-radius:10px;background:#161718}
   .mem-q,.mem-ph{padding:.8rem .8rem 1.5rem;font-size:.94rem;line-height:1.5;color:var(--fg)}
   .mem-ph{color:var(--dim)}
   .mem-at{margin-right:.3rem;padding:.08rem .34rem;border-radius:4px;background:rgba(0,112,243,.24);color:var(--blue-l);font-weight:550}
@@ -960,7 +976,7 @@
   .mem-plus{display:grid;place-items:center;width:22px;height:22px;flex:none;border-radius:50%;background:rgba(255,255,255,.09);color:var(--fg-2)}
   .mem-plus svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
   .mem-aa{flex:none;font-size:.88rem;font-weight:500;color:var(--fg-3);letter-spacing:-.01em}
-  .mem-sep{flex:none;width:1px;height:17px;background:var(--line-2)}
+  .mem-sep{flex:none;width:1px;height:17px;background:rgb(48,49,50)}
   /* armed it is the one blue object in the panel, and it is a real button. Once
      the question is sent there is nothing left to send, so it goes quiet rather
      than staying lit and inviting a second press that would do nothing. */
@@ -971,7 +987,7 @@
   .mem-sdiv{width:1px;height:14px;background:rgba(255,255,255,.34)}
   .mem-box.sent .mem-send{background:transparent;color:var(--dim);cursor:default}
   .mem-box.sent .mem-send:hover{background:transparent}
-  .mem-box.sent .mem-sdiv{background:var(--line-2)}
+  .mem-box.sent .mem-sdiv{background:rgb(48,49,50)}
 
   /* the head and the stage break at the same width, and the stage is the reason
      it is this width and not 900. Two layers side by side only work while both
@@ -2280,7 +2296,6 @@ __LOGO_SPRITE__
                   <li><b>June update</b> Six design partners live, $2.4M ARR</li>
                   <li><b>Seed deck</b> Dev Raman is the warmest path in</li>
                 </ul>
-                <p class="mem-read">Read 7 documents across 4 sources<b>1.8s</b></p>
               </div>
             </li>
           </ol>
@@ -2308,12 +2323,12 @@ __LOGO_SPRITE__
       </article>
 
       <!-- the film is #demo's, and it does not start on its own here: that section
-           is the one that plays a film, this one shows a thread and offers the
-           walkthrough beside it. So it is a poster with a play button on it until
-           somebody asks, and it stays silent when they do, because the narrated cut
-           with a sound control and chapters is what #demo is for. -->
+           is the one that plays a film at you, this one shows a thread and offers
+           the walkthrough beside it. So it is a poster with a play button on it
+           until somebody asks, and when they do they get the whole thing: the
+           narration, from the top, once through rather than on a loop. -->
       <div class="mem-film paused" id="mem-film">
-        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A silent twenty-six second walkthrough of fein answering this question." playsinline muted loop preload="none" poster="/video/fein-demo-poster.jpg">
+        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A twenty-six second narrated walkthrough of fein answering this question." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
           <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
           <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
         </video>
@@ -5392,10 +5407,14 @@ __LOGO_SPRITE__
 })();
 
 /* #memory's film. The same file #demo plays, and deliberately not a second copy
-   of that section's behaviour: it does not start on its own, it never carries
-   sound, and it loops. #demo is the narrated cut with chapters and a sound
-   control; this is the walkthrough offered beside a thread, so it waits to be
-   asked and the play button is always the way in.
+   of that section's behaviour: it does not start on its own, and when it is asked
+   for it plays the whole thing rather than a silent loop. #demo autoplays a muted
+   loop and hands you a sound control; here the press IS the sound control, so it
+   goes back to the top, unmutes, and runs once.
+
+   Once through and not on repeat because a voice track on a loop is a worse thing
+   than a silent one, which is the same reason #demo drops its loop the moment
+   anyone asks for the narration.
 
    Not starting on its own is also what lets it sit above #demo without two
    decoders competing for the same scroll. Nothing is fetched until the first
@@ -5423,13 +5442,46 @@ __LOGO_SPRITE__
   }
   function mark(p){
     f.classList.toggle('paused',p);
-    hit.setAttribute('aria-label',p?'Play the walkthrough':'Pause the walkthrough');
+    hit.setAttribute('aria-label',p?'Play the walkthrough with sound':'Pause the walkthrough');
   }
+
+  /* two films on one page, both able to talk, and they are adjacent: #demo is the
+     next band down. It autoplays muted, so scrolling past it is silent and there
+     is nothing to do; but its corner button can unmute it, and a reader who has
+     done that and then comes back up here would get two narrations over each
+     other. So each one takes the floor from the other: this stops that film when
+     it starts, and stops itself if that film is unmuted while this one is running. */
+  var other=document.getElementById('demo-video');
+  function takeFloor(){ if(other&&!other.paused) other.pause(); }
+  if(other) other.addEventListener('volumechange',function(){
+    if(!other.muted&&!v.paused) v.pause();
+  });
+
   v.addEventListener('play',function(){ mark(false); });
   v.addEventListener('pause',function(){ mark(true); });
+  /* it ran once and stopped, so it is offering itself again from the top rather
+     than sitting on its last frame */
+  v.addEventListener('ended',function(){ mark(true); try{ v.currentTime=0; }catch(e){} });
+
   hit.addEventListener('click',function(){
-    if(v.paused){ cutIn(); var p=v.play(); if(p&&p['catch']) p['catch'](function(){ mark(true); }); }
-    else v.pause();
+    if(!v.paused){ v.pause(); return; }
+    cutIn();
+    takeFloor();
+    /* the press is a request for the film, not for the frame it stopped on: the
+       narration is written with a first line, so it starts at the first line every
+       time. On the very first press there is no metadata yet and the currentTime
+       write is dropped, which costs nothing, because with nothing buffered play()
+       starts at zero anyway. */
+    v.muted=false;
+    try{ v.currentTime=0; }catch(e){}
+    var p=v.play();
+    if(p&&p['catch']) p['catch'](function(){
+      /* a platform that refuses audio without a gesture it recognises (iOS low
+         power is the usual one) should still get the picture rather than nothing */
+      v.muted=true;
+      var q=v.play();
+      if(q&&q['catch']) q['catch'](function(){ mark(true); });
+    });
   });
 
   /* it was asked for, so it keeps running while it is on screen and stops when it
