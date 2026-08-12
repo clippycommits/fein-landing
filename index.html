@@ -493,6 +493,22 @@
     .featcell{border-left:0;border-top:1px solid var(--line)}
     .featcell:first-child{border-top:0}
     .featcell:nth-child(2){border-top:1px solid var(--line)}
+    /* the picture is a crop on a wide screen because there is height to crop
+       into: 376px of frame around a 292px mock leaves the fragment floating.
+       One column takes the frame to its 232px floor and leaves the mock 60px
+       taller than the box it is drawn in, so overflow:hidden stopped cutting
+       air and started cutting rows -- a name at the top and a whole line of
+       fact at the bottom, sliced through the middle of the type. On a phone
+       the mock sets the height of its own frame and the composition is built
+       back around it: ghost off, because at this width it hides entirely
+       behind the mock except for two stray edges; vignette opened up, so it
+       darkens the ground and not the one legible object; and the fade cut to
+       a fixed band that lands in the padding under the mock rather than a
+       third of the way up it. */
+    .featart{height:auto;padding:clamp(1.7rem,6.5vw,2.3rem) 0 clamp(2.6rem,9vw,3.2rem)}
+    .featghost{display:none}
+    .featart::after{background:radial-gradient(88% 76% at 50% 48%,transparent 40%,rgba(0,0,0,.42) 86%,rgba(0,0,0,.82))}
+    .featart::before{height:clamp(38px,12%,58px)}
   }
   .mock{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:1rem;box-shadow:var(--hl-top)}
   /* this one stays mono: it is the header of a panel inside a picture of the
@@ -1742,9 +1758,29 @@
        browser laying out a 1220px-tall panel on every mobile pass */
     .ddwrap{display:none}
     .menu-btn{display:inline-flex;width:44px;height:44px;margin-left:0}
-    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:var(--bar-pad);width:min(320px,calc(100vw - var(--bar-pad) * 2));background:rgba(10,10,12,.88);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
+    /* the panel was 12 percent transparent over a blur. A blur is a fine ground
+       for a menu that opens over a picture; this one opens over the fold, and
+       the fold is a 40px headline in solid white. Twelve percent of white is
+       #1f1f1f, which is not a texture behind the links, it is the word
+       "Welcome" legible through them, with "Sign in" and "Talk to sales"
+       sitting in the middle of it. The surface is opaque now and the page
+       behind it is dimmed instead, which is what the blur was reaching for. */
+    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:var(--bar-pad);width:min(320px,calc(100vw - var(--bar-pad) * 2));background:#0e0f13;border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1)}
-    .mmenu a{display:block;padding:.72rem .8rem;border-radius:10px;color:var(--fg);font-weight:500;font-size:1rem;transition:background .15s ease}
+    /* the scrim. It hangs off <html> rather than the panel because the bar has
+       will-change:transform, which makes it the containing block for anything
+       fixed inside it: a pseudo-element on .mmenu would be clipped to the bar.
+       z-index 40 puts it under the bar's own 50, so the wordmark, the pill and
+       the close button stay lit while the page under them goes dark, and a tap
+       anywhere on it lands on <body> and closes the menu through the
+       outside-click handler that is already there. */
+    html:has(.mmenu.open) body::before{content:"";position:fixed;inset:0;z-index:40;background:rgba(5,5,7,.62);-webkit-backdrop-filter:saturate(120%) blur(3px);backdrop-filter:saturate(120%) blur(3px);animation:backdropIn .22s ease}
+    /* the only nav a phone has, so its rows are thumb-sized rather than
+       text-sized: .72rem of padding on a 16px line came out 36px, and these
+       six sit directly under each other where a near miss lands on the
+       neighbour. min-height rather than more padding, so the row grows around
+       the label instead of the label drifting off the top of it. */
+    .mmenu a{display:flex;align-items:center;min-height:44px;padding:.5rem .8rem;border-radius:10px;color:var(--fg);font-weight:500;font-size:1rem;transition:background .15s ease}
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
     .bar .right .btn-ghost{display:none}
     .secgrid{grid-template-columns:1fr;gap:2.4rem}
@@ -1766,7 +1802,11 @@
     .stage-head h2{max-width:19ch}
   }
   @media (max-width:760px){
-    .dlab{white-space:normal;font-size:.6rem;letter-spacing:.12em;line-height:1.5}
+    /* .6rem is 9.6px, and 9.6px tracked out to .12em is the three words that
+       name the ends of the funnel rendered as grey texture. The width the
+       larger size costs comes back off the tracking: "answers out" is 78px at
+       11px and .05em against 74px at 9.6px and .12em, which the column has. */
+    .dlab{white-space:normal;font-size:11px;letter-spacing:.05em;line-height:1.5}
     .zlabels{gap:1rem}
     .dband{height:clamp(150px,24vh,200px)}
   }
@@ -1828,6 +1868,14 @@
     .fbottom a{padding:.85rem .25rem;margin:0 -.25rem}
     .arrowlink{padding:.55rem .2rem;margin:-.55rem -.2rem}
     .band{padding:clamp(3.25rem,11vw,4rem) 0}
+    /* the pills and stamps inside the mocks are chrome, and chrome is meant to
+       sit under the reading. At .6rem it stops sitting under it and starts
+       disappearing: 9.6px on a phone is a grey smudge where a word was, and
+       these are words a reader checks -- Strong, Warm, Founder, the date a
+       fact was written. 11px is the floor, and the tracking comes off the two
+       that carried it so the pills keep the width they had. */
+    .mtag,.fig-new{font-size:11px;letter-spacing:.03em}
+    .fig-rt,.fig-when,.gm-lab,.mem-guest,.mem-app{font-size:11px}
   }
 
   @media (max-width:560px){
@@ -1903,6 +1951,11 @@
        Height only, so it never reaches under the menu button beside it */
     .sbtn{position:relative}
     .sbtn::after{content:"";position:absolute;top:50%;left:0;right:0;translate:0 -50%;height:44px}
+    /* the wordmark is the way back to the top of the page and it is 24px tall,
+       which is the height of its own line box and nothing else. Same 44px box,
+       and the same height-only rule: the pill starts 16px to its right. */
+    .bar .brand{position:relative}
+    .bar .brand::after{content:"";position:absolute;top:50%;left:0;right:0;translate:0 -50%;height:44px}
   }
 
   /* the figure row. Columns ruled off each other, the drawing given most of the
@@ -2105,9 +2158,16 @@ setTimeout(go,1200);})()</script>
           </div>
         </div>
       </div>
+      <!-- the phone's whole nav. It held two of the four places the footer lists
+           while the bar beside it held nine, so a reader on a phone could reach
+           the section on how fein works, or the page written for private
+           equity, only by scrolling to the bottom of the page. Same four
+           destinations as the footer's Product and Firms columns, same words. -->
       <nav id="mobile-menu" class="mmenu" aria-label="Primary mobile">
         <a href="#features">Features</a>
+        <a href="#how">How it works</a>
         <a href="#security">Security</a>
+        <a href="/pe">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="#">Sign in</a>
         <a href="#get-started">Talk to sales</a>
