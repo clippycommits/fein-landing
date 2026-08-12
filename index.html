@@ -170,8 +170,22 @@
      already var(--bg), so the shell now reads as a single black band, and the
      only thing scroll still changes is the hairline that separates it from what
      is passing underneath. */
-  #view-home header{background:var(--bg);border-bottom:1px solid transparent;transition:border-color .25s ease,box-shadow .25s ease}
+  /* the bar is glass, not a lid. It was opaque --bg, so whatever scrolled under
+     it was simply gone at the crossing and the bar read as a black band sitting
+     on a black page. Tinted and blurred, the page keeps travelling underneath:
+     the tint is a step lighter than the ground so the bar is still legible as
+     its own surface on pure black, and the blur is what makes the thing passing
+     beneath read as behind rather than clipped.
+
+     The hairline is always drawn now, at a weight the fold can carry, and takes
+     the full --line on scroll, when there is something under it to separate. */
+  #view-home header{background:linear-gradient(180deg,rgba(19,19,23,.76),rgba(12,12,15,.72));-webkit-backdrop-filter:saturate(165%) blur(16px);backdrop-filter:saturate(165%) blur(16px);border-bottom:1px solid rgba(255,255,255,.055);transition:border-color .25s ease,box-shadow .25s ease}
   #view-home header.scrolled{border-bottom-color:var(--line)}
+  /* no backdrop to filter without it, and Safari paints the tint at full
+     opacity when the filter is unsupported, which would be a solid slab */
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    #view-home header{background:rgba(10,10,12,.94)}
+  }
   /* 1440/32: the reference nav measure. content lands at 1376px, so the
      wordmark and the buttons sit level with the widest sections below */
   .bar{display:flex;align-items:center;gap:30px;height:var(--nav-h);max-width:1440px;margin:0 auto;padding:0 var(--bar-pad);box-sizing:border-box}
