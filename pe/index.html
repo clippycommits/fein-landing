@@ -1422,6 +1422,12 @@
      get the widest. the lede reads at 1.5 rather than the old 1.3, which was
      display leading applied to body copy three lines deep. */
   .hero-lead .wrap>.eyebrow{display:block;margin:0 0 clamp(.85rem,1.8vh,1.25rem);line-height:1.35;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
+  /* .22em over 47 characters overruns a phone and drops "run it" onto a line of
+     its own. The tracking is what does not fit, not the sentence, so it gives
+     way first; balance is the backstop if a narrower screen still wraps. */
+  @media (max-width:640px){
+    .hero-lead .wrap>.eyebrow{letter-spacing:.1em;font-size:.7rem;text-wrap:balance}
+  }
   /* the display line is the loudest thing on the page and it was being set to
      the width of a paragraph. It breaks out to its own measure and sizes to
      hold on one line wherever one line fits, which buys back more height than
