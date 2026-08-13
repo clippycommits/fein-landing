@@ -65,6 +65,7 @@ export async function POST(request) {
     first: str(lead.first), last: str(lead.last), fund: str(lead.fund),
     size: str(lead.size), crm: str(lead.crm), ask: str(lead.ask, 2000),
     site: str(lead.site, 200),
+    region: str(lead.region, 40),
     interests: Array.isArray(lead.interests)
       ? (lead.interests.slice(0, 12).map((v) => str(v, 60)).filter(Boolean).join(", ") || null)
       : null,

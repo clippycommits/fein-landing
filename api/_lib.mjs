@@ -132,7 +132,8 @@ export function followupEmail(lead) {
 export function notifyEmail(lead) {
   const rows = [
     ["Name", `${lead.first ?? ""} ${lead.last ?? ""}`], ["Email", lead.email],
-    ["Firm", lead.fund], ["Website", lead.site], ["AUM", lead.size], ["Pipeline", lead.crm],
+    ["Firm", lead.fund], ["Website", lead.site], ["Region", lead.region],
+    ["AUM", lead.size], ["Pipeline", lead.crm],
     ["Interested in", lead.interests], ["First question", lead.ask],
   ].filter(([, v]) => v && String(v).trim());
   return {

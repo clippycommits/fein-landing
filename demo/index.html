@@ -192,21 +192,17 @@
           <form id="lead" novalidate>
             <div class="fld"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" placeholder="Anna Lindqvist" required></div>
             <div class="fld"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@firm.com" required></div>
-            <div class="frow">
-              <div class="fld"><label for="fund">Company</label><input id="fund" name="fund" autocomplete="organization" placeholder="Northwind Capital" required></div>
-              <div class="fld"><label for="size">Fund size <span class="opt">(optional)</span></label>
-                <select id="size" name="size">
-                  <option value="">Select</option>
-                  <option>Under $250M</option>
-                  <option>$250M to $1B</option>
-                  <option>$1B to $5B</option>
-                  <option>Over $5B</option>
-                </select>
-              </div>
+            <!-- preselected from the caller's IP by /api/geo, with the browser's
+                 own timezone as the instant fallback. Always a real select the
+                 reader can correct, never a guess they cannot see. -->
+            <div class="fld"><label for="region">Part of the world</label>
+              <select id="region" name="region">
+                <option value="">Select</option>
+                <option>North America</option>
+                <option>Europe</option>
+                <option>Rest of World</option>
+              </select>
             </div>
-            <!-- name="site", never "website": that key is the honeypot below, and
-                 a real URL in it reads as spam at the endpoint -->
-            <div class="fld"><label for="site">Company website <span class="opt">(optional)</span></label><input id="site" name="site" type="url" autocomplete="url" inputmode="url" placeholder="https://northwind.vc"></div>
             <fieldset class="fld chkset">
               <legend>What are you interested in? <span class="opt">(optional)</span></legend>
               <div class="checks">
@@ -217,11 +213,10 @@
                 <label class="chk"><input type="checkbox" name="interest" value="Self-hosted deployment"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Self-hosted deployment</label>
               </div>
             </fieldset>
-            <div class="fld"><label for="ask">What would you like to see? <span class="opt">(optional)</span></label><textarea id="ask" name="ask" placeholder="The tools you run, or a question you would want fein to answer on the call"></textarea></div>
             <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
             <button class="submit" type="submit" id="submit">Send message</button>
             <p class="fnote">We reply the same day. No sequence, no newsletter.</p>
-            <p class="recap">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
+            <p class="recap">By sending this you agree to fein's <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>. This site is protected by reCAPTCHA, and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
             <p class="err" id="err" role="alert">That did not send. Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a> and we will pick it up at once.</p>
           </form>
         </div>
@@ -265,6 +260,40 @@
   }
   form.addEventListener("focusin", loadRecaptcha, { once: true });
 
+  /* Part of the world, preselected twice over. The timezone read is synchronous
+     and lands before first paint, so the field is never briefly empty; /api/geo
+     then refines it from the caller's IP, which is the authority. Either one
+     only ever fills a field the reader has not already answered, and both defer
+     the moment they touch it: a guessed value that overwrites a chosen one is
+     worse than no guess. */
+  var regionSel = document.getElementById("region");
+  var regionTouched = false;
+  if (regionSel) {
+    regionSel.addEventListener("change", function(){ regionTouched = true; });
+
+    var setRegion = function(v){
+      if (!v || regionTouched || regionSel.value) return;
+      for (var i = 0; i < regionSel.options.length; i++) {
+        if (regionSel.options[i].text === v) { regionSel.value = regionSel.options[i].value || v; return; }
+      }
+    };
+
+    // South American zones are also under America/, so they are carved out
+    // rather than swept into North America.
+    var SOUTH = /^America\/(Sao_Paulo|Argentina|Bogota|Lima|Santiago|Caracas|La_Paz|Montevideo|Asuncion|Guayaquil|Cayenne|Paramaribo|Fortaleza|Recife|Manaus|Belem|Bahia|Campo_Grande|Cuiaba|Porto_Velho|Boa_Vista|Rio_Branco|Punta_Arenas|Noronha)/;
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      if (/^Europe\//.test(tz)) setRegion("Europe");
+      else if (/^America\//.test(tz)) setRegion(SOUTH.test(tz) ? "Rest of World" : "North America");
+      else if (tz) setRegion("Rest of World");
+    } catch(_){}
+
+    fetch("/api/geo", { headers: { accept: "application/json" } })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(g){ if (g && g.region) setRegion(g.region); })
+      .catch(function(){ /* the timezone read already answered this */ });
+  }
+
   /* always calls back: a captcha that cannot run must not cost a lead, which is
      the same call the endpoint makes when the verifier is unreachable */
   function withCaptcha(cb){
@@ -289,10 +318,7 @@
       first: cut > 0 ? full.slice(0, cut) : full,
       last:  cut > 0 ? full.slice(cut + 1) : "",
       email: document.getElementById("email").value.trim(),
-      fund:  document.getElementById("fund").value.trim(),
-      size:  document.getElementById("size").value,
-      site:  document.getElementById("site").value.trim(),
-      ask:   document.getElementById("ask").value.trim(),
+      region: document.getElementById("region").value,
       interests: [].slice.call(form.querySelectorAll('input[name="interest"]:checked'))
                    .map(function(c){ return c.value; }),
       // the honeypot, which is a different key from `site` on purpose
