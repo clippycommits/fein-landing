@@ -75,6 +75,18 @@
   .tick{flex:0 0 auto;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.07);color:#fff}
   .tick svg{width:11px;height:11px}
 
+  /* One frame of the product, under the three claims it is evidence for. "See it
+     answer a real question" is a promise the reader has no way to check before
+     handing over an email address, and the column had the room to answer it.
+     Lifted from the demo film at 21.9s: the captions are burnt into every encode
+     we hold and 21.2s is where the last one clears, so this is the only stretch
+     of it that can be used as a still. Cropped past the left rail, which the
+     camera had already panned half out of frame by then.
+     The shot is near black on a near black page, so the border is the only thing
+     that gives it an edge. Without it the panel bleeds into the ground. */
+  .shot{display:block;margin:0 0 2.2rem;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .shot img{display:block;width:100%;height:auto}
+
   .aside{border-top:1px solid var(--line);padding-top:1.4rem;font-size:.93rem;color:var(--fg-3)}
   .aside a{color:var(--blue-l)}
 
@@ -174,6 +186,12 @@
     h1{font-size:clamp(2rem,7.5vw,2.5rem)}
     .lede{margin-bottom:1.9rem}
     .ticks{margin-bottom:1.9rem}
+    /* stacked, the copy column runs above the form, so the shot would sit
+       between the reader and the four boxes they came to fill in and push the
+       first field most of a screen down. That is the weight this page took the
+       prose out to avoid, so the still is desktop only: it is support for the
+       claims, not one of them. */
+    .shot{display:none}
   }
   @media (max-width:520px){
     .frow{grid-template-columns:1fr;gap:0}
@@ -217,6 +235,12 @@
           <span>Know what going live takes</span>
         </li>
       </ul>
+
+      <picture class="shot">
+        <source srcset="/video/fein-demo-still.webp" type="image/webp">
+        <img src="/video/fein-demo-still.jpg" width="1600" height="887" decoding="async"
+             alt="The Sources view in fein: eight connected systems, each with the number of documents read, its share of memory, and how long ago it was last read.">
+      </picture>
 
       <p class="aside">Prefer email? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
     </div>
