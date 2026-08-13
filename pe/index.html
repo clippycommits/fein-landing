@@ -1764,8 +1764,19 @@
      with the accent border: not because the free path is a lesser product -- it
      is the same binary -- but because it is the only column with an action we
      can take on the reader's behalf. */
-  .fork{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,2.2vw,1.5rem);margin-top:clamp(2rem,4vw,2.9rem);align-items:stretch}
+  /* five bands, one per row: heading, blurb, price, list, action. The row gap is
+     zero because the children carry their own margins; the gap between the two
+     columns is the one that shows. */
+  .fork{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto auto 1fr auto;column-gap:clamp(1rem,2.2vw,1.5rem);row-gap:0;margin-top:clamp(2rem,4vw,2.9rem);align-items:stretch}
   .fork-card{display:flex;flex-direction:column;padding:clamp(1.5rem,2.8vw,2.1rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:rgba(255,255,255,.028);box-shadow:var(--hl-top)}
+  /* each card takes the section's own five rows instead of stacking its children
+     in a column of its own, so the two headings, the two prices and the two
+     actions sit on the same lines however differently the columns read. The list
+     row is the 1fr one, so whichever column carries fewer bullets takes the slack
+     there and not under its button. */
+  @supports (grid-template-rows: subgrid){
+    .fork-card{display:grid;grid-template-rows:subgrid;grid-row:span 5}
+  }
   /* the paid column: same ground, one accent hairline. A filled panel here would
      read as the "real" product and undercut the sentence above it. */
   .fork-card.pick{border-color:rgba(82,168,255,.42)}
@@ -1779,20 +1790,35 @@
   .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
   .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
   .fork-price .per{font-size:.92rem;color:var(--fg-3)}
-  .fork-card ul{list-style:none;margin:clamp(1.05rem,2vw,1.35rem) 0 0;padding:0;display:grid;gap:.62rem}
+  /* align-content:start because the list is the row that takes the slack: left to
+     itself a stretched grid hands that slack to its own gaps, and the column with
+     fewer bullets would sit at a looser leading than the column beside it. The
+     bullets keep one rhythm and the spare height pools under the last one. */
+  .fork-card ul{list-style:none;margin:clamp(1.05rem,2vw,1.35rem) 0 0;padding:0;display:grid;align-content:start;gap:.62rem}
   .fork-card li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55rem;align-items:start;color:var(--fg-2);font-size:.94rem;line-height:1.5}
   .fork-card li .tk{color:var(--blue-l);font-weight:500;line-height:1.5}
   .fork-card li b{color:#fff;font-weight:550}
-  /* pinned to the foot so the two buttons agree on a line no matter how many
-     bullets each column carries */
+  /* the action row. margin-top:auto pinned it to the card floor, which held the
+     two buttons on a line right up until the paid column grew a link under its
+     button: from then on the link sat on the floor and the button it belonged to
+     rode a link's height above the free column's. Sharing the row is what agrees
+     the buttons now, so the pin comes off and the row starts at its own top. It
+     is kept for the stacked layout, where there is no second column to agree
+     with and the floor is the right place for it. */
   .fork-act{margin-top:auto;padding-top:clamp(1.3rem,2.6vw,1.8rem)}
+  @supports (grid-template-rows: subgrid){
+    .fork-act{margin-top:0}
+  }
   .fork-act .btn{width:100%;justify-content:center}
   /* the read-first link under the booking. Centred on the button above it
      and given its own row, so the two actions read as one stack. */
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
-  @media (max-width:760px){.fork{grid-template-columns:1fr}}
+  /* one column: the cards are back to being their own flex stacks, each pinned
+     action on its own card floor, and the row gap that the desktop grid does not
+     need is what separates them. */
+  @media (max-width:760px){.fork{grid-template-columns:1fr;row-gap:clamp(1rem,2.2vw,1.5rem)}.fork-card{display:flex;grid-row:auto}.fork-act{margin-top:auto}}
 
   /* ---- price table, offer panel and FAQ ----
      These three were page-local to /pe, written when /pe was the only page that
