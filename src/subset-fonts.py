@@ -37,13 +37,10 @@ FACES = [
     ("GeistSans.woff2", "GeistSans.subset.woff2", {"wght": (400, 600)}, "fonts.charset.txt"),
     ("GeistMono.woff2", "GeistMono.subset.woff2", {"wght": (400, 500)}, "fonts.charset.txt"),
     ("Inter.woff2",     "Inter.subset.woff2",     {"wght": (400, 600)}, "fonts.charset.txt"),
-    # Newsreader is the display face now, not a label face. It sets every h1 and
-    # h2 on the site, so it is cut against the same 128 codepoints as the text
-    # faces rather than the eight lowercase phrases it used to carry, and its
-    # optical size is pinned to 36 (the face's display cut, drawn for headlines)
-    # instead of 18. The weight stays a range because the headings run 400 to
-    # 500 and the fold's line wants the lighter end of that.
-    ("Newsreader.woff2", "Newsreader.subset.woff2", {"wght": (400, 500), "opsz": 36}, "fonts.charset.txt"),
+    # one instance, not a range: the labels are set at one size in one weight,
+    # so the optical size that suits it (18, the face's own default, drawn for
+    # text rather than for a headline) is baked in and both axes go away.
+    ("Newsreader.woff2", "Newsreader.subset.woff2", {"wght": 400, "opsz": 18}, "fonts.serif.charset.txt"),
 ]
 
 here = os.path.dirname(os.path.abspath(__file__))

@@ -2,48 +2,20 @@
   @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__GEIST_SANS_B64__) format('woff2');}
   @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:swap;src:url(data:font/woff2;base64,__GEIST_MONO_B64__) format('woff2');}
   @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2');}
-  @font-face{font-family:'Newsreader';font-style:normal;font-weight:400 500;font-display:swap;src:url(data:font/woff2;base64,__NEWSREADER_B64__) format('woff2');}
 
   :root{
     color-scheme:dark;
-    /* the page is #0000E8, not #000: the reference's ground, and the one every
+    /* the page is #08090A, not #000: the reference's ground, and the one every
        band below the fold is painted with. Pure black clipped the shadows the
        panels cast and made the grain read as banding on an OLED.
        --bg-2 and --bg-3 are the two surfaces above it, and they moved by the
        same +8/+9/+10 the ground did, so a panel keeps the exact lift over the
-       page it was drawn with. Shift the ground alone and #0000E8 lands two
-       levels off #0000E8: every card loses its fill and only the hairline is
+       page it was drawn with. Shift the ground alone and #0a0a0c lands two
+       levels off #08090A: every card loses its fill and only the hairline is
        left holding it. */
-    /* ================= THE BLUE =================
-       #0000E8 is the ground now, and it is the whole identity: one saturated
-       ultramarine, white type on it, and nothing else competing. The rule this
-       palette follows is that the blue is never tinted, shaded or gradiented
-       into a second blue. Every surface above the page is white at a low alpha,
-       so a panel is the same blue seen through a veil rather than a different
-       colour, and every rule is white at a higher one. That is what keeps a
-       flat colour from going muddy: the ground is the only pigment on the page.
-
-       --bg-2 and --bg-3 stay solid, because a handful of components fill with
-       them over other fills and would go translucent twice. They are the ground
-       darkened, not lightened: on a colour this saturated a lighter blue reads
-       as a printing fault, and a deeper one reads as ink pooling. */
-    --bg:#0000E8; --bg-2:#0000C2; --bg-3:#0000A6;
-    /* white does the work of the old five-step grey ramp. Solid white for
-       anything that carries meaning, and alpha below it: on this ground a grey
-       goes green, so every step down is white losing opacity, never white
-       turning to grey. */
-    /* the alphas are set by measurement, not by eye. On this ground .62 white
-       composites to #9E9EF6, which is 4.01:1 and fails body-size text; .70 is
-       #ABABF7 at 4.90:1 and passes with margin. --dim carries small print and
-       decorative marks only, and .55 puts it at 3.32:1. Every step was checked
-       against #0000E8 rather than carried over from the grey ramp, because a
-       ground at 0.058 luminance is darker than the black page these came from
-       and the old alphas were solving a different problem. */
-    --fg:#ffffff; --fg-2:rgba(255,255,255,.84); --fg-3:rgba(255,255,255,.70); --muted:rgba(255,255,255,.70); --dim:rgba(255,255,255,.55);
-    /* the rules are the architecture here, so they are drawn to be seen. At .09
-       on black they were a suggestion; at .26 on this blue they are the grid the
-       whole page is set on. */
-    --line:rgba(255,255,255,.28); --line-2:rgba(255,255,255,.46);
+    --bg:#08090A; --bg-2:#121316; --bg-3:#18191E;
+    --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --muted:#8a8f98; --dim:#767982;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
     /* the outline of a form control. 1.4.11 asks 3:1 against *adjacent colours*,
        plural, and a field in the contact modal has two of them: its own --bg fill
        on the inside and the --bg-2 modal surface on the outside. A 1px border is
@@ -52,22 +24,11 @@
        the fill but only 2.95:1 on the surface, which is the edge that was missing.
        .38 is 3.50:1 on the fill and 3.31:1 on the surface, and .5 is the hover and
        open lift above it. Both ratios are quoted for the ground this file paints
-       today (--bg #0000E8 inside a --bg-2 #0000C2 modal); they were 3.39 and 3.19
+       today (--bg #08090A inside a --bg-2 #121316 modal); they were 3.39 and 3.19
        when the ground was #000, so the margin over 3:1 grew rather than shrank.
        The decorative hairlines stay on --line/--line-2 */
-    --line-ctl:rgba(255,255,255,.52); --line-ctl-2:rgba(255,255,255,.72);
-    /* --blue-l was the accent: a lighter blue, used on ticks, arrows, carets,
-       step numbers and every small mark that had to lift off a black page. On a
-       blue page a blue accent is invisible, so the accent crosses the wheel and
-       becomes warm. Amber on ultramarine is the one pairing that holds at a 1px
-       rule and at 9px of type, and it is the only second colour on the site.
-       --blue keeps its name because 40-odd rules reference it; it is now the
-       ink used where something must sit *under* white text, which on this
-       ground means going darker rather than brighter. */
-    --blue:#00007A; --blue-l:#FFB03A; --violet:#FFB03A;
-    /* the amber at the alphas the hairlines and washes want, so no rule has to
-       re-declare the hue and none of them can drift apart from it */
-    --acc:#FFB03A; --acc-2:rgba(255,176,58,.42); --acc-wash:rgba(255,176,58,.13);
+    --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
+    --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
     /* the only two colours outside the blue accent, and they live on a 0.7rem
        glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
        uses; --mem-new is cyan shifted so the pair reads as siblings of the blue */
@@ -76,22 +37,8 @@
        Geist is reserved for the display line, the h1 and h2 headings only.
        Geist sits second in the text stack so glyphs outside Inter's latin cut
        (arrows, the play triangle) still render in a face from the same family. */
-    /* Three voices, and each one has exactly one job.
-
-       Newsreader sets every h1 and h2. A high-contrast text serif on a flat
-       saturated ground is the whole visual argument: it is the one thing that
-       makes a page like this read as printed rather than rendered, and it is
-       why the blue looks chosen instead of picked.
-
-       Inter keeps the interface: body copy, buttons, nav, forms. It says
-       nothing, which is the correct thing for it to say next to the serif.
-
-       Geist Mono is promoted out of code and into the furniture. Every number,
-       label, caption, table figure and small technical string is set in it, in
-       caps, tracked out. That is the register the whole layout is built on: the
-       serif states, the mono annotates, the sans explains. */
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-    --display:'Newsreader',ui-serif,Georgia,'Times New Roman',serif;
+    --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     /* the page measure, and the only one. Everything that holds copy or a
        picture is this wide: the bar, the fold, the stance line, the figure row,
@@ -132,7 +79,7 @@
   h1,h2,h3,p{margin:0}
   a{color:inherit;text-decoration:none}
   [hidden]{display:none!important}
-  ::selection{background:#00007A;color:#fff}
+  ::selection{background:#0070F3;color:#fff}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--bar-pad)}
   .skip{position:fixed;top:12px;left:12px;z-index:100;background:#fff;color:#000;padding:.6rem 1rem;border-radius:9999px;font-weight:550;font-size:.92rem;transform:translateY(-300%);transition:transform .2s ease}
   .skip:focus{transform:none}
@@ -152,60 +99,8 @@
      Lower case is forced rather than typed so the labels stay legible as
      sentences in the markup, in the CMS, and to a screen reader. ---- */
   .eyebrow{display:block;font-family:var(--font);font-size:.8rem;font-weight:500;line-height:1.25;letter-spacing:0;text-transform:lowercase;color:var(--fg-3)}
-  h1,h2,h3{color:#fff;letter-spacing:-.006em;font-weight:500}
-  /* h3 stays in the interface face: the serif is for the statement, and a serif
-     sub-heading three deep starts to look like a book rather than a page. */
-  h3{font-family:var(--font);letter-spacing:-.012em;font-weight:550}
+  h1,h2,h3{color:#fff;letter-spacing:-.025em;font-weight:600}
   h1,h2{font-family:var(--display)}
-
-  /* ================= THE GRID =================
-     A flat colour and a serif will carry a page on their own, but they will not
-     make it look built. The column rules do that: six of them, struck across the
-     whole viewport at the content measure, fixed so they hold still while the
-     page moves against them. It is the drawing the layout was set on, left
-     visible, and it is why the ground reads as paper stock rather than as a
-     background-color.
-
-     Fixed, not absolute, so the rules are continuous down the whole document
-     instead of restarting at each band. Above the content rather than behind it,
-     at an alpha low enough to pass over type without touching legibility, which
-     is how a registration overlay behaves on press. pointer-events:none, so it
-     is scenery and never catches a click. */
-  body::after{
-    content:"";position:fixed;inset:0;z-index:11;pointer-events:none;
-    --colw:calc(min(1232px,100vw - 64px) / 6);
-    background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.058) 0 1px,transparent 1px var(--colw));
-    background-position:50% 0;
-  }
-  /* the frame. Two hairlines pinned to the top and bottom of the viewport, so
-     the page is held inside something rather than bleeding off the screen. */
-  body::before{
-    content:"";position:fixed;left:0;right:0;top:0;height:1px;z-index:12;pointer-events:none;
-    background:rgba(255,255,255,.22);
-  }
-  @media (max-width:640px){
-    body::after{--colw:calc((100vw - 48px) / 3)}
-  }
-
-  /* ================= THE ANNOTATION LAYER =================
-     Geist Mono comes out of the code blocks and becomes the site's furniture.
-     Anything that labels, counts, dates or measures is set in it: small, caps,
-     tracked wide, in white at the quiet end of the ramp. The serif makes the
-     statement, the mono writes in the margin, and the sans explains in between.
-     Setting all three registers apart is what stops a one-colour page from
-     flattening into a wall. */
-  .wstep,.fig-step,.dd-label,.per,.filmcap,.fnote,.orb-tile .ask,.hsub,.btxt,figcaption .num,.fbottom,caption{
-    font-family:var(--mono);font-variant-numeric:tabular-nums;
-  }
-  .wstep,.fig-step,.dd-label,caption{
-    text-transform:uppercase;letter-spacing:.14em;font-size:.68rem;font-weight:500;
-  }
-  .fig-step,.dd-label{color:var(--acc)}
-  .ptable td:last-child,.fork-price,.mono-fig{font-family:var(--mono);font-variant-numeric:tabular-nums}
-  /* the price table's figure column carries the amber, because it is the one
-     number on the page a reader came to find */
-  .ptable td:last-child{color:var(--acc);letter-spacing:-.01em}
-  .ptable tr:last-child td:last-child{color:#fff}
   .th{font-size:clamp(1.7rem,3.3vw,2.4rem);font-weight:600;letter-spacing:-.03em;line-height:1.14;color:#fff;max-width:34ch;text-wrap:balance}
   .th .cont{display:block;margin-top:.75rem;font-family:var(--font);font-size:1.12rem;font-weight:450;letter-spacing:-.011em;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
 
@@ -488,7 +383,7 @@
   .orb-tile.typing b::after,.orb-tile.asking .ask::after{content:"";display:inline-block;width:6px;height:.85em;background:var(--blue-l);margin-left:3px;vertical-align:-1px;animation:pcCaret .8s steps(2,start) infinite}
   .orb-tile.asking .ask::after{width:5px;height:.8em}
   @keyframes pcCaret{50%{opacity:0}}
-  .orb-tile.hit{box-shadow:var(--hl-top),0 0 0 1px rgba(255,176,58,.5),0 0 26px -6px rgba(255,176,58,.45)}
+  .orb-tile.hit{box-shadow:var(--hl-top),0 0 0 1px rgba(82,168,255,.5),0 0 26px -6px rgba(82,168,255,.45)}
   .orb-chip{position:absolute;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);z-index:1;transition:opacity .5s ease}
   .orb-chip svg{width:16px;height:16px}
   .orb-c1{left:68%;top:34%}
@@ -531,7 +426,7 @@
      up to 208px between them. */
   .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0}
   .head{max-width:60ch}
-  .head h2{font-size:clamp(1.6rem,2.78vw,3.05rem);letter-spacing:-.008em;font-weight:400;text-wrap:balance;margin-top:.7rem;line-height:1.09}
+  .head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);letter-spacing:-.026em;font-weight:500;text-wrap:balance;margin-top:.7rem;line-height:1.09}
   .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
   /* ============ features: one claim, one sentence, one mock. alternating ============ */
   .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:center;margin-top:0}
@@ -539,7 +434,7 @@
      Four alternating copy/mock rows became one ruled grid, off the reference.
      Measured from it rather than judged: the container and its dividers are a
      single hairline at rgb(19,20,21), which is what --line came to against the
-     #000 this page used to be painted on. On the #0000E8 ground it is painted on
+     #000 this page used to be painted on. On the #08090A ground it is painted on
      now the same .09 lands at rgb(30,31,32), so every rule left on the page sits
      a little brighter than the one it was measured against. Dropping --line to
      about .045 would put it back on rgb(19,20,21); that is a page-wide move and
@@ -608,7 +503,7 @@
   .mrow b{color:var(--fg);font-weight:550}
   .mrow span{flex:1;min-width:0}
   .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
-  .mtag.strong{color:var(--blue-l);border-color:rgba(255,176,58,.35)}
+  .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
   .mtag.dim{color:var(--dim)}
   /* ============ the fold: the documents, the question, the answer ============
      Three objects, stacked, and nothing drawn between them. The connection is
@@ -623,7 +518,7 @@
      and the answer live inside a single panel, which is what makes a product
      shot read as calm: there is one thing on the page below the copy, and the
      burst is behind it rather than through it */
-  .ah-fig{position:relative;margin-top:clamp(2.8rem,6vh,4.4rem);padding:clamp(1rem,1.9vw,1.6rem);background:linear-gradient(180deg,#0000E8,#0000E8);border:1px solid rgba(255,255,255,.075);border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 48px 110px -48px rgba(0,0,0,.95)}
+  .ah-fig{position:relative;margin-top:clamp(2.8rem,6vh,4.4rem);padding:clamp(1rem,1.9vw,1.6rem);background:linear-gradient(180deg,#0b0d11,#08090b);border:1px solid rgba(255,255,255,.075);border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 48px 110px -48px rgba(0,0,0,.95)}
   /* the hero copy is set to a reading measure and the picture is not: both are
      centred on the same axis, but the documents, the box and the four claims
      under them break out of .wrap into a column of their own */
@@ -746,7 +641,7 @@
   .ah-fig[data-client="openai"]{--cli:#10a37f;--cli-soft:rgba(16,163,127,.14);--cf-bg:#171717;--cf-panel:#2f2f2f;--cf-line:rgba(255,255,255,.085);--cf-rail:#1c1c1c;--cf-bub:#303030;--cf-brad:20px;--cf-crad:26px}
   .ah-fig[data-client="cursor"]{--cli:#9aa0aa;--cli-soft:rgba(154,160,170,.10);--cf-bg:#141416;--cf-panel:#202024;--cf-line:rgba(255,255,255,.08);--cf-rail:#18181b;--cf-bub:rgba(255,255,255,.05);--cf-brad:8px;--cf-crad:9px}
   /* the window wears it */
-  .hero-lead .ah-fig{background:var(--cf-bg,#0000E8);border-color:var(--cf-line,rgba(255,255,255,.075));transition:background .35s ease,border-color .35s ease}
+  .hero-lead .ah-fig{background:var(--cf-bg,#0a0c10);border-color:var(--cf-line,rgba(255,255,255,.075));transition:background .35s ease,border-color .35s ease}
   .hero-lead .ah-fig .ah-srcs{background:var(--cf-rail,rgba(255,255,255,.012));border-right-color:var(--cf-line,rgba(255,255,255,.07));transition:background .35s ease}
   .ah-top{background:var(--cf-rail,rgba(255,255,255,.02));border-bottom-color:var(--cf-line,rgba(255,255,255,.07));transition:background .35s ease}
   /* THE COMPOSER, to the reference's shape: a written line with a row of
@@ -907,7 +802,7 @@
   /* the head shares the figures' measure, not .wrap's, so the eyebrow, the
      heading and every panel below them start on one left edge */
   .change-head{width:100%;max-width:var(--maxw);margin-inline:auto;padding:0 var(--bar-pad) clamp(1.4rem,3.4vw,2.3rem)}
-  .change-head h2{font-size:clamp(1.95rem,3.55vw,2.65rem);line-height:1.08;letter-spacing:-.01em;font-weight:400;margin-top:.75rem;text-wrap:balance;max-width:26ch}
+  .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:26ch}
   .change-head .sub{max-width:52ch;margin:1.15rem 0 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);line-height:1.55;text-wrap:pretty}
   /* the figures run wider than the reading column: two panels of product at
      .wrap's 1080px would set the mail at 30ch and the facts would wrap twice */
@@ -928,7 +823,7 @@
   .fig{border-top:1px solid var(--line-2);padding-top:clamp(1.2rem,2.2vw,1.6rem)}
   .fig-head{max-width:54ch;margin-bottom:clamp(1.3rem,2.3vw,1.9rem)}
   .fig-step{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums;margin-bottom:.62rem}
-  .fig-lede{font-family:var(--display);font-size:clamp(1.5rem,2.6vw,2.15rem);font-weight:400;letter-spacing:-.008em;line-height:1.12;color:#fff;text-wrap:balance}
+  .fig-lede{font-family:var(--display);font-size:clamp(1.45rem,2.5vw,2.05rem);font-weight:580;letter-spacing:-.032em;line-height:1.12;color:#fff;text-wrap:balance}
   .fig-sub{margin-top:.62rem;font-size:.98rem;line-height:1.55;color:var(--fg-3);text-wrap:pretty}
   .fig-sub b{color:var(--fg-2);font-weight:550}
 
@@ -938,7 +833,7 @@
   /* the wire sits under the panels on purpose: it is only ever visible in the
      column between them, so it reads as a run between two ports and not as a
      line drawn over the product */
-  .fig-wires path{fill:none;stroke:rgba(255,176,58,.34);stroke-width:1;transition:stroke .18s ease,opacity .18s ease}
+  .fig-wires path{fill:none;stroke:rgba(82,168,255,.34);stroke-width:1;transition:stroke .18s ease,opacity .18s ease}
   .fig-wires path.on{stroke:var(--blue-l);stroke-width:1.4}
   .fig-wires circle{fill:var(--blue-l);opacity:0;transition:opacity .3s ease}
   .fig-wires circle.on{opacity:.6}
@@ -958,7 +853,7 @@
   .fig-node{position:relative;width:62px;height:71.6px;display:grid;place-items:center;filter:drop-shadow(0 0 22px rgba(206,216,233,.06))}
   .fig-node svg{position:absolute;inset:0;width:100%;height:100%}
   .fig-node path{fill:rgba(8,9,10,.97);stroke:rgba(255,255,255,.18);stroke-width:1;vector-effect:non-scaling-stroke}
-  .fig-node b{position:relative;font-family:var(--mono);font-size:.84rem;font-weight:500;letter-spacing:-.02em;color:#fff;line-height:1}
+  .fig-node b{position:relative;font-family:var(--display);font-size:.92rem;font-weight:600;letter-spacing:-.035em;color:#fff;line-height:1}
 
   .fig-p{position:relative;z-index:1;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--hl-top),0 22px 56px -34px rgba(0,0,0,.95);overflow:hidden}
   .fig-bar{display:flex;align-items:center;gap:.55rem;height:44px;padding:0 15px;border-bottom:1px solid var(--line)}
@@ -979,7 +874,7 @@
   /* the attachment is pinned to the foot of the card, which is what puts the
      two panels on the same bottom line without padding invented to fill a gap */
   /* the trailing date is the quietest thing in the card, so it steps down from
-     the line it sits on. The step used to be --dim -> rgba(255,255,255,.40), but rgba(255,255,255,.40) is
+     the line it sits on. The step used to be --dim -> #5f636b, but #5f636b is
      3.28:1 on the --bg-2 the panel is actually painted with, so the step now
      starts a rung higher: --fg-3 6.09:1 for the sentence, --dim 4.55:1 for the
      date. Same de-emphasis, both ends above the 4.5 this 12.8px text needs */
@@ -989,9 +884,9 @@
   .fig-foot em{margin-left:auto;font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
 
   /* the phrase in transit: the thing on the page that becomes a fact */
-  .fig-hl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;margin:0;padding:1px 5px;border:0;border-radius:4px;background:rgba(255,176,58,.18);box-shadow:inset 0 0 0 1px rgba(255,176,58,.24);font:inherit;color:#fff;cursor:pointer;transition:background .2s ease,box-shadow .2s ease,opacity .2s ease}
+  .fig-hl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;margin:0;padding:1px 5px;border:0;border-radius:4px;background:rgba(0,112,243,.18);box-shadow:inset 0 0 0 1px rgba(82,168,255,.24);font:inherit;color:#fff;cursor:pointer;transition:background .2s ease,box-shadow .2s ease,opacity .2s ease}
   .fig-hl sup{margin-left:4px;font-size:9.5px;font-weight:500;line-height:1;vertical-align:super;color:var(--blue-l);font-variant-numeric:tabular-nums}
-  .fig-hl:hover,.fig-hl.on{background:rgba(255,176,58,.34);box-shadow:inset 0 0 0 1px rgba(255,176,58,.55)}
+  .fig-hl:hover,.fig-hl.on{background:rgba(0,112,243,.34);box-shadow:inset 0 0 0 1px rgba(82,168,255,.55)}
   .fig-hl:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
 
   /* ---- what fein filed ---- */
@@ -1002,7 +897,7 @@
   .fig-row{flex:1;display:grid;align-content:start;grid-template-columns:20px minmax(0,1fr);column-gap:.72rem;padding:13px 15px;border-bottom:1px solid var(--line);transition:background .18s ease,opacity .2s ease}
   .fig-row:last-child{border-bottom:0}
   .fig-row.on{background:rgba(255,255,255,.022)}
-  .fig-n{display:grid;place-items:center;width:20px;height:20px;margin-top:1px;border-radius:5px;background:rgba(255,176,58,.26);font-size:11px;font-weight:550;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums}
+  .fig-n{display:grid;place-items:center;width:20px;height:20px;margin-top:1px;border-radius:5px;background:rgba(0,112,243,.26);font-size:11px;font-weight:550;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums}
   /* a fact that arrived on its own, with no phrase pointing at it, keeps the
      column so the rows stay on one grid, and says what happened to it instead */
   .fig-n.q{background:rgba(255,138,133,.14);color:var(--mem-ret)}
@@ -1028,15 +923,15 @@
   /* the read: a hairline runs the length of the document once, and each phrase
      lights as it passes. It is the only motion in the section and it says the
      one thing the heading claims -- that something read this, top to bottom */
-  .fig-scan{position:absolute;left:0;right:0;top:0;height:130px;pointer-events:none;opacity:0;background:linear-gradient(180deg,transparent,rgba(255,176,58,.10) 74%,rgba(255,176,58,.42) 99%,transparent);translate:0 -130px}
+  .fig-scan{position:absolute;left:0;right:0;top:0;height:130px;pointer-events:none;opacity:0;background:linear-gradient(180deg,transparent,rgba(0,112,243,.10) 74%,rgba(82,168,255,.42) 99%,transparent);translate:0 -130px}
   .fig-d.playing .fig-scan{opacity:1;animation:figScan 1s linear forwards}
   @keyframes figScan{from{translate:0 -130px}to{translate:0 var(--scan-h,320px);opacity:0}}
   /* before the wire that carries it has been drawn, a phrase is just text */
   .fig-d.armed .fig-hl{background:transparent;box-shadow:inset 0 0 0 1px transparent}
   .fig-d.armed .fig-hl sup{opacity:0;transition:opacity .3s ease .1s}
-  .fig-d.armed .fig-hl.lit{background:rgba(255,176,58,.18);box-shadow:inset 0 0 0 1px rgba(255,176,58,.24)}
+  .fig-d.armed .fig-hl.lit{background:rgba(0,112,243,.18);box-shadow:inset 0 0 0 1px rgba(82,168,255,.24)}
   .fig-d.armed .fig-hl.lit sup{opacity:1}
-  .fig-d.armed .fig-hl.lit:hover,.fig-d.armed .fig-hl.on{background:rgba(255,176,58,.34);box-shadow:inset 0 0 0 1px rgba(255,176,58,.55)}
+  .fig-d.armed .fig-hl.lit:hover,.fig-d.armed .fig-hl.on{background:rgba(0,112,243,.34);box-shadow:inset 0 0 0 1px rgba(82,168,255,.55)}
   .fig-d.armed [data-side="out"] .fig-row{opacity:0;translate:0 7px;transition:opacity .4s cubic-bezier(.22,.61,.36,1),translate .4s cubic-bezier(.22,.61,.36,1)}
   .fig-d.armed [data-side="out"] .fig-row.lit{opacity:1;translate:0 0}
   .fig-d.armed.lit [data-side="out"] .fig-row.lit:not(.on){opacity:.4}
@@ -1144,7 +1039,7 @@
      reading weight: 500 rather than 600, and its measure rather than a display
      size. A heading that outweighs the sentence under it is doing the arguing by
      being loud. */
-  .mem-head h2{font-size:clamp(1.6rem,2.78vw,3.05rem);line-height:1.07;letter-spacing:-.008em;font-weight:400;color:#fff;max-width:11.6em;text-wrap:balance}
+  .mem-head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;color:#fff;max-width:11.6em;text-wrap:balance}
   /* the right column is set at lead size rather than body size, so it reads as
      the headline's second half and not as a caption underneath it. */
   .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
@@ -1185,14 +1080,14 @@
 
   /* ---- the thread ----
      The panel's ground, its stroke and the two tones inside it are sampled off the
-     reference rather than picked: #0000C2 for the card, rgb(39,40,41) for the
+     reference rather than picked: #111213 for the card, rgb(39,40,41) for the
      stroke, rgb(29,30,31) for the rule under the header, and a composer that is
-     *lighter* than the card it sits in at #0000A6 on rgb(34,35,36). That last one
+     *lighter* than the card it sits in at #161718 on rgb(34,35,36). That last one
      is the one worth naming, because a composer drawn darker than its panel is the
      tell that gives a mock away, and it is the mistake this had. These are absolute
      values, not alphas over the page: the panel is a picture of another product and
      it should not take a tint from whatever is behind it. */
-  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;display:flex;flex-direction:column;background:#0000C2;border:1px solid rgb(39,40,41);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
+  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;display:flex;flex-direction:column;background:#111213;border:1px solid rgb(39,40,41);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
   /* the rule plus a short shadow under it: in the reference there is a darker band
      below the header, which is the thread being scrolled under a fixed bar. That
      shadow is the only thing in the panel saying there is more above. */
@@ -1217,7 +1112,7 @@
      frame can never disagree. */
   .mem-av{position:relative;width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-size:.76rem;font-weight:600;color:#fff;letter-spacing:.01em;overflow:hidden;flex:none}
   .mem-av img{width:100%;height:100%;object-fit:cover;display:block}
-  .mem-av-fein{background:#00007A;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  .mem-av-fein{background:#0e0e12;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
   /* the mark off favicon.svg, drawn the way that file draws it: the two runs are
      stroked and the three nodes are filled. Stroke and fill on the same element
      closes the run into a solid triangle, which is a different logo. */
@@ -1244,10 +1139,10 @@
   .mem-cites b{color:var(--blue-l);font-weight:500}
 
   /* ---- the composer ---- */
-  .mem-box{margin:.35rem 20px 20px;border:1px solid rgb(34,35,36);border-radius:10px;background:#0000A6}
+  .mem-box{margin:.35rem 20px 20px;border:1px solid rgb(34,35,36);border-radius:10px;background:#161718}
   .mem-q,.mem-ph{padding:.8rem .8rem 1.5rem;font-size:.94rem;line-height:1.5;color:var(--fg)}
   .mem-ph{color:var(--dim)}
-  .mem-at{margin-right:.3rem;padding:.08rem .34rem;border-radius:4px;background:rgba(255,176,58,.24);color:var(--blue-l);font-weight:550}
+  .mem-at{margin-right:.3rem;padding:.08rem .34rem;border-radius:4px;background:rgba(0,112,243,.24);color:var(--blue-l);font-weight:550}
   .mem-caret{display:inline-block;width:.44em;height:1.02em;margin-left:1px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
   .mem-acts{display:flex;align-items:center;gap:.62rem;padding:.5rem .6rem}
   .mem-acts .mem-ic{width:17px;height:17px;display:block;flex:none;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;color:var(--fg-3)}
@@ -1259,7 +1154,7 @@
      the question is sent there is nothing left to send, so it goes quiet rather
      than staying lit and inviting a second press that would do nothing. */
   .mem-send{margin-left:auto;display:inline-flex;align-items:center;gap:.34rem;padding:.3rem .42rem;border:0;border-radius:6px;background:var(--blue);color:#fff;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background .18s ease,opacity .18s ease}
-  .mem-send:hover{background:#FFB03A}
+  .mem-send:hover{background:#0b80ff}
   .mem-send .mem-arrow{width:14px;height:14px;display:block;fill:currentColor}
   .mem-send .mem-chev{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
   .mem-sdiv{width:1px;height:14px;background:rgba(255,255,255,.34)}
@@ -1295,7 +1190,7 @@
   /* the three steps: a legend for the figure above, column per zone */
   .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(1.6rem,3vw,2.2rem)}
   .why3 .wcard{border-top:1px solid var(--line-2);padding-top:1.2rem}
-  .why3 .wstep{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:rgba(255,255,255,.70);margin-bottom:.5rem}
+  .why3 .wstep{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d;margin-bottom:.5rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
   .code-card{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
@@ -1303,9 +1198,9 @@
   .code-top i{width:11px;height:11px;border-radius:50%;display:inline-block}
   .code-top .r{background:#ff5f57}.code-top .y{background:#febc2e}.code-top .g{background:#28c840}
   .code-top .name{margin-left:.5rem;font-size:.72rem;color:var(--fg-3);letter-spacing:.04em}
-  .code-card pre{margin:0;padding:1.15rem 1.25rem;font-size:clamp(.6rem,2.9vw,.82rem);line-height:1.75;color:rgba(255,255,255,.80);overflow-x:auto;min-height:12.2em}
-  .c-com{color:#7d8490}.c-key{color:#FFB03A}.c-fn{color:#9ecbff}.c-usr{color:#ffffff}.c-out{color:#FFB03A}.c-hl{color:#fff;font-weight:500;background:rgba(255,176,58,.18);padding:0 .2em;border-radius:3px}
-  .caret{display:inline-block;width:.55em;height:1.05em;margin-left:1px;background:#ffffff;vertical-align:text-bottom;animation:caretB 1s steps(2,start) infinite}
+  .code-card pre{margin:0;padding:1.15rem 1.25rem;font-size:clamp(.6rem,2.9vw,.82rem);line-height:1.75;color:#c8ccd2;overflow-x:auto;min-height:12.2em}
+  .c-com{color:#7d8490}.c-key{color:#52A8FF}.c-fn{color:#9ecbff}.c-usr{color:#ffffff}.c-out{color:#52A8FF}.c-hl{color:#fff;font-weight:500;background:rgba(0,112,243,.18);padding:0 .2em;border-radius:3px}
+  .caret{display:inline-block;width:.55em;height:1.05em;margin-left:1px;background:#ededed;vertical-align:text-bottom;animation:caretB 1s steps(2,start) infinite}
   @keyframes caretB{50%{opacity:0}}
   /* ============ the stage: full-bleed funnel, and the copy is the core ============
      There is no hexagon at the middle any more — the headline is what the field
@@ -1357,8 +1252,8 @@
      so the row was a caption for a caption. */
   .stage-mid{display:grid;place-items:center;min-height:0}
   .stage-head{max-width:none;text-align:center}
-  .stage-head .eyebrow{display:block;color:rgba(255,255,255,.70)}
-  .stage-head h2{max-width:17ch;margin:.9rem auto 0;font-size:clamp(2.2rem,4.35vw,3.75rem);line-height:1.02;letter-spacing:-.012em;font-weight:400;text-wrap:balance}
+  .stage-head .eyebrow{display:block;color:#8d939d}
+  .stage-head h2{max-width:17ch;margin:.9rem auto 0;font-size:clamp(2.15rem,4.2vw,3.6rem);line-height:1.04;letter-spacing:-.038em;text-wrap:balance}
   .stage-head .sub{max-width:40ch;margin:1.15rem auto 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);text-wrap:pretty}
   /* the band the flow runs through on the stacked layout. display:none, not
      height:0, so that it is not a grid item here at all: as one it would take
@@ -1371,21 +1266,21 @@
   /* the riser: a hairline out of the top of each step into the zone it names */
   .stage-why3 .wcard::before{content:"";position:absolute;left:0;bottom:100%;width:1px;height:clamp(18px,3.4vh,42px);background:linear-gradient(180deg,transparent,var(--line-2));transition:height .5s cubic-bezier(.22,.61,.36,1),background .5s ease,opacity .5s ease}
   .stage-why3 .wcard h3,.stage-why3 .wcard p,.stage-why3 .wstep{transition:color .5s cubic-bezier(.22,.61,.36,1)}
-  .stage-why3 .wcard.on{border-top-color:rgba(255,176,58,.55)}
-  .stage-why3 .wcard.on::before{height:clamp(30px,6vh,86px);background:linear-gradient(180deg,transparent,rgba(255,176,58,.7))}
+  .stage-why3 .wcard.on{border-top-color:rgba(82,168,255,.55)}
+  .stage-why3 .wcard.on::before{height:clamp(30px,6vh,86px);background:linear-gradient(180deg,transparent,rgba(82,168,255,.7))}
   .stage-why3 .wcard.on .wstep{color:var(--blue-l)}
   .stage-why3 .wcard.dim{border-top-color:var(--line)}
   .stage-why3 .wcard.dim::before{opacity:.4}
-  .stage-why3 .wcard.dim h3{color:rgba(255,255,255,.55)}
+  .stage-why3 .wcard.dim h3{color:#7e828a}
   .stage-why3 .wcard.dim p{color:var(--dim)}
   .stage-why3 .wcard.dim .wstep{color:var(--dim)}
   /* opacity:0 until the loop places them: an untransformed drift element sits
      stacked in the frame's top-left corner, which used to flash on first paint */
   .drift{position:absolute;left:0;top:0;opacity:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
-  .dico{width:46px;height:46px;justify-content:center;background:linear-gradient(180deg,#0000C2,#0000C2);border:1px solid var(--line);border-radius:12px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4)}
+  .dico{width:46px;height:46px;justify-content:center;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:12px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4)}
   .dico svg{width:22px;height:22px;flex:none}
   .ico-attio svg{width:30px;height:30px}
-  .dpill{gap:.5rem;height:40px;padding:0 9px 0 12px;background:linear-gradient(180deg,#0000C2,#0000C2);border:1px solid var(--line);border-radius:10px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);font-size:13px;font-weight:500;white-space:nowrap}
+  .dpill{gap:.5rem;height:40px;padding:0 9px 0 12px;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:10px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);font-size:13px;font-weight:500;white-space:nowrap}
   .dpill svg{width:15px;height:15px;flex:none}
   .dpill b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:2.5px 6px}
   /* the raw side. Mono, dim, and quoted the shape it arrived in: it is texture,
@@ -1426,7 +1321,7 @@
   .sec-cta{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:1.6rem;font-size:.95rem}
   .sec-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.7rem 2rem}
   .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
-  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);box-shadow:inset 0 0 0 1px rgba(255,176,58,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
+  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);box-shadow:inset 0 0 0 1px rgba(82,168,255,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
   .sec-list b{display:block;color:#fff;font-weight:550;font-size:1.02rem;letter-spacing:-.016em;line-height:1.35}
   .sec-list p{margin-top:.35rem;color:var(--fg-2);font-size:.94rem;line-height:1.55;text-wrap:pretty}
 
@@ -1485,7 +1380,7 @@
 .nmn{white-space:nowrap}
 .brandrow{display:flex;align-items:center;--bi:17px}
 .brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
-  background:#131418;box-shadow:0 0 0 1px var(--line);margin-left:-7px;color:rgba(255,255,255,.80);fill:currentColor;flex:none}
+  background:#131418;box-shadow:0 0 0 1px var(--line);margin-left:-7px;color:#c8ccd2;fill:currentColor;flex:none}
 .brandrow .bi:first-child{margin-left:0}
 .stack-list .brandrow{margin:0 0 .6rem}
 
@@ -1507,8 +1402,8 @@
    mistaken for the lead, accent-tinted so it carries at a glance. */
 .badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font);font-size:.7rem;font-weight:650;
   letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);
-  background:rgba(255,176,58,.12);border:1px solid rgba(255,176,58,.32);border-radius:999px;padding:.36rem .72rem}
-.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 0 3px rgba(255,176,58,.18);flex:none}
+  background:rgba(0,112,243,.12);border:1px solid rgba(0,112,243,.32);border-radius:999px;padding:.36rem .72rem}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 0 3px rgba(0,112,243,.18);flex:none}
   .stack-list p{margin-top:.4rem;color:var(--fg-2);font-size:.93rem;line-height:1.6;text-wrap:pretty}
   /* the count spans the column: it is the claim the six rows above are evidence
      for, so it closes them rather than sitting as a seventh group */
@@ -1521,7 +1416,7 @@
   /* a pool of dark under the words so the threads pass behind them, never through */
   .cta-dark .wrap::before{content:"";position:absolute;left:50%;top:46%;translate:-50% -50%;width:min(1240px,132%);height:250%;z-index:-1;pointer-events:none;background:radial-gradient(48% 44% at 50% 50%,rgba(0,0,0,.82),rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 76%)}
   .cta-dark .eyebrow{display:block}
-  .cta-dark h1,.cta-dark h2{font-size:clamp(2.2rem,4.8vw,3.7rem);letter-spacing:-.012em;font-weight:400;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
+  .cta-dark h1,.cta-dark h2{font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.033em;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
   /* .wrap> is load-bearing, not decoration: the nav lives inside this section,
      and the dropdown's section labels are <p>. an unscoped `.cta-dark p` beats
      `.dd-label` on specificity and was setting those 9.5px labels to hero body
@@ -1553,7 +1448,7 @@
      the width of a paragraph. It breaks out to its own measure and sizes to
      hold on one line wherever one line fits, which buys back more height than
      the larger type costs and is why the picture below it still clears */
-  .hero-lead h1,.hero-lead h2{--hw:min(1120px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--hw);max-width:none;margin:1.7rem 0 0 calc((100% - var(--hw)) / 2);font-size:clamp(2.1rem,4.4vw,4rem);letter-spacing:-.014em;line-height:1.04;text-wrap:balance}
+  .hero-lead h1,.hero-lead h2{--hw:min(1120px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--hw);max-width:none;margin:1.7rem 0 0 calc((100% - var(--hw)) / 2);font-size:clamp(2.1rem,4.4vw,4rem);letter-spacing:-.044em;line-height:1.04;text-wrap:balance}
   .hero-lead .wrap>p{margin-top:1.8rem;font-size:1.07rem;line-height:1.55;max-width:33rem;color:var(--fg-3);text-wrap:pretty}
   .hero-lead .hero-actions{margin-top:1.9rem;gap:.6rem}
   .hero-lead .hero-actions .btn{height:44px;padding:0 19px;font-size:15px;border-radius:11px}
@@ -1573,7 +1468,7 @@
   /* the fold's own wash, and it has to land on the page colour by the time it
      reaches the fold's bottom edge, or the band under it starts on a seam.
      It used to close on #000, which was the page; the page is --bg now. */
-  .cta-dark.hero-lead{text-align:left;background:linear-gradient(180deg,#0000E8 0%,var(--bg) 58%);padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(3rem,9.5vh,7.5rem))}
+  .cta-dark.hero-lead{text-align:left;background:linear-gradient(180deg,#0b0b0d 0%,var(--bg) 58%);padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(3rem,9.5vh,7.5rem))}
   /* the starfield stays, at a fifth of itself: the fold reads as one flat dark
      ground with the picture the only lit thing on it */
   .hero-lead .burst-hold{opacity:.2}
@@ -1586,7 +1481,7 @@
      the query below because the headline, the lede and the picture each
      carried a centred breakout of their own, and a fold that is left set at
      1512 and centred at 899 is two designs. Only the row is a wide idea. */
-  .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0;font-size:clamp(2.3rem,5.6vw,4.8rem);line-height:1.02;letter-spacing:-.016em;font-weight:400;text-wrap:balance}
+  .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
   .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) 0 0;max-width:52ch;font-size:1.05rem}
   .hero-lead .wrap>.ah-fig{width:auto;margin:clamp(2.4rem,6vh,5.5rem) 0 0}
   /* the card takes the whole row, which is the figure's old footprint and the
@@ -1769,7 +1664,7 @@
      without it is the hairline, which is a finished object rather than a
      broken one. */
   @supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
-    .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(42% 120% at 66% 0%,rgba(146,214,255,.34) 0%,rgba(255,176,58,.16) 46%,transparent 74%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;transition:opacity .18s ease}
+    .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(42% 120% at 66% 0%,rgba(146,214,255,.34) 0%,rgba(0,112,243,.16) 46%,transparent 74%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;transition:opacity .18s ease}
     .hero-lead .hpill:hover::after{opacity:.6}
   }
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
@@ -1789,7 +1684,7 @@
      of fein working unattended belongs at the top of the page that sells it.
      Same composition, no border over it, and enough padding to clear the bar. */
   .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem))}
-  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(2rem,4.4vw,3.4rem);font-weight:400;letter-spacing:-.012em;line-height:1.04;text-wrap:balance;max-width:22ch}
+  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:500;letter-spacing:-.032em;line-height:1.07;text-wrap:balance;max-width:22ch}
   .deploy-hero .hero-copy .lead{max-width:54ch}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
   .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
@@ -1822,7 +1717,7 @@
   .fork-card{display:flex;flex-direction:column;padding:clamp(1.5rem,2.8vw,2.1rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:rgba(255,255,255,.028);box-shadow:var(--hl-top)}
   /* the paid column: same ground, one accent hairline. A filled panel here would
      read as the "real" product and undercut the sentence above it. */
-  .fork-card.pick{border-color:rgba(255,176,58,.42)}
+  .fork-card.pick{border-color:rgba(82,168,255,.42)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
      yourself", "we deploy it"). It said what the heading under it already said,
      in the same voice as the section eyebrows that came off the site with it. */
@@ -1831,7 +1726,7 @@
   /* the number sits on its own rule so both columns line their prices up on the
      same baseline however long the paragraph above them runs */
   .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
-  .fork-price b{font-family:var(--mono);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:400;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
   .fork-price .per{font-size:.92rem;color:var(--fg-3)}
   .fork-card ul{list-style:none;margin:clamp(1.05rem,2vw,1.35rem) 0 0;padding:0;display:grid;gap:.62rem}
   .fork-card li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55rem;align-items:start;color:var(--fg-2);font-size:.94rem;line-height:1.5}
@@ -1903,12 +1798,12 @@
      own page sets flush left, and it opened a screen and a half of empty black
      between the fold and the first band. .seg-fold carries its own ground now
      and .cta-dark is off these pages: same gradient, none of the hero geometry. */
-  .seg-fold{position:relative;overflow:hidden;text-align:left;color:#fff;background:linear-gradient(180deg,#0000E8 0%,var(--bg) 62%);padding:calc(var(--nav-h) + clamp(3.4rem,8vh,6rem)) 0 clamp(2.8rem,6vh,4.4rem)}
+  .seg-fold{position:relative;overflow:hidden;text-align:left;color:#fff;background:linear-gradient(180deg,#0b0b0d 0%,var(--bg) 62%);padding:calc(var(--nav-h) + clamp(3.4rem,8vh,6rem)) 0 clamp(2.8rem,6vh,4.4rem)}
   .seg-fold .wrap{position:relative;z-index:1}
   /* the index fold's h1 is clamped to 4.6vw and this one to 4.1vw, so a segment
      page never reads as a second home page. margin-inline stays 0: .cta-dark
      set `margin:.9rem auto 0`, which is what centred these. */
-  .seg-fold h1{margin:.9rem 0 0;font-size:clamp(1.95rem,4.3vw,3.35rem);font-weight:400;letter-spacing:-.012em;line-height:1.04;text-wrap:balance;max-width:20ch}
+  .seg-fold h1{margin:.9rem 0 0;font-size:clamp(1.85rem,4.1vw,3.15rem);font-weight:500;letter-spacing:-.032em;line-height:1.06;text-wrap:balance;max-width:20ch}
   .seg-fold>.wrap>p{margin:clamp(1rem,2vw,1.35rem) 0 0;max-width:60ch;font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.55;color:var(--fg-2);text-wrap:pretty}
   .seg-fold .hero-actions{justify-content:flex-start;margin-top:clamp(1.7rem,3.2vw,2.4rem)}
   /* the step list on /self-host: a numbered run with the command under each. */
@@ -1968,7 +1863,7 @@
   .field input,.field select,.field textarea{font-family:var(--font);font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line-ctl);border-radius:10px;padding:10px 14px;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
   .field input,.field select{height:46px;padding:0 14px}
   .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(255,176,58,.25)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
   .field textarea{resize:vertical;min-height:70px}
 
   /* ---- select: the native popup can't be styled, so JS layers a listbox over
@@ -1980,7 +1875,7 @@
   .sel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;height:46px;padding:0 12px 0 14px;font-family:var(--font);font-size:1rem;font-weight:400;line-height:1;text-align:left;color:var(--fg);background:var(--bg);border:1px solid var(--line-ctl);border-radius:10px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
   .sel-btn:hover{border-color:var(--line-ctl-2)}
   .sel-btn.empty{color:var(--dim)}
-  .sel-btn:focus-visible{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(255,176,58,.25)}
+  .sel-btn:focus-visible{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
   .sel-btn[aria-expanded="true"]{border-color:var(--line-ctl-2)} /* open reads through the panel, not a ring */
   .sel-btn .chev{width:15px;height:15px;flex:none;color:var(--fg-3);transition:transform .2s cubic-bezier(.22,.61,.36,1)}
   .sel-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
@@ -2072,7 +1967,7 @@
        "Welcome" legible through them, with "Sign in" and "Book a demo"
        sitting in the middle of it. The surface is opaque now and the page
        behind it is dimmed instead, which is what the blur was reaching for. */
-    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:var(--bar-pad);width:min(320px,calc(100vw - var(--bar-pad) * 2));background:#0000A6;border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,32,.55);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
+    .mmenu{display:block;position:absolute;top:calc(var(--nav-h) - 8px);left:auto;right:var(--bar-pad);width:min(320px,calc(100vw - var(--bar-pad) * 2));background:#0e0f13;border:1px solid var(--line-2);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h) - 16px);overflow:auto;overscroll-behavior:contain}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1)}
     /* the scrim. It hangs off <html> rather than the panel because the bar has
        will-change:transform, which makes it the containing block for anything
@@ -2235,10 +2130,10 @@
 
   /* touch: no sticky hover states, and thumb-sized controls */
   @media (hover:hover){
-    .btn-primary:hover,.btn-white:hover{background:#ffffff}
+    .btn-primary:hover,.btn-white:hover{background:#e9e9e9}
     .btn-ghost:hover{box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
     .sbtn-sec:hover{color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
-    .sbtn-pri:hover{background:#ffffff}
+    .sbtn-pri:hover{background:#e9e9e9}
     .marquee.moving:hover .row{animation-play-state:paused}
     .works .row span:hover{color:#fff}
     .mmenu a:hover{background:rgba(255,255,255,.06)}
@@ -2303,7 +2198,7 @@
      1727px window, which is 48px of leading on about 45px of type, or 2.6vw
      with a line height of 1.09. Ours was capped at 39px and led at 1.24, so it
      sat smaller and looser than the block it is copying. */
-  .stance-line{max-width:26em;margin:0;font-family:var(--display);font-size:clamp(1.6rem,2.78vw,3.05rem);line-height:1.12;letter-spacing:-.008em;font-weight:400;color:var(--fg-3);text-wrap:pretty}
+  .stance-line{max-width:26em;margin:0;font-family:var(--display);font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;color:var(--fg-3);text-wrap:pretty}
   .stance-line b{font-weight:inherit;color:#fff}
   @media (max-width:640px){
     .stance-line{font-size:1.32rem;line-height:1.3}
@@ -3461,7 +3356,7 @@ __LOGO_SPRITE__
     var spr={},BLOOM=0.85;                                        /* glow sprites; the field's steady level, baked in */
     var BATCH=typeof Path2D!=="undefined";                        /* batched node fills, where the browser has them */
     function thr(al){return "rgba(206,216,233,"+al+")";}          /* thread white, slightly cool */
-    function acc(al){return "rgba(255,176,58,"+al+")";}           /* the one accent */
+    function acc(al){return "rgba(82,168,255,"+al+")";}           /* the one accent */
     function oExpo(u){return u<=0?0:u>=1?1:1-Math.pow(2,-10*u);}
     function clamp01(u){return u<0?0:u>1?1:u;}
     function unit(){return Math.min(bh,bw*0.52);}                 /* scale reference for core and bloom */
@@ -3484,7 +3379,7 @@ __LOGO_SPRITE__
     }
     function sprites(){
       var U=unit();
-      spr.bloom=sprite(U*1.4,[[0,"rgba(255,176,58,.10)"],[0.45,"rgba(255,176,58,.032)"],[1,"rgba(255,176,58,0)"]]);
+      spr.bloom=sprite(U*1.4,[[0,"rgba(0,112,243,.10)"],[0.45,"rgba(0,112,243,.032)"],[1,"rgba(0,112,243,0)"]]);
       spr.coreW=sprite(U*0.11,[[0,"rgba(255,255,255,1)"],[0.45,thr(0.35)],[1,thr(0)]]);
       spr.coreB=sprite(U*0.32,[[0,acc(1)],[1,acc(0)]]);
       spr.node =sprite(4.5,[[0,thr(1)],[1,thr(0)]]);
@@ -4297,9 +4192,9 @@ __LOGO_SPRITE__
       var R=Math.max(150,Math.min(W*0.19,(BOT-TOP)*0.62))*(1+0.06*glowK);
       var br=Math.min(0.10,(0.045+0.012*Math.sin(t*0.0009)+0.045*glowK)*M_GLOW);
       var hg=g.createRadialGradient(CX,CY,CR*0.4,CX,CY,R);
-      hg.addColorStop(0,"rgba(255,176,58,"+br.toFixed(3)+")");
-      hg.addColorStop(0.45,"rgba(255,176,58,"+(br*0.32).toFixed(3)+")");
-      hg.addColorStop(1,"rgba(255,176,58,0)");
+      hg.addColorStop(0,"rgba(0,112,243,"+br.toFixed(3)+")");
+      hg.addColorStop(0.45,"rgba(0,112,243,"+(br*0.32).toFixed(3)+")");
+      hg.addColorStop(1,"rgba(0,112,243,0)");
       g.fillStyle=hg;g.beginPath();g.arc(CX,CY,R,0,7);g.fill();
       var WR=CR*2.2,wb=Math.min(0.075,(0.030+0.030*glowK)*M_GLOW);
       var wg=g.createRadialGradient(CX,CY,CR*0.5,CX,CY,WR);
@@ -4311,7 +4206,7 @@ __LOGO_SPRITE__
         if(!(age>=0&&age<1)){rings.splice(i,1);continue;}
         var e=1-Math.pow(1-age,3);
         a=(1-age)*0.20*rr.a*M_GLOW;
-        g.strokeStyle="rgba(255,176,58,"+a.toFixed(3)+")";
+        g.strokeStyle="rgba(82,168,255,"+a.toFixed(3)+")";
         hexPath(CR*(1+e*2.1));g.stroke();
       }
     }

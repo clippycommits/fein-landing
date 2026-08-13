@@ -4,8 +4,8 @@
   "description": "The shared memory of a venture capital team.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0000E8",
-  "theme_color": "#0000E8",
+  "background_color": "#08090A",
+  "theme_color": "#08090A",
   "icons": [
     {
       "src": "/icon-192.png",

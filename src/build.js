@@ -28,10 +28,6 @@ const monoB64 = fs.readFileSync("GeistMono.subset.woff2").toString("base64");
 // Inter (variable 400-600, latin cut) carries body copy, sub headings, buttons
 // and nav; Geist is the display face for h1 and h2 only.
 const interB64 = fs.readFileSync("Inter.subset.woff2").toString("base64");
-// Newsreader is the display face: every h1 and h2 on the site is set in it. It
-// was cut to eight lowercase label phrases when it set the section labels; it
-// carries the full 128 now, at opsz 36, which is the face's display cut.
-const serifB64 = fs.readFileSync("Newsreader.subset.woff2").toString("base64");
 // Newsreader italic used to set the section labels here, cut against its own
 // charset. The labels are small grey Inter now, so the face, its subset guard
 // and its 6 KB of base64 are gone; Newsreader.subset.woff2 and
@@ -66,8 +62,7 @@ function assertCharsetCovers(html, label) {
 let body = fs.readFileSync("fein.tpl.html", "utf8")
   .replace("__GEIST_SANS_B64__", sansB64)
   .replace("__GEIST_MONO_B64__", monoB64)
-  .replace("__INTER_B64__", interB64)
-  .replace("__NEWSREADER_B64__", serifB64);
+  .replace("__INTER_B64__", interB64);
 if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1 || body.indexOf("__NEWSREADER") > -1) throw new Error("font placeholder left");
 
 // ---- avatars: the three faces in the Slack thread mock in #memory ----
@@ -233,7 +228,7 @@ const headMeta = `<meta charset="utf-8">
 <link rel="canonical" href="${SITE}/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0000E8">
+<meta name="theme-color" content="#08090A">
 <meta name="author" content="fein">
 <meta name="application-name" content="fein">
 <meta name="apple-mobile-web-app-title" content="fein">
@@ -408,7 +403,6 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
   let page = fs.readFileSync(path.join("legal", slug + ".html"), "utf8")
     .split("__GEIST_SANS_B64__").join(sansB64)
     .split("__INTER_B64__").join(interB64)
-    .split("__NEWSREADER_B64__").join(serifB64)
     .split("__LASTMOD__").join(LASTMOD);
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD__") > -1) throw new Error("legal placeholder left in " + slug);
   fs.mkdirSync(path.join(out, slug), { recursive: true });
@@ -440,7 +434,6 @@ const spriteAll = spriteHero + spriteRest;
     .split("__LOGO_SPRITE__").join(spriteAll)
     .split("__GEIST_SANS_B64__").join(sansB64)
     .split("__INTER_B64__").join(interB64)
-    .split("__NEWSREADER_B64__").join(serifB64)
     .split("__LASTMOD__").join(LASTMOD)
     .split("__ANALYTICS__").join(analytics);
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
@@ -655,7 +648,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
   name: "fein", short_name: "fein", description: "The shared memory of a venture capital team.",
-  start_url: "/", display: "standalone", background_color: "#0000E8", theme_color: "#0000E8",
+  start_url: "/", display: "standalone", background_color: "#08090A", theme_color: "#08090A",
   icons: [
     { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
     { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
