@@ -1421,12 +1421,18 @@
 .brandrow .bi:first-child{margin-left:0}
 .stack-list .brandrow{margin:0 0 .6rem}
 
-/* the retired-fact sentence is the argument of that figure, so it takes the
-   accent rather than another weight of grey */
-.fig-sub b.hl{color:var(--blue-l);font-weight:600}
+/* Emphasis inside a sentence is white, and it is only white: the step from
+   --fg-3 grey up to #fff is the whole signal, with no change of weight under
+   it. Both of these used to be set in the blue accent at 600 and 650 against a
+   400 sentence, which made two runs of body copy louder than the headings over
+   them and spent the accent on prose. Blue is left where it means something --
+   the step numbers, the wires, the citations and tokens inside the product
+   mocks -- and nowhere in the page's own writing. font-weight is stated because
+   both are <b>, which the UA would otherwise set bolder than the line. */
+.fig-sub b.hl{color:#fff;font-weight:400}
 
 /* each fein cell opens with the property it buys you */
-.why-grid .b .ben{color:var(--blue-l);font-weight:650}
+.why-grid .b .ben{color:#fff;font-weight:400}
 
 /* ============ badge ============
    Status label above a section headline. Uppercase and tracked so it cannot be
