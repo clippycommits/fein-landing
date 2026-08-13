@@ -479,7 +479,14 @@
   /* the margin-top is not spacing, it is optical centring: the deck stands 19px
      above the panel, place-items centres the panel alone, and the composite came
      out sitting low in the frame by half of that. */
-  .featart .mock{position:relative;z-index:2;width:min(88%,472px);margin-top:19px;box-shadow:var(--hl-top),0 26px 60px -30px rgba(0,0,0,.95)}
+  /* min-width:0 is what makes the width above the LAST word on the subject. The
+     panel is a grid item, a grid item's automatic minimum is its min-content
+     width, and a row that holds one line and ellipses the overflow reports that
+     whole line as min-content. So a panel with a long row in it quietly grew
+     past the 88% and, on a phone, past the screen. Nothing here wants to be
+     sized by its contents: the panel is a fixed fraction of its frame and the
+     rows inside it are what give way. */
+  .featart .mock{position:relative;z-index:2;width:min(88%,472px);min-width:0;margin-top:19px;box-shadow:var(--hl-top),0 26px 60px -30px rgba(0,0,0,.95)}
   /* the deck this panel is the top card of: two hairlines above it, inset and
      receding, which is FIG 0.1's stack of planes at panel scale. Both are drawn
      entirely outside the mock's own box -- a strip that stops where its top edge
@@ -563,6 +570,193 @@
   .mtag{flex:none;margin-top:calc(-.04rem*var(--mk));font-family:var(--mono);font-size:calc(.6rem*var(--mk));font-weight:500;letter-spacing:.1em;line-height:1.5;color:var(--fg-3);background:rgba(255,255,255,.032);border:1px solid var(--line-2);border-radius:5px;padding:calc(.2rem*var(--mk)) calc(.45rem*var(--mk));white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.32);background:rgba(82,168,255,.09)}
   .mtag.dim{color:var(--dim);background:none;border-color:var(--line)}
+
+  /* ============ four claims, four objects ====================================
+     What stood in the four cells was one component drawn four times: a titled
+     panel with three logo-fact-pill rows in it. Read down the grid the picture
+     said the same thing in every cell, and the difference between the claims --
+     a route, a time, a document, a rhythm -- was left entirely to the sentence
+     underneath.
+
+     Each cell now draws the shape of its own answer. A path is a tree with the
+     chosen branch lit. A brief is the morning it is for, with the meeting block
+     sitting on the hour it starts. The reason you passed is the page it is
+     written on, with the sentence marked. A rhythm is twelve weeks of contact
+     plotted, and the silence at the end of it drawn to scale. What holds the
+     four together as one product is the frame and the chrome, not the diagram:
+     the same fill, the same hairline, the same mono readouts, the same pills.
+
+     Each carries one small motion, and no two are the same gesture: the path
+     lights, the day arrives, the marker sweeps, the plot draws. All of it is
+     CSS keyed off .featcell.in, so nothing moves until the cell is on screen
+     and none of it needs a line of script. The two that loop begin AND end on
+     their lit frame with the reset in the middle of the cycle: that is what
+     makes the loop seamless, and it is also what leaves a reader who asks for
+     no motion with the finished picture rather than an empty one, since the
+     reduce block at the end of this file stops every animation on its LAST
+     frame. .mrow and its three rows are still the component /pe is built from,
+     which is why that CSS stays above.
+
+     One deck, three exceptions. Two hairlines above the panel say "top card of
+     a stack", which is true of the paths panel and of all four on /pe, and
+     wrong for the other three here: a day continues off both edges of its
+     column, a memo has its other pages UNDER the one you are reading, and a
+     plot has an axis. So the default stays put and these opt out of it or turn
+     it over. The margins are the optical centring that goes with each -- the
+     frame centres the panel alone, so whichever side the deck stands on gives
+     half its height back as margin on that side. */
+  .featart .mk-plain::before,.featart .mk-plain::after{content:none}
+  .featart .mk-plain{margin-top:0}
+  .featart .mk-under::before,.featart .mk-under::after{top:auto;bottom:-10px;border-top:0;border-bottom:1px solid rgba(255,255,255,.062);border-radius:0 0 11px 11px;background:linear-gradient(0deg,rgba(255,255,255,.02),transparent)}
+  .featart .mk-under::after{bottom:-19px}
+  .featart .mk-under{margin-top:0;margin-bottom:19px}
+
+  /* ---- 1: the warmest path, as the tree it is read off ----
+     The rows are all one height and stacked with no gap, which is what lets
+     each connector be drawn as one elbow from the middle of the row above to
+     the middle of its own (top/bottom are percentages of the row's height).
+     Stacked, those elbows join into a single spine with no spine element. */
+  .pth{position:relative}
+  .prow{display:flex;align-items:center;gap:calc(.62rem*var(--mk));height:calc(40px*var(--mk));font-size:calc(.86rem*var(--mk));color:var(--fg-3)}
+  .pseed{flex:none;width:calc(7px*var(--mk));height:calc(7px*var(--mk));border-radius:50%;background:var(--blue-l);box-shadow:0 0 0 calc(4px*var(--mk)) rgba(82,168,255,.12)}
+  .pbr{position:relative;display:flex;align-items:center;height:calc(40px*var(--mk));padding-left:calc(26px*var(--mk))}
+  .pbr::before{content:"";position:absolute;left:calc(3px*var(--mk));top:-50%;bottom:50%;width:calc(15px*var(--mk));border-left:1px solid var(--line-2);border-bottom:1px solid var(--line-2);border-bottom-left-radius:9px}
+  /* the route nobody should take is drawn the way it should be taken: dashed */
+  .pbr.cold::before{border-color:var(--line);border-left-style:dashed;border-bottom-style:dashed}
+  .pchip{display:flex;align-items:center;gap:calc(.58rem*var(--mk));flex:1;min-width:0;padding:calc(.4rem*var(--mk)) calc(.5rem*var(--mk));border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.022);font-size:calc(.87rem*var(--mk));line-height:1.4;color:var(--fg-2)}
+  .pchip .tlogo{width:calc(16px*var(--mk));height:calc(16px*var(--mk));flex:none}
+  .pchip>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pchip>span b{color:var(--fg);font-weight:550}
+  .pbr.cold .pchip{color:var(--dim)}
+  .pbr.cold .pchip>span b{color:var(--fg-3)}
+  .pbr.best .pchip{border-color:rgba(82,168,255,.3);background:rgba(0,112,243,.09)}
+  /* the same elbow again in the accent, clipped from the top down: what the
+     reader watches is the graph being worked, not a light blinking on a card */
+  .pbr.best::after{content:"";position:absolute;left:calc(3px*var(--mk));top:-50%;bottom:50%;width:calc(15px*var(--mk));border-left:1px solid var(--blue-l);border-bottom:1px solid var(--blue-l);border-bottom-left-radius:9px;clip-path:inset(0 0 0 0)}
+  .featcell.in .pbr.best::after{animation:pthDraw 5.6s cubic-bezier(.4,0,.2,1) infinite}
+  @keyframes pthDraw{0%,52%{clip-path:inset(0 0 0 0);opacity:1}68%{clip-path:inset(0 0 100% 0);opacity:.15}70%{clip-path:inset(0 0 100% 0);opacity:1}92%,100%{clip-path:inset(0 0 0 0);opacity:1}}
+  .featcell.in .pbr.best .pchip{animation:pthLand 5.6s ease infinite}
+  @keyframes pthLand{0%,58%{box-shadow:0 0 0 1px rgba(82,168,255,.18)}74%,88%{box-shadow:0 0 0 1px rgba(82,168,255,0)}96%,100%{box-shadow:0 0 0 1px rgba(82,168,255,.18)}}
+
+  /* ---- 2: the brief, on the morning it is for ----
+     The hour rules run out to the panel's edge and the event block does not:
+     the day carries on past the frame, the meeting is a thing inside it. */
+  .day{position:relative;margin-top:calc(.2rem*var(--mk));padding-left:calc(40px*var(--mk))}
+  .dslot{position:relative;height:calc(58px*var(--mk));margin-right:calc(-1rem*var(--mk));border-top:1px solid var(--line)}
+  .dslot span{position:absolute;left:calc(-40px*var(--mk));top:0;transform:translateY(-50%);font-family:var(--mono);font-size:calc(.66rem*var(--mk));color:var(--dim)}
+  /* the block runs off the right edge with the hour rules it sits on. Stopping
+     it inside the padding left each rule sticking out past it by the width of
+     that padding, which read as a hairline coming loose from the block. */
+  .devt{position:absolute;left:calc(40px*var(--mk));right:calc(-1rem*var(--mk));top:calc(58px*var(--mk));height:calc(116px*var(--mk));padding:calc(.5rem*var(--mk)) calc(.6rem*var(--mk));border-left:2px solid var(--blue-l);background:linear-gradient(90deg,rgba(0,112,243,.13),rgba(0,112,243,.025));opacity:0}
+  .devt-t{display:flex;align-items:center;gap:calc(.5rem*var(--mk));margin:0 0 calc(.34rem*var(--mk));font-size:calc(.88rem*var(--mk));font-weight:550;letter-spacing:-.01em;color:#fff}
+  .devt-t .mtag{margin-left:auto}
+  .dfact{display:flex;align-items:center;gap:calc(.5rem*var(--mk));margin:calc(.3rem*var(--mk)) 0 0;font-size:calc(.8rem*var(--mk));line-height:1.35;color:var(--fg-2);opacity:0}
+  .dfact .tlogo{width:calc(14px*var(--mk));height:calc(14px*var(--mk));flex:none}
+  .dfact span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dfact b{color:var(--fg);font-weight:550}
+  /* now, a few minutes short of the hour, and still moving */
+  .dnow{position:absolute;left:calc(-6px*var(--mk));right:calc(-1rem*var(--mk));top:0;height:1px;background:linear-gradient(90deg,var(--blue-l),rgba(82,168,255,.12));opacity:0}
+  .dnow::before{content:"";position:absolute;left:0;top:calc(-2.5px*var(--mk));width:calc(6px*var(--mk));height:calc(6px*var(--mk));border-radius:50%;background:var(--blue-l)}
+  .featcell.in .dnow{animation:dayNow 2s cubic-bezier(.33,1,.68,1) both}
+  .featcell.in .dnow::before{animation:dayTick 3.2s ease-in-out 2s infinite}
+  .featcell.in .devt{animation:dayEvt .62s cubic-bezier(.22,.61,.36,1) 1.2s both}
+  .featcell.in .dfact:nth-child(2){animation:dayFact .45s ease-out 1.58s both}
+  .featcell.in .dfact:nth-child(3){animation:dayFact .45s ease-out 1.72s both}
+  .featcell.in .dfact:nth-child(4){animation:dayFact .45s ease-out 1.86s both}
+  @keyframes dayNow{0%{opacity:0;translate:0 calc(9px*var(--mk))}22%{opacity:1}100%{opacity:1;translate:0 calc(40px*var(--mk))}}
+  @keyframes dayTick{0%,100%{box-shadow:0 0 0 0 rgba(82,168,255,.45)}50%{box-shadow:0 0 0 calc(5px*var(--mk)) rgba(82,168,255,0)}}
+  @keyframes dayEvt{from{opacity:0;translate:0 calc(10px*var(--mk))}to{opacity:1;translate:0 0}}
+  @keyframes dayFact{from{opacity:0;translate:calc(-7px*var(--mk)) 0}to{opacity:1;translate:0 0}}
+
+  /* ---- 3: the reason, on the page it was written on ----
+     The rest of the memo is set as rules rather than lorem: a reader knows what
+     a page of prose looks like, and drawing it as text would be four lines of
+     writing nobody is meant to read. The one sentence that is set is the one
+     the answer turns on. */
+  .mm-h{display:flex;align-items:center;gap:calc(.5rem*var(--mk));padding:0 calc(.1rem*var(--mk)) calc(.68rem*var(--mk));border-bottom:1px solid var(--line);font-family:var(--mono);font-size:calc(.72rem*var(--mk));color:var(--fg-3)}
+  .mm-h .tlogo{width:calc(14px*var(--mk));height:calc(14px*var(--mk));flex:none}
+  .mm-h b{margin-left:auto;font-weight:500;color:var(--dim)}
+  .mm-l{height:calc(7px*var(--mk));margin:calc(.62rem*var(--mk)) 0;border-radius:3px;background:rgba(255,255,255,.05)}
+  .mm-l.l2{width:88%}
+  .mm-l.l3{width:71%}
+  .mm-hit{margin:calc(.7rem*var(--mk)) 0;font-size:calc(.88rem*var(--mk));line-height:1.5;color:var(--fg-2)}
+  .mm-hit b{color:var(--fg);font-weight:550}
+  /* the marker itself: a background painted from the left, so taking it to zero
+     width and back is a stroke of a highlighter rather than a fade */
+  .mm-hit mark{color:var(--fg);background:linear-gradient(rgba(0,112,243,.38),rgba(0,112,243,.38)) no-repeat left center/100% 100%;border-radius:3px;padding:.1em .2em;margin:0 -.2em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .featcell.in .mm-hit mark{animation:memoMark 6.4s cubic-bezier(.4,0,.2,1) infinite}
+  @keyframes memoMark{0%,56%{background-size:100% 100%}72%,74%{background-size:0 100%}94%,100%{background-size:100% 100%}}
+  .mm-f{display:flex;align-items:center;gap:calc(.55rem*var(--mk));margin-top:calc(.8rem*var(--mk));padding-top:calc(.7rem*var(--mk));border-top:1px solid var(--line);font-size:calc(.82rem*var(--mk));color:var(--fg-3)}
+  .mm-f .tlogo{width:calc(15px*var(--mk));height:calc(15px*var(--mk));flex:none}
+  .mm-f span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mm-f b:not(.mtag){color:var(--fg-2);font-weight:550}
+
+  /* ---- 4: the rhythm, plotted ----
+     One tick per contact, and the pitch of the ticks IS the cadence: ten days
+     apart on the top row, monthly on the second, weekly on the third. So the
+     three tracks are not decoration with different lengths, they are the three
+     rhythms drawn, and the run of empty axis after the last tick is the silence
+     the pill puts a number on. */
+  .cad{margin-top:calc(.2rem*var(--mk))}
+  .crow{display:flex;align-items:center;gap:calc(.7rem*var(--mk));height:calc(46px*var(--mk))}
+  .cnm{display:flex;align-items:center;gap:calc(.5rem*var(--mk));flex:none;width:calc(132px*var(--mk));min-width:0}
+  .cnm .tlogo{width:calc(15px*var(--mk));height:calc(15px*var(--mk));flex:none}
+  .cnm>span{display:flex;flex-direction:column;min-width:0}
+  .cnm b{font-size:calc(.85rem*var(--mk));font-weight:550;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cnm i{margin-top:1px;font-family:var(--mono);font-style:normal;font-size:calc(.63rem*var(--mk));color:var(--dim);white-space:nowrap}
+  /* --w is how much of the twelve weeks holds contact, --pitch is the gap
+     between two of them: ten days, a fortnight, a week. Both live on the row so
+     the track and anything else that wants the rhythm can read them. */
+  .crow.r1{--w:75%;--pitch:26px}
+  .crow.r2{--w:50%;--pitch:37px}
+  .crow.r3{--w:96%;--pitch:18px}
+  .ctr{position:relative;display:flex;align-items:center;flex:1;min-width:0;height:calc(22px*var(--mk));clip-path:inset(0 100% 0 0)}
+  .ctk{flex:none;width:var(--w);height:100%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 1px,transparent 1px var(--pitch)) 0 50%/100% 62% no-repeat}
+  .csl{position:relative;flex:1;height:0;border-top:1px dashed var(--line-2)}
+  /* the last time they were heard from, which is where the silence starts */
+  .csl::before{content:"";position:absolute;left:calc(-2px*var(--mk));top:calc(-2px*var(--mk));width:calc(5px*var(--mk));height:calc(5px*var(--mk));border-radius:50%;background:var(--fg-3)}
+  .crow.flag .csl::before{background:var(--blue-l)}
+  .crow>.mtag{flex:none;width:calc(64px*var(--mk));text-align:center;opacity:0}
+  /* the axis sits under the tracks and nothing else: the margins are the name
+     column and the pill column, so the two labels line up with the plot rather
+     than with the panel */
+  .cax{display:flex;justify-content:space-between;margin:calc(.1rem*var(--mk)) calc(75px*var(--mk)) 0 calc(143px*var(--mk));padding-top:calc(.5rem*var(--mk));border-top:1px solid var(--line);font-family:var(--mono);font-size:calc(.62rem*var(--mk));color:var(--dim)}
+  .featcell.in .r1 .ctr{animation:cadDraw .95s cubic-bezier(.22,.61,.36,1) .1s both}
+  .featcell.in .r2 .ctr{animation:cadDraw .95s cubic-bezier(.22,.61,.36,1) .25s both}
+  .featcell.in .r3 .ctr{animation:cadDraw .95s cubic-bezier(.22,.61,.36,1) .4s both}
+  .featcell.in .r1>.mtag{animation:cadTag .45s ease .95s both,cadBreath 3.4s ease-in-out 1.5s infinite}
+  .featcell.in .r2>.mtag{animation:cadTag .45s ease 1.1s both,cadBreath 3.4s ease-in-out 2.2s infinite}
+  .featcell.in .r3>.mtag{animation:cadTag .45s ease 1.25s both}
+  @keyframes cadDraw{to{clip-path:inset(0 0 0 0)}}
+  @keyframes cadTag{from{opacity:0;translate:calc(-5px*var(--mk)) 0}to{opacity:1;translate:0 0}}
+  @keyframes cadBreath{0%,100%{opacity:1}50%{opacity:.5}}
+
+  /* Under about 500px a chip stops holding its line, and an ellipsis there eats
+     the fact the row exists to carry: "14 shared meetings" is the claim, not
+     decoration. They wrap instead, and every row in the tree grows by the same
+     fixed step -- the connectors are drawn as a proportion of the row they
+     belong to, so they only join into one spine while the rows stand the same
+     height. The plot's two fixed columns give ground at the same width and its
+     ticks close up with them, so the track keeps enough of a narrow panel to
+     show a rhythm at all rather than two marks and a dashed line. */
+  @media (max-width:520px){
+    .prow,.pbr{height:calc(62px*var(--mk))}
+    .pbr{padding-left:calc(21px*var(--mk))}
+    .pchip>span{white-space:normal;overflow:visible;text-overflow:clip}
+    .mm-f{align-items:flex-start}
+    .mm-f span{white-space:normal;overflow:visible;text-overflow:clip}
+    .cnm{width:calc(116px*var(--mk))}
+    .crow>.mtag{width:calc(56px*var(--mk))}
+    .crow.r1{--pitch:16px}
+    .crow.r2{--pitch:22px}
+    .crow.r3{--pitch:11px}
+    .cax{margin-left:calc(127px*var(--mk));margin-right:calc(67px*var(--mk))}
+  }
+  /* the reduce block at the end of this file stops every animation on its last
+     frame, and there is one thing it cannot do: unwind a delay. Three of these
+     panels stagger, so without this a reader who asks for no motion would get
+     an empty panel that pops two seconds later. */
+  @media (prefers-reduced-motion:reduce){.featgrid *{animation-delay:0s!important}}
   /* ============ the fold: the documents, the question, the answer ============
      Three objects, stacked, and nothing drawn between them. The connection is
      made by the citation on each claim and by the document lighting as that
@@ -2618,12 +2812,15 @@ __LOGO_SPRITE__
         <article class="featcell reveal" id="f-warm">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
-  <div class="mock" aria-hidden="true">
-    <div class="mock-title">Paths to Clara Voss</div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Marc Weber</b> · two hops, via Priya</span><b class="mtag">Warm</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> · not recommended</span><b class="mtag dim">Cold</b></div>
-  </div>
+            <div class="mock mk-path" aria-hidden="true">
+              <div class="mock-title">Paths to Clara Voss</div>
+              <div class="pth">
+                <div class="prow"><i class="pseed"></i>Your team</div>
+                <div class="pbr best"><span class="pchip"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></span></div>
+                <div class="pbr"><span class="pchip"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Marc Weber</b> · two hops, via Priya</span><b class="mtag">Warm</b></span></div>
+                <div class="pbr cold"><span class="pchip"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> · not recommended</span><b class="mtag dim">Cold</b></span></div>
+              </div>
+            </div>
           </div>
           <div class="featcap">
             <h3>The warmest path to any founder or LP</h3>
@@ -2633,12 +2830,21 @@ __LOGO_SPRITE__
         <article class="featcell reveal" id="f-brief">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
-  <div class="mock" aria-hidden="true">
-    <div class="mock-title">9:00 · Meridian follow-on</div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Clara Voss</b> · 12 threads · owes the data room</span><b class="mtag">Founder</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · joining from your side</span><b class="mtag">Partner</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, parked on the last call</span><b class="mtag strong">Prep</b></div>
-  </div>
+            <div class="mock mk-plain mk-day" aria-hidden="true">
+              <div class="mock-title">Tuesday, 12 August</div>
+              <div class="day">
+                <div class="dslot"><span>8:30</span></div>
+                <div class="dslot"><span>9:00</span></div>
+                <div class="dslot"><span>9:30</span></div>
+                <div class="devt">
+                  <p class="devt-t">Meridian follow-on<b class="mtag strong">Brief</b></p>
+                  <p class="dfact"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Clara Voss</b> · owes the data room</span></p>
+                  <p class="dfact"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · joining from your side</span></p>
+                  <p class="dfact"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, from the last call</span></p>
+                </div>
+                <i class="dnow"></i>
+              </div>
+            </div>
           </div>
           <div class="featcap">
             <h3>A brief before every meeting</h3>
@@ -2648,12 +2854,14 @@ __LOGO_SPRITE__
         <article class="featcell reveal" id="f-pass">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
-  <div class="mock" aria-hidden="true">
-    <div class="mock-title">Meridian · first seen March 2024</div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gdrive"/></svg><span><b>Passed</b> · single-customer risk, memo p.2</span><b class="mtag">Memo</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Who met them</b> · Anna, twice, April 2024</span><b class="mtag">Meetings</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>What changed</b> · three new logos since</span><b class="mtag strong">Update</b></div>
-  </div>
+            <div class="mock mk-under mk-memo" aria-hidden="true">
+              <div class="mm-h"><svg class="tlogo"><use href="#l-gdrive"/></svg><span>Meridian · investment memo</span><b>p.2</b></div>
+              <p class="mm-l"></p>
+              <p class="mm-l l2"></p>
+              <p class="mm-hit"><mark>Single customer is 78% of revenue.</mark> <b>We passed</b>, April 2024.</p>
+              <p class="mm-l l3"></p>
+              <div class="mm-f"><svg class="tlogo"><use href="#l-gcal"/></svg><span>Anna met them twice · three new logos since</span><b class="mtag strong">Update</b></div>
+            </div>
           </div>
           <div class="featcap">
             <h3>The reason you passed, in one question</h3>
@@ -2663,12 +2871,27 @@ __LOGO_SPRITE__
         <article class="featcell reveal" id="f-cold">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
-  <div class="mock" aria-hidden="true">
-    <div class="mock-title">Going quiet</div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Jonas Keller</b> · every 10 days · 3 weeks silent</span><b class="mtag strong">Flag</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Priya Shah</b> · monthly · 6 weeks silent</span><b class="mtag strong">Flag</b></div>
-    <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Tom Aldridge</b> · quarterly · on cadence</span><b class="mtag dim">OK</b></div>
-  </div>
+            <div class="mock mk-plain mk-cad" aria-hidden="true">
+              <div class="mock-title">Going quiet</div>
+              <div class="cad">
+                <div class="crow r1 flag">
+                  <span class="cnm"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Jonas Keller</b><i>every 10 days</i></span></span>
+                  <span class="ctr"><i class="ctk"></i><i class="csl"></i></span>
+                  <b class="mtag strong">3 weeks</b>
+                </div>
+                <div class="crow r2 flag">
+                  <span class="cnm"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Priya Shah</b><i>every 2 weeks</i></span></span>
+                  <span class="ctr"><i class="ctk"></i><i class="csl"></i></span>
+                  <b class="mtag strong">6 weeks</b>
+                </div>
+                <div class="crow r3">
+                  <span class="cnm"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Tom Aldridge</b><i>weekly</i></span></span>
+                  <span class="ctr"><i class="ctk"></i><i class="csl"></i></span>
+                  <b class="mtag dim">OK</b>
+                </div>
+                <div class="cax"><span>12 weeks</span><span>today</span></div>
+              </div>
+            </div>
           </div>
           <div class="featcap">
             <h3>Relationships going cold, seen first</h3>
