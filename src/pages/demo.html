@@ -323,16 +323,17 @@
         </div>
 
         <!-- What the reader sees behind the calendar, and what they are left
-             with if they close it. The heading and the paragraph are rewritten
-             by the script for the three endings this can have: the calendar
-             opened, the calendar could not open, and the call is booked.
+             with if they close it. Deliberately says nothing about a modal
+             being on the screen: it reads true whether the embed opened, was
+             blocked, or was closed unbooked, and the script only rewrites it
+             for the one ending it can be certain of, which is a booking.
              The reopen control is an <a> to /api/call, which 302s to the same
              booking page with the same prefill, so it is a working way to book
              even when the embed script is blocked. The script only takes the
              click over when the embed is actually up. -->
         <div class="done" id="done">
           <h2 tabindex="-1" id="done-h">Your details are with us. <span>Now pick a time.</span></h2>
-          <p id="done-p">Twenty minutes with Daniel, our founder. The calendar is open in front of you.</p>
+          <p id="done-p">Twenty minutes with Daniel, our founder. Take whichever slot suits from his calendar.</p>
           <a class="submit" id="reopen" href="/api/call">Find a time</a>
           <p class="aside">Something urgent? Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
         </div>
@@ -352,6 +353,9 @@
   var btn = document.getElementById("submit");
   var formview = document.getElementById("formview");
   var done = document.getElementById("done");
+  var doneH = document.getElementById("done-h");
+  var doneP = document.getElementById("done-p");
+  var reopen = document.getElementById("reopen");
 
   /* Carried over from the modal, and inert for the same reason: paste a
      reCAPTCHA v3 site key to arm it, and the server needs the matching
@@ -368,7 +372,102 @@
     s.src = "https://www.google.com/recaptcha/api.js?render=" + encodeURIComponent(RECAPTCHA_KEY);
     s.async = true; document.head.appendChild(s);
   }
-  form.addEventListener("focusin", loadRecaptcha, { once: true });
+  /* cal.com. The point of this page is a call in the diary, and the shortest
+     path to one is to put the calendar on the screen while they are still
+     looking at the form: the enquiry posts, and the booking modal opens over
+     this page with what they just typed already in it. Nobody retypes a name.
+
+     Loaded on first interaction, like the captcha above, and preloaded from
+     there so the modal is instant at submit. A reader who never touches the
+     form never pays for the embed.
+
+     The link comes from /api/cal, which reads CAL_LINK: the calendar is named
+     in the env and nowhere else, so moving it stays an env edit. If any of this
+     fails (blocked script, offline, no link) the page loses nothing it had
+     before: the success screen carries an ordinary link to the booking page and
+     the server emails the same link a few minutes later. */
+  var CAL_SRC = "https://app.cal.com/embed/embed.js";
+  var calLink = "", calOrigin = "https://cal.com";
+  var calArmed = false, calUp = false, calConfig = null, booked = false;
+
+  function armCal(){
+    if(calArmed) return;
+    calArmed = true;
+    fetch("/api/cal").then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
+      .then(function(c){
+        if(!c || !c.link) return;
+        calLink = c.link;
+        calOrigin = c.origin || calOrigin;
+        /* cal.com's own loader stub, rewritten with var to match this file: it
+           queues instructions and injects embed.js, which then drains the queue.
+           Everything below is therefore safe to call before the script lands. */
+        (function(C, A, L){
+          var p = function(a, ar){ a.q.push(ar); };
+          var d = C.document;
+          C.Cal = C.Cal || function(){
+            var cal = C.Cal, ar = arguments;
+            if(!cal.loaded){ cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+            if(ar[0] === L){
+              var api = function(){ p(api, arguments); };
+              var namespace = ar[1];
+              api.q = api.q || [];
+              if(typeof namespace === "string"){ cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); }
+              else p(cal, ar);
+              return;
+            }
+            p(cal, ar);
+          };
+        })(window, CAL_SRC, "init");
+        window.Cal("init", { origin: calOrigin });
+        /* `loaded` on the stub means "injected", not "arrived", and the
+           difference decides two things: whether the server holds the welcome
+           email back, and whether the reopen link is allowed to stop being a
+           link. So the script element itself is asked. It was appended one
+           statement ago, so the listener cannot miss the event. */
+        var s = document.querySelector('script[src="' + CAL_SRC + '"]');
+        if(s) s.addEventListener("load", function(){ calUp = true; });
+        window.Cal("ui", { theme: "dark", layout: "month_view", hideEventTypeDetails: false });
+        window.Cal("preload", { calLink: calLink });
+        window.Cal("on", { action: "bookingSuccessful", callback: onBooked });
+        window.Cal("on", { action: "bookingSuccessfulV2", callback: onBooked });
+      })
+      .catch(function(){ /* no calendar to frame; the fallbacks carry it */ });
+  }
+  form.addEventListener("focusin", function(){ loadRecaptcha(); armCal(); }, { once: true });
+
+  /* The booking form's own fields, filled from this one. name and email are
+     cal.com's defaults; the two answers it has no field for go into the notes,
+     where they reach the invite and the reader can still edit them. */
+  function prefill(d, full){
+    var notes = [];
+    if(d.region) notes.push("Part of the world: " + d.region);
+    if(d.interests.length) notes.push("Interested in: " + d.interests.join(", "));
+    var c = { name: full, email: d.email, theme: "dark" };
+    if(notes.length) c.notes = notes.join("\n");
+    return c;
+  }
+  function openCal(){
+    if(!calLink || !window.Cal || !calConfig) return false;
+    window.Cal("modal", { calLink: calLink, calOrigin: calOrigin, config: calConfig });
+    return true;
+  }
+
+  /* Fired by the embed when the booking goes through. The cal.com webhook is
+     what actually cancels the emails; this only stops the page telling someone
+     who is already booked to go and book. */
+  function onBooked(){
+    if(booked) return;
+    booked = true;
+    doneH.innerHTML = 'You are booked. <span>The invite is on its way.</span>';
+    doneP.textContent = "It carries the call details and a link to move it if you need to.";
+    reopen.style.display = "none";
+    if(window.goatcounter && goatcounter.count) goatcounter.count({ path: "/demo#booked", title: "demo booking" });
+  }
+
+  reopen.addEventListener("click", function(e){
+    // only take the click when the embed is up; otherwise this stays a link
+    if(calUp && openCal()) e.preventDefault();
+  });
 
   /* The region field opens on "Select" and stays there until the reader answers
      it. It used to arrive preselected, from the browser timezone and then from
@@ -522,6 +621,11 @@
     if(!d.email || d.email.indexOf("@") < 1){ err.classList.add("on"); return; }
     // the API rejects anything under 2.5s after the form appeared
     d.t = Math.max(2600, Date.now() - loadedAt);
+    /* Tells the server the calendar is about to be on their screen, so it holds
+       the "here is my calendar" email back and lets the booking cancel it. Only
+       claimed when the embed is genuinely up: if it is not, this is an ordinary
+       enquiry and the email goes out at once, which is what carries the lead. */
+    if(calUp && calLink) d.booking = "modal";
 
     btn.disabled = true; btn.textContent = "Sending";
     withCaptcha(function(token){
@@ -532,13 +636,19 @@
         body: JSON.stringify(d)
       }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
         .then(function(){
+          calConfig = prefill(d, full);
+          // the same booking page with the same prefill, for the reopen link
+          // and for the readers whose embed never arrives
+          reopen.href = "/api/call?name=" + encodeURIComponent(full) + "&email=" + encodeURIComponent(d.email);
+          openCal();
           formview.style.display = "none";
           done.classList.add("on");
-          var h = document.getElementById("done-h"); if(h) h.focus({preventScroll:true});
+          doneH.focus({preventScroll:true});
+          if(window.goatcounter && goatcounter.count) goatcounter.count({ path: "/demo#sent", title: "demo lead" });
         })
         .catch(function(){
           err.classList.add("on");
-          btn.disabled = false; btn.textContent = "Book a demo";
+          btn.disabled = false; btn.textContent = "Find a time";
         });
     });
   });

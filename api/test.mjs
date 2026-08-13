@@ -47,6 +47,7 @@ globalThis.fetch = async (url, init = {}) => {
 
 const { POST: enquiry } = await import("./enquiry.mjs");
 const { GET: call } = await import("./call.mjs");
+const { GET: calEmbedRoute } = await import("./cal.mjs");
 const { GET: health } = await import("./health.mjs");
 const { POST: webhook } = await import("./webhooks/calcom.mjs");
 
@@ -138,12 +139,55 @@ console.log("Booking webhook:");
   ok((await ignored.json()).ignored === "BOOKING_CANCELLED", "other events acknowledged, not acted on");
 }
 
+console.log("Booking modal path (demo page):");
+{
+  const before = sent.length;
+  const res = await post(enquiry, {
+    email: "sam@northgate.example", first: "Sam", last: "Okafor",
+    region: "Europe", interests: ["Warm introductions", "Meeting prep"],
+    booking: "modal", source: "demo", t: 30000,
+  });
+  ok((await res.json()).mailed === true, "accepted and mailed");
+  const [notify, welcome, nudge] = sent.slice(before).filter((s) => s.path === "/emails").map((s) => s.body);
+  ok(typeof welcome.scheduled_at === "string" && new Date(welcome.scheduled_at) > new Date(),
+    "the welcome is held, not sent, when the page is opening the modal itself");
+  ok(kv.get("fein:welcome:sam@northgate.example") === `em_${sent.length - 1}`,
+    "held welcome id stored in redis so the booking can cancel it");
+  ok(typeof nudge.scheduled_at === "string" && new Date(nudge.scheduled_at) > new Date(welcome.scheduled_at),
+    "the nudge still sits behind the welcome");
+  ok(notify.text.includes("booking modal opened") && notify.text.includes("hear nothing else"),
+    "our notification says which funnel this lead is in");
+
+  // ...and booking in that modal takes both scheduled sends away
+  const payload = JSON.stringify({
+    triggerEvent: "BOOKING_CREATED",
+    payload: {
+      title: "fein intro", startTime: "2026-08-20T09:00:00Z",
+      attendees: [{ email: "sam@northgate.example", name: "Sam Okafor" }],
+    },
+  });
+  const mark = sent.length;
+  const hook = await post(webhook, payload, {
+    "x-cal-signature-256": createHmac("sha256", SECRET).update(payload).digest("hex"),
+  });
+  ok((await hook.json()).ok === true, "signed webhook accepted");
+  const cancels = sent.slice(mark).filter((s) => s.path.includes("/cancel")).map((s) => s.path);
+  ok(cancels.length === 2, `booking cancels both the held welcome and the nudge — got ${cancels.length}`);
+  ok(!kv.has("fein:welcome:sam@northgate.example") && !kv.has("fein:nudge:sam@northgate.example"),
+    "both keys deleted");
+  ok(sent.slice(mark).every((s) => s.path.includes("/cancel") || s.body?.subject?.startsWith("fein call booked")),
+    "someone who books in the modal is never written to about booking");
+}
+
 console.log("Call redirect + health:");
 {
   const res = await call(new Request("https://fein.vc/api/call?name=Priya%20Nair&email=priya@meridianwealth.example"));
   ok(res.status === 302 && res.headers.get("location").startsWith("https://cal.com/daniel/fein-intro"),
     "302s to the booking page");
   ok(res.headers.get("location").includes("email=priya"), "redirect prefills the email");
+  const embed = await (await calEmbedRoute()).json();
+  ok(embed.origin === "https://cal.com" && embed.link === "daniel/fein-intro",
+    "/api/cal splits CAL_LINK the way the embed wants it");
   const h = await (await health(new Request("https://fein.vc/api/health"))).json();
   ok(h.ok === true && h.missingConfig.length === 0, "health reports full config");
 }

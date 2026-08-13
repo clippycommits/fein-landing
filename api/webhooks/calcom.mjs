@@ -23,16 +23,24 @@ export async function POST(request) {
   const when = p.startTime ?? "";
   await logEvent({ type: "booked", email, name: attendee.name, startTime: when, title: p.title });
 
-  // Booking makes the nudge redundant: cancel the scheduled send.
-  try {
-    const nudgeId = await redis("GET", `fein:nudge:${email}`);
-    if (nudgeId) {
-      await resend(`/emails/${nudgeId}/cancel`, {});
-      await redis("DEL", `fein:nudge:${email}`);
-      await logEvent({ type: "followup-cancelled", email, emailId: nudgeId });
+  // Booking makes both scheduled sends redundant: the nudge, and the welcome
+  // held back for the leads who were handed the modal (see _lib.mjs). Cancel
+  // whichever are still pending, so booking in the modal means we never write
+  // to them about booking at all.
+  for (const [key, kind] of [
+    [`fein:welcome:${email}`, "welcome-cancelled"],
+    [`fein:nudge:${email}`, "followup-cancelled"],
+  ]) {
+    try {
+      const id = await redis("GET", key);
+      if (id) {
+        await resend(`/emails/${id}/cancel`, {});
+        await redis("DEL", key);
+        await logEvent({ type: kind, email, emailId: id });
+      }
+    } catch (err) {
+      console.error(`cancel ${key} failed:`, err.message); // worst case: one extra email
     }
-  } catch (err) {
-    console.error("cancel failed:", err.message); // worst case: one extra email
   }
   if (cfg("RESEND_API_KEY") && cfg("NOTIFY_TO")) {
     try {

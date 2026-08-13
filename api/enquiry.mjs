@@ -1,4 +1,4 @@
-import { cfg, json, resend, redis, logEvent, welcomeEmail, followupEmail, notifyEmail } from "./_lib.mjs";
+import { cfg, json, resend, redis, logEvent, welcomeEmail, followupEmail, notifyEmail, WELCOME_HOLD_MINUTES } from "./_lib.mjs";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const str = (v, max = 300) => (v == null ? null : String(v).slice(0, max).trim() || null);
@@ -70,15 +70,25 @@ export async function POST(request) {
       ? (lead.interests.slice(0, 12).map((v) => str(v, 60)).filter(Boolean).join(", ") || null)
       : null,
   };
-  await logEvent({ type: "enquiry", ...clean });
+  // `booking: "modal"` is the demo page saying it has the cal.com embed loaded
+  // and is opening it over this response. Then the welcome waits a few minutes
+  // (and the booking webhook cancels it), so a lead who books in the modal is
+  // never written to about booking. Any client that does not say this, including
+  // a demo page whose embed was blocked, gets the immediate send as before.
+  const hold = lead.booking === "modal";
+  await logEvent({ type: "enquiry", ...clean, booking: hold ? "modal" : null });
 
   if (!cfg("RESEND_API_KEY")) {
     console.error("enquiry received but RESEND_API_KEY is missing; no emails sent");
     return json({ ok: true, mailed: false });
   }
   try {
-    await resend("/emails", notifyEmail(clean));
-    await resend("/emails", welcomeEmail(clean));
+    await resend("/emails", notifyEmail(clean, { hold }));
+    const welcome = await resend("/emails", welcomeEmail(clean, { hold }));
+    if (hold && welcome.id) {
+      await redis("SET", `fein:welcome:${email}`, welcome.id, "EX", "604800");
+      await logEvent({ type: "welcome-held", email, emailId: welcome.id, minutes: WELCOME_HOLD_MINUTES });
+    }
     const nudge = await resend("/emails", followupEmail(clean));
     if (nudge.id) {
       // 7-day TTL: the nudge fires at +72h, so stale keys clean themselves up.

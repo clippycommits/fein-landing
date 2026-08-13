@@ -7,6 +7,14 @@
  * cancels the nudge. The email -> nudge-id mapping lives in Upstash Redis
  * because functions keep no disk; everything else is stateless.
  *
+ * (2) has one exception. The demo page opens the cal.com booking modal on
+ * top of itself the moment the enquiry is accepted, so for that client the
+ * welcome is scheduled +WELCOME_HOLD_MINUTES instead of sent, and the same
+ * webhook cancels it. Someone who books in the modal therefore hears from
+ * cal.com and nobody else; only the people who filled the form in and did
+ * not book get written to. Clients that say nothing (the pe page, or a demo
+ * page whose embed never loaded) keep the immediate send.
+ *
  * Env (Vercel project settings):
  *   RESEND_API_KEY            sending
  *   CAL_LINK                  booking page the "calendar" links point at,
@@ -26,6 +34,9 @@ export const REQUIRED = ["RESEND_API_KEY", "CAL_LINK", "CALCOM_WEBHOOK_SECRET", 
 export const missingConfig = () => REQUIRED.filter((k) => !cfg(k));
 
 export const FOLLOWUP_HOURS = Number(cfg("FOLLOWUP_HOURS") ?? 72);
+// Long enough that it never lands while they are still picking a time in the
+// modal, short enough to still read as a reply to what they just did.
+export const WELCOME_HOLD_MINUTES = Number(cfg("WELCOME_HOLD_MINUTES") ?? 15);
 
 export const json = (obj, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
@@ -91,6 +102,14 @@ export function callUrl(lead) {
   return u.toString();
 }
 
+// The same CAL_LINK split the way the cal.com embed wants it: an origin to
+// frame and the path under it. Served to the page by /api/cal so the booking
+// modal moves with the env var too, and no page ever hardcodes the calendar.
+export function calEmbed() {
+  const u = new URL(cfg("CAL_LINK") ?? "https://cal.com");
+  return { origin: u.origin, link: u.pathname.replace(/^\/+|\/+$/g, "") };
+}
+
 // The grey Gmail-style signature. The address line only appears once
 // POSTAL_ADDRESS is set; never invent one.
 function signatureHtml(url) {
@@ -103,7 +122,10 @@ function signatureText(url) {
   return `Olivia Greene\nNew Business @ fein | Book a meeting: ${url}${addr ? `\n${addr}` : ""}`;
 }
 
-export function welcomeEmail(lead) {
+// `hold` schedules this instead of sending it, for the client that is about to
+// put the calendar on the screen itself. The copy does not change: someone who
+// closed the modal without booking has not read a word of this yet.
+export function welcomeEmail(lead, { hold = false } = {}) {
   const url = callUrl(lead);
   const hi = `Hi ${lead.first || "there"},`;
   const p = 'style="margin:0 0 16px"';
@@ -111,6 +133,7 @@ export function welcomeEmail(lead) {
     from: salesFrom(),
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
+    ...(hold ? { scheduled_at: new Date(Date.now() + WELCOME_HOLD_MINUTES * 60_000).toISOString() } : {}),
     subject: "your interest in fein",
     text: `${hi}\n\nThanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.\n\nDo you have any availability in the coming days? I've opened up Daniel's calendar, so please feel free to grab whichever time suits you best: ${url}\n\nHe'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.\n\nSpeak soon,\nOlivia\n\n\n${signatureText(url)}`,
     html: `<div dir="ltr" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222222"><p ${p}>${esc(hi)}</p><p ${p}>Thanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.</p><p ${p}>Do you have any availability in the coming days? I've opened up Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, so please feel free to grab whichever time suits you best.</p><p ${p}>He'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.</p><p style="margin:0">Speak soon,<br>Olivia</p>${signatureHtml(url)}</div>`,
@@ -129,7 +152,7 @@ export function followupEmail(lead) {
   };
 }
 
-export function notifyEmail(lead) {
+export function notifyEmail(lead, { hold = false } = {}) {
   const rows = [
     ["Name", `${lead.first ?? ""} ${lead.last ?? ""}`], ["Email", lead.email],
     ["Firm", lead.fund], ["Website", lead.site], ["Region", lead.region],
@@ -141,6 +164,8 @@ export function notifyEmail(lead) {
     to: [cfg("NOTIFY_TO")],
     reply_to: lead.email, // hit reply to talk to the lead directly
     subject: `fein lead: ${lead.fund || lead.email}${lead.size ? ` (${lead.size})` : ""}`,
-    text: `New enquiry from the site.\n\n${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nThey got the booking link straight away; a nudge goes out in ${FOLLOWUP_HOURS} hours unless they book first.`,
+    text: `New enquiry from the site.\n\n${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\n${hold
+      ? `The booking modal opened in front of them. If they book, cal.com tells you and they hear nothing else from us. If they do not, the booking link reaches them in ${WELCOME_HOLD_MINUTES} minutes and a nudge in ${FOLLOWUP_HOURS} hours.`
+      : `They got the booking link straight away; a nudge goes out in ${FOLLOWUP_HOURS} hours unless they book first.`}`,
   };
 }
