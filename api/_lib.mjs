@@ -225,7 +225,7 @@ export function welcomeEmail(lead, { hold = false } = {}) {
   const hi = `Hi ${lead.first || "there"},`;
   const want = interestPhrase(lead.interests);
   const opening = "Thanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.";
-  const started = want ? `You mentioned ${want}, so he'll make sure to cover those.` : null;
+  const started = want ? `You mentioned ${want}, so I've let Daniel know and he'll make sure to cover those.` : null;
   const closing = "He'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.";
   return {
     from: salesFrom(),
@@ -265,7 +265,7 @@ export function followupEmail(lead) {
       `Hi ${lead.first || "there"},`,
       `You asked about fein a few days ago and we have not spoken yet. No rush at all, but if it is still on your mind, Daniel, our founder, would be glad to say hello: ${url}`,
       want ? `Twenty minutes is all it takes, and he'll happily show you ${want} running on a fund's real history.` : null,
-      "And if the timing is simply wrong, just reply with a week that suits you and we'll come back to you then.",
+      "And if the timing is simply wrong, just reply with a week that suits you and I'll come back to you then.",
       "Speak soon,\nOlivia",
     ].filter(Boolean).join("\n\n"),
     scheduled_at: new Date(Date.now() + FOLLOWUP_HOURS * 3600_000).toISOString(),
@@ -282,11 +282,11 @@ export function bookingEmail(lead, { when = null } = {}) {
   const hi = `Hi ${lead.first || "there"},`;
   const want = interestPhrase(lead.interests);
   const booked = when
-    ? `That's you booked in with Daniel for ${when}. The invite has the joining link in it, and a link to move the call if your day changes.`
-    : "That's you booked in with Daniel. The invite has the joining link in it, and a link to move the call if your day changes.";
-  const shape = "He'll spend the twenty minutes showing you fein answering a real question from a fund's own history, so you can see for yourself whether it fits the stack your team is already running.";
+    ? `Lovely, that's you booked in with Daniel for ${when}. The invite has the joining link in it, and a link to move the call if your day changes.`
+    : "Lovely, that's you booked in with Daniel. The invite has the joining link in it, and a link to move the call if your day changes.";
+  const shape = "He'll spend the twenty minutes showing you fein answering a real question from a fund's own history, so you can see for yourself whether it fits the stack your team is already running. He's looking forward to it.";
   const started = want ? `You mentioned ${want}, so that's where he'll start.` : null;
-  const ask = "One thing would help him make it worth your while: if there's a question you'd want fein to answer, just reply here with it and he'll have it ready for you.";
+  const ask = "And if there's a question you'd want fein to answer, do send it over and he'll have it ready for you. Anything else you need before then, just let me know.";
   return {
     from: salesFrom(),
     to: [lead.email],
@@ -317,7 +317,7 @@ export function cancelledEmail(lead, { when = null } = {}) {
   const off = when
     ? `No problem at all about ${when} coming off the calendar, these things happen.`
     : "No problem at all about the call coming off the calendar, these things happen.";
-  const back = "And if it's easier to tell me what you're after over email first, just reply here.";
+  const back = "And if it's easier to tell me what you're after over email first, just reply here and I'll help however I can.";
   return {
     from: salesFrom(),
     to: [lead.email],
