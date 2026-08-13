@@ -312,7 +312,7 @@
               </div>
             </fieldset>
             <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-            <button class="submit" type="submit" id="submit">Find a time</button>
+            <button class="submit" type="submit" id="submit">Select a time that suits you</button>
             <!-- one line, not three. Google's full notice is only required when
                  the reCAPTCHA badge is hidden; the badge shows by default and
                  the key here is empty, so the short form covers this. Put the
@@ -333,8 +333,8 @@
              click over when the embed is actually up. -->
         <div class="done" id="done">
           <h2 tabindex="-1" id="done-h">Your details are with us. <span>Now pick a time.</span></h2>
-          <p id="done-p">Twenty minutes with Daniel, our founder. Take whichever slot suits from his calendar.</p>
-          <a class="submit" id="reopen" href="/api/call">Find a time</a>
+          <p id="done-p">Twenty minutes with Daniel, our founder.</p>
+          <a class="submit" id="reopen" href="/api/call">Select a time that suits you</a>
           <p class="aside">Something urgent? Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
         </div>
 
@@ -648,7 +648,7 @@
         })
         .catch(function(){
           err.classList.add("on");
-          btn.disabled = false; btn.textContent = "Find a time";
+          btn.disabled = false; btn.textContent = "Select a time that suits you";
         });
     });
   });
