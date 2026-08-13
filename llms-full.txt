@@ -140,6 +140,6 @@ It connects to Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Gra
 
 ## Contact
 
-- [Talk to sales](https://fein.vc/#get-started): the form on the site, two short calls to go live
+- [Get a demo](https://fein.vc/demo): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 - [Get the repo](https://github.com/clippycommits/fein): the source on GitHub, MIT licensed, free to self-host

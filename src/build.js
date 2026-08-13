@@ -194,7 +194,7 @@ const ld = {
       isPartOf: { "@id": SITE + "/#webpage" },
       about: { "@id": SITE + "/#app" }
     },
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the shared memory of a venture capital team", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: ["https://github.com/clippycommits/fein"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/#get-started" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the shared memory of a venture capital team", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: ["https://github.com/clippycommits/fein"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, video: { "@id": SITE + "/#demo-film" }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -375,6 +375,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image><video:video><video:thumbnail_loc>${SITE}/video/fein-demo-poster.jpg</video:thumbnail_loc><video:title>${VIDEO_NAME}</video:title><video:description>${VIDEO_DESC}</video:description><video:content_loc>${SITE}/video/fein-demo-1440.mp4</video:content_loc><video:duration>26</video:duration><video:publication_date>${VIDEO_UPLOADED}</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video></url>
   <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/demo</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>${SITE}/privacy</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>${SITE}/terms</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
@@ -398,7 +399,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // cold outbound points at, so unlike /privacy and /terms they carry the
 // analytics block: the whole point is knowing which sends convert. Their form
 // posts to the same /api/enquiry endpoint the modal on the index page uses. ----
-["pe"].forEach(function (slug) {
+["pe", "demo"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__GEIST_SANS_B64__").join(sansB64)
     .split("__INTER_B64__").join(interB64)
@@ -462,7 +463,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - Every ingest, merge, and review decision is written to an append only audit trail, with the person or agent that made it.
 
 ## Contact
-- [Get started](${SITE}/#get-started): talk to sales about a 14 day build
+- [Get a demo](${SITE}/demo): talk to sales about a 14 day build
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
@@ -594,7 +595,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 ## Contact
 
-- [Talk to sales](${SITE}/#get-started): the form on the site, two short calls to go live
+- [Get a demo](${SITE}/demo): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 - [Get the repo](https://github.com/clippycommits/fein): the source on GitHub, MIT licensed, free to self-host
 `);

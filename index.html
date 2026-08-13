@@ -1208,14 +1208,24 @@
      goes behind it rather than over it: the funnel has to actually swallow
      something for the direction to read. Box and type size come from the loop,
      which measures them off the band the funnel is running in */
-  .dcore{position:absolute;left:0;top:0;width:var(--cw,144px);height:var(--ch,166px);display:grid;place-items:center;transform:translate3d(var(--cx,0),var(--cy,0),0);will-change:transform;pointer-events:none;filter:drop-shadow(0 0 22px rgba(0,112,243,.28))}
+  .dcore{position:absolute;left:0;top:0;width:var(--cw,144px);height:var(--ch,166px);display:grid;place-items:center;transform:translate3d(var(--cx,0),var(--cy,0),0);will-change:transform;pointer-events:none;filter:drop-shadow(0 0 26px rgba(206,216,233,.07))}
   .dcore svg{position:absolute;inset:0;width:100%;height:100%}
-  .dcore .hexb{fill:rgba(7,8,11,.96);stroke:rgba(82,168,255,.5);stroke-width:1;vector-effect:non-scaling-stroke}
+  /* the throat is a panel like every other object on the page: the ground's own
+     black, held by the same hairline the cards are held by. It was a blue
+     outline under a blue drop shadow, which is a colour this page spends on a
+     digit and a caret and nowhere at this size */
+  .dcore .hexb{fill:rgba(8,9,10,.97);stroke:rgba(255,255,255,.18);stroke-width:1;vector-effect:non-scaling-stroke}
   .dcore b{position:relative;font-size:var(--cf,25px);font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1}
   /* the field is masked away from the copy on the stacked layout, where the
      flow runs in a band above the words instead of through them */
   .stage.stacked .dscene canvas,.stage.stacked .dfield{-webkit-mask-image:linear-gradient(180deg,#000 var(--fade-a,70%),transparent var(--fade-b,88%));mask-image:linear-gradient(180deg,#000 var(--fade-a,70%),transparent var(--fade-b,88%))}
-  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr auto;min-height:max(780px,min(100svh,1100px));gap:clamp(1.6rem,3vh,2.6rem);width:min(1560px,100% - clamp(2.5rem,7vw,7rem));margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) 0 clamp(2rem,5vh,3.4rem)}
+  /* the field is full bleed, the copy in it is not: the labels and the three
+     steps sit on --maxw with .wrap's own gutters, so this section's left and
+     right edges are the page's edges. It ran to 1560 before, which put the
+     three steps a good deal wider than the figure row directly above them and
+     the numbered blocks directly below, and made the band read as a page of its
+     own laid over the one it is in */
+  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr auto;min-height:max(780px,min(100svh,1100px));gap:clamp(1.6rem,3vh,2.6rem);width:min(var(--maxw),100%);margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) var(--bar-pad) clamp(2rem,5vh,3.4rem)}
   /* the labels ride the same three columns as the steps: a zone's name at the
      top of the stage and its step at the bottom sit on one vertical. Each one
      is also set over its own end of the funnel, which is why the middle is
@@ -1272,7 +1282,7 @@
      belongs to the raw end of the funnel and nothing that has been through the
      middle should still be wearing it: the size and the weight carry the
      hierarchy here, not the typeface */
-  .dfin{height:27px;padding:0 11px;background:rgba(0,112,243,.055);border:1px solid rgba(82,168,255,.17);border-radius:8px;font-family:var(--font);font-size:11.5px;font-weight:450;letter-spacing:-.005em;line-height:1;color:#aab6c6;white-space:nowrap}
+  .dfin{height:27px;padding:0 11px;background:rgba(255,255,255,.028);border:1px solid var(--line-2);border-radius:8px;font-family:var(--font);font-size:11.5px;font-weight:450;letter-spacing:-.005em;line-height:1;color:#aab6c6;white-space:nowrap}
 
   /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon.
      The canvas owns the whole section, so the fan runs off every edge instead of
@@ -2056,7 +2066,7 @@
     #burst{animation:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoObject","@id":"https://fein.vc/#demo-film","name":"fein in twenty-six seconds","description":"A short walkthrough of fein: a partner asks who the warmest path into a company is and what the firm said when it passed, and fein answers with citations from seven documents across four sources, then shows the memory behind the answer and the eight systems it reads.","contentUrl":"https://fein.vc/video/fein-demo-1440.mp4","thumbnailUrl":["https://fein.vc/video/fein-demo-poster.jpg"],"uploadDate":"2026-08-11","duration":"PT26S","width":2560,"height":1440,"encodingFormat":"video/mp4","inLanguage":"en","isFamilyFriendly":true,"transcript":"Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base.","caption":{"@type":"MediaObject","contentUrl":"https://fein.vc/video/fein-demo.en.vtt","encodingFormat":"text/vtt","inLanguage":"en"},"embedUrl":"https://fein.vc/#memory","publisher":{"@id":"https://fein.vc/#org"},"isPartOf":{"@id":"https://fein.vc/#webpage"},"about":{"@id":"https://fein.vc/#app"}},{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","alternateName":"Fein","url":"https://fein.vc/","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","slogan":"the shared memory of a venture capital team","email":"sales@fein.vc","logo":"https://fein.vc/icon-512.png","image":"https://fein.vc/og.png","sameAs":["https://github.com/clippycommits/fein"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"sales@fein.vc","url":"https://fein.vc/#get-started"}},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein · the shared memory of a venture capital team","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"mainEntity":{"@id":"https://fein.vc/#app"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"video":{"@id":"https://fein.vc/#demo-film"},"datePublished":"2026-08-07","dateModified":"2026-08-12","inLanguage":"en"},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","alternateName":"Fein","applicationCategory":"BusinessApplication","applicationSubCategory":"Relationship intelligence","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"featureList":["Warm introduction paths: the weighted shortest path to a founder, an LP, or an operator, and the best person to make the introduction","Meeting briefs: the attendees, how you know each of them, and what was open, from your calendar and inbox, before the meeting starts","Deal memory: every company you saw, the memo, and the exact reason you passed, with each line traced to its source document","Cadence alerts: relationships that drift from their learned rhythm, flagged before they go cold","Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals, not an LLM guess","One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"],"audience":{"@type":"Audience","audienceType":"Venture capital teams"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoObject","@id":"https://fein.vc/#demo-film","name":"fein in twenty-six seconds","description":"A short walkthrough of fein: a partner asks who the warmest path into a company is and what the firm said when it passed, and fein answers with citations from seven documents across four sources, then shows the memory behind the answer and the eight systems it reads.","contentUrl":"https://fein.vc/video/fein-demo-1440.mp4","thumbnailUrl":["https://fein.vc/video/fein-demo-poster.jpg"],"uploadDate":"2026-08-11","duration":"PT26S","width":2560,"height":1440,"encodingFormat":"video/mp4","inLanguage":"en","isFamilyFriendly":true,"transcript":"Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base.","caption":{"@type":"MediaObject","contentUrl":"https://fein.vc/video/fein-demo.en.vtt","encodingFormat":"text/vtt","inLanguage":"en"},"embedUrl":"https://fein.vc/#memory","publisher":{"@id":"https://fein.vc/#org"},"isPartOf":{"@id":"https://fein.vc/#webpage"},"about":{"@id":"https://fein.vc/#app"}},{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","alternateName":"Fein","url":"https://fein.vc/","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","slogan":"the shared memory of a venture capital team","email":"sales@fein.vc","logo":"https://fein.vc/icon-512.png","image":"https://fein.vc/og.png","sameAs":["https://github.com/clippycommits/fein"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"sales@fein.vc","url":"https://fein.vc/demo"}},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"WebPage","@id":"https://fein.vc/#webpage","url":"https://fein.vc/","name":"fein · the shared memory of a venture capital team","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"mainEntity":{"@id":"https://fein.vc/#app"},"primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"video":{"@id":"https://fein.vc/#demo-film"},"datePublished":"2026-08-07","dateModified":"2026-08-12","inLanguage":"en"},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","alternateName":"Fein","applicationCategory":"BusinessApplication","applicationSubCategory":"Relationship intelligence","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.","url":"https://fein.vc/","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"featureList":["Warm introduction paths: the weighted shortest path to a founder, an LP, or an operator, and the best person to make the introduction","Meeting briefs: the attendees, how you know each of them, and what was open, from your calendar and inbox, before the meeting starts","Deal memory: every company you saw, the memo, and the exact reason you passed, with each line traced to its source document","Cadence alerts: relationships that drift from their learned rhythm, flagged before they go cold","Entity resolution: every duplicate contact across your tools resolved to one identity, scored from real signals, not an LLM guess","One MCP endpoint: the same cited answer in Claude, ChatGPT, Gemini, and Cursor, from structured graph traversal, not document scraping"],"audience":{"@type":"Audience","audienceType":"Venture capital teams"}}]}</script>
 </head>
 <body>
 
@@ -2121,7 +2131,7 @@ setTimeout(go,1200);})()</script>
         </nav>
         <div class="right">
           <a class="sbtn sbtn-sec" href="#">Sign in</a>
-          <a class="sbtn sbtn-pri" href="#get-started">Book a demo</a>
+          <a class="sbtn sbtn-pri" href="/demo">Get a demo</a>
           <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7H20"/><path d="M4 12H20"/><path d="M4 17H20"/></svg>
             <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg>
@@ -2158,7 +2168,7 @@ setTimeout(go,1200);})()</script>
             <p class="dd-label">Get started</p>
             <a href="#stance">fein 101</a>
             <a href="#how">See how it works</a>
-            <a href="#get-started">Book a demo</a>
+            <a href="/demo">Get a demo</a>
           </div>
         </div>
         <div class="ddpanel ddp-resources" id="dd-resources">
@@ -2198,7 +2208,7 @@ setTimeout(go,1200);})()</script>
         <a href="/pe">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="#">Sign in</a>
-        <a href="#get-started">Book a demo</a>
+        <a href="/demo">Get a demo</a>
       </nav>
     </header>
     </div>
@@ -2217,7 +2227,7 @@ setTimeout(go,1200);})()</script>
            engine quotes back. -->
       <p>Built with privacy at its core, fein is an open source context graph that transforms your fund's raw data into intelligent, searchable memory for agents and humans.<span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg> and CLI.</span></p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#get-started">Book a demo</a>
+        <a class="btn btn-primary" href="/demo">Get a demo</a>
         <!-- the second action is the repository again, as it was before it pointed
              at the app: the fold says open source, and this is the only place a
              reader can act on that. "View on GitHub" is what the button is called
@@ -2982,7 +2992,7 @@ setTimeout(go,1200);})()</script>
         <h2>It sits on top of the systems you run today.</h2>
         <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.</p>
         <div class="sec-cta">
-          <a class="arrowlink" href="#get-started">Ask about your stack <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          <a class="arrowlink" href="/demo">Ask about your stack <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
       <ul class="stack-list" data-reveal-group="70">
@@ -3042,7 +3052,7 @@ setTimeout(go,1200);})()</script>
         <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
         <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
         <div class="hero-actions">
-          <a class="btn btn-white" href="#get-started">Book a demo</a>
+          <a class="btn btn-white" href="/demo">Get a demo</a>
           <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
@@ -3092,7 +3102,7 @@ setTimeout(go,1200);})()</script>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>
-          <a href="#get-started">Book a demo</a>
+          <a href="/demo">Get a demo</a>
           <a href="mailto:sales@fein.vc">sales@fein.vc</a>
         </nav>
       </div>
@@ -3101,307 +3111,8 @@ setTimeout(go,1200);})()</script>
   </footer>
 </main>
 
-<dialog class="cmodal" id="contact-modal" aria-label="Book a demo">
-  <div class="cmodal-inner">
-    <button type="button" class="cmodal-x" id="cmodal-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg></button>
-      <div class="cbody" id="lead-view">
-        <h2 id="cm-title" tabindex="-1">Almost done.</h2>
-        <p class="csub">We need a few more details.</p>
-        <form id="lead-form" novalidate>
-          <div class="form-row">
-            <div class="field" id="f-fn"><label for="fn">First name</label><input id="fn" name="fn" autocomplete="given-name" placeholder="First" required aria-describedby="fn-err"><p class="err" id="fn-err">Enter your first name.</p></div>
-            <div class="field" id="f-ln"><label for="ln">Last name</label><input id="ln" name="ln" autocomplete="family-name" placeholder="Last" required aria-describedby="ln-err"><p class="err" id="ln-err">Enter your last name.</p></div>
-          </div>
-          <div class="field" id="f-em"><label for="em">Company email</label><input id="em" name="em" type="email" autocomplete="email" placeholder="Your work email" required aria-describedby="em-err"><p class="err" id="em-err">Enter a valid work email, like you@firm.com.</p></div>
-          <div class="field" id="f-ph"><label for="ph">Phone number (optional)</label><input id="ph" name="ph" type="tel" autocomplete="tel" placeholder="Your phone number"></div>
-          <div class="form-row">
-            <div class="field" id="f-region"><label for="region">Region</label>
-              <select id="region" name="region" required aria-describedby="region-err">
-                <option value="" selected disabled>Select</option>
-                <option>North America</option><option>Europe</option><option>Rest of World</option>
-              </select>
-              <p class="err" id="region-err">Select a region.</p>
-            </div>
-            <div class="field" id="f-users"><label for="users">Number of users</label>
-              <select id="users" name="users" required aria-describedby="users-err">
-                <option value="" selected disabled>Select</option>
-                <option>1-10</option><option>11-50</option><option>51-200</option><option>201-1000</option><option>1000+</option>
-              </select>
-              <p class="err" id="users-err">Select a range.</p>
-            </div>
-          </div>
-          <div class="field" id="f-det"><label for="det">Details</label><textarea id="det" name="det" placeholder="Describe your needs and questions"></textarea></div>
-          <input type="text" name="website" id="hp-web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
-          <div class="form-err" id="send-err" role="alert">An error occurred on our side. Email <a id="mailto-fb" href="mailto:sales@fein.vc">sales@fein.vc</a> instead. Your details are in the draft.</div>
-          <button type="submit" class="btn btn-primary submit" id="send-btn">Submit</button>
-          <p class="clegal">By submitting, you agree to fein's <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/terms" target="_blank" rel="noopener">Terms of Service</a>.</p>
-          <p class="recap">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
-        </form>
-      </div>
-
-      <section class="cbody" id="lead-done" hidden aria-labelledby="wh-3">
-        <div class="success">
-          <svg class="aicon" viewBox="0 0 156 152" aria-hidden="true">
-            <circle class="ring" cx="80" cy="96" r="50"/>
-            <path class="face" d="M6 84 L58 132 L58 148 L6 100 Z"/>
-            <path class="face" d="M58 132 L150 29 L150 45 L58 148 Z"/>
-            <path class="face" d="M22 64 L58 98 L134 14 L150 29 L58 132 L6 84 Z"/>
-          </svg>
-          <h2 id="wh-3" tabindex="-1">We will contact you soon.</h2>
-          <p>Our team will contact you soon. If you have questions, email us at <a id="mailto-fast" href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
-        </div>
-      </section>
-  </div>
-</dialog>
-
 <script>
 (function(){
-  /* contact modal rides the #get-started hash so every CTA and deep link opens it */
-  var cmodal=document.getElementById("contact-modal");
-  /* paste a reCAPTCHA v3 site key to arm captcha (server needs RECAPTCHA_SECRET
-     in Vercel). Empty key = honeypot + time gate + rate limit only. */
-  var RECAPTCHA_KEY="";
-  var modalOpenedAt=0,recapLoaded=false;
-  function loadRecaptcha(){
-    if(!RECAPTCHA_KEY||recapLoaded)return;recapLoaded=true;
-    var s=document.createElement("script");s.src="https://www.google.com/recaptcha/api.js?render="+encodeURIComponent(RECAPTCHA_KEY);s.async=true;document.head.appendChild(s);
-  }
-  function route(){
-    var isStart=location.hash==="#get-started";
-    if(isStart&&!cmodal.open){
-      modalOpenedAt=Date.now();loadRecaptcha();
-      cmodal.showModal();
-      var inner=cmodal.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
-      var h=cmodal.querySelector(".cbody:not([hidden]) h2");if(h)h.focus({preventScroll:true});
-    }else if(!isStart&&cmodal.open){cmodal.close();}
-  }
-  window.addEventListener("hashchange",route);route();
-  document.getElementById("cmodal-close").addEventListener("click",function(){cmodal.close();});
-  cmodal.addEventListener("click",function(e){if(e.target===cmodal)cmodal.close();});
-  /* Esc, X, and backdrop all land here; drop the hash without scrolling the page */
-  cmodal.addEventListener("close",function(){
-    if(location.hash==="#get-started")history.replaceState("","",location.pathname+location.search);
-  });
-  /* contact-sales form: one screen, everything on it */
-  (function(){
-    var view=document.getElementById("lead-view"),done=document.getElementById("lead-done");
-    if(!view||!done)return;
-    var lead={},sent=false,partialSent=false;
-    /* lead functions first (same origin on Vercel, sends the booking funnel);
-       formsubmit.co is the fallback inbox relay, base64 to keep the address
-       off scrapers */
-    var API="/api";
-    var ENDPOINT="https://formsubmit.co/ajax/"+atob("ZGFuaWVsQGZlaW4udmM=");
-    var fn=document.getElementById("fn"),ln=document.getElementById("ln"),
-        em=document.getElementById("em"),ph=document.getElementById("ph"),
-        region=document.getElementById("region"),users=document.getElementById("users"),
-        det=document.getElementById("det");
-    var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    function bad(id,is){
-      var f=document.getElementById(id);if(!f)return;
-      f.classList.toggle("invalid",is);
-      var inp=f.querySelector("input,select,textarea"),sb=f.querySelector(".sel-btn");
-      if(inp)inp.setAttribute("aria-invalid",is?"true":"false");
-      if(sb)sb.setAttribute("aria-invalid",is?"true":"false");
-    }
-    /* ---- custom listbox over each native select ----
-       the <select> keeps the value and keeps firing `change`, so everything
-       above and below this block reads it exactly as before. */
-    var openSel=null;
-    function enhanceSelect(sel){
-      var opts=[].slice.call(sel.options),ph=opts[0]&&opts[0].disabled?opts[0].textContent:"Select",
-          items=opts.filter(function(o){return !o.disabled}),
-          label=sel.closest(".field").querySelector("label"),active=-1;
-      var wrap=document.createElement("div");wrap.className="sel";
-      sel.parentNode.insertBefore(wrap,sel);wrap.appendChild(sel);
-      sel.classList.add("sel-native");sel.tabIndex=-1;sel.setAttribute("aria-hidden","true");
-      var btn=document.createElement("button");
-      btn.type="button";btn.className="sel-btn empty";btn.id=sel.id+"-btn";
-      btn.setAttribute("role","combobox");btn.setAttribute("aria-haspopup","listbox");
-      btn.setAttribute("aria-expanded","false");btn.setAttribute("aria-controls",sel.id+"-list");
-      if(sel.getAttribute("aria-describedby"))btn.setAttribute("aria-describedby",sel.getAttribute("aria-describedby"));
-      btn.innerHTML='<span class="sel-val">'+ph+'</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
-      var val=btn.querySelector(".sel-val");
-      var list=document.createElement("ul");
-      list.className="sel-list";list.id=sel.id+"-list";list.hidden=true;
-      list.setAttribute("role","listbox");if(label)list.setAttribute("aria-label",label.textContent);
-      items.forEach(function(o,i){
-        var li=document.createElement("li");
-        li.className="sel-opt";li.id=sel.id+"-opt-"+i;li.setAttribute("role","option");
-        li.setAttribute("aria-selected","false");li.dataset.value=o.value||o.textContent;
-        li.innerHTML='<span>'+o.textContent+'</span><svg class="tickm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>';
-        list.appendChild(li);
-      });
-      wrap.appendChild(btn);wrap.appendChild(list);
-      if(label)label.setAttribute("for",btn.id);
-      /* validation elsewhere calls select.focus(); send that to the visible control */
-      sel.focus=function(){btn.focus();};
-      function mark(i){
-        active=i;
-        [].forEach.call(list.children,function(li,n){li.dataset.active=n===i?"true":"false";});
-        if(i>-1){btn.setAttribute("aria-activedescendant",list.children[i].id);
-          list.children[i].scrollIntoView({block:"nearest"});}
-        else btn.removeAttribute("aria-activedescendant");
-      }
-      function open(){
-        if(!list.hidden)return;
-        if(openSel&&openSel!==close)openSel();
-        list.hidden=false;btn.setAttribute("aria-expanded","true");openSel=close;
-        /* flip up when the panel would run past the bottom of the window */
-        var r=btn.getBoundingClientRect();
-        list.classList.toggle("up",window.innerHeight-r.bottom<240&&r.top>window.innerHeight-r.bottom);
-        mark(items.findIndex(function(o){return (o.value||o.textContent)===sel.value;}));
-      }
-      function close(back){
-        if(list.hidden)return;
-        list.hidden=true;list.classList.remove("up");
-        btn.setAttribute("aria-expanded","false");btn.removeAttribute("aria-activedescendant");
-        if(openSel===close)openSel=null;
-        if(back)btn.focus();
-      }
-      function pick(i){
-        var li=list.children[i];if(!li)return;
-        sel.value=li.dataset.value;
-        [].forEach.call(list.children,function(o,n){o.setAttribute("aria-selected",n===i?"true":"false");});
-        val.textContent=li.firstChild.textContent;btn.classList.remove("empty");
-        sel.dispatchEvent(new Event("change",{bubbles:true}));
-        close(true);
-      }
-      btn.addEventListener("click",function(){list.hidden?open():close();});
-      btn.addEventListener("keydown",function(e){
-        var k=e.key;
-        if(k==="ArrowDown"||k==="ArrowUp"||k==="Enter"||k===" "){
-          if(list.hidden){e.preventDefault();open();return;}
-        }
-        if(list.hidden)return;
-        if(k==="ArrowDown"){e.preventDefault();mark(Math.min(active+1,items.length-1));}
-        else if(k==="ArrowUp"){e.preventDefault();mark(Math.max(active-1,0));}
-        else if(k==="Home"){e.preventDefault();mark(0);}
-        else if(k==="End"){e.preventDefault();mark(items.length-1);}
-        else if(k==="Enter"||k===" "){e.preventDefault();pick(active);}
-        else if(k==="Escape"){e.preventDefault();e.stopPropagation();close(true);} /* Esc closes the list, not the modal */
-        else if(k==="Tab"){close();}
-        else if(k.length===1){
-          var s=k.toLowerCase(),n=items.findIndex(function(o,i){return i>active&&o.textContent.toLowerCase().indexOf(s)===0;});
-          if(n<0)n=items.findIndex(function(o){return o.textContent.toLowerCase().indexOf(s)===0;});
-          if(n>-1)mark(n);
-        }
-      });
-      list.addEventListener("mousemove",function(e){
-        var li=e.target.closest(".sel-opt");if(li)mark([].indexOf.call(list.children,li));
-      });
-      list.addEventListener("click",function(e){
-        var li=e.target.closest(".sel-opt");if(li)pick([].indexOf.call(list.children,li));
-      });
-      /* keep the button honest if anything sets the select directly */
-      sel.addEventListener("change",function(){
-        var i=items.findIndex(function(o){return (o.value||o.textContent)===sel.value;});
-        if(i>-1&&val.textContent!==items[i].textContent){
-          val.textContent=items[i].textContent;btn.classList.remove("empty");
-          [].forEach.call(list.children,function(o,n){o.setAttribute("aria-selected",n===i?"true":"false");});
-        }
-      });
-      return close;
-    }
-    [region,users].forEach(enhanceSelect);
-    document.addEventListener("mousedown",function(e){
-      if(openSel&&!e.target.closest(".sel"))openSel();
-    });
-    /* the dialog's own Esc must wait its turn while a list is open */
-    cmodal.addEventListener("cancel",function(e){if(openSel){e.preventDefault();openSel(true);}});
-    ["fn","ln","em"].forEach(function(id){
-      document.getElementById(id).addEventListener("input",function(){bad("f-"+id,false);});
-    });
-    region.addEventListener("change",function(){bad("f-region",false);});
-    users.addEventListener("change",function(){bad("f-users",false);});
-    function snapshot(){
-      lead.first=fn.value.trim();lead.last=ln.value.trim();lead.email=em.value.trim();
-      lead.phone=ph.value.trim();lead.region=region.value;lead.users=users.value;
-      lead.details=det.value.trim();
-    }
-    function payload(){
-      return {
-        _subject:"fein.vc lead: "+lead.email,
-        _template:"table",_captcha:"false",
-        email:lead.email,name:(lead.first||"")+" "+(lead.last||""),
-        phone:lead.phone||"",region:lead.region||"",users:lead.users||"",
-        details:lead.details||"",
-        source:"fein.vc contact-sales"
-      };
-    }
-    function mailtoHref(){
-      var s="fein: talk to sales ("+(lead.email||"")+")";
-      var b="Name: "+(lead.first||"")+" "+(lead.last||"")+"\nEmail: "+(lead.email||"")+
-            "\nPhone: "+(lead.phone||"")+"\nRegion: "+(lead.region||"")+
-            "\nUsers: "+(lead.users||"")+"\nDetails: "+(lead.details||"");
-      return "mailto:sales@fein.vc?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);
-    }
-    document.getElementById("lead-form").addEventListener("submit",function(e){
-      e.preventDefault();
-      var okFn=!!fn.value.trim(),okLn=!!ln.value.trim(),okEm=EMAIL_RE.test(em.value.trim()),
-          okRg=!!region.value,okUs=!!users.value;
-      bad("f-fn",!okFn);bad("f-ln",!okLn);bad("f-em",!okEm);bad("f-region",!okRg);bad("f-users",!okUs);
-      var first=[!okFn&&fn,!okLn&&ln,!okEm&&em,!okRg&&region,!okUs&&users].filter(Boolean)[0];
-      if(first){first.focus();return;}
-      snapshot();
-      var btn=document.getElementById("send-btn"),err=document.getElementById("send-err");
-      err.classList.remove("show");
-      var was=btn.innerHTML;btn.disabled=true;btn.textContent="Sending…";
-      function apiPayload(token){
-        /* the enquiry endpoint keeps its original key set; the fields it
-           doesn't know yet ride inside `ask` so no lead data is dropped */
-        return {email:lead.email,first:lead.first,last:lead.last,
-                ask:(lead.details?lead.details+"\n\n":"")+
-                    "Phone: "+(lead.phone||"")+"\nRegion: "+(lead.region||"")+"\nUsers: "+(lead.users||""),
-                phone:lead.phone,region:lead.region,users:lead.users,
-                t:modalOpenedAt?Date.now()-modalOpenedAt:0,captcha:token||"",
-                website:document.getElementById("hp-web").value};
-      }
-      function withToken(cb){
-        if(!RECAPTCHA_KEY||!window.grecaptcha||!window.grecaptcha.execute){cb("");return;}
-        try{grecaptcha.ready(function(){
-          grecaptcha.execute(RECAPTCHA_KEY,{action:"enquiry"}).then(cb,function(){cb("");});
-        });}catch(_){cb("");}
-      }
-      function succeed(){
-        sent=true;
-        if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:"lead-submitted",event:true});
-        document.getElementById("mailto-fast").href=mailtoHref();
-        view.hidden=true;done.hidden=false;
-        var inner=document.querySelector(".cmodal-inner");if(inner)inner.scrollTop=0;
-        var h=document.getElementById("wh-3");if(h)h.focus({preventScroll:true});
-      }
-      withToken(function(token){
-      fetch(API+"/enquiry",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload(token))})
-        .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
-        .then(succeed)
-        .catch(function(){
-          /* lead service down or it rejected us: fall back to the inbox relay
-             so no real lead is lost */
-          fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload())})
-            .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
-            .then(succeed)
-            .catch(function(){
-              document.getElementById("mailto-fb").href=mailtoHref();
-              err.classList.add("show");
-            });
-        })
-        .then(function(){btn.disabled=false;btn.innerHTML=was;});
-      });
-    });
-    /* abandoned mid-form: send what we have, best effort */
-    function partial(){
-      if(sent||partialSent)return;
-      snapshot();
-      if(!EMAIL_RE.test(lead.email||""))return;
-      partialSent=true;
-      var p=payload();p._subject="fein.vc partial lead: "+lead.email;p.note="left before submitting";
-      try{fetch(ENDPOINT,{method:"POST",keepalive:true,headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(p)});}catch(_){}
-    }
-    window.addEventListener("pagehide",partial);
-    document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")partial();});
-  })();
-
   var REDUCE=window.matchMedia("(prefers-reduced-motion: reduce)");
   function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 
@@ -3877,8 +3588,12 @@ setTimeout(go,1200);})()</script>
     var W=0,H=0,CX=0,CY=0,CR=0,CW2=0,FH=0,TL=0,TR=0,TOP=0,BOT=0,
         IHALF=0,PHALF=0,PRUN=1,stacked=false,wantPill=true,wantBit=true;
     var FINED=!(window.matchMedia&&!window.matchMedia("(pointer:fine)").matches);
-    var HASP=typeof Path2D!=="undefined"&&!!Path2D.prototype.addPath;
     var rngD=mulberry32(2468);
+    /* the two inks the page draws light with, taken off the fold's starburst so
+       this field and that one are the same weather: a cool thread white for
+       everything structural, and the one blue accent, spent only where a system
+       is actually taken in */
+    function dthr(a){return "rgba(206,216,233,"+a.toFixed(3)+")";}
     var LAY=[{s:.62,b:2.2,a:.40,v:.42},{s:.82,b:1.05,a:.62,v:.70},{s:1,b:0,a:1,v:1}];
     /* a lane is a source: its mark, and the raw traffic that source actually
        produces. The fragments are deliberately unwritten, in the shape the
@@ -4227,32 +3942,13 @@ setTimeout(go,1200);})()</script>
       }
     }
 
-    /* ---- the honeycomb: built once per size, densest at the core ---- */
-    var HEXR=54,HEXES=[];
-    function buildHex(){
-      HEXES=[];
-      HEXR=Math.max(44,Math.min(84,Math.min(W,H)/12));
-      var dx=HEXR*Math.sqrt(3),dy=HEXR*1.5,rg=mulberry32(1113),fall=Math.max(W,H)*(stacked?0.42:0.62);
-      for(var row=-1;row*dy<H+HEXR;row++)for(var col=-1;col*dx<W+dx;col++){
-        var cx=col*dx+(Math.abs(row%2)?dx/2:0),cy=row*dy;
-        var m=1.12-Math.hypot((cx-CX)/1.25,cy-CY)/fall;
-        if(m<=0)continue;if(m>1)m=1;
-        var h={x:cx,y:cy,m:m,s:cx<CX?-1:1,ph:rg()*6.28,fq:0.0004+rg()*0.0005};
-        if(HASP){
-          var pth=new Path2D();
-          for(var k=0;k<6;k++){var a=Math.PI/6+k*Math.PI/3,px=cx+HEXR*Math.cos(a),py=cy+HEXR*Math.sin(a);
-            k?pth.lineTo(px,py):pth.moveTo(px,py);}
-          pth.closePath();h.p=pth;
-        }
-        HEXES.push(h);
-      }
-    }
-    function hexStroke(h){
-      g.beginPath();
-      for(var k=0;k<6;k++){var a=Math.PI/6+k*Math.PI/3,px=h.x+HEXR*Math.cos(a),py=h.y+HEXR*Math.sin(a);
-        k?g.lineTo(px,py):g.moveTo(px,py);}
-      g.closePath();g.stroke();
-    }
+    /* The honeycomb that used to be tiled across this whole field is gone. It was
+       the only background pattern on the page and it carried the section's own
+       geometry into the ground behind it, so the band read as a different site
+       from the one above it. The ground here is the ground everywhere else now:
+       nothing but the rails, which are the same hairlines the fold is drawn
+       with. The hexagon survives at the throat, where it is an object rather
+       than a wallpaper, and in the wave that rings out of it. */
     function hexPath(rad){
       g.beginPath();
       for(var k=0;k<6;k++){var a=Math.PI/6+k*Math.PI/3,px=CX+rad*Math.cos(a),py=CY+rad*Math.sin(a);
@@ -4281,7 +3977,6 @@ setTimeout(go,1200);})()</script>
       M_GLOW=ZW[0]+ZW[1]*0.85+ZW[2]*2.1+ZW[3]*0.85;
       if(M_ICO>1)M_ICO=1;if(M_PIL>1)M_PIL=1;
     }
-    function hexMul(h){return ZW[0]+ZW[1]*(h.s<0?1.5:0.3)+ZW[2]*(0.3+1.7*h.m)+ZW[3]*(h.s>0?1.5:0.3);}
     var ZDWELL=5200,ztimer=0,zhold=false;
     function zwalk(){setZone(ZT>=3?1:ZT+1);ztimer=setTimeout(zwalk,ZDWELL);}
     function zstop(){if(ztimer){clearTimeout(ztimer);ztimer=0;}}
@@ -4292,7 +3987,6 @@ setTimeout(go,1200);})()</script>
     });
 
     /* ---- paint ---- */
-    var BUCK=10;
     function strokeBatch(b,style){
       if(!b.length)return;
       g.strokeStyle=style;g.beginPath();
@@ -4303,38 +3997,26 @@ setTimeout(go,1200);})()</script>
     }
     function grad(x0,x1,peak,mul){
       var lg=g.createLinearGradient(x0,0,x1,0);
-      lg.addColorStop(0,"rgba(158,196,255,"+(peak*0.22*mul).toFixed(3)+")");
-      lg.addColorStop(0.62,"rgba(158,196,255,"+(peak*0.52*mul).toFixed(3)+")");
-      lg.addColorStop(1,"rgba(158,196,255,"+(peak*mul).toFixed(3)+")");
+      lg.addColorStop(0,dthr(peak*0.22*mul));
+      lg.addColorStop(0.62,dthr(peak*0.52*mul));
+      lg.addColorStop(1,dthr(peak*mul));
       return lg;
     }
+    /* the body of the funnel, which used to be a blue wash and is now the same
+       lift a panel gets over the ground: it is there to say the rails are one
+       shape and not thirty, not to tint the section */
     function fillWedge(pts,x0,x1,mul){
       if(!pts)return;
       var fg=g.createLinearGradient(x0,0,x1,0);
-      fg.addColorStop(0,"rgba(0,112,243,0)");
-      fg.addColorStop(1,"rgba(0,112,243,"+(0.075*mul).toFixed(3)+")");
+      fg.addColorStop(0,"rgba(206,216,233,0)");
+      fg.addColorStop(1,dthr(0.030*mul));
       g.fillStyle=fg;g.beginPath();g.moveTo(pts[0],pts[1]);
       for(var k=2;k<pts.length;k+=2)g.lineTo(pts[k],pts[k+1]);
       g.closePath();g.fill();
     }
     function ddraw(t){
       g.clearRect(0,0,W,H);g.lineWidth=1;
-      var i,k,h,a;
-      if(HASP){
-        var bk=[],peak=0.2;
-        for(i=0;i<HEXES.length;i++){h=HEXES[i];
-          a=(0.052+0.026*Math.sin(t*h.fq+h.ph))*h.m*hexMul(h);
-          if(a<=0.006)continue;if(a>peak)a=peak;
-          var bi=(a/peak*BUCK)|0;if(bi>BUCK-1)bi=BUCK-1;
-          (bk[bi]||(bk[bi]=new Path2D())).addPath(h.p);}
-        for(i=0;i<BUCK;i++){if(!bk[i])continue;
-          g.strokeStyle="rgba(255,255,255,"+(((i+0.5)/BUCK)*peak).toFixed(3)+")";g.stroke(bk[i]);}
-      }else{
-        for(i=0;i<HEXES.length;i++){h=HEXES[i];
-          a=(0.052+0.026*Math.sin(t*h.fq+h.ph))*h.m*hexMul(h);
-          if(a<=0.006)continue;if(a>0.2)a=0.2;
-          g.strokeStyle="rgba(255,255,255,"+a.toFixed(3)+")";hexStroke(h);}
-      }
+      var i,k,a;
       /* the funnel: every lane, then the two walls that hold each end of it, in
          four strokes. The gradient is what points them: dim at the edges of the
          page, brightest where they meet the core */
@@ -4355,7 +4037,7 @@ setTimeout(go,1200);})()</script>
           if(i0>=SEG){i0=SEG-1;fr=1;}
           a=Math.sin(Math.PI*u)*0.5*mul;
           if(a<=0.012)continue;
-          g.fillStyle="rgba(150,196,255,"+a.toFixed(3)+")";
+          g.fillStyle=dthr(a);
           g.beginPath();
           g.arc(r.p[i0*2]+(r.p[i0*2+2]-r.p[i0*2])*fr,
                 r.p[i0*2+1]+(r.p[i0*2+3]-r.p[i0*2+1])*fr,1.7,0,7);
@@ -4370,28 +4052,38 @@ setTimeout(go,1200);})()</script>
         if(it.side<0){
           if(it.p<=0.45)continue;
           a=(it.p-0.45)/0.55*0.17*LAY[it.l].a*M_ICO;
-          g.strokeStyle="rgba(150,196,255,"+a.toFixed(3)+")";
+          g.strokeStyle=dthr(a);
           g.beginPath();g.moveTo(it.cx+it.hw*S,it.cy);g.lineTo(CX-CW2,it.ye);g.stroke();
         }else if(it.p<0.46){
           a=(1-it.p/0.46)*0.15*LAY[it.l].a*M_PIL;
-          g.strokeStyle="rgba(150,196,255,"+a.toFixed(3)+")";
+          g.strokeStyle=dthr(a);
           g.beginPath();g.moveTo(CX+CW2,it.ye);g.lineTo(it.cx-it.hw*S,it.cy);g.stroke();
         }}
-      /* the core's own light. The hexagon over it is opaque, so this can be a
-         fill and not the halo it had to be when the copy was the core */
-      var R=Math.max(200,Math.min(W*0.33,(BOT-TOP)*1.05))*(1+0.07*glowK);
-      var br=(0.10+0.03*Math.sin(t*0.0009)+0.10*glowK)*M_GLOW;
+      /* the core's own light: a third of the reach and a third of the weight it
+         had, which is the fold's bloom exactly (blue at .10, gone by half the
+         radius). It was a third of the viewport of lit blue before, and on a
+         page whose every other band is flat ground that one gradient was the
+         whole reason this section read as somebody else's. It is a lit object
+         now, not weather. The white under it is the same cool thread ink as the
+         rails, so what the eye actually catches at the throat is light and not
+         hue, and the pulse a system lands with still has somewhere to go */
+      var R=Math.max(150,Math.min(W*0.19,(BOT-TOP)*0.62))*(1+0.06*glowK);
+      var br=Math.min(0.10,(0.045+0.012*Math.sin(t*0.0009)+0.045*glowK)*M_GLOW);
       var hg=g.createRadialGradient(CX,CY,CR*0.4,CX,CY,R);
-      hg.addColorStop(0,"rgba(0,112,243,"+(br*0.9).toFixed(3)+")");
-      hg.addColorStop(0.34,"rgba(0,112,243,"+(br*0.5).toFixed(3)+")");
+      hg.addColorStop(0,"rgba(0,112,243,"+br.toFixed(3)+")");
+      hg.addColorStop(0.45,"rgba(0,112,243,"+(br*0.32).toFixed(3)+")");
       hg.addColorStop(1,"rgba(0,112,243,0)");
       g.fillStyle=hg;g.beginPath();g.arc(CX,CY,R,0,7);g.fill();
+      var WR=CR*2.2,wb=Math.min(0.075,(0.030+0.030*glowK)*M_GLOW);
+      var wg=g.createRadialGradient(CX,CY,CR*0.5,CX,CY,WR);
+      wg.addColorStop(0,dthr(wb));wg.addColorStop(1,"rgba(206,216,233,0)");
+      g.fillStyle=wg;g.beginPath();g.arc(CX,CY,WR,0,7);g.fill();
       /* one wave per system taken in, in the shape of the thing that took it */
       for(i=rings.length-1;i>=0;i--){
         var rr=rings[i],age=(t-rr.t)/1250;
         if(!(age>=0&&age<1)){rings.splice(i,1);continue;}
         var e=1-Math.pow(1-age,3);
-        a=(1-age)*0.26*rr.a*M_GLOW;
+        a=(1-age)*0.20*rr.a*M_GLOW;
         g.strokeStyle="rgba(82,168,255,"+a.toFixed(3)+")";
         hexPath(CR*(1+e*2.1));g.stroke();
       }
@@ -4408,7 +4100,7 @@ setTimeout(go,1200);})()</script>
       measure();
       var c=wantCounts(),key=W+"x"+H+"|"+stacked+"|"+Math.round(TOP)+"|"+Math.round(BOT)+"|"+c[0]+"|"+c[1]+"|"+c[2];
       if(!force&&key===lastKey)return;
-      lastKey=key;csize();buildHex();build();
+      lastKey=key;csize();build();
       if(REDUCE.matches||!draf)dstill();
     }
     function dloop(t){

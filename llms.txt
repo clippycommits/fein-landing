@@ -48,7 +48,7 @@ Updated: 2026-08-12. Full page content in Markdown: https://fein.vc/llms-full.tx
 - Every ingest, merge, and review decision is written to an append only audit trail, with the person or agent that made it.
 
 ## Contact
-- [Get started](https://fein.vc/#get-started): talk to sales about a 14 day build
+- [Get a demo](https://fein.vc/demo): talk to sales about a 14 day build
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
