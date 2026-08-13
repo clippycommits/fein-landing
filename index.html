@@ -404,7 +404,7 @@
   /* the state of the card, in the voice the page labels things in. It was mono
      at .6rem with .12em of tracking in caps -- AUTO-DRAFTING -- which is the
      tracked-out mono cap this design replaced everywhere else: .eyebrow, the
-     .fig-bar headings and .works .lab are all small lowercase Inter now. The
+     .plate-lab labels and .works .lab are all small lowercase Inter now. The
      mono that is left on the page is readouts (FIG 0.1, the tags in the product
      mocks), and this is a status, not a readout. */
   .orb-badge{font-family:var(--font);font-size:.7rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.22rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
@@ -905,183 +905,93 @@
   .change-head{width:100%;max-width:var(--maxw);margin-inline:auto;padding:0 var(--bar-pad) clamp(1.4rem,3.4vw,2.3rem)}
   .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:26ch}
   .change-head .sub{max-width:52ch;margin:1.15rem 0 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);line-height:1.55;text-wrap:pretty}
-  /* the figures run wider than the reading column: two panels of product at
-     .wrap's 1080px would set the mail at 30ch and the facts would wrap twice */
-  .figs{display:grid;gap:clamp(3.4rem,6.5vw,5.6rem);width:100%;max-width:var(--maxw);margin:clamp(2.2rem,4vw,3.2rem) auto 0;padding-inline:var(--bar-pad)}
-  /* the heading is an action in a sequence -- first, then, finally -- and the
-     figure under it is the evidence for that one action.
+  /* ---- the record ----------------------------------------------------------
+     What stood here was .fig: three figures, each a document panel on the left,
+     a facts panel on the right, a hexagon between them and wires drawn between
+     the two at runtime. It cost a screenful of type to say very little. Every
+     step opened with a number, a heading, a sub-sentence and two panel headers
+     before any evidence, and then the right panel repeated the left one nearly
+     verbatim, with superscripts asking the reader to run the match and discover
+     that nothing had changed.
 
-     The number used to be set inside the sentence, at heading size in blue, on
-     the argument that it was part of the sentence rather than a label over it.
-     It was the only numbering of that shape on the page: #how sets its three
-     steps as a small quiet 01 above the line, #figures sets FIG 0.1 the same
-     way, and both hang the step off a hairline. Read down the page the figures
-     were the one band announcing itself in a voice of its own. The number is
-     now that same small label, over a rule at the figure's full width, so each
-     figure opens the way a step in #how opens and the band joins the system it
-     sits in. It stays blue: it is the one accent, and it is the thread the
-     wires below it are drawn in. */
-  .fig{border-top:1px solid var(--line-2);padding-top:clamp(1.2rem,2.2vw,1.6rem)}
-  .fig-head{max-width:54ch;margin-bottom:clamp(1.3rem,2.3vw,1.9rem)}
-  .fig-step{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums;margin-bottom:.62rem}
-  .fig-lede{font-family:var(--display);font-size:clamp(1.45rem,2.5vw,2.05rem);font-weight:580;letter-spacing:-.032em;line-height:1.12;color:#fff;text-wrap:balance}
-  .fig-sub{margin-top:.62rem;font-size:.98rem;line-height:1.55;color:var(--fg-3);text-wrap:pretty}
-  .fig-sub b{color:var(--fg-2);font-weight:550}
+     The fix is not less prose around that picture, it is a different object. A
+     claim and the sentence it was read from go on one line, so the citation
+     stops being a footnote under the figure and becomes the figure's structure.
+     Then the argument is made by the object instead of the copy: four tool
+     marks down the source column are "it reads everything", the dates either
+     side of the struck pair are "eighteen months", and the struck pair is
+     "superseded, not deleted".
 
-  /* ---- the figure: two panels and the column between them ---- */
-  .fig-d{position:relative;display:grid;grid-template-columns:minmax(0,1fr) clamp(104px,11vw,170px) minmax(0,1fr);align-items:stretch}
-  .fig-wires{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:visible}
-  /* the wire sits under the panels on purpose: it is only ever visible in the
-     column between them, so it reads as a run between two ports and not as a
-     line drawn over the product */
-  .fig-wires path{fill:none;stroke:rgba(82,168,255,.34);stroke-width:1;transition:stroke .18s ease,opacity .18s ease}
-  .fig-wires path.on{stroke:var(--blue-l);stroke-width:1.4}
-  .fig-wires circle{fill:var(--blue-l);opacity:0;transition:opacity .3s ease}
-  .fig-wires circle.on{opacity:.6}
-  .fig-d.lit path:not(.on){opacity:.2}
-  .fig-d.lit .fig-hl:not(.on),.fig-d.lit [data-side="out"] .fig-row:not(.on){opacity:.4}
+     Two plates, not three steps. Numbering two things is a label doing a job
+     the reader does not need done. ---- */
+  .plates{display:grid;gap:clamp(3rem,5.4vw,4.6rem);width:100%;max-width:var(--maxw);margin:clamp(2rem,3.6vw,3rem) auto 0;padding-inline:var(--bar-pad)}
+  .plate{margin:0}
+  /* a plate number in a book, not a heading: what the thing is on the left, what
+     it is made of on the right, one hairline under both, and then the thing */
+  .plate-lab{display:flex;align-items:baseline;gap:1rem;padding-bottom:.72rem;border-bottom:1px solid var(--line-2);margin-bottom:clamp(1rem,1.8vw,1.45rem)}
+  .plate-lab span{font-size:.84rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-2)}
+  .plate-lab b{margin-left:auto;font-family:var(--mono);font-size:.73rem;font-weight:500;color:var(--dim);white-space:nowrap}
 
-  /* the middle column is the machine, and it is the same machine #how draws:
-     things arrive on one side, fein takes them in, facts leave on the other.
-     #how gives that a hexagon throat in the ground's own black behind a single
-     hairline, and this column used to give it a floating wordmark instead, so
-     the two pictures of one idea did not look related. It is the same throat
-     now, at the scale this column can hold, sat at the head of the run with the
-     rail dropping out of its foot behind the wires. Fill and stroke are lifted
-     from .dcore .hexb rather than re-picked. */
-  .fig-mid{position:relative;z-index:1;display:flex;justify-content:center}
-  .fig-mid::before{content:"";position:absolute;left:50%;top:74px;bottom:8%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,var(--line),transparent 82%)}
-  .fig-node{position:relative;width:62px;height:71.6px;display:grid;place-items:center;filter:drop-shadow(0 0 22px rgba(206,216,233,.06))}
-  .fig-node svg{position:absolute;inset:0;width:100%;height:100%}
-  .fig-node path{fill:rgba(8,9,10,.97);stroke:rgba(255,255,255,.18);stroke-width:1;vector-effect:non-scaling-stroke}
-  .fig-node b{position:relative;font-family:var(--display);font-size:.92rem;font-weight:600;letter-spacing:-.035em;color:#fff;line-height:1}
+  .rec{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
+  .rec-top{display:flex;align-items:baseline;gap:.6rem;padding:.95rem 20px;border-bottom:1px solid var(--line)}
+  .rec-top h4{font-size:1.04rem;font-weight:600;letter-spacing:-.02em;color:#fff}
+  .rec-kind{padding:.08rem .36rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--dim)}
+  .rec-meta{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 
-  .fig-p{position:relative;z-index:1;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--hl-top),0 22px 56px -34px rgba(0,0,0,.95);overflow:hidden}
-  .fig-bar{display:flex;align-items:center;gap:.55rem;height:44px;padding:0 15px;border-bottom:1px solid var(--line)}
-  /* lowercase grey, the voice this page labels everything else in */
-  .fig-bar h4{font-size:.82rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3)}
-  .fig-tool{margin-left:auto;display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--dim);white-space:nowrap}
-  .fig-tool .tlogo{width:14px;height:14px;flex:none}
-  .fig-tool b{color:var(--fg-3);font-weight:500}
+  .rec-list{list-style:none;margin:0;padding:0}
+  /* one grid for the row and one for the superseded row nested inside it, on the
+     same two columns, so every source in the panel lands on one spine no matter
+     how deep in the record it sits. That spine is the argument: the reader runs
+     an eye down it and counts four different products without being told. */
+  .rec-i{display:grid;grid-template-columns:minmax(0,1fr) clamp(196px,25%,300px);padding:clamp(.95rem,1.5vw,1.2rem) 20px;border-top:1px solid var(--line)}
+  .rec-i:first-child{border-top:0}
+  .rec-m{min-width:0;padding-right:clamp(1rem,2.2vw,1.7rem)}
+  .rec-fact{font-size:1rem;line-height:1.45;font-weight:500;letter-spacing:-.014em;color:#fff;text-wrap:pretty}
+  .rec-fact b{font-weight:600}
+  /* the sentence the fact was read from, in the words it arrived in. The rule is
+     the quotation mark: a real one would be the fifth thing in the row asking
+     for attention, and this reads as quoted at a glance from across the page. */
+  .rec-quote{margin-top:.44rem;padding-left:.9rem;border-left:1px solid var(--line-2);font-size:.92rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
+  .rec-doc{display:flex;flex-direction:column;gap:.26rem;min-width:0;padding-left:clamp(1rem,2.2vw,1.7rem);border-left:1px solid var(--line);font-size:.82rem;line-height:1.4;color:var(--fg-2)}
+  .rec-dt{display:flex;align-items:flex-start;gap:.44rem;text-wrap:pretty}
+  .rec-dt .tlogo{width:14px;height:14px;flex:none;margin-top:.2rem}
+  .rec-doc em{font-style:normal;font-family:var(--mono);font-size:.73rem;color:var(--dim);font-variant-numeric:tabular-nums}
+  .rec-new{display:inline-block;margin-left:.2rem;padding:.06rem .32rem;translate:0 -1px;border-radius:4px;background:rgba(63,191,127,.14);font-size:.66rem;font-weight:500;letter-spacing:0;color:var(--mem-new);vertical-align:middle}
 
-  /* ---- the document ---- */
-  .fig-mh{padding:.95rem 15px .7rem;border-bottom:1px solid var(--line)}
-  .fig-mfrom{font-size:.88rem;color:var(--fg-2)}
-  .fig-mfrom b{color:var(--fg);font-weight:550}
-  .fig-mfrom span{color:var(--dim)}
-  .fig-mto{font-size:.8rem;color:var(--dim);margin-top:.12rem}
-  .fig-msub{font-size:.93rem;font-weight:550;color:#fff;margin-top:.4rem}
-  .fig-mb{padding:1rem 15px;font-size:.96rem;line-height:1.72;color:var(--fg-2);max-width:46ch}
-  /* the attachment is pinned to the foot of the card, which is what puts the
-     two panels on the same bottom line without padding invented to fill a gap */
-  /* the trailing date is the quietest thing in the card, so it steps down from
-     the line it sits on. The step used to be --dim -> #5f636b, but #5f636b is
-     3.28:1 on the --bg-2 the panel is actually painted with, so the step now
-     starts a rung higher: --fg-3 6.09:1 for the sentence, --dim 4.55:1 for the
-     date. Same de-emphasis, both ends above the 4.5 this 12.8px text needs */
-  .fig-foot{margin-top:auto;display:flex;align-items:center;gap:.5rem;padding:.72rem 15px;border-top:1px solid var(--line);font-size:.8rem;color:var(--fg-3)}
-  .fig-foot svg.clip{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-  .fig-foot .tlogo{width:13px;height:13px;flex:none;opacity:.85}
-  .fig-foot em{margin-left:auto;font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
+  /* the fact this one replaced, still on the record, still readable, still
+     carrying the document it came from. It hangs inside the row that superseded
+     it rather than sitting on its own, which is the relationship stated in
+     layout instead of in a sentence. The strike is a rule drawn through the
+     type, not line-through, so it keeps the retired hue the page uses for this
+     everywhere else and the words underneath stay legible. */
+  .rec-prev{grid-column:1/-1;display:grid;grid-template-columns:subgrid;margin-top:clamp(.85rem,1.3vw,1.05rem);padding-top:clamp(.8rem,1.2vw,1rem);border-top:1px dashed rgba(255,255,255,.1)}
+  @supports not (grid-template-columns:subgrid){
+    .rec-prev{grid-template-columns:minmax(0,1fr) clamp(196px,25%,300px)}
+  }
+  .rec-prev .rec-fact{font-weight:400;color:var(--fg-3)}
+  .rec-prev .rec-quote{color:var(--dim)}
+  .rec-prev .rec-doc{color:var(--dim)}
+  .rec-fact s{text-decoration:none;background:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule)) no-repeat 0 .72em/100% 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .rec-sup{display:inline-block;margin-left:.5rem;padding:.06rem .36rem;translate:0 -1px;border:1px solid var(--line);border-radius:4px;font-family:var(--mono);font-size:.66rem;color:var(--dim);white-space:nowrap;vertical-align:middle}
 
-  /* the phrase in transit: the thing on the page that becomes a fact */
-  .fig-hl{display:inline;-webkit-box-decoration-break:clone;box-decoration-break:clone;margin:0;padding:1px 5px;border:0;border-radius:4px;background:rgba(0,112,243,.18);box-shadow:inset 0 0 0 1px rgba(82,168,255,.24);font:inherit;color:#fff;cursor:pointer;transition:background .2s ease,box-shadow .2s ease,opacity .2s ease}
-  .fig-hl sup{margin-left:4px;font-size:9.5px;font-weight:500;line-height:1;vertical-align:super;color:var(--blue-l);font-variant-numeric:tabular-nums}
-  .fig-hl:hover,.fig-hl.on{background:rgba(0,112,243,.34);box-shadow:inset 0 0 0 1px rgba(82,168,255,.55)}
-  .fig-hl:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
+  /* one column: the source stops being a rail beside the fact and becomes a
+     line under it, laid out along the row rather than down it, so it still
+     reads as the fact's provenance and not as another fact */
+  @media (max-width:760px){
+    .rec-i,.rec-prev{grid-template-columns:minmax(0,1fr)}
+    .rec-m{padding-right:0}
+    .rec-doc{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:.3rem .6rem;margin-top:.7rem;padding-left:.9rem}
+    .rec-doc em{margin-left:auto}
+    .plate-lab{gap:.7rem}
+    .plate-lab b{font-size:.68rem}
+  }
 
-  /* ---- what fein filed ---- */
-  /* the two panels share a bottom line, so a panel with three rows against a
-     document with eight has slack to place. It goes into the rows, evenly,
-     rather than pooling into one dead block above the foot */
-  .fig-rows{list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column}
-  .fig-row{flex:1;display:grid;align-content:start;grid-template-columns:20px minmax(0,1fr);column-gap:.72rem;padding:13px 15px;border-bottom:1px solid var(--line);transition:background .18s ease,opacity .2s ease}
-  .fig-row:last-child{border-bottom:0}
-  .fig-row.on{background:rgba(255,255,255,.022)}
-  .fig-n{display:grid;place-items:center;width:20px;height:20px;margin-top:1px;border-radius:5px;background:rgba(0,112,243,.26);font-size:11px;font-weight:550;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums}
-  /* a fact that arrived on its own, with no phrase pointing at it, keeps the
-     column so the rows stay on one grid, and says what happened to it instead */
-  .fig-n.q{background:rgba(255,138,133,.14);color:var(--mem-ret)}
-  .fig-rn{display:flex;align-items:baseline;flex-wrap:wrap;gap:.5rem;font-size:.94rem;font-weight:550;color:#fff;letter-spacing:-.012em}
-  .fig-rt{padding:.06rem .34rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--dim)}
-  .fig-f{margin-top:.22rem;font-size:.9rem;line-height:1.5;color:var(--fg-2)}
-  .fig-f b{color:#fff;font-weight:550}
-  .fig-f.ret{color:var(--fg-3)}
-  .fig-f.ret s{text-decoration:none;background:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule)) no-repeat 0 .72em/100% 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-  /* the date range is the whole point of a retired fact: it did not vanish, it
-     stopped being true on a day fein can name */
-  .fig-when{display:inline-block;margin-left:.4rem;padding:.06rem .32rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
-  /* (there is no per-row provenance rule here: every figure says where its facts
-     came from once, in .fig-foot, rather than repeating it on each row) */
-
-  /* ---- the answer ---- */
-  .fig-q{display:flex;gap:.5rem;padding:.95rem 15px;border-bottom:1px solid var(--line);font-size:.98rem;font-weight:550;color:#fff}
-  .fig-q::before{content:"›";color:var(--blue-l);font-weight:500}
-  .fig-after{margin-top:clamp(1.1rem,2vw,1.5rem);padding-top:1.05rem;border-top:1px solid var(--line);font-size:.93rem;line-height:1.55;color:var(--fg-3)}
-  .fig-after span{display:block;max-width:76ch;text-wrap:pretty}
-  .fig-after b{color:var(--fg-2);font-weight:550}
-
-  /* the read: a hairline runs the length of the document once, and each phrase
-     lights as it passes. It is the only motion in the section and it says the
-     one thing the heading claims -- that something read this, top to bottom */
-  .fig-scan{position:absolute;left:0;right:0;top:0;height:130px;pointer-events:none;opacity:0;background:linear-gradient(180deg,transparent,rgba(0,112,243,.10) 74%,rgba(82,168,255,.42) 99%,transparent);translate:0 -130px}
-  .fig-d.playing .fig-scan{opacity:1;animation:figScan 1s linear forwards}
-  @keyframes figScan{from{translate:0 -130px}to{translate:0 var(--scan-h,320px);opacity:0}}
-  /* before the wire that carries it has been drawn, a phrase is just text */
-  .fig-d.armed .fig-hl{background:transparent;box-shadow:inset 0 0 0 1px transparent}
-  .fig-d.armed .fig-hl sup{opacity:0;transition:opacity .3s ease .1s}
-  .fig-d.armed .fig-hl.lit{background:rgba(0,112,243,.18);box-shadow:inset 0 0 0 1px rgba(82,168,255,.24)}
-  .fig-d.armed .fig-hl.lit sup{opacity:1}
-  .fig-d.armed .fig-hl.lit:hover,.fig-d.armed .fig-hl.on{background:rgba(0,112,243,.34);box-shadow:inset 0 0 0 1px rgba(82,168,255,.55)}
-  .fig-d.armed [data-side="out"] .fig-row{opacity:0;translate:0 7px;transition:opacity .4s cubic-bezier(.22,.61,.36,1),translate .4s cubic-bezier(.22,.61,.36,1)}
-  .fig-d.armed [data-side="out"] .fig-row.lit{opacity:1;translate:0 0}
-  .fig-d.armed.lit [data-side="out"] .fig-row.lit:not(.on){opacity:.4}
-  /* ---- 01: the message, as it actually looks in the client it came from ----
-     A landing page that redraws an email as grey prose is asking the reader to
-     take its word for it. This is the thing on their second monitor: subject,
-     avatar, to me, the attachment card, reply and forward. The phrases fein
-     lifted are the only part of it that is not Gmail. */
-  .gm-sub{display:flex;align-items:center;gap:.55rem;padding:.9rem 15px .55rem;font-size:1.04rem;font-weight:550;letter-spacing:-.018em;color:#fff}
-  .gm-lab{padding:.1rem .38rem;border-radius:4px;background:rgba(255,255,255,.07);font-size:.68rem;font-weight:500;color:var(--fg-3)}
-  .gm-from{display:grid;grid-template-columns:34px minmax(0,1fr) auto;column-gap:.7rem;align-items:center;padding:0 15px .75rem}
-  .gm-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#584f9e;color:#fff;font-size:.8rem;font-weight:600;letter-spacing:.01em}
-  .gm-nm{font-size:.89rem;font-weight:550;color:#fff}
-  .gm-nm span{font-weight:400;color:var(--dim)}
-  .gm-to{font-size:.78rem;color:var(--dim);margin-top:.05rem}
-  .gm-meta{display:flex;align-items:center;gap:.55rem;font-size:.76rem;color:var(--dim);white-space:nowrap}
-  .gm-meta svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-  .gm-body{padding:.35rem 15px .9rem;font-size:.95rem;line-height:1.72;color:var(--fg-2);max-width:48ch}
-  .gm-att{display:flex;align-items:center;gap:.6rem;margin:0 15px .9rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:9px;width:max-content;max-width:calc(100% - 30px)}
-  .gm-att .pdf{flex:none;display:grid;place-items:center;width:27px;height:27px;border-radius:6px;background:rgba(255,122,114,.14);color:#ff7a72;font-size:.55rem;font-weight:600;letter-spacing:.02em}
-  .gm-att b{display:block;font-size:.82rem;font-weight:500;color:var(--fg)}
-  .gm-att i{font-style:normal;font-size:.72rem;color:var(--dim)}
-  .gm-acts{margin-top:auto;display:flex;gap:.5rem;padding:.2rem 15px 1rem}
-  .gm-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.34rem .85rem;border:1px solid var(--line-2);border-radius:999px;font-size:.8rem;color:var(--fg-2)}
-  .gm-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-
-  /* ---- 02: four tools, one column. The shape is the argument: a feed of
-     different products, not another page of prose ---- */
-  .feed{list-style:none;margin:0;padding:0}
-  .feed-row{display:grid;grid-template-columns:27px minmax(0,1fr);column-gap:.7rem;padding:.72rem 15px;border-bottom:1px solid var(--line)}
-  .feed-row:last-child{border-bottom:0}
-  .feed-ic{flex:none;display:grid;place-items:center;width:27px;height:27px;margin-top:1px;border-radius:7px;background:rgba(255,255,255,.05)}
-  .feed-ic .tlogo{width:14px;height:14px}
-  .feed-h{display:flex;align-items:baseline;gap:.6rem;font-size:.87rem;font-weight:550;color:#fff;letter-spacing:-.01em}
-  .feed-h em{margin-left:auto;font-style:normal;font-size:.73rem;font-weight:400;color:var(--dim);white-space:nowrap}
-  .feed-t{margin-top:.2rem;font-size:.88rem;line-height:1.55;color:var(--fg-3)}
-  .fig-new{margin-left:.1rem;padding:.06rem .32rem;border-radius:4px;background:rgba(63,191,127,.14);font-size:.66rem;font-weight:500;color:var(--mem-new)}
-
-  /* ---- 03: the outcome. One box, one question, one answer, and the documents
-     it was built from sitting in the sentence where the claim is made.
-
-     This figure used to be centred on an 860px box while 01 and 02 ran left on
-     the band's full measure, so a band of three steps was set on three
-     different alignments and none of the four headings in it shared a left
-     edge. It is the same step as the two above it and it is set like them now:
-     head left, panel on the figure's own measure. The answer paragraph is the
-     one thing that cannot take the full width -- at 1168px it runs past 100
-     characters -- so it keeps a reading measure inside a panel that does not,
-     which is what .fig-p does with .gm-body directly above it. ---- */
+  /* ---- the answer. One box, one question, one answer, and the documents it
+     was built from sitting in the sentence where each claim is made. It is the
+     second plate and it is set like the first: label over a rule, panel on the
+     band's own measure. The answer paragraph is the one thing that cannot take
+     the full width -- at 1168px it runs past 100 characters -- so it keeps a
+     reading measure inside a panel that does not. ---- */
   .ask{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
   .ask-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
   .ask-bar .mag{width:16px;height:16px;flex:none;color:var(--fg-3);fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
@@ -1098,14 +1008,8 @@
   .ask-f{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .5rem;padding:.68rem 20px;border-top:1px solid var(--line);font-size:.79rem;color:var(--dim)}
   .ask-f .tlogo{width:12px;height:12px;opacity:.8}
   .ask-f b{margin-left:auto;font-weight:400;color:var(--fg-3)}
-  /* stacked, the two panels are one column: there is no gap for a wire to run
-     down, so the column and its wires go and the numbers carry the mapping */
   @media (max-width:900px){
-    .fig-d{grid-template-columns:minmax(0,1fr);row-gap:14px}
-    .fig-mid,.fig-wires{display:none}
-    .fig-mb,.gm-body,.ask-a{max-width:none}
-    .gm-meta{display:none}
-    .fig-head{margin-bottom:1.15rem}
+    .ask-a{max-width:none}
   }
 
   /* ============ one memory, asked from the thread it is about ================
@@ -1491,15 +1395,14 @@
 
 /* Emphasis inside a sentence is white, and it is only white: the step from
    --fg-3 grey up to #fff is the whole signal, with no change of weight under
-   it. Both of these used to be set in the blue accent at 600 and 650 against a
-   400 sentence, which made two runs of body copy louder than the headings over
-   them and spent the accent on prose. Blue is left where it means something --
-   the step numbers, the wires, the citations and tokens inside the product
-   mocks -- and nowhere in the page's own writing. font-weight is stated because
-   both are <b>, which the UA would otherwise set bolder than the line. */
-.fig-sub b.hl{color:#fff;font-weight:400}
+   it. This used to be set in the blue accent at 650 against a 400 sentence,
+   which made a run of body copy louder than the heading over it and spent the
+   accent on prose. Blue is left where it means something -- the citations, the
+   accent tags and the tokens inside the product mocks -- and nowhere in the
+   page's own writing. font-weight is stated because it is a <b>, which the UA
+   would otherwise set bolder than the line.
 
-/* each fein cell opens with the property it buys you */
+   Each fein cell opens with the property it buys you. */
 .why-grid .b .ben{color:#fff;font-weight:400}
 
 /* ============ badge ============
@@ -2195,11 +2098,11 @@
     .rb-pre{display:none}
     .rb-x{right:6px}
     /* one line per fact is worth more here than a tenth of a rem of type size */
-    .fig-mb,.gm-body{font-size:.92rem}
-    .fig-row,.feed-row{padding:11px 13px}
     .ask-a{font-size:.98rem;padding:.95rem 14px 1rem}
     .ask-q{font-size:.96rem}
-    .fig-f,.fig-rn{font-size:.88rem}
+    .rec-top,.rec-i{padding-left:14px;padding-right:14px}
+    .rec-fact{font-size:.95rem}
+    .rec-quote{font-size:.88rem}
     .fgrid{grid-template-columns:1fr;gap:1.8rem}
     .fcol{gap:.1rem}
     .fcol b{margin-bottom:.4rem}
@@ -2221,11 +2124,15 @@
        these are words a reader checks -- Strong, Warm, Founder, the date a
        fact was written. 11px is the floor, and the tracking comes off the two
        that carried it so the pills keep the width they had. */
-    .mtag,.fig-new{font-size:11px;letter-spacing:.03em}
-    .fig-rt,.fig-when,.gm-lab,.mem-guest,.mem-app{font-size:11px}
+    .mtag,.rec-new{font-size:11px;letter-spacing:.03em}
+    .rec-kind,.rec-sup,.rec-meta,.rec-doc em,.mem-guest,.mem-app{font-size:11px}
   }
 
   @media (max-width:560px){
+    /* the record header runs out of line: the name, its kind and the first-seen
+       stamp cannot share one, and the name is the part that must not wrap */
+    .rec-top{flex-wrap:wrap}
+    .rec-meta{flex-basis:100%;margin-left:0;margin-top:.3rem}
     .form-row{grid-template-columns:1fr}
     .code-card pre{padding:1.05rem .9rem}
     .cmodal-inner{padding:1.35rem 1.15rem}
@@ -3025,190 +2932,103 @@ setTimeout(go,1200);})()</script>
   </section>
 
 
-  <!-- WHAT CHANGED: three figures, in order, each one a thing fein does.
+  <!-- THE RECORD, and then the answer out of it.
 
-       Read, update, answer. Every heading is an action in a sequence and the
-       figure under it is the evidence for that one action, so the reader is
-       never working out what they are looking at: the sentence says what the
-       machine is doing while they watch it do it.
+       This was three figures, each one a document on the left, the facts it
+       became on the right, a hexagon between them and wires measured at
+       runtime. Two problems, and the second is the real one.
 
-       The figure is the argument drawn rather than described. A phrase on the
-       left, the fact it became on the right, and a wire between them measured
-       off the two elements at runtime. The numbers are what actually carry the
-       mapping: they are on the page with no script, on a phone where the wires
-       are hidden, and in print. -->
+       Every step opened with a number, a heading, a sub-sentence and two panel
+       headers before any evidence arrived, so the reader was told what they
+       were about to see three times and then shown it. And the right panel
+       restated the left almost word for word: "raising a $4M seed" became
+       "Raising a $4M seed." That is a screenful of type for no new fact, and
+       the superscripts asked the reader to run the match themselves to find
+       that nothing had changed.
+
+       A claim and the sentence it was read from belong on the same line, so
+       here they are on one line, and the citation stops being a footnote and
+       becomes the structure of the object. Nothing in it is explained in
+       prose: four tool marks running down the source column are the whole of
+       "it reads everything", the dates either side of the struck pair are the
+       whole of "eighteen months", and the struck pair itself is the whole of
+       "a fact that stops being true is superseded rather than deleted". Three
+       of the four claims in #proof, demonstrated a screen before they are
+       made. -->
   <section id="change" class="band" aria-labelledby="change-h">
     <div class="change-head">
-      <h2 id="change-h">A memory layer built for the next generation of venture capital.</h2>
-      <p class="sub">Your firm knows more than it can find. fein reads every message, call note and invite that reaches it, files each fact on the record it belongs to with a date and a source, and answers out of all of it.</p>
+      <h2 id="change-h">Every fact keeps the sentence it came from.</h2>
+      <p class="sub">One record per company. Dated, sourced, and never overwritten.</p>
     </div>
 
-    <div class="figs">
+    <div class="plates">
 
-      <!-- 01: one message, as it looks in the client it arrived in -->
-      <section class="fig" aria-labelledby="fig1-h">
-        <div class="fig-head">
-          <span class="fig-step">01</span>
-          <h3 class="fig-lede" id="fig1-h">First, fein reads what arrives.</h3>
-          <p class="fig-sub">A partner forwards a deck and moves on.</p>
-        </div>
-        <div class="fig-d" data-fig="1">
-          <svg class="fig-wires" aria-hidden="true"></svg>
-          <article class="fig-p" data-side="in">
-            <span class="fig-scan" aria-hidden="true"></span>
-            <div class="fig-bar">
-              <h4>What arrived</h4>
-              <span class="fig-tool"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Gmail</b> &middot; inbox</span>
-            </div>
-            <p class="gm-sub">Fwd: Halo Compute, seed deck <span class="gm-lab">Inbox</span></p>
-            <div class="gm-from">
-              <span class="gm-av" aria-hidden="true">DR</span>
-              <div>
-                <p class="gm-nm"><button class="fig-hl" type="button" data-w="1" aria-describedby="f1r1">Dev Raman<sup aria-hidden="true">1</sup></button> <span>&lt;dev@raman.vc&gt;</span></p>
-                <p class="gm-to">to me</p>
+      <figure class="plate reveal">
+        <figcaption class="plate-lab"><span>the record</span><b>4 tools &middot; 18 months</b></figcaption>
+        <div class="rec">
+          <div class="rec-top">
+            <h4>Halo Compute</h4>
+            <span class="rec-kind">company</span>
+            <span class="rec-meta">first seen 8 Nov 2024</span>
+          </div>
+          <ol class="rec-list">
+
+            <!-- the row the section exists for: the fact that replaced another
+                 one, with the one it replaced still under it, still readable,
+                 still carrying the document it came from -->
+            <li class="rec-i">
+              <div class="rec-m">
+                <p class="rec-fact">Opening a <b>$30M Series A</b>.</p>
+                <p class="rec-quote">We are opening a $30M Series A.</p>
               </div>
-              <span class="gm-meta">09:14, 8 Nov 2024
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.7l5.8-.8z"/></svg>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>
-              </span>
-            </div>
-            <p class="gm-body">Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets. They are <button class="fig-hl" type="button" data-w="2" aria-describedby="f1r2">raising a $4M seed<sup aria-hidden="true">2</sup></button> and I think <button class="fig-hl" type="button" data-w="3" aria-describedby="f1r3">you are the right partner<sup aria-hidden="true">3</sup></button> for it.</p>
-            <p class="gm-att"><span class="pdf" aria-hidden="true">PDF</span><span><b>Halo-Compute-Seed.pdf</b><i>2.4 MB</i></span></p>
-            <p class="gm-acts">
-              <span class="gm-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>Reply</span>
-              <span class="gm-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>Forward</span>
-            </p>
-          </article>
-          <div class="fig-mid"><span class="fig-node"><svg viewBox="0 0 100 115.47" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 100 28.87 100 86.6 50 115.47 0 86.6 0 28.87Z"/></svg><b>fein</b></span></div>
-          <article class="fig-p" data-side="out">
-            <div class="fig-bar">
-              <h4>What fein filed</h4>
-              <span class="fig-tool">your firm</span>
-            </div>
-            <ol class="fig-rows">
-              <li class="fig-row" data-w="1" id="f1r1">
-                <span class="fig-n" aria-hidden="true">1</span>
-                <div>
-                  <p class="fig-rn">Dev Raman <span class="fig-rt">Co-investor</span></p>
-                  <p class="fig-f">Introduced <b>Halo Compute</b>. Warmest path in.</p>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Halo Compute, June update</span><em>2 Jun 2026</em></p>
+              <div class="rec-prev">
+                <div class="rec-m">
+                  <p class="rec-fact"><s>Raising a $4M seed.</s><span class="rec-sup">superseded 2 Jun 2026</span></p>
+                  <p class="rec-quote">They are raising a $4M seed.</p>
                 </div>
-              </li>
-              <li class="fig-row" data-w="2" id="f1r2">
-                <span class="fig-n" aria-hidden="true">2</span>
-                <div>
-                  <p class="fig-rn">Halo Compute <span class="fig-rt">Company</span></p>
-                  <p class="fig-f">Raising a <b>$4M seed</b>.</p>
-                </div>
-              </li>
-              <li class="fig-row" data-w="3" id="f1r3">
-                <span class="fig-n" aria-hidden="true">3</span>
-                <div>
-                  <p class="fig-rn">Marcus Feld <span class="fig-rt">Your partner</span></p>
-                  <p class="fig-f">Owns the <b>Halo Compute</b> conversation.</p>
-                </div>
-              </li>
-            </ol>
-            <p class="fig-foot"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>All three read from one email<em>8 Nov 2024</em></p>
-          </article>
-        </div>
-      </section>
+                <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Halo Compute, seed deck</span><em>8 Nov 2024</em></p>
+              </div>
+            </li>
 
-      <!-- 02: four tools, eighteen months, three records. The retired line is
-           the argument: a fact that stops being true is struck and dated. -->
-      <section class="fig" aria-labelledby="fig2-h">
-        <div class="fig-head">
-          <span class="fig-step">02</span>
-          <h3 class="fig-lede" id="fig2-h">Then it updates what it already knew.</h3>
-          <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line no longer relevant, so <b class="hl">fein strikes it and dates it instead of deleting it.</b></p>
-        </div>
-        <div class="fig-d" data-fig="2">
-          <svg class="fig-wires" aria-hidden="true"></svg>
-          <article class="fig-p" data-side="in">
-            <span class="fig-scan" aria-hidden="true"></span>
-            <div class="fig-bar">
-              <h4>What arrived next</h4>
-              <span class="fig-tool">4 documents &middot; 18 months</span>
-            </div>
-            <ol class="feed">
-              <li class="feed-row">
-                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg></span>
-                <div>
-                  <p class="feed-h">Coffee with Halo Compute <em>21 Nov 2024</em></p>
-                  <p class="feed-t">Both founders are <button class="fig-hl" type="button" data-w="1" aria-describedby="f2r1">ex-Anthropic infra<sup aria-hidden="true">1</sup></button>.</p>
-                </div>
-              </li>
-              <li class="feed-row">
-                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg></span>
-                <div>
-                  <p class="feed-h">Priya Nayar started a new position <em>3 Jun 2025</em></p>
-                  <p class="feed-t"><button class="fig-hl" type="button" data-w="2" aria-describedby="f2r2">VP Engineering at Halo Compute<sup aria-hidden="true">2</sup></button>.</p>
-                </div>
-              </li>
-              <li class="feed-row">
-                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg></span>
-                <div>
-                  <p class="feed-h">Northwind Capital, quarterly review <em>12 Mar 2026</em></p>
-                  <p class="feed-t">For the next fund they want <button class="fig-hl" type="button" data-w="3" aria-describedby="f2r3">more AI infrastructure<sup aria-hidden="true">3</sup></button>.</p>
-                </div>
-              </li>
-              <li class="feed-row">
-                <span class="feed-ic"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg></span>
-                <div>
-                  <p class="feed-h">Halo Compute, June update <em>2 Jun 2026</em></p>
-                  <p class="feed-t">We are <button class="fig-hl" type="button" data-w="4" aria-describedby="f2r4">opening a $30M Series A<sup aria-hidden="true">4</sup></button>.</p>
-                </div>
-              </li>
-            </ol>
-          </article>
-          <div class="fig-mid"><span class="fig-node"><svg viewBox="0 0 100 115.47" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 100 28.87 100 86.6 50 115.47 0 86.6 0 28.87Z"/></svg><b>fein</b></span></div>
-          <article class="fig-p" data-side="out">
-            <div class="fig-bar">
-              <h4>What fein filed</h4>
-              <span class="fig-tool">3 records touched</span>
-            </div>
-            <ol class="fig-rows">
-              <li class="fig-row" data-w="1" id="f2r1">
-                <span class="fig-n" aria-hidden="true">1</span>
-                <div>
-                  <p class="fig-rn">Halo Compute <span class="fig-rt">Company</span></p>
-                  <p class="fig-f">Two <b>ex-Anthropic</b> infra engineers.</p>
-                </div>
-              </li>
-              <li class="fig-row" data-w="2" id="f2r2">
-                <span class="fig-n" aria-hidden="true">2</span>
-                <div>
-                  <p class="fig-rn">Priya Nayar <span class="fig-rt">Person</span> <span class="fig-new">new record</span></p>
-                  <p class="fig-f"><b>VP Engineering</b> at Halo Compute.</p>
-                </div>
-              </li>
-              <li class="fig-row" data-w="3" id="f2r3">
-                <span class="fig-n" aria-hidden="true">3</span>
-                <div>
-                  <p class="fig-rn">Northwind Capital <span class="fig-rt">LP</span></p>
-                  <p class="fig-f">Wants more <b>AI infrastructure</b> exposure.</p>
-                </div>
-              </li>
-              <li class="fig-row" data-w="4" id="f2r4">
-                <span class="fig-n" aria-hidden="true">4</span>
-                <div>
-                  <p class="fig-rn">Halo Compute <span class="fig-rt">Company</span></p>
-                  <p class="fig-f">Opening a <b>$30M Series A</b>.</p>
-                  <p class="fig-f ret"><s>Raising a $4M seed.</s><span class="fig-when">Nov 2024 &rarr; Jun 2026</span></p>
-                </div>
-              </li>
-            </ol>
-          </article>
-        </div>
-      </section>
+            <li class="rec-i">
+              <div class="rec-m">
+                <p class="rec-fact"><b>Priya Nayar</b> is VP Engineering. <span class="rec-new">new record</span></p>
+                <p class="rec-quote">VP Engineering at Halo Compute.</p>
+              </div>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Priya Nayar, new position</span><em>3 Jun 2025</em></p>
+            </li>
 
-      <!-- 03: the outcome, and the only place the two panels give way. One box,
-           one answer, and the documents behind it in the sentence itself. -->
-      <section class="fig fig--ans" aria-labelledby="fig3-h">
-        <div class="fig-head">
-          <span class="fig-step">03</span>
-          <h3 class="fig-lede" id="fig3-h">Finally, it answers from all of it.</h3>
-          <p class="fig-sub">Ask in Claude, ChatGPT or Cursor. <b>One answer, and every claim carries the document it came from.</b></p>
+            <li class="rec-i">
+              <div class="rec-m">
+                <p class="rec-fact">Two <b>ex-Anthropic</b> infra engineers.</p>
+                <p class="rec-quote">Both founders are ex-Anthropic infra.</p>
+              </div>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Coffee with Halo Compute</span><em>21 Nov 2024</em></p>
+            </li>
+
+            <li class="rec-i">
+              <div class="rec-m">
+                <p class="rec-fact"><b>Marcus Feld</b> owns the conversation.</p>
+                <p class="rec-quote">Marcus Feld, Dev Raman, Halo Compute intro call.</p>
+              </div>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Halo Compute intro call</span><em>14 Nov 2024</em></p>
+            </li>
+
+            <li class="rec-i">
+              <div class="rec-m">
+                <p class="rec-fact">Introduced by <b>Dev Raman</b>, co-investor.</p>
+                <p class="rec-quote">Marcus, worth twenty minutes.</p>
+              </div>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Halo Compute, seed deck</span><em>8 Nov 2024</em></p>
+            </li>
+
+          </ol>
         </div>
+      </figure>
+
+      <figure class="plate reveal">
+        <figcaption class="plate-lab"><span>the answer</span><b>Claude &middot; ChatGPT &middot; Cursor</b></figcaption>
         <div class="ask">
           <div class="ask-bar">
             <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
@@ -3228,7 +3048,7 @@ setTimeout(go,1200);})()</script>
             Read from 4,180 records across your firm<b>0.9s</b>
           </p>
         </div>
-      </section>
+      </figure>
 
     </div>
   </section>
@@ -4660,172 +4480,6 @@ setTimeout(go,1200);})()</script>
   items.forEach(function(el){ io.observe(el); });
 })();
 
-/* what changed: the wires.
-   Three figures, one behaviour. A wire is an orthogonal run from the right edge
-   of the left panel to the left edge of the right one, measured off the phrase
-   and the fact themselves, so it lands on the same line of sight whatever the
-   copy does at that width. Each wire owns a vertical channel in the column, so
-   two runs never share an x and the reader is never guessing which is which.
-
-   The static page is the default and it is complete: every phrase is
-   highlighted, every fact is on the page, and the numbers on both ends carry
-   the mapping. This file only adds .armed -- which hides the facts so they can
-   arrive one at a time -- immediately before it commits to playing them back,
-   and a watchdog puts them on screen if anything in here throws. */
-(function(){
-  var figs=[].slice.call(document.querySelectorAll('.fig-d'));
-  if(!figs.length) return;
-  var NS='http://www.w3.org/2000/svg';
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var canObserve=('IntersectionObserver' in window);
-
-  function mid(node,box){
-    var r=node.getClientRects()[0]||node.getBoundingClientRect();
-    return r.top+r.height/2-box.top;
-  }
-
-  /* one bend radius, clamped by the three lengths that can be shorter than it,
-     so a wire between two rows an inch apart bends as cleanly as one that runs
-     the height of the panel */
-  function elbow(x0,y0,xc,x1,y1){
-    var dy=y1-y0;
-    if(Math.abs(dy)<1.5) return 'M'+x0+' '+y0+' H'+x1;
-    var s=dy>0?1:-1;
-    var r=Math.min(12,Math.abs(dy)/2,Math.abs(xc-x0),Math.abs(x1-xc));
-    return 'M'+x0+' '+y0+' H'+(xc-r)+' Q'+xc+' '+y0+' '+xc+' '+(y0+s*r)+
-           ' V'+(y1-s*r)+' Q'+xc+' '+y1+' '+(xc+r)+' '+y1+' H'+x1;
-  }
-
-  figs.forEach(function(fig){
-    var svg=fig.querySelector('.fig-wires'),
-        src=fig.querySelector('[data-side="in"]'),
-        dst=fig.querySelector('[data-side="out"]'),
-        scan=fig.querySelector('.fig-scan');
-    if(!svg||!src||!dst) return;
-
-    var outRows=[].slice.call(dst.querySelectorAll('.fig-row'));
-    var pairs=[];
-    [].forEach.call(src.querySelectorAll('.fig-hl'),function(m){
-      var row=dst.querySelector('.fig-row[data-w="'+m.getAttribute('data-w')+'"]');
-      if(row) pairs.push({m:m,r:row});
-    });
-    if(!pairs.length) return;
-
-    var paths=[],dots=[],drawn=false,done=false;
-    pairs.forEach(function(){
-      var p=document.createElementNS(NS,'path');
-      svg.appendChild(p); paths.push(p);
-    });
-    pairs.forEach(function(){
-      var a=document.createElementNS(NS,'circle'),b=document.createElementNS(NS,'circle');
-      a.setAttribute('r','2.5'); b.setAttribute('r','2.5');
-      svg.appendChild(a); svg.appendChild(b); dots.push([a,b]);
-    });
-
-    function route(){
-      var D=fig.getBoundingClientRect();
-      if(!D.width) return;
-      var L=src.getBoundingClientRect(), R=dst.getBoundingClientRect();
-      var x0=L.right-D.left, x1=R.left-D.left, span=x1-x0;
-      /* stacked, the panels are one column: there is no gap to run a wire down
-         and the numbers are doing the work on their own */
-      if(span<=8){ svg.setAttribute('hidden',''); return; }
-      svg.removeAttribute('hidden');
-      svg.setAttribute('viewBox','0 0 '+D.width+' '+D.height);
-      if(scan) src.style.setProperty('--scan-h',L.height+'px');
-      pairs.forEach(function(pr,i){
-        var y0=mid(pr.m,D), y1=mid(pr.r,D);
-        var xc=x0+span*((i+1)/(pairs.length+1));
-        paths[i].setAttribute('d',elbow(x0,y0,xc,x1,y1));
-        if(drawn){ paths[i].style.strokeDasharray='none'; }
-        dots[i][0].setAttribute('cx',x0); dots[i][0].setAttribute('cy',y0);
-        dots[i][1].setAttribute('cx',x1); dots[i][1].setAttribute('cy',y1);
-      });
-    }
-
-    function finish(){
-      if(done) return;
-      done=true; drawn=true;
-      fig.classList.remove('armed','playing');
-      paths.forEach(function(p){ p.style.strokeDasharray='none'; p.style.strokeDashoffset=0; });
-      dots.forEach(function(d){ d[0].classList.add('on'); d[1].classList.add('on'); });
-    }
-
-    function play(){
-      var D=fig.getBoundingClientRect(), L=src.getBoundingClientRect();
-      /* with a document on the left the beat is the read itself: a phrase lights
-         as the scan line reaches it, so the order is the order of the sentence.
-         With records on the left there is nothing to read, so they land in turn */
-      var t=pairs.map(function(pr,i){
-        if(!scan) return i*200;
-        var f=(mid(pr.m,D)-(L.top-D.top))/(L.height||1);
-        return Math.round(1000*Math.max(0,Math.min(1,f)));
-      });
-      var end=0;
-      if(scan) fig.classList.add('playing');
-      pairs.forEach(function(pr,i){
-        var len=paths[i].getTotalLength();
-        paths[i].style.strokeDasharray=len;
-        paths[i].style.strokeDashoffset=len;
-        setTimeout(function(){ pr.m.classList.add('lit'); },t[i]);
-        setTimeout(function(){
-          paths[i].style.transition='stroke-dashoffset .55s cubic-bezier(.22,.61,.36,1)';
-          paths[i].style.strokeDashoffset=0;
-          dots[i][0].classList.add('on');
-        },t[i]+110);
-        setTimeout(function(){ dots[i][1].classList.add('on'); },t[i]+600);
-        end=Math.max(end,t[i]+600);
-      });
-      /* a fact with no wire is a fact this document retired: it lands just after
-         the one that replaced it, which is the order it happened in */
-      var last=0;
-      outRows.forEach(function(row){
-        var k=-1;
-        pairs.forEach(function(pr,i){ if(pr.r===row) k=i; });
-        var at=(k>=0)?t[k]+600:last+300;
-        if(k>=0) last=t[k]+600;
-        end=Math.max(end,at);
-        setTimeout(function(){ row.classList.add('lit'); },at);
-      });
-      setTimeout(finish,end+700);
-    }
-
-    function link(i,on){
-      fig.classList.toggle('lit',on);
-      pairs[i].m.classList.toggle('on',on);
-      pairs[i].r.classList.toggle('on',on);
-      paths[i].classList.toggle('on',on);
-    }
-    pairs.forEach(function(pr,i){
-      pr.m.addEventListener('mouseenter',function(){ link(i,true); });
-      pr.m.addEventListener('mouseleave',function(){ link(i,false); });
-      pr.m.addEventListener('focus',function(){ link(i,true); });
-      pr.m.addEventListener('blur',function(){ link(i,false); });
-      pr.r.addEventListener('mouseenter',function(){ link(i,true); });
-      pr.r.addEventListener('mouseleave',function(){ link(i,false); });
-    });
-
-    route();
-    if(reduce||!canObserve){ finish(); }
-    else{
-      fig.classList.add('armed');
-      /* nothing below this line is allowed to be the reason a fact is invisible */
-      var watchdog=setTimeout(finish,7000);
-      var io=new IntersectionObserver(function(en){
-        en.forEach(function(e){
-          if(!e.isIntersecting) return;
-          io.disconnect(); clearTimeout(watchdog);
-          route(); play();
-        });
-      },{threshold:0.2});
-      io.observe(fig);
-    }
-
-    if('ResizeObserver' in window) new ResizeObserver(route).observe(fig);
-    window.addEventListener('resize',route);
-    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(route);
-  });
-})();
 
 /* the fold: five documents, the runs into the box, and the answer.
    The lines are measured off the cards and the box, so the inflow is right at
