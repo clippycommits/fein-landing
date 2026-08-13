@@ -486,9 +486,21 @@ __LOGO_SPRITE__
           <summary>Where does our data go?</summary>
           <p>Your data goes nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path. Every line of code that touches your data is public. You can read it before you run anything.</p>
         </details>
+        <!-- This answer is bounded by fein-docs/legal/dpa.md and must stay that
+             way. Annex II section 6 states there is no tamper-proof audit trail
+             of administrative access, so "we log everything our engineer does"
+             is not supportable and is not claimed here. Section 4 is the one
+             positive commitment the DPA makes about people, and it is the one
+             the answer leans on. Annex II section 3 is why the machine matters:
+             application data is not encrypted by the application, so whoever
+             holds the host reads the content. On a self-hosted deployment that
+             host is the customer's, which is the honest version of the
+             reassurance. Strengthen any of this only after the product changes,
+             not before. -->
         <details>
           <summary>What access does your engineer have?</summary>
-          <p>Your IT grants access for the two calls and the work between them. That work runs on your infrastructure and under your logging. fein writes down every ingest, every merge and every decision with the person or agent that made it. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported.</p>
+          <p>The engineer works inside your environment, on access your IT grants. You can revoke it at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported.</p>
+          <p>One thing we will not overstate: fein does not today keep a tamper-proof audit trail of administrative access. Your own logging is the record that counts. The graph also sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is the reason the machine is yours and not ours.</p>
         </details>
         <details>
           <summary>What must we do?</summary>
