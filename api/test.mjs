@@ -30,7 +30,25 @@ globalThis.fetch = async (url, init = {}) => {
   const u = String(url);
   const body = init.body ? JSON.parse(init.body) : undefined;
   if (u.startsWith("https://resend.test")) {
-    sent.push({ path: u.slice("https://resend.test".length), body });
+    const path = u.slice("https://resend.test".length);
+    // GET /emails is what a booking uses to find its own pending mail, so the
+    // fake has to keep the send log the way Resend does: newest first, with the
+    // scheduled ones still marked scheduled until something cancels them.
+    if (path.startsWith("/emails?")) {
+      const data = sent.filter((s) => s.path === "/emails").map((s) => ({
+        id: s.id, to: s.body?.to ?? [], subject: s.body?.subject,
+        scheduled_at: s.body?.scheduled_at ?? null,
+        last_event: s.body?.scheduled_at ? (s.cancelled ? "canceled" : "scheduled") : "delivered",
+      })).reverse();
+      return Response.json({ object: "list", has_more: false, data });
+    }
+    const cancel = path.match(/^\/emails\/([^/]+)\/cancel$/);
+    if (cancel) {
+      const row = sent.find((s) => s.id === cancel[1]);
+      if (!row) return new Response(JSON.stringify({ message: "not found" }), { status: 404 });
+      row.cancelled = true;
+    }
+    sent.push({ path, body, id: `em_${sent.length + 1}`, headers: init.headers ?? {} });
     return Response.json({ id: `em_${sent.length}` });
   }
   if (u.startsWith("https://redis.test")) {
@@ -100,8 +118,32 @@ console.log("Enquiry:");
   ok([notify, nudge].every((m) => !m.html && m.text), "notify and nudge stay plain text");
   ok(typeof nudge.scheduled_at === "string" && new Date(nudge.scheduled_at) > new Date(),
     "nudge is scheduled in the future");
-  ok(kv.get("fein:nudge:priya@meridianwealth.example") === "em_3", "nudge id stored in redis");
+  const pending = await (await fetch("https://resend.test/emails?limit=100")).json();
+  ok(pending.data.some((r) => r.last_event === "scheduled" && r.to.includes("priya@meridianwealth.example")),
+    "the nudge is findable in resend's own schedule, which is what a booking cancels");
   ok(!JSON.stringify(mails).match(/—|—/), "email copy contains no em dashes");
+}
+
+console.log("Copy that follows what the lead ticked:");
+{
+  const { welcomeEmail, followupEmail, bookingEmail, interestPhrase, whenLine } = await import("./_lib.mjs");
+  ok(interestPhrase("Warm introductions, Meeting prep, Deal history") ===
+    "warm introductions, meeting prep and deal history", "interests read as a sentence, not a list");
+  ok(interestPhrase(null) === null && interestPhrase("") === null, "nothing ticked, nothing to say");
+  const lead = { email: "a@b.example", first: "Ada", interests: "Warm introductions, Meeting prep" };
+  const said = "You asked about warm introductions and meeting prep, so that is where he will start.";
+  ok(welcomeEmail(lead).text.includes(said) && welcomeEmail(lead).html.includes(said.slice(0, 40)),
+    "the welcome answers what they ticked, in both parts");
+  ok(!welcomeEmail({ email: "a@b.example" }).text.includes("You asked about"),
+    "and says nothing at all when they ticked nothing");
+  ok(followupEmail(lead).text.includes("warm introductions and meeting prep"),
+    "the nudge remembers it too");
+  const w = whenLine("2026-08-20T09:30:00Z", "Europe/London");
+  ok(w === "Thursday 20 August at 10:30 am BST", `the time is in their timezone, not ours — got ${w}`);
+  ok(whenLine("2026-08-20T09:30:00Z", "Not/AZone").includes("Thursday 20 August"),
+    "an unknown timezone falls back to UTC rather than breaking the mail");
+  ok(whenLine(undefined, "Europe/London") === null && !bookingEmail(lead).text.includes("null"),
+    "no usable time means the copy simply does not mention one");
 }
 
 console.log("Honeypot + validation:");
@@ -131,12 +173,55 @@ console.log("Booking webhook:");
   ok((await hook.json()).ok === true, "signed webhook accepted");
   const cancel = sent.find((s) => s.path.includes("/cancel"));
   ok(cancel && cancel.path === "/emails/em_3/cancel", "the scheduled nudge was cancelled");
-  ok(!kv.has("fein:nudge:priya@meridianwealth.example"), "nudge key deleted");
+  const still = await (await fetch("https://resend.test/emails?limit=100")).json();
+  ok(!still.data.some((r) => r.last_event === "scheduled" && r.to.includes("priya@meridianwealth.example")),
+    "and nothing is left in the schedule for someone who has booked");
   ok(sent.some((s) => s.body?.subject?.startsWith("fein call booked")), "we get a booked notification");
-  const other = JSON.stringify({ triggerEvent: "BOOKING_CANCELLED", payload: {} });
+
+  const booked = sent.map((s) => s.body).filter((b) => b?.subject === "your call with Daniel").pop();
+  ok(booked?.to?.[0] === "priya@meridianwealth.example" && booked.from.includes("Olivia"),
+    "the lead gets one mail from Olivia about the booking");
+  ok(booked.text.includes("Wednesday 12 August at 10:00 am"),
+    "it says when, in words, not an ISO string");
+  ok(booked.text.includes("reply here with it. Daniel will have it ready"),
+    "it asks for the question that makes the call worth having");
+  ok(!booked.text.includes("Book a meeting") && !booked.text.includes("cal.com"),
+    "and never offers a calendar to someone already holding an invite");
+  ok(!JSON.stringify(booked).match(/—|—|!/), "booking mail keeps the copy rules");
+
+  const other = JSON.stringify({ triggerEvent: "BOOKING_REQUESTED", payload: {} });
   const otherSig = createHmac("sha256", SECRET).update(other).digest("hex");
   const ignored = await post(webhook, other, { "x-cal-signature-256": otherSig });
-  ok((await ignored.json()).ignored === "BOOKING_CANCELLED", "other events acknowledged, not acted on");
+  ok((await ignored.json()).ignored === "BOOKING_REQUESTED", "other events acknowledged, not acted on");
+}
+
+console.log("Cancellations:");
+{
+  const cancelled = (by) => JSON.stringify({
+    triggerEvent: "BOOKING_CANCELLED",
+    payload: {
+      uid: "bk_1", title: "fein intro", startTime: "2026-08-12T10:00:00Z",
+      attendees: [{ email: "priya@meridianwealth.example", name: "Priya Nair", timeZone: "Europe/London" }],
+      cancelledBy: by,
+    },
+  });
+  let mark = sent.length;
+  const theirs = cancelled({ email: "priya@meridianwealth.example" });
+  const res1 = await post(webhook, theirs, {
+    "x-cal-signature-256": createHmac("sha256", SECRET).update(theirs).digest("hex"),
+  });
+  ok((await res1.json()).offeredAnother === true, "the attendee dropping the slot is answered");
+  const offer = sent.slice(mark).map((s) => s.body).find((b) => b?.subject === "another time for the fein call");
+  ok(offer && offer.text.startsWith("Hi Priya,\n\nWednesday 12 August at 11:00 am BST has come off") && offer.text.includes("cal.com/daniel/fein-intro"),
+    "it names the slot they dropped and hands back the calendar");
+
+  mark = sent.length;
+  const ours = cancelled({ email: "daniel@fein.vc" });
+  const res2 = await post(webhook, ours, {
+    "x-cal-signature-256": createHmac("sha256", SECRET).update(ours).digest("hex"),
+  });
+  ok((await res2.json()).offeredAnother === false && sent.length === mark,
+    "us cancelling says nothing to the lead, because we know why");
 }
 
 console.log("Booking modal path (demo page):");
@@ -151,19 +236,20 @@ console.log("Booking modal path (demo page):");
   const [notify, welcome, nudge] = sent.slice(before).filter((s) => s.path === "/emails").map((s) => s.body);
   ok(typeof welcome.scheduled_at === "string" && new Date(welcome.scheduled_at) > new Date(),
     "the welcome is held, not sent, when the page is opening the modal itself");
-  ok(kv.get("fein:welcome:sam@northgate.example") === `em_${sent.length - 1}`,
-    "held welcome id stored in redis so the booking can cancel it");
   ok(typeof nudge.scheduled_at === "string" && new Date(nudge.scheduled_at) > new Date(welcome.scheduled_at),
     "the nudge still sits behind the welcome");
   ok(notify.text.includes("booking modal opened") && notify.text.includes("hear nothing else"),
     "our notification says which funnel this lead is in");
 
-  // ...and booking in that modal takes both scheduled sends away
+  // ...and booking in that modal takes both scheduled sends away, leaving one
+  // mail: the confirmation, which is the whole of what a booked lead hears
+  // from a person.
   const payload = JSON.stringify({
     triggerEvent: "BOOKING_CREATED",
     payload: {
-      title: "fein intro", startTime: "2026-08-20T09:00:00Z",
-      attendees: [{ email: "sam@northgate.example", name: "Sam Okafor" }],
+      uid: "bk_sam", title: "fein intro", startTime: "2026-08-20T09:00:00Z",
+      attendees: [{ email: "sam@northgate.example", name: "Sam Okafor", timeZone: "Europe/Stockholm" }],
+      responses: { notes: { value: "Part of the world: Europe\nInterested in: Warm introductions, Meeting prep" } },
     },
   });
   const mark = sent.length;
@@ -173,13 +259,18 @@ console.log("Booking modal path (demo page):");
   ok((await hook.json()).ok === true, "signed webhook accepted");
   const cancels = sent.slice(mark).filter((s) => s.path.includes("/cancel")).map((s) => s.path);
   ok(cancels.length === 2, `booking cancels both the held welcome and the nudge — got ${cancels.length}`);
-  ok(!kv.has("fein:welcome:sam@northgate.example") && !kv.has("fein:nudge:sam@northgate.example"),
-    "both keys deleted");
-  ok(sent.slice(mark).every((s) => s.path.includes("/cancel") || s.body?.subject?.startsWith("fein call booked")),
-    "someone who books in the modal is never written to about booking");
+  const toLead = sent.slice(mark).filter((s) => s.path === "/emails" && s.body?.to?.[0] === "sam@northgate.example");
+  ok(toLead.length === 1 && toLead[0].body.subject === "your call with Daniel",
+    `a lead who books gets exactly one mail from us, and it is the confirmation — got ${toLead.length}`);
+  ok(toLead[0].headers["Idempotency-Key"] === "booking-bk_sam",
+    "keyed on the booking, so a webhook cal.com retries cannot mail them twice");
+  ok(toLead[0].body.text.includes("warm introductions and meeting prep"),
+    "which still knows what they ticked, read back off the notes the modal prefilled");
+  ok(toLead[0].body.text.includes("Thursday 20 August at 11:00 am"),
+    "and states the time where they are, not where the server is");
 }
 
-console.log("Booking modal path with no Upstash:");
+console.log("The whole funnel with no Upstash at all:");
 {
   const url = process.env.UPSTASH_REDIS_REST_URL, tok = process.env.UPSTASH_REDIS_REST_TOKEN;
   delete process.env.UPSTASH_REDIS_REST_URL;
@@ -187,8 +278,21 @@ console.log("Booking modal path with no Upstash:");
   const before = sent.length;
   await post(enquiry, { email: "ines@harbourline.example", first: "Ines", booking: "modal", t: 30000 });
   const [, welcome] = sent.slice(before).filter((s) => s.path === "/emails").map((s) => s.body);
-  ok(!welcome.scheduled_at,
-    "with no redis to cancel it, the welcome sends now rather than arriving late to someone who booked");
+  ok(typeof welcome.scheduled_at === "string",
+    "the welcome is still held: taking it back needs resend's schedule, not ours");
+  const payload = JSON.stringify({
+    triggerEvent: "BOOKING_CREATED",
+    payload: { uid: "bk_ines", startTime: "2026-08-21T14:00:00Z", attendees: [{ email: "ines@harbourline.example", name: "Ines" }] },
+  });
+  const mark = sent.length;
+  await post(webhook, payload, {
+    "x-cal-signature-256": createHmac("sha256", SECRET).update(payload).digest("hex"),
+  });
+  ok(sent.slice(mark).filter((s) => s.path.includes("/cancel")).length === 2,
+    "and the booking still takes both sends away with no redis in the picture");
+  const left = await (await fetch("https://resend.test/emails?limit=100")).json();
+  ok(!left.data.some((r) => r.last_event === "scheduled" && r.to.includes("ines@harbourline.example")),
+    "nothing is left queued for someone who booked");
   Object.assign(process.env, { UPSTASH_REDIS_REST_URL: url, UPSTASH_REDIS_REST_TOKEN: tok });
 }
 

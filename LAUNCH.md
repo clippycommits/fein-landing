@@ -9,58 +9,74 @@ Everything runs on Vercel: one project serves the static site and the
 bash scripts/funnel-wizard.sh
 ```
 
-Ten stages, ~45 minutes, re-runnable (state in `~/.config/fein/funnel.env`):
+Eleven stages, ~50 minutes, re-runnable (state in `~/.config/fein/funnel.env`):
 import the repo into Vercel, point fein.vc at it, Upstash Redis, Resend
-domain + key, cal.com event + webhook, Vercel env vars, FormSubmit fallback
-activation, end-to-end smoke test, and retiring the old VPS service.
+domain + key, email authentication (SPF/DKIM/DMARC), cal.com event + webhook,
+Vercel env vars, FormSubmit fallback activation, end-to-end smoke test, and
+retiring the old VPS service.
 
 ## The booking funnel
 
 ```
-/demo form ("Find a time")
+/demo form ("Select a time that suits you")
    ├─ GET /api/cal on first keystroke      (CAL_LINK, split for the embed)
    └─ POST /api/enquiry                    (Vercel function, same origin)
         ├─ notification → daniel@fein.vc   (Reply-To: the lead)
-        ├─ welcome email → lead, "Pick a time" → cal.com (prefilled)
-        │    HELD +15m when the page says `booking: "modal"`, id in Upstash
-        ├─ nudge scheduled +72h (Resend scheduled send; id in Upstash)
+        ├─ welcome → lead, Daniel's calendar, what the call is
+        │    HELD +15m when the page says `booking: "modal"`
+        ├─ nudge scheduled +72h (Resend scheduled send)
         └─ cal.com modal opens over the page, name/email/notes prefilled
-cal.com BOOKING_CREATED webhook → /api/webhooks/calcom (HMAC-verified)
-        ├─ cancels the held welcome AND the nudge (ids in Upstash)
+cal.com BOOKING_CREATED   → /api/webhooks/calcom (HMAC-verified)
+        ├─ cancels every pending send to that address (welcome, nudge)
+        ├─ confirmation → lead, what the twenty minutes are for, and the
+        │    one ask: send a question you want fein to answer
         └─ "fein call booked" notification → daniel@fein.vc
+cal.com BOOKING_CANCELLED → /api/webhooks/calcom
+        └─ if THEY cancelled: "another time for the fein call" + the calendar
+           if we cancelled: nothing, we know why
 ```
 
-**The hold needs Upstash, which is not provisioned yet.** Cancelling a
-scheduled send means looking its id up again, and that is the one piece of
-state these functions keep. While `/api/health` reports `nudgeState: "none"`
-the hold switches itself off and every enquiry gets the welcome immediately,
-booked or not, which is the funnel as it was before this. Setting
-`UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (stage 3 of the wizard)
-turns on both cancellations, and nothing else needs to change.
+One mail per thing that can happen to a lead, and never two for one. The four
+journeys and what each one gets:
 
-The hold is what makes "we only chase the ones who did not book" true. Booking
-in the modal usually happens within a minute of the form, so the welcome is
-scheduled rather than sent and the webhook takes it away again: a lead who
-books hears from cal.com and from nobody else. A lead who closes the modal gets
-it at +15m and the nudge at +72h, as before. Any client that does not claim
-`booking: "modal"` (the pe page, or a demo page whose embed was blocked) keeps
-the immediate send, so a blocked embed costs a modal and never a lead.
+| what they did | from cal.com | from us |
+| --- | --- | --- |
+| booked in the modal | invite | confirmation only (the welcome is cancelled before it was due) |
+| closed the modal, never booked | nothing | welcome at +15m, one nudge at +72h, then we stop |
+| booked later, from the email | invite | welcome, then confirmation; the nudge is cancelled |
+| booked, then cancelled it themselves | cancellation | "another time" with the calendar |
+
+Cancelling those scheduled sends is a sweep of Resend's own schedule for
+anything still pending to that address (`cancelScheduledFor` in `_lib.mjs`).
+It needs no state of ours, which is the point: it used to need ids kept in
+Upstash, Upstash was never provisioned, and the cancellations were therefore
+silently not happening. The window is the last 300 sends, months at this
+volume; if sending ever outgrows that, a 72h old nudge could fall off the end
+and the cost is one extra nudge, never a lost lead.
+
+The hold is what makes "we only write to the ones who did not book" true.
+Booking in the modal usually happens within a minute of the form, so the
+welcome is scheduled rather than sent and the booking takes it away again. Any
+client that does not claim `booking: "modal"` (the pe page, or a demo page
+whose embed was blocked) keeps the immediate send, so a blocked embed costs a
+modal and never a lead.
 
 - Functions: `api/enquiry.mjs`, `api/call.mjs`, `api/cal.mjs`,
   `api/webhooks/calcom.mjs`, `api/health.mjs`, shared plumbing in
   `api/_lib.mjs`. Zero dependencies, Web-handler style.
 - Env (Vercel → Settings → Environment Variables): `RESEND_API_KEY`,
-  `CAL_LINK`, `CALCOM_WEBHOOK_SECRET`, `NOTIFY_TO`, `MAIL_FROM`,
-  `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. The cal.com link
-  lives only in the env: changing it is an env edit + redeploy, no code.
+  `CAL_LINK`, `CALCOM_WEBHOOK_SECRET`, `NOTIFY_TO`, `MAIL_FROM`. The cal.com
+  link lives only in the env: changing it is an env edit + redeploy, no code.
   The modal reads it too, through `/api/cal`, so no page hardcodes it.
   `WELCOME_HOLD_MINUTES` (default 15) is how long the held welcome waits.
-- Event log: Redis list `fein:log` (enquiries, sends, bookings, call
-  clicks), best effort — the email notifications are the primary record.
-- Tests: `node api/test.mjs` — fully offline (fetch patched to fake Resend +
-  Upstash), 42 assertions including webhook signature verification, both
-  scheduled-send cancellations, the no-Upstash fallback, and the copy rules
-  (no em dashes).
+- Upstash (`UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`) is now
+  optional and still unset: it buys the per-IP rate limit and the `fein:log`
+  event list, and nothing else. No email depends on it. `/api/health` reports
+  which of the two you are running.
+- Tests: `node api/test.mjs` — fully offline (fetch patched to fake Resend's
+  send, list and cancel, plus Upstash), 61 assertions including webhook
+  signature verification, who gets which mail in each of the four journeys,
+  the no-Upstash path, and the copy rules (no em dashes, no gush).
 - FormSubmit remains the fallback relay if the functions are unreachable;
   abandoned partial leads go ONLY there, deliberately, so they never
   trigger the booking funnel emails.
@@ -79,6 +95,52 @@ the immediate send, so a blocked embed costs a modal and never a lead.
 GoatCounter: https://fein.goatcounter.com (credentials in
 `~/.config/fein/goatcounter.txt`). Page views, hash routes, `lead-submitted`
 and `call-click` events; server-side call clicks also land in `fein:log`.
+
+## Email authentication (done — 2026-08-13)
+
+The first live lead notification went to spam. Resend's own three records
+(the MX and SPF on `send`, and `resend._domainkey`) authenticate the sending
+*service*; they do not give `fein.vc` itself an SPF or a DMARC record.
+Without those, Google Workspace saw `noah@fein.vc → daniel@fein.vc` arriving
+from Amazon SES, read it as our own domain being spoofed, and filed it as
+spam. The `Reply-To:` pointing at the lead's unrelated domain made it look
+more like BEC, not less.
+
+Four records, all in Namecheap Advanced DNS:
+
+| Host | Value | Authenticates |
+|---|---|---|
+| `@` | `v=spf1 include:_spf.google.com ~all` | Workspace outbound |
+| `_dmarc` | `v=DMARC1; p=none; rua=mailto:daniel@fein.vc` | the policy itself |
+| `resend._domainkey` | (Resend generates) | the funnel emails |
+| `google._domainkey` | (Google Admin generates) | mail sent by hand |
+
+DKIM is what carries the DMARC pass: `resend._domainkey` signs `d=fein.vc`,
+which aligns with the `From:` domain. The root SPF is for Workspace, not for
+Resend — Resend's envelope domain is `send.fein.vc`, which has its own.
+
+`p=` only governs mail that FAILS, so the fix was going from "no DMARC record
+at all" to "a record exists"; `p=none` is enough for that. It stays at `none`
+until the `rua` reports show Google and Resend both passing, because
+`sales@fein.vc` (a Group would rewrite messages and break the signature) and
+anything forwarded out of `daniel@fein.vc` would fail today. Ramp when the
+reports are clean: `none` → `quarantine; pct=25` → `quarantine` → `reject`.
+
+Verify by sending a test enquiry and opening ⋮ → Show original on what
+arrives. Want `dkim=pass header.i=@fein.vc` and `dmarc=pass (p=NONE)
+header.from=fein.vc`.
+
+Two traps, both hit on the way in:
+
+- Namecheap discards an inline row edit unless you click the green ✓ on that
+  row, then re-renders the old value, so the page looks like it saved.
+  Delete and recreate rather than edit, reload, and read the value back.
+- A malformed record is worse than a missing one: RFC 7489 says a receiver
+  MUST treat a syntax error as if no record were present. `aspf=r p=none` (a
+  dropped semicolon) parses as `aspf` with the value `r p=none` and voids the
+  whole record while still looking plausible in the panel. Stage 5 of the
+  wizard checks for exactly this, against the authoritative nameservers
+  rather than a cache.
 
 ## Remaining nice-to-haves (not blocking)
 

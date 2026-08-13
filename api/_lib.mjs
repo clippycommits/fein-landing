@@ -42,11 +42,11 @@ export const json = (obj, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
 
 // ---- resend ---------------------------------------------------------------
-export async function resend(path, body, method = "POST") {
+export async function resend(path, body, method = "POST", headers = {}) {
   const base = cfg("RESEND_BASE_URL") ?? "https://api.resend.com"; // overridable for tests
   const res = await fetch(base + path, {
     method,
-    headers: { authorization: `Bearer ${cfg("RESEND_API_KEY")}`, "content-type": "application/json" },
+    headers: { authorization: `Bearer ${cfg("RESEND_API_KEY")}`, "content-type": "application/json", ...headers },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
   const data = await res.json().catch(() => ({}));
@@ -78,6 +78,44 @@ export async function logEvent(ev) {
   }
 }
 
+/** Cancel every send still sitting in Resend's schedule for one address.
+ *
+ * This is what makes "we only write to the ones who did not book" true, and it
+ * replaces the Upstash lookup that used to do it. Resend's list endpoint
+ * carries `to`, `scheduled_at` and `last_event`, so a booking can find its own
+ * pending mail by recipient without us having kept an id anywhere. That matters
+ * because the ids were kept in Upstash, Upstash was never provisioned, and the
+ * cancellations were therefore silently not happening.
+ *
+ * The list is every email newest first, so the window is the last `pages` x 100
+ * sends. At this volume that is months. If sending ever grows enough that a
+ * 72h old nudge falls off the end, the cost is one extra nudge to someone who
+ * booked, never a lost lead, and the fix is more pages.
+ */
+export async function cancelScheduledFor(email, pages = 3) {
+  const want = String(email ?? "").toLowerCase();
+  if (!want) return [];
+  const cancelled = [];
+  let after = null;
+  for (let i = 0; i < pages; i++) {
+    const page = await resend(`/emails?limit=100${after ? `&after=${after}` : ""}`, undefined, "GET");
+    const rows = page.data ?? [];
+    for (const row of rows) {
+      if (row.last_event !== "scheduled") continue;
+      if (!(row.to ?? []).some((t) => String(t).toLowerCase() === want)) continue;
+      try {
+        await resend(`/emails/${row.id}/cancel`, {});
+        cancelled.push(row.id);
+      } catch (err) {
+        console.error(`cancel ${row.id} failed:`, err.message); // worst case: one extra email
+      }
+    }
+    if (!page.has_more || !rows.length) break;
+    after = rows[rows.length - 1].id;
+  }
+  return cancelled;
+}
+
 // ---- email copy (site rules apply: no em dashes) --------------------------
 // Lead-facing mail is the SDR persona Olivia Greene, modelled on Ramp's
 // "your interest in Ramp" outreach: it must read as personally written, so
@@ -89,7 +127,47 @@ export async function logEvent(ev) {
 // booking page showing a different name would break the persona.
 // Register: warm but unfussy. Thank them, offer a way out ("just reply"),
 // sign off "Speak soon". No exclamation marks, no "excited", no flattery.
+//
+// One mail per thing that can happen to a lead, and never two for one:
+//
+//   filled the form, has not booked   -> welcomeEmail    (the calendar)
+//   still not booked 72h later        -> followupEmail   (one nudge, then stop)
+//   booked                            -> bookingEmail    (what to expect)
+//   booked, then cancelled themselves -> cancelledEmail  (the calendar again)
+//
+// Since the demo page opens the calendar itself, most bookings now happen
+// before the welcome is due, and the welcome is cancelled unsent. So for a
+// lead who books, bookingEmail is the only thing they get from a person, which
+// is why it carries the one question that makes the call worth having rather
+// than a restatement of the invite cal.com already sent them.
 export const salesFrom = () => cfg("SALES_FROM") ?? "Olivia Greene <olivia.greene@fein.vc>";
+
+/** "warm introductions and meeting prep", from what they ticked on the form.
+ * Lowercased because it lands mid sentence; null when they ticked nothing, and
+ * every mail that uses it drops the whole line rather than saying "you asked
+ * about nothing". */
+export function interestPhrase(interests) {
+  const list = String(interests ?? "").split(",").map((s) => s.trim()).filter(Boolean)
+    .map((s) => s.charAt(0).toLowerCase() + s.slice(1));
+  if (!list.length) return null;
+  if (list.length === 1) return list[0];
+  return `${list.slice(0, -1).join(", ")} and ${list[list.length - 1]}`;
+}
+
+/** "Thursday 20 August at 3:30 pm BST", in the attendee's own timezone, which
+ * is the only one they can act on. Falls back to UTC when cal.com sends a
+ * timezone Intl does not know, and to null when there is no usable time, in
+ * which case the copy simply does not mention one. */
+export function whenLine(startTime, timeZone) {
+  const d = new Date(startTime ?? "");
+  if (isNaN(d.getTime())) return null;
+  const fmt = (tz) => {
+    const day = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: tz }).format(d);
+    const time = new Intl.DateTimeFormat("en-GB", { hour: "numeric", minute: "2-digit", hour12: true, timeZoneName: "short", timeZone: tz }).format(d);
+    return `${day} at ${time}`;
+  };
+  try { return fmt(timeZone || "UTC"); } catch { return fmt("UTC"); }
+}
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -111,44 +189,146 @@ export function calEmbed() {
 }
 
 // The grey Gmail-style signature. The address line only appears once
-// POSTAL_ADDRESS is set; never invent one.
+// POSTAL_ADDRESS is set; never invent one. `url` is omitted for a lead who is
+// already booked: offering "Book a meeting" to someone holding an invite reads
+// as mail that does not know who it is talking to.
 function signatureHtml(url) {
   const addr = cfg("POSTAL_ADDRESS");
-  return `<p style="margin:40px 0 0;color:#888888">Olivia Greene<br>New Business @ fein | <a href="${esc(url)}" style="color:#1a73e8">Book a meeting</a>${addr ? `<br>${esc(addr)}` : ""}</p>`;
+  const book = url ? ` | <a href="${esc(url)}" style="color:#1a73e8">Book a meeting</a>` : "";
+  return `<p style="margin:40px 0 0;color:#888888">Olivia Greene<br>New Business @ fein${book}${addr ? `<br>${esc(addr)}` : ""}</p>`;
 }
 
 function signatureText(url) {
   const addr = cfg("POSTAL_ADDRESS");
-  return `Olivia Greene\nNew Business @ fein | Book a meeting: ${url}${addr ? `\n${addr}` : ""}`;
+  return `Olivia Greene\nNew Business @ fein${url ? ` | Book a meeting: ${url}` : ""}${addr ? `\n${addr}` : ""}`;
 }
+
+// The paragraph shell both lead-facing HTML mails wear: Gmail's default face,
+// no shell, no buttons. Kept here so the four emails cannot drift apart.
+const P = 'style="margin:0 0 16px"';
+const htmlMail = (paras) =>
+  `<div dir="ltr" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222222">${paras.join("")}</div>`;
 
 // `hold` schedules this instead of sending it, for the client that is about to
 // put the calendar on the screen itself. The copy does not change: someone who
-// closed the modal without booking has not read a word of this yet.
+// closed the modal without booking has not read a word of this yet, and a mail
+// that opened with "I saw you close that" would be worse than one that does
+// not know. What it does not do any more is re-explain the call: on the demo
+// page they have just read the page and seen the calendar, so this is short
+// and its job is the link.
 export function welcomeEmail(lead, { hold = false } = {}) {
   const url = callUrl(lead);
   const hi = `Hi ${lead.first || "there"},`;
-  const p = 'style="margin:0 0 16px"';
+  const want = interestPhrase(lead.interests);
+  const opening = "Thanks for putting your name down on the fein website, it is lovely to hear from you. The next step is twenty minutes with Daniel, our founder: he will show you fein answering a real question from a fund's own history, and tell you straight whether it fits the stack your team already runs.";
+  const started = want ? `You asked about ${want}, so that is where he will start.` : null;
+  const closing = "If nothing there suits, reply to this email with a day or two that do, and we will fit around you.";
   return {
     from: salesFrom(),
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
     ...(hold ? { scheduled_at: new Date(Date.now() + WELCOME_HOLD_MINUTES * 60_000).toISOString() } : {}),
     subject: "your interest in fein",
-    text: `${hi}\n\nThanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.\n\nDo you have any availability in the coming days? I've opened up Daniel's calendar, so please feel free to grab whichever time suits you best: ${url}\n\nHe'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.\n\nSpeak soon,\nOlivia\n\n\n${signatureText(url)}`,
-    html: `<div dir="ltr" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#222222"><p ${p}>${esc(hi)}</p><p ${p}>Thanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.</p><p ${p}>Do you have any availability in the coming days? I've opened up Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, so please feel free to grab whichever time suits you best.</p><p ${p}>He'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.</p><p style="margin:0">Speak soon,<br>Olivia</p>${signatureHtml(url)}</div>`,
+    text: [
+      hi, opening, started,
+      `Here is Daniel's calendar, take whichever time suits you best: ${url}`,
+      closing, "Speak soon,\nOlivia", `\n${signatureText(url)}`,
+    ].filter(Boolean).join("\n\n"),
+    html: htmlMail([
+      `<p ${P}>${esc(hi)}</p>`,
+      `<p ${P}>${esc(opening)}</p>`,
+      started ? `<p ${P}>${esc(started)}</p>` : "",
+      `<p ${P}>Here is Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, take whichever time suits you best.</p>`,
+      `<p ${P}>${esc(closing)}</p>`,
+      `<p style="margin:0">Speak soon,<br>Olivia</p>`,
+      signatureHtml(url),
+    ].filter(Boolean)),
   };
 }
 
+// One nudge, at +72h, and then we stop. Plain text on purpose: a chaser that
+// arrives dressed the same as the first mail reads like a sequence, and this
+// is meant to read like Olivia remembering.
 export function followupEmail(lead) {
   const url = callUrl(lead);
+  const want = interestPhrase(lead.interests);
   return {
     from: salesFrom(),
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
     subject: "fein: your intro call is still open",
-    text: `Hi ${lead.first || "there"},\n\nYou asked about fein a few days ago and we have not spoken yet. No rush at all, but if it is still on your mind, Daniel, our founder, would be glad to say hello: ${url}\n\nAnd if the timing is simply wrong, just reply with a week that suits you and we'll come back to you then.\n\nSpeak soon,\nOlivia`,
+    text: [
+      `Hi ${lead.first || "there"},`,
+      `You asked about fein a few days ago and we have not spoken yet. No rush at all, but if it is still on your mind, Daniel, our founder, would be glad to say hello: ${url}`,
+      want ? `Twenty minutes is enough to show you ${want} running on a fund's real history.` : null,
+      "And if the timing is simply wrong, reply with a week that suits you and we will come back to you then.",
+      "Speak soon,\nOlivia",
+    ].filter(Boolean).join("\n\n"),
     scheduled_at: new Date(Date.now() + FOLLOWUP_HOURS * 3600_000).toISOString(),
+  };
+}
+
+// Sent when the booking lands, which for most leads is now the only mail from
+// a person they will get: the welcome was cancelled before it was due. So it
+// does not restate the invite cal.com has already sent (time, link, reschedule
+// all live there and would only disagree with it later). It says what the
+// twenty minutes are for, and asks for the one thing that makes them good,
+// which is a real question of their own to put to fein on the call.
+export function bookingEmail(lead, { when = null } = {}) {
+  const hi = `Hi ${lead.first || "there"},`;
+  const want = interestPhrase(lead.interests);
+  const booked = when
+    ? `You are in Daniel's diary for ${when}. The invite carries the joining link, and a link to move it if your day changes.`
+    : "You are in Daniel's diary. The invite carries the joining link, and a link to move it if your day changes.";
+  const shape = "Twenty minutes is enough to see fein answer a real question from a fund's own history, to work out whether it fits the stack you run, and to hear what going live takes.";
+  const started = want ? `You asked about ${want}, so that is where he will start.` : null;
+  const ask = "If there is one question you would want fein to answer, reply here with it. Daniel will have it ready, and it is the thing that makes twenty minutes worth your time.";
+  return {
+    from: salesFrom(),
+    to: [lead.email],
+    reply_to: cfg("NOTIFY_TO"),
+    subject: "your call with Daniel",
+    text: [hi, booked, shape, started, ask, "Speak soon,\nOlivia", `\n${signatureText(null)}`]
+      .filter(Boolean).join("\n\n"),
+    html: htmlMail([
+      `<p ${P}>${esc(hi)}</p>`,
+      `<p ${P}>${esc(booked)}</p>`,
+      `<p ${P}>${esc(shape)}</p>`,
+      started ? `<p ${P}>${esc(started)}</p>` : "",
+      `<p ${P}>${esc(ask)}</p>`,
+      `<p style="margin:0">Speak soon,<br>Olivia</p>`,
+      signatureHtml(null),
+    ].filter(Boolean)),
+  };
+}
+
+// Only ever sent when the attendee cancelled it themselves. Someone who books
+// and then drops the slot is still interested and has just left the funnel
+// silently, since the nudge that would have caught them was cancelled by the
+// booking. Daniel cancelling is a different thing entirely and must never
+// trigger this, which the webhook checks before calling it.
+export function cancelledEmail(lead, { when = null } = {}) {
+  const url = callUrl(lead);
+  const hi = `Hi ${lead.first || "there"},`;
+  const off = when
+    ? `${when} has come off the calendar, and that is no problem at all.`
+    : "The call has come off the calendar, and that is no problem at all.";
+  const back = "And if it is easier to say what you are after over email first, just reply to this.";
+  return {
+    from: salesFrom(),
+    to: [lead.email],
+    reply_to: cfg("NOTIFY_TO"),
+    subject: "another time for the fein call",
+    text: [hi, off, `If you would like another time, Daniel's calendar is here: ${url}`, back,
+      "Speak soon,\nOlivia", `\n${signatureText(url)}`].filter(Boolean).join("\n\n"),
+    html: htmlMail([
+      `<p ${P}>${esc(hi)}</p>`,
+      `<p ${P}>${esc(off)}</p>`,
+      `<p ${P}>If you would like another time, Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a> is here.</p>`,
+      `<p ${P}>${esc(back)}</p>`,
+      `<p style="margin:0">Speak soon,<br>Olivia</p>`,
+      signatureHtml(url),
+    ]),
   };
 }
 

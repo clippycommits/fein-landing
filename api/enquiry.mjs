@@ -76,14 +76,10 @@ export async function POST(request) {
   // never written to about booking. Any client that does not say this, including
   // a demo page whose embed was blocked, gets the immediate send as before.
   //
-  // Holding it is only sound if the booking can take it away again, and that
-  // lookup is the one piece of state these functions keep. With no Upstash the
-  // held mail could not be cancelled and would simply arrive late to someone
-  // who had already booked, which is worse than sending it now. So the hold
-  // switches itself off, and /api/health is where you see that it has:
-  // nudgeState "none" means this page is on the immediate-send funnel.
-  const canCancel = !!(cfg("UPSTASH_REDIS_REST_URL") && cfg("UPSTASH_REDIS_REST_TOKEN"));
-  const hold = lead.booking === "modal" && canCancel;
+  // Holding it is only sound if the booking can take it away again. It can:
+  // the webhook sweeps Resend for pending sends to the attendee, so this needs
+  // no state of ours and no Upstash (see cancelScheduledFor in _lib.mjs).
+  const hold = lead.booking === "modal";
   await logEvent({ type: "enquiry", ...clean, booking: hold ? "modal" : null });
 
   if (!cfg("RESEND_API_KEY")) {
@@ -94,15 +90,10 @@ export async function POST(request) {
     await resend("/emails", notifyEmail(clean, { hold }));
     const welcome = await resend("/emails", welcomeEmail(clean, { hold }));
     if (hold && welcome.id) {
-      await redis("SET", `fein:welcome:${email}`, welcome.id, "EX", "604800");
       await logEvent({ type: "welcome-held", email, emailId: welcome.id, minutes: WELCOME_HOLD_MINUTES });
     }
     const nudge = await resend("/emails", followupEmail(clean));
-    if (nudge.id) {
-      // 7-day TTL: the nudge fires at +72h, so stale keys clean themselves up.
-      await redis("SET", `fein:nudge:${email}`, nudge.id, "EX", "604800");
-      await logEvent({ type: "followup-scheduled", email, emailId: nudge.id });
-    }
+    if (nudge.id) await logEvent({ type: "followup-scheduled", email, emailId: nudge.id });
   } catch (err) {
     console.error("send failed:", err.message);
     await logEvent({ type: "send-error", email, error: err.message });
