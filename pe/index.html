@@ -1139,7 +1139,13 @@
   .mem-scroll::-webkit-scrollbar{display:none}
   .mem-thread{list-style:none;margin:0;padding:.9rem 0}
   .mem-t{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:10px;padding:.42rem 20px}
-  .mem-av{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-size:.76rem;font-weight:600;color:#fff;letter-spacing:.01em}
+  /* the avatar is a photograph now rather than two initials on a tinted block.
+     The tint stays underneath as the fallback: it is what shows if the image
+     fails, and it is what fills the corner radius while the data URI decodes.
+     overflow:hidden rather than a radius on the <img>, so the crop and the
+     frame can never disagree. */
+  .mem-av{position:relative;width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-size:.76rem;font-weight:600;color:#fff;letter-spacing:.01em;overflow:hidden;flex:none}
+  .mem-av img{width:100%;height:100%;object-fit:cover;display:block}
   .mem-av-fein{background:#0e0e12;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
   /* the mark off favicon.svg, drawn the way that file draws it: the two runs are
      stroked and the three nodes are filled. Stroke and fill on the same element
@@ -2655,7 +2661,7 @@
             <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier of the software.</span></li>
             <li><span class="tk">&rarr;</span><span>Your engineers do the setup, the credentials and the backfill.</span></li>
           </ul>
-          <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Set it up yourself</a></div>
+          <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
           <span class="fork-k">we deploy it</span>
@@ -2824,7 +2830,7 @@
         </nav>
         <nav class="fcol" aria-label="Footer ways to run fein">
           <b>Get fein</b>
-          <a href="/self-host">Run it yourself</a>
+          <a href="/self-host">Run it yourself for free</a>
           <a href="/deploy">Managed setup</a>
           <a href="/pricing">Pricing</a>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>

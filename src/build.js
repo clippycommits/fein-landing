@@ -65,6 +65,19 @@ let body = fs.readFileSync("fein.tpl.html", "utf8")
   .replace("__INTER_B64__", interB64);
 if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1 || body.indexOf("__NEWSREADER") > -1) throw new Error("font placeholder left");
 
+// ---- avatars: the three faces in the Slack thread mock in #memory ----
+// Inlined like the fonts and the sprite, so the page stays one file. Sources,
+// photographers and the crop numbers are in avatars/README.md. Anna Lindqvist
+// posts twice, so these are replaceAll and not replace: a plain string replace
+// takes the first match only and would have left a raw __AV_AL__ in the second
+// message, which is the sort of thing that ships looking like nothing at all.
+const AVATARS = { AV_DR: "avatars/dev-raman.webp", AV_MF: "avatars/marcus-feld.webp", AV_AL: "avatars/anna-lindqvist.webp" };
+for (const [token, file] of Object.entries(AVATARS)) {
+  if (!fs.existsSync(file)) throw new Error(`avatar missing: ${file} (see avatars/README.md)`);
+  body = body.replaceAll(`__${token}__`, fs.readFileSync(file).toString("base64"));
+}
+if (/__AV_[A-Z]+__/.test(body)) throw new Error("avatar placeholder left");
+
 // ---- brand-logo sprite (symbols referenced by <use href="#l-name">) ----
 const LOGOS = { gmail: "logos/gmail.svg", gcal: "logos/gcal.svg", gdrive: "logos/gdrive.svg", attio: "logos/attio.svg", affinity: "logos/affinity.svg", linkedin: "logos/linkedin.svg", notion: "logos/notion.svg", slack: "logos/slack.svg", granola: "logos/granola.svg", claude: "logos/claude.svg", openai: "logos/openai.svg", cursor: "logos/si-cursor.svg", gemini: "logos/si-gemini.svg", perplexity: "logos/si-perplexity.svg", copilot: "logos/si-githubcopilot.svg", github: "logos/github.svg", salesforce: "logos/si-salesforce.svg", dropbox: "logos/si-dropbox.svg", box: "logos/si-box.svg", crunchbase: "logos/si-crunchbase.svg", googlesheets: "logos/si-googlesheets.svg", whatsapp: "logos/whatsapp.svg" };
 const MONO = { openai: 1, cursor: 1, gemini: 1, perplexity: 1, copilot: 1, github: 1 }; // monochrome marks -> recolor via currentColor
