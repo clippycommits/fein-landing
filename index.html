@@ -1818,11 +1818,24 @@
   .seg .brand .for{margin-left:.5rem;padding-left:.55rem;border-left:1px solid var(--line-2);font-family:var(--font);font-size:.82rem;font-weight:450;letter-spacing:-.01em;color:var(--fg-3)}
   @media(max-width:640px){.seg .brand .for{display:none}}
   /* the fold on a document page: no generative art behind it, so the headline
-     carries it. Sized under the index h1 so neither reads as the other. */
-  .seg-fold{padding:calc(var(--nav-h) + clamp(3.2rem,7vw,5.4rem)) 0 clamp(2.4rem,5vw,3.6rem)}
-  .seg-fold h1{font-size:clamp(1.85rem,4.1vw,3.15rem);font-weight:500;letter-spacing:-.032em;line-height:1.06;text-wrap:balance;max-width:20ch}
-  .seg-fold>p{margin-top:clamp(1rem,2vw,1.35rem);max-width:60ch;font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.55;color:var(--fg-2);text-wrap:pretty}
-  .seg-fold .hero-actions{margin-top:clamp(1.6rem,3vw,2.2rem)}
+     carries it. Sized under the index h1 so neither reads as the other.
+
+     These folds were first written as `.seg-fold .cta-dark`, borrowing the dark
+     ground from the band that closes the index page. That band is a full-height
+     centred hero: min-height 86vh, text-align center, and 20vh of padding under
+     the last line, all of which is right for a closing statement and wrong for
+     the top of a document. It centred three headlines that the rest of their
+     own page sets flush left, and it opened a screen and a half of empty black
+     between the fold and the first band. .seg-fold carries its own ground now
+     and .cta-dark is off these pages: same gradient, none of the hero geometry. */
+  .seg-fold{position:relative;overflow:hidden;text-align:left;color:#fff;background:linear-gradient(180deg,#0b0b0d 0%,var(--bg) 62%);padding:calc(var(--nav-h) + clamp(3.4rem,8vh,6rem)) 0 clamp(2.8rem,6vh,4.4rem)}
+  .seg-fold .wrap{position:relative;z-index:1}
+  /* the index fold's h1 is clamped to 4.6vw and this one to 4.1vw, so a segment
+     page never reads as a second home page. margin-inline stays 0: .cta-dark
+     set `margin:.9rem auto 0`, which is what centred these. */
+  .seg-fold h1{margin:.9rem 0 0;font-size:clamp(1.85rem,4.1vw,3.15rem);font-weight:500;letter-spacing:-.032em;line-height:1.06;text-wrap:balance;max-width:20ch}
+  .seg-fold>.wrap>p{margin:clamp(1rem,2vw,1.35rem) 0 0;max-width:60ch;font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.55;color:var(--fg-2);text-wrap:pretty}
+  .seg-fold .hero-actions{justify-content:flex-start;margin-top:clamp(1.7rem,3.2vw,2.4rem)}
   /* the step list on /self-host: a numbered run with the command under each. */
   .steps{list-style:none;margin:clamp(1.8rem,3.6vw,2.6rem) 0 0;padding:0;counter-reset:s}
   .steps li{counter-increment:s;border-top:1px solid var(--line);padding:1.15rem 0 1.35rem;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem 1rem}
@@ -2305,6 +2318,11 @@ setTimeout(go,1200);})()</script>
         <nav class="links" aria-label="Primary">
           <a href="#" data-dd="dd-platform" aria-haspopup="true" aria-expanded="false" aria-controls="dd-platform">Platform <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
           <a href="#" data-dd="dd-resources" aria-haspopup="true" aria-expanded="false" aria-controls="dd-resources">Resources <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5L12 15.5L18 9.5"/></svg></span></a>
+          <!-- Pricing earns a place in the bar rather than a row inside a panel.
+               It is the most-typed URL on a site like this one and the question
+               the fork exists to answer, and a reader hunting for it should not
+               have to guess which of two dropdowns hides it. -->
+          <a href="/pricing">Pricing</a>
         </nav>
         <div class="right">
           <a class="sbtn sbtn-sec" href="#">Sign in</a>
