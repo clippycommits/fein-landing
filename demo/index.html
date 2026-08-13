@@ -75,19 +75,36 @@
   .tick{flex:0 0 auto;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.07);color:#fff}
   .tick svg{width:11px;height:11px}
 
-  /* One frame of the product, under the three claims it is evidence for. "See it
-     answer a real question" is a promise the reader has no way to check before
-     handing over an email address, so what sits here is the answer itself, close
-     enough to read: the prose, the facts picked out of it, the citation chips
-     that carry each one back to a document.
-     Lifted from the demo film at 6.75s. The captions are burnt into all three
-     encodes we hold, but they sit in a fixed band across the middle of the
-     frame, so a crop taken above it is clean at any timestamp. This one stops
-     14px short of it, and on a full line rather than through one.
-     The shot is near black on a near black page, so the border is the only thing
-     that gives it an edge. Without it the panel bleeds into the ground. */
-  .shot{display:block;margin:0 0 2.2rem;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-  .shot img{display:block;width:100%;height:auto}
+  /* The product, under the three claims it is evidence for. "See it answer a
+     real question" is a promise the reader has no way to check before handing
+     over an email address, so what sits here is the answer itself, close enough
+     to read, and then what it was built out of.
+     All three crops come from the demo film. Its captions are burnt into every
+     encode we hold, but they sit in a fixed band across the middle of the frame,
+     so a crop taken clear of that band is usable at any timestamp: 6.75s above
+     it for the answer, 16s above it for the memory, 8.6s below it for the
+     documents. Each one stops on a full line rather than through one.
+     The shots are near black on a near black page, so the border is the only
+     thing that gives them an edge. Without it the panel bleeds into the ground.
+
+     Three frames on a slow crossfade: the answer, the facts it was built from,
+     the documents those came from. In that order, because it is the order the
+     product works in and the reader is watching it backwards otherwise.
+     Every crop is 1270x594, so the box is one fixed size and the fade is the
+     only thing that moves. aspect-ratio holds that size before the first image
+     decodes, which is what keeps the form below from jumping on load.
+     Pure CSS, no script: one 24s cycle on all three, offset 8s apart. Each is
+     opaque for 8s and takes 1.5s to trade with the next, so the two fades meet
+     exactly and the box is never empty. Nothing here needs to know which frame
+     is showing, which is why there is no state to keep and nothing to drive. */
+  .shot{position:relative;display:block;aspect-ratio:1270 / 594;margin:0 0 2.2rem;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .shot picture{position:absolute;inset:0;opacity:0;animation:shotCycle 24s linear infinite}
+  .shot picture:nth-of-type(2){animation-delay:8s}
+  .shot picture:nth-of-type(3){animation-delay:16s}
+  .shot img{display:block;width:100%;height:100%}
+  @keyframes shotCycle{
+    0%{opacity:0} 6.25%{opacity:1} 33.33%{opacity:1} 39.58%{opacity:0} 100%{opacity:0}
+  }
 
   .aside{border-top:1px solid var(--line);padding-top:1.4rem;font-size:.93rem;color:var(--fg-3)}
   .aside a{color:var(--blue-l)}
@@ -163,7 +180,10 @@
 
   /* the action takes the navbar button's metrics: the same 38px white pill at
      14.5px, sized to its own text rather than to the column */
-  .submit{height:38px;margin-top:.9rem;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:14.5px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:999px;cursor:pointer;transition:opacity .15s ease}
+  /* also worn by the anchor that reopens the calendar on the success screen,
+     hence the text-decoration: as an <a> it keeps working if the embed never
+     loads, and then it is an ordinary link to the booking page. */
+  .submit{height:38px;margin-top:.9rem;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:14.5px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:999px;text-decoration:none;cursor:pointer;transition:opacity .15s ease}
   .submit:hover{opacity:.88}
   .submit:disabled{opacity:.55;cursor:default}
   /* carried over from the modal, where it sat under the same submit */
@@ -200,6 +220,11 @@
   }
   @media (prefers-reduced-motion:reduce){
     .done.on{animation:none}
+    /* the rotation is the whole of this component's motion, so stopping it
+       leaves nothing showing unless the first frame is put back by hand. It
+       keeps the one that carries the claim the column is making. */
+    .shot picture{animation:none}
+    .shot picture:first-of-type{opacity:1}
   }
 </style>
 </head>
@@ -238,11 +263,23 @@
         </li>
       </ul>
 
-      <picture class="shot">
-        <source srcset="/video/fein-demo-answer.webp" type="image/webp">
-        <img src="/video/fein-demo-answer.jpg" width="1270" height="594" decoding="async"
-             alt="An answer in fein, reading: Dev Raman is the warmest path. He forwarded the seed deck to Marcus in November 2024 and offered the introduction again in #dealflow two weeks ago. Each fact carries a numbered citation back to the document it came from.">
-      </picture>
+      <div class="shot">
+        <picture>
+          <source srcset="/video/fein-demo-answer.webp" type="image/webp">
+          <img src="/video/fein-demo-answer.jpg" width="1270" height="594" decoding="async"
+               alt="An answer in fein, reading: Dev Raman is the warmest path. He forwarded the seed deck to Marcus in November 2024 and offered the introduction again in #dealflow two weeks ago. Each fact carries a numbered citation back to the document it came from.">
+        </picture>
+        <picture>
+          <source srcset="/video/fein-demo-memory.webp" type="image/webp">
+          <img src="/video/fein-demo-memory.jpg" width="1270" height="594" decoding="async"
+               alt="Everything fein holds about one company: fifteen facts on file, eleven true today, four retired but still queryable. Each fact carries the source it was read from and the date.">
+        </picture>
+        <picture>
+          <source srcset="/video/fein-demo-read.webp" type="image/webp">
+          <img src="/video/fein-demo-read.jpg" width="1270" height="594" decoding="async"
+               alt="The documents behind the answer, numbered to match its citations: a forwarded seed deck, a Slack thread, a partner meeting memo, an investor update, and a change of job.">
+        </picture>
+      </div>
 
       <p class="aside">Prefer email? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
     </div>
