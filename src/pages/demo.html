@@ -196,9 +196,8 @@
           <form id="lead" novalidate>
             <div class="fld"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" placeholder="Anna Lindqvist" required></div>
             <div class="fld"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@firm.com" required></div>
-            <!-- preselected from the caller's IP by /api/geo, with the browser's
-                 own timezone as the instant fallback. Always a real select the
-                 reader can correct, never a guess they cannot see. -->
+            <!-- opens on "Select" and waits. See the note in the script below
+                 for the preselect this used to carry and how to put it back. -->
             <div class="fld"><label for="region">Part of the world</label>
               <select id="region" name="region">
                 <option value="">Select</option>
