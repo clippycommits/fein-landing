@@ -99,6 +99,38 @@
   /* honeypot: never shown, never filled by a human, checked server side */
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
+  /* The region control opens a panel drawn on this page instead of the browser's
+     own menu, which arrives in OS chrome and ignores every token above it: on a
+     black page that is the one control that does not belong. Ported from the
+     listbox the contact modal carried before it was retired, re-dressed to this
+     page's field metrics and its white focus ring rather than the modal's blue.
+     The native <select> stays in the DOM and stays the value: it is what the
+     form reads, what fires `change`, and what a reader gets if this never runs. */
+  .sel{position:relative}
+  .sel-native{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  /* same box as input/textarea above, so the four controls read as one set */
+  /* line-height 1.2, not the body's 1.6: a button lays its text out in a flex
+     box where the leading becomes real height, so 1.6 stood this 6px taller
+     than the inputs beside it. 1.2 puts it on their 44px exactly. */
+  .sel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;font-family:inherit;font-size:.98rem;font-weight:400;line-height:1.2;text-align:left;color:var(--fg);background:transparent;border:1px solid transparent;box-shadow:0 0 0 1px var(--line-ctl);border-radius:8px;padding:.72rem .85rem;cursor:pointer;transition:box-shadow .15s ease}
+  .sel-btn:hover{box-shadow:0 0 0 1px var(--line-ctl-2)}
+  .sel-btn.empty{color:var(--fg-3)}
+  .sel-btn:focus-visible{outline:none;box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
+  /* open reads through the panel below it, not through a ring */
+  .sel-btn[aria-expanded="true"]{box-shadow:0 0 0 1px var(--line-ctl-2)}
+  .sel-btn .chev{width:15px;height:15px;flex:none;color:var(--fg-3);transition:transform .2s cubic-bezier(.22,.61,.36,1)}
+  .sel-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .sel-list{position:absolute;z-index:5;top:calc(100% + 6px);left:0;width:100%;max-height:240px;margin:0;padding:5px;list-style:none;overflow:auto;overscroll-behavior:contain;background:var(--bg-3);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.6),0 20px 48px -14px rgba(0,0,0,.95);animation:selIn .15s cubic-bezier(.22,.61,.36,1)}
+  .sel-list.up{top:auto;bottom:calc(100% + 6px);animation-name:selInUp}
+  @keyframes selIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  @keyframes selInUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .sel-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border-radius:8px;font-size:.95rem;color:var(--fg-2);cursor:pointer;user-select:none;transition:background .12s ease,color .12s ease}
+  .sel-opt[data-active="true"]{background:rgba(255,255,255,.07);color:#fff}
+  .sel-opt[aria-selected="true"]{color:#fff}
+  .sel-opt .tickm{width:14px;height:14px;flex:none;color:var(--fg-3);opacity:0}
+  .sel-opt[aria-selected="true"] .tickm{opacity:1}
+  @media (prefers-reduced-motion:reduce){ .sel-list{animation:none} }
+
   /* checkbox group. The native box is kept in the layout and made invisible
      rather than display:none, so it stays focusable and keeps carrying the
      label association; .box is what is actually drawn, and it takes the same
@@ -272,6 +304,117 @@
      correct, and reinstating this is a fetch and a setter. It was dropped
      because a guessed answer sitting in a field the reader never touched reads
      as presumption on a page that is asking them for four things. */
+
+  /* Progressive enhancement over the native <select>: it keeps the value and
+     keeps firing `change`, so everything downstream reads it exactly as before
+     and a reader without this script gets an ordinary working select. */
+  var openSel = null;
+  function enhanceSelect(sel){
+    if(!sel) return;
+    var opts = [].slice.call(sel.options),
+        ph = opts[0] && opts[0].value === "" ? opts[0].textContent : "Select",
+        items = opts.filter(function(o){ return o.value !== ""; }),
+        label = sel.closest(".fld") && sel.closest(".fld").querySelector("label"),
+        active = -1;
+
+    var wrap = document.createElement("div"); wrap.className = "sel";
+    sel.parentNode.insertBefore(wrap, sel); wrap.appendChild(sel);
+    sel.classList.add("sel-native"); sel.tabIndex = -1; sel.setAttribute("aria-hidden","true");
+
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "sel-btn empty"; btn.id = sel.id + "-btn";
+    btn.setAttribute("role","combobox"); btn.setAttribute("aria-haspopup","listbox");
+    btn.setAttribute("aria-expanded","false"); btn.setAttribute("aria-controls", sel.id + "-list");
+    btn.innerHTML = '<span class="sel-val"></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+    var val = btn.querySelector(".sel-val"); val.textContent = ph;
+
+    var list = document.createElement("ul");
+    list.className = "sel-list"; list.id = sel.id + "-list"; list.hidden = true;
+    list.setAttribute("role","listbox");
+    if(label) list.setAttribute("aria-label", label.textContent);
+    items.forEach(function(o,i){
+      var li = document.createElement("li");
+      li.className = "sel-opt"; li.id = sel.id + "-opt-" + i; li.setAttribute("role","option");
+      li.setAttribute("aria-selected","false"); li.dataset.value = o.value || o.textContent;
+      li.innerHTML = '<span></span><svg class="tickm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+      li.firstChild.textContent = o.textContent;
+      list.appendChild(li);
+    });
+    wrap.appendChild(btn); wrap.appendChild(list);
+    if(label) label.setAttribute("for", btn.id);
+
+    function mark(i){
+      active = i;
+      [].forEach.call(list.children, function(li,n){ li.dataset.active = n === i ? "true" : "false"; });
+      if(i > -1){ btn.setAttribute("aria-activedescendant", list.children[i].id);
+        list.children[i].scrollIntoView({ block:"nearest" }); }
+      else btn.removeAttribute("aria-activedescendant");
+    }
+    function open(){
+      if(!list.hidden) return;
+      if(openSel && openSel !== close) openSel();
+      list.hidden = false; btn.setAttribute("aria-expanded","true"); openSel = close;
+      // flip up when the panel would run past the bottom of the window
+      var r = btn.getBoundingClientRect();
+      list.classList.toggle("up", window.innerHeight - r.bottom < 240 && r.top > window.innerHeight - r.bottom);
+      mark(items.findIndex(function(o){ return (o.value || o.textContent) === sel.value; }));
+    }
+    function close(back){
+      if(list.hidden) return;
+      list.hidden = true; list.classList.remove("up");
+      btn.setAttribute("aria-expanded","false"); btn.removeAttribute("aria-activedescendant");
+      if(openSel === close) openSel = null;
+      if(back) btn.focus();
+    }
+    function pick(i){
+      var li = list.children[i]; if(!li) return;
+      sel.value = li.dataset.value;
+      [].forEach.call(list.children, function(o,n){ o.setAttribute("aria-selected", n === i ? "true" : "false"); });
+      val.textContent = li.firstChild.textContent; btn.classList.remove("empty");
+      sel.dispatchEvent(new Event("change", { bubbles:true }));
+      close(true);
+    }
+
+    btn.addEventListener("click", function(){ list.hidden ? open() : close(); });
+    btn.addEventListener("keydown", function(e){
+      var k = e.key;
+      if(k === "ArrowDown" || k === "ArrowUp" || k === "Enter" || k === " "){
+        if(list.hidden){ e.preventDefault(); open(); return; }
+      }
+      if(list.hidden) return;
+      if(k === "ArrowDown"){ e.preventDefault(); mark(Math.min(active + 1, items.length - 1)); }
+      else if(k === "ArrowUp"){ e.preventDefault(); mark(Math.max(active - 1, 0)); }
+      else if(k === "Home"){ e.preventDefault(); mark(0); }
+      else if(k === "End"){ e.preventDefault(); mark(items.length - 1); }
+      else if(k === "Enter" || k === " "){ e.preventDefault(); pick(active); }
+      else if(k === "Escape"){ e.preventDefault(); close(true); }
+      else if(k === "Tab"){ close(); }
+      else if(k.length === 1){
+        var s = k.toLowerCase(),
+            n = items.findIndex(function(o,i){ return i > active && o.textContent.toLowerCase().indexOf(s) === 0; });
+        if(n < 0) n = items.findIndex(function(o){ return o.textContent.toLowerCase().indexOf(s) === 0; });
+        if(n > -1) mark(n);
+      }
+    });
+    list.addEventListener("mousemove", function(e){
+      var li = e.target.closest(".sel-opt"); if(li) mark([].indexOf.call(list.children, li));
+    });
+    list.addEventListener("click", function(e){
+      var li = e.target.closest(".sel-opt"); if(li) pick([].indexOf.call(list.children, li));
+    });
+    // keep the button honest if anything sets the select directly
+    sel.addEventListener("change", function(){
+      var i = items.findIndex(function(o){ return (o.value || o.textContent) === sel.value; });
+      if(i > -1 && val.textContent !== items[i].textContent){
+        val.textContent = items[i].textContent; btn.classList.remove("empty");
+        [].forEach.call(list.children, function(o,n){ o.setAttribute("aria-selected", n === i ? "true" : "false"); });
+      }
+    });
+  }
+  enhanceSelect(document.getElementById("region"));
+  document.addEventListener("mousedown", function(e){
+    if(openSel && !e.target.closest(".sel")) openSel();
+  });
 
   /* always calls back: a captcha that cannot run must not cost a lead, which is
      the same call the endpoint makes when the verifier is unreachable */
