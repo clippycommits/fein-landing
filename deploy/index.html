@@ -1091,6 +1091,10 @@
      thing in the frame. Running, the wash lifts and the film is just the film. */
   .mem-veil{position:absolute;inset:0;z-index:1;background:radial-gradient(56% 56% at 50% 50%,rgba(0,0,0,.5),rgba(0,0,0,.2) 68%,rgba(0,0,0,.06));opacity:0;transition:opacity .3s ease;pointer-events:none}
   .mem-film.paused .mem-veil{opacity:1}
+  /* running silently is a third state, not the running one: the button is still
+     up on the picture because there is still something to ask for, so the wash
+     stays on under it, lighter than a stopped film wears it */
+  .mem-film.silent .mem-veil{opacity:.62}
   .mem-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
   .mem-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
   /* glass, not the white disc the hero film uses. That one is the only solid
@@ -1103,9 +1107,9 @@
   .mem-hit:hover .mem-big{scale:1.05}
   /* running, the pause is a control nobody asked to have on screen, so it waits
      to be reached for; stopped, the play glyph is the way in and is always up */
-  .mem-film:not(.paused) .mem-big{opacity:0}
+  .mem-film:not(.paused):not(.silent) .mem-big{opacity:0}
   .mem-film:not(.paused) .mem-hit:hover .mem-big,.mem-film:not(.paused) .mem-hit:focus-visible .mem-big{opacity:1}
-  .mem-film.paused .g-stop,.mem-film:not(.paused) .g-play{display:none}
+  .mem-film.paused .g-stop,.mem-film.silent .g-stop,.mem-film:not(.paused):not(.silent) .g-play{display:none}
 
   /* ---- the thread ----
      The panel's ground, its stroke and the two tones inside it are sampled off the

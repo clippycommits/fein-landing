@@ -1062,6 +1062,10 @@
      thing in the frame. Running, the wash lifts and the film is just the film. */
   .mem-veil{position:absolute;inset:0;z-index:1;background:radial-gradient(56% 56% at 50% 50%,rgba(0,0,0,.5),rgba(0,0,0,.2) 68%,rgba(0,0,0,.06));opacity:0;transition:opacity .3s ease;pointer-events:none}
   .mem-film.paused .mem-veil{opacity:1}
+  /* running silently is a third state, not the running one: the button is still
+     up on the picture because there is still something to ask for, so the wash
+     stays on under it, lighter than a stopped film wears it */
+  .mem-film.silent .mem-veil{opacity:.62}
   .mem-hit{position:absolute;inset:0;z-index:2;border:0;padding:0;margin:0;background:transparent;cursor:pointer;color:var(--fg);-webkit-appearance:none;appearance:none}
   .mem-hit:focus-visible{outline:2px solid var(--blue-l);outline-offset:-4px}
   /* glass, not the white disc the hero film uses. That one is the only solid
@@ -1074,9 +1078,9 @@
   .mem-hit:hover .mem-big{scale:1.05}
   /* running, the pause is a control nobody asked to have on screen, so it waits
      to be reached for; stopped, the play glyph is the way in and is always up */
-  .mem-film:not(.paused) .mem-big{opacity:0}
+  .mem-film:not(.paused):not(.silent) .mem-big{opacity:0}
   .mem-film:not(.paused) .mem-hit:hover .mem-big,.mem-film:not(.paused) .mem-hit:focus-visible .mem-big{opacity:1}
-  .mem-film.paused .g-stop,.mem-film:not(.paused) .g-play{display:none}
+  .mem-film.paused .g-stop,.mem-film.silent .g-stop,.mem-film:not(.paused):not(.silent) .g-play{display:none}
 
   /* ---- the thread ----
      The panel's ground, its stroke and the two tones inside it are sampled off the
@@ -2696,18 +2700,18 @@ __LOGO_SPRITE__
         </div>
       </article>
 
-      <!-- the walkthrough. It is the only film on the page now, and it still does
-           not start on its own: this section shows a thread and offers the film
-           beside it, so it is a poster with a play button on it until somebody
-           asks. When they do they get the whole thing, narration included, from
-           the top, once through rather than on a loop. -->
+      <!-- the walkthrough. It is the only film on the page now, and it runs itself
+           once it is on screen: silent, on a loop, with the button still up on
+           top of it, because the press is the sound control. When somebody asks,
+           they get the whole thing from the top, narration included, once through
+           rather than on a loop. -->
       <div class="mem-film paused" id="mem-film">
         <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A twenty-six second narrated walkthrough of fein answering this question." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
           <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
           <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
         </video>
         <div class="mem-veil" aria-hidden="true"></div>
-        <button class="mem-hit" id="mem-hit" type="button" aria-label="Play the walkthrough">
+        <button class="mem-hit" id="mem-hit" type="button" aria-label="Play the walkthrough with sound">
           <span class="mem-big" aria-hidden="true">
             <svg class="g-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <svg class="g-stop" viewBox="0 0 24 24"><path d="M7 6h3.6v12H7zM13.4 6H17v12h-3.6z"/></svg>
@@ -5227,24 +5231,38 @@ __LOGO_SPRITE__
    autoplay a muted loop of it above the fold is gone, and this is where the
    walkthrough lives.
 
-   It does not start on its own, and the press IS the sound control: back to the
-   top, unmuted, once through. Once and not on repeat, because a voice track on a
-   loop is a worse thing than a silent one.
+   It starts itself once it is on screen, silent and on a loop, and the press IS
+   the sound control: back to the top, unmuted, once through. That pass is once
+   and not on repeat, because a voice track on a loop is a worse thing than a
+   silent one, and the button stays up on the silent one so there is always
+   something visibly to ask for.
 
-   Nothing is fetched until that press, because preload is none and the 720 swap
-   happens on the press too, which is what keeps a 3 MB film off the critical path
-   of a section sitting this high up the page. */
+   Nothing is fetched until it is on screen, because preload is none and play()
+   is the first call here that can reach for a byte. The 720 swap happens on the
+   same trigger, and a reader who never scrolls this far still pays nothing,
+   which is what keeps a 3 MB film off the critical path of a section sitting
+   this high up the page.
+
+   Reduced motion and a metered connection are not given the loop. They get what
+   this was before, a poster with a play button on it, and the sound is still one
+   press away. */
 (function(){
   var f=document.getElementById('mem-film'); if(!f) return;
   var v=document.getElementById('mem-video'), hit=document.getElementById('mem-hit');
   if(!v||!hit) return;
   var conn=navigator.connection||{};
   var thrifty=conn.saveData===true||/(^|-)([23])g$/.test(conn.effectiveType||'');
+  var auto=!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&!thrifty;
   var cut=false;
+  /* held: somebody stopped it, or the narrated pass ran to its end, so nothing
+     starts it again on its own. seen: it is on screen, which the tab handler
+     below needs and cannot ask the observer for. */
+  var held=false, seen=false;
 
-  /* the 720 cut, on the same terms as the film below: source selection already
-     ran at parse time, so swapping the children is inert without load(), and
-     load() is the one call here that can start a fetch. It waits for a press. */
+  /* the 720 cut: source selection already ran at parse time, so swapping the
+     children is inert without load(), and load() is the one call here that can
+     start a fetch. It waits until the film is wanted, which is the moment it
+     comes on screen or the moment somebody presses it, whichever lands first. */
   function cutIn(){
     if(cut) return; cut=true;
     if(!(window.matchMedia('(max-width:900px)').matches||thrifty)) return;
@@ -5255,9 +5273,15 @@ __LOGO_SPRITE__
     v.insertBefore(s,v.firstChild);
     v.load();
   }
-  function mark(p){
-    f.classList.toggle('paused',p);
-    hit.setAttribute('aria-label',p?'Play the walkthrough with sound':'Pause the walkthrough');
+  /* three states, and the muted one is the reason this reads the element rather
+     than being told: stopped wears the wash and the play glyph, silent wears a
+     lighter wash and the same glyph because sound is still on offer, and talking
+     wears neither until a cursor comes for the pause. */
+  function mark(){
+    var run=!v.paused;
+    f.classList.toggle('paused',!run);
+    f.classList.toggle('silent',run&&v.muted);
+    hit.setAttribute('aria-label',run&&!v.muted?'Pause the walkthrough':'Play the walkthrough with sound');
   }
 
   /* the audio-floor handshake that used to live here is gone with the band it was
@@ -5265,44 +5289,70 @@ __LOGO_SPRITE__
      take the floor from. The observer below is what keeps a narration from playing
      to an empty screen, and that is the whole of it. */
 
-  v.addEventListener('play',function(){ mark(false); });
-  v.addEventListener('pause',function(){ mark(true); });
-  /* it ran once and stopped, so it is offering itself again from the top rather
-     than sitting on its last frame */
-  v.addEventListener('ended',function(){ mark(true); try{ v.currentTime=0; }catch(e){} });
+  /* the silent pass, which is the state the film idles in: it loops, because a
+     film that stops on its last frame reads as broken rather than finished. */
+  function idle(){
+    if(!auto||held||!v.paused) return;
+    cutIn();
+    v.muted=true; v.loop=true;
+    var p=v.play();
+    if(p&&p['catch']) p['catch'](function(){ mark(); });
+  }
+
+  v.addEventListener('play',mark);
+  v.addEventListener('pause',mark);
+  v.addEventListener('volumechange',mark);
+  /* the narrated pass ran to its end, so it offers itself again from the top
+     rather than sitting on its last frame or falling back into the loop, which
+     would take the reader's answer off the screen the moment it arrived */
+  v.addEventListener('ended',function(){ held=true; try{ v.currentTime=0; }catch(e){} mark(); });
 
   hit.addEventListener('click',function(){
-    if(!v.paused){ v.pause(); return; }
+    /* the only press that means stop is one on a film that is already talking */
+    if(!v.paused&&!v.muted){ held=true; v.pause(); return; }
+    held=false;
     cutIn();
-    /* the press is a request for the film, not for the frame it stopped on: the
+    /* the press is a request for the film, not for the frame the loop is on: the
        narration is written with a first line, so it starts at the first line every
        time. On the very first press there is no metadata yet and the currentTime
        write is dropped, which costs nothing, because with nothing buffered play()
        starts at zero anyway. */
-    v.muted=false;
+    v.muted=false; v.loop=false;
     try{ v.currentTime=0; }catch(e){}
     var p=v.play();
     if(p&&p['catch']) p['catch'](function(){
       /* a platform that refuses audio without a gesture it recognises (iOS low
          power is the usual one) should still get the picture rather than nothing */
-      v.muted=true;
+      v.muted=true; v.loop=true;
       var q=v.play();
-      if(q&&q['catch']) q['catch'](function(){ mark(true); });
+      if(q&&q['catch']) q['catch'](function(){ mark(); });
     });
   });
 
-  /* it was asked for, so it keeps running while it is on screen and stops when it
-     is not. A decoder left running behind the reader is the same waste here as
-     anywhere, and a tab switch is the case the observer never sees. */
+  /* it runs while it is on screen and stops when it is not. A decoder left
+     running behind the reader is the same waste here as anywhere, and a
+     narration playing to an empty screen is worse than that.
+
+     Leaving also takes the sound back off, so a reader who scrolls away mid
+     narration and comes back gets the silent loop from the top and never a voice
+     they did not ask for a second time. A press they meant as stop survives it,
+     because a stopped film is already paused and this never runs. */
+  function leave(){
+    if(v.paused) return;
+    v.pause();
+    if(!v.muted){ v.muted=true; v.loop=true; try{ v.currentTime=0; }catch(e){} }
+  }
   if('IntersectionObserver' in window){
     new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if(!e.isIntersecting&&!v.paused) v.pause();
+        seen=e.isIntersecting;
+        if(seen) idle(); else leave();
       });
     },{threshold:[0,0.25]}).observe(f);
-  }
+  } else { seen=true; idle(); }
+  /* a tab switch is the case the observer never sees */
   document.addEventListener('visibilitychange',function(){
-    if(document.hidden&&!v.paused) v.pause();
+    if(document.hidden) leave(); else if(seen) idle();
   });
 })();
 
