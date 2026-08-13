@@ -477,63 +477,121 @@
      The reference container measures 1081px and .wrap is already 1080, so the
      grid takes the reading measure with no special case.
 
-     Each cell is a picture over a caption. The picture is a dim ghost of a panel
-     with the real mock floating above it, and it is ordered ghost, vignette, mock,
-     bottom fade: the vignette darkens the ghost and never the mock, so the one
-     legible object in the cell stays crisp while everything around it falls away,
-     and the fade dissolves the picture into its own caption instead of stopping
-     on an edge. */
+     Each cell is a picture over a caption, and the picture is one panel seated in
+     its own light: glow, vignette, mock with its deck, bottom fade. The vignette
+     darkens the ground and never the mock, so the one legible object in the cell
+     stays crisp while everything around it falls away, and the fade dissolves the
+     picture into its own caption instead of stopping on an edge. */
   .featgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:clamp(2.2rem,4.4vw,3.4rem);border:1px solid var(--line)}
   .featcell{display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
   .featcell:nth-child(-n+2){border-top:0}
   .featcell:nth-child(odd){border-left:0}
-  .featart{position:relative;height:clamp(232px,26vw,376px);display:grid;place-items:center;overflow:hidden}
-  /* the panel the mock is a detail of. It is never readable and is not meant to
-     be: it gives the fragment something to float in front of. */
-  .featghost{position:absolute;z-index:0;left:9%;top:11%;width:84%;height:78%;border:1px solid rgba(255,255,255,.055);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.004))}
-  .featart::after{content:"";position:absolute;z-index:1;inset:0;background:radial-gradient(62% 58% at 50% 44%,transparent 18%,rgba(0,0,0,.52) 74%,rgba(0,0,0,.9));pointer-events:none}
-  .featart::before{content:"";position:absolute;z-index:3;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,var(--bg));pointer-events:none}
-  .featart .mock{position:relative;z-index:2;width:min(88%,424px);box-shadow:var(--hl-top),0 26px 60px -30px rgba(0,0,0,.95)}
+  /* 376px of frame around a 200px mock was 176px of black, and the fragment did
+     not read as cropped out of something larger, it read as adrift. The frame is
+     now roughly the object plus a margin, which is what leaves the four cells
+     looking like one set rather than four accidents. */
+  .featart{position:relative;height:clamp(300px,22vw,320px);display:grid;place-items:center;overflow:hidden}
+  /* the light the panel is seated in. What used to be here was a second panel
+     offset up and to the left of the mock, and at this size it never read as the
+     larger surface the fragment was cut from -- it read as a misregistered
+     duplicate, one stray rounded rectangle poking out on two sides. The depth is
+     drawn by the deck behind the mock now, so this layer is only the glow that
+     lifts the object off the ground: the same move the hexagon in #how is lit
+     with, at cell scale. */
+  .featghost{position:absolute;z-index:0;left:50%;top:47%;width:min(124%,640px);aspect-ratio:1.55;transform:translate(-50%,-50%);background:radial-gradient(50% 50% at 50% 50%,rgba(255,255,255,.055),rgba(255,255,255,.017) 46%,transparent 72%)}
+  .featart::after{content:"";position:absolute;z-index:1;inset:0;background:radial-gradient(76% 72% at 50% 46%,transparent 44%,rgba(0,0,0,.42) 86%,rgba(0,0,0,.82));pointer-events:none}
+  /* the fade dissolves the picture into its caption, and it has to land in the
+     air under the panel rather than on it: the frame's floor and this band are
+     tuned against each other so the gradient starts a few pixels below the
+     panel's bottom edge at every width the two-column grid is alive for. */
+  .featart::before{content:"";position:absolute;z-index:3;inset:auto 0 0 0;height:clamp(28px,11%,48px);background:linear-gradient(180deg,transparent,var(--bg));pointer-events:none}
+  /* the margin-top is not spacing, it is optical centring: the deck stands 19px
+     above the panel, place-items centres the panel alone, and the composite came
+     out sitting low in the frame by half of that. */
+  .featart .mock{position:relative;z-index:2;width:min(88%,472px);margin-top:19px;box-shadow:var(--hl-top),0 26px 60px -30px rgba(0,0,0,.95)}
+  /* the deck this panel is the top card of: two hairlines above it, inset and
+     receding, which is FIG 0.1's stack of planes at panel scale. Both are drawn
+     entirely outside the mock's own box -- a strip that stops where its top edge
+     starts -- because .mock opens a stacking context here, and a negative
+     z-index child of one paints over the parent's fill rather than under it. */
+  .featart .mock::before,.featart .mock::after{content:"";position:absolute;left:24px;right:24px;top:-10px;height:11px;border:1px solid rgba(255,255,255,.062);border-bottom:0;border-radius:11px 11px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}
+  .featart .mock::after{left:48px;right:48px;top:-19px;height:10px;border-color:rgba(255,255,255,.038)}
   .featcap{padding:clamp(1.3rem,2.5vw,2.25rem)}
   .featcap h3{font-size:.95rem;font-weight:600;letter-spacing:-.012em;line-height:1.4;color:#fff}
   .featcap p{margin-top:.42rem;font-size:.95rem;line-height:1.5;color:#989da5;max-width:48ch;text-wrap:pretty}
   /* one column, and the rules follow: every cell now opens with a rule above it
-     except the first, and none of them has one down the side */
-  @media (max-width:820px){
+     except the first, and none of them has one down the side.
+
+     This turned at 820px and now turns at 1040. Between those two the second
+     column is 355 to 480px wide and the panel is capped at 472: it came out
+     within about a dozen pixels of the cell's own rules on both sides, close
+     enough that the deck behind it read as touching them, and it could only
+     stay on one line per row by shrinking type the reader has to read. The
+     panel needs roughly 550px of cell to sit in with air around it, two columns
+     need 1100 to give it that, and under that the honest answer is one column
+     and a full-size panel. The reference's own 1081px container still gets two,
+     which is the case the grid was drawn for. */
+  @media (max-width:1040px){
     .featgrid{grid-template-columns:minmax(0,1fr)}
     .featcell{border-left:0;border-top:1px solid var(--line)}
     .featcell:first-child{border-top:0}
     .featcell:nth-child(2){border-top:1px solid var(--line)}
-    /* the picture is a crop on a wide screen because there is height to crop
-       into: 376px of frame around a 292px mock leaves the fragment floating.
-       One column takes the frame to its 232px floor and leaves the mock 60px
-       taller than the box it is drawn in, so overflow:hidden stopped cutting
-       air and started cutting rows -- a name at the top and a whole line of
-       fact at the bottom, sliced through the middle of the type. On a phone
-       the mock sets the height of its own frame and the composition is built
-       back around it: ghost off, because at this width it hides entirely
-       behind the mock except for two stray edges; vignette opened up, so it
-       darkens the ground and not the one legible object; and the fade cut to
-       a fixed band that lands in the padding under the mock rather than a
-       third of the way up it. */
+    /* a fixed frame height cannot survive one column: the clamp bottoms out at
+       300px while the mock, now full width, grows past it, and overflow:hidden
+       stops cutting air and starts cutting rows -- a name at the top and a
+       whole line of fact at the bottom, sliced through the middle of the type.
+       So on a phone the mock sets the height of its own frame and the
+       composition is rebuilt around it: the glow stays, since it is behind the
+       object rather than beside it and has nothing to poke out of; the vignette
+       opens up, so it darkens the ground and not the one legible object; and
+       the fade is cut to a fixed band that lands in the padding under the mock
+       rather than a third of the way up it. */
     .featart{height:auto;padding:clamp(1.7rem,6.5vw,2.3rem) 0 clamp(2.6rem,9vw,3.2rem)}
-    .featghost{display:none}
-    .featart::after{background:radial-gradient(88% 76% at 50% 48%,transparent 40%,rgba(0,0,0,.42) 86%,rgba(0,0,0,.82))}
+    /* 88% is an inset measured against a two-column cell. In one column it is
+       measured against the whole page, and on a phone it spends 40px of a 342px
+       cell on air the rows need: below about 500px the cap stops binding and
+       this is the only thing setting the panel's width. */
+    .featart .mock{width:min(94%,472px)}
+    .featart::after{background:radial-gradient(88% 78% at 50% 48%,transparent 46%,rgba(0,0,0,.4) 88%,rgba(0,0,0,.8))}
     .featart::before{height:clamp(38px,12%,58px)}
   }
-  .mock{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:1rem;box-shadow:var(--hl-top)}
+  /* --mk scales the whole panel as one object rather than one part at a time.
+     Every row here is a name, a fact and a pill on ONE line, and that is the
+     only thing holding the four panels to a common rhythm -- let one row wrap
+     and its cell grows a line the other three do not have. The panel is capped
+     at 472px, so in the first two-column band above the 1040px breakpoint the
+     cell is still narrower than that cap and the longest row (Clara Voss, three
+     facts and a Founder pill) runs out of measure. Taking --mk down there
+     shrinks type, padding, gap and logo together, which buys the line back
+     without changing a single proportion inside the panel. Nothing here is in
+     rem alone for that reason: a size that does not multiply by --mk is a size
+     that breaks the panel's scale. */
+  .mock{--mk:1;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:calc(1rem*var(--mk));box-shadow:var(--hl-top)}
+  @media (min-width:1041px) and (max-width:1180px){.mock{--mk:.94}}
   /* this one stays mono: it is the header of a panel inside a picture of the
      product, sitting over rows of mono status pills, and it should read as
      chrome. What it loses is the caps and the tracking, which is the part that
      was decoration rather than information. */
-  .mock-title{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:.005em;color:var(--fg-3);padding:0 .35rem .75rem;text-wrap:balance}
-  .mrow{display:flex;align-items:center;gap:.7rem;padding:.7rem .35rem;border-top:1px solid var(--line);font-size:.9rem;color:var(--fg-2)}
-  .mrow .tlogo{width:16px;height:16px;flex:none}
+  .mock-title{font-family:var(--mono);font-size:calc(.78rem*var(--mk));font-weight:500;letter-spacing:.005em;color:var(--fg-3);padding:0 calc(.35rem*var(--mk)) calc(.75rem*var(--mk));text-wrap:balance}
+  /* the row aligns to its top, not its middle. Centring is identical to this
+     while every row is one line, and every row is one line at the measure the
+     copy is cut to -- but the moment one wraps on a narrower cell, centring
+     floats the logo and the pill in the gutter beside two lines of text with
+     nothing to sit against. Top alignment keeps both on the line they belong
+     to, so the wrap costs a row its height and nothing else. The two nudges are
+     what put them optically on that first line rather than flush with its box. */
+  .mrow{display:flex;align-items:flex-start;gap:calc(.7rem*var(--mk));padding:calc(.72rem*var(--mk)) calc(.35rem*var(--mk));border-top:1px solid var(--line);font-size:calc(.9rem*var(--mk));line-height:1.45;color:var(--fg-2)}
+  .mrow .tlogo{width:calc(16px*var(--mk));height:calc(16px*var(--mk));flex:none;margin-top:calc(.1rem*var(--mk))}
   .mrow b{color:var(--fg);font-weight:550}
   .mrow span{flex:1;min-width:0}
-  .mtag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;color:var(--fg-3);border:1px solid var(--line-2);border-radius:5px;padding:.2rem .45rem;white-space:nowrap}
-  .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.35)}
-  .mtag.dim{color:var(--dim)}
+  /* three steps and no more: the accent for the row that is the finding, a
+     filled default, and an unfilled recessive one for a row that is only there
+     to be the thing the finding is not. The fill is what the tag was missing --
+     an outline on the panel's own ground read as a hairline artefact next to
+     the pills in #how, which all carry one. */
+  .mtag{flex:none;margin-top:calc(-.04rem*var(--mk));font-family:var(--mono);font-size:calc(.6rem*var(--mk));font-weight:500;letter-spacing:.1em;line-height:1.5;color:var(--fg-3);background:rgba(255,255,255,.032);border:1px solid var(--line-2);border-radius:5px;padding:calc(.2rem*var(--mk)) calc(.45rem*var(--mk));white-space:nowrap}
+  .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.32);background:rgba(82,168,255,.09)}
+  .mtag.dim{color:var(--dim);background:none;border-color:var(--line)}
   /* ============ the fold: the documents, the question, the answer ============
      Three objects, stacked, and nothing drawn between them. The connection is
      made by the citation on each claim and by the document lighting as that
@@ -2095,7 +2153,7 @@
   @media (max-width:768px){
     .split{grid-template-columns:1fr;gap:2.2rem}
     /* the two .feat rules that were here went with the alternating rows: the
-       grid that replaced them stacks on its own breakpoint at 820 */
+       grid that replaced them stacks on its own breakpoint at 1040 */
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
     .head .lead{font-size:1.06rem}
