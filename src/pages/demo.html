@@ -120,9 +120,8 @@
   .submit{height:38px;margin-top:.9rem;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:14.5px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:999px;cursor:pointer;transition:opacity .15s ease}
   .submit:hover{opacity:.88}
   .submit:disabled{opacity:.55;cursor:default}
-  .fnote{margin:.95rem 0 0;font-size:.86rem;color:var(--fg-3)}
   /* carried over from the modal, where it sat under the same submit */
-  .recap{margin:.55rem 0 0;font-size:.78rem;line-height:1.5;color:var(--dim)}
+  .recap{margin:1rem 0 0;font-size:.78rem;line-height:1.5;color:var(--dim)}
   .recap a{color:var(--fg-3)}
   .err{display:none;margin:.95rem 0 0;font-size:.9rem;color:#ff8f8f}
   .err.on{display:block}
@@ -220,7 +219,6 @@
             </fieldset>
             <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
             <button class="submit" type="submit" id="submit">Send message</button>
-            <p class="fnote">We reply the same day. No sequence, no newsletter.</p>
             <!-- one line, not three. Google's full notice is only required when
                  the reCAPTCHA badge is hidden; the badge shows by default and
                  the key here is empty, so the short form covers this. Put the
@@ -269,46 +267,12 @@
   }
   form.addEventListener("focusin", loadRecaptcha, { once: true });
 
-  /* Part of the world, preselected twice over. The timezone read is synchronous
-     and lands before first paint, so the field is never briefly empty; /api/geo
-     then refines it from the caller's IP, which is the authority. Either one
-     only ever fills a field the reader has not already answered, and both defer
-     the moment they touch it: a guessed value that overwrites a chosen one is
-     worse than no guess. */
-  var regionSel = document.getElementById("region");
-  var regionTouched = false;
-  if (regionSel) {
-    regionSel.addEventListener("change", function(){ regionTouched = true; });
-
-    /* `authoritative` is what separates the two sources. The timezone guess only
-       fills an empty field, so it cannot argue with anything. The IP answer is
-       allowed to correct that guess, because it is the better evidence and it
-       arrives second: a reader in London on a laptop still set to UTC would
-       otherwise be stuck on whatever the timezone implied. Neither touches the
-       field once the reader has. */
-    var setRegion = function(v, authoritative){
-      if (!v || regionTouched) return;
-      if (regionSel.value && !authoritative) return;
-      for (var i = 0; i < regionSel.options.length; i++) {
-        if (regionSel.options[i].text === v) { regionSel.value = regionSel.options[i].value || v; return; }
-      }
-    };
-
-    // South American zones are also under America/, so they are carved out
-    // rather than swept into North America.
-    var SOUTH = /^America\/(Sao_Paulo|Argentina|Bogota|Lima|Santiago|Caracas|La_Paz|Montevideo|Asuncion|Guayaquil|Cayenne|Paramaribo|Fortaleza|Recife|Manaus|Belem|Bahia|Campo_Grande|Cuiaba|Porto_Velho|Boa_Vista|Rio_Branco|Punta_Arenas|Noronha)/;
-    try {
-      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-      if (/^Europe\//.test(tz)) setRegion("Europe");
-      else if (/^America\//.test(tz)) setRegion(SOUTH.test(tz) ? "Rest of World" : "North America");
-      else if (tz) setRegion("Rest of World");
-    } catch(_){}
-
-    fetch("/api/geo", { headers: { accept: "application/json" } })
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(g){ if (g && g.region) setRegion(g.region, true); })
-      .catch(function(){ /* the timezone read already answered this */ });
-  }
+  /* The region field opens on "Select" and stays there until the reader answers
+     it. It used to arrive preselected, from the browser timezone and then from
+     the caller's IP via /api/geo; that endpoint is still deployed and still
+     correct, and reinstating this is a fetch and a setter. It was dropped
+     because a guessed answer sitting in a field the reader never touched reads
+     as presumption on a page that is asking them for four things. */
 
   /* always calls back: a captcha that cannot run must not cost a lead, which is
      the same call the endpoint makes when the verifier is unreachable */
