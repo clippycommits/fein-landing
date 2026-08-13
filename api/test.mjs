@@ -131,10 +131,10 @@ console.log("Copy that follows what the lead ticked:");
     "warm introductions, meeting prep and deal history", "interests read as a sentence, not a list");
   ok(interestPhrase(null) === null && interestPhrase("") === null, "nothing ticked, nothing to say");
   const lead = { email: "a@b.example", first: "Ada", interests: "Warm introductions, Meeting prep" };
-  const said = "You asked about warm introductions and meeting prep, so that is where he will start.";
+  const said = "You mentioned warm introductions and meeting prep, so he'll make sure to cover those.";
   ok(welcomeEmail(lead).text.includes(said) && welcomeEmail(lead).html.includes(said.slice(0, 40)),
     "the welcome answers what they ticked, in both parts");
-  ok(!welcomeEmail({ email: "a@b.example" }).text.includes("You asked about"),
+  ok(!welcomeEmail({ email: "a@b.example" }).text.includes("You mentioned"),
     "and says nothing at all when they ticked nothing");
   ok(followupEmail(lead).text.includes("warm introductions and meeting prep"),
     "the nudge remembers it too");
@@ -183,7 +183,7 @@ console.log("Booking webhook:");
     "the lead gets one mail from Olivia about the booking");
   ok(booked.text.includes("Wednesday 12 August at 10:00 am"),
     "it says when, in words, not an ISO string");
-  ok(booked.text.includes("reply here with it. Daniel will have it ready"),
+  ok(booked.text.includes("just reply here with it and he'll have it ready for you"),
     "it asks for the question that makes the call worth having");
   ok(!booked.text.includes("Book a meeting") && !booked.text.includes("cal.com"),
     "and never offers a calendar to someone already holding an invite");
@@ -212,7 +212,7 @@ console.log("Cancellations:");
   });
   ok((await res1.json()).offeredAnother === true, "the attendee dropping the slot is answered");
   const offer = sent.slice(mark).map((s) => s.body).find((b) => b?.subject === "another time for the fein call");
-  ok(offer && offer.text.startsWith("Hi Priya,\n\nWednesday 12 August at 11:00 am BST has come off") && offer.text.includes("cal.com/daniel/fein-intro"),
+  ok(offer && offer.text.includes("No problem at all about Wednesday 12 August at 11:00 am BST coming off") && offer.text.includes("cal.com/daniel/fein-intro"),
     "it names the slot they dropped and hands back the calendar");
 
   mark = sent.length;
@@ -323,6 +323,11 @@ console.log("Who every mail comes from:");
     `everything addressed to us comes from the machine address — ${internal.length} mails`);
   ok(!internal.some((m) => /noah|olivia|daniel/i.test(m.from)),
     "and the machine address carries nobody's name, so no notification reads as written by a person");
+  // Olivia writes the way she speaks. Flattening the contractions out is what
+  // turns this mail from a person into a product announcement, and it is a
+  // thing a careless edit does without noticing, so it is pinned here.
+  ok(external.every((m) => /(I've|he'll|we'll|that's|there's|it's|you'd|you're)/i.test(m.text)),
+    "every lead-facing mail is still written in Olivia's voice, contractions and all");
 }
 
 if (failures) { console.error(`\n${failures} LEAD TEST(S) FAILED`); process.exit(1); }

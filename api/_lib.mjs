@@ -4,8 +4,9 @@
  * The funnel: an enquiry immediately (1) notifies us with Reply-To set to
  * the lead, (2) sends the lead a booking link, (3) schedules a nudge for
  * +72h via Resend scheduled sends. Booking the call (cal.com webhook)
- * cancels the nudge. The email -> nudge-id mapping lives in Upstash Redis
- * because functions keep no disk; everything else is stateless.
+ * cancels the nudge, and cancelling the booking themselves offers another
+ * time. Nothing here keeps state: a booking finds its own pending mail by
+ * sweeping Resend's schedule for the attendee's address.
  *
  * (2) has one exception. The demo page opens the cal.com booking modal on
  * top of itself the moment the enquiry is accepted, so for that client the
@@ -28,8 +29,8 @@
  *   SALES_FROM                (optional) lead-facing persona; defaults to
  *                             "Olivia Greene <olivia.greene@fein.vc>"
  *   POSTAL_ADDRESS            (optional) last line of the sales signature
- *   UPSTASH_REDIS_REST_URL    nudge state (optional: without it the nudge
- *   UPSTASH_REDIS_REST_TOKEN  still sends; it just can't be auto-cancelled)
+ *   UPSTASH_REDIS_REST_URL    (optional) per-IP rate limit and the event log.
+ *   UPSTASH_REDIS_REST_TOKEN  No email depends on either one.
  */
 
 export const cfg = (k) => process.env[k] || null;
@@ -223,9 +224,9 @@ export function welcomeEmail(lead, { hold = false } = {}) {
   const url = callUrl(lead);
   const hi = `Hi ${lead.first || "there"},`;
   const want = interestPhrase(lead.interests);
-  const opening = "Thanks for putting your name down on the fein website, it is lovely to hear from you. The next step is twenty minutes with Daniel, our founder: he will show you fein answering a real question from a fund's own history, and tell you straight whether it fits the stack your team already runs.";
-  const started = want ? `You asked about ${want}, so that is where he will start.` : null;
-  const closing = "If nothing there suits, reply to this email with a day or two that do, and we will fit around you.";
+  const opening = "Thanks for putting your name down on the fein website, it is lovely to hear from you. Typically, as a next step, we schedule a 15-20 minute call with Daniel, our founder, to get to know you and better understand what your team needs.";
+  const started = want ? `You mentioned ${want}, so he'll make sure to cover those.` : null;
+  const closing = "He'll happily work around your schedule, and if nothing there suits, just reply here and we'll find a time that does.";
   return {
     from: salesFrom(),
     to: [lead.email],
@@ -234,14 +235,14 @@ export function welcomeEmail(lead, { hold = false } = {}) {
     subject: "your interest in fein",
     text: [
       hi, opening, started,
-      `Here is Daniel's calendar, take whichever time suits you best: ${url}`,
+      `Do you have any availability in the coming days? I've opened up Daniel's calendar, so please feel free to grab whichever time suits you best: ${url}`,
       closing, "Speak soon,\nOlivia", `\n${signatureText(url)}`,
     ].filter(Boolean).join("\n\n"),
     html: htmlMail([
       `<p ${P}>${esc(hi)}</p>`,
       `<p ${P}>${esc(opening)}</p>`,
       started ? `<p ${P}>${esc(started)}</p>` : "",
-      `<p ${P}>Here is Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, take whichever time suits you best.</p>`,
+      `<p ${P}>Do you have any availability in the coming days? I've opened up Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a>, so please feel free to grab whichever time suits you best.</p>`,
       `<p ${P}>${esc(closing)}</p>`,
       `<p style="margin:0">Speak soon,<br>Olivia</p>`,
       signatureHtml(url),
@@ -263,8 +264,8 @@ export function followupEmail(lead) {
     text: [
       `Hi ${lead.first || "there"},`,
       `You asked about fein a few days ago and we have not spoken yet. No rush at all, but if it is still on your mind, Daniel, our founder, would be glad to say hello: ${url}`,
-      want ? `Twenty minutes is enough to show you ${want} running on a fund's real history.` : null,
-      "And if the timing is simply wrong, reply with a week that suits you and we will come back to you then.",
+      want ? `Twenty minutes is all it takes, and he'll happily show you ${want} running on a fund's real history.` : null,
+      "And if the timing is simply wrong, just reply with a week that suits you and we'll come back to you then.",
       "Speak soon,\nOlivia",
     ].filter(Boolean).join("\n\n"),
     scheduled_at: new Date(Date.now() + FOLLOWUP_HOURS * 3600_000).toISOString(),
@@ -281,11 +282,11 @@ export function bookingEmail(lead, { when = null } = {}) {
   const hi = `Hi ${lead.first || "there"},`;
   const want = interestPhrase(lead.interests);
   const booked = when
-    ? `You are in Daniel's diary for ${when}. The invite carries the joining link, and a link to move it if your day changes.`
-    : "You are in Daniel's diary. The invite carries the joining link, and a link to move it if your day changes.";
-  const shape = "Twenty minutes is enough to see fein answer a real question from a fund's own history, to work out whether it fits the stack you run, and to hear what going live takes.";
-  const started = want ? `You asked about ${want}, so that is where he will start.` : null;
-  const ask = "If there is one question you would want fein to answer, reply here with it. Daniel will have it ready, and it is the thing that makes twenty minutes worth your time.";
+    ? `That's you booked in with Daniel for ${when}. The invite has the joining link in it, and a link to move the call if your day changes.`
+    : "That's you booked in with Daniel. The invite has the joining link in it, and a link to move the call if your day changes.";
+  const shape = "He'll spend the twenty minutes showing you fein answering a real question from a fund's own history, so you can see for yourself whether it fits the stack your team is already running.";
+  const started = want ? `You mentioned ${want}, so that's where he'll start.` : null;
+  const ask = "One thing would help him make it worth your while: if there's a question you'd want fein to answer, just reply here with it and he'll have it ready for you.";
   return {
     from: salesFrom(),
     to: [lead.email],
@@ -314,20 +315,20 @@ export function cancelledEmail(lead, { when = null } = {}) {
   const url = callUrl(lead);
   const hi = `Hi ${lead.first || "there"},`;
   const off = when
-    ? `${when} has come off the calendar, and that is no problem at all.`
-    : "The call has come off the calendar, and that is no problem at all.";
-  const back = "And if it is easier to say what you are after over email first, just reply to this.";
+    ? `No problem at all about ${when} coming off the calendar, these things happen.`
+    : "No problem at all about the call coming off the calendar, these things happen.";
+  const back = "And if it's easier to tell me what you're after over email first, just reply here.";
   return {
     from: salesFrom(),
     to: [lead.email],
     reply_to: cfg("NOTIFY_TO"),
     subject: "another time for the fein call",
-    text: [hi, off, `If you would like another time, Daniel's calendar is here: ${url}`, back,
+    text: [hi, off, `Whenever you'd like another time, Daniel's calendar is still open, so please feel free to grab whichever slot suits: ${url}`, back,
       "Speak soon,\nOlivia", `\n${signatureText(url)}`].filter(Boolean).join("\n\n"),
     html: htmlMail([
       `<p ${P}>${esc(hi)}</p>`,
       `<p ${P}>${esc(off)}</p>`,
-      `<p ${P}>If you would like another time, Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a> is here.</p>`,
+      `<p ${P}>Whenever you'd like another time, Daniel's <a href="${esc(url)}" style="color:#1a73e8">calendar</a> is still open, so please feel free to grab whichever slot suits.</p>`,
       `<p ${P}>${esc(back)}</p>`,
       `<p style="margin:0">Speak soon,<br>Olivia</p>`,
       signatureHtml(url),
