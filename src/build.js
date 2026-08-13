@@ -398,14 +398,27 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // directory-index file, the same shape as the legal pages. These are the pages
 // cold outbound points at, so unlike /privacy and /terms they carry the
 // analytics block: the whole point is knowing which sends convert. Their form
-// posts to the same /api/enquiry endpoint the modal on the index page uses. ----
+// posts to the same /api/enquiry endpoint the modal on the index page uses.
+//
+// A segment page may ask for __STYLE__ and __LOGO_SPRITE__ instead of carrying
+// its own copy of the design. __STYLE__ is the index page's entire <style>
+// block, byte for byte, so /pe inherits the tokens, the type scale and every
+// component class the home page defines -- and keeps inheriting them when the
+// home page changes. That is the whole point: the alternative is a second
+// stylesheet that agrees with the first only on the day it is written.
+// /demo predates this and still carries its own reduced sheet, which is correct
+// for a page whose job is one form; the split is per page, not global. ----
+const spriteAll = spriteHero + spriteRest;
 ["pe", "demo"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
+    .split("__STYLE__").join(styleBlock)
+    .split("__LOGO_SPRITE__").join(spriteAll)
     .split("__GEIST_SANS_B64__").join(sansB64)
     .split("__INTER_B64__").join(interB64)
     .split("__LASTMOD__").join(LASTMOD)
     .split("__ANALYTICS__").join(analytics);
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
+  if (page.indexOf("__STYLE__") > -1 || page.indexOf("__LOGO_SPRITE__") > -1) throw new Error("page placeholder left in " + slug);
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);

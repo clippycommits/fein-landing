@@ -72,23 +72,33 @@
   .aside{border-top:1px solid var(--line);padding-top:1.4rem;font-size:.93rem;color:var(--fg-3)}
   .aside a{color:var(--blue-l)}
 
-  /* form */
-  .card{background:var(--bg-2);border:1px solid var(--line-2);border-radius:20px;padding:clamp(1.5rem,3vw,2.1rem)}
-  .card h2{font-family:var(--display);font-size:1.28rem;font-weight:600;letter-spacing:-.022em;margin:0 0 1.5rem}
+  /* form. Vercel's contact page sets its fields straight on the page ground with
+     no panel behind them, so the card here is kept in the markup and dressed
+     down to nothing: the fields are the only drawn thing in the column. */
+  .card{background:transparent;border:0;border-radius:0;padding:0}
+  .card h2{font-family:var(--display);font-size:1.24rem;font-weight:600;letter-spacing:-.022em;color:#fff;margin:0 0 1.6rem}
   .frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-  .fld{margin-bottom:1.05rem}
-  label{display:block;font-size:.88rem;font-weight:500;color:var(--fg-2);margin-bottom:.45rem}
-  .opt{color:var(--dim);font-weight:400}
-  input,select,textarea{width:100%;font-family:inherit;font-size:.98rem;color:var(--fg);background:var(--bg-3);border:1px solid transparent;box-shadow:0 0 0 1px var(--line-ctl);border-radius:10px;padding:.7rem .85rem;transition:box-shadow .15s ease}
+  .fld{margin-bottom:1.15rem}
+  label{display:block;font-size:.92rem;font-weight:500;color:var(--fg);margin-bottom:.5rem}
+  .opt{color:var(--fg-3);font-weight:400}
+  /* fill is the page, not a lifted panel: what reads as the control is its
+     outline. That outline stays on --line-ctl, which is the 3:1 WCAG 1.4.11
+     token the rest of the site uses; the reference draws a dimmer hairline
+     than this, and matching it exactly would drop the control under 2:1. */
+  input,select,textarea{width:100%;font-family:inherit;font-size:.98rem;color:var(--fg);background:transparent;border:1px solid transparent;box-shadow:0 0 0 1px var(--line-ctl);border-radius:8px;padding:.72rem .85rem;transition:box-shadow .15s ease}
   textarea{min-height:104px;resize:vertical;line-height:1.5}
-  input::placeholder,textarea::placeholder{color:var(--dim)}
+  input::placeholder,textarea::placeholder{color:var(--fg-3)}
   input:hover,select:hover,textarea:hover{box-shadow:0 0 0 1px var(--line-ctl-2)}
-  input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 2px var(--blue)}
+  /* the reference rings a focused field in light rather than colour */
+  input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
   select{appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a8f98' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center;background-size:16px;padding-right:2.2rem}
   /* honeypot: never shown, never filled by a human, checked server side */
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
-  .submit{width:100%;height:46px;margin-top:.5rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:inherit;font-size:1rem;font-weight:550;color:#08090A;background:#fff;border:0;border-radius:11px;cursor:pointer;transition:opacity .15s ease}
+  /* the reference's action is a white pill. It is held full width here because
+     this column is 440px rather than the reference's 1140px, and an auto width
+     pill floats in a column this narrow. One property to change back. */
+  .submit{width:100%;height:46px;margin-top:.7rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:inherit;font-size:1rem;font-weight:550;color:#08090A;background:#fff;border:0;border-radius:999px;cursor:pointer;transition:opacity .15s ease}
   .submit:hover{opacity:.88}
   .submit:disabled{opacity:.55;cursor:default}
   .fnote{margin:.95rem 0 0;font-size:.86rem;color:var(--fg-3);text-align:center}
