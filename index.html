@@ -327,6 +327,10 @@
 
   /* ============ hero entrance choreography (pure CSS, staggered) ============ */
   @keyframes lpUp{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+  /* the fold's picture breathes: 6px over nine seconds, which is slow and small
+     enough to be felt rather than watched. translate3d rather than translateY
+     so it composites on the GPU and never asks for a layout. */
+  @keyframes heroFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-6px,0)}}
   @keyframes lpH1{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
   @keyframes lpBar{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
   #view-home .bar,#view-home .ribbon{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
@@ -373,7 +377,13 @@
   .hero-lead .wrap>h1,.hero-lead .wrap>h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .02s both}
   .hero-lead .wrap>p{animation-delay:.12s}
   .hero-lead .hero-actions{animation-delay:.22s}
-  .hero-lead .wrap>.lead-stage{animation-delay:.3s}
+  /* Entrance and float on one element, and they do not fight: lpUp animates the
+     `translate` property and heroFloat animates `transform`, which the engine
+     keeps separate and composes, so neither has to know about the other. The
+     float waits out the entrance before it starts. Both are paused by .hold
+     above, so nothing drifts before the fold is released, and the page's
+     blanket reduced-motion rule stops the float with everything else. */
+  .hero-lead .wrap>.lead-stage{animation:lpUp .78s cubic-bezier(.16,.84,.44,1) .3s both,heroFloat 9s ease-in-out 1.35s infinite}
 
   /* the orbit stage: one centered statement with the composition turning around
      it. the copy keeps the band type scale (.head), so the geometry below reads
