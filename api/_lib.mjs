@@ -21,7 +21,10 @@
  *                             e.g. https://cal.com/daniel/fein-intro
  *   CALCOM_WEBHOOK_SECRET     cal.com webhook signing secret
  *   NOTIFY_TO                 where lead notifications go
- *   MAIL_FROM                 internal notification sender, e.g. "fein site <noah@fein.vc>"
+ *   MAIL_FROM                 internal notification sender, e.g. "fein site
+ *                             <system@fein.vc>". Machine mail to us, so it
+ *                             carries no person's name: everything a lead
+ *                             reads comes from SALES_FROM instead.
  *   SALES_FROM                (optional) lead-facing persona; defaults to
  *                             "Olivia Greene <olivia.greene@fein.vc>"
  *   POSTAL_ADDRESS            (optional) last line of the sales signature

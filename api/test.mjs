@@ -12,7 +12,7 @@ Object.assign(process.env, {
   CAL_LINK: "https://cal.com/daniel/fein-intro",
   CALCOM_WEBHOOK_SECRET: SECRET,
   NOTIFY_TO: "daniel@fein.vc",
-  MAIL_FROM: "Noah Frank <noah@fein.vc>",
+  MAIL_FROM: "fein site <system@fein.vc>",
   UPSTASH_REDIS_REST_URL: "https://redis.test",
   UPSTASH_REDIS_REST_TOKEN: "tok_test",
 });
@@ -307,6 +307,22 @@ console.log("Call redirect + health:");
     "/api/cal splits CAL_LINK the way the embed wants it");
   const h = await (await health(new Request("https://fein.vc/api/health"))).json();
   ok(h.ok === true && h.missingConfig.length === 0, "health reports full config");
+}
+
+// Run over everything the suite has sent, so it covers each journey above.
+console.log("Who every mail comes from:");
+{
+  const mails = sent.filter((s) => s.path === "/emails" && s.body?.to?.[0]).map((s) => s.body);
+  const [internal, external] = [
+    mails.filter((m) => m.to[0] === "daniel@fein.vc"),
+    mails.filter((m) => m.to[0] !== "daniel@fein.vc"),
+  ];
+  ok(external.length > 4 && external.every((m) => m.from === "Olivia Greene <olivia.greene@fein.vc>"),
+    `everything a lead reads comes from Olivia — ${external.length} mails, ${new Set(external.map((m) => m.from)).size} sender`);
+  ok(internal.length > 2 && internal.every((m) => m.from === "fein site <system@fein.vc>"),
+    `everything addressed to us comes from the machine address — ${internal.length} mails`);
+  ok(!internal.some((m) => /noah|olivia|daniel/i.test(m.from)),
+    "and the machine address carries nobody's name, so no notification reads as written by a person");
 }
 
 if (failures) { console.error(`\n${failures} LEAD TEST(S) FAILED`); process.exit(1); }
