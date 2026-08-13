@@ -68,11 +68,12 @@
   h1{font-family:var(--display);font-size:clamp(2.3rem,4.4vw,3.5rem);line-height:1.04;letter-spacing:-.035em;font-weight:600;margin:0 0 1.15rem}
   .lede{font-size:clamp(1.02rem,1.4vw,1.14rem);color:var(--fg-2);margin:0 0 2.4rem;max-width:30em;text-wrap:pretty}
 
-  .ticks{list-style:none;margin:0 0 2.4rem;padding:0;display:grid;gap:.95rem}
-  .ticks li{display:flex;gap:.8rem;align-items:flex-start;font-size:1rem;color:var(--fg)}
-  .tick{flex:0 0 auto;display:grid;place-items:center;width:20px;height:20px;margin-top:.16rem;border-radius:50%;background:rgba(255,255,255,.07);color:#fff}
+  /* single line items now, so they centre on the tick instead of hanging off
+     the top of a paragraph that is no longer there */
+  .ticks{list-style:none;margin:0 0 2.2rem;padding:0;display:grid;gap:.8rem}
+  .ticks li{display:flex;gap:.75rem;align-items:center;font-size:1rem;color:var(--fg)}
+  .tick{flex:0 0 auto;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.07);color:#fff}
   .tick svg{width:11px;height:11px}
-  .ticks p{margin:.15rem 0 0;color:var(--fg-3);font-size:.93rem;line-height:1.5}
 
   .aside{border-top:1px solid var(--line);padding-top:1.4rem;font-size:.93rem;color:var(--fg-3)}
   .aside a{color:var(--blue-l)}
@@ -165,24 +166,28 @@
 
     <div>
       <h1>Get a demo</h1>
-      <p class="lede">Twenty minutes on a call. We show fein answering the questions your team asks each week, and you get a straight answer on whether it fits the stack you run today.</p>
+      <p class="lede">Twenty minutes on a call, and a straight answer on whether fein fits the stack you run today.</p>
 
+      <!-- three claims, no paragraphs under them. The reader came here to fill in
+           four boxes; prose beside the form is weight on that, not support for
+           it, and each of these said in a sentence what its heading already
+           said. -->
       <ul class="ticks">
         <li>
           <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>
-          <span>See it answer a real question<p>Who knows this founder, who can introduce us, why we passed. Each answer carries the document it was read from.</p></span>
+          <span>See it answer a real question</span>
         </li>
         <li>
           <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>
-          <span>Find out if your stack fits<p>Bring the tools you run. We will tell you what fein reads on day one and what it leaves alone.</p></span>
+          <span>Find out if your stack fits</span>
         </li>
         <li>
           <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>
-          <span>Know what going live takes<p>Two short calls and fourteen days, on your own servers. We will walk the whole path before you commit to any of it.</p></span>
+          <span>Know what going live takes</span>
         </li>
       </ul>
 
-      <p class="aside">Prefer email? Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a> and we will pick it up the same day.</p>
+      <p class="aside">Prefer email? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
     </div>
 
     <div>
@@ -216,7 +221,11 @@
             <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
             <button class="submit" type="submit" id="submit">Send message</button>
             <p class="fnote">We reply the same day. No sequence, no newsletter.</p>
-            <p class="recap">By sending this you agree to fein's <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>. This site is protected by reCAPTCHA, and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
+            <!-- one line, not three. Google's full notice is only required when
+                 the reCAPTCHA badge is hidden; the badge shows by default and
+                 the key here is empty, so the short form covers this. Put the
+                 long sentence back if the badge is ever suppressed. -->
+            <p class="recap">By sending this you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms</a>, and to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">reCAPTCHA</a>.</p>
             <p class="err" id="err" role="alert">That did not send. Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a> and we will pick it up at once.</p>
           </form>
         </div>
@@ -271,8 +280,15 @@
   if (regionSel) {
     regionSel.addEventListener("change", function(){ regionTouched = true; });
 
-    var setRegion = function(v){
-      if (!v || regionTouched || regionSel.value) return;
+    /* `authoritative` is what separates the two sources. The timezone guess only
+       fills an empty field, so it cannot argue with anything. The IP answer is
+       allowed to correct that guess, because it is the better evidence and it
+       arrives second: a reader in London on a laptop still set to UTC would
+       otherwise be stuck on whatever the timezone implied. Neither touches the
+       field once the reader has. */
+    var setRegion = function(v, authoritative){
+      if (!v || regionTouched) return;
+      if (regionSel.value && !authoritative) return;
       for (var i = 0; i < regionSel.options.length; i++) {
         if (regionSel.options[i].text === v) { regionSel.value = regionSel.options[i].value || v; return; }
       }
@@ -290,7 +306,7 @@
 
     fetch("/api/geo", { headers: { accept: "application/json" } })
       .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(g){ if (g && g.region) setRegion(g.region); })
+      .then(function(g){ if (g && g.region) setRegion(g.region, true); })
       .catch(function(){ /* the timezone read already answered this */ });
   }
 
