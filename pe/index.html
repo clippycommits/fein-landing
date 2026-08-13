@@ -1421,7 +1421,7 @@
      separate thought and gets a real step; the buttons are a separate act and
      get the widest. the lede reads at 1.5 rather than the old 1.3, which was
      display leading applied to body copy three lines deep. */
-  .hero-lead .wrap>.eyebrow{display:block;line-height:1;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
+  .hero-lead .wrap>.eyebrow{display:block;margin:0 0 clamp(.85rem,1.8vh,1.25rem);line-height:1.35;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
   /* the display line is the loudest thing on the page and it was being set to
      the width of a paragraph. It breaks out to its own measure and sizes to
      hold on one line wherever one line fits, which buys back more height than
@@ -1474,13 +1474,18 @@
   /* the lede and the actions share one row, which is the shape the reference
      gets its calm from: a line of type on the left, the thing to press on the
      right, nothing stacked between them. Stacked below 900px instead. */
+  /* every child here is placed explicitly, so anything added to this wrap needs
+     a row of its own: without one it auto-places into the first free cell, which
+     is the lede's, and lands on top of it. The eyebrow took row 1 and pushed the
+     other four down one. */
   @media (min-width:900px){
     .hero-lead .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(2rem,5vw,4rem);align-items:end}
-    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:1}
-    .hero-lead .wrap>p{grid-column:1;grid-row:2}
-    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:2;justify-content:flex-end;margin:0 0 .15rem}
-    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:3}
-    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:3}
+    .hero-lead .wrap>.eyebrow{grid-column:1 / -1;grid-row:1}
+    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:2}
+    .hero-lead .wrap>p{grid-column:1;grid-row:3}
+    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:3;justify-content:flex-end;margin:0 0 .15rem}
+    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:4}
+    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:4}
   }
 
   /* ============ the funnel: what the answer was called from ============

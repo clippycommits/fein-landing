@@ -762,15 +762,23 @@
      lead underneath keeps its own 52ch measure, so this widens the display line
      and nothing that is actually read in paragraphs */
   .why-band .head{max-width:66ch}
-  .why-grid{display:grid;grid-template-columns:minmax(0,10rem) minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:clamp(1.8rem,3.6vw,2.6rem);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--bg-2)}
-  .why-grid>*{padding:.95rem 1.05rem;border-bottom:1px solid var(--line)}
-  .why-grid>.hd{padding-block:.7rem;background:rgba(255,255,255,.02);font-size:.8rem;font-weight:500;color:var(--fg-3)}
+  /* The comparison used to be a filled, fully bordered panel on --bg-2 with four
+     different tints inside it: the only boxed table on a page that sets every
+     other list, stack and figure open on the ground with a hairline over each
+     row. It is that same idiom now. The rules are what hold the rows, the
+     columns are held apart by their own padding rather than by fills, and the
+     two header labels sit above the first rule like the labels over the stack
+     list. Rows also breathe at 1.45rem rather than .95rem, which is what the
+     type size was already asking for. */
+  .why-grid{display:grid;grid-template-columns:minmax(0,11rem) minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:clamp(2.2rem,4.4vw,3.2rem)}
+  .why-grid>*{padding:1.45rem clamp(1.2rem,2.6vw,2.4rem) 1.45rem 0;border-top:1px solid var(--line)}
+  .why-grid>*:nth-child(3n){padding-right:0}
+  .why-grid>.hd{padding-top:0;padding-bottom:.95rem;border-top:0;font-size:.82rem;font-weight:500;color:var(--fg-3)}
   .why-grid>.hd.us{color:#fff}
-  .why-grid>.rl{font-size:.86rem;font-weight:550;color:#fff;letter-spacing:-.012em;background:rgba(255,255,255,.012)}
-  .why-grid>.a,.why-grid>.b{font-size:.92rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
-  .why-grid>.b{color:var(--fg-2);background:rgba(255,255,255,.022)}
+  .why-grid>.rl{font-size:.95rem;font-weight:550;color:#fff;letter-spacing:-.016em}
+  .why-grid>.a,.why-grid>.b{font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
+  .why-grid>.b{color:var(--fg-2)}
   .why-grid>.b b{color:#fff;font-weight:550}
-  .why-grid>*:nth-last-child(-n+3){border-bottom:0}
   .why-note{margin-top:1.3rem;max-width:64ch;font-size:.95rem;line-height:1.55;color:var(--fg-3)}
   .why-note b{color:#fff;font-weight:550}
 
@@ -784,10 +792,15 @@
     .ah-fig{margin-top:1.8rem}
     .ah-proof{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem}
     .ask--hero .ask-a{min-height:0}
+    /* one column: the rule now opens each block rather than boxing each cell,
+       and the two prefixes carry the columns the header row is no longer here
+       to name */
     .why-grid{grid-template-columns:minmax(0,1fr)}
+    .why-grid>*{padding-right:0}
     .why-grid>.hd{display:none}
-    .why-grid>.rl{background:rgba(255,255,255,.03);padding-bottom:.3rem;border-bottom:0}
-    .why-grid>.a{padding-top:.55rem;padding-bottom:.55rem;border-bottom:0}
+    .why-grid>.rl{padding:1.35rem 0 .45rem}
+    .why-grid>.a{padding:.35rem 0;border-top:0}
+    .why-grid>.b{padding:.35rem 0 .2rem;border-top:0}
     .why-grid>.a::before{content:"a connector: ";color:var(--dim)}
     .why-grid>.b::before{content:"fein: ";color:var(--dim)}
   }
@@ -1225,18 +1238,11 @@
      three steps a good deal wider than the figure row directly above them and
      the numbered blocks directly below, and made the band read as a page of its
      own laid over the one it is in */
-  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr auto;min-height:max(780px,min(100svh,1100px));gap:clamp(1.6rem,3vh,2.6rem);width:min(var(--maxw),100%);margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) var(--bar-pad) clamp(2rem,5vh,3.4rem)}
-  /* the labels ride the same three columns as the steps: a zone's name at the
-     top of the stage and its step at the bottom sit on one vertical. Each one
-     is also set over its own end of the funnel, which is why the middle is
-     centred and the last is flushed right rather than all three sitting on
-     their column's left edge */
-  .zlabels{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);align-self:start}
-  .zlabels .dlab:nth-child(2){text-align:center}
-  .zlabels .dlab:nth-child(3){text-align:right}
-  .dlab{font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d;white-space:nowrap;transition:color .5s cubic-bezier(.22,.61,.36,1)}
-  .dlab.on{color:var(--blue-l)}
-  .dlab.dim{color:var(--dim)}
+  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr;min-height:max(780px,min(100svh,1100px));gap:clamp(1.6rem,3vh,2.6rem);width:min(var(--maxw),100%);margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) var(--bar-pad) clamp(2rem,5vh,3.4rem)}
+  /* The three zone labels that used to sit here, naming the ends of the funnel
+     in small grey type, are gone. The picture says which way it runs on its
+     own, and the three steps under it name the same zones in full sentences,
+     so the row was a caption for a caption. */
   .stage-mid{display:grid;place-items:center;min-height:0}
   .stage-head{max-width:none;text-align:center}
   .stage-head .eyebrow{display:block;color:#8d939d}
@@ -1424,7 +1430,7 @@
      separate thought and gets a real step; the buttons are a separate act and
      get the widest. the lede reads at 1.5 rather than the old 1.3, which was
      display leading applied to body copy three lines deep. */
-  .hero-lead .wrap>.eyebrow{display:block;line-height:1;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
+  .hero-lead .wrap>.eyebrow{display:block;margin:0 0 clamp(.85rem,1.8vh,1.25rem);line-height:1.35;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
   /* the display line is the loudest thing on the page and it was being set to
      the width of a paragraph. It breaks out to its own measure and sizes to
      hold on one line wherever one line fits, which buys back more height than
@@ -1477,13 +1483,18 @@
   /* the lede and the actions share one row, which is the shape the reference
      gets its calm from: a line of type on the left, the thing to press on the
      right, nothing stacked between them. Stacked below 900px instead. */
+  /* every child here is placed explicitly, so anything added to this wrap needs
+     a row of its own: without one it auto-places into the first free cell, which
+     is the lede's, and lands on top of it. The eyebrow took row 1 and pushed the
+     other four down one. */
   @media (min-width:900px){
     .hero-lead .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(2rem,5vw,4rem);align-items:end}
-    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:1}
-    .hero-lead .wrap>p{grid-column:1;grid-row:2}
-    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:2;justify-content:flex-end;margin:0 0 .15rem}
-    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:3}
-    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:3}
+    .hero-lead .wrap>.eyebrow{grid-column:1 / -1;grid-row:1}
+    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:2}
+    .hero-lead .wrap>p{grid-column:1;grid-row:3}
+    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:3;justify-content:flex-end;margin:0 0 .15rem}
+    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:4}
+    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:4}
   }
 
   /* ============ the funnel: what the answer was called from ============
@@ -1658,6 +1669,16 @@
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
   .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
   .deploy-orbit .why3{margin-top:clamp(2rem,4vw,3rem)}
+  /* THE CLOSE: this band used to end on the third fortnight card, which left the
+     last content section of the page with nothing to act on, and its two actions
+     stranded up under the headline where a reader meets them before they know
+     what is being offered. The order is the offer, then the fortnight that
+     delivers it, then the ask. One panel, the section's own ground, and the only
+     two ways to start a setup. */
+  .deploy-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(1.2rem,3vw,3rem);align-items:center;margin-top:clamp(2.2rem,4.5vw,3.2rem);padding:clamp(1.5rem,3vw,2.15rem) clamp(1.5rem,3vw,2.4rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:rgba(255,255,255,.028);box-shadow:var(--hl-top)}
+  .deploy-cta b{display:block;color:#fff;font-size:clamp(1.05rem,1.7vw,1.25rem);font-weight:550;letter-spacing:-.018em;line-height:1.25}
+  .deploy-cta p{margin-top:.5rem;max-width:56ch;color:var(--fg-2);font-size:1rem;line-height:1.55;text-wrap:pretty}
+  .deploy-cta .hero-actions{margin-top:0}
 
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:var(--bg);color:var(--fg-3);padding:3.5rem 0 2.2rem}
@@ -1822,6 +1843,9 @@
     .mmenu .sep{height:1px;background:var(--line);margin:.4rem .5rem}
     .bar .right .btn-ghost{display:none}
     .secgrid{grid-template-columns:1fr;gap:2.4rem}
+    /* the buttons drop under the copy rather than being squeezed beside it */
+    .deploy-cta{grid-template-columns:1fr}
+    .deploy-cta .hero-actions{margin-top:.3rem}
   }
 
   /* the stage stacks below 1080: there is no longer enough width either side of
@@ -1831,21 +1855,15 @@
      three steps, same lighting. */
   @media (max-width:1079px){
     .stage,.stage-grid{min-height:0}
-    .stage-grid{grid-template-rows:auto auto auto auto;padding-top:clamp(4.75rem,11vh,6.5rem);padding-bottom:clamp(2.5rem,6vh,3.5rem);gap:clamp(1.8rem,4vh,2.8rem)}
+    .stage-grid{grid-template-rows:auto auto auto;padding-top:clamp(4.75rem,11vh,6.5rem);padding-bottom:clamp(2.5rem,6vh,3.5rem);gap:clamp(1.8rem,4vh,2.8rem)}
     .dband{display:block;height:clamp(160px,27vh,250px)}
-    /* the strip keeps its labels: source order puts them under the copy, and a
-       funnel's ends want naming where the funnel actually is */
-    .dband{order:1}.zlabels{order:2;gap:1rem}.stage-mid{order:3}.stage-why3{order:4}
+    /* the strip runs above the copy here: source order would put it between the
+       words and the steps, which is the one place it has nothing to say */
+    .dband{order:1}.stage-mid{order:2}.stage-why3{order:3}
     .stage-mid{align-items:start}
     .stage-head h2{max-width:19ch}
   }
   @media (max-width:760px){
-    /* .6rem is 9.6px, and 9.6px tracked out to .12em is the three words that
-       name the ends of the funnel rendered as grey texture. The width the
-       larger size costs comes back off the tracking: "answers out" is 78px at
-       11px and .05em against 74px at 9.6px and .12em, which the column has. */
-    .dlab{white-space:normal;font-size:11px;letter-spacing:.05em;line-height:1.5}
-    .zlabels{gap:1rem}
     .dband{height:clamp(150px,24vh,200px)}
   }
 
@@ -2052,7 +2070,6 @@
     .stage-why3 .wcard.dim .wstep,.stage-why3 .wcard.on .wstep{color:var(--dim)}
     .stage-why3 .wcard.dim,.stage-why3 .wcard.on{border-top-color:var(--line-2)}
     .stage-why3 .wcard.dim::before,.stage-why3 .wcard.on::before{opacity:1;height:clamp(18px,3.4vh,42px);background:linear-gradient(180deg,transparent,var(--line-2))}
-    .dlab.on,.dlab.dim{color:var(--dim)}
     /* the row is static and near full width here, so the edge mask would be
        fading real names rather than a moving track */
     .marquee{-webkit-mask-image:none;mask-image:none;padding:0 24px}
@@ -2214,7 +2231,13 @@ setTimeout(go,1200);})()</script>
     </div>
 
     <div class="wrap" id="content" tabindex="-1">
-      
+
+      <!-- The fold said "open source" and pointed at a repository, and left the
+           reader to work out what that bought them. This is the answer, in the
+           slot the hero already had styled and already animates first: both ways
+           of running fein, named before the headline. It is what makes the
+           GitHub button legible to a reader who is never going to clone it. -->
+      <p class="eyebrow">self-hosted on your infrastructure, or we run it</p>
       <h1>Welcome to agentic venture capital.</h1>
       <!-- "tool and platform" was two words for the same thing and named neither:
            it is a context graph, which is the approved term and the one the rest of
@@ -2656,9 +2679,10 @@ setTimeout(go,1200);})()</script>
        on, which is why there is no hexagon in the middle any more. The three
        steps are anchored under the three zones they name and light them.
 
-       Zone order is load-bearing in three places at once — the label row, the
-       field's left-to-right flow, and the step row. Renumber one and renumber
-       all three, and keep each step's data-zone matching its 0N prefix. -->
+       Zone order is load-bearing in two places at once, the field's
+       left-to-right flow and the step row. Renumber one and renumber the other,
+       and keep each step's data-zone matching its 0N prefix. The small label
+       row that used to name the zones a third time has been taken out. -->
   <section id="how" class="band stagesec">
     <div class="stage" id="dlive">
       <div class="dscene" role="img" aria-label="Diagram: a funnel. Your systems (Gmail, Calendar, Drive, Attio, LinkedIn, Granola, Notion, and Slack) run in on rails across the left edge and are taken in by fein at the centre. Sourced answers leave the other side and fan back out to Claude, ChatGPT, Gemini, Perplexity, Copilot, and Cursor">
@@ -2684,11 +2708,6 @@ setTimeout(go,1200);})()</script>
             <h2>Memory that understands when things change.</h2>
             <p class="sub">Create memories from any source. fein constructs the graph. Retrieve relevant, token-efficient context.</p>
           </div>
-        </div>
-        <div class="zlabels">
-          <span class="dlab" data-zone="1">raw data in</span>
-          <span class="dlab" data-zone="2">fein</span>
-          <span class="dlab" data-zone="3">answers out</span>
         </div>
         <div class="why3 stage-why3" data-reveal-group="90">
           <div class="wcard reveal" data-zone="1"><span class="wstep">01</span><h3>Everything your team already uses</h3><p>It reads your inbox, calendar, Drive, LinkedIn, and CRM. It reads them continuously. Your team logs nothing.</p></div>
@@ -2949,6 +2968,7 @@ setTimeout(go,1200);})()</script>
     <div class="wrap">
       <div class="head">
         <h2 id="why-h">Supercharging <span class="nmn">Claude<svg class="nmk" aria-hidden="true"><use href="#l-claude"/></svg></span>, <span class="nmn">ChatGPT<svg class="nmk" aria-hidden="true"><use href="#l-openai"/></svg></span> and your team&rsquo;s AI tools.</h2>
+        <p class="lead">A connector gives an assistant a search box into one tool at a time. fein gives it the context graph your team already made, and the source document behind every line of it.</p>
       </div>
       <div class="why-grid">
         <p class="hd"></p>
@@ -3015,13 +3035,14 @@ setTimeout(go,1200);})()</script>
   <section id="security" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <h2>Your data never leaves your servers.</h2>
-        <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.</p>
+        <h2>PII masking, audit trails, and data that never leaves your servers.</h2>
+        <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers, masks personal data on the way in, and writes down every change it makes. You can read all of the code.</p>
         <div class="sec-cta">
           <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source code <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
       <ul class="sec-list" data-reveal-group="70">
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>PII masked on the way in.</b><p>Personal data is masked as it is read, before a fact is stored or sent to a model.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>It runs on your infrastructure. It sends nothing to us.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public. Read it before you run it.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>One token, every surface.</b><p>The dashboard, the API, and the agent endpoint sit behind the same gate.</p></div></li>
@@ -3048,13 +3069,9 @@ setTimeout(go,1200);})()</script>
 
     <div class="wrap hero-inner">
       <div class="hero-copy head">
-        
+        <span class="eyebrow">managed setup</span>
         <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
         <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
-        <div class="hero-actions">
-          <a class="btn btn-white" href="/demo">Get a demo</a>
-          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-        </div>
       </div>
       <div class="prep-wrap" role="img" aria-label="Example: fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around this section: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
         <canvas id="prepflow" aria-hidden="true"></canvas>
@@ -3078,6 +3095,16 @@ setTimeout(go,1200);})()</script>
         <div class="wcard reveal"><span class="wstep">Day 1</span><h3>We connect your systems</h3><p>On the first call, we connect your email, calendar, Drive, LinkedIn, and CRM. This runs on your own servers.</p></div>
         <div class="wcard reveal"><span class="wstep">Days 2-13</span><h3>It reads your full history</h3><p>It reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.</p></div>
         <div class="wcard reveal"><span class="wstep">Day 14</span><h3>You check it, then it goes live</h3><p>On a second short call, you check the answers against what you know. Then fein goes live. It holds your team's full history, like a colleague of many years.</p></div>
+      </div>
+      <div class="deploy-cta reveal">
+        <div>
+          <b>We set it up. You keep it.</b>
+          <p>Two short calls, fourteen days, and fein is running on your own servers, on code you can read. Book the first call and we will walk your stack with you.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-white" href="/demo">Get a demo</a>
+          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        </div>
       </div>
     </div>
   </section>
@@ -3582,7 +3609,7 @@ setTimeout(go,1200);})()</script>
       df=document.getElementById("dfield"),dhead=document.getElementById("dhead"),
       dcore=document.getElementById("dcore"),
       dband=dl&&dl.querySelector(".dband"),
-      dzl=dl&&dl.querySelector(".zlabels"),dwhy=dl&&dl.querySelector(".stage-why3");
+      dwhy=dl&&dl.querySelector(".stage-why3");
   if(dl&&dc&&df&&dhead&&dcore&&dband&&dwhy){
     var g=dc.getContext("2d"),draf=0,dvis=false,dlast=null,SPEED=68;
     var W=0,H=0,CX=0,CY=0,CR=0,CW2=0,FH=0,TL=0,TR=0,TOP=0,BOT=0,
@@ -3659,10 +3686,10 @@ setTimeout(go,1200);})()</script>
         dl.style.setProperty("--fade-a",(100*Math.min(1,(BOT+14)/H)).toFixed(2)+"%");
         dl.style.setProperty("--fade-b",(100*Math.min(1,(BOT+80)/H)).toFixed(2)+"%");
       }else{
-        /* the band is what the layout leaves between the labels and the steps.
+        /* the band is what the layout leaves between the copy and the steps.
            The copy is not the core any more, so the funnel wants a strip it owns
            outright rather than a throat cut around a headline */
-        var zr=(dzl&&dzl.offsetHeight>2?dzl:dhead).getBoundingClientRect(),
+        var zr=dhead.getBoundingClientRect(),
             wr=dwhy.getBoundingClientRect();
         TOP=Math.max(6,zr.bottom-r.top+22);
         BOT=Math.min(H-6,wr.top-r.top-26);
@@ -3958,12 +3985,11 @@ setTimeout(go,1200);})()</script>
 
     /* ---- zone lighting: one weight per zone plus one for "none", eased ---- */
     var ZT=0,ZW=[1,0,0,0],M_ICO=1,M_PIL=1,M_GLOW=1;
-    var cards=[].slice.call(dl.querySelectorAll(".stage-why3 .wcard")),
-        labs=[].slice.call(dl.querySelectorAll(".dlab"));
+    var cards=[].slice.call(dl.querySelectorAll(".stage-why3 .wcard"));
     function paintZone(){
       function mark(el){var z=+el.getAttribute("data-zone");
         el.classList.toggle("on",ZT===z);el.classList.toggle("dim",ZT!==0&&ZT!==z);}
-      cards.forEach(mark);labs.forEach(mark);
+      cards.forEach(mark);
     }
     function setZone(z){if(z===ZT)return;ZT=z;paintZone();}
     function zoneStep(dt){
