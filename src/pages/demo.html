@@ -32,9 +32,14 @@
     --bg:#08090A; --bg-2:#121316; --bg-3:#18191E;
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
-    /* same control-outline token as fein.tpl.html and pe.html: 3:1 against both
-       the page ground and the field fill, per WCAG 1.4.11 */
-    --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
+    /* Deliberately quieter than the .38 token fein.tpl.html and pe.html hold.
+       Those clear the 3:1 that WCAG 1.4.11 asks of a control boundary; .16 is
+       about 1.5:1 and does not, which is an accepted tradeoff on this page for
+       the restraint it buys. What it costs is a low vision reader finding the
+       fields at rest. What it does not cost is operating them: hover lifts to
+       .30 and focus rings in near solid white, so the focused control is still
+       unmistakable and 2.4.7 is unaffected. */
+    --line-ctl:rgba(255,255,255,.16); --line-ctl-2:rgba(255,255,255,.30);
     --blue:#0070F3; --blue-l:#52A8FF;
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
@@ -82,9 +87,7 @@
   label{display:block;font-size:.92rem;font-weight:500;color:var(--fg);margin-bottom:.5rem}
   .opt{color:var(--fg-3);font-weight:400}
   /* fill is the page, not a lifted panel: what reads as the control is its
-     outline. That outline stays on --line-ctl, which is the 3:1 WCAG 1.4.11
-     token the rest of the site uses; the reference draws a dimmer hairline
-     than this, and matching it exactly would drop the control under 2:1. */
+     outline, drawn on the restrained --line-ctl set at the top of this file */
   input,select,textarea{width:100%;font-family:inherit;font-size:.98rem;color:var(--fg);background:transparent;border:1px solid transparent;box-shadow:0 0 0 1px var(--line-ctl);border-radius:8px;padding:.72rem .85rem;transition:box-shadow .15s ease}
   textarea{min-height:104px;resize:vertical;line-height:1.5}
   input::placeholder,textarea::placeholder{color:var(--fg-3)}
@@ -95,13 +98,31 @@
   /* honeypot: never shown, never filled by a human, checked server side */
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
-  /* the reference's action is a white pill. It is held full width here because
-     this column is 440px rather than the reference's 1140px, and an auto width
-     pill floats in a column this narrow. One property to change back. */
-  .submit{width:100%;height:46px;margin-top:.7rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:inherit;font-size:1rem;font-weight:550;color:#08090A;background:#fff;border:0;border-radius:999px;cursor:pointer;transition:opacity .15s ease}
+  /* checkbox group. The native box is kept in the layout and made invisible
+     rather than display:none, so it stays focusable and keeps carrying the
+     label association; .box is what is actually drawn, and it takes the same
+     outline token as the text fields so the controls read as one set. */
+  .chkset{border:0;margin:0 0 1.15rem;padding:0;min-width:0}
+  .chkset legend{display:block;padding:0;font-size:.92rem;font-weight:500;color:var(--fg);margin-bottom:.6rem}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:.55rem .9rem}
+  .chk{display:flex;align-items:center;gap:.55rem;margin:0;font-size:.93rem;font-weight:400;color:var(--fg-2);cursor:pointer;user-select:none;transition:color .15s ease}
+  .chk:hover{color:var(--fg)}
+  .chk input{position:absolute;width:1px;height:1px;opacity:0;margin:0;padding:0;pointer-events:none}
+  .box{flex:0 0 auto;display:grid;place-items:center;width:17px;height:17px;border-radius:5px;background:transparent;box-shadow:0 0 0 1px var(--line-ctl);color:#08090A;transition:background .13s ease,box-shadow .13s ease}
+  .box svg{width:10px;height:10px;opacity:0;transition:opacity .13s ease}
+  .chk input:checked + .box{background:#fff;box-shadow:0 0 0 1px #fff}
+  .chk input:checked + .box svg{opacity:1}
+  .chk input:focus-visible + .box{box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
+
+  /* the action takes the navbar button's metrics: the same 38px white pill at
+     14.5px, sized to its own text rather than to the column */
+  .submit{height:38px;margin-top:.9rem;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:14.5px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:999px;cursor:pointer;transition:opacity .15s ease}
   .submit:hover{opacity:.88}
   .submit:disabled{opacity:.55;cursor:default}
-  .fnote{margin:.95rem 0 0;font-size:.86rem;color:var(--fg-3);text-align:center}
+  .fnote{margin:.95rem 0 0;font-size:.86rem;color:var(--fg-3)}
+  /* carried over from the modal, where it sat under the same submit */
+  .recap{margin:.55rem 0 0;font-size:.78rem;line-height:1.5;color:var(--dim)}
+  .recap a{color:var(--fg-3)}
   .err{display:none;margin:.95rem 0 0;font-size:.9rem;color:#ff8f8f}
   .err.on{display:block}
   .err a{color:var(--blue-l)}
@@ -168,12 +189,11 @@
       <div class="card" id="card">
 
         <div id="formview">
-          <h2>Tell us where to reach you</h2>
           <form id="lead" novalidate>
             <div class="fld"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" placeholder="Anna Lindqvist" required></div>
             <div class="fld"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@firm.com" required></div>
             <div class="frow">
-              <div class="fld"><label for="fund">Firm</label><input id="fund" name="fund" autocomplete="organization" placeholder="Northwind Capital" required></div>
+              <div class="fld"><label for="fund">Company</label><input id="fund" name="fund" autocomplete="organization" placeholder="Northwind Capital" required></div>
               <div class="fld"><label for="size">Fund size <span class="opt">(optional)</span></label>
                 <select id="size" name="size">
                   <option value="">Select</option>
@@ -184,10 +204,24 @@
                 </select>
               </div>
             </div>
+            <!-- name="site", never "website": that key is the honeypot below, and
+                 a real URL in it reads as spam at the endpoint -->
+            <div class="fld"><label for="site">Company website <span class="opt">(optional)</span></label><input id="site" name="site" type="url" autocomplete="url" inputmode="url" placeholder="https://northwind.vc"></div>
+            <fieldset class="fld chkset">
+              <legend>What are you interested in? <span class="opt">(optional)</span></legend>
+              <div class="checks">
+                <label class="chk"><input type="checkbox" name="interest" value="Warm introductions"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Warm introductions</label>
+                <label class="chk"><input type="checkbox" name="interest" value="Meeting prep"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Meeting prep</label>
+                <label class="chk"><input type="checkbox" name="interest" value="Deal history"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Deal history</label>
+                <label class="chk"><input type="checkbox" name="interest" value="Relationships going cold"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Relationships going cold</label>
+                <label class="chk"><input type="checkbox" name="interest" value="Self-hosted deployment"><span class="box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Self-hosted deployment</label>
+              </div>
+            </fieldset>
             <div class="fld"><label for="ask">What would you like to see? <span class="opt">(optional)</span></label><textarea id="ask" name="ask" placeholder="The tools you run, or a question you would want fein to answer on the call"></textarea></div>
             <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-            <button class="submit" type="submit" id="submit">Get a demo</button>
+            <button class="submit" type="submit" id="submit">Send message</button>
             <p class="fnote">We reply the same day. No sequence, no newsletter.</p>
+            <p class="recap">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
             <p class="err" id="err" role="alert">That did not send. Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a> and we will pick it up at once.</p>
           </form>
         </div>
@@ -214,6 +248,35 @@
   var formview = document.getElementById("formview");
   var done = document.getElementById("done");
 
+  /* Carried over from the modal, and inert for the same reason: paste a
+     reCAPTCHA v3 site key to arm it, and the server needs the matching
+     RECAPTCHA_SECRET. Empty key means the endpoint's honeypot, time gate and
+     per-IP rate limit are what is actually guarding this form. The script is
+     fetched on first interaction rather than on load, so a reader who never
+     touches the form never pays for it. */
+  var RECAPTCHA_KEY = "";
+  var recapLoaded = false;
+  function loadRecaptcha(){
+    if(!RECAPTCHA_KEY || recapLoaded) return;
+    recapLoaded = true;
+    var s = document.createElement("script");
+    s.src = "https://www.google.com/recaptcha/api.js?render=" + encodeURIComponent(RECAPTCHA_KEY);
+    s.async = true; document.head.appendChild(s);
+  }
+  form.addEventListener("focusin", loadRecaptcha, { once: true });
+
+  /* always calls back: a captcha that cannot run must not cost a lead, which is
+     the same call the endpoint makes when the verifier is unreachable */
+  function withCaptcha(cb){
+    if(!RECAPTCHA_KEY || !window.grecaptcha || !window.grecaptcha.execute){ cb(""); return; }
+    try {
+      window.grecaptcha.ready(function(){
+        window.grecaptcha.execute(RECAPTCHA_KEY, { action: "enquiry" })
+          .then(cb, function(){ cb(""); });
+      });
+    } catch(_){ cb(""); }
+  }
+
   form.addEventListener("submit", function(e){
     e.preventDefault();
     err.classList.remove("on");
@@ -228,7 +291,11 @@
       email: document.getElementById("email").value.trim(),
       fund:  document.getElementById("fund").value.trim(),
       size:  document.getElementById("size").value,
+      site:  document.getElementById("site").value.trim(),
       ask:   document.getElementById("ask").value.trim(),
+      interests: [].slice.call(form.querySelectorAll('input[name="interest"]:checked'))
+                   .map(function(c){ return c.value; }),
+      // the honeypot, which is a different key from `site` on purpose
       website: document.getElementById("website").value,
       source: "demo"
     };
@@ -237,20 +304,23 @@
     d.t = Math.max(2600, Date.now() - loadedAt);
 
     btn.disabled = true; btn.textContent = "Sending";
-    fetch("/api/enquiry", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(d)
-    }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
-      .then(function(){
-        formview.style.display = "none";
-        done.classList.add("on");
-        var h = document.getElementById("done-h"); if(h) h.focus({preventScroll:true});
-      })
-      .catch(function(){
-        err.classList.add("on");
-        btn.disabled = false; btn.textContent = "Get a demo";
-      });
+    withCaptcha(function(token){
+      d.captcha = token;
+      fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(d)
+      }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
+        .then(function(){
+          formview.style.display = "none";
+          done.classList.add("on");
+          var h = document.getElementById("done-h"); if(h) h.focus({preventScroll:true});
+        })
+        .catch(function(){
+          err.classList.add("on");
+          btn.disabled = false; btn.textContent = "Send message";
+        });
+    });
   });
 })();
 </script>

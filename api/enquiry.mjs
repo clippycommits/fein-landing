@@ -55,10 +55,19 @@ export async function POST(request) {
       return json({ error: "captcha" }, 400);
     }
   }
+  // `site` is the company URL the demo form asks for. It is deliberately NOT
+  // called `website`: that key is the honeypot above, and a form that put a real
+  // URL in it would have every genuine submission answered with a fake success.
+  // `interests` arrives as an array of checkbox values and is flattened here so
+  // the notify mail and the event log can both treat it as one string.
   const clean = {
     email,
     first: str(lead.first), last: str(lead.last), fund: str(lead.fund),
     size: str(lead.size), crm: str(lead.crm), ask: str(lead.ask, 2000),
+    site: str(lead.site, 200),
+    interests: Array.isArray(lead.interests)
+      ? (lead.interests.slice(0, 12).map((v) => str(v, 60)).filter(Boolean).join(", ") || null)
+      : null,
   };
   await logEvent({ type: "enquiry", ...clean });
 
