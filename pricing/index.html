@@ -1714,7 +1714,24 @@
      now: the index forks and hands the managed path to /deploy, so the picture
      of fein working unattended belongs at the top of the page that sells it.
      Same composition, no border over it, and enough padding to clear the bar. */
-  .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem))}
+  /* The 74svh/820px below was drawn for this composition as a band in the middle
+     of the index page, where it had a heading above it and the fortnight cards
+     under it and the orbit was the thing separating them. As a fold it inherited
+     that height with none of that around it, so the copy finished around 830px
+     and the section ran on to 1290: half a screen of ground with three rings and
+     nothing else in it.
+
+     The orbit is absolutely positioned against this box (top:0, bottom:0), so
+     the composition scales with the number rather than getting cropped by it.
+     The tiles still swing wide of the copy at 560px; they just do it in a fold
+     the reader can see the bottom of.
+
+     The override names both classes rather than one. `.deploy-orbit .hero-inner`
+     is declared a few lines below this and matches at the same specificity, so a
+     single-class rule here would be written and then quietly lost to source
+     order, which is exactly what happened the first time. */
+  .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem));padding-bottom:clamp(2.4rem,5vw,3.6rem)}
+  .deploy-orbit.deploy-hero .hero-inner{min-height:min(58svh,560px)}
   .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:500;letter-spacing:-.032em;line-height:1.07;text-wrap:balance;max-width:22ch}
   .deploy-hero .hero-copy .lead{max-width:54ch}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
