@@ -1712,6 +1712,14 @@
      it is gone, and the orbit is the section's one picture. */
   .deploy-orbit{overflow:hidden}
   .deploy-orbit>.wrap{position:relative;z-index:2}
+  /* the orbit as a page's opening rather than a band inside one. It was the
+     managed-installation band on the index page, which is the wrong page for it
+     now: the index forks and hands the managed path to /deploy, so the picture
+     of fein working unattended belongs at the top of the page that sells it.
+     Same composition, no border over it, and enough padding to clear the bar. */
+  .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem))}
+  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:500;letter-spacing:-.032em;line-height:1.07;text-wrap:balance;max-width:22ch}
+  .deploy-hero .hero-copy .lead{max-width:54ch}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
   .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
   .deploy-orbit .why3{margin-top:clamp(2rem,4vw,3rem)}
@@ -1744,8 +1752,9 @@
   /* the paid column: same ground, one accent hairline. A filled panel here would
      read as the "real" product and undercut the sentence above it. */
   .fork-card.pick{border-color:rgba(82,168,255,.42)}
-  .fork-k{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d}
-  .fork-card.pick .fork-k{color:var(--blue-l)}
+  /* .fork-k set a small lowercase label over each card's heading ("run it
+     yourself", "we deploy it"). It said what the heading under it already said,
+     in the same voice as the section eyebrows that came off the site with it. */
   .fork-card h3{margin-top:.55rem;font-size:clamp(1.1rem,1.8vw,1.32rem);font-weight:550;letter-spacing:-.02em;line-height:1.2;color:#fff}
   .fork-card>p{margin-top:.55rem;color:var(--fg-2);font-size:.98rem;line-height:1.55;text-wrap:pretty}
   /* the number sits on its own rule so both columns line their prices up on the
@@ -1761,6 +1770,10 @@
      bullets each column carries */
   .fork-act{margin-top:auto;padding-top:clamp(1.3rem,2.6vw,1.8rem)}
   .fork-act .btn{width:100%;justify-content:center}
+  /* the read-first link under the booking. Centred on the button above it
+     and given its own row, so the two actions read as one stack. */
+  .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
+  .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
   @media (max-width:760px){.fork{grid-template-columns:1fr}}
 
@@ -2422,7 +2435,6 @@
   <section id="problem" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">The problem</p>
         <h2>Your edge is proprietary deal flow. Nobody can see it.</h2>
       </div>
       <ul class="plist" data-reveal-group="70">
@@ -2437,7 +2449,6 @@
   <section id="what" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">What you get</p>
         <h2>Four questions your deal team asks every week.</h2>
         <p class="lead">fein answers each one from the record your firm already makes. Answers arrive in seconds, and each line shows its source document.</p>
       </div>
@@ -2509,7 +2520,6 @@
   <section id="film" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">Twenty-six seconds</p>
         <h2>Watch it answer one.</h2>
         <p class="lead">A partner asks who the warmest path into a company is, and what the firm said when it passed. fein answers from seven documents across four sources. Each claim carries its citation.</p>
       </div>
@@ -2542,7 +2552,6 @@
   <section id="how" class="band fcards" aria-label="How fein works">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">How it works</p>
         <h2>Nobody enters data. The graph builds itself.</h2>
       </div>
     </div>
@@ -2577,7 +2586,6 @@
   <section id="why" class="band why-band" aria-labelledby="why-h">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">Against your CRM</p>
         <h2 id="why-h">You already have DealCloud. This is the part it cannot do.</h2>
       </div>
       <div class="why-grid">
@@ -2611,7 +2619,6 @@
   <section id="crm" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <p class="eyebrow">Your CRM stays</p>
         <h2>It sits on top of the systems you run today.</h2>
         <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it. The whole picture then resolves into one context graph. fein replaces no system, migrates no data, and asks your team for no new data entry.</p>
         <div class="sec-cta">
@@ -2633,7 +2640,6 @@
   <section id="security" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <p class="eyebrow">Security</p>
         <h2>Your data never leaves your servers.</h2>
         <p class="lead">fein reads your inbox, your calendar and your CRM to do its work. That work runs inside your own environment. You can read every line of the code before you run any of it.</p>
         <div class="sec-cta">
@@ -2660,13 +2666,11 @@
   <section id="pricing" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">Pricing</p>
         <h2>The software is free. The setup is what costs.</h2>
         <p class="lead">fein is Apache 2.0 licensed and self-hosted. Your team can clone it and run it for nothing. What a deal team usually buys instead is the fortnight: an engineer who connects every source, resolves a decade of duplicate contacts, and hands over a working graph on day 14.</p>
       </div>
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
-          <span class="fork-k">run it yourself</span>
           <h3>Self-hosted</h3>
           <p>The whole platform on your own servers. No trial, no seat count, no call with us.</p>
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
@@ -2677,7 +2681,6 @@
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
-          <span class="fork-k">we deploy it</span>
           <h3>Managed setup</h3>
           <p>A forward-deployed engineer builds fein into your stack and stays on it.</p>
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
@@ -2690,7 +2693,6 @@
       </div>
 
       <div class="head reveal" style="margin-top:clamp(3rem,6vw,4.5rem)">
-        <p class="eyebrow">the monthly fee</p>
         <h2>We price on fund size. We never price per seat.</h2>
         <p class="lead">An analyst who keeps this record current costs six figures each year. The graph then lives in that one person&rsquo;s head. fein costs less than one month of that analyst. Every person at your firm can query it.</p>
       </div>
@@ -2720,14 +2722,13 @@
   <section id="deploy" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">Deployment</p>
         <h2>We deploy fein in two weeks. Then it works on its own.</h2>
         <p class="lead">Your part is two short calls. By day fourteen fein holds your firm&rsquo;s full history. It then answers like a colleague of many years.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><span class="wstep">Day 1</span><h3>We connect your systems</h3><p>On the first call we connect your email, calendar, Drive, LinkedIn and CRM. All of it runs on your own servers.</p></div>
-        <div class="wcard reveal"><span class="wstep">Days 2-13</span><h3>It reads your full history</h3><p>fein reads years of email, meetings and documents. Every copy of each person joins into one record. The whole firm shares that record, and nobody maintains it by hand.</p></div>
-        <div class="wcard reveal"><span class="wstep">Day 14</span><h3>You check it, then it goes live</h3><p>On a second short call you check the answers against what you already know. fein then goes live.</p></div>
+        <div class="wcard reveal"><h3>Day 1. We connect your systems</h3><p>On the first call we connect your email, calendar, Drive, LinkedIn and CRM. All of it runs on your own servers.</p></div>
+        <div class="wcard reveal"><h3>Days 2-13. It reads your full history</h3><p>fein reads years of email, meetings and documents. Every copy of each person joins into one record. The whole firm shares that record, and nobody maintains it by hand.</p></div>
+        <div class="wcard reveal"><h3>Day 14. You check it, then it goes live</h3><p>On a second short call you check the answers against what you already know. fein then goes live.</p></div>
       </div>
     </div>
   </section>
@@ -2735,7 +2736,6 @@
   <section id="faq" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow">Questions</p>
         <h2>What deal teams ask first.</h2>
       </div>
       <div class="faq">
@@ -2788,7 +2788,6 @@
     <div class="wrap">
       <div class="formwrap">
         <div class="head reveal">
-          <p class="eyebrow">Get started</p>
           <h2>Give us twenty minutes. We will show you your own graph.</h2>
           <p class="lead">Tell us the name of your firm. We come to the call with what we can already see in public deal data. That is the intermediaries who send you deals, and the ones who have gone quiet. If it is not interesting, we have taken twenty minutes of your time and none of your money.</p>
           <div class="sec-cta">

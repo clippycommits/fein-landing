@@ -54,7 +54,6 @@ __LOGO_SPRITE__
   <section class="seg-fold">
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
-      <span class="eyebrow">run it yourself</span>
       <h1>Clone it, run it, pay nothing.</h1>
       <p>fein is Apache 2.0 licensed and self-hosted by design. There is no trial, no seat count and no paid tier of the software: the firms we deploy for run the same code you are about to clone. This page is the honest version of what setting it up involves.</p>
       <div class="hero-actions">
@@ -67,14 +66,13 @@ __LOGO_SPRITE__
   <section id="need" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">what you need</span>
         <h2>A machine, an LLM key, and someone comfortable in a terminal.</h2>
         <p class="lead">The default stack runs entirely on disk, so there is nothing external to provision to get it going. Everything below is on your side of the line, and none of it involves us.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><span class="wstep">Infrastructure</span><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB and Ladybug, all on local disk. Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate and Milvus are swappable through the environment file when you outgrow that.</p></div>
-        <div class="wcard reveal"><span class="wstep">A model key</span><h3>An LLM API key</h3><p>Browsing works without one, but ingestion and search do not: adding a document runs entity extraction and embedding. It defaults to <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock and any OpenAI-compatible endpoint work too.</p></div>
-        <div class="wcard reveal"><span class="wstep">Credentials</span><h3>Admin access to each source</h3><p>Every system you want read has its own OAuth app or API credential to register: Gmail, Calendar, Drive, LinkedIn, your CRM. This is the part that takes the most calendar time, because it usually involves someone else at the firm.</p></div>
+        <div class="wcard reveal"><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB and Ladybug, all on local disk. Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate and Milvus are swappable through the environment file when you outgrow that.</p></div>
+        <div class="wcard reveal"><h3>An LLM API key</h3><p>Browsing works without one, but ingestion and search do not: adding a document runs entity extraction and embedding. It defaults to <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock and any OpenAI-compatible endpoint work too.</p></div>
+        <div class="wcard reveal"><h3>Admin access to each source</h3><p>Every system you want read has its own OAuth app or API credential to register: Gmail, Calendar, Drive, LinkedIn, your CRM. This is the part that takes the most calendar time, because it usually involves someone else at the firm.</p></div>
       </div>
     </div>
   </section>
@@ -82,7 +80,6 @@ __LOGO_SPRITE__
   <section id="steps" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">setup</span>
         <h2>Getting it running.</h2>
         <p class="lead">The first three steps take an afternoon. The fourth is the one that takes real time, and it is worth reading before you start.</p>
       </div>
@@ -126,7 +123,6 @@ cd fein</code>
   <section id="honest" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">how long it takes</span>
         <h2>The install is an afternoon. The rest is not.</h2>
         <p class="lead">We would rather say this here than have you find it out in week three. Getting fein running is genuinely quick. Getting it useful means pointing it at a decade of real mail, and that is a different job.</p>
       </div>
@@ -161,7 +157,6 @@ cd fein</code>
   <section id="questions" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">questions</span>
         <h2>What self-hosters ask.</h2>
       </div>
       <div class="faq">

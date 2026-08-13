@@ -1678,6 +1678,14 @@
      it is gone, and the orbit is the section's one picture. */
   .deploy-orbit{overflow:hidden}
   .deploy-orbit>.wrap{position:relative;z-index:2}
+  /* the orbit as a page's opening rather than a band inside one. It was the
+     managed-installation band on the index page, which is the wrong page for it
+     now: the index forks and hands the managed path to /deploy, so the picture
+     of fein working unattended belongs at the top of the page that sells it.
+     Same composition, no border over it, and enough padding to clear the bar. */
+  .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem))}
+  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:500;letter-spacing:-.032em;line-height:1.07;text-wrap:balance;max-width:22ch}
+  .deploy-hero .hero-copy .lead{max-width:54ch}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
   .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
   .deploy-orbit .why3{margin-top:clamp(2rem,4vw,3rem)}
@@ -1710,8 +1718,9 @@
   /* the paid column: same ground, one accent hairline. A filled panel here would
      read as the "real" product and undercut the sentence above it. */
   .fork-card.pick{border-color:rgba(82,168,255,.42)}
-  .fork-k{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d}
-  .fork-card.pick .fork-k{color:var(--blue-l)}
+  /* .fork-k set a small lowercase label over each card's heading ("run it
+     yourself", "we deploy it"). It said what the heading under it already said,
+     in the same voice as the section eyebrows that came off the site with it. */
   .fork-card h3{margin-top:.55rem;font-size:clamp(1.1rem,1.8vw,1.32rem);font-weight:550;letter-spacing:-.02em;line-height:1.2;color:#fff}
   .fork-card>p{margin-top:.55rem;color:var(--fg-2);font-size:.98rem;line-height:1.55;text-wrap:pretty}
   /* the number sits on its own rule so both columns line their prices up on the
@@ -1727,6 +1736,10 @@
      bullets each column carries */
   .fork-act{margin-top:auto;padding-top:clamp(1.3rem,2.6vw,1.8rem)}
   .fork-act .btn{width:100%;justify-content:center}
+  /* the read-first link under the booking. Centred on the button above it
+     and given its own row, so the two actions read as one stack. */
+  .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
+  .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
   @media (max-width:760px){.fork{grid-template-columns:1fr}}
 
@@ -3185,36 +3198,47 @@ __LOGO_SPRITE__
   <section id="choose" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">two ways to run it</span>
         <h2>The software is free. The setup is what costs.</h2>
-        <p class="lead">fein is Apache 2.0 licensed and self-hosted. Clone it, point it at your systems, and run it for nothing, for as long as you like. Most firms would rather not: the work is connector plumbing, entity resolution and a backfill over years of mail, and that is the part that takes months. So the thing we sell is the fortnight, not the software.</p>
+        <p class="lead">fein is Apache 2.0 licensed. Clone it, run it on your own servers, and pay nothing. Setting it up is the hard part. Each source needs a connector. Every person needs one record, not four. Years of mail have to be read back. A firm that does this alone spends months on it. That work is what we charge for.</p>
       </div>
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
-          <span class="fork-k">run it yourself</span>
           <h3>Clone it and go</h3>
           <p>The whole platform, Apache 2.0 licensed, on your own servers. No trial, no seat count, and no call with us.</p>
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>
-            <li><span class="tk">&rarr;</span><span><b>Every feature the managed firms run.</b> There is no paid tier of the software, and no feature held back to make one.</span></li>
-            <li><span class="tk">&rarr;</span><span>The 30+ connectors, the MCP endpoint, the graph, the audit trail.</span></li>
-            <li><span class="tk">&rarr;</span><span>You bring the servers, the API credentials for each source, and the engineering time.</span></li>
-            <li><span class="tk">&rarr;</span><span>Budget several weeks for the historical backfill and for resolving duplicate people.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Every feature we run for paying firms.</b> There is no paid tier of the software.</span></li>
+            <li><span class="tk">&rarr;</span><span>The context graph, and the memory that keeps it current.</span></li>
+            <li><span class="tk">&rarr;</span><span>The MCP endpoint. Claude, ChatGPT and Cursor query the same graph.</span></li>
+            <li><span class="tk">&rarr;</span><span>The audit trail on every ingest and every merge.</span></li>
+            <!-- the connector line used to read "the 30+ connectors", which is
+                 the roadmap and not the repository. Some are built and the rest
+                 are not, so the free column says which it is and the paid column
+                 sells the ones that do not exist yet. -->
+            <li><span class="tk">&rarr;</span><span>The connectors that are built today. You write the ones that are not.</span></li>
+            <li><span class="tk">&rarr;</span><span>You bring the servers, the credentials and the engineering time.</span></li>
           </ul>
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
-          <span class="fork-k">we deploy it</span>
           <h3>A forward-deployed engineer</h3>
           <p>One of our engineers builds fein into your stack, and stays on it afterwards. Your part is two short calls.</p>
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> The date is a commitment, not an estimate.</span></li>
-            <li><span class="tk">&rarr;</span><span>We connect every source, resolve the duplicates, and read your full history back.</span></li>
-            <li><span class="tk">&rarr;</span><span>The monthly fee keeps each connector working through every API change, and builds new answers on request.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Connectors built for your stack</b>, including the ones nobody has written yet.</span></li>
+            <li><span class="tk">&rarr;</span><span>We connect each source, resolve duplicate people, and read your history back.</span></li>
+            <li><span class="tk">&rarr;</span><span>Each connector is kept working through every upstream API change.</span></li>
             <li><span class="tk">&rarr;</span><span>Priced on fund size, never per seat. Month to month, no lock-in.</span></li>
           </ul>
-          <div class="fork-act"><a class="btn btn-primary" href="/deploy">See what the fortnight covers</a></div>
+          <!-- the action here was "See what the fortnight covers", pointing at
+               /deploy. It is the one column with something we can do for the
+               reader, so the button is the booking and the page it used to lead
+               to sits under it for anyone who wants to read first. -->
+          <div class="fork-act">
+            <a class="btn btn-primary" href="/demo">Get a demo</a>
+            <a class="arrowlink fork-more" href="/deploy">See what the fortnight covers <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          </div>
         </div>
       </div>
       <p class="fork-note">Both columns run the same code, on your own infrastructure, under the same licence. If you take the managed path and later stop paying, the software and the graph stay where they are and keep working. <a class="arrowlink" href="/pricing">Full pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
@@ -3222,70 +3246,13 @@ __LOGO_SPRITE__
   </section>
 
 
-  <!-- MANAGED INSTALLATION: the offer, and the orbit that shows what it buys.
-       the orbit composition was the old second hero, where it repeated the
-       promise the lead hero already makes. it belongs here: the art is fein
-       working unattended (a meeting that drafts its own prep, each answer
-       cited to the tool it came from), which is exactly what the managed
-       service sells. the fortnight cards sit under it as the mechanism. -->
-  <section id="deploy" class="band deploy-orbit">
-    <!-- the weave that used to run behind this band is gone. It was the fold's
-         own art -- the same cool-white bezier threads, a second copy of them --
-         laid under the orbit, so the section carried two full-height generative
-         fields at once and neither could be read. The threads swept diagonally
-         out of the top corner and pooled in a bright fan at the bottom right,
-         which is where the eye went, and the three prep tiles that are the
-         actual subject of the picture sat inside that fan at a third of its
-         contrast. The band keeps one picture, the one that says something, on
-         the page's own ground like every other band below the fold. -->
 
-    <div class="wrap hero-inner">
-      <div class="hero-copy head">
-        <span class="eyebrow">managed setup</span>
-        <h2>We deploy fein in two weeks. <br>Then it works on its own.</h2>
-        <p class="lead">Your only part is two short calls. By day fourteen, fein holds your team's full history, and it works like it has been here for years. It drafts the brief before each meeting, and it shows the source for each answer.</p>
-      </div>
-      <div class="prep-wrap" role="img" aria-label="Example: fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around this section: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
-        <canvas id="prepflow" aria-hidden="true"></canvas>
-        <div class="orb-head glass" aria-hidden="true">
-          <b>Meeting prep · Clara Voss</b>
-          <span class="hsub">Meridian · Series A · tomorrow, 9:00</span>
-          <span class="orb-badge"><i class="bdot"></i><span class="btxt">Auto-drafted</span></span>
-        </div>
-        <div class="orb-tile glass orb-t1" aria-hidden="true"><span class="ask">how do we know clara?</span><p><b>Three meetings.</b> <span class="rest">Slush in 2024, then two calls. You last spoke on Tuesday.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-gmail"/></svg></i></span></div>
-        <div class="orb-tile glass orb-t2" aria-hidden="true"><span class="ask">who can introduce us?</span><p><b>Anna Lindqvist.</b> <span class="rest">She co-led the seed round. You have 12 shared meetings. Backup: Marc Weber, two hops.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-gcal"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
-        <div class="orb-tile glass orb-t3" aria-hidden="true"><span class="ask">anything still open?</span><p><b>A CFO search.</b> <span class="rest">Clara asked in March. Two people in your network fit.</span></p><span class="src"><i><svg class="tlogo"><use href="#l-granola"/></svg></i><i><svg class="tlogo"><use href="#l-attio"/></svg></i></span></div>
-        <span class="orb-chip glass orb-c1" data-a="0" aria-hidden="true"><svg class="tlogo"><use href="#l-gmail"/></svg></span>
-        <span class="orb-chip glass orb-c2" data-a="1.57" aria-hidden="true"><svg class="tlogo"><use href="#l-gcal"/></svg></span>
-        <span class="orb-chip glass orb-c3" data-a="3.14" aria-hidden="true"><svg class="tlogo"><use href="#l-attio"/></svg></span>
-        <span class="orb-chip glass orb-c4" data-a="4.71" aria-hidden="true"><svg class="tlogo"><use href="#l-granola"/></svg></span>
-      </div>
-    </div>
+  <!-- The managed-installation band stood here: the orbit, the fortnight cards
+       and the closing panel. All three are /deploy now. The index page forks at
+       #choose and hands each path to the page that argues it, so repeating the
+       whole managed pitch underneath the fork was the index answering a question
+       it had just asked. -->
 
-    <div class="wrap">
-      <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><span class="wstep">Day 1</span><h3>We connect your systems</h3><p>On the first call, we connect your email, calendar, Drive, LinkedIn, and CRM. This runs on your own servers.</p></div>
-        <div class="wcard reveal"><span class="wstep">Days 2-13</span><h3>It reads your full history</h3><p>It reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.</p></div>
-        <div class="wcard reveal"><span class="wstep">Day 14</span><h3>You check it, then it goes live</h3><p>On a second short call, you check the answers against what you know. Then fein goes live. It holds your team's full history, like a colleague of many years.</p></div>
-      </div>
-      <div class="deploy-cta reveal">
-        <div>
-          <!-- this used to read "We set it up. You keep it.", which sat a few
-               centimetres from a monthly fee and read as a one-off. Both halves
-               were true and the pair was not: what you keep is the software and
-               the graph, on your hardware, whether or not you are still paying.
-               What the month buys is the upkeep. Saying which is which here is
-               the difference between a clear offer and a caught contradiction. -->
-          <b>We set it up. You own what we build.</b>
-          <p>Two short calls, fourteen days, and fein is running on your own servers, on code you can read. The monthly fee keeps the connectors alive after that. Stop it whenever you like and the software and the graph stay yours.</p>
-        </div>
-        <div class="hero-actions">
-          <a class="btn btn-white" href="/demo">Get a demo</a>
-          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <footer>
     <div class="wrap">
@@ -4435,212 +4402,7 @@ __LOGO_SPRITE__
   var rz; window.addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(speed,150); });
 })();
 
-/* the orbit: the meeting drafts itself around the managed-installation heading */
-(function(){
-  var wrap=document.querySelector('.prep-wrap');if(!wrap)return;
-  var copy=document.querySelector('.hero-copy'),cv=document.getElementById('prepflow');
-  var tiles=[].slice.call(wrap.querySelectorAll('.orb-tile'));
-  var chips=[].slice.call(wrap.querySelectorAll('.orb-chip'));
-  var head=wrap.querySelector('.orb-head'),badge=wrap.querySelector('.orb-badge'),btxt=badge&&badge.querySelector('.btxt');
-  if(!cv||!copy||tiles.length!==3||!head||!badge)return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  wrap.classList.add('anim');
-  badge.classList.add('live');btxt.textContent='Auto-drafting';
-  var ctx=cv.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2);
-  var W=0,H=0,C={x:0,y:0},RX=0,RY=0,running=true,started=false,journey=null,idle=false,idleQ=0,lastHit=-1,t0=performance.now();
-  var ANG=[-34,64,186],HEADA=-90,TP=ANG.map(function(a){return(a-(-90))/360;});
-  var ROT=0;
-  function ell(aDeg,k){
-    var a=aDeg*Math.PI/180,f=k||1,x=RX*f*Math.cos(a),y=RY*f*Math.sin(a);
-    var cr=Math.cos(ROT),sr=Math.sin(ROT);
-    return{x:C.x+x*cr-y*sr,y:C.y+x*sr+y*cr};
-  }
-  var BOX=null;
-  function size(){
-    var r=wrap.getBoundingClientRect();W=r.width;H=r.height;
-    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    var u=null;
-    [].slice.call(copy.children).forEach(function(k){
-      var b=k.getBoundingClientRect();if(b.width<2)return;
-      u=u?{l:Math.min(u.l,b.left),r:Math.max(u.r,b.right),t:Math.min(u.t,b.top),b:Math.max(u.b,b.bottom)}
-         :{l:b.left,r:b.right,t:b.top,b:b.bottom};
-    });
-    if(!u)return;
-    var cw=(u.r-u.l)/2,chh=(u.b-u.t)/2;
-    C={x:W/2,y:(u.t+u.b)/2-r.top};
-    RX=Math.max(cw+230,W*.35);RX=Math.min(RX,W/2-150);
-    RY=Math.max(chh+140,H*.34);RY=Math.min(RY,C.y-88,H-C.y-100);
-    BOX={l:C.x-cw-92,r:C.x+cw+92,t:C.y-chh-44,b:C.y+chh+44};
-    tiles.forEach(function(t){ t.__hw=undefined; });
-    /* the floor clears the sticky bar. At 56 a short window put the prep card
-       under the nav, which is the one object in this picture that has to be
-       readable the moment the section lands */
-    head.style.left=(W/2)+'px';head.style.top=Math.max(104,ell(HEADA).y)+'px';
-  }
-  function tilePoint(i,now){
-    var a=ANG[i]+Math.sin(now*.00012+i*2.1)*4;
-    var p=ell(a),dx=p.x-C.x,dy=p.y-C.y,dl=Math.sqrt(dx*dx+dy*dy)||1;
-    /* offsetWidth/offsetHeight here are layout reads landing after the last
-       frame's writes, so each tile forced a synchronous layout every frame.
-       The tiles are fixed-size cards: measure once and invalidate in size(),
-       which already reruns on resize, on fonts.ready and twice on a timer. */
-    var tl=tiles[i];
-    if(tl.__hw===undefined){ tl.__hw=(tl.offsetWidth||240)/2; tl.__hh=(tl.offsetHeight||150)/2; }
-    var hw=tl.__hw,hh=tl.__hh;
-    var t={x:p.x+dx/dl*30,y:p.y+dy/dl*30,nx:p.x,ny:p.y};
-    if(BOX&&t.x+hw>BOX.l&&t.x-hw<BOX.r&&t.y+hh>BOX.t&&t.y-hh<BOX.b){
-      t.x=Math.cos(ANG[i]*Math.PI/180)>=0?BOX.r+hw+16:BOX.l-hw-16;
-    }
-    t.x=Math.max(hw+14,Math.min(W-hw-14,t.x));
-    if(BOX&&t.x+hw>BOX.l&&t.x-hw<BOX.r&&t.y+hh>BOX.t&&t.y-hh<BOX.b){
-      t.y=Math.sin(ANG[i]*Math.PI/180)>=0?BOX.b+hh+16:BOX.t-hh-16;
-    }
-    t.y=Math.max(hh+64,Math.min(H-hh-20,t.y));
-    return t;
-  }
-  function qpt(q){var a=HEADA+((q%1+1)%1)*360;return ell(a);}
-  var TPOS=[null,null,null],RIP=[];
-  function hit(tl){
-    tl.classList.add('hit');setTimeout(function(){tl.classList.remove('hit');},700);
-    var i=tiles.indexOf(tl);
-    if(i>-1&&TPOS[i])RIP.push({x:TPOS[i].nx,y:TPOS[i].ny,t0:performance.now()});
-  }
-  var CR=[.60,.66,.58,.63],CS=[.10,.125,.11,.14];
-  var DUST=[],LINKS=[],PLANE=[{f:1.16,k:1.28,ro:.24,c:'255,255,255'},{f:1.3,k:1.12,ro:-.18,c:'255,255,255'},{f:1,k:1,ro:0,c:'255,255,255'}];
-  (function(){
-    for(var i=0;i<44;i++){var pl=PLANE[i%3];
-      DUST.push({a:Math.random()*360,f:pl.f,k:pl.k,ro:pl.ro,c:pl.c,j:(Math.random()-.5)*26,p:Math.random()*6.28});}
-    for(i=0;i<9;i++)LINKS.push([(Math.random()*44)|0,(Math.random()*44)|0]);
-  })();
-  function dustPt(d){
-    var a=d.a*Math.PI/180,x=(RX*d.f+d.j)*Math.cos(a),y=(RY*d.k+d.j)*Math.sin(a);
-    var r=ROT+d.ro,cr=Math.cos(r),sr=Math.sin(r);
-    return{x:C.x+x*cr-y*sr,y:C.y+x*sr+y*cr};
-  }
-  function draw(now){
-    if(!running)return;requestAnimationFrame(draw);
-    now=now||performance.now();ctx.clearRect(0,0,W,H);
-    ROT=Math.sin(now*.00008)*.09;
-    /* the field is monochrome, and the one accent is blue. It used to be drawn
-       in cyan (125,227,244) and a violet (167,139,250) that is not even the
-       --violet this file declares: two hues that appear nowhere else on the
-       site, on the section that closes the page. The geometry is unchanged --
-       four rings, three planes of dust, the links between them -- and all of it
-       is white at graded alpha now, with blue kept for the things that carry
-       meaning: the core the answers converge on, the packet travelling the
-       ellipse, and the ripple where it lands. */
-    var g=ctx.createRadialGradient(C.x,C.y,0,C.x,C.y,Math.max(RY*.95,140));
-    g.addColorStop(0,'rgba(82,168,255,'+(0.055+0.02*Math.sin(now*.0004)).toFixed(3)+')');
-    g.addColorStop(.55,'rgba(82,168,255,'+(0.020+0.010*Math.sin(now*.0004+2)).toFixed(3)+')');
-    g.addColorStop(1,'rgba(82,168,255,0)');
-    ctx.fillStyle=g;ctx.fillRect(C.x-RX*1.4,C.y-RY*1.4,RX*2.8,RY*2.8);
-    ctx.lineWidth=1;
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.16,RY*1.28,ROT+.24,0,6.283);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.3,RY*1.12,ROT-.18,0,6.283);ctx.strokeStyle='rgba(255,255,255,.045)';ctx.stroke();
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX,RY,ROT,0,6.283);ctx.strokeStyle='rgba(255,255,255,.085)';ctx.stroke();
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*.62,RY*.56,ROT,0,6.283);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
-    LINKS.forEach(function(l){
-      var a=dustPt(DUST[l[0]]),b=dustPt(DUST[l[1]]);
-      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
-    });
-    DUST.forEach(function(d){
-      var p=dustPt(d),tw=.5+.5*Math.sin(now*.0005+d.p);
-      ctx.beginPath();ctx.arc(p.x,p.y,.8+.6*tw,0,6.283);
-      ctx.fillStyle='rgba('+d.c+','+(.07+.13*tw).toFixed(3)+')';ctx.fill();
-    });
-    tiles.forEach(function(tl,i){
-      var tp=tilePoint(i,now);TPOS[i]=tp;
-      tl.style.left=tp.x+'px';tl.style.top=tp.y+'px';
-      var on=tl.classList.contains('on');
-      ctx.beginPath();ctx.moveTo(tp.nx,tp.ny);ctx.lineTo(tp.x,tp.y);
-      ctx.strokeStyle=on?'rgba(255,255,255,.12)':'rgba(255,255,255,.05)';ctx.stroke();
-      ctx.beginPath();ctx.arc(tp.nx,tp.ny,2.4,0,6.283);
-      ctx.fillStyle=on?'rgba(125,188,255,.55)':'rgba(255,255,255,.18)';ctx.fill();
-    });
-    chips.forEach(function(ch,i){
-      var b=parseFloat(ch.dataset.a)+(now-t0)/1000*CS[i];
-      var ex=RX*CR[i]*Math.cos(b),ey=RY*(CR[i]-.04)*Math.sin(b);
-      var cr2=Math.cos(ROT),sr2=Math.sin(ROT);
-      var px=C.x+ex*cr2-ey*sr2,py=C.y+ex*sr2+ey*cr2;
-      var depth=.5+.5*Math.sin(b),s=.8+.2*depth;
-      ch.style.left=px+'px';ch.style.top=py+'px';
-      ch.style.transform='translate(-50%,-50%) scale('+s.toFixed(3)+')';
-      ch.style.opacity=(BOX&&px>BOX.l-16&&px<BOX.r+16&&py>BOX.t-16&&py<BOX.b+16)?0:(.55+.45*depth).toFixed(3);
-    });
-    RIP=RIP.filter(function(rp){
-      var u=(now-rp.t0)/620;if(u>=1)return false;
-      ctx.beginPath();ctx.arc(rp.x,rp.y,6+u*26,0,6.283);
-      ctx.strokeStyle='rgba(82,168,255,'+(.35*(1-u)).toFixed(3)+')';ctx.stroke();
-      return true;
-    });
-    var q=null;
-    if(journey){
-      var t=(now-journey.t0)/journey.dur;
-      if(t>=1){var cb=journey.cb;journey=null;cb&&cb();}
-      else{var e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;q=journey.a+(journey.b-journey.a)*e;}
-    }else if(idle){
-      idleQ+=.0011;q=idleQ;
-      var qq=(q%1+1)%1,ni=-1;
-      for(var i=0;i<3;i++){if(Math.abs(qq-TP[i])<.004)ni=i;}
-      if(ni>-1&&ni!==lastHit){lastHit=ni;hit(tiles[ni]);}
-      else if(ni===-1)lastHit=-1;
-    }
-    if(q!==null){
-      for(var j=14;j>=1;j--){
-        var tq=qpt(q-j*.0065),al=.4*(1-j/15);
-        ctx.beginPath();ctx.arc(tq.x,tq.y,2.3*(1-j/16)+.4,0,6.283);
-        ctx.fillStyle='rgba(125,188,255,'+al.toFixed(3)+')';ctx.fill();
-      }
-      var p=qpt(q);ctx.beginPath();ctx.arc(p.x,p.y,2.8,0,6.283);
-      ctx.fillStyle='#8ec4ff';ctx.shadowColor='rgba(82,168,255,.95)';ctx.shadowBlur=12;ctx.fill();ctx.shadowBlur=0;
-    }
-  }
-  function send(a,b,dur,cb){size();journey={a:a,b:b,t0:performance.now(),dur:dur,cb:cb};}
-  function type(i,cb){
-    var tl=tiles[i];tl.classList.add('on');hit(tl);
-    var ask=tl.querySelector('.ask'),b=tl.querySelector('p b'),src=tl.querySelector('.src');
-    function answer(){
-      var full=b.textContent,k=0;
-      b.textContent='';tl.classList.add('typing');
-      var t=setInterval(function(){
-        b.textContent=full.slice(0,++k);
-        if(k>=full.length){clearInterval(t);tl.classList.remove('typing');tl.classList.add('typed');
-          setTimeout(function(){src.classList.add('on');cb&&cb();},300);}
-      },24);
-    }
-    if(!ask){answer();return;}
-    var q=ask.textContent,j=0;
-    ask.textContent='';tl.classList.add('asking');
-    var ti=setInterval(function(){
-      ask.textContent=q.slice(0,++j);
-      if(j>=q.length){clearInterval(ti);tl.classList.remove('asking');setTimeout(answer,240);}
-    },17);
-  }
-  function finish(){
-    badge.classList.remove('live');btxt.textContent='Auto-drafted';
-    idle=true;idleQ=TP[2];
-  }
-  function begin(){
-    if(started)return;started=true;size();requestAnimationFrame(draw);
-    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){size();});
-    setTimeout(size,1400);setTimeout(size,3200);
-    setTimeout(function(){head.classList.add('on');},350);
-    setTimeout(function(){
-      send(0,TP[0],1300,function(){type(0,function(){
-        send(TP[0],TP[1],1300,function(){type(1,function(){
-          send(TP[1],TP[2],1300,function(){type(2,finish);});
-        });});
-      });});
-    },1050);
-  }
-  var io=new IntersectionObserver(function(en){
-    var on=en[0].isIntersecting;
-    if(on&&!started)begin();
-    if(started){var was=running;running=on;if(on&&!was)requestAnimationFrame(draw);}
-  },{threshold:.2});
-  io.observe(wrap);
-  var rz;window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(size,150);});
-})();
+/* the orbit script moved to /deploy with the composition it drives. */
 
 /* cursor spotlight on hairline cards */
 (function(){

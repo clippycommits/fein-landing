@@ -1709,6 +1709,14 @@
      it is gone, and the orbit is the section's one picture. */
   .deploy-orbit{overflow:hidden}
   .deploy-orbit>.wrap{position:relative;z-index:2}
+  /* the orbit as a page's opening rather than a band inside one. It was the
+     managed-installation band on the index page, which is the wrong page for it
+     now: the index forks and hands the managed path to /deploy, so the picture
+     of fein working unattended belongs at the top of the page that sells it.
+     Same composition, no border over it, and enough padding to clear the bar. */
+  .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem))}
+  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:500;letter-spacing:-.032em;line-height:1.07;text-wrap:balance;max-width:22ch}
+  .deploy-hero .hero-copy .lead{max-width:54ch}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
   .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
   .deploy-orbit .why3{margin-top:clamp(2rem,4vw,3rem)}
@@ -1741,8 +1749,9 @@
   /* the paid column: same ground, one accent hairline. A filled panel here would
      read as the "real" product and undercut the sentence above it. */
   .fork-card.pick{border-color:rgba(82,168,255,.42)}
-  .fork-k{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d}
-  .fork-card.pick .fork-k{color:var(--blue-l)}
+  /* .fork-k set a small lowercase label over each card's heading ("run it
+     yourself", "we deploy it"). It said what the heading under it already said,
+     in the same voice as the section eyebrows that came off the site with it. */
   .fork-card h3{margin-top:.55rem;font-size:clamp(1.1rem,1.8vw,1.32rem);font-weight:550;letter-spacing:-.02em;line-height:1.2;color:#fff}
   .fork-card>p{margin-top:.55rem;color:var(--fg-2);font-size:.98rem;line-height:1.55;text-wrap:pretty}
   /* the number sits on its own rule so both columns line their prices up on the
@@ -1758,6 +1767,10 @@
      bullets each column carries */
   .fork-act{margin-top:auto;padding-top:clamp(1.3rem,2.6vw,1.8rem)}
   .fork-act .btn{width:100%;justify-content:center}
+  /* the read-first link under the booking. Centred on the button above it
+     and given its own row, so the two actions read as one stack. */
+  .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
+  .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
   @media (max-width:760px){.fork{grid-template-columns:1fr}}
 
@@ -2309,7 +2322,6 @@
   <section class="seg-fold">
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
-      <span class="eyebrow">pricing</span>
       <h1>Two prices, and one of them is zero.</h1>
       <p>The software is Apache 2.0 licensed. Running it costs nothing and always will. What you can buy is the engineer who builds it into your stack, and the upkeep that keeps it running afterwards.</p>
     </div>
@@ -2319,30 +2331,35 @@
     <div class="wrap">
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
-          <span class="fork-k">run it yourself</span>
           <h3>Self-hosted</h3>
           <p>The whole platform on your own servers. No trial, no seat count, no call with us.</p>
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier of the software and no feature held back to make one.</span></li>
-            <li><span class="tk">&rarr;</span><span>The 30+ connectors, the MCP endpoint, the graph, the audit trail.</span></li>
+            <li><span class="tk">&rarr;</span><span>The context graph, and the memory that keeps it current.</span></li>
+            <li><span class="tk">&rarr;</span><span>The MCP endpoint. Claude, ChatGPT and Cursor query the same graph.</span></li>
+            <li><span class="tk">&rarr;</span><span>The audit trail on every ingest and every merge.</span></li>
+            <li><span class="tk">&rarr;</span><span>The connectors that are built today. You write the ones that are not.</span></li>
             <li><span class="tk">&rarr;</span><span>Your engineers do the setup, the credentials, and the backfill.</span></li>
             <li><span class="tk">&rarr;</span><span>Community support through GitHub issues.</span></li>
           </ul>
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
-          <span class="fork-k">we deploy it</span>
           <h3>Managed setup</h3>
           <p>A forward-deployed engineer builds fein into your stack and stays on it. Two short calls from you.</p>
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> The date is a commitment, not an estimate.</span></li>
-            <li><span class="tk">&rarr;</span><span>Every source connected, duplicates resolved, full history read back.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Connectors built for your stack</b>, including the ones nobody has written yet.</span></li>
+            <li><span class="tk">&rarr;</span><span>Every source connected, duplicate people resolved, full history read back.</span></li>
             <li><span class="tk">&rarr;</span><span>Connectors kept working through every upstream API change.</span></li>
             <li><span class="tk">&rarr;</span><span>New answers built on request as your team asks new questions.</span></li>
           </ul>
-          <div class="fork-act"><a class="btn btn-primary" href="/deploy">See what the fortnight covers</a></div>
+          <div class="fork-act">
+            <a class="btn btn-primary" href="/demo">Get a demo</a>
+            <a class="arrowlink fork-more" href="/deploy">See what the fortnight covers <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          </div>
         </div>
       </div>
     </div>
@@ -2351,7 +2368,6 @@
   <section id="tiers" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">the monthly fee</span>
         <h2>We price on fund size. We never price per seat.</h2>
         <p class="lead">An analyst who keeps this record current costs six figures a year, and the graph then lives in that one person's head. fein costs less than one month of that analyst, and every person at the firm can query it. Adding people never changes the price.</p>
       </div>
@@ -2382,7 +2398,6 @@
   <section id="questions" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <span class="eyebrow">questions</span>
         <h2>What firms ask about the money.</h2>
       </div>
       <div class="faq">
