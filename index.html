@@ -172,11 +172,6 @@
   /* ============ THE WEAVE: every thread the team holds, flowing behind the
      words. it opened the page until the starburst took the lead hero; it now
      lights the managed-installation section at #deploy ============ */
-  .hero-gradient{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  #weave{position:absolute;inset:0;width:100%;height:100%;display:block;animation:weaveIn 1.8s ease .15s both}
-  @keyframes weaveIn{from{opacity:0}to{opacity:1}}
-  .hg-veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.66) 0%,rgba(0,0,0,.28) 40%,rgba(0,0,0,0) 64%),linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 60%,rgba(0,0,0,.9) 92%,var(--bg) 100%)}
-  .hg-grain{position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px;opacity:.2;mix-blend-mode:soft-light}
 
   .grain-overlay{position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px}
   .grain-overlay.on-dark{opacity:.22;mix-blend-mode:soft-light}
@@ -393,13 +388,26 @@
   .hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
   .hero-copy .lead{margin-left:auto;margin-right:auto}
   .hero-inner .hero-actions{justify-content:center;margin-top:2.4rem}
-  .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;z-index:1;pointer-events:none}
+  /* the field is wider than the copy and narrower than the window. At 100vw the
+     ellipse it is cut from grew with the monitor: past about 1500px the arcs
+     flatten into near-straight lines, the picture stops reading as an orbit,
+     and the three tiles get thrown out to the window's edges by the collision
+     pass below -- which is how one of them ended up half off the page. Capped,
+     the curvature holds at any width and the tiles land in the clear space
+     either side of the copy, which is what they are placed against. */
+  .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - min(50vw,700px));width:min(100vw,1400px);z-index:1;pointer-events:none}
   #prepflow{position:absolute;inset:0;width:100%;height:100%}
   .glass{background:rgba(15,15,19,.46);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.12);box-shadow:var(--hl-top),0 18px 44px -24px rgba(0,0,0,.85)}
   .orb-head{position:absolute;left:50%;top:7%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:13px;z-index:2;text-align:center;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1)}
   .orb-head b{font-size:.88rem;font-weight:550;color:var(--fg);letter-spacing:-.01em;white-space:nowrap}
   .orb-head .hsub{font-size:.72rem;color:var(--fg-3);white-space:nowrap}
-  .orb-badge{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.24rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
+  /* the state of the card, in the voice the page labels things in. It was mono
+     at .6rem with .12em of tracking in caps -- AUTO-DRAFTING -- which is the
+     tracked-out mono cap this design replaced everywhere else: .eyebrow, the
+     .fig-bar headings and .works .lab are all small lowercase Inter now. The
+     mono that is left on the page is readouts (FIG 0.1, the tags in the product
+     mocks), and this is a status, not a readout. */
+  .orb-badge{font-family:var(--font);font-size:.7rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.22rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
   .orb-badge .bdot{display:none}
   .orb-badge.live .bdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--blue-l);margin-right:5px;vertical-align:1px;animation:pcPulse 1.1s ease infinite}
   @keyframes pcPulse{50%{opacity:.3}}
@@ -843,11 +851,22 @@
      .wrap's 1080px would set the mail at 30ch and the facts would wrap twice */
   .figs{display:grid;gap:clamp(3.4rem,6.5vw,5.6rem);width:100%;max-width:var(--maxw);margin:clamp(2.2rem,4vw,3.2rem) auto 0;padding-inline:var(--bar-pad)}
   /* the heading is an action in a sequence -- first, then, finally -- and the
-     figure under it is the evidence for that one action, so the number is part
-     of the sentence rather than a label sitting above it */
+     figure under it is the evidence for that one action.
+
+     The number used to be set inside the sentence, at heading size in blue, on
+     the argument that it was part of the sentence rather than a label over it.
+     It was the only numbering of that shape on the page: #how sets its three
+     steps as a small quiet 01 above the line, #figures sets FIG 0.1 the same
+     way, and both hang the step off a hairline. Read down the page the figures
+     were the one band announcing itself in a voice of its own. The number is
+     now that same small label, over a rule at the figure's full width, so each
+     figure opens the way a step in #how opens and the band joins the system it
+     sits in. It stays blue: it is the one accent, and it is the thread the
+     wires below it are drawn in. */
+  .fig{border-top:1px solid var(--line-2);padding-top:clamp(1.2rem,2.2vw,1.6rem)}
   .fig-head{max-width:54ch;margin-bottom:clamp(1.3rem,2.3vw,1.9rem)}
+  .fig-step{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums;margin-bottom:.62rem}
   .fig-lede{font-family:var(--display);font-size:clamp(1.45rem,2.5vw,2.05rem);font-weight:580;letter-spacing:-.032em;line-height:1.12;color:#fff;text-wrap:balance}
-  .fig-lede i{font-style:normal;font-weight:500;color:var(--blue-l);margin-right:.55em;font-variant-numeric:tabular-nums}
   .fig-sub{margin-top:.62rem;font-size:.98rem;line-height:1.55;color:var(--fg-3);text-wrap:pretty}
   .fig-sub b{color:var(--fg-2);font-weight:550}
 
@@ -864,11 +883,20 @@
   .fig-d.lit path:not(.on){opacity:.2}
   .fig-d.lit .fig-hl:not(.on),.fig-d.lit [data-side="out"] .fig-row:not(.on){opacity:.4}
 
-  /* the middle column is the machine. It is the wordmark, once, at the head of
-     the run, with the rail it used to hang off drawn faintly behind the wires */
+  /* the middle column is the machine, and it is the same machine #how draws:
+     things arrive on one side, fein takes them in, facts leave on the other.
+     #how gives that a hexagon throat in the ground's own black behind a single
+     hairline, and this column used to give it a floating wordmark instead, so
+     the two pictures of one idea did not look related. It is the same throat
+     now, at the scale this column can hold, sat at the head of the run with the
+     rail dropping out of its foot behind the wires. Fill and stroke are lifted
+     from .dcore .hexb rather than re-picked. */
   .fig-mid{position:relative;z-index:1;display:flex;justify-content:center}
-  .fig-mid::before{content:"";position:absolute;left:50%;top:46px;bottom:8%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,var(--line),transparent 82%)}
-  .fig-name{height:44px;display:flex;align-items:center;font-family:var(--display);font-size:1.06rem;font-weight:600;letter-spacing:-.035em;color:#fff}
+  .fig-mid::before{content:"";position:absolute;left:50%;top:74px;bottom:8%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,var(--line),transparent 82%)}
+  .fig-node{position:relative;width:62px;height:71.6px;display:grid;place-items:center;filter:drop-shadow(0 0 22px rgba(206,216,233,.06))}
+  .fig-node svg{position:absolute;inset:0;width:100%;height:100%}
+  .fig-node path{fill:rgba(8,9,10,.97);stroke:rgba(255,255,255,.18);stroke-width:1;vector-effect:non-scaling-stroke}
+  .fig-node b{position:relative;font-family:var(--display);font-size:.92rem;font-weight:600;letter-spacing:-.035em;color:#fff;line-height:1}
 
   .fig-p{position:relative;z-index:1;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--hl-top),0 22px 56px -34px rgba(0,0,0,.95);overflow:hidden}
   .fig-bar{display:flex;align-items:center;gap:.55rem;height:44px;padding:0 15px;border-bottom:1px solid var(--line)}
@@ -986,18 +1014,24 @@
   .fig-new{margin-left:.1rem;padding:.06rem .32rem;border-radius:4px;background:rgba(63,191,127,.14);font-size:.66rem;font-weight:500;color:var(--mem-new)}
 
   /* ---- 03: the outcome. One box, one question, one answer, and the documents
-     it was built from sitting in the sentence where the claim is made ---- */
-  .fig--mid .fig-head{max-width:58ch;margin-inline:auto;text-align:center}
-  .fig--mid .fig-after{text-align:center}
-  .fig--mid .fig-after span{margin-inline:auto}
-  .ask{width:min(860px,100%);margin-inline:auto;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
+     it was built from sitting in the sentence where the claim is made.
+
+     This figure used to be centred on an 860px box while 01 and 02 ran left on
+     the band's full measure, so a band of three steps was set on three
+     different alignments and none of the four headings in it shared a left
+     edge. It is the same step as the two above it and it is set like them now:
+     head left, panel on the figure's own measure. The answer paragraph is the
+     one thing that cannot take the full width -- at 1168px it runs past 100
+     characters -- so it keeps a reading measure inside a panel that does not,
+     which is what .fig-p does with .gm-body directly above it. ---- */
+  .ask{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
   .ask-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
   .ask-bar .mag{width:16px;height:16px;flex:none;color:var(--fg-3);fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
   .ask-q{font-size:1.02rem;font-weight:550;color:#fff;letter-spacing:-.014em}
   .ask-caret{display:inline-block;width:.46em;height:1.02em;margin-left:2px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
   .ask-in{margin-left:auto;display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:var(--dim);white-space:nowrap}
   .ask-in .tlogo{width:15px;height:15px}
-  .ask-a{padding:.95rem 20px 1.05rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left}
+  .ask-a{padding:.95rem 20px 1.05rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left;max-width:88ch}
   .ask-a b{color:#fff;font-weight:600}
   /* the citation is the product, so it is a real object in the sentence rather
      than a footnote number the reader has to go and look up */
@@ -1669,9 +1703,10 @@
   .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
 
   /* MANAGED INSTALLATION: the rehoused orbit. same composition, section scale.
-     the band owns the weave, so the art is clipped to this section; the copy
-     drops from hero scale to .head scale so it never reads as a second hero;
-     both .wrap children lift above the backdrop's stacking context */
+     the copy drops from hero scale to .head scale so it never reads as a second
+     hero; both .wrap children lift above the backdrop's stacking context. The
+     band used to own a weave as well, which is the note this comment carried:
+     it is gone, and the orbit is the section's one picture. */
   .deploy-orbit{overflow:hidden}
   .deploy-orbit>.wrap{position:relative;z-index:2}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
@@ -1687,6 +1722,44 @@
   .deploy-cta b{display:block;color:#fff;font-size:clamp(1.05rem,1.7vw,1.25rem);font-weight:550;letter-spacing:-.018em;line-height:1.25}
   .deploy-cta p{margin-top:.5rem;max-width:56ch;color:var(--fg-2);font-size:1rem;line-height:1.55;text-wrap:pretty}
   .deploy-cta .hero-actions{margin-top:0}
+
+  /* ============ THE FORK ============
+     The page says "open source" in the fold, in the security band and in the
+     footer, and until this band existed there was nowhere on the site to act on
+     it: every action was a demo booking. A reader who believed the headline had
+     to leave for GitHub and never came back.
+
+     Two cards, because there are exactly two ways to have fein and the reader is
+     choosing between them, not reading a feature list. Both carry a price, and
+     the free one carries $0 rather than a dash, because the claim only works if
+     it is stated in the same units as the other column. The paid card is the one
+     with the accent border: not because the free path is a lesser product -- it
+     is the same binary -- but because it is the only column with an action we
+     can take on the reader's behalf. */
+  .fork{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,2.2vw,1.5rem);margin-top:clamp(2rem,4vw,2.9rem);align-items:stretch}
+  .fork-card{display:flex;flex-direction:column;padding:clamp(1.5rem,2.8vw,2.1rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:rgba(255,255,255,.028);box-shadow:var(--hl-top)}
+  /* the paid column: same ground, one accent hairline. A filled panel here would
+     read as the "real" product and undercut the sentence above it. */
+  .fork-card.pick{border-color:rgba(82,168,255,.42)}
+  .fork-k{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d}
+  .fork-card.pick .fork-k{color:var(--blue-l)}
+  .fork-card h3{margin-top:.55rem;font-size:clamp(1.1rem,1.8vw,1.32rem);font-weight:550;letter-spacing:-.02em;line-height:1.2;color:#fff}
+  .fork-card>p{margin-top:.55rem;color:var(--fg-2);font-size:.98rem;line-height:1.55;text-wrap:pretty}
+  /* the number sits on its own rule so both columns line their prices up on the
+     same baseline however long the paragraph above them runs */
+  .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
+  .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  .fork-price .per{font-size:.92rem;color:var(--fg-3)}
+  .fork-card ul{list-style:none;margin:clamp(1.05rem,2vw,1.35rem) 0 0;padding:0;display:grid;gap:.62rem}
+  .fork-card li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55rem;align-items:start;color:var(--fg-2);font-size:.94rem;line-height:1.5}
+  .fork-card li .tk{color:var(--blue-l);font-weight:500;line-height:1.5}
+  .fork-card li b{color:#fff;font-weight:550}
+  /* pinned to the foot so the two buttons agree on a line no matter how many
+     bullets each column carries */
+  .fork-act{margin-top:auto;padding-top:clamp(1.3rem,2.6vw,1.8rem)}
+  .fork-act .btn{width:100%;justify-content:center}
+  .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
+  @media (max-width:760px){.fork{grid-template-columns:1fr}}
 
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:var(--bg);color:var(--fg-3);padding:3.5rem 0 2.2rem}
@@ -2744,7 +2817,8 @@ setTimeout(go,1200);})()</script>
       <!-- 01: one message, as it looks in the client it arrived in -->
       <section class="fig" aria-labelledby="fig1-h">
         <div class="fig-head">
-          <h3 class="fig-lede" id="fig1-h"><i>01</i>First, fein reads what arrives.</h3>
+          <span class="fig-step">01</span>
+          <h3 class="fig-lede" id="fig1-h">First, fein reads what arrives.</h3>
           <p class="fig-sub">A partner forwards a deck and moves on.</p>
         </div>
         <div class="fig-d" data-fig="1">
@@ -2774,7 +2848,7 @@ setTimeout(go,1200);})()</script>
               <span class="gm-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></svg>Forward</span>
             </p>
           </article>
-          <div class="fig-mid"><span class="fig-name">fein</span></div>
+          <div class="fig-mid"><span class="fig-node"><svg viewBox="0 0 100 115.47" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 100 28.87 100 86.6 50 115.47 0 86.6 0 28.87Z"/></svg><b>fein</b></span></div>
           <article class="fig-p" data-side="out">
             <div class="fig-bar">
               <h4>What fein filed</h4>
@@ -2812,7 +2886,8 @@ setTimeout(go,1200);})()</script>
            the argument: a fact that stops being true is struck and dated. -->
       <section class="fig" aria-labelledby="fig2-h">
         <div class="fig-head">
-          <h3 class="fig-lede" id="fig2-h"><i>02</i>Then it updates what it already knew.</h3>
+          <span class="fig-step">02</span>
+          <h3 class="fig-lede" id="fig2-h">Then it updates what it already knew.</h3>
           <p class="fig-sub">Four more documents, from four different tools, over eighteen months. One of them makes a 2024 line no longer relevant, so <b class="hl">fein strikes it and dates it instead of deleting it.</b></p>
         </div>
         <div class="fig-d" data-fig="2">
@@ -2854,7 +2929,7 @@ setTimeout(go,1200);})()</script>
               </li>
             </ol>
           </article>
-          <div class="fig-mid"><span class="fig-name">fein</span></div>
+          <div class="fig-mid"><span class="fig-node"><svg viewBox="0 0 100 115.47" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0 100 28.87 100 86.6 50 115.47 0 86.6 0 28.87Z"/></svg><b>fein</b></span></div>
           <article class="fig-p" data-side="out">
             <div class="fig-bar">
               <h4>What fein filed</h4>
@@ -2897,9 +2972,10 @@ setTimeout(go,1200);})()</script>
 
       <!-- 03: the outcome, and the only place the two panels give way. One box,
            one answer, and the documents behind it in the sentence itself. -->
-      <section class="fig fig--mid" aria-labelledby="fig3-h">
+      <section class="fig fig--ans" aria-labelledby="fig3-h">
         <div class="fig-head">
-          <h3 class="fig-lede" id="fig3-h"><i>03</i>Finally, it answers from all of it.</h3>
+          <span class="fig-step">03</span>
+          <h3 class="fig-lede" id="fig3-h">Finally, it answers from all of it.</h3>
           <p class="fig-sub">Ask in Claude, ChatGPT or Cursor. <b>One answer, and every claim carries the document it came from.</b></p>
         </div>
         <div class="ask">
@@ -3063,11 +3139,15 @@ setTimeout(go,1200);})()</script>
        cited to the tool it came from), which is exactly what the managed
        service sells. the fortnight cards sit under it as the mechanism. -->
   <section id="deploy" class="band deploy-orbit">
-    <div class="hero-gradient" aria-hidden="true">
-      <canvas id="weave"></canvas>
-      <div class="hg-veil"></div>
-      <div class="hg-grain"></div>
-    </div>
+    <!-- the weave that used to run behind this band is gone. It was the fold's
+         own art -- the same cool-white bezier threads, a second copy of them --
+         laid under the orbit, so the section carried two full-height generative
+         fields at once and neither could be read. The threads swept diagonally
+         out of the top corner and pooled in a bright fan at the bottom right,
+         which is where the eye went, and the three prep tiles that are the
+         actual subject of the picture sat inside that fan at a third of its
+         contrast. The band keeps one picture, the one that says something, on
+         the page's own ground like every other band below the fold. -->
 
     <div class="wrap hero-inner">
       <div class="hero-copy head">
@@ -3520,65 +3600,6 @@ setTimeout(go,1200);})()</script>
     if("IntersectionObserver" in window){new IntersectionObserver(function(es){es.forEach(function(e){bvis=e.isIntersecting;if(bvis)bstart();else bstop();});},{threshold:0.25}).observe(burst);}
     else{bvis=true;bstart();}
     window.addEventListener("resize",function(){clearTimeout(bz);bz=setTimeout(function(){var br=burst.getBoundingClientRect();if(Math.abs(br.width-bw)<1&&Math.abs(br.height-bh)<1)return;bsize();sprites();build();hgw=-1;if(ignited)bake();if(REDUCE.matches){lastT=-1;drawBurst(4200,true);}else if(!braf&&bvis){bstart();}},150);});
-  }
-
-  /* ===== the weave: the team's threads, flowing behind the fold =====
-     Same vocabulary as the dawn below: cool-white hairline threads, the one
-     blue accent spent on light packets travelling the threads. A diagonal
-     band sweeps from the top of the fold to the right edge, behind the
-     headline; a veil keeps the left text column quiet. Reduced motion gets
-     a static frame; offscreen pauses the loop. */
-  var weave=document.getElementById("weave");
-  if(weave){
-    var wc=weave.getContext("2d"),ww=0,wh=0,wraf=0,wvis=true,wrz;
-    var FINEW=window.matchMedia&&window.matchMedia("(pointer:fine)").matches;
-    var wmx=0,wtmx=0,WT=[],WP=[];
-    function wsize(){var r=weave.getBoundingClientRect(),dp=Math.min(window.devicePixelRatio||1,2);ww=r.width;wh=r.height;weave.width=Math.max(1,ww*dp);weave.height=Math.max(1,wh*dp);wc.setTransform(dp,0,0,dp,0,0);}
-    function wbuild(){
-      var rng=mulberry32(7171);WT.length=0;WP.length=0;
-      var n=Math.round(Math.max(ww<700?44:70,Math.min(150,ww/11)));
-      for(var i=0;i<n;i++){
-        var f=(i+0.5)/n;
-        WT.push({f:f,lum:0.25+0.75*Math.pow(Math.sin(f*Math.PI),1.3),lead:i%13===6,
-          w:(i%13===6)?1.15:0.6+rng()*0.4,ph:rng()*6.28,fq:0.25+rng()*0.5,
-          j1:(rng()-0.5)*0.05,j2:(rng()-0.5)*0.06});
-      }
-      var np=Math.max(3,Math.min(6,Math.round(ww/300)));
-      for(i=0;i<np;i++)WP.push({th:null,u:0,dur:0,t0:0,next:i*1100});
-    }
-    function wpts(th,t){
-      var sway=Math.sin(t*0.00022*th.fq+th.ph)*0.014,f=th.f,px=wmx*0.012*ww;
-      return [ww*(0.42+0.62*f+th.j1)+px,-30,
-              ww*(0.30+0.42*f+sway+th.j2)+px,wh*(0.34+0.06*f),
-              ww*(0.58+0.36*f+sway)+px*1.6,wh*(0.62+0.10*f),
-              ww*1.06,wh*(0.42+0.52*f)];
-    }
-    function wbez(p,u){var v=1-u;return[
-      v*v*v*p[0]+3*v*v*u*p[2]+3*v*u*u*p[4]+u*u*u*p[6],
-      v*v*v*p[1]+3*v*v*u*p[3]+3*v*u*u*p[5]+u*u*u*p[7]];}
-    function wdraw(t){
-      wc.clearRect(0,0,ww,wh);
-      wmx+=(wtmx-wmx)*0.06;
-      for(var i=0;i<WT.length;i++){var th=WT[i],p=wpts(th,t);
-        var tw=0.75+0.25*Math.sin(t*0.0004+th.ph*2);
-        wc.strokeStyle="rgba(206,216,233,"+(((th.lead?0.20:0.10)*th.lum*tw)).toFixed(3)+")";
-        wc.lineWidth=th.w;
-        wc.beginPath();wc.moveTo(p[0],p[1]);wc.bezierCurveTo(p[2],p[3],p[4],p[5],p[6],p[7]);wc.stroke();}
-      for(i=0;i<WP.length;i++){var k=WP[i];
-        if(k.th===null){if(t>k.next){k.th=WT[(Math.random()*WT.length)|0];k.dur=5200+Math.random()*3800;k.t0=t;}else continue;}
-        k.u=(t-k.t0)/k.dur;
-        if(k.u>=1){k.th=null;k.next=t+600+Math.random()*1800;continue;}
-        var e=Math.sin(k.u*Math.PI),p2=wpts(k.th,t),q=wbez(p2,k.u);
-        wc.fillStyle="rgba(82,168,255,"+(0.22*e).toFixed(3)+")";wc.beginPath();wc.arc(q[0],q[1],4.5,0,7);wc.fill();
-        wc.fillStyle="rgba(235,244,255,"+(0.85*e).toFixed(3)+")";wc.beginPath();wc.arc(q[0],q[1],1.5,0,7);wc.fill();}
-    }
-    function wloop(t){wdraw(t);wraf=requestAnimationFrame(wloop);}
-    function wstart(){cancelAnimationFrame(wraf);wraf=0;wsize();wbuild();if(REDUCE.matches){wdraw(2600);}else if(wvis){wraf=requestAnimationFrame(wloop);}else{wdraw(2600);}}
-    if(FINEW)window.addEventListener("pointermove",function(e){wtmx=(e.clientX/Math.max(1,window.innerWidth))-0.5;},{passive:true});
-    window.addEventListener("resize",function(){clearTimeout(wrz);wrz=setTimeout(function(){var wr=weave.getBoundingClientRect();if(Math.abs(wr.width-ww)<1&&Math.abs(wr.height-wh)<1)return;wstart();},150);});
-    if(REDUCE.addEventListener)REDUCE.addEventListener("change",wstart);
-    if("IntersectionObserver" in window){new IntersectionObserver(function(es){es.forEach(function(e){wvis=e.isIntersecting;if(wvis&&!wraf&&!REDUCE.matches){wraf=requestAnimationFrame(wloop);}else if(!wvis&&wraf){cancelAnimationFrame(wraf);wraf=0;}});},{threshold:0}).observe(weave);}
-    wstart();
   }
 
   /* ===== the stage: the funnel, at the size of the page =====
@@ -4296,27 +4317,6 @@ setTimeout(go,1200);})()</script>
   window.addEventListener('hashchange', close);
 })();
 
-/* pause aurora while hero is off-screen; freeze under reduced motion */
-(function(){
-  var wrap=document.querySelector('.hero-gradient');
-  if(!wrap) return;
-  var blobs=wrap.querySelectorAll('.blob');
-  if(!blobs.length) return;
-  var mq=window.matchMedia('(prefers-reduced-motion: reduce)');
-  function setPlay(state){ for(var i=0;i<blobs.length;i++) blobs[i].style.animationPlayState=state; }
-  if(mq.matches) setPlay('paused');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      if(mq.matches) return;
-      entries.forEach(function(e){ setPlay(e.isIntersecting?'running':'paused'); });
-    },{threshold:0});
-    io.observe(wrap);
-  }
-  var onChange=function(){ setPlay(mq.matches?'paused':'running'); };
-  if(mq.addEventListener) mq.addEventListener('change',onChange);
-  else if(mq.addListener) mq.addListener(onChange);
-})();
-
 /* works-with marquee: clone once for a seamless loop, speed from real width */
 (function(){
   var mq=document.querySelector('.marquee'), row=mq&&mq.querySelector('.row');
@@ -4366,7 +4366,10 @@ setTimeout(go,1200);})()</script>
     RY=Math.max(chh+140,H*.34);RY=Math.min(RY,C.y-88,H-C.y-100);
     BOX={l:C.x-cw-92,r:C.x+cw+92,t:C.y-chh-44,b:C.y+chh+44};
     tiles.forEach(function(t){ t.__hw=undefined; });
-    head.style.left=(W/2)+'px';head.style.top=Math.max(56,ell(HEADA).y)+'px';
+    /* the floor clears the sticky bar. At 56 a short window put the prep card
+       under the nav, which is the one object in this picture that has to be
+       readable the moment the section lands */
+    head.style.left=(W/2)+'px';head.style.top=Math.max(104,ell(HEADA).y)+'px';
   }
   function tilePoint(i,now){
     var a=ANG[i]+Math.sin(now*.00012+i*2.1)*4;
@@ -4397,7 +4400,7 @@ setTimeout(go,1200);})()</script>
     if(i>-1&&TPOS[i])RIP.push({x:TPOS[i].nx,y:TPOS[i].ny,t0:performance.now()});
   }
   var CR=[.60,.66,.58,.63],CS=[.10,.125,.11,.14];
-  var DUST=[],LINKS=[],PLANE=[{f:1.16,k:1.28,ro:.24,c:'125,227,244'},{f:1.3,k:1.12,ro:-.18,c:'167,139,250'},{f:1,k:1,ro:0,c:'255,255,255'}];
+  var DUST=[],LINKS=[],PLANE=[{f:1.16,k:1.28,ro:.24,c:'255,255,255'},{f:1.3,k:1.12,ro:-.18,c:'255,255,255'},{f:1,k:1,ro:0,c:'255,255,255'}];
   (function(){
     for(var i=0;i<44;i++){var pl=PLANE[i%3];
       DUST.push({a:Math.random()*360,f:pl.f,k:pl.k,ro:pl.ro,c:pl.c,j:(Math.random()-.5)*26,p:Math.random()*6.28});}
@@ -4412,19 +4415,27 @@ setTimeout(go,1200);})()</script>
     if(!running)return;requestAnimationFrame(draw);
     now=now||performance.now();ctx.clearRect(0,0,W,H);
     ROT=Math.sin(now*.00008)*.09;
+    /* the field is monochrome, and the one accent is blue. It used to be drawn
+       in cyan (125,227,244) and a violet (167,139,250) that is not even the
+       --violet this file declares: two hues that appear nowhere else on the
+       site, on the section that closes the page. The geometry is unchanged --
+       four rings, three planes of dust, the links between them -- and all of it
+       is white at graded alpha now, with blue kept for the things that carry
+       meaning: the core the answers converge on, the packet travelling the
+       ellipse, and the ripple where it lands. */
     var g=ctx.createRadialGradient(C.x,C.y,0,C.x,C.y,Math.max(RY*.95,140));
     g.addColorStop(0,'rgba(82,168,255,'+(0.055+0.02*Math.sin(now*.0004)).toFixed(3)+')');
-    g.addColorStop(.55,'rgba(167,139,250,'+(0.028+0.012*Math.sin(now*.0004+2)).toFixed(3)+')');
-    g.addColorStop(1,'rgba(167,139,250,0)');
+    g.addColorStop(.55,'rgba(82,168,255,'+(0.020+0.010*Math.sin(now*.0004+2)).toFixed(3)+')');
+    g.addColorStop(1,'rgba(82,168,255,0)');
     ctx.fillStyle=g;ctx.fillRect(C.x-RX*1.4,C.y-RY*1.4,RX*2.8,RY*2.8);
     ctx.lineWidth=1;
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.16,RY*1.28,ROT+.24,0,6.283);ctx.strokeStyle='rgba(125,227,244,.05)';ctx.stroke();
-    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.3,RY*1.12,ROT-.18,0,6.283);ctx.strokeStyle='rgba(167,139,250,.045)';ctx.stroke();
+    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.16,RY*1.28,ROT+.24,0,6.283);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
+    ctx.beginPath();ctx.ellipse(C.x,C.y,RX*1.3,RY*1.12,ROT-.18,0,6.283);ctx.strokeStyle='rgba(255,255,255,.045)';ctx.stroke();
     ctx.beginPath();ctx.ellipse(C.x,C.y,RX,RY,ROT,0,6.283);ctx.strokeStyle='rgba(255,255,255,.085)';ctx.stroke();
     ctx.beginPath();ctx.ellipse(C.x,C.y,RX*.62,RY*.56,ROT,0,6.283);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
     LINKS.forEach(function(l){
       var a=dustPt(DUST[l[0]]),b=dustPt(DUST[l[1]]);
-      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(167,139,250,.05)';ctx.stroke();
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(255,255,255,.05)';ctx.stroke();
     });
     DUST.forEach(function(d){
       var p=dustPt(d),tw=.5+.5*Math.sin(now*.0005+d.p);
@@ -4453,7 +4464,7 @@ setTimeout(go,1200);})()</script>
     RIP=RIP.filter(function(rp){
       var u=(now-rp.t0)/620;if(u>=1)return false;
       ctx.beginPath();ctx.arc(rp.x,rp.y,6+u*26,0,6.283);
-      ctx.strokeStyle='rgba(125,227,244,'+(.35*(1-u)).toFixed(3)+')';ctx.stroke();
+      ctx.strokeStyle='rgba(82,168,255,'+(.35*(1-u)).toFixed(3)+')';ctx.stroke();
       return true;
     });
     var q=null;
@@ -4472,7 +4483,7 @@ setTimeout(go,1200);})()</script>
       for(var j=14;j>=1;j--){
         var tq=qpt(q-j*.0065),al=.4*(1-j/15);
         ctx.beginPath();ctx.arc(tq.x,tq.y,2.3*(1-j/16)+.4,0,6.283);
-        ctx.fillStyle='rgba('+(j>7?'167,139,250':'125,188,255')+','+al.toFixed(3)+')';ctx.fill();
+        ctx.fillStyle='rgba(125,188,255,'+al.toFixed(3)+')';ctx.fill();
       }
       var p=qpt(q);ctx.beginPath();ctx.arc(p.x,p.y,2.8,0,6.283);
       ctx.fillStyle='#8ec4ff';ctx.shadowColor='rgba(82,168,255,.95)';ctx.shadowBlur=12;ctx.fill();ctx.shadowBlur=0;

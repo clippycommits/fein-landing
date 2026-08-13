@@ -163,11 +163,6 @@
   /* ============ THE WEAVE: every thread the team holds, flowing behind the
      words. it opened the page until the starburst took the lead hero; it now
      lights the managed-installation section at #deploy ============ */
-  .hero-gradient{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  #weave{position:absolute;inset:0;width:100%;height:100%;display:block;animation:weaveIn 1.8s ease .15s both}
-  @keyframes weaveIn{from{opacity:0}to{opacity:1}}
-  .hg-veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.66) 0%,rgba(0,0,0,.28) 40%,rgba(0,0,0,0) 64%),linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 60%,rgba(0,0,0,.9) 92%,var(--bg) 100%)}
-  .hg-grain{position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px;opacity:.2;mix-blend-mode:soft-light}
 
   .grain-overlay{position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px}
   .grain-overlay.on-dark{opacity:.22;mix-blend-mode:soft-light}
@@ -318,6 +313,10 @@
 
   /* ============ hero entrance choreography (pure CSS, staggered) ============ */
   @keyframes lpUp{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+  /* the fold's picture breathes: 6px over nine seconds, which is slow and small
+     enough to be felt rather than watched. translate3d rather than translateY
+     so it composites on the GPU and never asks for a layout. */
+  @keyframes heroFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-6px,0)}}
   @keyframes lpH1{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
   @keyframes lpBar{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
   #view-home .bar,#view-home .ribbon{animation:lpBar .7s cubic-bezier(.16,.84,.44,1) both}
@@ -364,7 +363,13 @@
   .hero-lead .wrap>h1,.hero-lead .wrap>h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .02s both}
   .hero-lead .wrap>p{animation-delay:.12s}
   .hero-lead .hero-actions{animation-delay:.22s}
-  .hero-lead .wrap>.lead-stage{animation-delay:.3s}
+  /* Entrance and float on one element, and they do not fight: lpUp animates the
+     `translate` property and heroFloat animates `transform`, which the engine
+     keeps separate and composes, so neither has to know about the other. The
+     float waits out the entrance before it starts. Both are paused by .hold
+     above, so nothing drifts before the fold is released, and the page's
+     blanket reduced-motion rule stops the float with everything else. */
+  .hero-lead .wrap>.lead-stage{animation:lpUp .78s cubic-bezier(.16,.84,.44,1) .3s both,heroFloat 9s ease-in-out 1.35s infinite}
 
   /* the orbit stage: one centered statement with the composition turning around
      it. the copy keeps the band type scale (.head), so the geometry below reads
@@ -374,13 +379,26 @@
   .hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
   .hero-copy .lead{margin-left:auto;margin-right:auto}
   .hero-inner .hero-actions{justify-content:center;margin-top:2.4rem}
-  .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;z-index:1;pointer-events:none}
+  /* the field is wider than the copy and narrower than the window. At 100vw the
+     ellipse it is cut from grew with the monitor: past about 1500px the arcs
+     flatten into near-straight lines, the picture stops reading as an orbit,
+     and the three tiles get thrown out to the window's edges by the collision
+     pass below -- which is how one of them ended up half off the page. Capped,
+     the curvature holds at any width and the tiles land in the clear space
+     either side of the copy, which is what they are placed against. */
+  .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - min(50vw,700px));width:min(100vw,1400px);z-index:1;pointer-events:none}
   #prepflow{position:absolute;inset:0;width:100%;height:100%}
   .glass{background:rgba(15,15,19,.46);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.12);box-shadow:var(--hl-top),0 18px 44px -24px rgba(0,0,0,.85)}
   .orb-head{position:absolute;left:50%;top:7%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:13px;z-index:2;text-align:center;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1)}
   .orb-head b{font-size:.88rem;font-weight:550;color:var(--fg);letter-spacing:-.01em;white-space:nowrap}
   .orb-head .hsub{font-size:.72rem;color:var(--fg-3);white-space:nowrap}
-  .orb-badge{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.24rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
+  /* the state of the card, in the voice the page labels things in. It was mono
+     at .6rem with .12em of tracking in caps -- AUTO-DRAFTING -- which is the
+     tracked-out mono cap this design replaced everywhere else: .eyebrow, the
+     .fig-bar headings and .works .lab are all small lowercase Inter now. The
+     mono that is left on the page is readouts (FIG 0.1, the tags in the product
+     mocks), and this is a status, not a readout. */
+  .orb-badge{font-family:var(--font);font-size:.7rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.22rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
   .orb-badge .bdot{display:none}
   .orb-badge.live .bdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--blue-l);margin-right:5px;vertical-align:1px;animation:pcPulse 1.1s ease infinite}
   @keyframes pcPulse{50%{opacity:.3}}
@@ -824,11 +842,22 @@
      .wrap's 1080px would set the mail at 30ch and the facts would wrap twice */
   .figs{display:grid;gap:clamp(3.4rem,6.5vw,5.6rem);width:100%;max-width:var(--maxw);margin:clamp(2.2rem,4vw,3.2rem) auto 0;padding-inline:var(--bar-pad)}
   /* the heading is an action in a sequence -- first, then, finally -- and the
-     figure under it is the evidence for that one action, so the number is part
-     of the sentence rather than a label sitting above it */
+     figure under it is the evidence for that one action.
+
+     The number used to be set inside the sentence, at heading size in blue, on
+     the argument that it was part of the sentence rather than a label over it.
+     It was the only numbering of that shape on the page: #how sets its three
+     steps as a small quiet 01 above the line, #figures sets FIG 0.1 the same
+     way, and both hang the step off a hairline. Read down the page the figures
+     were the one band announcing itself in a voice of its own. The number is
+     now that same small label, over a rule at the figure's full width, so each
+     figure opens the way a step in #how opens and the band joins the system it
+     sits in. It stays blue: it is the one accent, and it is the thread the
+     wires below it are drawn in. */
+  .fig{border-top:1px solid var(--line-2);padding-top:clamp(1.2rem,2.2vw,1.6rem)}
   .fig-head{max-width:54ch;margin-bottom:clamp(1.3rem,2.3vw,1.9rem)}
+  .fig-step{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;line-height:1;color:var(--blue-l);font-variant-numeric:tabular-nums;margin-bottom:.62rem}
   .fig-lede{font-family:var(--display);font-size:clamp(1.45rem,2.5vw,2.05rem);font-weight:580;letter-spacing:-.032em;line-height:1.12;color:#fff;text-wrap:balance}
-  .fig-lede i{font-style:normal;font-weight:500;color:var(--blue-l);margin-right:.55em;font-variant-numeric:tabular-nums}
   .fig-sub{margin-top:.62rem;font-size:.98rem;line-height:1.55;color:var(--fg-3);text-wrap:pretty}
   .fig-sub b{color:var(--fg-2);font-weight:550}
 
@@ -845,11 +874,20 @@
   .fig-d.lit path:not(.on){opacity:.2}
   .fig-d.lit .fig-hl:not(.on),.fig-d.lit [data-side="out"] .fig-row:not(.on){opacity:.4}
 
-  /* the middle column is the machine. It is the wordmark, once, at the head of
-     the run, with the rail it used to hang off drawn faintly behind the wires */
+  /* the middle column is the machine, and it is the same machine #how draws:
+     things arrive on one side, fein takes them in, facts leave on the other.
+     #how gives that a hexagon throat in the ground's own black behind a single
+     hairline, and this column used to give it a floating wordmark instead, so
+     the two pictures of one idea did not look related. It is the same throat
+     now, at the scale this column can hold, sat at the head of the run with the
+     rail dropping out of its foot behind the wires. Fill and stroke are lifted
+     from .dcore .hexb rather than re-picked. */
   .fig-mid{position:relative;z-index:1;display:flex;justify-content:center}
-  .fig-mid::before{content:"";position:absolute;left:50%;top:46px;bottom:8%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,var(--line),transparent 82%)}
-  .fig-name{height:44px;display:flex;align-items:center;font-family:var(--display);font-size:1.06rem;font-weight:600;letter-spacing:-.035em;color:#fff}
+  .fig-mid::before{content:"";position:absolute;left:50%;top:74px;bottom:8%;width:1px;margin-left:-.5px;background:linear-gradient(180deg,var(--line),transparent 82%)}
+  .fig-node{position:relative;width:62px;height:71.6px;display:grid;place-items:center;filter:drop-shadow(0 0 22px rgba(206,216,233,.06))}
+  .fig-node svg{position:absolute;inset:0;width:100%;height:100%}
+  .fig-node path{fill:rgba(8,9,10,.97);stroke:rgba(255,255,255,.18);stroke-width:1;vector-effect:non-scaling-stroke}
+  .fig-node b{position:relative;font-family:var(--display);font-size:.92rem;font-weight:600;letter-spacing:-.035em;color:#fff;line-height:1}
 
   .fig-p{position:relative;z-index:1;display:flex;flex-direction:column;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--hl-top),0 22px 56px -34px rgba(0,0,0,.95);overflow:hidden}
   .fig-bar{display:flex;align-items:center;gap:.55rem;height:44px;padding:0 15px;border-bottom:1px solid var(--line)}
@@ -967,18 +1005,24 @@
   .fig-new{margin-left:.1rem;padding:.06rem .32rem;border-radius:4px;background:rgba(63,191,127,.14);font-size:.66rem;font-weight:500;color:var(--mem-new)}
 
   /* ---- 03: the outcome. One box, one question, one answer, and the documents
-     it was built from sitting in the sentence where the claim is made ---- */
-  .fig--mid .fig-head{max-width:58ch;margin-inline:auto;text-align:center}
-  .fig--mid .fig-after{text-align:center}
-  .fig--mid .fig-after span{margin-inline:auto}
-  .ask{width:min(860px,100%);margin-inline:auto;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
+     it was built from sitting in the sentence where the claim is made.
+
+     This figure used to be centred on an 860px box while 01 and 02 ran left on
+     the band's full measure, so a band of three steps was set on three
+     different alignments and none of the four headings in it shared a left
+     edge. It is the same step as the two above it and it is set like them now:
+     head left, panel on the figure's own measure. The answer paragraph is the
+     one thing that cannot take the full width -- at 1168px it runs past 100
+     characters -- so it keeps a reading measure inside a panel that does not,
+     which is what .fig-p does with .gm-body directly above it. ---- */
+  .ask{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
   .ask-bar{display:flex;align-items:center;gap:.6rem;padding:.9rem 20px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
   .ask-bar .mag{width:16px;height:16px;flex:none;color:var(--fg-3);fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
   .ask-q{font-size:1.02rem;font-weight:550;color:#fff;letter-spacing:-.014em}
   .ask-caret{display:inline-block;width:.46em;height:1.02em;margin-left:2px;translate:0 2px;background:var(--blue-l);animation:caretB 1s steps(2,start) infinite}
   .ask-in{margin-left:auto;display:flex;align-items:center;gap:.45rem;font-size:.76rem;color:var(--dim);white-space:nowrap}
   .ask-in .tlogo{width:15px;height:15px}
-  .ask-a{padding:.95rem 20px 1.05rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left}
+  .ask-a{padding:.95rem 20px 1.05rem;font-size:1.03rem;line-height:1.85;color:var(--fg-2);text-align:left;max-width:88ch}
   .ask-a b{color:#fff;font-weight:600}
   /* the citation is the product, so it is a real object in the sentence rather
      than a footnote number the reader has to go and look up */
@@ -1422,12 +1466,6 @@
      get the widest. the lede reads at 1.5 rather than the old 1.3, which was
      display leading applied to body copy three lines deep. */
   .hero-lead .wrap>.eyebrow{display:block;margin:0 0 clamp(.85rem,1.8vh,1.25rem);line-height:1.35;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
-  /* .22em over 47 characters overruns a phone and drops "run it" onto a line of
-     its own. The tracking is what does not fit, not the sentence, so it gives
-     way first; balance is the backstop if a narrower screen still wraps. */
-  @media (max-width:640px){
-    .hero-lead .wrap>.eyebrow{letter-spacing:.1em;font-size:.7rem;text-wrap:balance}
-  }
   /* the display line is the loudest thing on the page and it was being set to
      the width of a paragraph. It breaks out to its own measure and sizes to
      hold on one line wherever one line fits, which buys back more height than
@@ -1482,16 +1520,14 @@
      right, nothing stacked between them. Stacked below 900px instead. */
   /* every child here is placed explicitly, so anything added to this wrap needs
      a row of its own: without one it auto-places into the first free cell, which
-     is the lede's, and lands on top of it. The eyebrow took row 1 and pushed the
-     other four down one. */
+     is the lede's, and lands on top of it. */
   @media (min-width:900px){
     .hero-lead .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(2rem,5vw,4rem);align-items:end}
-    .hero-lead .wrap>.eyebrow{grid-column:1 / -1;grid-row:1}
-    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:2}
-    .hero-lead .wrap>p{grid-column:1;grid-row:3}
-    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:3;justify-content:flex-end;margin:0 0 .15rem}
-    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:4}
-    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:4}
+    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:1}
+    .hero-lead .wrap>p{grid-column:1;grid-row:2}
+    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:2;justify-content:flex-end;margin:0 0 .15rem}
+    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:3}
+    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:3}
   }
 
   /* ============ the funnel: what the answer was called from ============
@@ -1658,9 +1694,10 @@
   .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
 
   /* MANAGED INSTALLATION: the rehoused orbit. same composition, section scale.
-     the band owns the weave, so the art is clipped to this section; the copy
-     drops from hero scale to .head scale so it never reads as a second hero;
-     both .wrap children lift above the backdrop's stacking context */
+     the copy drops from hero scale to .head scale so it never reads as a second
+     hero; both .wrap children lift above the backdrop's stacking context. The
+     band used to own a weave as well, which is the note this comment carried:
+     it is gone, and the orbit is the section's one picture. */
   .deploy-orbit{overflow:hidden}
   .deploy-orbit>.wrap{position:relative;z-index:2}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
@@ -1676,6 +1713,44 @@
   .deploy-cta b{display:block;color:#fff;font-size:clamp(1.05rem,1.7vw,1.25rem);font-weight:550;letter-spacing:-.018em;line-height:1.25}
   .deploy-cta p{margin-top:.5rem;max-width:56ch;color:var(--fg-2);font-size:1rem;line-height:1.55;text-wrap:pretty}
   .deploy-cta .hero-actions{margin-top:0}
+
+  /* ============ THE FORK ============
+     The page says "open source" in the fold, in the security band and in the
+     footer, and until this band existed there was nowhere on the site to act on
+     it: every action was a demo booking. A reader who believed the headline had
+     to leave for GitHub and never came back.
+
+     Two cards, because there are exactly two ways to have fein and the reader is
+     choosing between them, not reading a feature list. Both carry a price, and
+     the free one carries $0 rather than a dash, because the claim only works if
+     it is stated in the same units as the other column. The paid card is the one
+     with the accent border: not because the free path is a lesser product -- it
+     is the same binary -- but because it is the only column with an action we
+     can take on the reader's behalf. */
+  .fork{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,2.2vw,1.5rem);margin-top:clamp(2rem,4vw,2.9rem);align-items:stretch}
+  .fork-card{display:flex;flex-direction:column;padding:clamp(1.5rem,2.8vw,2.1rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:rgba(255,255,255,.028);box-shadow:var(--hl-top)}
+  /* the paid column: same ground, one accent hairline. A filled panel here would
+     read as the "real" product and undercut the sentence above it. */
+  .fork-card.pick{border-color:rgba(82,168,255,.42)}
+  .fork-k{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d}
+  .fork-card.pick .fork-k{color:var(--blue-l)}
+  .fork-card h3{margin-top:.55rem;font-size:clamp(1.1rem,1.8vw,1.32rem);font-weight:550;letter-spacing:-.02em;line-height:1.2;color:#fff}
+  .fork-card>p{margin-top:.55rem;color:var(--fg-2);font-size:.98rem;line-height:1.55;text-wrap:pretty}
+  /* the number sits on its own rule so both columns line their prices up on the
+     same baseline however long the paragraph above them runs */
+  .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
+  .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  .fork-price .per{font-size:.92rem;color:var(--fg-3)}
+  .fork-card ul{list-style:none;margin:clamp(1.05rem,2vw,1.35rem) 0 0;padding:0;display:grid;gap:.62rem}
+  .fork-card li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55rem;align-items:start;color:var(--fg-2);font-size:.94rem;line-height:1.5}
+  .fork-card li .tk{color:var(--blue-l);font-weight:500;line-height:1.5}
+  .fork-card li b{color:#fff;font-weight:550}
+  /* pinned to the foot so the two buttons agree on a line no matter how many
+     bullets each column carries */
+  .fork-act{margin-top:auto;padding-top:clamp(1.3rem,2.6vw,1.8rem)}
+  .fork-act .btn{width:100%;justify-content:center}
+  .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
+  @media (max-width:760px){.fork{grid-template-columns:1fr}}
 
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:var(--bg);color:var(--fg-3);padding:3.5rem 0 2.2rem}
