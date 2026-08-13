@@ -1197,101 +1197,6 @@
   .c-com{color:#7d8490}.c-key{color:#52A8FF}.c-fn{color:#9ecbff}.c-usr{color:#ffffff}.c-out{color:#52A8FF}.c-hl{color:#fff;font-weight:500;background:rgba(0,112,243,.18);padding:0 .2em;border-radius:3px}
   .caret{display:inline-block;width:.55em;height:1.05em;margin-left:1px;background:#ededed;vertical-align:text-bottom;animation:caretB 1s steps(2,start) infinite}
   @keyframes caretB{50%{opacity:0}}
-  /* ============ the stage: full-bleed funnel, and the copy is the core ============
-     There is no hexagon at the middle any more — the headline is what the field
-     converges on. Systems enter across the whole left edge and dissolve at the
-     words; sourced answers surface out of their right edge and fan back out over
-     the full height. The section owns a whole viewport, so the flow has room to
-     read as weather rather than as a widget in a box.
-
-     The three steps are not a caption underneath: they are anchored in the zones
-     they describe (01 over the intake, 02 under the core, 03 over the fan-out),
-     each tied up into the field by a hairline riser. Pointing at one — or the
-     slow auto-walk that runs for touch and keyboard — lights its half of the
-     field and dims the other two. ============================================ */
-  .stagesec{padding:0;overflow:hidden}
-  /* the floor is not decoration. A headline, a label row and three steps come to
-     roughly 570px whatever the window is; on a 720px laptop that leaves the
-     funnel about 150px to be a funnel in, and the geometry starts borrowing
-     space back off the copy. 780 buys the band its own room and costs a short
-     screen one scroll */
-  .stage{position:relative;min-height:max(780px,min(100svh,1100px));font-family:var(--font);isolation:isolate}
-  .dscene{position:absolute;inset:0;z-index:0}
-  .dscene canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .dfield{position:absolute;inset:0;overflow:hidden}
-  /* the core. Above the field, and opaque, so a system arriving at its face
-     goes behind it rather than over it: the funnel has to actually swallow
-     something for the direction to read. Box and type size come from the loop,
-     which measures them off the band the funnel is running in */
-  .dcore{position:absolute;left:0;top:0;width:var(--cw,144px);height:var(--ch,166px);display:grid;place-items:center;transform:translate3d(var(--cx,0),var(--cy,0),0);will-change:transform;pointer-events:none;filter:drop-shadow(0 0 26px rgba(206,216,233,.07))}
-  .dcore svg{position:absolute;inset:0;width:100%;height:100%}
-  /* the throat is a panel like every other object on the page: the ground's own
-     black, held by the same hairline the cards are held by. It was a blue
-     outline under a blue drop shadow, which is a colour this page spends on a
-     digit and a caret and nowhere at this size */
-  .dcore .hexb{fill:rgba(8,9,10,.97);stroke:rgba(255,255,255,.18);stroke-width:1;vector-effect:non-scaling-stroke}
-  .dcore b{position:relative;font-size:var(--cf,25px);font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1}
-  /* the field is masked away from the copy on the stacked layout, where the
-     flow runs in a band above the words instead of through them */
-  .stage.stacked .dscene canvas,.stage.stacked .dfield{-webkit-mask-image:linear-gradient(180deg,#000 var(--fade-a,70%),transparent var(--fade-b,88%));mask-image:linear-gradient(180deg,#000 var(--fade-a,70%),transparent var(--fade-b,88%))}
-  /* the field is full bleed, the copy in it is not: the labels and the three
-     steps sit on --maxw with .wrap's own gutters, so this section's left and
-     right edges are the page's edges. It ran to 1560 before, which put the
-     three steps a good deal wider than the figure row directly above them and
-     the numbered blocks directly below, and made the band read as a page of its
-     own laid over the one it is in */
-  .stage-grid{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr;min-height:max(780px,min(100svh,1100px));gap:clamp(1.6rem,3vh,2.6rem);width:min(var(--maxw),100%);margin-inline:auto;padding:calc(var(--nav-h) + clamp(1.4rem,3vh,2.4rem)) var(--bar-pad) clamp(2rem,5vh,3.4rem)}
-  /* The three zone labels that used to sit here, naming the ends of the funnel
-     in small grey type, are gone. The picture says which way it runs on its
-     own, and the three steps under it name the same zones in full sentences,
-     so the row was a caption for a caption. */
-  .stage-mid{display:grid;place-items:center;min-height:0}
-  .stage-head{max-width:none;text-align:center}
-  .stage-head .eyebrow{display:block;color:#8d939d}
-  .stage-head h2{max-width:17ch;margin:.9rem auto 0;font-size:clamp(2.15rem,4.2vw,3.6rem);line-height:1.04;letter-spacing:-.038em;text-wrap:balance}
-  .stage-head .sub{max-width:40ch;margin:1.15rem auto 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);text-wrap:pretty}
-  /* the band the flow runs through on the stacked layout. display:none, not
-     height:0, so that it is not a grid item here at all: as one it would take
-     the 1fr row and eat a gap, and its offsetHeight is the flag the loop reads
-     to decide which of the two regimes it is running */
-  .dband{display:none}
-  /* the steps, anchored in the field */
-  .stage-why3{align-self:end;margin-top:0}
-  .stage-why3 .wcard{position:relative;transition:border-color .5s cubic-bezier(.22,.61,.36,1)}
-  /* the riser: a hairline out of the top of each step into the zone it names */
-  .stage-why3 .wcard::before{content:"";position:absolute;left:0;bottom:100%;width:1px;height:clamp(18px,3.4vh,42px);background:linear-gradient(180deg,transparent,var(--line-2));transition:height .5s cubic-bezier(.22,.61,.36,1),background .5s ease,opacity .5s ease}
-  .stage-why3 .wcard h3,.stage-why3 .wcard p,.stage-why3 .wstep{transition:color .5s cubic-bezier(.22,.61,.36,1)}
-  .stage-why3 .wcard.on{border-top-color:rgba(82,168,255,.55)}
-  .stage-why3 .wcard.on::before{height:clamp(30px,6vh,86px);background:linear-gradient(180deg,transparent,rgba(82,168,255,.7))}
-  .stage-why3 .wcard.on .wstep{color:var(--blue-l)}
-  .stage-why3 .wcard.dim{border-top-color:var(--line)}
-  .stage-why3 .wcard.dim::before{opacity:.4}
-  .stage-why3 .wcard.dim h3{color:#7e828a}
-  .stage-why3 .wcard.dim p{color:var(--dim)}
-  .stage-why3 .wcard.dim .wstep{color:var(--dim)}
-  /* opacity:0 until the loop places them: an untransformed drift element sits
-     stacked in the frame's top-left corner, which used to flash on first paint */
-  .drift{position:absolute;left:0;top:0;opacity:0;display:flex;align-items:center;will-change:transform,opacity;pointer-events:none;color:#d6d9de}
-  .dico{width:46px;height:46px;justify-content:center;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:12px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4)}
-  .dico svg{width:22px;height:22px;flex:none}
-  .ico-attio svg{width:30px;height:30px}
-  .dpill{gap:.5rem;height:40px;padding:0 9px 0 12px;background:linear-gradient(180deg,#131316,#0c0c0f);border:1px solid var(--line);border-radius:10px;box-shadow:var(--hl-top),0 2px 6px rgba(0,0,0,.4);font-size:13px;font-weight:500;white-space:nowrap}
-  .dpill svg{width:15px;height:15px;flex:none}
-  .dpill b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;color:var(--fg-3);border:1px solid var(--line);border-radius:5px;padding:2.5px 6px}
-  /* the raw side. Mono, dim, and quoted the shape it arrived in: it is texture,
-     not reading matter, and the point it becomes comfortable to read is the
-     point it has stopped being raw. Sized so a lane can carry it between two
-     marks without either of them having to move */
-  .dbit{gap:.4rem;height:24px;max-width:var(--bitw,230px);padding:0 8px;background:rgba(255,255,255,.014);border:1px solid rgba(255,255,255,.05);border-radius:6px;font-family:var(--mono);font-size:10px;line-height:1;color:#6d727b;white-space:nowrap}
-  .dbit svg{width:11px;height:11px;flex:none;opacity:.55}
-  .dbit span{min-width:0;overflow:hidden;text-overflow:ellipsis}
-  /* the second thing riding out of the core: another read, shorter than the
-     headline one and set back from it. It is written, not counted. The mono
-     belongs to the raw end of the funnel and nothing that has been through the
-     middle should still be wearing it: the size and the weight carry the
-     hierarchy here, not the typeface */
-  .dfin{height:27px;padding:0 11px;background:rgba(255,255,255,.028);border:1px solid var(--line-2);border-radius:8px;font-family:var(--font);font-size:11.5px;font-weight:450;letter-spacing:-.005em;line-height:1;color:#aab6c6;white-space:nowrap}
-
   /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon.
      The canvas owns the whole section, so the fan runs off every edge instead of
      stopping at a wall; auto pointer-events let it answer the cursor, and the copy
@@ -2028,24 +1933,6 @@
     .deploy-cta .hero-actions{margin-top:.3rem}
   }
 
-  /* the stage stacks below 1080: there is no longer enough width either side of
-     the headline for a system to travel in and an answer to travel out, so the
-     flow moves up into its own band above the copy and the field is masked off
-     below it. Everything else about the section is unchanged — same zones, same
-     three steps, same lighting. */
-  @media (max-width:1079px){
-    .stage,.stage-grid{min-height:0}
-    .stage-grid{grid-template-rows:auto auto auto;padding-top:clamp(4.75rem,11vh,6.5rem);padding-bottom:clamp(2.5rem,6vh,3.5rem);gap:clamp(1.8rem,4vh,2.8rem)}
-    .dband{display:block;height:clamp(160px,27vh,250px)}
-    /* the strip runs above the copy here: source order would put it between the
-       words and the steps, which is the one place it has nothing to say */
-    .dband{order:1}.stage-mid{order:2}.stage-why3{order:3}
-    .stage-mid{align-items:start}
-    .stage-head h2{max-width:19ch}
-  }
-  @media (max-width:760px){
-    .dband{height:clamp(150px,24vh,200px)}
-  }
 
   /* 769-900 keeps the desktop two-column density; this just buys it room */
   @media (min-width:769px) and (max-width:900px){
@@ -2247,13 +2134,6 @@
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-    /* the stage's auto-walk never starts here, but a pointer can still reach a
-       step: hold every zone lit so nothing on the page dims and brightens */
-    .stage-why3 .wcard.dim h3{color:#fff}
-    .stage-why3 .wcard.dim p{color:var(--fg-3)}
-    .stage-why3 .wcard.dim .wstep,.stage-why3 .wcard.on .wstep{color:var(--dim)}
-    .stage-why3 .wcard.dim,.stage-why3 .wcard.on{border-top-color:var(--line-2)}
-    .stage-why3 .wcard.dim::before,.stage-why3 .wcard.on::before{opacity:1;height:clamp(18px,3.4vh,42px);background:linear-gradient(180deg,transparent,var(--line-2))}
     /* the row is static and near full width here, so the edge mask would be
        fading real names rather than a moving track */
     .marquee{-webkit-mask-image:none;mask-image:none;padding:0 24px}
