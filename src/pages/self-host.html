@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run fein yourself &middot; free, open source, on your own servers</title>
+<meta name="description" content="fein is Apache 2.0 licensed and free to self-host, forever. Clone the repository, add an LLM key, and run it. Here is what the setup involves and how long the parts really take.">
+<link rel="canonical" href="https://fein.vc/self-host">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08090A">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fein">
+<meta property="og:title" content="Run fein yourself">
+<meta property="og:description" content="Free, open source, on your own servers. Clone it and run it. Here is what the setup actually involves.">
+<meta property="og:url" content="https://fein.vc/self-host">
+<meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Run fein yourself">
+<meta name="twitter:description" content="Free, open source, on your own servers. Clone it and run it.">
+<meta name="twitter:image" content="https://fein.vc/og.png">
+
+<!-- Shared stylesheet, injected by build.js. See pricing.html. -->
+__STYLE__
+</head>
+<body>
+__LOGO_SPRITE__
+<a class="skip" href="#content">Skip to content</a>
+
+<main id="view-selfhost" class="seg">
+
+  <div class="topshell">
+    <header>
+      <div class="bar">
+        <a class="brand" href="/" aria-label="fein home">fein <span class="for">self-hosted</span></a>
+        <nav class="links" aria-label="Primary">
+          <a href="#need">What you need</a>
+          <a href="#steps">Setup</a>
+          <a href="#honest">How long it takes</a>
+        </nav>
+        <div class="right">
+          <a class="sbtn sbtn-sec" href="/deploy">Managed setup</a>
+          <a class="sbtn sbtn-pri" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <section class="seg-fold cta-dark">
+    <div class="grain-overlay on-dark"></div>
+    <div class="wrap" id="content" tabindex="-1">
+      <span class="eyebrow">run it yourself</span>
+      <h1>Clone it, run it, pay nothing.</h1>
+      <p>fein is Apache 2.0 licensed and self-hosted by design. There is no trial, no seat count and no paid tier of the software: the firms we deploy for run the same code you are about to clone. This page is the honest version of what setting it up involves.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>View on GitHub</a>
+        <a class="btn btn-ghost" href="#steps">Read the setup</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="need" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">what you need</span>
+        <h2>A machine, an LLM key, and someone comfortable in a terminal.</h2>
+        <p class="lead">The default stack runs entirely on disk, so there is nothing external to provision to get it going. Everything below is on your side of the line, and none of it involves us.</p>
+      </div>
+      <div class="why3" data-reveal-group="90">
+        <div class="wcard reveal"><span class="wstep">Infrastructure</span><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB and Ladybug, all on local disk. Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate and Milvus are swappable through the environment file when you outgrow that.</p></div>
+        <div class="wcard reveal"><span class="wstep">A model key</span><h3>An LLM API key</h3><p>Browsing works without one, but ingestion and search do not: adding a document runs entity extraction and embedding. It defaults to <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock and any OpenAI-compatible endpoint work too.</p></div>
+        <div class="wcard reveal"><span class="wstep">Credentials</span><h3>Admin access to each source</h3><p>Every system you want read has its own OAuth app or API credential to register: Gmail, Calendar, Drive, LinkedIn, your CRM. This is the part that takes the most calendar time, because it usually involves someone else at the firm.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="steps" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">setup</span>
+        <h2>Getting it running.</h2>
+        <p class="lead">The first three steps take an afternoon. The fourth is the one that takes real time, and it is worth reading before you start.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <div>
+            <b>Clone the repository</b>
+            <p>Everything is in one repo, including the connectors and the dashboard.</p>
+            <code>git clone https://github.com/clippycommits/fein
+cd fein</code>
+          </div>
+        </li>
+        <li>
+          <div>
+            <b>Add a model key</b>
+            <p>Copy the template and put your key in it. The template documents every provider and every swappable database.</p>
+            <code>cp .env.template .env
+# then set LLM_API_KEY="sk-..." in .env</code>
+          </div>
+        </li>
+        <li>
+          <div>
+            <b>Start the stack</b>
+            <p>One command. It creates the Python environment if it is missing, installs the UI dependencies if they are missing, starts the API on port 8000 and the dashboard on port 3000, waits for both to answer, and opens a browser. Logs land in <code>.run/api.log</code> and <code>.run/ui.log</code>.</p>
+            <code>./fein          # start the stack
+./fein stop     # stop it
+./fein status   # what is running</code>
+          </div>
+        </li>
+        <li>
+          <div>
+            <b>Connect your sources, then backfill</b>
+            <p>Register an OAuth app for each system, connect it in the dashboard, and let fein read your history back. This is where the weeks go. See below.</p>
+          </div>
+        </li>
+      </ol>
+      <p class="pnote"><b>One thing to get right before anyone else uses it.</b> The local stack runs single-user with authentication off, which is fine on your laptop and wrong for anything shared. Set <code>ENABLE_BACKEND_ACCESS_CONTROL=True</code> and put real per-user isolation in place before you point a team at it.</p>
+    </div>
+  </section>
+
+  <section id="honest" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">how long it takes</span>
+        <h2>The install is an afternoon. The rest is not.</h2>
+        <p class="lead">We would rather say this here than have you find it out in week three. Getting fein running is genuinely quick. Getting it useful means pointing it at a decade of real mail, and that is a different job.</p>
+      </div>
+      <div class="offer reveal">
+        <h3>Where the time actually goes</h3>
+        <ul>
+          <li><span class="tk">&rarr;</span><span><b>OAuth apps, one per source.</b> Each of Gmail, Calendar, Drive, LinkedIn and your CRM needs its own registered application and admin consent. Google and Microsoft both review some scopes. Budget days, not hours, and most of it is waiting on other people.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>The historical backfill.</b> Reading years of mail and documents is slow, rate-limited by the upstream APIs, and needs restarting when it breaks. This is the single longest step.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Entity resolution.</b> A decade of mail contains a great many people who look like four people: work address, personal address, a maiden name, a typo. Getting one record per human is what separates a graph that answers well from one that answers plausibly.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Keeping it alive.</b> Upstream APIs change on their own schedule. Once fein is load-bearing, somebody at the firm owns thirty integrations for as long as you run it.</span></li>
+        </ul>
+      </div>
+      <!-- the route back. Before this page existed, a reader who followed the
+           fold's open-source claim landed on a README and the funnel ended
+           there. This is the only paragraph on the page that mentions the paid
+           option, and it comes after the honest account rather than instead of
+           it: the argument for the managed path is the work above, stated
+           plainly, not a feature the free column is missing. -->
+      <div class="deploy-cta reveal">
+        <div>
+          <b>If that reads like a quarter of someone's time, it is.</b>
+          <p>That is the whole reason the managed option exists. Same software, same servers, same licence; an engineer of ours does the four things above and hands it over working on day 14. If you would rather do it yourself, everything you need is public and we are not holding anything back.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-white" href="/deploy">See the managed setup</a>
+          <a class="arrowlink" style="color:#fff" href="/pricing">Compare the two <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="questions" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">questions</span>
+        <h2>What self-hosters ask.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is this a crippled version of the paid product?</summary>
+          <p>No. There is one codebase and one binary. The firms paying us run exactly what you clone, with no feature flags separating them from you. What they buy is setup and upkeep, not access.</p>
+        </details>
+        <details>
+          <summary>What is the licence, exactly?</summary>
+          <p>Apache 2.0. fein is a derivative of <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener">topoteretes/cognee</a>, which carries that licence, and we retain it along with the upstream attribution and a statement of changes. You can run it commercially, modify it, and keep your changes private. The one obligation Apache adds over a shorter licence is attribution: keep the NOTICE file with the code.</p>
+        </details>
+        <details>
+          <summary>Do you see anything we run?</summary>
+          <p>Nothing. There is no telemetry, no analytics and no control plane. We have no way of knowing you are running it unless you tell us, which is also why we cannot help unprompted when something breaks.</p>
+        </details>
+        <details>
+          <summary>Can we get support?</summary>
+          <p>Through GitHub issues, alongside everyone else, at whatever pace we get to them. Guaranteed response times and a named engineer are what the managed plan is.</p>
+        </details>
+        <details>
+          <summary>Can we start here and move to managed later?</summary>
+          <p>Yes, and it is a sensible way to do it. We pick up whatever you have already built rather than starting again. The build fee is the same either way.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div class="fbrand">
+          <a class="brand" href="/">fein</a>
+          <p>The open-source context graph for investment teams.</p>
+        </div>
+        <nav class="fcol" aria-label="Footer ways to run fein">
+          <b>Get fein</b>
+          <a href="/self-host">Run it yourself</a>
+          <a href="/deploy">Managed setup</a>
+          <a href="/pricing">Pricing</a>
+          <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer firms">
+          <b>Firms</b>
+          <a href="/">For venture capital</a>
+          <a href="/pe">For private equity</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer contact">
+          <b>Contact</b>
+          <a href="/demo">Get a demo</a>
+          <a href="mailto:sales@fein.vc">sales@fein.vc</a>
+        </nav>
+      </div>
+      <p class="fbottom">&copy; 2026 fein &middot; free and open source &middot; <a href="/privacy">privacy</a> &middot; <a href="/terms">terms</a></p>
+    </div>
+  </footer>
+</main>
+
+<script>
+/* scroll-reveal, the same rise-and-fade the index page uses: the shared
+   stylesheet ships .reveal at opacity 0, so without this the page is blank. */
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!items.length) return;
+  [].forEach.call(document.querySelectorAll('[data-reveal-group]'),function(group){
+    var step=parseInt(group.getAttribute('data-reveal-group'),10)||90;
+    [].forEach.call(group.querySelectorAll('.reveal'),function(el,i){
+      el.style.transitionDelay=(i*step)+'ms';
+    });
+  });
+  if(reduce || !('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  },{threshold:0.12, rootMargin:'0px 0px -6% 0px'});
+  items.forEach(function(el){ io.observe(el); });
+})();
+</script>
+__ANALYTICS__
+</body>
+</html>

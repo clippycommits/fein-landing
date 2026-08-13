@@ -1767,12 +1767,79 @@
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
   @media (max-width:760px){.fork{grid-template-columns:1fr}}
 
+  /* ---- price table, offer panel and FAQ ----
+     These three were page-local to /pe, written when /pe was the only page that
+     carried a price. The offer now lives on /pricing and /deploy as well, and
+     the index page's fork links at both, so they are shared components here:
+     one definition, four pages, no drift. */
+  .ptable{width:100%;border-collapse:collapse;margin-top:clamp(1.8rem,3.6vw,2.6rem);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--bg-2);text-align:left}
+  .ptable caption{caption-side:top;padding:.7rem 1.05rem;background:rgba(255,255,255,.02);border-bottom:1px solid var(--line);font-size:.8rem;font-weight:500;color:var(--fg-3);text-align:left}
+  .ptable td{padding:.9rem 1.05rem;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--fg-2)}
+  .ptable tr:last-child td{border-bottom:0}
+  .ptable td:first-child{color:#fff;font-weight:500;letter-spacing:-.012em}
+  .ptable td:last-child{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff;font-weight:550}
+  .ptable tr:last-child td:last-child{color:var(--blue-l)}
+  .ptable .per{color:var(--dim);font-weight:450;font-size:.86rem}
+  .pnote{margin-top:1.1rem;font-size:.92rem;line-height:1.65;color:var(--fg-3);max-width:62ch;text-wrap:pretty}
+  .pnote b{color:#fff;font-weight:550}
+
+  .offer{margin-top:clamp(2rem,4vw,2.8rem);padding:clamp(1.3rem,2.4vw,1.8rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:var(--bg-2);box-shadow:var(--hl-top)}
+  .offer h3{font-size:1.05rem;font-weight:550;letter-spacing:-.02em}
+  .offer ul{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.8rem}
+  .offer li{display:grid;grid-template-columns:auto 1fr;gap:.7rem;align-items:start;font-size:.93rem;line-height:1.6;color:var(--fg-3)}
+  .offer .tk{color:var(--blue-l);font-family:var(--mono);font-size:.8rem;line-height:1.65}
+  .offer b{color:#fff;font-weight:550}
+
+  /* FAQ: the objections a team raises on the first call, in the order they
+     raise them. Open markup, so a crawler reads the answers too. */
+  .faq{margin-top:clamp(1.8rem,3.6vw,2.6rem);border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;padding:1.05rem 2.2rem 1.05rem 0;position:relative;font-size:1rem;font-weight:500;color:#fff;letter-spacing:-.016em;transition:color .18s ease}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:hover{color:var(--blue-l)}
+  .faq summary::after{content:"";position:absolute;right:.4rem;top:50%;width:9px;height:9px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);translate:0 -60%;rotate:45deg;transition:rotate .22s ease,border-color .18s ease}
+  .faq details[open] summary::after{rotate:225deg;translate:0 -20%;border-color:var(--blue-l)}
+  .faq details p{margin:0 0 1.1rem;max-width:68ch;font-size:.95rem;line-height:1.7;color:var(--fg-3);text-wrap:pretty}
+  .faq details p + p{margin-top:-.3rem}
+  .faq summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+  /* ---- segment-page chrome ----
+     /self-host, /deploy and /pricing are plain documents: a fixed bar, a fold,
+     bands. /pe carries its own copy of these two rules because it predates them
+     and also restyles the bar; these are here so a new segment page needs no
+     stylesheet of its own at all. */
+  .seg .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left}
+  .seg .brand .for{margin-left:.5rem;padding-left:.55rem;border-left:1px solid var(--line-2);font-family:var(--font);font-size:.82rem;font-weight:450;letter-spacing:-.01em;color:var(--fg-3)}
+  @media(max-width:640px){.seg .brand .for{display:none}}
+  /* the fold on a document page: no generative art behind it, so the headline
+     carries it. Sized under the index h1 so neither reads as the other. */
+  .seg-fold{padding:calc(var(--nav-h) + clamp(3.2rem,7vw,5.4rem)) 0 clamp(2.4rem,5vw,3.6rem)}
+  .seg-fold h1{font-size:clamp(1.85rem,4.1vw,3.15rem);font-weight:500;letter-spacing:-.032em;line-height:1.06;text-wrap:balance;max-width:20ch}
+  .seg-fold>p{margin-top:clamp(1rem,2vw,1.35rem);max-width:60ch;font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.55;color:var(--fg-2);text-wrap:pretty}
+  .seg-fold .hero-actions{margin-top:clamp(1.6rem,3vw,2.2rem)}
+  /* the step list on /self-host: a numbered run with the command under each. */
+  .steps{list-style:none;margin:clamp(1.8rem,3.6vw,2.6rem) 0 0;padding:0;counter-reset:s}
+  .steps li{counter-increment:s;border-top:1px solid var(--line);padding:1.15rem 0 1.35rem;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem 1rem}
+  .steps li::before{content:counter(s,decimal-leading-zero);grid-row:1 / span 3;font-family:var(--font);font-size:.76rem;font-weight:500;line-height:1.5;color:var(--blue-l);font-variant-numeric:tabular-nums}
+  .steps b{color:#fff;font-weight:550;font-size:1rem;letter-spacing:-.016em}
+  .steps p{margin-top:.35rem;color:var(--fg-3);font-size:.94rem;line-height:1.6;max-width:64ch;text-wrap:pretty}
+  .steps code{display:block;margin-top:.7rem;padding:.7rem .9rem;border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg-2);font-family:var(--mono);font-size:.84rem;line-height:1.6;color:var(--fg-2);overflow-x:auto;white-space:pre}
+
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:var(--bg);color:var(--fg-3);padding:3.5rem 0 2.2rem}
-  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2rem}
-  /* four columns need more room than three, and the 1fr collapse below only
+  /* five tracks since the fork got its own column. The brand track gives up the
+     width rather than the four nav columns, which are set by their longest link
+     and start wrapping the moment they lose a pixel. */
+  .fgrid{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr 1fr;gap:2rem}
+  /* five columns need more room than four, and the 1fr collapse below only
      arrives at 640px. Without this the Firms column is a 129px track on a
-     tablet and "For private equity" wraps onto three lines. */
+     tablet and "For private equity" wraps onto three lines. The brand spans the
+     row above the nav columns rather than taking a track beside them, which is
+     what keeps all four of those readable at this width. */
+  @media (max-width:1100px){
+    .fgrid{grid-template-columns:repeat(4,1fr);gap:2.2rem 1.5rem}
+    .fgrid .fbrand{grid-column:1 / -1}
+  }
   @media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr;gap:2rem 1.5rem}}
   .fbrand .brand{font-size:1.15rem}
   .fbrand p{margin-top:.6rem;font-size:.92rem;max-width:26ch}
@@ -2264,39 +2331,47 @@ setTimeout(go,1200);})()</script>
             </div>
             <p class="dd-label">Ecosystem</p>
             <div class="dd-grid">
-              <a class="dd-item" href="#deploy"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 4v9l-7 4-7-4v-9z"/><path d="M5 7.5l7 4 7-4"/><path d="M12 11.5v9"/></svg></span><span><b>Developer Platform</b><span>Build with the fein MCP and API</span></span></a>
-              <a class="dd-item" href="#security"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="14.5" y="14.5" width="6" height="6" rx="1.6"/></svg></span><span><b>Open source</b><span>Run it on your own servers</span></span></a>
+              <a class="dd-item" href="/deploy"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 4v9l-7 4-7-4v-9z"/><path d="M5 7.5l7 4 7-4"/><path d="M12 11.5v9"/></svg></span><span><b>Managed setup</b><span>An engineer builds it into your stack</span></span></a>
+              <a class="dd-item" href="/self-host"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="14.5" y="14.5" width="6" height="6" rx="1.6"/></svg></span><span><b>Open source</b><span>Clone it and run it for nothing</span></span></a>
             </div>
           </div>
+          <!-- the rail is where a reader who has decided goes next, so it carries
+               the fork rather than a second copy of the tour: the free path, the
+               managed one, and the page that prices both against each other. -->
           <div class="dd-rail">
             <p class="dd-label">Get started</p>
-            <a href="#stance">fein 101</a>
-            <a href="#how">See how it works</a>
+            <a href="/self-host">Run it yourself</a>
+            <a href="/deploy">Managed setup</a>
+            <a href="/pricing">Pricing</a>
             <a href="/demo">Get a demo</a>
           </div>
         </div>
+        <!-- This panel used to advertise a Help center, an Academy, a partner
+             programme, a changelog, an announcements feed, an engineering blog
+             and a careers page. None of the seven existed: every one was
+             href="#", so the whole menu scrolled the reader back to the top of
+             the page they were already on. A nav that promises an Academy and
+             delivers a no-op costs more trust than a smaller nav does.
+             It now lists what there is, which happens to be the fork. When the
+             Help center and the rest get built they come back here. -->
         <div class="ddpanel ddp-resources" id="dd-resources">
           <div class="dd-main">
-            <p class="dd-label">Support</p>
+            <p class="dd-label">Get fein</p>
             <div class="dd-grid one">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11L20.5 4l-5 16-4-6.5z"/><path d="M11.5 13.5L20.5 4"/></svg></span><span><b>Help center</b><span>Learn about fein's features</span></span></a>
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 5l9 4.5-9 4.5z"/><path d="M7 11.5v4.2c0 1.1 2.2 2.3 5 2.3s5-1.2 5-2.3v-4.2"/><path d="M21 9.5v5"/></svg></span><span><b>Academy</b><span>Learn the main fein features</span></span></a>
+              <a class="dd-item" href="/self-host"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.8"/><rect x="14.5" y="14.5" width="6" height="6" rx="1.6"/></svg></span><span><b>Run it yourself</b><span>Free forever, on your own servers</span></span></a>
+              <a class="dd-item" href="/deploy"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l7 4v9l-7 4-7-4v-9z"/><path d="M5 7.5l7 4 7-4"/><path d="M12 11.5v9"/></svg></span><span><b>Managed setup</b><span>An engineer builds it in 14 days</span></span></a>
             </div>
             <p class="dd-label">Developers</p>
             <div class="dd-grid one">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2z"/><path d="M12 6.5v13"/></svg></span><span><b>Developer docs</b><span>Start to build with fein</span></span></a>
-            </div>
-            <p class="dd-label">Partners</p>
-            <div class="dd-grid one">
-              <a class="dd-item" href="#"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="14" height="12" rx="2"/><path d="M9.8 7V5.6a2.2 2.2 0 1 1 4.4 0V7"/></svg></span><span><b>Partner programs</b><span>Developers, creators, consultants</span></span></a>
+              <a class="dd-item" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener"><span class="dd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2z"/><path d="M12 6.5v13"/></svg></span><span><b>Source and docs</b><span>The repository, Apache 2.0 licensed</span></span></a>
             </div>
           </div>
           <div class="dd-rail">
             <p class="dd-label">Company</p>
-            <a href="#">Changelog</a>
-            <a href="#">Announcements</a>
-            <a href="#">Engineering blog</a>
-            <a href="#">Careers</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/pe">For private equity</a>
+            <a href="/demo">Get a demo</a>
+            <a href="mailto:sales@fein.vc">Contact sales</a>
           </div>
         </div>
       </div>
@@ -2310,6 +2385,10 @@ setTimeout(go,1200);})()</script>
         <a href="#how">How it works</a>
         <a href="#security">Security</a>
         <a href="/pe">For private equity</a>
+        <div class="sep" aria-hidden="true"></div>
+        <a href="/self-host">Run it yourself</a>
+        <a href="/deploy">Managed setup</a>
+        <a href="/pricing">Pricing</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="#">Sign in</a>
         <a href="/demo">Get a demo</a>
@@ -2332,11 +2411,15 @@ setTimeout(go,1200);})()</script>
       <p>Built with privacy at its core, fein is an open source context graph that transforms your fund's raw data into intelligent, searchable memory for agents and humans.<span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg> and CLI.</span></p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/demo">Get a demo</a>
-        <!-- the second action is the repository again, as it was before it pointed
-             at the app: the fold says open source, and this is the only place a
-             reader can act on that. "View on GitHub" is what the button is called
-             everywhere else, so it is what it is called here. -->
-        <a class="btn btn-ghost" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener" aria-label="View on GitHub: the fein source repository"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>View on GitHub</a>
+        <!-- the second action used to be the repository, on the argument that the
+             fold says open source and this was the only place to act on it. It
+             was also the only exit in the fold, and it led off the site: a reader
+             who believed the headline left for GitHub from the first screen and
+             had no reason to come back. The fold now forks the way the page does,
+             into the two ways to have fein, and /self-host carries the repository
+             link along with what running it actually involves. The mark stays:
+             it is what makes the ghost button read as the free path at a glance. -->
+        <a class="btn btn-ghost" href="/self-host" aria-label="Run fein yourself: the free, self-hosted path"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Run it yourself</a>
       </div>
 
       <!-- THE FOLD'S PICTURE: one answer, and the record it was read from.
@@ -3138,6 +3221,59 @@ setTimeout(go,1200);})()</script>
   </section>
 
 
+  <!-- THE FORK: the band this site was missing.
+       "open source" is claimed in the fold, again in the security band above,
+       and a third time in the footer, and until now the only thing a reader
+       could do about it was leave for GitHub. Every action on the page was a
+       demo booking, which made the licence read as a trust badge rather than an
+       offer. Two columns, both priced, because there are exactly two ways to
+       have fein and the reader is picking one.
+
+       It sits here on purpose. Before the security band the reader has not been
+       shown enough to care what it costs; after the fortnight band the choice
+       has already been made for them. Here they have just finished reading that
+       the code is auditable end to end, which is the sentence that makes the
+       free column believable. -->
+  <section id="choose" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">two ways to run it</span>
+        <h2>The software is free. The setup is what costs.</h2>
+        <p class="lead">fein is Apache 2.0 licensed and self-hosted. Clone it, point it at your systems, and run it for nothing, for as long as you like. Most firms would rather not: the work is connector plumbing, entity resolution and a backfill over years of mail, and that is the part that takes months. So the thing we sell is the fortnight, not the software.</p>
+      </div>
+      <div class="fork" data-reveal-group="90">
+        <div class="fork-card reveal">
+          <span class="fork-k">run it yourself</span>
+          <h3>Clone it and go</h3>
+          <p>The whole platform, Apache 2.0 licensed, on your own servers. No trial, no seat count, and no call with us.</p>
+          <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
+          <ul>
+            <li><span class="tk">&rarr;</span><span><b>Every feature the managed firms run.</b> There is no paid tier of the software, and no feature held back to make one.</span></li>
+            <li><span class="tk">&rarr;</span><span>The 30+ connectors, the MCP endpoint, the graph, the audit trail.</span></li>
+            <li><span class="tk">&rarr;</span><span>You bring the servers, the API credentials for each source, and the engineering time.</span></li>
+            <li><span class="tk">&rarr;</span><span>Budget several weeks for the historical backfill and for resolving duplicate people.</span></li>
+          </ul>
+          <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Set it up yourself</a></div>
+        </div>
+        <div class="fork-card pick reveal">
+          <span class="fork-k">we deploy it</span>
+          <h3>A forward-deployed engineer</h3>
+          <p>One of our engineers builds fein into your stack, and stays on it afterwards. Your part is two short calls.</p>
+          <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
+          <ul>
+            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> The date is a commitment, not an estimate.</span></li>
+            <li><span class="tk">&rarr;</span><span>We connect every source, resolve the duplicates, and read your full history back.</span></li>
+            <li><span class="tk">&rarr;</span><span>The monthly fee keeps each connector working through every API change, and builds new answers on request.</span></li>
+            <li><span class="tk">&rarr;</span><span>Priced on fund size, never per seat. Month to month, no lock-in.</span></li>
+          </ul>
+          <div class="fork-act"><a class="btn btn-primary" href="/deploy">See what the fortnight covers</a></div>
+        </div>
+      </div>
+      <p class="fork-note">Both columns run the same code, on your own infrastructure, under the same licence. If you take the managed path and later stop paying, the software and the graph stay where they are and keep working. <a class="arrowlink" href="/pricing">Full pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+    </div>
+  </section>
+
+
   <!-- MANAGED INSTALLATION: the offer, and the orbit that shows what it buys.
        the orbit composition was the old second hero, where it repeated the
        promise the lead hero already makes. it belongs here: the art is fein
@@ -3186,8 +3322,14 @@ setTimeout(go,1200);})()</script>
       </div>
       <div class="deploy-cta reveal">
         <div>
-          <b>We set it up. You keep it.</b>
-          <p>Two short calls, fourteen days, and fein is running on your own servers, on code you can read. Book the first call and we will walk your stack with you.</p>
+          <!-- this used to read "We set it up. You keep it.", which sat a few
+               centimetres from a monthly fee and read as a one-off. Both halves
+               were true and the pair was not: what you keep is the software and
+               the graph, on your hardware, whether or not you are still paying.
+               What the month buys is the upkeep. Saying which is which here is
+               the difference between a clear offer and a caught contradiction. -->
+          <b>We set it up. You own what we build.</b>
+          <p>Two short calls, fourteen days, and fein is running on your own servers, on code you can read. The monthly fee keeps the connectors alive after that. Stop it whenever you like and the software and the graph stay yours.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-white" href="/demo">Get a demo</a>
@@ -3209,6 +3351,16 @@ setTimeout(go,1200);})()</script>
           <a href="#features">Features</a>
           <a href="#how">How it works</a>
           <a href="#security">Security</a>
+        </nav>
+        <!-- the fork, in the one place on the page a reader looks when they have
+             finished reading and want the thing itself. The footer said "free and
+             open source" on the line below this for months with no route to it. -->
+        <nav class="fcol" aria-label="Footer ways to run fein">
+          <b>Get fein</b>
+          <a href="/self-host">Run it yourself</a>
+          <a href="/deploy">Managed setup</a>
+          <a href="/pricing">Pricing</a>
+          <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
         <nav class="fcol" aria-label="Footer firms">
           <b>Firms</b>

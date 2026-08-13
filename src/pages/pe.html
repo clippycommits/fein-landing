@@ -75,37 +75,10 @@ __STYLE__
   .plist b{display:block;color:#fff;font-weight:550;font-size:.99rem;letter-spacing:-.016em;margin-bottom:.3rem}
   @media(max-width:860px){.plist{grid-template-columns:minmax(0,1fr);gap:1.4rem}}
 
-  /* price table: the row rhythm of .why-grid, two columns instead of three */
-  .ptable{width:100%;border-collapse:collapse;margin-top:clamp(1.8rem,3.6vw,2.6rem);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--bg-2);text-align:left}
-  .ptable caption{caption-side:top;padding:.7rem 1.05rem;background:rgba(255,255,255,.02);border-bottom:1px solid var(--line);font-size:.8rem;font-weight:500;color:var(--fg-3);text-align:left}
-  .ptable td{padding:.9rem 1.05rem;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--fg-2)}
-  .ptable tr:last-child td{border-bottom:0}
-  .ptable td:first-child{color:#fff;font-weight:500;letter-spacing:-.012em}
-  .ptable td:last-child{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff;font-weight:550}
-  .ptable tr:last-child td:last-child{color:var(--blue-l)}
-  .ptable .per{color:var(--dim);font-weight:450;font-size:.86rem}
-  .pnote{margin-top:1.1rem;font-size:.92rem;line-height:1.65;color:var(--fg-3);max-width:62ch;text-wrap:pretty}
-  .pnote b{color:#fff;font-weight:550}
-
-  .offer{margin-top:clamp(2rem,4vw,2.8rem);padding:clamp(1.3rem,2.4vw,1.8rem);border:1px solid var(--line-2);border-radius:var(--r-lg);background:var(--bg-2);box-shadow:var(--hl-top)}
-  .offer h3{font-size:1.05rem;font-weight:550;letter-spacing:-.02em}
-  .offer ul{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.8rem}
-  .offer li{display:grid;grid-template-columns:auto 1fr;gap:.7rem;align-items:start;font-size:.93rem;line-height:1.6;color:var(--fg-3)}
-  .offer .tk{color:var(--blue-l);font-family:var(--mono);font-size:.8rem;line-height:1.65}
-  .offer b{color:#fff;font-weight:550}
-
-  /* FAQ: the objections a deal team raises on the first call, in the order
-     they raise them. Open markup, so a crawler reads the answers too. */
-  .faq{margin-top:clamp(1.8rem,3.6vw,2.6rem);border-top:1px solid var(--line)}
-  .faq details{border-bottom:1px solid var(--line)}
-  .faq summary{list-style:none;cursor:pointer;padding:1.05rem 2.2rem 1.05rem 0;position:relative;font-size:1rem;font-weight:500;color:#fff;letter-spacing:-.016em;transition:color .18s ease}
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary:hover{color:var(--blue-l)}
-  .faq summary::after{content:"";position:absolute;right:.4rem;top:50%;width:9px;height:9px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);translate:0 -60%;rotate:45deg;transition:rotate .22s ease,border-color .18s ease}
-  .faq details[open] summary::after{rotate:225deg;translate:0 -20%;border-color:var(--blue-l)}
-  .faq details p{margin:0 0 1.1rem;max-width:68ch;font-size:.95rem;line-height:1.7;color:var(--fg-3);text-wrap:pretty}
-  .faq details p + p{margin-top:-.3rem}
-  .faq summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+  /* .ptable, .pnote, .offer and .faq used to be defined here. They are in the
+     shared sheet now: /pricing and /deploy set prices and answer objections in
+     the same components, and three hand-copied versions of a price table agree
+     with each other only on the day the third one is written. */
 
   /* the form. Two columns on a desktop, the copy holding the left. */
   .formwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2.4rem,6vw,5rem);align-items:start}
@@ -146,6 +119,7 @@ __LOGO_SPRITE__
             <a href="#how">How it works</a>
             <a href="#security">Security</a>
             <a href="#pricing">Pricing</a>
+            <a href="/self-host">Run it yourself</a>
           </nav>
           <div class="right">
             <a class="sbtn sbtn-sec" href="/">For venture capital</a>
@@ -425,10 +399,46 @@ __LOGO_SPRITE__
     </div>
   </section>
 
+  <!-- The offer, in the two columns the rest of the site now uses. /pricing is
+       the canonical page for this and carries the same numbers; this page keeps
+       its own copy on purpose, because it is a cold outbound landing page and
+       sending a stranger to a second URL to find out what it costs loses them.
+       The components are shared, so the two cannot drift on styling; the numbers
+       are the thing to change in both places. -->
   <section id="pricing" class="band">
     <div class="wrap">
       <div class="head reveal">
         <p class="eyebrow">Pricing</p>
+        <h2>The software is free. The setup is what costs.</h2>
+        <p class="lead">fein is Apache 2.0 licensed and self-hosted. Your team can clone it and run it for nothing. What a deal team usually buys instead is the fortnight: an engineer who connects every source, resolves a decade of duplicate contacts, and hands over a working graph on day 14.</p>
+      </div>
+      <div class="fork" data-reveal-group="90">
+        <div class="fork-card reveal">
+          <span class="fork-k">run it yourself</span>
+          <h3>Self-hosted</h3>
+          <p>The whole platform on your own servers. No trial, no seat count, no call with us.</p>
+          <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
+          <ul>
+            <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier of the software.</span></li>
+            <li><span class="tk">&rarr;</span><span>Your engineers do the setup, the credentials and the backfill.</span></li>
+          </ul>
+          <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Set it up yourself</a></div>
+        </div>
+        <div class="fork-card pick reveal">
+          <span class="fork-k">we deploy it</span>
+          <h3>Managed setup</h3>
+          <p>A forward-deployed engineer builds fein into your stack and stays on it.</p>
+          <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
+          <ul>
+            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls.</span></li>
+            <li><span class="tk">&rarr;</span><span>Connectors kept working through every upstream API change.</span></li>
+          </ul>
+          <div class="fork-act"><a class="btn btn-primary" href="#start">Book 20 minutes</a></div>
+        </div>
+      </div>
+
+      <div class="head reveal" style="margin-top:clamp(3rem,6vw,4.5rem)">
+        <p class="eyebrow">the monthly fee</p>
         <h2>We price on fund size. We never price per seat.</h2>
         <p class="lead">An analyst who keeps this record current costs six figures each year. The graph then lives in that one person&rsquo;s head. fein costs less than one month of that analyst. Every person at your firm can query it.</p>
       </div>
@@ -442,7 +452,7 @@ __LOGO_SPRITE__
           <tr><td>Clone it and run it yourself</td><td>$0 <span class="per">/ forever</span></td></tr>
         </tbody>
       </table>
-      <p class="pnote">You also pay <b>$5,000 once</b>. That fee builds fein into your stack, and it is live in 14 days. <b>An annual plan, paid in advance, costs 15% less.</b> The code is MIT licensed, so you can always run it yourself for nothing. The fee pays for the engineer who builds fein into your environment. That engineer also keeps each connector working through every API change.</p>
+      <p class="pnote">You also pay <b>$5,000 once</b>. That fee builds fein into your stack, and it is live in 14 days. <b>An annual plan, paid in advance, costs 15% less.</b> The code is Apache 2.0 licensed, so you can always run it yourself for nothing. The fee pays for the engineer who builds fein into your environment. That engineer also keeps each connector working through every API change.</p>
 
       <div class="offer reveal">
         <h3>We take five firms this quarter.</h3>
@@ -512,7 +522,7 @@ __LOGO_SPRITE__
         </details>
         <details>
           <summary>Can we run it ourselves?</summary>
-          <p>Yes. fein is MIT licensed and the repository is public. The code we deploy for clients is the code you clone. The fee pays for the build and the upkeep. Your engineers then build on top of the graph instead of maintaining connectors.</p>
+          <p>Yes. fein is Apache 2.0 licensed and the repository is public. The code we deploy for clients is the code you clone. The fee pays for the build and the upkeep. Your engineers then build on top of the graph instead of maintaining connectors.</p>
         </details>
         <details>
           <summary>What happens if we cancel?</summary>
@@ -578,7 +588,13 @@ __LOGO_SPRITE__
           <a href="#what">What you get</a>
           <a href="#how">How it works</a>
           <a href="#security">Security</a>
-          <a href="#pricing">Pricing</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer ways to run fein">
+          <b>Get fein</b>
+          <a href="/self-host">Run it yourself</a>
+          <a href="/deploy">Managed setup</a>
+          <a href="/pricing">Pricing</a>
+          <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
         <nav class="fcol" aria-label="Footer firms">
           <b>Firms</b>
@@ -589,7 +605,6 @@ __LOGO_SPRITE__
           <b>Contact</b>
           <a href="#start">Book 20 minutes</a>
           <a href="mailto:sales@fein.vc">sales@fein.vc</a>
-          <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
       </div>
       <p class="fbottom">&copy; 2026 fein &middot; free and open source &middot; <a href="/privacy">privacy</a> &middot; <a href="/terms">terms</a></p>

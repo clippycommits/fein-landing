@@ -374,6 +374,9 @@ fs.writeFileSync(path.join(out, "robots.txt"), robots);
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image><video:video><video:thumbnail_loc>${SITE}/video/fein-demo-poster.jpg</video:thumbnail_loc><video:title>${VIDEO_NAME}</video:title><video:description>${VIDEO_DESC}</video:description><video:content_loc>${SITE}/video/fein-demo-1440.mp4</video:content_loc><video:duration>26</video:duration><video:publication_date>${VIDEO_UPLOADED}</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video></url>
+  <url><loc>${SITE}/pricing</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/deploy</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/self-host</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/demo</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>${SITE}/privacy</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
@@ -409,7 +412,10 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // /demo predates this and still carries its own reduced sheet, which is correct
 // for a page whose job is one form; the split is per page, not global. ----
 const spriteAll = spriteHero + spriteRest;
-["pe", "demo"].forEach(function (slug) {
+// /self-host, /deploy and /pricing are the fork: the free path, the managed one,
+// and the page that prices them against each other. They carry no stylesheet of
+// their own at all, which is what __STYLE__ was built for.
+["pe", "demo", "self-host", "deploy", "pricing"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__STYLE__").join(styleBlock)
     .split("__LOGO_SPRITE__").join(spriteAll)
@@ -425,7 +431,7 @@ const spriteAll = spriteHero + spriteRest;
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the open-source context graph for an investment team. It is the shared memory that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is live in 14 days. It is self-hosted on the team's own infrastructure. It is open source. Pricing: $5,000 to build once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. It is free if the team runs it.`;
+const LLMS_SUMMARY = `> fein is the open-source context graph for an investment team. It is the shared memory that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -461,12 +467,14 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - It works with DealCloud, Affinity, Salesforce, and Attio. It replaces no system and migrates no data.
 
 ## Pricing
-- $5,000 to build once. That fee builds fein into the firm's stack.
+- There are two ways to have fein and they run the same software. The full comparison is at ${SITE}/pricing.
+- Running it yourself is free, forever. The code is Apache 2.0 licensed. There is no paid tier of the software, and no feature is held back to make one. The page for this path is ${SITE}/self-host.
+- The paid offer is setup and upkeep, never access. The page for this path is ${SITE}/deploy.
+- Managed setup: $5,000 to build once. A forward deployed engineer connects every source, resolves duplicate people, reads the firm's full history back, and hands over a working graph on day 14.
 - Then a monthly fee, priced on fund size, never per seat: under $250M is $1,000 each month; $250M to $1B is $2,500; $1B to $5B is $4,000; over $5B is priced on a call.
-- The monthly fee keeps the connectors working, keeps the graph current, and builds new answers on request.
+- The monthly fee keeps the connectors working through upstream API changes, keeps the graph current, and builds new answers on request.
 - An annual plan, paid in advance, costs 15% less.
-- It is month to month, with no lock-in. If you cancel, the self-hosted software and the graph stay yours.
-- Running it yourself is free forever. The code is MIT licensed.
+- It is month to month, with no lock-in. If you cancel, the software and the graph stay yours and keep running. What stops is the upkeep.
 
 ## Security and data
 - It is self-hosted in the team's own environment. Data never leaves it. There is no telemetry and no control plane.
@@ -480,8 +488,11 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
 
 ## Links
-- [fein for private equity](${SITE}/pe): the page for private equity firms, with pricing by fund size
-- [Source on GitHub](https://github.com/clippycommits/fein): MIT licensed, free to self-host
+- [Run fein yourself](${SITE}/self-host): the free path. What the setup involves, what it needs, and how long each part really takes
+- [Managed setup](${SITE}/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
+- [Pricing](${SITE}/pricing): both paths priced against each other, with the fund-size bands
+- [fein for private equity](${SITE}/pe): the page for private equity firms
+- [Source on GitHub](https://github.com/clippycommits/fein): Apache 2.0 licensed, free to self-host
 - [Full page content for LLMs](${SITE}/llms-full.txt): the whole page in Markdown
 - [Sitemap](${SITE}/sitemap.xml): every indexable URL
 `);
@@ -610,7 +621,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 - [Get a demo](${SITE}/demo): the form on the site, two short calls to go live
 - [Email sales](mailto:sales@fein.vc): sales@fein.vc
-- [Get the repo](https://github.com/clippycommits/fein): the source on GitHub, MIT licensed, free to self-host
+- [Get the repo](https://github.com/clippycommits/fein): the source on GitHub, Apache 2.0 licensed, free to self-host
 `);
 
 // favicon.svg — theme-adaptive graph mark
