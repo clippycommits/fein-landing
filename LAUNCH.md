@@ -30,6 +30,14 @@ cal.com BOOKING_CREATED webhook → /api/webhooks/calcom (HMAC-verified)
         └─ "fein call booked" notification → daniel@fein.vc
 ```
 
+**The hold needs Upstash, which is not provisioned yet.** Cancelling a
+scheduled send means looking its id up again, and that is the one piece of
+state these functions keep. While `/api/health` reports `nudgeState: "none"`
+the hold switches itself off and every enquiry gets the welcome immediately,
+booked or not, which is the funnel as it was before this. Setting
+`UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (stage 3 of the wizard)
+turns on both cancellations, and nothing else needs to change.
+
 The hold is what makes "we only chase the ones who did not book" true. Booking
 in the modal usually happens within a minute of the form, so the welcome is
 scheduled rather than sent and the webhook takes it away again: a lead who
@@ -50,8 +58,9 @@ the immediate send, so a blocked embed costs a modal and never a lead.
 - Event log: Redis list `fein:log` (enquiries, sends, bookings, call
   clicks), best effort — the email notifications are the primary record.
 - Tests: `node api/test.mjs` — fully offline (fetch patched to fake Resend +
-  Upstash), 41 assertions including webhook signature verification, both
-  scheduled-send cancellations, and the copy rules (no em dashes).
+  Upstash), 42 assertions including webhook signature verification, both
+  scheduled-send cancellations, the no-Upstash fallback, and the copy rules
+  (no em dashes).
 - FormSubmit remains the fallback relay if the functions are unreachable;
   abandoned partial leads go ONLY there, deliberately, so they never
   trigger the booking funnel emails.

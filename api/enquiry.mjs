@@ -75,7 +75,15 @@ export async function POST(request) {
   // (and the booking webhook cancels it), so a lead who books in the modal is
   // never written to about booking. Any client that does not say this, including
   // a demo page whose embed was blocked, gets the immediate send as before.
-  const hold = lead.booking === "modal";
+  //
+  // Holding it is only sound if the booking can take it away again, and that
+  // lookup is the one piece of state these functions keep. With no Upstash the
+  // held mail could not be cancelled and would simply arrive late to someone
+  // who had already booked, which is worse than sending it now. So the hold
+  // switches itself off, and /api/health is where you see that it has:
+  // nudgeState "none" means this page is on the immediate-send funnel.
+  const canCancel = !!(cfg("UPSTASH_REDIS_REST_URL") && cfg("UPSTASH_REDIS_REST_TOKEN"));
+  const hold = lead.booking === "modal" && canCancel;
   await logEvent({ type: "enquiry", ...clean, booking: hold ? "modal" : null });
 
   if (!cfg("RESEND_API_KEY")) {

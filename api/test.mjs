@@ -179,6 +179,19 @@ console.log("Booking modal path (demo page):");
     "someone who books in the modal is never written to about booking");
 }
 
+console.log("Booking modal path with no Upstash:");
+{
+  const url = process.env.UPSTASH_REDIS_REST_URL, tok = process.env.UPSTASH_REDIS_REST_TOKEN;
+  delete process.env.UPSTASH_REDIS_REST_URL;
+  delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  const before = sent.length;
+  await post(enquiry, { email: "ines@harbourline.example", first: "Ines", booking: "modal", t: 30000 });
+  const [, welcome] = sent.slice(before).filter((s) => s.path === "/emails").map((s) => s.body);
+  ok(!welcome.scheduled_at,
+    "with no redis to cancel it, the welcome sends now rather than arriving late to someone who booked");
+  Object.assign(process.env, { UPSTASH_REDIS_REST_URL: url, UPSTASH_REDIS_REST_TOKEN: tok });
+}
+
 console.log("Call redirect + health:");
 {
   const res = await call(new Request("https://fein.vc/api/call?name=Priya%20Nair&email=priya@meridianwealth.example"));
