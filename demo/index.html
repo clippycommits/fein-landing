@@ -63,7 +63,11 @@
   .backl:hover{color:#fff}
 
   main{padding:clamp(2.75rem,7vh,5.5rem) 0 clamp(4rem,10vh,7rem)}
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:start}
+  /* 55/45, not half and half: the fields never need a reading column's width,
+     and what the form gives up the display heading gets. Row gap stays zero so
+     the email aside, auto-placed into the second row under the copy column,
+     spaces itself on its own margin. */
+  .cols{display:grid;grid-template-columns:1.1fr .9fr;gap:0 clamp(2.5rem,6vw,5.5rem);align-items:start}
 
   h1{font-family:var(--display);font-size:clamp(2.3rem,4.4vw,3.5rem);line-height:1.04;letter-spacing:-.035em;font-weight:600;margin:0 0 1.15rem}
   .lede{font-size:clamp(1.02rem,1.4vw,1.14rem);color:var(--fg-2);margin:0 0 2.4rem;max-width:30em;text-wrap:pretty}
@@ -114,7 +118,6 @@
      down to nothing: the fields are the only drawn thing in the column. */
   .card{background:transparent;border:0;border-radius:0;padding:0}
   .card h2{font-family:var(--display);font-size:1.24rem;font-weight:600;letter-spacing:-.022em;color:#fff;margin:0 0 1.6rem}
-  .frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
   .fld{margin-bottom:1.15rem}
   label{display:block;font-size:.92rem;font-weight:500;color:var(--fg);margin-bottom:.5rem}
   .opt{color:var(--fg-3);font-weight:400}
@@ -178,12 +181,13 @@
   .chk input:checked + .box svg{opacity:1}
   .chk input:focus-visible + .box{box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
 
-  /* the action takes the navbar button's metrics: the same 38px white pill at
-     14.5px, sized to its own text rather than to the column */
+  /* the action fills the column at input height, so the run down the fields
+     ends on a target as wide as the boxes that led to it, not on a pill sized
+     to its own text with dead column to its right */
   /* also worn by the anchor that reopens the calendar on the success screen,
      hence the text-decoration: as an <a> it keeps working if the embed never
      loads, and then it is an ordinary link to the booking page. */
-  .submit{height:38px;margin-top:.9rem;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:14.5px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:999px;text-decoration:none;cursor:pointer;transition:opacity .15s ease}
+  .submit{width:100%;height:44px;margin-top:.9rem;padding:0 18px;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:15px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:999px;text-decoration:none;cursor:pointer;transition:opacity .15s ease}
   .submit:hover{opacity:.88}
   .submit:disabled{opacity:.55;cursor:default}
   /* carried over from the modal, where it sat under the same submit */
@@ -204,7 +208,12 @@
   .done .aside{margin-top:1.9rem}
 
   @media (max-width:900px){
-    .cols{grid-template-columns:1fr;gap:2.5rem}
+    /* stacked, the spacing moves onto the items so the email aside can keep
+       its place after the form: an escape hatch reads as a fallback below the
+       fields, and as a fork in the path above them */
+    .cols{grid-template-columns:1fr;gap:0}
+    .formcol{margin-top:2.4rem}
+    .cols > .aside{margin-top:2.75rem}
     h1{font-size:clamp(2rem,7.5vw,2.5rem)}
     .lede{margin-bottom:1.9rem}
     .ticks{margin-bottom:1.9rem}
@@ -216,7 +225,9 @@
     .shot{display:none}
   }
   @media (max-width:520px){
-    .frow{grid-template-columns:1fr;gap:0}
+    /* "Relationships going cold" against "Meeting prep" in half a phone's
+       width is two columns pretending to be one; give each answer the line */
+    .checks{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
     .done.on{animation:none}
@@ -280,11 +291,9 @@
                alt="The documents behind the answer, numbered to match its citations: a forwarded seed deck, a Slack thread, a partner meeting memo, an investor update, and a change of job.">
         </picture>
       </div>
-
-      <p class="aside">Prefer email? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
     </div>
 
-    <div>
+    <div class="formcol">
       <div class="card" id="card">
 
         <div id="formview">
@@ -340,6 +349,12 @@
 
       </div>
     </div>
+
+    <!-- a direct child of the grid, not of the copy column: side by side it
+         auto-places into the second row under the copy, exactly where it sat
+         before; stacked it follows the form in source order, which is the
+         whole reason it moved out. -->
+    <p class="aside">Prefer email? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
 
   </div>
 </main>
