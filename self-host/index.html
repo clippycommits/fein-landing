@@ -1859,6 +1859,21 @@
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
+  /* the engineer row on the managed card: a face at 28px and one sentence,
+     pinned above the card's action with the same quiet grey as the note. */
+  .fork-eng{display:flex;gap:10px;align-items:flex-start;margin-top:1rem;color:var(--fg-3);font-size:.92rem;line-height:1.5}
+  .fork-eng img{border-radius:50%;flex:none;margin-top:1px}
+  .fork-eng b{color:var(--fg);font-weight:550}
+  /* the signature under the fork. Sized like the fork-note it follows, one
+     face, first person, and the founder's real address in the accent the
+     success copy already uses for its links. */
+  .founder{display:flex;gap:14px;align-items:flex-start;margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
+  .founder img{border-radius:50%;flex:none}
+  .founder p{color:var(--fg-3);font-size:.94rem;line-height:1.6;text-wrap:pretty}
+  .founder a{color:var(--blue-l);font-weight:500;transition:color .18s ease}
+  .founder a:hover{color:#fff}
+  .founder .f-sig{margin-top:.4rem;font-size:.85rem;color:var(--dim)}
+  .founder .f-sig b{color:var(--fg-2);font-weight:550}
   /* one column: the cards are back to being their own flex stacks, each pinned
      action on its own card floor, and the row gap that the desktop grid does not
      need is what separates them. */

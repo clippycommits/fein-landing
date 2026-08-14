@@ -1,6 +1,11 @@
 # Avatars
 
-The three faces in the Slack thread mock in `#memory`. Inlined as base64 WebP
+`daniel.webp` is the real one: Daniel Hull's own photo, 216px square, inlined
+as `__AV_DH__` into the fork's engineer row and the founder signature in
+`#choose`. It is not stock and everything below about licences does not apply
+to it.
+
+The other three are the faces in the Slack thread mock in `#memory`. Inlined as base64 WebP
 by `build.js` (`__AV_DR__`, `__AV_MF__`, `__AV_AL__`), the same way the fonts
 and the logo sprite are, so the page stays one self-contained file.
 

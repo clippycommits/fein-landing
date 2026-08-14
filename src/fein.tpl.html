@@ -1831,6 +1831,21 @@
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
+  /* the engineer row on the managed card: a face at 28px and one sentence,
+     pinned above the card's action with the same quiet grey as the note. */
+  .fork-eng{display:flex;gap:10px;align-items:flex-start;margin-top:1rem;color:var(--fg-3);font-size:.92rem;line-height:1.5}
+  .fork-eng img{border-radius:50%;flex:none;margin-top:1px}
+  .fork-eng b{color:var(--fg);font-weight:550}
+  /* the signature under the fork. Sized like the fork-note it follows, one
+     face, first person, and the founder's real address in the accent the
+     success copy already uses for its links. */
+  .founder{display:flex;gap:14px;align-items:flex-start;margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
+  .founder img{border-radius:50%;flex:none}
+  .founder p{color:var(--fg-3);font-size:.94rem;line-height:1.6;text-wrap:pretty}
+  .founder a{color:var(--blue-l);font-weight:500;transition:color .18s ease}
+  .founder a:hover{color:#fff}
+  .founder .f-sig{margin-top:.4rem;font-size:.85rem;color:var(--dim)}
+  .founder .f-sig b{color:var(--fg-2);font-weight:550}
   /* one column: the cards are back to being their own flex stacks, each pinned
      action on its own card floor, and the row gap that the desktop grid does not
      need is what separates them. */
@@ -3232,6 +3247,11 @@ __LOGO_SPRITE__
             <li><span class="tk">&rarr;</span><span>Connectors built for your stack, and kept working.</span></li>
             <li><span class="tk">&rarr;</span><span>Priced on fund size. Month to month, no lock-in.</span></li>
           </ul>
+          <!-- the engineer has a name. This column asks a fund to hand over
+               credentials to its inbox and CRM, and "an engineer" is the one
+               anonymous noun on the page. Both calls are with the person named
+               here, so naming him is a fact, not a flourish. -->
+          <div class="fork-eng"><img src="data:image/webp;base64,__AV_DH__" alt="" width="28" height="28" decoding="async" loading="lazy"><span>The engineer is <b>Daniel Hull</b>, who built fein. He does every setup himself, and both calls are with him.</span></div>
           <!-- the action here was "See what the fortnight covers", pointing at
                /deploy. It is the one column with something we can do for the
                reader, so the button is the booking and the page it used to lead
@@ -3243,6 +3263,18 @@ __LOGO_SPRITE__
         </div>
       </div>
       <p class="fork-note">Same code, same licence, your servers. Stop paying and it all keeps working. <a class="arrowlink" href="/pricing">Full pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+      <!-- who you are trusting, signed. The page asks a fund to point software
+           at its inbox and then offers it a faceless "team" to buy from. This
+           sits after the price on purpose: it answers the question the fork
+           just raised. First person, because a signature in the third person
+           is a press release. -->
+      <div class="founder reveal">
+        <img src="data:image/webp;base64,__AV_DH__" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
+        <div>
+          <p>fein reads your inbox, so you should know who is behind it. I built fein and I run every setup myself. The demo call is with me, and so is this address: <a href="mailto:daniel@fein.vc">daniel@fein.vc</a>.</p>
+          <p class="f-sig"><b>Daniel Hull</b> &middot; founder, fein</p>
+        </div>
+      </div>
     </div>
   </section>
 

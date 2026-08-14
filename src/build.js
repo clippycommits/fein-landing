@@ -95,7 +95,7 @@ if (body.indexOf("__GEIST") > -1 || body.indexOf("__INTER") > -1 || body.indexOf
 // posts twice, so these are replaceAll and not replace: a plain string replace
 // takes the first match only and would have left a raw __AV_AL__ in the second
 // message, which is the sort of thing that ships looking like nothing at all.
-const AVATARS = { AV_DR: "avatars/dev-raman.webp", AV_MF: "avatars/marcus-feld.webp", AV_AL: "avatars/anna-lindqvist.webp" };
+const AVATARS = { AV_DR: "avatars/dev-raman.webp", AV_MF: "avatars/marcus-feld.webp", AV_AL: "avatars/anna-lindqvist.webp", AV_DH: "avatars/daniel.webp" };
 for (const [token, file] of Object.entries(AVATARS)) {
   if (!fs.existsSync(file)) throw new Error(`avatar missing: ${file} (see avatars/README.md)`);
   body = body.replaceAll(`__${token}__`, fs.readFileSync(file).toString("base64"));
