@@ -2294,7 +2294,7 @@
     #burst{animation:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/pricing#faq","mainEntity":[{"@type":"Question","name":"If the software is free, what am I paying for?","acceptedAnswer":{"@type":"Answer","text":"Time, and the engineer who spends it. fein is a graph built out of thirty different systems, each with its own authentication, its own rate limits and its own idea of what a person is. Getting that running against your real data, and then reading years of history back through it without creating four copies of every contact, is the work. Firms that do it themselves generally spend a few months on it. We do it in fourteen days because we have done it before. You are not buying access. The binary is the same one on GitHub, and nothing in it is gated."}},{"@type":"Question","name":"What happens if we stop paying?","acceptedAnswer":{"@type":"Answer","text":"fein keeps running. It is on your servers, under a licence that does not expire, and the graph is in your own database. Nothing phones home and there is no control plane of ours that can switch it off. What stops is the upkeep: when a connector breaks against an upstream API change, fixing it becomes your job. That is the honest description of the trade."}},{"@type":"Question","name":"Is it per seat?","acceptedAnswer":{"@type":"Answer","text":"No, and it never will be. The price is set by fund size and nothing else. Every person at the firm can query the graph, and so can every agent they run. A memory layer that charges by the head is a memory layer people route around."}},{"@type":"Question","name":"We are a small fund. Is the build fee negotiable?","acceptedAnswer":{"@type":"Answer","text":"The build fee is the same for everyone because the work is the same for everyone. If it is genuinely out of reach, run it yourself: that path is free, it is the same software, and the setup guide is public. Come back to us when the maintenance stops being a good use of your engineer."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/pricing#faq","mainEntity":[{"@type":"Question","name":"If the software is free, what am I paying for?","acceptedAnswer":{"@type":"Answer","text":"Time. An engineer connects each system, resolves duplicate contacts, and reads your history back. Firms that do this themselves spend months. We do it in 14 days. You do not buy access. The binary is the same one on GitHub, and nothing is gated."}},{"@type":"Question","name":"What happens if we stop paying?","acceptedAnswer":{"@type":"Answer","text":"fein keeps running. It is on your servers, the licence does not expire, and the graph is in your database. We cannot switch it off. The upkeep stops. When a connector breaks, the fix becomes your job."}},{"@type":"Question","name":"Is it per seat?","acceptedAnswer":{"@type":"Answer","text":"No. The price is set by fund size only. Every person at the firm can query the graph, and so can every agent they run."}},{"@type":"Question","name":"We are a small fund. Is the build fee negotiable?","acceptedAnswer":{"@type":"Answer","text":"No. The work is the same for every firm. If the fee is out of reach, run it yourself for free. It is the same software."}}]}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-github" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></g></symbol><symbol id="l-gmail" viewBox="0 0 256 193">
@@ -2512,8 +2512,8 @@
   <section class="seg-fold">
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
-      <h1>Two prices, and one of them is zero.</h1>
-      <p>The software is Apache 2.0 licensed. Running it costs nothing and always will. What you can buy is the engineer who builds it into your stack, and the upkeep that keeps it running afterwards.</p>
+      <h1>Two prices. One is zero.</h1>
+      <p>The software is open source under Apache 2.0. It is free to run, forever. You pay only for the engineer who installs it and keeps it running.</p>
     </div>
   </section>
 
@@ -2522,33 +2522,32 @@
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
           <h3>Self-hosted</h3>
-          <p>The whole platform on your own servers. No trial, no seat count, no call with us.</p>
+          <p>The full platform on your own servers. No trial. No seat count.</p>
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>
-            <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier of the software and no feature held back to make one.</span></li>
-            <li><span class="tk">&rarr;</span><span>The context graph, and the memory that keeps it current.</span></li>
-            <li><span class="tk">&rarr;</span><span>The MCP endpoint. Claude, ChatGPT and Cursor query the same graph.</span></li>
-            <li><span class="tk">&rarr;</span><span>The audit trail on every ingest and every merge.</span></li>
-            <li><span class="tk">&rarr;</span><span>The connectors that are built today. You write the ones that are not.</span></li>
-            <li><span class="tk">&rarr;</span><span>Your engineers do the setup, the credentials, and the backfill.</span></li>
-            <li><span class="tk">&rarr;</span><span>Community support through GitHub issues.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier.</span></li>
+            <li><span class="tk">&rarr;</span><span>The context graph and the memory that keeps it current.</span></li>
+            <li><span class="tk">&rarr;</span><span>The MCP endpoint. Claude, ChatGPT, and Cursor query one graph.</span></li>
+            <li><span class="tk">&rarr;</span><span>All connectors that exist today. You write the new ones.</span></li>
+            <li><span class="tk">&rarr;</span><span>Your engineers do the setup.</span></li>
+            <li><span class="tk">&rarr;</span><span>Community support on GitHub.</span></li>
           </ul>
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
           <h3>Managed setup</h3>
-          <p>A forward-deployed engineer builds fein into your stack and stays on it. Two short calls from you.</p>
+          <p>An engineer builds fein into your stack and keeps it running. You join two short calls.</p>
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
           <ul>
-            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> The date is a commitment, not an estimate.</span></li>
-            <li><span class="tk">&rarr;</span><span><b>Connectors built for your stack</b>, including the ones nobody has written yet.</span></li>
-            <li><span class="tk">&rarr;</span><span>Every source connected, duplicate people resolved, full history read back.</span></li>
-            <li><span class="tk">&rarr;</span><span>Connectors kept working through every upstream API change.</span></li>
-            <li><span class="tk">&rarr;</span><span>New answers built on request as your team asks new questions.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> The date is a commitment.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Connectors built for your stack</b>, new ones included.</span></li>
+            <li><span class="tk">&rarr;</span><span>Every source connected. Duplicates resolved. Full history read back.</span></li>
+            <li><span class="tk">&rarr;</span><span>Connectors repaired after each upstream API change.</span></li>
+            <li><span class="tk">&rarr;</span><span>New answers built when your team asks new questions.</span></li>
           </ul>
           <div class="fork-act">
             <a class="btn btn-primary" href="/demo">Get a demo</a>
-            <a class="arrowlink fork-more" href="/deploy">See what the fortnight covers <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+            <a class="arrowlink fork-more" href="/deploy">See what the 14 days cover <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           </div>
         </div>
       </div>
@@ -2558,8 +2557,8 @@
   <section id="tiers" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <h2>We price on fund size. We never price per seat.</h2>
-        <p class="lead">An analyst who keeps this record current costs six figures a year, and the graph then lives in that one person's head. fein costs less than one month of that analyst, and every person at the firm can query it. Adding people never changes the price.</p>
+        <h2>We price on fund size. Never per seat.</h2>
+        <p class="lead">Every person at your firm can query the graph. Adding people does not change the price.</p>
       </div>
       <table class="ptable">
         <caption>Fund size</caption>
@@ -2571,15 +2570,15 @@
           <tr><td>Clone it and run it yourself</td><td>$0 <span class="per">/ forever</span></td></tr>
         </tbody>
       </table>
-      <p class="pnote">The managed path also carries <b>$5,000 once</b>, which is the build: an engineer connects every source, resolves your duplicates, reads your history back, and hands you a working graph on day 14. <b>An annual plan, paid in advance, costs 15% less.</b> It is month to month otherwise, with no lock-in.</p>
+      <p class="pnote">The managed path adds <b>$5,000 once</b> for the build. <b>An annual plan, paid in advance, costs 15% less.</b> Otherwise it is month to month, with no lock-in.</p>
 
       <div class="offer reveal">
-        <h3>What the monthly fee actually buys.</h3>
+        <h3>What the monthly fee buys.</h3>
         <ul>
-          <li><span class="tk">&rarr;</span><span><b>The connectors stay alive.</b> Gmail, LinkedIn, Attio and the rest change their APIs without warning. Keeping thirty integrations working is the recurring work, and it is most of what you are paying for.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>New answers on request.</b> When your team starts asking a question fein does not answer yet, we build it.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>Your price is locked</b> at the band you join on, for as long as you are a customer, through every fund you raise.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>Thirty days to decide.</b> If fein is not useful to your team we refund everything, the build fee included.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>The connectors stay alive.</b> Upstream APIs change without warning. We keep every integration working.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>New answers on request.</b> When your team asks a new question, we build the answer.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Your price is locked</b> at the band you join on, for as long as you stay.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Thirty days to decide.</b> If fein is not useful, we refund everything, the build fee included.</span></li>
         </ul>
       </div>
     </div>
@@ -2593,21 +2592,21 @@
       <div class="faq">
         <details>
           <summary>If the software is free, what am I paying for?</summary>
-          <p>Time, and the engineer who spends it. fein is a graph built out of thirty different systems, each with its own authentication, its own rate limits and its own idea of what a person is. Getting that running against your real data, and then reading years of history back through it without creating four copies of every contact, is the work. Firms that do it themselves generally spend a few months on it. We do it in fourteen days because we have done it before.</p>
-          <p>You are not buying access. The binary is the same one on GitHub, and nothing in it is gated.</p>
+          <p>Time. An engineer connects each system, resolves duplicate contacts, and reads your history back. Firms that do this themselves spend months. We do it in 14 days.</p>
+          <p>You do not buy access. The binary is the same one on GitHub, and nothing is gated.</p>
         </details>
         <details>
           <summary>What happens if we stop paying?</summary>
-          <p>fein keeps running. It is on your servers, under a licence that does not expire, and the graph is in your own database. Nothing phones home and there is no control plane of ours that can switch it off.</p>
-          <p>What stops is the upkeep: when a connector breaks against an upstream API change, fixing it becomes your job. That is the honest description of the trade.</p>
+          <p>fein keeps running. It is on your servers, the licence does not expire, and the graph is in your database. We cannot switch it off.</p>
+          <p>The upkeep stops. When a connector breaks, the fix becomes your job.</p>
         </details>
         <details>
           <summary>Is it per seat?</summary>
-          <p>No, and it never will be. The price is set by fund size and nothing else. Every person at the firm can query the graph, and so can every agent they run. A memory layer that charges by the head is a memory layer people route around.</p>
+          <p>No. The price is set by fund size only. Every person at the firm can query the graph, and so can every agent they run.</p>
         </details>
         <details>
           <summary>We are a small fund. Is the build fee negotiable?</summary>
-          <p>The build fee is the same for everyone because the work is the same for everyone. If it is genuinely out of reach, run it yourself: that path is free, it is the same software, and the setup guide is public. Come back to us when the maintenance stops being a good use of your engineer.</p>
+          <p>No. The work is the same for every firm. If the fee is out of reach, run it yourself for free. It is the same software.</p>
         </details>
       </div>
     </div>
@@ -2617,8 +2616,8 @@
     <div class="wrap">
       <div class="deploy-cta reveal">
         <div>
-          <b>Still deciding which column you are in?</b>
-          <p>Twenty minutes on a call. We will look at your stack and tell you honestly whether this is a fortnight of our time or an afternoon of yours.</p>
+          <b>Not sure which column you are in?</b>
+          <p>Book a 20-minute call. We look at your stack and tell you which path fits.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-white" href="/demo">Get a demo</a>
