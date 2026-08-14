@@ -656,7 +656,7 @@ __LOGO_SPRITE__
     }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
       .then(function(){
         show(ok); form.reset(); btn.disabled = true; btn.textContent = "Sent";
-        if(window.goatcounter && goatcounter.count) goatcounter.count({path:"/pe#sent", title:"pe lead"});
+        if(window.va) va("event", {name:"pe-sent"});
       })
       .catch(function(){
         show(err); btn.disabled = false; btn.textContent = "Book 20 minutes";

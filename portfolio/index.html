@@ -2897,7 +2897,7 @@
     }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
       .then(function(){
         show(ok); form.reset(); btn.disabled = true; btn.textContent = "Sent";
-        if(window.goatcounter && goatcounter.count) goatcounter.count({path:"/portfolio#sent", title:"portfolio lead"});
+        if(window.va) va("event", {name:"portfolio-sent"});
       })
       .catch(function(){
         show(err); btn.disabled = false; btn.textContent = "Book 20 minutes";
@@ -2905,8 +2905,6 @@
   });
 })();
 </script>
-<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

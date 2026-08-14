@@ -270,8 +270,6 @@ const headMeta = `<meta charset="utf-8">
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="fein for AI assistants (summary)">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="fein for AI assistants (full page)">
-<link rel="preconnect" href="https://gc.zgo.at">
-<link rel="preconnect" href="https://fein.goatcounter.com">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
 <meta property="og:locale" content="en_US">
@@ -289,12 +287,8 @@ const headMeta = `<meta charset="utf-8">
 <meta name="twitter:image" content="${SITE}/og.png">
 <meta name="twitter:image:alt" content="fein · the memory layer for venture capital">`;
 
-// GoatCounter (fein.goatcounter.com) — standalone site only, never the artifact
-// copy: claude.ai's CSP blocks external scripts. Hash routes count as pages so
-// the #get-started funnel is visible.
-const analytics = `<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
-<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+// GoatCounter retired Aug 2026: Vercel Web Analytics is the one counter now.
+const analytics = `<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>`;
 // The /_vercel/* pair is Vercel Web Analytics + Speed Insights, first-party

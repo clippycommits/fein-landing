@@ -782,7 +782,7 @@
     doneH.innerHTML = 'You are booked. <span>The invite is on its way.</span>';
     doneP.textContent = "It carries the call details and a link to move it if you need to.";
     reopen.style.display = "none";
-    if(window.goatcounter && goatcounter.count) goatcounter.count({ path: "/demo#booked", title: "demo booking" });
+    if(window.va) va("event", { name: "demo-booked" });
   }
 
   reopen.addEventListener("click", function(e){
@@ -965,7 +965,7 @@
           formview.style.display = "none";
           done.classList.add("on");
           doneH.focus({preventScroll:true});
-          if(window.goatcounter && goatcounter.count) goatcounter.count({ path: "/demo#sent", title: "demo lead" });
+          if(window.va) va("event", {name:"demo-sent"});
         })
         .catch(function(){
           err.classList.add("on");
@@ -975,8 +975,6 @@
   });
 })();
 </script>
-<script data-goatcounter="https://fein.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>addEventListener("hashchange",function(){if(window.goatcounter&&goatcounter.count)goatcounter.count({path:location.pathname+location.hash})});</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
