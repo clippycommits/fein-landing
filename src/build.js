@@ -58,8 +58,32 @@ function assertCharsetCovers(html, label) {
   }
 }
 
+// ---- shared nav: defined once in fein.tpl.html between fein-nav markers,
+// injected into every sub-page so the site cannot drift into per-page
+// navigation again. The CSS slice rides along for the pages that carry their
+// own reduced stylesheet (/demo and the legal pages); the rest inherit it
+// through __STYLE__. ----
+const tplSrc = fs.readFileSync("fein.tpl.html", "utf8");
+function sliceBetween(src, a, b, label) {
+  const i = src.indexOf(a), j = src.indexOf(b, i + a.length);
+  if (i < 0 || j < 0) throw new Error("nav markers missing: " + label);
+  return src.slice(i + a.length, j);
+}
+const NAV_HTML = sliceBetween(tplSrc, "<!--fein-nav:html:start-->", "<!--fein-nav:html:end-->", "html");
+const NAV_CSS = sliceBetween(tplSrc, "/*fein-nav:css:start*/", "/*fein-nav:css:end*/", "css");
+// Sub-pages live at /<slug>/, so the home-page section anchors gain the root
+// path (href="#" dropdown triggers are left alone), and the page's own link in
+// the bar is marked current.
+function navFor(slug) {
+  let nav = NAV_HTML.replace(/href="#(?=[a-z])/g, 'href="/#')
+    .replace('href="/#home" aria-label="fein home"', 'href="/" aria-label="fein home"');
+  if (slug) nav = nav.replace('<a href="/' + slug + '">', '<a href="/' + slug + '" aria-current="page">');
+  return nav;
+}
+const NAV_STYLE_TAG = "<style>\n  :root{--nav-h:64px}\n" + NAV_CSS + "</style>";
+
 // ---- inject fonts into shared body ----
-let body = fs.readFileSync("fein.tpl.html", "utf8")
+let body = tplSrc
   .replace("__GEIST_SANS_B64__", sansB64)
   .replace("__GEIST_MONO_B64__", monoB64)
   .replace("__INTER_B64__", interB64);
@@ -403,8 +427,10 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
   let page = fs.readFileSync(path.join("legal", slug + ".html"), "utf8")
     .split("__GEIST_SANS_B64__").join(sansB64)
     .split("__INTER_B64__").join(interB64)
-    .split("__LASTMOD__").join(LASTMOD);
-  if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD__") > -1) throw new Error("legal placeholder left in " + slug);
+    .split("__LASTMOD__").join(LASTMOD)
+    .split("__NAV_CSS__").join(NAV_STYLE_TAG)
+    .split("__NAV__").join(navFor(slug));
+  if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD__") > -1 || page.indexOf("__NAV") > -1) throw new Error("legal placeholder left in " + slug);
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
@@ -435,9 +461,11 @@ const spriteAll = spriteHero + spriteRest;
     .split("__GEIST_SANS_B64__").join(sansB64)
     .split("__INTER_B64__").join(interB64)
     .split("__LASTMOD__").join(LASTMOD)
-    .split("__ANALYTICS__").join(analytics);
+    .split("__ANALYTICS__").join(analytics)
+    .split("__NAV_CSS__").join(NAV_STYLE_TAG)
+    .split("__NAV__").join(navFor(slug));
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
-  if (page.indexOf("__STYLE__") > -1 || page.indexOf("__LOGO_SPRITE__") > -1) throw new Error("page placeholder left in " + slug);
+  if (page.indexOf("__STYLE__") > -1 || page.indexOf("__LOGO_SPRITE__") > -1 || page.indexOf("__NAV") > -1) throw new Error("page placeholder left in " + slug);
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);

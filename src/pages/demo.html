@@ -44,7 +44,6 @@
     --font:'Inter','Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
     --maxw:1120px;
-    --bar-h:68px;
     --bar-pad:clamp(1.25rem,4vw,2.5rem);
   }
   *{box-sizing:border-box}
@@ -53,16 +52,11 @@
   a{color:inherit}
   .wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--bar-pad)}
 
-  /* A conversion page carries a deliberately reduced header: the wordmark home
-     and nothing else. Every other link here is an exit from the only action the
-     page exists to collect. */
-  header{height:var(--bar-h);display:flex;align-items:center;border-bottom:1px solid var(--line)}
-  header .wrap{display:flex;align-items:center;justify-content:space-between}
-  .mark{font-family:var(--display);font-size:1.32rem;font-weight:600;letter-spacing:-.03em;text-decoration:none;color:#fff}
-  .backl{font-size:.9rem;color:var(--fg-3);text-decoration:none;transition:color .15s ease}
-  .backl:hover{color:#fff}
+  /* The header is the site-wide nav, injected by build.js (see the NAV
+     placeholders outside this style block), so this page cannot drift out of
+     the one navigation the rest of the site carries. */
 
-  main{padding:clamp(2.75rem,7vh,5.5rem) 0 clamp(4rem,10vh,7rem)}
+  main{padding:calc(var(--nav-h,64px) + clamp(2.75rem,7vh,5.5rem)) 0 clamp(4rem,10vh,7rem)}
   /* 55/45, not half and half: the fields never need a reading column's width,
      and what the form gives up the display heading gets. Row gap stays zero so
      the email aside, auto-placed into the second row under the copy column,
@@ -238,15 +232,11 @@
     .shot picture:first-of-type{opacity:1}
   }
 </style>
+__NAV_CSS__
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <a class="mark" href="/">fein</a>
-    <a class="backl" href="/">Back to fein.vc</a>
-  </div>
-</header>
+<div class="topshell">__NAV__</div>
 
 <main>
   <div class="wrap cols">

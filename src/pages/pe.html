@@ -38,8 +38,7 @@ __STYLE__
      also carries the scroll behaviour. Here it is the same geometry with no
      script behind it: the fold reserves --nav-h either way. */
   .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left}
-  .brand .for{margin-left:.5rem;padding-left:.55rem;border-left:1px solid var(--line-2);font-family:var(--font);font-size:.82rem;font-weight:450;letter-spacing:-.01em;color:var(--fg-3)}
-  @media(max-width:640px){.brand .for{display:none}}
+
 
   /* Above 900px the shared sheet turns .hero-lead .wrap into a grid and places
      h1, the lede and the actions by hand; anything else in there auto-flows to
@@ -110,24 +109,7 @@ __LOGO_SPRITE__
 
   <section id="top" class="cta-dark hero-lead">
     <div class="grain-overlay on-dark"></div>
-    <div class="topshell">
-      <header>
-        <div class="bar">
-          <a class="brand" href="/" aria-label="fein home">fein <span class="for">for private equity</span></a>
-          <nav class="links" aria-label="Primary">
-            <a href="#what">What you get</a>
-            <a href="#how">How it works</a>
-            <a href="#security">Security</a>
-            <a href="#pricing">Pricing</a>
-            <a href="/self-host">Run it yourself</a>
-          </nav>
-          <div class="right">
-            <a class="sbtn sbtn-sec" href="/">For venture capital</a>
-            <a class="sbtn sbtn-pri" href="#start">Book 20 minutes</a>
-          </div>
-        </div>
-      </header>
-    </div>
+    <div class="topshell">__NAV__</div>
 
     <div class="wrap" id="content" tabindex="-1">
       <span class="hpill">Self-hosted &middot; open source &middot; live in 14 days</span>
