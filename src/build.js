@@ -403,6 +403,41 @@ fs.mkdirSync(out, { recursive: true });
 assertCharsetCovers(indexHtml, "index.html");
 fs.writeFileSync(path.join(out, "index.html"), indexHtml);
 
+// ---- /b: the distilled home page, derived from the same template ----
+// Same hero, same copy, same pictures — minus the sections that restate one
+// another: #figures restates #how, #change and #proof restate what the #memory
+// thread and /security already show, #why (the comparison table) is a sales
+// call answer, and #crm repeats the works-band strip as a wall. Deriving here
+// instead of forking the template means a copy edit lands on both pages.
+// noindex + no JSON-LD: /b is a review/variant URL, not a second home page.
+const B_CUT = ["figures", "change", "proof", "why", "crm"];
+let bRest = rest;
+B_CUT.forEach(function (id) {
+  const re = new RegExp('\\n?<section id="' + id + '"[\\s\\S]*?</section>');
+  if (!re.test(bRest)) throw new Error("/b: section to cut not found: #" + id);
+  bRest = bRest.replace(re, "");
+});
+// links into cut sections point at the full page instead of a dead anchor
+B_CUT.forEach(function (id) { bRest = bRest.split('href="#' + id + '"').join('href="/#' + id + '"'); });
+const bHead = headMeta
+  .replace(`<link rel="canonical" href="${SITE}/">`, `<link rel="canonical" href="${SITE}/b">`)
+  .replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex, follow">');
+const bHtml = `<!doctype html>
+<html lang="en">
+<head>
+${bHead}
+${styleBlock}
+</head>
+<body>
+${bRest}
+${spriteRest}
+${analytics}${posthog}${intercom}
+</body>
+</html>`;
+assertCharsetCovers(bHtml, "b/index.html");
+fs.mkdirSync(path.join(out, "b"), { recursive: true });
+fs.writeFileSync(path.join(out, "b", "index.html"), bHtml);
+
 // robots.txt — welcome AI answer engines explicitly
 const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
 const robots = `# fein · the graph for venture capital teams
