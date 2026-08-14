@@ -60,7 +60,11 @@ export async function resend(path, body, method = "POST", headers = {}) {
 
 // ---- upstash redis (REST, single-command POST body) -----------------------
 export async function redis(...command) {
-  const url = cfg("UPSTASH_REDIS_REST_URL"), token = cfg("UPSTASH_REDIS_REST_TOKEN");
+  // Two spellings: UPSTASH_* from a hand-created Upstash database, KV_* from
+  // the Vercel-marketplace Upstash resource (which keeps the old Vercel KV
+  // variable names when it connects to the project).
+  const url = cfg("UPSTASH_REDIS_REST_URL") ?? cfg("KV_REST_API_URL"),
+    token = cfg("UPSTASH_REDIS_REST_TOKEN") ?? cfg("KV_REST_API_TOKEN");
   if (!url || !token) return null;
   const res = await fetch(url, {
     method: "POST",
