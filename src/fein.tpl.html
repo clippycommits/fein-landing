@@ -182,6 +182,10 @@
   .dd-e i{display:block;font-style:normal;font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);line-height:1.4;transition:color .12s ease}
   .dd-e b{display:block;font-size:14.5px;font-weight:510;color:#e3e5ea;line-height:1.45;margin-top:2px;max-width:26ch;transition:color .12s ease}
   .dd-e:hover b{color:#fff}
+  .dd-h{display:block;font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);line-height:1.4;margin:0 0 14px}
+  .dd-l{display:block;text-decoration:none;font-size:14.5px;font-weight:510;color:#e3e5ea;line-height:1.45;margin:0 0 12px;transition:color .12s ease}
+  .dd-l:last-child{margin-bottom:0}
+  .dd-l:hover{color:#fff}
   .dd-foot{display:flex;align-items:center;gap:22px;padding:16px 28px;border-top:1px solid rgba(255,255,255,.07)}
   .dd-foot a{font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);text-decoration:none;transition:color .12s ease}
   .dd-foot a:hover{color:#f7f8f8}
@@ -2292,16 +2296,16 @@ __LOGO_SPRITE__
         <div class="ddpanel" id="dd-product">
           <div class="dd-cols">
             <div class="dd-col">
-              <a class="dd-e" href="/"><i>Use case</i><b>For venture capital</b></a>
-              <a class="dd-e" href="/pe"><i>Use case</i><b>For private equity</b></a>
+              <span class="dd-h">Use cases</span>
+              <a class="dd-l" href="/">For venture capital</a>
+              <a class="dd-l" href="/pe">For private equity</a>
             </div>
             <div class="dd-col">
-              <a class="dd-e" href="#how"><i>Product</i><b>How it works</b></a>
-              <a class="dd-e" href="#features"><i>Product</i><b>Features</b></a>
-            </div>
-            <div class="dd-col">
-              <a class="dd-e" href="/security"><i>Product</i><b>Security</b></a>
-              <a class="dd-e" href="#why"><i>Product</i><b>Integrations</b></a>
+              <span class="dd-h">Product</span>
+              <a class="dd-l" href="#how">How it works</a>
+              <a class="dd-l" href="#features">Features</a>
+              <a class="dd-l" href="/security">Security</a>
+              <a class="dd-l" href="#why">Integrations</a>
             </div>
           </div>
           <div class="dd-foot">
@@ -2312,22 +2316,21 @@ __LOGO_SPRITE__
         <div class="ddpanel" id="dd-getfein">
           <div class="dd-cols">
             <div class="dd-col">
-              <a class="dd-e" href="/self-host"><i>Free</i><b>Self-host</b></a>
-              <a class="dd-e" href="/deploy"><i>14 days</i><b>Managed setup</b></a>
+              <span class="dd-h">Get fein</span>
+              <a class="dd-l" href="/self-host">Self-host (free)</a>
+              <a class="dd-l" href="/deploy">Managed setup (14 days)</a>
+              <a class="dd-l" href="/pricing">Pricing</a>
             </div>
             <div class="dd-col">
-              <a class="dd-e" href="/pricing"><i>Compare</i><b>Pricing</b></a>
-              <a class="dd-e" href="/demo"><i>20 minutes</i><b>Book a demo</b></a>
-            </div>
-            <div class="dd-col">
-              <a class="dd-e" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener"><i>Apache 2.0</i><b>Source on GitHub</b></a>
-              <a class="dd-e" href="mailto:sales@fein.vc"><i>Email</i><b>Contact sales</b></a>
+              <span class="dd-h">Talk to us</span>
+              <a class="dd-l" href="/demo">Book a demo</a>
+              <a class="dd-l" href="mailto:sales@fein.vc">Contact sales</a>
             </div>
           </div>
           <div class="dd-foot">
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
-            <a class="acc" href="/demo">Get a demo</a>
+            <a class="acc" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
           </div>
         </div>
       </div>

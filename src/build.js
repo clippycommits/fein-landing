@@ -77,7 +77,7 @@ const NAV_CSS = sliceBetween(tplSrc, "/*fein-nav:css:start*/", "/*fein-nav:css:e
 function navFor(slug) {
   let nav = NAV_HTML.replace(/href="#(?=[a-z])/g, 'href="/#')
     .replace('href="/#home" aria-label="fein home"', 'href="/" aria-label="fein home"');
-  if (slug) nav = nav.replace('<a href="/' + slug + '">', '<a href="/' + slug + '" aria-current="page">');
+  if (slug) nav = nav.replace(new RegExp('(<a[^>]*href="/' + slug + '")'), '$1 aria-current="page"');
   return nav;
 }
 const NAV_STYLE_TAG = "<style>\n  :root{--nav-h:64px}\n" + NAV_CSS + "</style>";
