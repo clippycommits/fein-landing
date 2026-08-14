@@ -317,7 +317,7 @@ const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
 // A custom launcher for the fein team: Daniel's face (avatars/daniel.webp,
 // same photo as the Intercom teammate profile, inlined like the Slack-mock
-// avatars so the page stays one file) and "Chat with us", on a white pill so
+// avatars so the page stays one file) and "Send us a message", on a white pill so
 // it reads on the black page. hide_default_launcher +
 // a custom_launcher_selector pointed at #fein-chat. The whole block is wrapped
 // in <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
@@ -341,9 +341,9 @@ const intercom = INTERCOM_APP_ID ? `
 @media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-mark{width:54px;height:54px}}
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
-<button type="button" id="fein-chat" aria-label="Chat with the fein team.">
+<button type="button" id="fein-chat" aria-label="Send the fein team a message.">
 <span class="fc-mark"><img src="data:image/webp;base64,${danielB64}" alt="" width="38" height="38"></span>
-<span class="fc-txt"><b>Chat with us</b></span>
+<span class="fc-txt"><b>Send us a message</b></span>
 <span class="fc-badge" hidden></span>
 </button>
 <script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
