@@ -350,8 +350,8 @@
      at .6rem with .12em of tracking in caps -- AUTO-DRAFTING -- which is the
      tracked-out mono cap this design replaced everywhere else: .eyebrow, the
      .plate-lab labels and .works .lab are all small lowercase Inter now. The
-     mono that is left on the page is readouts (FIG 0.1, the tags in the product
-     mocks), and this is a status, not a readout. */
+     mono that is left on the page is readouts (the dates and tags inside the
+     product mocks), and this is a status, not a readout. */
   .orb-badge{font-family:var(--font);font-size:.7rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.22rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
   .orb-badge .bdot{display:none}
   .orb-badge.live .bdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--blue-l);margin-right:5px;vertical-align:1px;animation:pcPulse 1.1s ease infinite}
@@ -2221,7 +2221,9 @@
      the page that does not line up. */
   .figcard:first-child{border-left:0;padding-left:0}
   .figcard:last-child{padding-right:0}
-  .fignum{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;color:var(--dim)}
+  /* the mono FIG 0.x figure numbers are gone with the plate labels: the last
+     of the small tracked-mono annotations in the page chrome. Mono now only
+     appears inside the product pictures, where it is a readout. */
   .figart{display:block;width:100%;height:auto;max-width:340px;margin:clamp(1.4rem,3vw,2.6rem) auto clamp(1.6rem,3.4vw,3rem);
     stroke:rgba(255,255,255,.26);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
   .figart .lid{stroke:rgba(255,255,255,.4)}
