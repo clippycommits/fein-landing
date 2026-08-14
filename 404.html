@@ -19,6 +19,9 @@
   .eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#8a8f98}
   h1{margin:.9rem 0 0;font-size:clamp(1.7rem,4vw,2.2rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;color:#fff}
   p{margin:.9rem auto 0;max-width:36ch;color:#8a8f98}
+  .also{margin:1.4rem auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.4rem;font-size:.9rem}
+  .also a{color:#8a8f98;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:1px;transition:color .15s ease,border-color .15s ease}
+  .also a:hover{color:#fff;border-color:rgba(255,255,255,.5)}
   .rule{width:56px;height:1px;background:rgba(255,255,255,.16);margin:1.8rem auto}
   a.home{display:inline-flex;align-items:center;gap:.4rem;font-weight:550;font-size:.98rem;color:#000;background:#fff;border-radius:9999px;padding:.6rem 1.15rem;text-decoration:none;transition:background .18s ease,transform .18s ease}
   a.home svg{width:1.05em;height:1.05em}
@@ -33,9 +36,15 @@
 <main>
   <span class="eyebrow">404</span>
   <h1>This page isn't in the graph.</h1>
-  <p>The address may have moved, or it never existed. Everything fein does lives on one page.</p>
+  <p>The address may have moved, or it never existed. What you were looking for is probably one of these.</p>
   <div class="rule" aria-hidden="true"></div>
   <a class="home" href="/">Back to fein.vc <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></a>
+  <nav class="also" aria-label="Popular pages">
+    <a href="/pricing">Pricing</a>
+    <a href="/security">Security</a>
+    <a href="/pe">For private equity</a>
+    <a href="/demo">Get a demo</a>
+  </nav>
 </main>
 </body>
 </html>

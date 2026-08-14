@@ -459,6 +459,46 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // /demo predates this and still carries its own reduced sheet, which is correct
 // for a page whose job is one form; the split is per page, not global. ----
 const spriteAll = spriteHero + spriteRest;
+
+// FAQPage JSON-LD, derived from the page's own visible .faq markup so the
+// structured data can never disagree with what a visitor reads. The index page
+// deliberately has none (its FAQ lives only in llms.txt and is not visible
+// there); these sub-pages render theirs in <details> blocks, which is exactly
+// the visible-answer requirement FAQPage carries. Extraction is per <details>:
+// the <summary> is the question, everything after it is the answer with tags
+// stripped and entities decoded. If a page has no .faq block this returns "".
+function decodeEntities(s) {
+  return s
+    .replace(/&rsquo;/g, "’").replace(/&lsquo;/g, "‘")
+    .replace(/&rdquo;/g, "”").replace(/&ldquo;/g, "“")
+    .replace(/&middot;/g, "·").replace(/&rarr;/g, "→")
+    .replace(/&ndash;/g, "–").replace(/&mdash;/g, "—")
+    .replace(/&hellip;/g, "…").replace(/&copy;/g, "©")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d));
+}
+function faqLdFor(page, slug) {
+  const m = page.match(/<div class="faq">([\s\S]*?)<\/div>/);
+  if (!m) return "";
+  const qa = Array.from(m[1].matchAll(/<details>\s*<summary>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g))
+    .map(d => ({
+      q: decodeEntities(d[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()),
+      a: decodeEntities(d[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim())
+    }))
+    .filter(x => x.q && x.a);
+  if (!qa.length) return "";
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": SITE + "/" + slug + "#faq",
+    mainEntity: qa.map(x => ({
+      "@type": "Question", name: x.q,
+      acceptedAnswer: { "@type": "Answer", text: x.a }
+    }))
+  };
+  return '<script type="application/ld+json">' + JSON.stringify(ld) + "</script>";
+}
+
 // /self-host, /deploy and /pricing are the fork: the free path, the managed one,
 // and the page that prices them against each other. They carry no stylesheet of
 // their own at all, which is what __STYLE__ was built for.
@@ -474,6 +514,8 @@ const spriteAll = spriteHero + spriteRest;
     .split("__NAV__").join(navFor(slug));
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
   if (page.indexOf("__STYLE__") > -1 || page.indexOf("__LOGO_SPRITE__") > -1 || page.indexOf("__NAV") > -1) throw new Error("page placeholder left in " + slug);
+  const faqLd = faqLdFor(page, slug);
+  if (faqLd) page = page.replace("</head>", faqLd + "\n</head>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
