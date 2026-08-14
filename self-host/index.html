@@ -395,7 +395,7 @@
   .prep-wrap.anim .orb-head.on{opacity:1;transform:translate(-50%,-50%)}
 
   /* works-with strip — slow marquee behind soft masks; pauses on hover */
-  .works{padding:clamp(2.6rem,5vw,3.6rem) 0 0;text-align:center;position:relative;z-index:2}
+  .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
   /* the strip's one exit: a quiet centred link under the marquee, to the page
      that lists every tool and makes the one-endpoint argument in full */
@@ -1758,7 +1758,7 @@
   }
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
-  .works-band{position:relative;padding-bottom:clamp(2.6rem,5vw,3.6rem)}
+  .works-band{position:relative;padding-bottom:clamp(4rem,8vw,6.5rem)}
 
   /* MANAGED INSTALLATION: the rehoused orbit. same composition, section scale.
      the copy drops from hero scale to .head scale so it never reads as a second
@@ -2139,6 +2139,10 @@
     .fbottom a{padding:.85rem .25rem;margin:0 -.25rem}
     .arrowlink{padding:.55rem .2rem;margin:-.55rem -.2rem}
     .band{padding:clamp(3.25rem,11vw,4rem) 0}
+    /* the stance and the works strip follow the band rhythm on phones too */
+    #stance{padding:clamp(3.25rem,11vw,4rem) 0}
+    .works{padding-top:clamp(3.25rem,11vw,4rem)}
+    .works-band{padding-bottom:clamp(3.25rem,11vw,4rem)}
     /* the pills and stamps inside the mocks are chrome, and chrome is meant to
        sit under the reading. At .6rem it stops sitting under it and starts
        disappearing: 9.6px on a phone is a grey smudge where a word was, and
@@ -2266,7 +2270,10 @@
     .figcard:first-child{border-top:0}
     .figart{max-width:250px;margin-inline:0}
   }
-  #stance{padding:clamp(3.2rem,8vh,6rem) 0;border-top:0}
+  /* the stance paced itself off viewport height (8vh) while every band below
+   paces off width (8vw), so on a 900px-tall screen the page opened 30px
+   tighter than it continued. One clamp for the whole column now. */
+#stance{padding:clamp(4rem,8vw,6.5rem) 0;border-top:0}
   .stance .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
   /* measured off the reference at 2x: a 96px line pitch over 90px of ink on a
      1727px window, which is 48px of leading on about 45px of type, or 2.6vw
