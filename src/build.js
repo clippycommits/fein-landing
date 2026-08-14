@@ -272,9 +272,6 @@ const headMeta = `<meta charset="utf-8">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="fein for AI assistants (full page)">
 <link rel="preconnect" href="https://gc.zgo.at">
 <link rel="preconnect" href="https://fein.goatcounter.com">
-<link rel="dns-prefetch" href="https://widget.intercom.io">
-<link rel="dns-prefetch" href="https://js.intercomcdn.com">
-<link rel="dns-prefetch" href="https://api-iam.intercom.io">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
 <meta property="og:locale" content="en_US">
@@ -315,23 +312,24 @@ const POSTHOG_HOST = "https://us.i.posthog.com"; // EU: https://eu.i.posthog.com
 const posthog = POSTHOG_KEY ? `
 <script>!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);posthog.init("${POSTHOG_KEY}",{api_host:"${POSTHOG_HOST}",person_profiles:"identified_only",capture_pageview:true})</script>` : "";
 
-// Intercom messenger — standalone site only, never the artifact (same CSP
-// reason as GoatCounter). Anonymous visitor mode: no user fields on a
-// marketing page. The snippet is what @intercom/messenger-js-sdk does
-// internally; the site has no bundler so the npm package doesn't apply.
-const INTERCOM_APP_ID = "i91a73cr";
-const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
-// A custom launcher for the fein team: Daniel's face (avatars/daniel.webp,
-// same photo as the Intercom teammate profile, inlined like the Slack-mock
-// avatars so the page stays one file) and "Send us a message", on a white pill so
-// it reads on the black page. hide_default_launcher +
-// a custom_launcher_selector pointed at #fein-chat. The whole block is wrapped
-// in <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
-// The block lands on pages that define none of the site tokens (/privacy,
-// /terms, 404), where a bare var() would drop the whole declaration: so every
-// var() here carries its literal fallback, the same rule the nav slice follows.
+// "Send us a message" widget — self-hosted, replacing Intercom (which cost a
+// subscription and, measured on the live page, 10 requests / 908 KB / up to
+// 570 ms of main-thread work per engaged visitor). Same white pill with
+// Daniel's face (avatars/daniel.webp, inlined so the page stays one file);
+// clicking it now opens a small on-page card whose form POSTs to
+// /api/message, which mails NOTIFY_TO via Resend with reply_to set to the
+// visitor. The reply is Daniel answering from his inbox: no third party, no
+// widget boot, nothing on the load path. The nav's "Send a message" link
+// (#nav-chat, see the tpl) opens the same card; its mailto href is the
+// no-JS fallback. The honeypot input (`website`) and the ms-between-open-
+// and-submit field (`t`) mirror /api/enquiry's guards. The whole block is
+// wrapped in <!--fein-chat--> markers so rederive-tpl.js can strip it back
+// out cleanly. The block lands on pages that define none of the site tokens
+// (/privacy, /terms, 404), where a bare var() would drop the whole
+// declaration: so every var() here carries its literal fallback, the same
+// rule the nav slice follows.
 const danielB64 = fs.readFileSync("avatars/daniel.webp").toString("base64");
-const intercom = INTERCOM_APP_ID ? `
+const chat = `
 <!--fein-chat:start-->
 <style>
 #fein-chat{--fc-disc:#fff;position:fixed;right:20px;bottom:20px;z-index:2147483000;display:inline-flex;align-items:center;gap:10px;margin:0;padding:8px 16px 8px 8px;font-family:var(--font,'Inter','Inter Fallback',system-ui,sans-serif);background:var(--fc-disc);border:0;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
@@ -343,54 +341,75 @@ const intercom = INTERCOM_APP_ID ? `
 #fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
 #fein-chat .fc-txt b{font-weight:600;font-size:13px;letter-spacing:-.01em;color:#0b0c0e}
 #fein-chat.fc-open{opacity:0;transform:translateY(6px);pointer-events:none}
-/* unread badge, driven by Intercom's onUnreadCountChange below: a proactive
-   outbound message lands as an unread conversation, and the default launcher
-   would show its own red badge, so the custom one has to keep that signal */
-#fein-chat .fc-badge{position:absolute;top:-1px;right:-1px;width:12px;height:12px;border-radius:50%;background:#ff3b30;box-shadow:0 0 0 2px var(--fc-disc)}
 @media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-mark{width:54px;height:54px}}
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
+#fein-msg{position:fixed;right:20px;bottom:20px;z-index:2147483001;width:min(360px,calc(100vw - 32px));font-family:var(--font,'Inter','Inter Fallback',system-ui,sans-serif);background:#fff;color:#0b0c0e;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.5),0 24px 64px -16px rgba(0,0,0,.9);overflow:hidden}
+#fein-msg .fm-head{display:flex;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid #ececef}
+#fein-msg .fm-head img{flex:none;width:34px;height:34px;border-radius:50%;object-fit:cover}
+#fein-msg .fm-who{display:flex;flex-direction:column;gap:1px;line-height:1.25;min-width:0}
+#fein-msg .fm-who b{font-weight:600;font-size:13.5px;letter-spacing:-.01em}
+#fein-msg .fm-who span{font-size:12px;color:#6f7076}
+#fein-msg #fm-close{margin-left:auto;flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:#6f7076;cursor:pointer}
+#fein-msg #fm-close:hover{background:#f2f2f4;color:#0b0c0e}
+#fein-msg form{display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px}
+#fein-msg #fm-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+#fein-msg input[type=email],#fein-msg textarea{width:100%;box-sizing:border-box;padding:9px 11px;font:inherit;font-size:14px;color:#0b0c0e;background:#fff;border:1px solid #d9d9de;border-radius:10px;outline:none}
+#fein-msg input[type=email]:focus,#fein-msg textarea:focus{border-color:var(--blue-l,#52A8FF);box-shadow:0 0 0 3px rgba(82,168,255,.18)}
+#fein-msg textarea{resize:vertical;min-height:88px}
+#fein-msg .fm-err{margin:0;font-size:12.5px;line-height:1.4;color:#c62f21}
+#fein-msg .fm-err a{color:inherit}
+#fein-msg #fm-send{align-self:flex-end;padding:8px 18px;font:inherit;font-size:13.5px;font-weight:600;color:#fff;background:#0b0c0e;border:0;border-radius:999px;cursor:pointer}
+#fein-msg #fm-send:hover{background:#26272b}
+#fein-msg #fm-send:disabled{opacity:.6;cursor:default}
+#fein-msg #fm-done{padding:20px 16px 22px;text-align:center}
+#fein-msg #fm-done b{display:block;font-size:14.5px;font-weight:600}
+#fein-msg #fm-done p{margin:6px 0 0;font-size:13px;line-height:1.5;color:#6f7076}
+@media(max-width:520px){#fein-msg{right:16px;bottom:16px}}
 </style>
 <button type="button" id="fein-chat" aria-label="Send the fein team a message.">
 <span class="fc-mark"><img src="data:image/webp;base64,${danielB64}" alt="" width="38" height="38"></span>
 <span class="fc-txt"><b>Send us a message</b></span>
-<span class="fc-badge" hidden></span>
 </button>
-<script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat,#nav-chat"}</script>
-<!-- Intercom, booted on first interaction instead of on window.load.
-
-     Measured on the live page with a real Chrome UA (a headless UA makes the
-     widget bail, which is why this hid from the earlier baseline): 10 requests,
-     908 KB and up to 570 ms of post-load main-thread work, spent on every
-     visitor including the ones who bounce off the hero.
-
-     Gating it on the launcher alone would be the bigger saving, but it would
-     also stop Intercom seeing anonymous visitors at all: no visitor records and
-     no proactive outbound messages, which do fire today despite
-     hide_default_launcher. That is a sales decision, not a performance one. So
-     the trigger is the first sign of a real human instead: any scroll, pointer
-     move, key or touch. A bouncer costs nothing, an engaged visitor is on
-     Intercom within a second of moving, and either way it is off the load path.
-
-     The queueing stub is installed synchronously, so the onShow/onHide handlers
-     below and a click-time Intercom("show") queue and replay on boot. -->
-<script>(function(){var w=window,d=document;var ic=w.Intercom;if(typeof ic==="function"){ic("reattach_activator");ic("update",w.intercomSettings);return}
-var i=function(){i.c(arguments)};i.q=[];i.c=function(a){i.q.push(a)};w.Intercom=i;
-var started=false,EV=["pointermove","pointerdown","touchstart","keydown","scroll","wheel"];
-function boot(){if(started)return;started=true;EV.forEach(function(e){w.removeEventListener(e,boot,{passive:true,capture:true})});
-var s=d.createElement("script");s.async=true;s.src="https://widget.intercom.io/widget/${INTERCOM_APP_ID}";d.head.appendChild(s)}
-EV.forEach(function(e){w.addEventListener(e,boot,{passive:true,capture:true,once:true})});
-var b=d.getElementById("fein-chat");
-if(b)b.addEventListener("click",function(){boot();w.Intercom("show")});
-if(location.hash==="#chat")boot()})()</script>
-<script>(function(){var b=document.getElementById("fein-chat");if(!b)return;requestAnimationFrame(function(){requestAnimationFrame(function(){b.classList.add("fc-in")})});if(window.Intercom){Intercom("onShow",function(){b.classList.add("fc-open")});Intercom("onHide",function(){b.classList.remove("fc-open")});var g=b.querySelector(".fc-badge");if(g)Intercom("onUnreadCountChange",function(n){g.hidden=!n})}})()</script>
-<!--fein-chat:end-->` : "";
-
-// The widget's origin warm-up hints, mirrored from the home page's headMeta so
-// every sub-page that carries the launcher gets the same head trio.
-const intercomPrefetch = INTERCOM_APP_ID ? `<link rel="dns-prefetch" href="https://widget.intercom.io">
-<link rel="dns-prefetch" href="https://js.intercomcdn.com">
-<link rel="dns-prefetch" href="${INTERCOM_API_BASE}">
-` : "";
+<div id="fein-msg" role="dialog" aria-label="Send us a message" hidden>
+<div class="fm-head">
+<img src="data:image/webp;base64,${danielB64}" alt="" width="34" height="34">
+<div class="fm-who"><b>Send us a message</b><span>Goes to Daniel. He replies to your email.</span></div>
+<button type="button" id="fm-close" aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg></button>
+</div>
+<div id="fm-body">
+<form id="fm-form" novalidate>
+<input id="fm-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+<input id="fm-email" name="email" type="email" placeholder="you@fund.com" autocomplete="email" required aria-label="Your email">
+<textarea id="fm-text" name="message" rows="4" placeholder="What can we help with?" required aria-label="Your message"></textarea>
+<p id="fm-err" class="fm-err" hidden></p>
+<button type="submit" id="fm-send">Send</button>
+</form>
+</div>
+<div id="fm-done" hidden><b>Sent.</b><p>Daniel replies to your inbox, usually the same day.</p></div>
+</div>
+<script>(function(){var d=document,w=window;
+var pill=d.getElementById("fein-chat"),panel=d.getElementById("fein-msg");
+if(!pill||!panel)return;
+requestAnimationFrame(function(){requestAnimationFrame(function(){pill.classList.add("fc-in")})});
+var openedAt=0;
+function openPanel(){panel.hidden=false;pill.classList.add("fc-open");openedAt=Date.now();var e=d.getElementById("fm-email");if(e)setTimeout(function(){e.focus()},60)}
+function closePanel(){panel.hidden=true;pill.classList.remove("fc-open");pill.focus()}
+pill.addEventListener("click",openPanel);
+var x=d.getElementById("fm-close");if(x)x.addEventListener("click",closePanel);
+var n=d.getElementById("nav-chat");if(n)n.addEventListener("click",function(e){e.preventDefault();openPanel()});
+d.addEventListener("keydown",function(e){if(e.key==="Escape"&&!panel.hidden)closePanel()});
+if(location.hash==="#chat")openPanel();
+var form=d.getElementById("fm-form"),btn=d.getElementById("fm-send"),err=d.getElementById("fm-err");
+form.addEventListener("submit",function(e){e.preventDefault();
+var email=d.getElementById("fm-email").value.trim(),msg=d.getElementById("fm-text").value.trim();
+if(!email||email.indexOf("@")<1){err.textContent="Enter your email so the reply can reach you.";err.hidden=false;return}
+if(!msg){err.textContent="Write a message first.";err.hidden=false;return}
+err.hidden=true;btn.disabled=true;btn.textContent="Sending…";
+fetch("/api/message",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email,message:msg,website:d.getElementById("fm-hp").value,t:Date.now()-openedAt,page:location.pathname})})
+.then(function(r){if(!r.ok)throw 0;return r.json()})
+.then(function(){d.getElementById("fm-body").hidden=true;d.getElementById("fm-done").hidden=false})
+.catch(function(){btn.disabled=false;btn.textContent="Send";err.innerHTML='Something broke. Email us instead: <a href="mailto:sales@fein.vc">sales@fein.vc</a>';err.hidden=false})})})()</script>
+<!--fein-chat:end-->`;
 
 // ---- distill: the served home page cuts the sections that restate one
 // another. #change and #proof restate what the #memory thread and /security
@@ -427,7 +446,7 @@ ${ldScript}
 <body>
 ${homeRest}
 ${spriteRest}
-${analytics}${posthog}${intercom}
+${analytics}${posthog}${chat}
 </body>
 </html>`;
 
@@ -458,9 +477,9 @@ notFound = notFound
   .split("__INTER_B64__").join(interB64)
   .replace(/\s*<!--fein-chat:start-->[\s\S]*?<!--fein-chat:end-->/g, "");
 if (notFound.indexOf("__GEIST") > -1 || notFound.indexOf("__INTER") > -1) throw new Error("font placeholder left in 404");
-if (intercom) {
+if (chat) {
   if (notFound.indexOf("</body>") < 0) throw new Error("404.html: no </body> to patch the chat launcher into");
-  notFound = notFound.replace("</body>", intercom + "\n</body>");
+  notFound = notFound.replace("</body>", chat + "\n</body>");
 }
 assertCharsetCovers(notFound, "404.html");
 fs.writeFileSync(path.join(out, "404.html"), notFound);
@@ -510,7 +529,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
     .split("__NAV_CSS__").join(NAV_STYLE_TAG)
     .split("__NAV__").join(navFor(slug));
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD") > -1 || page.indexOf("__NAV") > -1) throw new Error("legal placeholder left in " + slug);
-  page = page.replace("</head>", intercomPrefetch + "</head>").replace("</body>", intercom + "\n</body>");
+  page = page.replace("</body>", chat + "\n</body>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
@@ -606,7 +625,7 @@ const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay
   if (page.indexOf("__SECTION") > -1 || page.indexOf("__CHANGE_JS__") > -1) throw new Error("page placeholder left in " + slug);
   const faqLd = faqLdFor(page, slug);
   if (faqLd) page = page.replace("</head>", faqLd + "\n</head>");
-  page = page.replace("</head>", intercomPrefetch + "</head>").replace("</body>", intercom + "\n</body>");
+  page = page.replace("</body>", chat + "\n</body>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
