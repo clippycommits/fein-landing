@@ -157,6 +157,10 @@
   nav.links a:hover{color:#f7f8f8;background:rgba(255,255,255,.07)}
   nav.links a[aria-current="page"]{color:#f7f8f8}
   nav.links a.ddon,nav.links a[aria-expanded="true"]{color:#f7f8f8;background:rgba(255,255,255,.07)}
+  /* dropdown triggers carry a small caret, drawn the same way as the FAQ
+     chevron: a rotated two-border square, flipping up while its panel is open */
+  nav.links a[data-dd]::after{content:"";width:6px;height:6px;margin-left:7px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;rotate:45deg;translate:0 -2px;opacity:.6;transition:rotate .18s ease,translate .18s ease}
+  nav.links a[data-dd].ddon::after,nav.links a[data-dd][aria-expanded="true"]::after{rotate:225deg;translate:0 1px}
   nav.links .navsep{width:1px;height:18px;background:rgba(255,255,255,.14);margin:0 10px;flex:none}
   nav.links .sbtn-pri{margin-left:12px}
   .bar .right{margin-left:0;display:flex;align-items:center;gap:8px}
@@ -2320,7 +2324,7 @@ __LOGO_SPRITE__
               <a class="dd-l" href="#how">How it works</a>
               <a class="dd-l" href="#features">Features</a>
               <a class="dd-l" href="/security">Security</a>
-              <a class="dd-l" href="#why">Integrations</a>
+              <a class="dd-l" href="#integrations">Integrations</a>
             </div>
           </div>
           <div class="dd-foot">
@@ -2653,7 +2657,7 @@ __LOGO_SPRITE__
        claims, it is the receipt for them, and it hands off to #security, which
        is the next question anyone asks about a thing that reads their inbox.
        No longer part of the hero choreography, so it reveals on scroll. -->
-  <section class="works-band" aria-label="The tools fein reads and answers in">
+  <section id="integrations" class="works-band" aria-label="The tools fein reads and answers in">
     <div class="works reveal">
       <p class="lab">It reads and answers in the tools you already use</p>
       <div class="marquee"><div class="row">
@@ -2698,7 +2702,7 @@ __LOGO_SPRITE__
       <h2 id="mem-h">Auditable, deterministic memory. Same answer every time, for everyone.</h2>
       <div>
         <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
-        <a class="arrowlink mem-more" href="#why"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="arrowlink mem-more" href="#how"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
 
@@ -3230,6 +3234,10 @@ __LOGO_SPRITE__
       </div>
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
+          <!-- each column opens with the face of what you get: a terminal for
+               the repo, Daniel for the engineer. Same 48px circle, so the two
+               cards read as one decision with two doors. -->
+          <span class="fork-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7L10 12L5 17"/><path d="M13 17H19"/></svg></span>
           <h3>Clone it and go</h3>
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>

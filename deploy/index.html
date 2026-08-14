@@ -186,6 +186,10 @@
   nav.links a:hover{color:#f7f8f8;background:rgba(255,255,255,.07)}
   nav.links a[aria-current="page"]{color:#f7f8f8}
   nav.links a.ddon,nav.links a[aria-expanded="true"]{color:#f7f8f8;background:rgba(255,255,255,.07)}
+  /* dropdown triggers carry a small caret, drawn the same way as the FAQ
+     chevron: a rotated two-border square, flipping up while its panel is open */
+  nav.links a[data-dd]::after{content:"";width:6px;height:6px;margin-left:7px;border-right:1.4px solid currentColor;border-bottom:1.4px solid currentColor;rotate:45deg;translate:0 -2px;opacity:.6;transition:rotate .18s ease,translate .18s ease}
+  nav.links a[data-dd].ddon::after,nav.links a[data-dd][aria-expanded="true"]::after{rotate:225deg;translate:0 1px}
   nav.links .navsep{width:1px;height:18px;background:rgba(255,255,255,.14);margin:0 10px;flex:none}
   nav.links .sbtn-pri{margin-left:12px}
   .bar .right{margin-left:0;display:flex;align-items:center;gap:8px}
