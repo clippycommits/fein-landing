@@ -949,6 +949,10 @@
      lead underneath keeps its own 52ch measure, so this widens the display line
      and nothing that is actually read in paragraphs */
   .why-band .head{max-width:66ch}
+  /* the three-step path under the lead: the mechanism at a glance, in the
+     small lowercase label voice, so the lead can stay at two sentences */
+  .why-band .why-path{margin-top:1.2rem;font-size:.86rem;font-weight:500;color:var(--fg-3);line-height:1.9;text-wrap:balance}
+  .why-band .why-path .arr{color:var(--dim);margin:0 .5rem;font-weight:400}
   /* The comparison used to be a filled, fully bordered panel on --bg-2 with four
      different tints inside it: the only boxed table on a page that sets every
      other list, stack and figure open on the ground with a hairline over each
@@ -1039,9 +1043,9 @@
   .plate{margin:0}
   /* a plate number in a book, not a heading: what the thing is on the left, what
      it is made of on the right, one hairline under both, and then the thing */
-  .plate-lab{display:flex;align-items:baseline;gap:1rem;padding-bottom:.72rem;border-bottom:1px solid var(--line-2);margin-bottom:clamp(1rem,1.8vw,1.45rem)}
-  .plate-lab span{font-size:.84rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-2)}
-  .plate-lab b{margin-left:auto;font-family:var(--mono);font-size:.73rem;font-weight:500;color:var(--dim);white-space:nowrap}
+  /* the plates carried a small lowercase label bar with a mono annotation on
+     the right ("the record" / "4 tools · 18 months"). Removed: the card's own
+     header names it and the replay below performs the annotation. */
 
   .rec{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
   .rec-top{display:flex;align-items:baseline;gap:.6rem;padding:.95rem 20px;border-bottom:1px solid var(--line)}
@@ -1093,8 +1097,6 @@
     .rec-m{padding-right:0}
     .rec-doc{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:.3rem .6rem;margin-top:.7rem;padding-left:.9rem}
     .rec-doc em{margin-left:auto}
-    .plate-lab{gap:.7rem}
-    .plate-lab b{font-size:.68rem}
   }
 
   /* ---- the answer. One box, one question, one answer, and the documents it
@@ -2950,7 +2952,6 @@ __LOGO_SPRITE__
     <div class="plates">
 
       <figure class="plate reveal">
-        <figcaption class="plate-lab"><span>the record</span><b>4 tools &middot; 18 months</b></figcaption>
         <div class="rec">
           <div class="rec-top">
             <h4>Halo Compute</h4>
@@ -3014,7 +3015,6 @@ __LOGO_SPRITE__
       </figure>
 
       <figure class="plate reveal">
-        <figcaption class="plate-lab"><span>the answer</span><b>Claude &middot; ChatGPT &middot; Cursor</b></figcaption>
         <div class="ask">
           <div class="ask-bar">
             <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
@@ -3083,7 +3083,8 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="head">
         <h2 id="why-h">Supercharging <span class="nmn">Claude<svg class="nmk" aria-hidden="true"><use href="#l-claude"/></svg></span>, <span class="nmn">ChatGPT<svg class="nmk" aria-hidden="true"><use href="#l-openai"/></svg></span> and your team&rsquo;s AI tools.</h2>
-        <p class="lead">A connector gives an assistant a search box into one tool at a time: a fresh query on every question, returning whatever happens to match. fein reads the same tools continuously and resolves everything in them into one context graph, each fact filed to the person or company it belongs to, dated, and tied to the document it was read from. Your assistant plugs into it the same way, over one MCP endpoint, and answers from your firm&rsquo;s whole memory instead of one inbox.</p>
+        <p class="lead">A connector gives an assistant a search box into one tool at a time. fein gives it your firm&rsquo;s whole memory, with the source document behind every line.</p>
+        <p class="why-path">reads your tools continuously <span class="arr" aria-hidden="true">&#8594;</span> resolves them into one context graph <span class="arr" aria-hidden="true">&#8594;</span> answers over one MCP endpoint</p>
       </div>
       <div class="why-grid">
         <p class="hd"></p>
@@ -3091,28 +3092,28 @@ __LOGO_SPRITE__
         <p class="hd us">With fein</p>
 
         <p class="rl">How it connects</p>
-        <p class="a">One plug-in per tool, each with its own search and its own vendor. Your assistant queries them one by one.</p>
-        <p class="b"><b class="ben">The same plug.</b> fein is one MCP endpoint your assistant already knows how to call. What changes is what stands behind it.</p>
+        <p class="a">Each tool needs its own plug-in. Your assistant queries them one at a time.</p>
+        <p class="b"><b class="ben">The same plug.</b> fein is one MCP endpoint. Your assistant already knows how to call it. Behind it sits the graph, not a search box.</p>
 
         <p class="rl">What it reads</p>
-        <p class="a">Whatever matches your query, this minute, out of one tool at a time. If your wording misses the wording of the email, the fact does not exist.</p>
-        <p class="b"><b class="ben">A context graph.</b> Every message, call and meeting, already read and resolved onto the people and companies they belong to before you ask.</p>
+        <p class="a">Whatever matches your query, this minute, in one tool. If your words miss the words in the email, the fact does not exist.</p>
+        <p class="b"><b class="ben">A context graph.</b> fein has already read every message, call and meeting. Each one is filed to its person and company before you ask.</p>
 
         <p class="rl">Across your stack</p>
-        <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone, and joining the results is your job.</p>
-        <p class="b"><b class="ben">One graph, not many searches.</b> The email, the transcript and the invite land on the same record, so one answer can cross all three.</p>
+        <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone. You join the results yourself.</p>
+        <p class="b"><b class="ben">One graph, not many searches.</b> The email, the transcript and the invite land on the same record. One answer can cross all three.</p>
 
         <p class="rl">When a fact changes</p>
-        <p class="a">It returns what it finds, including the line that stopped being true eighteen months ago. Search has no idea.</p>
-        <p class="b"><b class="ben">Auditable.</b> The old fact is struck, dated and kept. You get what is true now, and you can still ask what your firm believed in 2024.</p>
+        <p class="a">It returns what it finds. That includes the line that stopped being true eighteen months ago. Search does not know the difference.</p>
+        <p class="b"><b class="ben">Auditable.</b> The old fact is struck, dated and kept. You get what is true now. You can still ask what your firm believed in 2024.</p>
 
         <p class="rl">What comes back</p>
-        <p class="a">A paraphrase of some documents, as good as whatever happened to be retrieved that time. Ask twice, get two answers.</p>
-        <p class="b"><b class="ben">Deterministic.</b> The same answer every time you ask, with the document behind every line one click away.</p>
+        <p class="a">A paraphrase of some documents. It is as good as whatever was retrieved that time. Ask twice, get two answers.</p>
+        <p class="b"><b class="ben">Deterministic.</b> The same question gets the same answer, every time. The document behind each line is one click away.</p>
 
         <p class="rl">Where it runs</p>
-        <p class="a">Your data leaves your firm for whichever vendor the connector belongs to.</p>
-        <p class="b"><b class="ben">Yours.</b> It runs on your own servers, on code you can read, and it sends nothing to us.</p>
+        <p class="a">Your data leaves your firm. It goes to whichever vendor owns the connector.</p>
+        <p class="b"><b class="ben">Yours.</b> It runs on your own servers. You can read all of the code. It sends nothing to us.</p>
       </div>
     </div>
   </section>

@@ -983,6 +983,10 @@
      lead underneath keeps its own 52ch measure, so this widens the display line
      and nothing that is actually read in paragraphs */
   .why-band .head{max-width:66ch}
+  /* the three-step path under the lead: the mechanism at a glance, in the
+     small lowercase label voice, so the lead can stay at two sentences */
+  .why-band .why-path{margin-top:1.2rem;font-size:.86rem;font-weight:500;color:var(--fg-3);line-height:1.9;text-wrap:balance}
+  .why-band .why-path .arr{color:var(--dim);margin:0 .5rem;font-weight:400}
   /* The comparison used to be a filled, fully bordered panel on --bg-2 with four
      different tints inside it: the only boxed table on a page that sets every
      other list, stack and figure open on the ground with a hairline over each
@@ -1073,9 +1077,9 @@
   .plate{margin:0}
   /* a plate number in a book, not a heading: what the thing is on the left, what
      it is made of on the right, one hairline under both, and then the thing */
-  .plate-lab{display:flex;align-items:baseline;gap:1rem;padding-bottom:.72rem;border-bottom:1px solid var(--line-2);margin-bottom:clamp(1rem,1.8vw,1.45rem)}
-  .plate-lab span{font-size:.84rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-2)}
-  .plate-lab b{margin-left:auto;font-family:var(--mono);font-size:.73rem;font-weight:500;color:var(--dim);white-space:nowrap}
+  /* the plates carried a small lowercase label bar with a mono annotation on
+     the right ("the record" / "4 tools · 18 months"). Removed: the card's own
+     header names it and the replay below performs the annotation. */
 
   .rec{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
   .rec-top{display:flex;align-items:baseline;gap:.6rem;padding:.95rem 20px;border-bottom:1px solid var(--line)}
@@ -1127,8 +1131,6 @@
     .rec-m{padding-right:0}
     .rec-doc{flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:.3rem .6rem;margin-top:.7rem;padding-left:.9rem}
     .rec-doc em{margin-left:auto}
-    .plate-lab{gap:.7rem}
-    .plate-lab b{font-size:.68rem}
   }
 
   /* ---- the answer. One box, one question, one answer, and the documents it

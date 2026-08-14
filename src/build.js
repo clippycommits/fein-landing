@@ -576,14 +576,14 @@ fein reads the record your team already makes. It resolves that record into one 
 
 ## fein vs. a connector alone
 
-A connector gives an assistant a search box into one tool at a time: a fresh query on every question, returning whatever happens to match. fein reads the same tools continuously and resolves everything in them into one context graph, each fact filed to the person or company it belongs to, dated, and tied to the document it was read from. Your assistant plugs into it the same way, over one MCP endpoint, and answers from your firm's whole memory instead of one inbox.
+A connector gives an assistant a search box into one tool at a time. fein gives it your firm's whole memory, with the source document behind every line. fein reads your tools continuously. It resolves them into one context graph. It answers over one MCP endpoint.
 
-- How it connects. Connector alone: one plug-in per tool, each with its own search and its own vendor, queried one by one. With fein: the same plug. fein is one MCP endpoint your assistant already knows how to call. What changes is what stands behind it.
-- What it reads. Connector alone: whatever matches your query, this minute, out of one tool at a time; if your wording misses the wording of the email, the fact does not exist. With fein: a context graph. Every message, call and meeting, already read and resolved onto the people and companies they belong to before you ask.
-- Across your stack. Connector alone: Gmail cannot join a call transcript to a job change to a calendar invite; each search stands alone, and joining the results is your job. With fein: one graph, not many searches. The email, the transcript and the invite land on the same record, so one answer can cross all three.
-- When a fact changes. Connector alone: it returns what it finds, including the line that stopped being true eighteen months ago; search has no idea. With fein: auditable. The old fact is struck, dated and kept. You get what is true now, and you can still ask what your firm believed in 2024.
-- What comes back. Connector alone: a paraphrase of some documents, as good as whatever happened to be retrieved that time; ask twice, get two answers. With fein: deterministic. The same answer every time you ask, with the document behind every line one click away.
-- Where it runs. Connector alone: your data leaves your firm for whichever vendor the connector belongs to. With fein: yours. It runs on your own servers, on code you can read, and it sends nothing to us.
+- How it connects. Connector alone: each tool needs its own plug-in, and your assistant queries them one at a time. With fein: the same plug. fein is one MCP endpoint. Your assistant already knows how to call it. Behind it sits the graph, not a search box.
+- What it reads. Connector alone: whatever matches your query, this minute, in one tool. If your words miss the words in the email, the fact does not exist. With fein: a context graph. fein has already read every message, call and meeting. Each one is filed to its person and company before you ask.
+- Across your stack. Connector alone: Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone. You join the results yourself. With fein: one graph, not many searches. The email, the transcript and the invite land on the same record. One answer can cross all three.
+- When a fact changes. Connector alone: it returns what it finds. That includes the line that stopped being true eighteen months ago. Search does not know the difference. With fein: auditable. The old fact is struck, dated and kept. You get what is true now. You can still ask what your firm believed in 2024.
+- What comes back. Connector alone: a paraphrase of some documents. It is as good as whatever was retrieved that time. Ask twice, get two answers. With fein: deterministic. The same question gets the same answer, every time. The document behind each line is one click away.
+- Where it runs. Connector alone: your data leaves your firm. It goes to whichever vendor owns the connector. With fein: yours. It runs on your own servers. You can read all of the code. It sends nothing to us.
 
 ## What you get: four questions your team asks every week
 
