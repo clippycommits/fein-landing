@@ -315,33 +315,26 @@ const posthog = POSTHOG_KEY ? `
 // internally; the site has no bundler so the npm package doesn't apply.
 const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
-// A custom launcher (the Intercom bubble mark + an online dot + "Last seen 3m
-// ago") replaces Intercom's default bubble: hide_default_launcher + a
+// A custom launcher shaped like Intercom's stock circular bubble button, in
+// white so it reads on the black page: hide_default_launcher + a
 // custom_launcher_selector pointed at #fein-chat. The whole block is wrapped in
 // <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
 const intercom = INTERCOM_APP_ID ? `
 <!--fein-chat:start-->
 <style>
-#fein-chat{position:fixed;right:20px;bottom:20px;z-index:2147483000;display:inline-flex;align-items:center;gap:10px;margin:0;padding:9px 15px 9px 9px;font-family:var(--font);color:var(--fg);background:var(--bg-2);border:1px solid var(--line);border-radius:999px;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),border-color .2s ease,box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
-#fein-chat.fc-in{opacity:1;transform:none}
-#fein-chat:hover{border-color:var(--line-2);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
-#fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 /* the bubble is a solid glyph with the smile knocked out of it, so the smile is
-   stroked in the disc colour: --fc-disc has to stay opaque and stay in sync
-   with the background here, not the translucent white the fein mark sat on. */
-#fein-chat .fc-mark{--fc-disc:var(--blue);position:relative;flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--fc-disc);color:#fff}
-#fein-chat .fc-mark svg{display:block}
-#fein-chat .fc-dot{position:absolute;right:0;bottom:1px;width:10px;height:10px;border-radius:50%;background:#30d158;box-shadow:0 0 0 2px var(--bg-2)}
-#fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
-#fein-chat .fc-txt b{font-weight:600;font-size:13px;letter-spacing:-.01em;color:var(--fg)}
-#fein-chat .fc-txt span{font-size:11.5px;font-weight:450;color:var(--muted)}
+   stroked in the disc colour: --fc-disc has to stay opaque and stay the exact
+   white of the disc, or the smile stops reading as a cutout. */
+#fein-chat{--fc-disc:#fff;position:fixed;right:20px;bottom:20px;z-index:2147483000;display:grid;place-items:center;width:54px;height:54px;margin:0;padding:0;color:var(--bg);background:var(--fc-disc);border:0;border-radius:50%;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
+#fein-chat.fc-in{opacity:1;transform:none}
+#fein-chat:hover{transform:scale(1.06);box-shadow:0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
+#fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+#fein-chat svg{display:block}
 #fein-chat.fc-open{opacity:0;transform:translateY(6px);pointer-events:none}
-@media(max-width:520px){#fein-chat{padding:9px;gap:0}#fein-chat .fc-txt{display:none}}
-@media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}}
+@media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
-<button type="button" id="fein-chat" aria-label="Chat with the fein team. Last seen 3 minutes ago.">
-<span class="fc-mark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M7 4h10a3 3 0 0 1 3 3v13l-3.5-3.4H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><path d="M8.8 10.6c.9 1.5 2.05 2.25 3.2 2.25s2.3-.75 3.2-2.25" stroke="var(--fc-disc)" stroke-width="1.7" stroke-linecap="round"/></svg><span class="fc-dot"></span></span>
-<span class="fc-txt"><b>Chat with us</b><span>Last seen 3m ago</span></span>
+<button type="button" id="fein-chat" aria-label="Chat with the fein team">
+<svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true"><path d="M7 4h10a3 3 0 0 1 3 3v13l-3.5-3.4H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><path d="M8.8 10.6c.9 1.5 2.05 2.25 3.2 2.25s2.3-.75 3.2-2.25" stroke="var(--fc-disc)" stroke-width="1.7" stroke-linecap="round"/></svg>
 </button>
 <script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
 <!-- Intercom, booted on first interaction instead of on window.load.

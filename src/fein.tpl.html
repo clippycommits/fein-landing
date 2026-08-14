@@ -1088,6 +1088,26 @@
   .rec-prev .rec-doc{color:var(--dim)}
   .rec-fact s{text-decoration:none;background:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule)) no-repeat 0 .72em/100% 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
   .rec-sup{display:inline-block;margin-left:.5rem;padding:.06rem .36rem;translate:0 -1px;border:1px solid var(--line);border-radius:4px;font-family:var(--mono);font-size:.66rem;color:var(--dim);white-space:nowrap;vertical-align:middle}
+  /* ---- the record, replayed. JS adds .play, the card scrolls into view, and
+     the eighteen months arrive in the order the tools wrote them: the seed
+     deck forward, the intro call, the coffee, the LinkedIn change, and last
+     the June update, which strikes through the seed round in front of the
+     reader while the sentence and its document stay put. The section's claim
+     performed instead of annotated. Unarrived rows are collapsed, not faded
+     in place: the card starts as a header and grows a row at a time, each
+     arrival landing on top and pushing the history down, which is what the
+     record actually does. Reduced-motion readers and readers without JS get
+     the finished card. ---- */
+  .rec.play .rec-i{max-height:0;padding-top:0;padding-bottom:0;border-top-color:transparent;opacity:0;overflow:hidden}
+  .rec.play .rec-i.in{max-height:560px;padding-top:clamp(.95rem,1.5vw,1.2rem);padding-bottom:clamp(.95rem,1.5vw,1.2rem);border-top-color:var(--line);opacity:1;transition:max-height .6s cubic-bezier(.25,.1,.25,1),padding-top .6s cubic-bezier(.25,.1,.25,1),padding-bottom .6s cubic-bezier(.25,.1,.25,1),border-top-color .35s ease,opacity .35s ease .05s}
+  .rec-fact s{transition:background-size .55s cubic-bezier(.4,0,.2,1) .1s}
+  .rec-prev .rec-fact,.rec-prev .rec-quote,.rec-prev .rec-doc{transition:color .5s ease}
+  .rec-sup{transition:opacity .4s ease .4s}
+  .rec-prev.fresh .rec-fact{color:#fff}
+  .rec-prev.fresh .rec-fact s{background-size:0 1px}
+  .rec-prev.fresh .rec-quote{color:var(--fg-3)}
+  .rec-prev.fresh .rec-doc{color:var(--fg-2)}
+  .rec-prev.fresh .rec-sup{opacity:0}
 
   /* one column: the source stops being a rail beside the fact and becomes a
      line under it, laid out along the row rather than down it, so it still
@@ -3735,6 +3755,29 @@ __LOGO_SPRITE__
   }
   var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ io.disconnect(); start(); } }); },{threshold:.5});
   io.observe(pre);
+})();
+
+/* the record, replayed: the rows arrive in the order the tools wrote them,
+   and the seed round is struck through on screen when the Series A lands */
+(function(){
+  var rec=document.querySelector('#change .rec');
+  if(!rec) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!('IntersectionObserver' in window)) return;
+  var rows=[].slice.call(rec.querySelectorAll('.rec-list > .rec-i'));
+  if(!rows.length) return;
+  var prev=rec.querySelector('.rec-prev');
+  rec.classList.add('play');
+  if(prev) prev.classList.add('fresh');
+  /* document order is newest-first; the replay runs oldest-first */
+  var order=rows.slice().reverse();
+  var io=new IntersectionObserver(function(es){
+    if(!es.some(function(e){ return e.isIntersecting; })) return;
+    io.disconnect();
+    order.forEach(function(r,i){ setTimeout(function(){ r.classList.add('in'); }, 250+i*380); });
+    setTimeout(function(){ if(prev) prev.classList.remove('fresh'); }, 250+order.length*380+700);
+  },{threshold:.25});
+  io.observe(rec);
 })();
 
 /* scroll-reveal: rise + fade once; staggered per [data-reveal-group] */
