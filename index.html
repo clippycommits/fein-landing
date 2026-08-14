@@ -1834,9 +1834,12 @@
   @supports (grid-template-rows: subgrid){
     .fork-card{display:grid;grid-template-rows:subgrid;grid-row:span 5}
   }
-  /* the paid column: same ground, one accent hairline. A filled panel here would
-     read as the "real" product and undercut the sentence above it. */
-  .fork-card.pick{border-color:rgba(82,168,255,.42)}
+  /* the paid column: same ground, one lit edge. A filled panel here would
+     read as the "real" product and undercut the sentence above it. At .42 the
+     blue sat at the same brightness as the grey hairline beside it and read as
+     a mismatched stroke rather than a choice, so it is brighter now and
+     carries the quiet ring-and-glow the orbit tiles already use when lit. */
+  .fork-card.pick{border-color:rgba(82,168,255,.6);box-shadow:var(--hl-top),0 0 0 1px rgba(82,168,255,.22),0 0 30px -10px rgba(82,168,255,.3)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
      yourself", "we deploy it"). It said what the heading under it already said,
      in the same voice as the section eyebrows that came off the site with it. */
@@ -2529,17 +2532,17 @@ setTimeout(go,1200);})()</script>
     <div class="wrap" id="content" tabindex="-1">
 
       <span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg> and CLI.</span>
-      <h1>Welcome to agentic venture capital.</h1>
-      <!-- "tool and platform" was two words for the same thing and named neither:
-           it is a context graph, which is the approved term and the one the rest of
-           the page already uses. The fold above names the audience, so this line
-           opens on privacy rather than saying "venture capital" a second time:
-           the property the headline has no room to carry, and the one the rest of
-           the page has to earn. The customer is
-           "your fund" here and "your team" in DESC and DESC_LONG in build.js,
-           which are deliberately left alone: those two strings are what an answer
-           engine quotes back. -->
-      <p>Built with privacy at its core, fein is an open source context graph that transforms your fund's raw data into intelligent, searchable memory for agents and humans.</p>
+      <h1>The shared memory of your venture capital team.</h1>
+      <!-- The headline is the pitch, said the same way the <title>, the og alt,
+           the manifest and llms-full.txt already say it: one sentence, one idea,
+           no synonym. "Welcome to agentic venture capital" named a category and
+           not the product; "agentic" fails the say-it-to-anyone test. The line
+           below carries the mechanism in DESC's own Simplified Technical English
+           and closes on the deploy triplet the sub-pages already use. The
+           customer is "your fund" here and "your team" in DESC and DESC_LONG in
+           build.js, which are deliberately left alone: those two strings are
+           what an answer engine quotes back. -->
+      <p>fein reads your fund's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. You ask in Claude, ChatGPT, or Cursor, and every answer carries its source. Self-hosted, open source, live in 14 days.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/demo">Get a demo</a>
         <!-- the second action used to be the repository, on the argument that the
@@ -2681,7 +2684,7 @@ setTimeout(go,1200);})()</script>
        heading with a subtitle under it. -->
   <section id="stance" class="band stance" aria-label="What fein is">
     <div class="wrap">
-      <p class="stance-line"><b>A state of the art memory layer.</b> fein is for venture capital teams that work with AI. It reads the tools your firm already uses. It builds one context graph of every relationship the team has. Humans and agents ask it the same questions.</p>
+      <p class="stance-line"><b>One memory for the whole fund.</b> fein is for venture capital teams that work with AI. It reads the tools your firm already uses. It builds one context graph of every relationship the team has. Humans and agents ask it the same questions.</p>
     </div>
   </section>
 
@@ -2743,7 +2746,10 @@ setTimeout(go,1200);})()</script>
        the heading. -->
   <section id="memory" class="band" aria-labelledby="mem-h">
     <div class="mem-head">
-      <h2 id="mem-h">Auditable, deterministic memory. Same answer every time, for everyone.</h2>
+      <!-- "Auditable, deterministic memory" restated the plain half in jargon;
+           the plain half is the claim, and #proof / the features below carry
+           auditability ("Every fact keeps its source") without the word. -->
+      <h2 id="mem-h">Same answer every time, for everyone.</h2>
       <div>
         <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
         <a class="arrowlink mem-more" href="/integrations"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
@@ -2858,13 +2864,11 @@ setTimeout(go,1200);})()</script>
   <section id="features" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <!-- this said "One system of record. The same answer to any question, for
-             anyone on the team." and #memory's heading says the second sentence
-             verbatim, two bands above. Saying it twice did not make it truer, and
-             the band that earns it is the one with the thread in it. What is left
-             is the approved term on its own, which is all this head has to do:
-             name the thing the four cells below are features of. -->
-        <h2>One system of record.</h2>
+        <!-- this head names the thing the four cells below are features of.
+             "One system of record" was CRM vocabulary, and the CRM pages spend
+             paragraphs saying fein is not one and replaces nothing; the pitch's
+             own term names it without the contradiction. -->
+        <h2>One shared memory.</h2>
         <p class="lead">fein answers from your team's history in seconds.</p>
       </div>
       <div class="featgrid">
@@ -3147,7 +3151,7 @@ setTimeout(go,1200);})()</script>
       <div class="fgrid">
         <div class="fbrand">
           <a class="brand" href="#home">fein</a>
-          <p>The open-source data layer for venture capital teams.</p>
+          <p>The open-source shared memory for venture capital teams.</p>
         </div>
         <nav class="fcol" aria-label="Footer product">
           <b>Product</b>

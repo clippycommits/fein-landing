@@ -1821,9 +1821,12 @@
   @supports (grid-template-rows: subgrid){
     .fork-card{display:grid;grid-template-rows:subgrid;grid-row:span 5}
   }
-  /* the paid column: same ground, one accent hairline. A filled panel here would
-     read as the "real" product and undercut the sentence above it. */
-  .fork-card.pick{border-color:rgba(82,168,255,.42)}
+  /* the paid column: same ground, one lit edge. A filled panel here would
+     read as the "real" product and undercut the sentence above it. At .42 the
+     blue sat at the same brightness as the grey hairline beside it and read as
+     a mismatched stroke rather than a choice, so it is brighter now and
+     carries the quiet ring-and-glow the orbit tiles already use when lit. */
+  .fork-card.pick{border-color:rgba(82,168,255,.6);box-shadow:var(--hl-top),0 0 0 1px rgba(82,168,255,.22),0 0 30px -10px rgba(82,168,255,.3)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
      yourself", "we deploy it"). It said what the heading under it already said,
      in the same voice as the section eyebrows that came off the site with it. */
@@ -2540,7 +2543,7 @@
   <section id="why" class="band why-band" aria-labelledby="why-h">
     <div class="wrap">
       <div class="head">
-        <h2 id="why-h">Supercharging <span class="nmn">Claude<svg class="nmk" aria-hidden="true"><use href="#l-claude"/></svg></span>, <span class="nmn">ChatGPT<svg class="nmk" aria-hidden="true"><use href="#l-openai"/></svg></span> and your team&rsquo;s AI tools.</h2>
+        <h2 id="why-h">One memory behind <span class="nmn">Claude<svg class="nmk" aria-hidden="true"><use href="#l-claude"/></svg></span>, <span class="nmn">ChatGPT<svg class="nmk" aria-hidden="true"><use href="#l-openai"/></svg></span> and your team&rsquo;s AI tools.</h2>
         <p class="lead">A connector gives an assistant a search box into one tool at a time. fein gives it your firm&rsquo;s whole memory, with the source document behind every line.</p>
         <p class="why-path">reads your tools continuously <span class="arr" aria-hidden="true">&#8594;</span> resolves them into one context graph <span class="arr" aria-hidden="true">&#8594;</span> answers over one MCP endpoint</p>
       </div>
@@ -2593,7 +2596,7 @@
       <div class="fgrid">
         <div class="fbrand">
           <a class="brand" href="/">fein</a>
-          <p>The open-source context graph for investment teams.</p>
+          <p>The open-source shared memory for investment teams.</p>
         </div>
         <nav class="fcol" aria-label="Footer ways to run fein">
           <b>Get fein</b>

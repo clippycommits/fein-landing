@@ -1822,9 +1822,12 @@
   @supports (grid-template-rows: subgrid){
     .fork-card{display:grid;grid-template-rows:subgrid;grid-row:span 5}
   }
-  /* the paid column: same ground, one accent hairline. A filled panel here would
-     read as the "real" product and undercut the sentence above it. */
-  .fork-card.pick{border-color:rgba(82,168,255,.42)}
+  /* the paid column: same ground, one lit edge. A filled panel here would
+     read as the "real" product and undercut the sentence above it. At .42 the
+     blue sat at the same brightness as the grey hairline beside it and read as
+     a mismatched stroke rather than a choice, so it is brighter now and
+     carries the quiet ring-and-glow the orbit tiles already use when lit. */
+  .fork-card.pick{border-color:rgba(82,168,255,.6);box-shadow:var(--hl-top),0 0 0 1px rgba(82,168,255,.22),0 0 30px -10px rgba(82,168,255,.3)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
      yourself", "we deploy it"). It said what the heading under it already said,
      in the same voice as the section eyebrows that came off the site with it. */
@@ -2702,7 +2705,7 @@
       <div class="fgrid">
         <div class="fbrand">
           <a class="brand" href="/">fein</a>
-          <p>The open-source context graph for investment teams.</p>
+          <p>The open-source shared memory for investment teams.</p>
         </div>
         <nav class="fcol" aria-label="Footer ways to run fein">
           <b>Get fein</b>
