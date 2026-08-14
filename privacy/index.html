@@ -67,14 +67,14 @@
   /* the whole run of links, the divider, the quiet GitHub link and the white
      pill travel as one centered cluster, the way the reference sets its
      Product ... Contact | Docs (Open app) row */
-  nav.links{position:absolute;left:50%;top:0;height:100%;transform:translateX(-50%);display:flex;align-items:center;gap:0;white-space:nowrap}
+  nav.links{display:flex;align-items:center;gap:0;white-space:nowrap;margin-left:auto}
   nav.links a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;color:var(--fg-3,#8a8f98);font-family:var(--nav-font);font-weight:510;font-size:13.5px;letter-spacing:-.01em;line-height:1;text-decoration:none;transition:color .12s ease,background .12s ease}
   nav.links a:hover{color:#f7f8f8;background:rgba(255,255,255,.07)}
   nav.links a[aria-current="page"]{color:#f7f8f8}
   nav.links a.ddon,nav.links a[aria-expanded="true"]{color:#f7f8f8;background:rgba(255,255,255,.07)}
   nav.links .navsep{width:1px;height:18px;background:rgba(255,255,255,.14);margin:0 10px;flex:none}
   nav.links .sbtn-pri{margin-left:12px}
-  .bar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .bar .right{margin-left:0;display:flex;align-items:center;gap:8px}
   .bar .right .sbtn-pri{display:none}
   .sbtn{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 16px;border-radius:999px;border:0;font-family:var(--nav-font);font-size:13.5px;font-weight:510;letter-spacing:-.01em;line-height:1;white-space:nowrap;cursor:pointer;text-decoration:none;transition:background .12s ease,color .12s ease}
   .sbtn-pri{background:#fff;color:#08090a}
@@ -82,20 +82,20 @@
   /* one wide surface under the whole bar, the reference's geometry: width and
      position never move, only the height animates between panels while their
      contents crossfade. */
-  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 1px);left:0;right:0;margin:0 auto;width:min(calc(var(--maxw,1232px) - 2 * var(--bar-pad,24px)),calc(100vw - 32px));height:0;z-index:60;background:rgba(20,20,23,.98);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:16px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
+  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:rgba(20,20,23,.98);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1)}
   .ddwrap.snap{transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1)}
   .ddpanel{position:absolute;top:0;left:0;right:0;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .15s ease}
   .ddpanel.on{opacity:1;pointer-events:auto}
-  .dd-cols{display:flex;align-items:stretch;padding:28px 0}
-  .dd-col{flex:1;min-width:0;padding:2px 36px}
+  .dd-cols{display:flex;align-items:stretch;padding:24px 0 26px}
+  .dd-col{flex:1;min-width:0;padding:2px 28px}
   .dd-col + .dd-col{border-left:1px solid rgba(255,255,255,.07)}
   .dd-e{display:block;text-decoration:none;margin:0 0 26px}
   .dd-e:last-child{margin-bottom:0}
-  .dd-e i{display:block;font-style:normal;font-size:14.5px;font-weight:475;color:var(--fg-3,#8a8f98);line-height:1.4;transition:color .12s ease}
-  .dd-e b{display:block;font-size:15px;font-weight:510;color:#e3e5ea;line-height:1.45;margin-top:3px;max-width:24ch;transition:color .12s ease}
+  .dd-e i{display:block;font-style:normal;font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);line-height:1.4;transition:color .12s ease}
+  .dd-e b{display:block;font-size:14.5px;font-weight:510;color:#e3e5ea;line-height:1.45;margin-top:2px;max-width:26ch;transition:color .12s ease}
   .dd-e:hover b{color:#fff}
-  .dd-foot{display:flex;align-items:center;gap:22px;padding:18px 36px;border-top:1px solid rgba(255,255,255,.07)}
+  .dd-foot{display:flex;align-items:center;gap:22px;padding:16px 28px;border-top:1px solid rgba(255,255,255,.07)}
   .dd-foot a{font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);text-decoration:none;transition:color .12s ease}
   .dd-foot a:hover{color:#f7f8f8}
   /* the reference sets this one link in its brand purple; ours is white */
@@ -111,6 +111,7 @@
   @keyframes navBackdropIn{from{opacity:0}to{opacity:1}}
   @media (max-width:900px){
     nav.links{display:none}
+    .bar .right{margin-left:auto}
     .ddwrap{display:none}
     .bar .right .sbtn-pri{display:inline-flex}
     .menu-btn{display:inline-flex;width:44px;height:44px}
