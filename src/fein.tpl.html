@@ -369,6 +369,10 @@
   /* works-with strip — slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(2.6rem,5vw,3.6rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
+  /* the strip's one exit: a quiet centred link under the marquee, to the page
+     that lists every tool and makes the one-endpoint argument in full */
+  .works .works-more{margin:1.2rem auto 0;width:fit-content;color:var(--fg-3);font-size:.9rem;display:flex}
+  .works .works-more:hover{color:#fff}
   .marquee{margin-top:1.35rem;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
   .marquee .row{display:flex;align-items:center;gap:.6rem 2.1rem;width:max-content;padding:2px 0}
   .marquee.moving .row{animation:marq var(--marq-t,40s) linear infinite}
@@ -1189,8 +1193,11 @@
   /* the right column is set at lead size rather than body size, so it reads as
      the headline's second half and not as a caption underneath it. */
   .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
-  .mem-more{margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
+  .mem-more{display:flex;width:fit-content;margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
   .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
+  /* the numbered links stack: the first keeps the big gap off the lead, the
+     rest sit a line apart, each pointing at the page that argues it in full */
+  .mem-more+.mem-more{margin-top:.7rem}
 
   /* one row, two layers. Grid rather than absolute positioning, so the row is as
      tall as whichever layer is the taller one and nothing has to be measured in
@@ -1841,15 +1848,6 @@
   .fork-mark{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--bg-3);box-shadow:0 0 0 1px var(--line-2);color:var(--fg-2);margin-bottom:1rem;flex:none}
   .fork-mark svg{width:20px;height:20px}
   .fork-face{display:block;border-radius:50%;box-shadow:0 0 0 1px var(--line-2);margin-bottom:1rem}
-  /* the signature under the fork. Sized like the fork-note it follows, first
-     person, and the founder's real address in the accent the success copy
-     already uses for its links. The face lives on the card above, not here. */
-  .founder{margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
-  .founder p{color:var(--fg-3);font-size:.94rem;line-height:1.6;text-wrap:pretty}
-  .founder a{color:var(--blue-l);font-weight:500;transition:color .18s ease}
-  .founder a:hover{color:#fff}
-  .founder .f-sig{margin-top:.4rem;font-size:.85rem;color:var(--dim)}
-  .founder .f-sig b{color:var(--fg-2);font-weight:550}
   /* one column: the cards are back to being their own flex stacks, each pinned
      action on its own card floor, and the row gap that the desktop grid does not
      need is what separates them. */
@@ -2324,7 +2322,7 @@ __LOGO_SPRITE__
               <a class="dd-l" href="#how">How it works</a>
               <a class="dd-l" href="#features">Features</a>
               <a class="dd-l" href="/security">Security</a>
-              <a class="dd-l" href="#integrations">Integrations</a>
+              <a class="dd-l" href="/integrations">Integrations</a>
             </div>
           </div>
           <div class="dd-foot">
@@ -2676,6 +2674,7 @@ __LOGO_SPRITE__
         <span><svg class="tlogo" aria-hidden="true"><use href="#l-perplexity"/></svg>Perplexity</span>
         <span><svg class="tlogo" aria-hidden="true"><use href="#l-copilot"/></svg>Copilot</span>
       </div></div>
+      <a class="arrowlink works-more" href="/integrations">All 30+ integrations<span class="arw" aria-hidden="true">&rarr;</span></a>
     </div>
 
   </section>
@@ -2702,7 +2701,8 @@ __LOGO_SPRITE__
       <h2 id="mem-h">Auditable, deterministic memory. Same answer every time, for everyone.</h2>
       <div>
         <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
-        <a class="arrowlink mem-more" href="#how"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="arrowlink mem-more" href="/integrations"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="arrowlink mem-more" href="/security"><i>02</i>Every fact keeps its source<span class="arw" aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
 
@@ -3250,11 +3250,11 @@ __LOGO_SPRITE__
         <div class="fork-card pick reveal">
           <img class="fork-face" src="data:image/webp;base64,__AV_DH__" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
           <h3>A forward-deployed engineer</h3>
-          <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
+          <div class="fork-price"><b>$5,000</b><span class="per">once, then from $250 a month</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls with Daniel.</span></li>
             <li><span class="tk">&rarr;</span><span>Daniel connects each source, reads your history back, and keeps it all working.</span></li>
-            <li><span class="tk">&rarr;</span><span>Priced on fund size. Month to month, no lock-in.</span></li>
+            <li><span class="tk">&rarr;</span><span>From $250 a month, never per seat. Month to month, no lock-in.</span></li>
           </ul>
           <!-- the action here was "See what the fortnight covers", pointing at
                /deploy. It is the one column with something we can do for the
@@ -3267,15 +3267,6 @@ __LOGO_SPRITE__
         </div>
       </div>
       <p class="fork-note">Same code, same licence, your servers. Stop paying and it all keeps working. <a class="arrowlink" href="/pricing">Full pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
-      <!-- who you are trusting, signed. The page asks a fund to point software
-           at its inbox and then offers it a faceless "team" to buy from. This
-           sits after the price on purpose: it answers the question the fork
-           just raised. First person, because a signature in the third person
-           is a press release. -->
-      <div class="founder reveal">
-        <p>fein reads your inbox, so you should know who is behind it. I built fein and I run every setup myself. The demo call is with me, and so is this address: <a href="mailto:daniel@fein.vc">daniel@fein.vc</a>.</p>
-        <p class="f-sig"><b>Daniel Hull</b> &middot; founder, fein</p>
-      </div>
     </div>
   </section>
 
@@ -3780,7 +3771,10 @@ __LOGO_SPRITE__
 })();
 
 /* the record, replayed: the rows arrive in the order the tools wrote them,
-   and the seed round is struck through on screen when the Series A lands */
+   and the seed round is struck through on screen when the Series A lands.
+   Wrapped in change-replay markers: build.js lifts this block onto /security,
+   where the #change section now renders. */
+/*change-replay:start*/
 (function(){
   var rec=document.querySelector('#change .rec');
   if(!rec) return;
@@ -3801,6 +3795,7 @@ __LOGO_SPRITE__
   },{threshold:.25});
   io.observe(rec);
 })();
+/*change-replay:end*/
 
 /* scroll-reveal: rise + fade once; staggered per [data-reveal-group] */
 (function(){

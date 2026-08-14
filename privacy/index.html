@@ -133,6 +133,9 @@
     .mmenu .sep{height:1px;background:var(--line,rgba(255,255,255,.09));margin:.4rem .5rem}
   }
   </style>
+<link rel="dns-prefetch" href="https://widget.intercom.io">
+<link rel="dns-prefetch" href="https://js.intercomcdn.com">
+<link rel="dns-prefetch" href="https://api-iam.intercom.io">
 </head>
 <body>
 <div class="topshell">
@@ -169,7 +172,7 @@
               <a class="dd-l" href="/#how">How it works</a>
               <a class="dd-l" href="/#features">Features</a>
               <a class="dd-l" href="/security">Security</a>
-              <a class="dd-l" href="/#integrations">Integrations</a>
+              <a class="dd-l" href="/integrations">Integrations</a>
             </div>
           </div>
           <div class="dd-foot">
@@ -372,5 +375,58 @@
     </div>
   </div>
 </main>
+
+<!--fein-chat:start-->
+<style>
+#fein-chat{--fc-disc:#fff;position:fixed;right:20px;bottom:20px;z-index:2147483000;display:inline-flex;align-items:center;gap:10px;margin:0;padding:8px 16px 8px 8px;font-family:var(--font);background:var(--fc-disc);border:0;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
+#fein-chat.fc-in{opacity:1;transform:none}
+#fein-chat:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
+#fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+#fein-chat .fc-mark{position:relative;flex:none;width:38px;height:38px}
+#fein-chat .fc-mark img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
+#fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
+#fein-chat .fc-txt b{font-weight:600;font-size:13px;letter-spacing:-.01em;color:#0b0c0e}
+#fein-chat.fc-open{opacity:0;transform:translateY(6px);pointer-events:none}
+/* unread badge, driven by Intercom's onUnreadCountChange below: a proactive
+   outbound message lands as an unread conversation, and the default launcher
+   would show its own red badge, so the custom one has to keep that signal */
+#fein-chat .fc-badge{position:absolute;top:-1px;right:-1px;width:12px;height:12px;border-radius:50%;background:#ff3b30;box-shadow:0 0 0 2px var(--fc-disc)}
+@media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-mark{width:54px;height:54px}}
+@media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
+</style>
+<button type="button" id="fein-chat" aria-label="Chat with the fein team.">
+<span class="fc-mark"><img src="data:image/webp;base64,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" alt="" width="38" height="38"></span>
+<span class="fc-txt"><b>Chat with us</b></span>
+<span class="fc-badge" hidden></span>
+</button>
+<script>window.intercomSettings={api_base:"https://api-iam.intercom.io",app_id:"i91a73cr",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
+<!-- Intercom, booted on first interaction instead of on window.load.
+
+     Measured on the live page with a real Chrome UA (a headless UA makes the
+     widget bail, which is why this hid from the earlier baseline): 10 requests,
+     908 KB and up to 570 ms of post-load main-thread work, spent on every
+     visitor including the ones who bounce off the hero.
+
+     Gating it on the launcher alone would be the bigger saving, but it would
+     also stop Intercom seeing anonymous visitors at all: no visitor records and
+     no proactive outbound messages, which do fire today despite
+     hide_default_launcher. That is a sales decision, not a performance one. So
+     the trigger is the first sign of a real human instead: any scroll, pointer
+     move, key or touch. A bouncer costs nothing, an engaged visitor is on
+     Intercom within a second of moving, and either way it is off the load path.
+
+     The queueing stub is installed synchronously, so the onShow/onHide handlers
+     below and a click-time Intercom("show") queue and replay on boot. -->
+<script>(function(){var w=window,d=document;var ic=w.Intercom;if(typeof ic==="function"){ic("reattach_activator");ic("update",w.intercomSettings);return}
+var i=function(){i.c(arguments)};i.q=[];i.c=function(a){i.q.push(a)};w.Intercom=i;
+var started=false,EV=["pointermove","pointerdown","touchstart","keydown","scroll","wheel"];
+function boot(){if(started)return;started=true;EV.forEach(function(e){w.removeEventListener(e,boot,{passive:true,capture:true})});
+var s=d.createElement("script");s.async=true;s.src="https://widget.intercom.io/widget/i91a73cr";d.head.appendChild(s)}
+EV.forEach(function(e){w.addEventListener(e,boot,{passive:true,capture:true,once:true})});
+var b=d.getElementById("fein-chat");
+if(b)b.addEventListener("click",function(){boot();w.Intercom("show")});
+if(location.hash==="#chat")boot()})()</script>
+<script>(function(){var b=document.getElementById("fein-chat");if(!b)return;requestAnimationFrame(function(){requestAnimationFrame(function(){b.classList.add("fc-in")})});if(window.Intercom){Intercom("onShow",function(){b.classList.add("fc-open")});Intercom("onHide",function(){b.classList.remove("fc-open")});var g=b.querySelector(".fc-badge");if(g)Intercom("onUnreadCountChange",function(n){g.hidden=!n})}})()</script>
+<!--fein-chat:end-->
 </body>
 </html>

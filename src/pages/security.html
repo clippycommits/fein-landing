@@ -81,6 +81,11 @@ __LOGO_SPRITE__
     </div>
   </section>
 
+  <!-- rehomed from the home page by build.js: the provenance figure. The bands
+       above claim audit trails and nothing-overwritten; this section is the
+       picture of both, with the replay script injected as __CHANGE_JS__ below. -->
+  __SECTION_CHANGE__
+
   <section id="questions" class="band">
     <div class="wrap">
       <div class="head reveal">
@@ -181,6 +186,9 @@ __LOGO_SPRITE__
   },{rootMargin:'0px 0px -12% 0px',threshold:.08});
   items.forEach(function(el){io.observe(el);});
 })();
+</script>
+<script>
+__CHANGE_JS__
 </script>
 __ANALYTICS__
 </body>

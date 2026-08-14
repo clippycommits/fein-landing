@@ -170,7 +170,7 @@ const rest = body.slice(sEnd);
 const faqs = [
   ["What exactly is fein?", "fein is an open-source data layer for your firm's relationships. It reads your email, calendar, notes, and CRM. It resolves them into one graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
   ["How is this different from Affinity or Attio?", "A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."],
-  ["What does it cost?", "It costs $5,000 once to build it into your stack. Then you pay a monthly fee priced on fund size: $1,000 each month under $250M, $2,500 from $250M to $1B, $4,000 from $1B to $5B, and a price agreed on a call above $5B. An annual plan, paid in advance, costs 15% less. There is no per-seat pricing. Running it yourself is free forever."],
+  ["What does it cost?", "It costs $5,000 once to build it into your stack. Then you pick a monthly plan set by how much we keep doing: Core is $250 each month, Plus is $500, and Pro is $750. An annual plan, paid in advance, costs 15% less. There is no per-seat pricing. Running it yourself is free forever."],
   ["Can't we build this ourselves?", "Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it."],
   ["What happens if we cancel?", "Nothing stops. It runs on your servers. The graph, the connectors, and every answer stay yours."],
   ["How long does setup take?", "Fourteen days. The date is a commitment. Your part is two short calls. We do everything between them."],
@@ -317,8 +317,8 @@ const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
 // A custom launcher for the fein team: Daniel's face (avatars/daniel.webp,
 // same photo as the Intercom teammate profile, inlined like the Slack-mock
-// avatars so the page stays one file), a green presence dot and "Chat with
-// us", on a white pill so it reads on the black page. hide_default_launcher +
+// avatars so the page stays one file) and "Chat with us", on a white pill so
+// it reads on the black page. hide_default_launcher +
 // a custom_launcher_selector pointed at #fein-chat. The whole block is wrapped
 // in <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
 const danielB64 = fs.readFileSync("avatars/daniel.webp").toString("base64");
@@ -331,12 +331,8 @@ const intercom = INTERCOM_APP_ID ? `
 #fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 #fein-chat .fc-mark{position:relative;flex:none;width:38px;height:38px}
 #fein-chat .fc-mark img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
-/* the green dot ring is the pill's own white, so the dot reads as punched
-   through the pill and not stickered onto the mark */
-#fein-chat .fc-dot{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#30d158;box-shadow:0 0 0 2px var(--fc-disc)}
 #fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
 #fein-chat .fc-txt b{font-weight:600;font-size:13px;letter-spacing:-.01em;color:#0b0c0e}
-#fein-chat .fc-txt span{font-size:11.5px;font-weight:450;color:#565a63}
 #fein-chat.fc-open{opacity:0;transform:translateY(6px);pointer-events:none}
 /* unread badge, driven by Intercom's onUnreadCountChange below: a proactive
    outbound message lands as an unread conversation, and the default launcher
@@ -345,9 +341,9 @@ const intercom = INTERCOM_APP_ID ? `
 @media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-mark{width:54px;height:54px}}
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
-<button type="button" id="fein-chat" aria-label="Chat with the fein team. Last seen 3 minutes ago.">
-<span class="fc-mark"><img src="data:image/webp;base64,${danielB64}" alt="" width="38" height="38"><span class="fc-dot"></span></span>
-<span class="fc-txt"><b>Chat with us</b><span>Last seen 3m ago</span></span>
+<button type="button" id="fein-chat" aria-label="Chat with the fein team.">
+<span class="fc-mark"><img src="data:image/webp;base64,${danielB64}" alt="" width="38" height="38"></span>
+<span class="fc-txt"><b>Chat with us</b></span>
 <span class="fc-badge" hidden></span>
 </button>
 <script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
@@ -379,6 +375,13 @@ if(b)b.addEventListener("click",function(){boot();w.Intercom("show")});
 if(location.hash==="#chat")boot()})()</script>
 <script>(function(){var b=document.getElementById("fein-chat");if(!b)return;requestAnimationFrame(function(){requestAnimationFrame(function(){b.classList.add("fc-in")})});if(window.Intercom){Intercom("onShow",function(){b.classList.add("fc-open")});Intercom("onHide",function(){b.classList.remove("fc-open")});var g=b.querySelector(".fc-badge");if(g)Intercom("onUnreadCountChange",function(n){g.hidden=!n})}})()</script>
 <!--fein-chat:end-->` : "";
+
+// The widget's origin warm-up hints, mirrored from the home page's headMeta so
+// every sub-page that carries the launcher gets the same head trio.
+const intercomPrefetch = INTERCOM_APP_ID ? `<link rel="dns-prefetch" href="https://widget.intercom.io">
+<link rel="dns-prefetch" href="https://js.intercomcdn.com">
+<link rel="dns-prefetch" href="${INTERCOM_API_BASE}">
+` : "";
 
 // ---- distill: the served home page cuts the sections that restate one
 // another. #figures restates #how, #change and #proof restate what the
@@ -424,6 +427,19 @@ const bHtml = indexHtml.replace(/<meta name="robots" content="[^"]*">/, '<meta n
 fs.mkdirSync(path.join(out, "b"), { recursive: true });
 fs.writeFileSync(path.join(out, "b", "index.html"), bHtml);
 
+// ---- 404: hand-maintained at the repo root rather than templated, so the
+// chat launcher is patched in: strip any existing fein-chat block (the markers
+// make this idempotent across builds), then append the current one. No head
+// prefetch hints — an error page doesn't need the warm-up. ----
+if (intercom) {
+  const notFoundPath = path.join(out, "404.html");
+  let notFound = fs.readFileSync(notFoundPath, "utf8")
+    .replace(/\s*<!--fein-chat:start-->[\s\S]*?<!--fein-chat:end-->/g, "");
+  if (notFound.indexOf("</body>") < 0) throw new Error("404.html: no </body> to patch the chat launcher into");
+  notFound = notFound.replace("</body>", intercom + "\n</body>");
+  fs.writeFileSync(notFoundPath, notFound);
+}
+
 // robots.txt — welcome AI answer engines explicitly
 const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
 const robots = `# fein · the graph for venture capital teams
@@ -447,6 +463,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
   <url><loc>${SITE}/self-host</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/security</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/integrations</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/demo</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>${SITE}/privacy</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>${SITE}/terms</loc><lastmod>${LASTMOD}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
@@ -463,6 +480,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
     .split("__NAV_CSS__").join(NAV_STYLE_TAG)
     .split("__NAV__").join(navFor(slug));
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD__") > -1 || page.indexOf("__NAV") > -1) throw new Error("legal placeholder left in " + slug);
+  page = page.replace("</head>", intercomPrefetch + "</head>").replace("</body>", intercom + "\n</body>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
@@ -526,7 +544,20 @@ function faqLdFor(page, slug) {
 // /self-host, /deploy and /pricing are the fork: the free path, the managed one,
 // and the page that prices them against each other. They carry no stylesheet of
 // their own at all, which is what __STYLE__ was built for.
-["pe", "demo", "self-host", "deploy", "pricing", "security"].forEach(function (slug) {
+// ---- rehomed home-page sections: the sections HOME_CUT removes from the
+// served home page still render, each on the page that argues it in full.
+// Extracted from the built body (fonts, sprite refs and avatars already
+// inlined), so a template edit to any of them lands on its new page too.
+// #crm and #why make /integrations; #change joins /security with the replay
+// script that animates it, lifted from between its change-replay markers.
+function homeSection(id) {
+  const m = rest.match(new RegExp('<section id="' + id + '"[\\s\\S]*?</section>'));
+  if (!m) throw new Error("rehome: section not found in template: #" + id);
+  return m[0];
+}
+const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay:end*/", "change-replay");
+
+["pe", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__STYLE__").join(styleBlock)
     .split("__LOGO_SPRITE__").join(spriteAll)
@@ -535,18 +566,24 @@ function faqLdFor(page, slug) {
     .split("__LASTMOD__").join(LASTMOD)
     .split("__ANALYTICS__").join(analytics)
     .split("__NAV_CSS__").join(NAV_STYLE_TAG)
-    .split("__NAV__").join(navFor(slug));
+    .split("__NAV__").join(navFor(slug))
+    .split("__SECTION_CRM__").join(homeSection("crm"))
+    .split("__SECTION_WHY__").join(homeSection("why"))
+    .split("__SECTION_CHANGE__").join(homeSection("change"))
+    .split("__CHANGE_JS__").join(CHANGE_JS);
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
   if (page.indexOf("__STYLE__") > -1 || page.indexOf("__LOGO_SPRITE__") > -1 || page.indexOf("__NAV") > -1) throw new Error("page placeholder left in " + slug);
+  if (page.indexOf("__SECTION") > -1 || page.indexOf("__CHANGE_JS__") > -1) throw new Error("page placeholder left in " + slug);
   const faqLd = faqLdFor(page, slug);
   if (faqLd) page = page.replace("</head>", faqLd + "\n</head>");
+  page = page.replace("</head>", intercomPrefetch + "</head>").replace("</body>", intercom + "\n</body>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the open-source context graph for an investment team. It is the shared memory that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly fee priced on fund size, from $1,000 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
+const LLMS_SUMMARY = `> fein is the open-source context graph for an investment team. It is the shared memory that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -586,8 +623,8 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - Running it yourself is free, forever. The code is Apache 2.0 licensed. There is no paid tier of the software, and no feature is held back to make one. The page for this path is ${SITE}/self-host.
 - The paid offer is setup and upkeep, never access. The page for this path is ${SITE}/deploy.
 - Managed setup: $5,000 to build once. A forward deployed engineer connects every source, resolves duplicate people, reads the firm's full history back, and hands over a working graph on day 14.
-- Then a monthly fee, priced on fund size, never per seat: under $250M is $1,000 each month; $250M to $1B is $2,500; $1B to $5B is $4,000; over $5B is priced on a call.
-- The monthly fee keeps the connectors working through upstream API changes, keeps the graph current, and builds new answers on request.
+- Then a monthly plan, set by how much we keep doing after the setup, never per seat: Core is $250 each month, Plus is $500, Pro is $750.
+- Core keeps the connectors working through upstream API changes and applies updates. Plus adds new answers on request and a quarterly graph review. Pro adds new connectors for new tools and a named engineer.
 - An annual plan, paid in advance, costs 15% less.
 - It is month to month, with no lock-in. If you cancel, the software and the graph stay yours and keep running. What stops is the upkeep.
 
@@ -606,7 +643,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 ## Links
 - [Run fein yourself](${SITE}/self-host): the free path. What the setup involves, what it needs, and how long each part really takes
 - [Managed setup](${SITE}/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
-- [Pricing](${SITE}/pricing): both paths priced against each other, with the fund-size bands
+- [Pricing](${SITE}/pricing): both paths priced against each other, with the three monthly plans
 - [fein for private equity](${SITE}/pe): the page for private equity firms
 - [Security](${SITE}/security): self-hosted, open source, auditable. The page for a security review
 - [Source on GitHub](https://github.com/clippycommits/fein): Apache 2.0 licensed, free to self-host
@@ -725,21 +762,20 @@ Every investment team needs a data engineer. Now every team can afford one.
 | Option | Price | What you get |
 | --- | --- | --- |
 | A data hire | $200,000 per year | Skilled, but one person. The graph stays in their head. |
-| fein | $5,000 once + a monthly fee priced on fund size | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
+| fein | $5,000 once + a monthly plan from $250 | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
 | Clone it yourself | $0 forever | The same code we deploy for clients. You run it and you maintain it. |
 
-The monthly fee is priced on fund size, and never per seat.
+The monthly plan is set by how much we keep doing after the setup, and never per seat.
 
-| Fund size | Monthly |
-| --- | --- |
-| Under $250M | $1,000 |
-| $250M to $1B | $2,500 |
-| $1B to $5B | $4,000 |
-| Over $5B | Priced on a call |
+| Plan | Monthly | What it adds |
+| --- | --- | --- |
+| Core | $250 | Connectors repaired after upstream API changes, updates and security patches applied, email support. |
+| Plus | $500 | Everything in Core, plus new answers built on request, a quarterly graph review, priority support. |
+| Pro | $750 | Everything in Plus, plus new connectors built for new tools, a named engineer, same-day support. |
 
 The fein plan reads your inbox, calendar, Drive, LinkedIn, and CRM. It resolves entities to one identity per person. It scores every relationship from real signals, not a guess. It answers over one MCP endpoint in Claude, ChatGPT, Gemini, and Cursor. It is open source and runs on your servers. We keep the connectors working through every API change. We build new answers when your team asks.
 
-A firm under $250M pays about $17,000 in the first year. That is less than one month of a data hire. An annual plan, paid in advance, costs 15% less. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
+A firm on Core pays $8,000 in the first year. That is a fraction of one month of a data hire. An annual plan, paid in advance, costs 15% less. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
 
 ## FAQ
 

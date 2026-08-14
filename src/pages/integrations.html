@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fein integrations &middot; 30+ tools in, one endpoint out</title>
+<meta name="description" content="fein reads your CRM, email, calendar, files, and notes. 30+ tools resolve into one context graph. Claude, ChatGPT, and Cursor query it over one MCP endpoint.">
+<link rel="canonical" href="https://fein.vc/integrations">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08090A">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fein">
+<meta property="og:title" content="fein integrations">
+<meta property="og:description" content="30+ tools resolve into one context graph, served to Claude, ChatGPT, and Cursor over one MCP endpoint.">
+<meta property="og:url" content="https://fein.vc/integrations">
+<meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="fein integrations">
+<meta name="twitter:description" content="30+ tools resolve into one context graph, served over one MCP endpoint.">
+<meta name="twitter:image" content="https://fein.vc/og.png">
+
+<!-- The index page's whole stylesheet, injected by build.js. The two sections
+     this page rehomes (#crm, #why) are index-page markup, so every class they
+     use is defined there and nothing on this page can drift from the site. -->
+__STYLE__
+</head>
+<body>
+__LOGO_SPRITE__
+<a class="skip" href="#content">Skip to content</a>
+
+<main id="view-integrations" class="seg">
+
+  <div class="topshell">__NAV__</div>
+
+  <section class="seg-fold">
+    <div class="grain-overlay on-dark"></div>
+    <div class="wrap" id="content" tabindex="-1">
+      <h1>30+ tools in. One endpoint out.</h1>
+      <p>fein reads the systems your team already runs and resolves them into one context graph. Your AI tools query the graph, not thirty separate search boxes.</p>
+    </div>
+  </section>
+
+  <!-- rehomed from the home page by build.js: the tool wall, then the argument
+       for one endpoint over per-tool connectors. The wall answers "does it read
+       my stack", the table answers "why not just use the Gmail connector",
+       which is the objection this page exists to be sent for. -->
+  __SECTION_CRM__
+
+  __SECTION_WHY__
+
+  <section class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>Something in your stack we did not name?</h2>
+        <p class="lead">We read that too. Twenty minutes on a call, and a straight answer on whether your stack fits.</p>
+      </div>
+      <div class="reveal" style="margin-top:1.6rem">
+        <a class="btn btn-primary" href="/demo">Get a demo</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div class="fbrand">
+          <a class="brand" href="/">fein</a>
+          <p>The open-source context graph for investment teams.</p>
+        </div>
+        <nav class="fcol" aria-label="Footer ways to run fein">
+          <b>Get fein</b>
+          <a href="/self-host">Run it yourself for free</a>
+          <a href="/deploy">Managed setup</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/security">Security</a>
+          <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer firms">
+          <b>Firms</b>
+          <a href="/">For venture capital</a>
+          <a href="/pe">For private equity</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer contact">
+          <b>Contact</b>
+          <a href="/demo">Get a demo</a>
+          <a href="mailto:sales@fein.vc">sales@fein.vc</a>
+        </nav>
+      </div>
+      <p class="fbottom">&copy; 2026 fein &middot; free and open source &middot; <a href="/privacy">privacy</a> &middot; <a href="/terms">terms</a></p>
+    </div>
+  </footer>
+</main>
+
+<script>
+/* scroll-reveal, the same rise-and-fade the index page uses: the shared
+   stylesheet ships .reveal at opacity 0, so without this the page is blank. */
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!items.length) return;
+  [].forEach.call(document.querySelectorAll('[data-reveal-group]'),function(group){
+    var step=parseInt(group.getAttribute('data-reveal-group'),10)||90;
+    [].forEach.call(group.querySelectorAll('.reveal'),function(el,i){
+      el.style.transitionDelay=(i*step)+'ms';
+    });
+  });
+  if(reduce||!('IntersectionObserver' in window)){
+    items.forEach(function(el){el.classList.add('in');});
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -12% 0px',threshold:.08});
+  items.forEach(function(el){io.observe(el);});
+})();
+</script>
+__ANALYTICS__
+</body>
+</html>
