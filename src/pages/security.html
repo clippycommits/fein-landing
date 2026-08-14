@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fein security &middot; self-hosted, open source, auditable</title>
+<meta name="description" content="fein runs on your own servers and sends nothing to us. Every line that touches your data is open source. Access is scoped per person, and every change is written to an audit trail.">
+<link rel="canonical" href="https://fein.vc/security">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08090A">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fein">
+<meta property="og:title" content="fein security">
+<meta property="og:description" content="Self-hosted on your servers, open source end to end, and every change written to an audit trail. The page to forward to your security team.">
+<meta property="og:url" content="https://fein.vc/security">
+<meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="fein security">
+<meta name="twitter:description" content="Self-hosted on your servers, open source end to end, and every change written to an audit trail. The page to forward to your security team.">
+<meta name="twitter:image" content="https://fein.vc/og.png">
+
+<!-- The index page's whole stylesheet, injected by build.js. Every component
+     this page uses (.sec-list, .offer, .faq, .seg-fold, .deploy-cta) is defined
+     there, so this file is copy and structure only: it has no stylesheet of its
+     own and cannot drift from the rest of the site. -->
+__STYLE__
+</head>
+<body>
+__LOGO_SPRITE__
+<a class="skip" href="#content">Skip to content</a>
+
+<main id="view-security" class="seg">
+
+  <div class="topshell">__NAV__</div>
+
+  <section class="seg-fold">
+    <div class="grain-overlay on-dark"></div>
+    <div class="wrap" id="content" tabindex="-1">
+      <h1>Your data never leaves your servers.</h1>
+      <p>fein reads your inbox, your calendar and your CRM to do its work, and that work runs inside your own environment. This page is the one to forward to the person who has to say yes: what fein touches, where it runs, and how you check every claim on it yourself.</p>
+    </div>
+  </section>
+
+  <section id="guarantees" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>Six guarantees, each one checkable.</h2>
+        <p class="lead">None of these are policy promises. Each one is a property of how fein is built, and the code that makes it true is public.</p>
+      </div>
+      <ul class="sec-list" data-reveal-group="70">
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>fein runs in your environment, on infrastructure you control. It sends nothing to us.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public, under Apache 2.0. Audit it before you run it.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>One token, every surface.</b><p>The dashboard, the API and the agent endpoint sit behind the same gate.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Private by person.</b><p>Each person&rsquo;s sensitive sources stay in their own layer inside the shared graph. fein enforces the scoping inside every query.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Every change is written down.</b><p>Ingests, merges and review decisions are logged to an append-only audit trail, with the person or agent that made each one.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Nothing phones home.</b><p>There is no telemetry, no analytics, and no control plane of ours for you to trust. Disconnect from the internet and fein carries on answering.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="model" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>What fein reads, and where it stays.</h2>
+        <p class="lead">fein connects to the systems your firm already runs: email, calendar, files, notes and CRM. It reads them with credentials you issue and can revoke, from inside your own environment. What it builds from them, the graph and its history, lands in your own database and stays there.</p>
+      </div>
+      <div class="offer reveal">
+        <h3>The deployment surface, in one paragraph.</h3>
+        <ul>
+          <li><span class="tk">&rarr;</span><span><b>Runs where you say.</b> A machine you own, on-prem or in your own cloud account, deployed with Docker.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Credentials stay yours.</b> Each source is connected with credentials your admin grants. Revoke one and that source goes dark to fein.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>On managed setups, our engineer works inside your infrastructure</b> with access you issue and can end at any time. Your data never reaches us either way.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="questions" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>What security reviews ask.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Does our data ever reach fein the company?</summary>
+          <p>No. fein is deployed into your environment and runs there. There is no telemetry, no analytics and no control plane of ours. On a managed setup, the engineer works inside your infrastructure with credentials you issue and can revoke.</p>
+        </details>
+        <details>
+          <summary>How do we verify any of this?</summary>
+          <p>Read the code. Every line that touches your data is public on GitHub under Apache 2.0, and the binary you run is built from that source. A security review can audit the repository before anything is deployed.</p>
+        </details>
+        <details>
+          <summary>How is access controlled inside the firm?</summary>
+          <p>One token gates the dashboard, the API and the agent endpoint. Inside the graph, each person&rsquo;s sensitive sources live in a private layer, and fein enforces that scoping inside every query, for humans and agents alike.</p>
+        </details>
+        <details>
+          <summary>Is there an audit trail?</summary>
+          <p>Yes. Every ingest, merge and review decision is written to an append-only audit trail with the person or agent that made it. Facts are never overwritten: a fact that stops being true is struck, dated and kept, so you can always see what the firm believed and when.</p>
+        </details>
+        <details>
+          <summary>What happens to the data if we cancel or you disappear?</summary>
+          <p>Nothing. The software is on your servers under a licence that cannot be revoked, and the graph is in your own database. There is no kill switch and nothing that expires. What stops with a cancelled contract is the upkeep, not the system.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="deploy-cta reveal">
+        <div>
+          <b>Put this page in front of your security team.</b>
+          <p>Then put the repository in front of them too. If they have a question the code does not answer, we will get on a call with them.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-white" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source</a>
+          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div class="fbrand">
+          <a class="brand" href="/">fein</a>
+          <p>The open-source context graph for investment teams.</p>
+        </div>
+        <nav class="fcol" aria-label="Footer ways to run fein">
+          <b>Get fein</b>
+          <a href="/self-host">Run it yourself for free</a>
+          <a href="/deploy">Managed setup</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/security">Security</a>
+          <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer firms">
+          <b>Firms</b>
+          <a href="/">For venture capital</a>
+          <a href="/pe">For private equity</a>
+        </nav>
+        <nav class="fcol" aria-label="Footer contact">
+          <b>Contact</b>
+          <a href="/demo">Get a demo</a>
+          <a href="mailto:sales@fein.vc">sales@fein.vc</a>
+        </nav>
+      </div>
+      <p class="fbottom">&copy; 2026 fein &middot; free and open source &middot; <a href="/privacy">privacy</a> &middot; <a href="/terms">terms</a></p>
+    </div>
+  </footer>
+</main>
+
+<script>
+/* scroll-reveal, the same rise-and-fade the index page uses: the shared
+   stylesheet ships .reveal at opacity 0, so without this the page is blank. */
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!items.length) return;
+  [].forEach.call(document.querySelectorAll('[data-reveal-group]'),function(group){
+    var step=parseInt(group.getAttribute('data-reveal-group'),10)||90;
+    [].forEach.call(group.querySelectorAll('.reveal'),function(el,i){
+      el.style.transitionDelay=(i*step)+'ms';
+    });
+  });
+  if(reduce||!('IntersectionObserver' in window)){
+    items.forEach(function(el){el.classList.add('in');});
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -12% 0px',threshold:.08});
+  items.forEach(function(el){io.observe(el);});
+})();
+</script>
+__ANALYTICS__
+</body>
+</html>
