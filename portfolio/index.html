@@ -2341,7 +2341,7 @@
   .fmsg a{color:inherit;text-decoration:underline}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/portfolio#faq","mainEntity":[{"@type":"Question","name":"We already track the portfolio in Notion and Airtable. Why do we need this?","acceptedAnswer":{"@type":"Answer","text":"A tracker holds what somebody typed into it after the meeting. It does not know that a promise made at the June board is still open, or that the candidate a founder needs emailed a partner last week. fein reads the record your firm already makes, files it to the company it belongs to, and keeps it current with nobody maintaining it. The tracker can stay. fein reads it too."}},{"@type":"Question","name":"Where does our data go?","acceptedAnswer":{"@type":"Answer","text":"Your data goes nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path. Every line of code that touches your data is public. You can read it before you run anything."}},{"@type":"Question","name":"What access does your engineer have?","acceptedAnswer":{"@type":"Answer","text":"The engineer works inside your environment, on access your IT grants. You can revoke it at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported. One thing we will not overstate: fein does not today keep a tamper-proof audit trail of administrative access. Your own logging is the record that counts. The graph also sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is the reason the machine is yours and not ours."}},{"@type":"Question","name":"Can board material stay restricted to the partner who holds the seat?","acceptedAnswer":{"@type":"Answer","text":"Access is per person. Each person’s sensitive sources live in a private layer inside the shared graph, and fein enforces that scoping inside every query. A board pack can stay with the partner who holds the seat while the promise ledger and the support record stay shared. The detail is on the security page."}},{"@type":"Question","name":"How far back does it read?","acceptedAnswer":{"@type":"Answer","text":"fein reads as far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers each company from the first meeting on. On day fourteen fein answers like a colleague who sat through every board meeting your firm has attended."}},{"@type":"Question","name":"What happens if we cancel?","acceptedAnswer":{"@type":"Answer","text":"Nothing stops. fein runs on your servers. The graph, the connectors and every answer stay where they are. They keep working."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/portfolio#faq","mainEntity":[{"@type":"Question","name":"We already track the portfolio in Notion and Airtable. Why do we need this?","acceptedAnswer":{"@type":"Answer","text":"A tracker holds what somebody typed in after the meeting. It cannot tell you that a promise made at the June board is still open, or that the candidate a founder needs emailed a partner last week. fein reads those sources directly and keeps the record current with nobody maintaining it. The tracker can stay; fein reads it too."}},{"@type":"Question","name":"Where does our data go?","acceptedAnswer":{"@type":"Answer","text":"Nowhere. fein runs on your infrastructure and sends nothing to us: no telemetry, no control plane of ours in the path. Every line of code that touches your data is public, so you can read it before you run anything."}},{"@type":"Question","name":"What access does your engineer have?","acceptedAnswer":{"@type":"Answer","text":"The engineer works inside your environment, on access your IT grants and can revoke at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. It ends when the build ends, unless you ask us to keep the connectors supported. Two limits we will not overstate. fein does not today keep a tamper-proof audit trail of administrative access; your own logging is the record that counts. And the graph sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is why the machine is yours rather than ours."}},{"@type":"Question","name":"Can board material stay restricted to the partner who holds the seat?","acceptedAnswer":{"@type":"Answer","text":"Yes. A board pack can stay in the private layer of the partner who holds the seat while the promise ledger and the support record stay shared. fein enforces that scoping inside every query. The detail is on the security page."}},{"@type":"Question","name":"How far back does it read?","acceptedAnswer":{"@type":"Answer","text":"As far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers each company from the first meeting on."}},{"@type":"Question","name":"What happens if we cancel?","acceptedAnswer":{"@type":"Answer","text":"Nothing stops. fein runs on your servers, so the graph, the connectors and every answer stay where they are and keep working."}}]}</script>
 <link rel="dns-prefetch" href="https://widget.intercom.io">
 <link rel="dns-prefetch" href="https://js.intercomcdn.com">
 <link rel="dns-prefetch" href="https://api-iam.intercom.io">
@@ -2566,7 +2566,7 @@
     <div class="wrap" id="content" tabindex="-1">
       <span class="hpill">Self-hosted &middot; open source &middot; live in 14 days</span>
       <h1>Every promise your firm makes to a founder, kept.</h1>
-      <p>fein reads your firm&rsquo;s email, calendar, notes and CRM. Every board deck, introduction and founder ask becomes one record per company. Ask in Claude, ChatGPT or Cursor what is open before the board meeting, and who in your network can meet a founder&rsquo;s ask. Each answer carries its source.</p>
+      <p>fein reads your firm&rsquo;s email, calendar, notes and CRM. Every board deck, introduction and founder ask becomes one record per company. Ask in Claude, ChatGPT or Cursor what is open before the board meeting, or who in your network can meet an ask. Each answer carries its source.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Book 20 minutes</a>
         <a class="btn btn-ghost" href="#pricing">See pricing</a>
@@ -2604,13 +2604,13 @@
   <section id="problem" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <h2>Founders remember what you promised. Your tools do not.</h2>
+        <h2>Founders remember the promises your tools lose.</h2>
       </div>
       <ul class="plist" data-reveal-group="70">
         <li class="reveal"><b>Board prep is an excavation</b>The last deck, the two open asks and what was promised in the room sit in three tools and one partner&rsquo;s inbox. The brief gets rebuilt by hand, the night before, every time.</li>
         <li class="reveal"><b>Promised introductions vanish</b>A partner promises a founder three customer introductions at the board. A month later, nobody at the firm can list them, or say which ones were made.</li>
         <li class="reveal"><b>Founder asks die in Slack</b>A founder needs a VP Sales. The right candidate emailed a partner last week. The two facts sit one desk apart and never meet.</li>
-        <li class="reveal"><b>The help is invisible later</b>When the company raises again, or an LP asks what the platform actually does, the record of what your firm did is nobody&rsquo;s single list.</li>
+        <li class="reveal"><b>The help is invisible later</b>When the company raises again, or an LP asks what the platform does, no single list holds what your firm did.</li>
       </ul>
     </div>
   </section>
@@ -2619,7 +2619,7 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>Four questions your platform team asks every week.</h2>
-        <p class="lead">fein answers each one from the record your firm already makes. Answers arrive in seconds, and each line shows its source document.</p>
+        <p class="lead">fein answers each one in seconds, from the record your firm already makes.</p>
       </div>
       <div class="featgrid">
         <article class="featcell reveal">
@@ -2634,7 +2634,7 @@
           </div>
           <div class="featcap">
             <h3>The board brief</h3>
-            <p>Before each board meeting, fein lists what is open: the asks the founder made, the promises the firm made, and what changed since the last pack. It reads the decks, the threads and the notes. Nobody rebuilds the picture by hand.</p>
+            <p>Before each board meeting, fein lists what is open: the asks the founder made, the promises the firm made, and what changed since the last pack. It reads this from the decks, the threads and the notes.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -2649,7 +2649,7 @@
           </div>
           <div class="featcap">
             <h3>The promise ledger</h3>
-            <p>Every introduction the firm promises is filed to the company it belongs to, with the meeting it was made in. fein marks the ones that happened and flags the ones still open. A promise stops depending on the memory of the person who made it.</p>
+            <p>Every promised introduction is filed to its company, with the meeting it was made in. fein marks the ones that happened and flags the ones still open.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -2664,7 +2664,7 @@
           </div>
           <div class="featcap">
             <h3>The ask, matched to your network</h3>
-            <p>A founder asks for a hire, a customer or an expert. fein searches the firm&rsquo;s whole graph, not one partner&rsquo;s memory: every candidate the firm can actually reach, ranked by how warm the path is, ending in the colleague who should make the call.</p>
+            <p>A founder asks for a hire, a customer or an expert. fein searches the firm&rsquo;s whole graph and returns every candidate the firm can actually reach, ranked by how warm the path is, with the colleague who should make the call.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -2679,7 +2679,7 @@
           </div>
           <div class="featcap">
             <h3>The support record</h3>
-            <p>What the firm actually did for each company, as a list with a source behind every line. It is the answer when the founder compares term sheets, when the next investor diligences you, and when an LP asks what the platform is for.</p>
+            <p>What the firm actually did for each company, in one list. It is the answer when the founder compares term sheets, when the next investor diligences you, and when an LP asks what the platform is for.</p>
           </div>
         </article>
       </div>
@@ -2697,21 +2697,21 @@
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M160 62.343599999999995L246 112L160 161.65640000000002L74 112Z"/><path d="M160 80.4984L244 129L160 177.5016L76 129Z"/><path d="M160 98.6532L242 146L160 193.3468L78 146Z"/><path d="M160 116.80799999999999L240 163L160 209.192L80 163Z"/><path d="M160 134.96280000000002L238 180L160 225.03719999999998L82 180Z"/><path d="M160 153.11759999999998L236 197L160 240.88240000000002L84 197Z"/><path d="M160 36.343599999999995L246 86L160 135.65640000000002L74 86Z" class="lid"/><ellipse cx="160" cy="86" rx="44" ry="25"/><ellipse cx="160" cy="86" rx="30" ry="17"/><ellipse cx="160" cy="86" rx="16" ry="9" class="hi"/></svg>
         <figcaption>
           <h3>It reads what you already write</h3>
-          <p>fein reads your email, calendar, Drive, LinkedIn and CRM, and it reads them continuously. Board packs, threads and call notes land on the company they belong to. Your platform team logs nothing and changes nothing.</p>
+          <p>fein reads your email, calendar, Drive, LinkedIn and CRM, continuously. Board packs, threads and call notes land on the company they belong to. Your platform team logs nothing.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M112 72.904L152 96L112 119.096L72 96ZM72 96L112 119.096L112 149.096L72 126ZM152 96L112 119.096L112 149.096L152 126Z"/><path d="M196 96.904L236 120L196 143.096L156 120ZM156 120L196 143.096L196 173.096L156 150ZM236 120L196 143.096L196 173.096L236 150Z"/><path d="M108 150L152 175.4056L152 209.4056L108 184ZM196 150L152 175.4056L152 209.4056L196 184Z"/><path d="M152 124.59440000000001L196 150L152 175.4056L108 150Z" class="hi"/><path d="M214 156.3684L248 176L214 195.6316L180 176ZM180 176L214 195.6316L214 221.6316L180 202ZM248 176L214 195.6316L214 221.6316L248 202Z"/></svg>
         <figcaption>
           <h3>One record per company</h3>
-          <p>Every duplicate copy of a contact joins into one identity, and every document lands on one company record. When a fact stops being true, fein strikes it and dates it. Nothing is deleted, so the whole history stays answerable.</p>
+          <p>Duplicate contacts join into one identity, and every document lands on one company record. When a fact stops being true, fein strikes it and dates it. Nothing is deleted, so the whole history stays answerable.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M58.0 214.0L75.0 223.8L75.0 205.8L58.0 196.0Z"/><path d="M71.6 207.0L88.6 216.8L88.6 191.6L71.6 181.8Z"/><path d="M85.2 200.0L102.2 209.8L102.2 177.4L85.2 167.6Z"/><path d="M98.8 193.0L115.8 202.8L115.8 163.2L98.8 153.4Z"/><path d="M112.4 186.0L129.4 195.8L129.4 149.0L112.4 139.2Z"/><path d="M126.0 179.0L143.0 188.8L143.0 134.8L126.0 125.0Z"/><path d="M139.6 172.0L156.6 181.8L156.6 120.6L139.6 110.8Z"/><path d="M153.2 165.0L170.2 174.8L170.2 106.4L153.2 96.6Z"/><path d="M166.8 158.0L183.8 167.8L183.8 92.2L166.8 82.4Z"/><path d="M180.4 151.0L197.4 160.8L197.4 78.0L180.4 68.2Z"/><path d="M194.0 144.0L211.0 153.8L211.0 63.8L194.0 54.0Z"/><path d="M207.6 137.0L224.6 146.8L224.6 49.6L207.6 39.8Z"/><path d="M221.2 130.0L238.2 139.8L238.2 35.4L221.2 25.6Z"/><path d="M234.8 123.0L251.8 132.8L251.8 21.2L234.8 11.4Z" class="hi"/></svg>
         <figcaption>
           <h3>It answers where you work</h3>
-          <p>One MCP endpoint sits behind Claude, ChatGPT, Gemini and Cursor. The answer is the same every time, and it carries its source. Your agents traverse a map. They do not scrape files and guess.</p>
+          <p>One MCP endpoint sits behind Claude, ChatGPT, Gemini and Cursor. Every tool gets the same answer. Your agents traverse a map instead of scraping files and guessing.</p>
         </figcaption>
       </figure>
     </div>
@@ -2729,19 +2729,19 @@
 
         <p class="rl">What it holds</p>
         <p class="a">The rows somebody remembered to update after the board meeting.</p>
-        <p class="b"><b class="ben">Everything that already exists.</b> Every deck, thread, invite and note, resolved onto the company it belongs to.</p>
+        <p class="b"><b class="ben">Everything that already exists.</b> Every deck, thread, invite and note, resolved onto its company.</p>
 
         <p class="rl">Who keeps it current</p>
         <p class="a">The platform team, chasing partners for updates they half remember.</p>
-        <p class="b"><b class="ben">Nobody.</b> fein reads the record your firm makes anyway. If the tracker is stale, fein is still current.</p>
+        <p class="b"><b class="ben">Nobody.</b> fein reads what the firm writes anyway. If the tracker is stale, fein is still current.</p>
 
         <p class="rl">Promises and asks</p>
         <p class="a">In whoever&rsquo;s head was in the room, until they forget.</p>
-        <p class="b"><b class="ben">Filed and flagged.</b> Each promise keeps the meeting it was made in, and stays open until it is closed.</p>
+        <p class="b"><b class="ben">Filed and flagged.</b> Each promise stays open until it is closed.</p>
 
         <p class="rl">The firm&rsquo;s network</p>
         <p class="a">Asked for in Slack: whoever answers, answers.</p>
-        <p class="b"><b class="ben">Queried.</b> Every candidate the firm can reach, ranked by real warmth, with the colleague who should make the call.</p>
+        <p class="b"><b class="ben">Queried.</b> Every reachable candidate, ranked by real warmth.</p>
 
         <p class="rl">Where it runs</p>
         <p class="a">A vendor&rsquo;s cloud, on terms you renegotiate at renewal.</p>
@@ -2847,12 +2847,11 @@
       <div class="faq">
         <details>
           <summary>We already track the portfolio in Notion and Airtable. Why do we need this?</summary>
-          <p>A tracker holds what somebody typed into it after the meeting. It does not know that a promise made at the June board is still open, or that the candidate a founder needs emailed a partner last week. fein reads the record your firm already makes, files it to the company it belongs to, and keeps it current with nobody maintaining it.</p>
-          <p>The tracker can stay. fein reads it too.</p>
+          <p>A tracker holds what somebody typed in after the meeting. It cannot tell you that a promise made at the June board is still open, or that the candidate a founder needs emailed a partner last week. fein reads those sources directly and keeps the record current with nobody maintaining it. The tracker can stay; fein reads it too.</p>
         </details>
         <details>
           <summary>Where does our data go?</summary>
-          <p>Your data goes nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path. Every line of code that touches your data is public. You can read it before you run anything.</p>
+          <p>Nowhere. fein runs on your infrastructure and sends nothing to us: no telemetry, no control plane of ours in the path. Every line of code that touches your data is public, so you can read it before you run anything.</p>
         </details>
         <!-- Bounded by fein-docs/legal/dpa.md, same as the /pe answer: no
              tamper-proof audit trail of administrative access is claimed, and
@@ -2860,20 +2859,20 @@
              this only after the product changes, not before. -->
         <details>
           <summary>What access does your engineer have?</summary>
-          <p>The engineer works inside your environment, on access your IT grants. You can revoke it at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported.</p>
-          <p>One thing we will not overstate: fein does not today keep a tamper-proof audit trail of administrative access. Your own logging is the record that counts. The graph also sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is the reason the machine is yours and not ours.</p>
+          <p>The engineer works inside your environment, on access your IT grants and can revoke at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. It ends when the build ends, unless you ask us to keep the connectors supported.</p>
+          <p>Two limits we will not overstate. fein does not today keep a tamper-proof audit trail of administrative access; your own logging is the record that counts. And the graph sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is why the machine is yours rather than ours.</p>
         </details>
         <details>
           <summary>Can board material stay restricted to the partner who holds the seat?</summary>
-          <p>Access is per person. Each person&rsquo;s sensitive sources live in a private layer inside the shared graph, and fein enforces that scoping inside every query. A board pack can stay with the partner who holds the seat while the promise ledger and the support record stay shared. The detail is on the security page.</p>
+          <p>Yes. A board pack can stay in the private layer of the partner who holds the seat while the promise ledger and the support record stay shared. fein enforces that scoping inside every query. The detail is on the security page.</p>
         </details>
         <details>
           <summary>How far back does it read?</summary>
-          <p>fein reads as far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers each company from the first meeting on. On day fourteen fein answers like a colleague who sat through every board meeting your firm has attended.</p>
+          <p>As far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers each company from the first meeting on.</p>
         </details>
         <details>
           <summary>What happens if we cancel?</summary>
-          <p>Nothing stops. fein runs on your servers. The graph, the connectors and every answer stay where they are. They keep working.</p>
+          <p>Nothing stops. fein runs on your servers, so the graph, the connectors and every answer stay where they are and keep working.</p>
         </details>
       </div>
     </div>
@@ -2884,7 +2883,7 @@
       <div class="formwrap">
         <div class="head reveal">
           <h2>Give us twenty minutes. We will show you your own graph.</h2>
-          <p class="lead">Tell us the name of your firm. We come to the call with what we can already see in public data: your portfolio, the networks around it, and the paths your firm likely has into them. If it is not interesting, we have taken twenty minutes of your time and none of your money.</p>
+          <p class="lead">Tell us the name of your firm. We come to the call with what we can already see in public data: your portfolio, the networks around it, and the paths your firm likely has into them. If it is not interesting, it cost you twenty minutes.</p>
           <div class="sec-cta">
             <a class="arrowlink" href="mailto:sales@fein.vc">Or email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           </div>

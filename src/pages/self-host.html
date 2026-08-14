@@ -40,7 +40,7 @@ __LOGO_SPRITE__
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
       <h1>Clone it, run it, pay nothing.</h1>
-      <p>fein is Apache 2.0 licensed and self-hosted by design. There is no trial, no seat count and no paid tier of the software: the firms we deploy for run the same code you are about to clone. This page is the honest version of what setting it up involves.</p>
+      <p>fein is Apache 2.0 licensed and self-hosted by design. There is no trial, no seat count and no paid tier. This page is an honest account of the setup.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>View on GitHub</a>
         <a class="btn btn-ghost" href="#steps">Read the setup</a>
@@ -52,12 +52,12 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="head reveal">
         <h2>A machine, an LLM key, and someone comfortable in a terminal.</h2>
-        <p class="lead">The default stack runs entirely on disk, so there is nothing external to provision to get it going. Everything below is on your side of the line, and none of it involves us.</p>
+        <p class="lead">The default stack runs entirely on local disk, so there is nothing external to provision.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB and Ladybug, all on local disk. Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate and Milvus are swappable through the environment file when you outgrow that.</p></div>
-        <div class="wcard reveal"><h3>An LLM API key</h3><p>Browsing works without one, but ingestion and search do not: adding a document runs entity extraction and embedding. It defaults to <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock and any OpenAI-compatible endpoint work too.</p></div>
-        <div class="wcard reveal"><h3>Admin access to each source</h3><p>Every system you want read has its own OAuth app or API credential to register: Gmail, Calendar, Drive, LinkedIn, your CRM. This is the part that takes the most calendar time, because it usually involves someone else at the firm.</p></div>
+        <div class="wcard reveal"><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB and Ladybug on local disk. When you outgrow that, Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate and Milvus are swappable through the environment file.</p></div>
+        <div class="wcard reveal"><h3>An LLM API key</h3><p>Adding a document runs entity extraction and embedding, so ingestion and search need a key; browsing works without one. The default is <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock and any OpenAI-compatible endpoint work too.</p></div>
+        <div class="wcard reveal"><h3>Admin access to each source</h3><p>Every system you want read has its own OAuth app or API credential to register. This part takes the most calendar time.</p></div>
       </div>
     </div>
   </section>
@@ -66,7 +66,7 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="head reveal">
         <h2>Getting it running.</h2>
-        <p class="lead">The first three steps take an afternoon. The fourth is the one that takes real time, and it is worth reading before you start.</p>
+        <p class="lead">Three short steps, then one long one.</p>
       </div>
       <ol class="steps">
         <li>
@@ -80,7 +80,7 @@ cd fein</code>
         <li>
           <div>
             <b>Add a model key</b>
-            <p>Copy the template and put your key in it. The template documents every provider and every swappable database.</p>
+            <p>Copy the template and set your key; it documents every provider and every swappable database.</p>
             <code>cp .env.template .env
 # then set LLM_API_KEY="sk-..." in .env</code>
           </div>
@@ -88,7 +88,7 @@ cd fein</code>
         <li>
           <div>
             <b>Start the stack</b>
-            <p>One command. It creates the Python environment if it is missing, installs the UI dependencies if they are missing, starts the API on port 8000 and the dashboard on port 3000, waits for both to answer, and opens a browser. Logs land in <code>.run/api.log</code> and <code>.run/ui.log</code>.</p>
+            <p>One command. It sets up the Python environment and UI dependencies if they are missing, starts the API on port 8000 and the dashboard on port 3000, and opens a browser once both answer. Logs land in <code>.run/api.log</code> and <code>.run/ui.log</code>.</p>
             <code>./fein          # start the stack
 ./fein stop     # stop it
 ./fein status   # what is running</code>
@@ -97,7 +97,7 @@ cd fein</code>
         <li>
           <div>
             <b>Connect your sources, then backfill</b>
-            <p>Register an OAuth app for each system, connect it in the dashboard, and let fein read your history back. This is where the weeks go. See below.</p>
+            <p>Register an OAuth app for each system, connect it in the dashboard, and let fein read your history back. This is where the weeks go; see below.</p>
           </div>
         </li>
       </ol>
@@ -109,14 +109,14 @@ cd fein</code>
     <div class="wrap">
       <div class="head reveal">
         <h2>The install is an afternoon. The rest is not.</h2>
-        <p class="lead">We would rather say this here than have you find it out in week three. Getting fein running is genuinely quick. Getting it useful means pointing it at a decade of real mail, and that is a different job.</p>
+        <p class="lead">Making fein useful means pointing it at a decade of real mail. We would rather say so here than have you find out in week three.</p>
       </div>
       <div class="offer reveal">
         <h3>Where the time actually goes</h3>
         <ul>
-          <li><span class="tk">&rarr;</span><span><b>OAuth apps, one per source.</b> Each of Gmail, Calendar, Drive, LinkedIn and your CRM needs its own registered application and admin consent. Google and Microsoft both review some scopes. Budget days, not hours, and most of it is waiting on other people.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>The historical backfill.</b> Reading years of mail and documents is slow, rate-limited by the upstream APIs, and needs restarting when it breaks. This is the single longest step.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>Entity resolution.</b> A decade of mail contains a great many people who look like four people: work address, personal address, a maiden name, a typo. Getting one record per human is what separates a graph that answers well from one that answers plausibly.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>OAuth apps, one per source.</b> Each of Gmail, Calendar, Drive, LinkedIn and your CRM needs its own registered application and admin consent. Google and Microsoft both review some scopes. Budget days rather than hours; most of it is waiting on other people.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>The historical backfill.</b> Reading years of mail and documents is slow, rate-limited by the upstream APIs, and needs restarting when it breaks. It is the single longest step.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Entity resolution.</b> In a decade of mail, one person often looks like four: work address, personal address, a maiden name, a typo. Getting to one record per human is what makes the graph answer well.</span></li>
           <li><span class="tk">&rarr;</span><span><b>Keeping it alive.</b> Upstream APIs change on their own schedule. Once fein is load-bearing, somebody at the firm owns thirty integrations for as long as you run it.</span></li>
         </ul>
       </div>
@@ -128,8 +128,8 @@ cd fein</code>
            plainly, not a feature the free column is missing. -->
       <div class="deploy-cta reveal">
         <div>
-          <b>If that reads like a quarter of someone's time, it is.</b>
-          <p>That is the whole reason the managed option exists. Same software, same servers, same licence; an engineer of ours does the four things above and hands it over working on day 14. If you would rather do it yourself, everything you need is public and we are not holding anything back.</p>
+          <b>That list is a quarter of someone's time.</b>
+          <p>This work is why the managed option exists. Same software, same servers, same licence: an engineer of ours does the four things above and hands it over working on day 14. If you would rather do it yourself, everything you need is public.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-white" href="/deploy">See the managed setup</a>
@@ -147,23 +147,23 @@ cd fein</code>
       <div class="faq">
         <details>
           <summary>Is this a crippled version of the paid product?</summary>
-          <p>No. There is one codebase and one binary. The firms paying us run exactly what you clone, with no feature flags separating them from you. What they buy is setup and upkeep, not access.</p>
+          <p>No. There is one codebase and one binary, with no feature flags. The firms paying us run exactly what you clone; they buy setup and upkeep.</p>
         </details>
         <details>
           <summary>What is the licence, exactly?</summary>
-          <p>Apache 2.0. fein is a derivative of <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener">topoteretes/cognee</a>, which carries that licence, and we retain it along with the upstream attribution and a statement of changes. You can run it commercially, modify it, and keep your changes private. The one obligation Apache adds over a shorter licence is attribution: keep the NOTICE file with the code.</p>
+          <p>Apache 2.0. fein derives from <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener">topoteretes/cognee</a> and keeps its licence, the upstream attribution and a statement of changes. You can run it commercially, modify it, and keep your changes private. Over a shorter licence, the one obligation Apache adds is attribution: keep the NOTICE file with the code.</p>
         </details>
         <details>
           <summary>Do you see anything we run?</summary>
-          <p>Nothing. There is no telemetry, no analytics and no control plane. We have no way of knowing you are running it unless you tell us, which is also why we cannot help unprompted when something breaks.</p>
+          <p>Nothing. There is no telemetry, no analytics and no control plane. We do not know you are running it unless you tell us, which also means we cannot help unprompted when something breaks.</p>
         </details>
         <details>
           <summary>Can we get support?</summary>
-          <p>Through GitHub issues, alongside everyone else, at whatever pace we get to them. Guaranteed response times and a named engineer are what the managed plan is.</p>
+          <p>Through GitHub issues, alongside everyone else, at whatever pace we get to them. Guaranteed response times and a named engineer come with the managed plan.</p>
         </details>
         <details>
           <summary>Can we start here and move to managed later?</summary>
-          <p>Yes, and it is a sensible way to do it. We pick up whatever you have already built rather than starting again. The build fee is the same either way.</p>
+          <p>Yes. We pick up whatever you have built rather than starting again. The build fee is the same either way.</p>
         </details>
       </div>
     </div>

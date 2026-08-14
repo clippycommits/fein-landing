@@ -2305,7 +2305,7 @@
     #burst{animation:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/deploy#faq","mainEntity":[{"@type":"Question","name":"Why would we pay for software that is free?","acceptedAnswer":{"@type":"Answer","text":"You are not paying for the software. You are paying for fourteen days instead of three months, and for not spending your own engineer on connector plumbing. fein reads about thirty systems, each with its own authentication, rate limits and idea of what a person is. Getting that running against real data, then reading years of history through it without creating four copies of every contact, is genuinely hard and genuinely boring. We have done it before, which is the entire reason we can put a date on it."}},{"@type":"Question","name":"Does our data ever reach you?","acceptedAnswer":{"@type":"Answer","text":"No. fein is deployed into your environment and runs there. The engineer works inside your infrastructure with credentials you issue and can revoke. There is no telemetry, no analytics and no control plane of ours. If you disconnect the firm from the internet tomorrow, fein carries on answering."}},{"@type":"Question","name":"What do you actually need from us?","acceptedAnswer":{"@type":"Answer","text":"Somewhere to run it, admin consent on each source you want connected, and about ninety minutes of a partner's time across two calls. That is the whole ask. Everything else between day 1 and day 14 is our side."}},{"@type":"Question","name":"Can we start self-hosted and move to managed later?","acceptedAnswer":{"@type":"Answer","text":"Yes, and a fair number of firms do. Run it yourself, see how far you get, and call us when the maintenance stops being a sensible use of your engineer. We pick up whatever you have already built rather than starting again, and the build fee is the same."}},{"@type":"Question","name":"What if fourteen days slips?","acceptedAnswer":{"@type":"Answer","text":"Then it is our problem, not your invoice. The build fee is fixed and the thirty-day refund covers the whole engagement. We commit to the date because we have run it enough times to know what it takes."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/deploy#faq","mainEntity":[{"@type":"Question","name":"Why would we pay for software that is free?","acceptedAnswer":{"@type":"Answer","text":"You pay for fourteen days instead of three months, and for keeping your own engineer off connector plumbing. fein reads about thirty systems, each with its own authentication, rate limits and idea of what a person is. Getting that to run against real data is hard, boring work. We have done it before."}},{"@type":"Question","name":"Does our data ever reach you?","acceptedAnswer":{"@type":"Answer","text":"No. fein runs inside your environment, and the engineer works there with credentials you issue and can revoke. There is no telemetry, no analytics and no control plane of ours. Disconnect the firm from the internet and fein carries on answering."}},{"@type":"Question","name":"What do you actually need from us?","acceptedAnswer":{"@type":"Answer","text":"Somewhere to run it, admin consent on each source you want connected, and about ninety minutes of a partner's time across the two calls."}},{"@type":"Question","name":"Can we start self-hosted and move to managed later?","acceptedAnswer":{"@type":"Answer","text":"Yes, and a fair number of firms do. Call us when the maintenance stops being a sensible use of your engineer. We pick up what you have built rather than starting again, and the build fee is the same."}},{"@type":"Question","name":"What if fourteen days slips?","acceptedAnswer":{"@type":"Answer","text":"Then it is our problem, not your invoice. The build fee is fixed and the thirty-day refund covers the whole engagement."}}]}</script>
 <link rel="dns-prefetch" href="https://widget.intercom.io">
 <link rel="dns-prefetch" href="https://js.intercomcdn.com">
 <link rel="dns-prefetch" href="https://api-iam.intercom.io">
@@ -2534,7 +2534,7 @@
     <div class="wrap hero-inner" id="content" tabindex="-1">
       <div class="hero-copy head">
         <h1>An engineer builds fein into your stack. It is live in 14 days.</h1>
-        <p class="lead">The software is free and you are welcome to run it. This page is the other option. One of our engineers does the build, on your infrastructure, and stays on it afterwards. Your part is two short calls.</p>
+        <p class="lead">The software is free to run yourself. Or one of our engineers does the build, on your infrastructure, and stays on it afterwards. Your part is two short calls.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="/demo">Get a demo</a>
           <a class="btn btn-ghost" href="/pricing">See pricing</a>
@@ -2561,13 +2561,13 @@
   <section id="what" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <h2>Not a support ticket. An engineer inside your stack.</h2>
-        <p class="lead">Forward deployed means the person who writes the code sits with the firm that uses it. You get a named engineer, not a queue. They learn how your firm actually works, and they build fein to match it rather than handing you a general-purpose tool and a manual.</p>
+        <h2>An engineer inside your stack.</h2>
+        <p class="lead">Forward deployed: a named engineer learns how your firm works, then builds fein to match.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><h3>It runs on your servers</h3><p>The engineer deploys into your environment, with your credentials, behind your network. No data moves to us at any point, and there is nothing of ours left running when they finish.</p></div>
-        <div class="wcard reveal"><h3>Your ontology, not a default one</h3><p>Every firm names things differently. Deal stages, ownership, what counts as a pass. The graph is built to your vocabulary, so answers come back in the words your team already uses.</p></div>
-        <div class="wcard reveal"><h3>The same engineer afterwards</h3><p>The person who built it is the person who keeps it running. When a connector breaks or your team starts asking a new kind of question, they already know your setup.</p></div>
+        <div class="wcard reveal"><h3>It runs on your servers</h3><p>The engineer deploys into your environment, with your credentials, behind your network. Nothing of ours is left running when they finish.</p></div>
+        <div class="wcard reveal"><h3>Built to your ontology</h3><p>Every firm names things differently: deal stages, ownership, what counts as a pass. The graph uses your vocabulary, so answers come back in the words your team already uses.</p></div>
+        <div class="wcard reveal"><h3>The same engineer afterwards</h3><p>The person who built it keeps it running. When a connector breaks or your team starts asking a new kind of question, they already know your setup.</p></div>
       </div>
     </div>
   </section>
@@ -2576,12 +2576,12 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>Fourteen days, and two calls from you.</h2>
-        <p class="lead">The date is a commitment rather than an estimate. Everything between the two calls is our work, not yours.</p>
+        <p class="lead">The date is fixed. Everything between the two calls is our work.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><h3>Day 1. We connect your systems</h3><p>On the first call we connect your email, calendar, Drive, LinkedIn and CRM. Around forty minutes, with whoever holds the admin credentials in the room. This runs on your own servers from the first minute.</p></div>
-        <div class="wcard reveal"><h3>Days 2 to 13. It reads your full history</h3><p>fein reads years of email, meetings and documents. Every copy of each person joins into one record. This is the part that takes the time, and it is the part firms doing it alone underestimate: a decade of mail contains a great many people who look like four people.</p></div>
-        <div class="wcard reveal"><h3>Day 14. You check it, then it goes live</h3><p>On a second short call you ask fein things you already know the answer to, and check it against the record. Then it goes live for the team. It holds your full history, like a colleague of many years.</p></div>
+        <div class="wcard reveal"><h3>Day 1. We connect your systems</h3><p>On the first call we connect your email, calendar, Drive, LinkedIn and CRM. Around forty minutes, with whoever holds the admin credentials in the room.</p></div>
+        <div class="wcard reveal"><h3>Days 2 to 13. It reads your full history</h3><p>fein reads years of email, meetings and documents, and joins every copy of each person into one record. This is the slow part: in a decade of mail, one person can look like four.</p></div>
+        <div class="wcard reveal"><h3>Day 14. You check it, then it goes live</h3><p>On the second call you ask fein things you already know the answer to. Then it goes live for the team.</p></div>
       </div>
     </div>
   </section>
@@ -2590,22 +2590,22 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>We set it up. You own what we build.</h2>
-        <p class="lead">This is the part worth being precise about, because the two halves get confused. What you own is permanent. What you rent is the upkeep.</p>
+        <p class="lead">The build is yours for good. The monthly fee buys upkeep.</p>
       </div>
       <div class="offer reveal">
         <h3>Yours, whatever happens next</h3>
         <ul>
-          <li><span class="tk">&rarr;</span><span><b>The software.</b> Apache 2.0 licensed, on your hardware, under a licence that cannot be revoked.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>The graph.</b> In your own database. Everything we built during the fortnight stays exactly where it is.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>No kill switch.</b> Nothing phones home. There is no control plane of ours between your team and their own memory.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>The software.</b> Apache 2.0, on your hardware. The licence cannot be revoked.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>The graph.</b> In your own database. Everything we built during the fortnight stays there.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>No kill switch.</b> Nothing phones home.</span></li>
         </ul>
       </div>
       <div class="offer reveal">
         <h3>What the monthly fee covers</h3>
         <ul>
-          <li><span class="tk">&rarr;</span><span><b>Keeping thirty connectors alive.</b> Gmail, LinkedIn, Attio and the rest change their APIs on their own schedule. This is the recurring work, and it is most of what the fee pays for.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Keeping thirty connectors alive.</b> Gmail, LinkedIn, Attio and the rest change their APIs on their own schedule. That work is most of what the fee pays for.</span></li>
           <li><span class="tk">&rarr;</span><span><b>New answers on request.</b> When the team starts asking something fein does not answer yet, your engineer builds it.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>Stopping is allowed.</b> Month to month, no lock-in. Cancel and fein keeps running; what you give up is the maintenance, not the system.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Stopping is allowed.</b> Month to month. Cancel and fein keeps running; you give up only the maintenance.</span></li>
         </ul>
       </div>
     </div>
@@ -2615,9 +2615,9 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>$5,000 for the build, then from $250 a month.</h2>
-        <p class="lead">The monthly plan is set by how much we keep doing after the setup: $250, $500, or $750 a month, never per seat. Every person at the firm can query the graph, and so can every agent they run. Running it yourself stays free, forever.</p>
+        <p class="lead">The monthly plan is set by how much we keep doing after setup: $250, $500, or $750 a month, never per seat. Everyone at the firm can query the graph, and so can every agent they run.</p>
       </div>
-      <p class="pnote">An annual plan, paid in advance, costs <b>15% less</b>. You have <b>thirty days</b> to decide: if fein is not useful to your team we refund everything, the build fee included. The three plans, and both paths priced against each other, live on one page. <a class="arrowlink" href="/pricing">See the pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+      <p class="pnote">An annual plan, paid in advance, costs <b>15% less</b>. You have <b>thirty days</b> to decide: if fein is not useful to your team we refund everything, the build fee included. <a class="arrowlink" href="/pricing">See the pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
     </div>
   </section>
 
@@ -2629,24 +2629,24 @@
       <div class="faq">
         <details>
           <summary>Why would we pay for software that is free?</summary>
-          <p>You are not paying for the software. You are paying for fourteen days instead of three months, and for not spending your own engineer on connector plumbing.</p>
-          <p>fein reads about thirty systems, each with its own authentication, rate limits and idea of what a person is. Getting that running against real data, then reading years of history through it without creating four copies of every contact, is genuinely hard and genuinely boring. We have done it before, which is the entire reason we can put a date on it.</p>
+          <p>You pay for fourteen days instead of three months, and for keeping your own engineer off connector plumbing.</p>
+          <p>fein reads about thirty systems, each with its own authentication, rate limits and idea of what a person is. Getting that to run against real data is hard, boring work. We have done it before.</p>
         </details>
         <details>
           <summary>Does our data ever reach you?</summary>
-          <p>No. fein is deployed into your environment and runs there. The engineer works inside your infrastructure with credentials you issue and can revoke. There is no telemetry, no analytics and no control plane of ours. If you disconnect the firm from the internet tomorrow, fein carries on answering.</p>
+          <p>No. fein runs inside your environment, and the engineer works there with credentials you issue and can revoke. There is no telemetry, no analytics and no control plane of ours. Disconnect the firm from the internet and fein carries on answering.</p>
         </details>
         <details>
           <summary>What do you actually need from us?</summary>
-          <p>Somewhere to run it, admin consent on each source you want connected, and about ninety minutes of a partner's time across two calls. That is the whole ask. Everything else between day 1 and day 14 is our side.</p>
+          <p>Somewhere to run it, admin consent on each source you want connected, and about ninety minutes of a partner's time across the two calls.</p>
         </details>
         <details>
           <summary>Can we start self-hosted and move to managed later?</summary>
-          <p>Yes, and a fair number of firms do. Run it yourself, see how far you get, and call us when the maintenance stops being a sensible use of your engineer. We pick up whatever you have already built rather than starting again, and the build fee is the same.</p>
+          <p>Yes, and a fair number of firms do. Call us when the maintenance stops being a sensible use of your engineer. We pick up what you have built rather than starting again, and the build fee is the same.</p>
         </details>
         <details>
           <summary>What if fourteen days slips?</summary>
-          <p>Then it is our problem, not your invoice. The build fee is fixed and the thirty-day refund covers the whole engagement. We commit to the date because we have run it enough times to know what it takes.</p>
+          <p>Then it is our problem, not your invoice. The build fee is fixed and the thirty-day refund covers the whole engagement.</p>
         </details>
       </div>
     </div>

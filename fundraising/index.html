@@ -2341,7 +2341,7 @@
   .fmsg a{color:inherit;text-decoration:underline}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/fundraising#faq","mainEntity":[{"@type":"Question","name":"We track LPs in a spreadsheet and it mostly works. Why change?","acceptedAnswer":{"@type":"Answer","text":"It works until the raise opens. A spreadsheet holds what somebody typed into it, on the day they typed it. It does not know that an anchor went quiet eight months ago, or that a promise made at the AGM is still open, or which partner actually owns a relationship. fein reads the record your firm already makes and keeps all of that current, and nobody maintains it. The spreadsheet can stay. fein reads it too."}},{"@type":"Question","name":"Where does our data go?","acceptedAnswer":{"@type":"Answer","text":"Your data goes nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path. Every line of code that touches your data is public. You can read it before you run anything."}},{"@type":"Question","name":"What access does your engineer have?","acceptedAnswer":{"@type":"Answer","text":"The engineer works inside your environment, on access your IT grants. You can revoke it at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported. One thing we will not overstate: fein does not today keep a tamper-proof audit trail of administrative access. Your own logging is the record that counts. The graph also sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is the reason the machine is yours and not ours."}},{"@type":"Question","name":"Can the IR desk use it without opening the deal side to everyone?","acceptedAnswer":{"@type":"Answer","text":"Access is per person. Each person’s sensitive sources live in a private layer inside the shared graph, and fein enforces that scoping inside every query. A partner’s LP correspondence can stay theirs while the coverage map stays shared. The detail is on the security page."}},{"@type":"Question","name":"How far back does it read?","acceptedAnswer":{"@type":"Answer","text":"fein reads as far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers the whole of the last raise. That is the point. On day fourteen fein answers like a colleague who sat through every LP meeting your firm has had."}},{"@type":"Question","name":"What happens if we cancel?","acceptedAnswer":{"@type":"Answer","text":"Nothing stops. fein runs on your servers. The graph, the connectors and every answer stay where they are. They keep working."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/fundraising#faq","mainEntity":[{"@type":"Question","name":"We track LPs in a spreadsheet and it mostly works. Why change?","acceptedAnswer":{"@type":"Answer","text":"It works until the raise opens. A spreadsheet holds what somebody typed, on the day they typed it. It does not know that an anchor went quiet eight months ago, or that a promise from the AGM is still open. fein keeps all of that current with nobody maintaining it. The spreadsheet can stay; fein reads it too."}},{"@type":"Question","name":"Where does our data go?","acceptedAnswer":{"@type":"Answer","text":"Nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path."}},{"@type":"Question","name":"What access does your engineer have?","acceptedAnswer":{"@type":"Answer","text":"The engineer works inside your environment, on access your IT grants and can revoke at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. It ends when the build ends, unless you ask us to keep the connectors supported. To be plain about the limits: fein does not today keep a tamper-proof audit trail of administrative access, so your own logging is the record that counts. The graph also sits unencrypted above the volume, and anyone with host access can read it. That is true of your other systems too, and it is why the machine is yours."}},{"@type":"Question","name":"Can the IR desk use it without opening the deal side to everyone?","acceptedAnswer":{"@type":"Answer","text":"Yes. Access is per person, and fein enforces that scoping inside every query. A partner’s LP correspondence can stay theirs while the coverage map stays shared. The detail is on the security page."}},{"@type":"Question","name":"How far back does it read?","acceptedAnswer":{"@type":"Answer","text":"As far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers the whole of the last raise. On day 14 fein answers like a colleague who sat through every LP meeting your firm has had."}},{"@type":"Question","name":"What happens if we cancel?","acceptedAnswer":{"@type":"Answer","text":"Nothing stops. fein runs on your servers, so the graph, the connectors and every answer stay where they are and keep working."}}]}</script>
 <link rel="dns-prefetch" href="https://widget.intercom.io">
 <link rel="dns-prefetch" href="https://js.intercomcdn.com">
 <link rel="dns-prefetch" href="https://api-iam.intercom.io">
@@ -2566,7 +2566,7 @@
     <div class="wrap" id="content" tabindex="-1">
       <span class="hpill">Self-hosted &middot; open source &middot; live in 14 days</span>
       <h1>Every LP relationship your firm has, warm before the raise opens.</h1>
-      <p>The next fund is raised in the two years before it opens. fein reads your firm&rsquo;s email, calendar, notes and CRM. Every LP conversation, commitment and promise becomes one record, scored from real signal, owned by a named partner. Ask in Claude, ChatGPT or Cursor. Each answer carries the email it came from.</p>
+      <p>fein reads your firm&rsquo;s email, calendar, notes and CRM. Every LP conversation, commitment and promise becomes one record. Ask in Claude, ChatGPT or Cursor. Each answer carries the email it came from.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Book 20 minutes</a>
         <a class="btn btn-ghost" href="#pricing">See pricing</a>
@@ -2607,8 +2607,8 @@
         <h2>The next fund is decided between raises. Nobody is watching then.</h2>
       </div>
       <ul class="plist" data-reveal-group="70">
-        <li class="reveal"><b>Coverage is a partner&rsquo;s memory</b>Your firm holds hundreds of LP relationships across four partners&rsquo; inboxes. When the raise opens, the map of who is warm gets rebuilt by hand, from memory, under time pressure.</li>
-        <li class="reveal"><b>Promises quietly expire</b>An LP asks for co-invest deal flow in March. By the AGM, nobody at your firm remembers exactly who promised what. The LP remembers.</li>
+        <li class="reveal"><b>Coverage is a partner&rsquo;s memory</b>Your firm holds hundreds of LP relationships across four partners&rsquo; inboxes. When the raise opens, the map of who is warm is rebuilt by hand, under time pressure.</li>
+        <li class="reveal"><b>Promises quietly expire</b>An LP asks for co-invest deal flow in March. By the AGM, nobody at your firm remembers who promised what. The LP remembers.</li>
         <li class="reveal"><b>Quiet is invisible until it is expensive</b>An anchor from the last fund drifts from quarterly contact to nothing. You learn the relationship went cold when the re-up conversation starts cold.</li>
         <li class="reveal"><b>The last raise is not searchable</b>Which LPs passed on the last fund, and the exact reason each one gave, sits in threads three years old. The team re-learns it one call at a time.</li>
       </ul>
@@ -2619,7 +2619,7 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>Four questions your IR desk asks every quarter.</h2>
-        <p class="lead">fein answers each one from the record your firm already makes. Answers arrive in seconds, and each line shows its source document.</p>
+        <p class="lead">fein answers each one in seconds.</p>
       </div>
       <div class="featgrid">
         <article class="featcell reveal">
@@ -2634,7 +2634,7 @@
           </div>
           <div class="featcap">
             <h3>Your LP coverage map</h3>
-            <p>fein lists every LP your firm has ever spoken to. Meetings, replies and shared documents set each score, not a field somebody filled in. Each row names the partner who owns the relationship.</p>
+            <p>fein lists every LP your firm has ever spoken to. Meetings, replies and shared documents set each score, and each row names the partner who owns the relationship.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -2649,7 +2649,7 @@
           </div>
           <div class="featcap">
             <h3>The LPs going quiet</h3>
-            <p>fein learns the rhythm of each relationship from your history. It then flags the ones that drift away from that rhythm, years before the raise makes them urgent. Each flag shows the last contact and whose call it is. Dates and intervals do this work. Guesses do not.</p>
+            <p>fein learns the rhythm of each relationship and flags the ones that drift, years before the raise makes them urgent. Each flag shows the last contact and whose call it is.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -2664,7 +2664,7 @@
           </div>
           <div class="featcap">
             <h3>What each LP asked for, and what you promised</h3>
-            <p>Every ask and every commitment is filed to the LP it belongs to, with the meeting or email it came from. Before the annual meeting, one question lists what is open. Nothing expires because somebody changed jobs or lost a notebook.</p>
+            <p>Every ask and commitment is filed to the LP it belongs to. Before the annual meeting, one question lists what is still open.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -2679,7 +2679,7 @@
           </div>
           <div class="featcap">
             <h3>The warm path to a new LP</h3>
-            <p>fein finds the shortest real route to an allocator you have never met: through your existing LPs, your founders and your co-investors. It weighs each step against how well your firm knows that person, and it ends in the name of the colleague who should make the call.</p>
+            <p>fein finds the shortest real route to an allocator you have never met, through your LPs, founders and co-investors. It weighs each step by how well your firm knows that person, and names the colleague who should make the call.</p>
           </div>
         </article>
       </div>
@@ -2697,21 +2697,21 @@
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M160 62.343599999999995L246 112L160 161.65640000000002L74 112Z"/><path d="M160 80.4984L244 129L160 177.5016L76 129Z"/><path d="M160 98.6532L242 146L160 193.3468L78 146Z"/><path d="M160 116.80799999999999L240 163L160 209.192L80 163Z"/><path d="M160 134.96280000000002L238 180L160 225.03719999999998L82 180Z"/><path d="M160 153.11759999999998L236 197L160 240.88240000000002L84 197Z"/><path d="M160 36.343599999999995L246 86L160 135.65640000000002L74 86Z" class="lid"/><ellipse cx="160" cy="86" rx="44" ry="25"/><ellipse cx="160" cy="86" rx="30" ry="17"/><ellipse cx="160" cy="86" rx="16" ry="9" class="hi"/></svg>
         <figcaption>
           <h3>It reads what you already write</h3>
-          <p>fein reads your email, calendar, Drive, LinkedIn and CRM, and it reads them continuously. The first pass takes in years of history, including the last raise. Your partners log nothing and change nothing.</p>
+          <p>fein reads your email, calendar, Drive, LinkedIn and CRM, continuously. The first pass takes in years of history, including the last raise. Your partners log nothing and change nothing.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M112 72.904L152 96L112 119.096L72 96ZM72 96L112 119.096L112 149.096L72 126ZM152 96L112 119.096L112 149.096L152 126Z"/><path d="M196 96.904L236 120L196 143.096L156 120ZM156 120L196 143.096L196 173.096L156 150ZM236 120L196 143.096L196 173.096L236 150Z"/><path d="M108 150L152 175.4056L152 209.4056L108 184ZM196 150L152 175.4056L152 209.4056L196 184Z"/><path d="M152 124.59440000000001L196 150L152 175.4056L108 150Z" class="hi"/><path d="M214 156.3684L248 176L214 195.6316L180 176ZM180 176L214 195.6316L214 221.6316L180 202ZM248 176L214 195.6316L214 221.6316L248 202Z"/></svg>
         <figcaption>
           <h3>One record per LP</h3>
-          <p>Every duplicate copy of a contact joins into one identity. Real signal scores that identity, not a language model guess. When a fact stops being true, fein strikes it and dates it. Nothing is deleted, so the last raise stays answerable.</p>
+          <p>Every duplicate copy of a contact joins into one identity. When a fact stops being true, fein strikes it and dates it. Nothing is deleted, so the last raise stays answerable.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M58.0 214.0L75.0 223.8L75.0 205.8L58.0 196.0Z"/><path d="M71.6 207.0L88.6 216.8L88.6 191.6L71.6 181.8Z"/><path d="M85.2 200.0L102.2 209.8L102.2 177.4L85.2 167.6Z"/><path d="M98.8 193.0L115.8 202.8L115.8 163.2L98.8 153.4Z"/><path d="M112.4 186.0L129.4 195.8L129.4 149.0L112.4 139.2Z"/><path d="M126.0 179.0L143.0 188.8L143.0 134.8L126.0 125.0Z"/><path d="M139.6 172.0L156.6 181.8L156.6 120.6L139.6 110.8Z"/><path d="M153.2 165.0L170.2 174.8L170.2 106.4L153.2 96.6Z"/><path d="M166.8 158.0L183.8 167.8L183.8 92.2L166.8 82.4Z"/><path d="M180.4 151.0L197.4 160.8L197.4 78.0L180.4 68.2Z"/><path d="M194.0 144.0L211.0 153.8L211.0 63.8L194.0 54.0Z"/><path d="M207.6 137.0L224.6 146.8L224.6 49.6L207.6 39.8Z"/><path d="M221.2 130.0L238.2 139.8L238.2 35.4L221.2 25.6Z"/><path d="M234.8 123.0L251.8 132.8L251.8 21.2L234.8 11.4Z" class="hi"/></svg>
         <figcaption>
           <h3>It answers where you work</h3>
-          <p>One MCP endpoint sits behind Claude, ChatGPT, Gemini and Cursor. The answer is the same every time, and it carries its source. Your agents traverse a map. They do not scrape files and guess.</p>
+          <p>One MCP endpoint sits behind Claude, ChatGPT, Gemini and Cursor. Every tool, and every agent your team runs, gets the same answer from the same graph.</p>
         </figcaption>
       </figure>
     </div>
@@ -2728,7 +2728,7 @@
         <p class="hd us">With fein</p>
 
         <p class="rl">What it holds</p>
-        <p class="a">The rows somebody remembered to update, last updated during the last raise.</p>
+        <p class="a">The rows somebody remembered to update, last touched during the last raise.</p>
         <p class="b"><b class="ben">Everything that already exists.</b> Every email, invite, call note and document, resolved onto the LPs they belong to.</p>
 
         <p class="rl">Who keeps it current</p>
@@ -2737,11 +2737,11 @@
 
         <p class="rl">Relationship strength</p>
         <p class="a">A colour somebody chose in a cell, a raise ago.</p>
-        <p class="b"><b class="ben">Measured.</b> Meetings, replies and shared documents, with the signals shown behind every score.</p>
+        <p class="b"><b class="ben">Measured.</b> Every score shows the signals behind it.</p>
 
         <p class="rl">Promises and asks</p>
         <p class="a">In the notes column, if they made it there at all.</p>
-        <p class="b"><b class="ben">Filed to the LP.</b> Each ask and commitment keeps the meeting or email it came from, and stays open until it is closed.</p>
+        <p class="b"><b class="ben">Filed to the LP.</b> Each ask and commitment stays open until it is closed.</p>
 
         <p class="rl">Where it runs</p>
         <p class="a">A vendor&rsquo;s cloud, or a file on one person&rsquo;s laptop.</p>
@@ -2847,12 +2847,11 @@
       <div class="faq">
         <details>
           <summary>We track LPs in a spreadsheet and it mostly works. Why change?</summary>
-          <p>It works until the raise opens. A spreadsheet holds what somebody typed into it, on the day they typed it. It does not know that an anchor went quiet eight months ago, or that a promise made at the AGM is still open, or which partner actually owns a relationship. fein reads the record your firm already makes and keeps all of that current, and nobody maintains it.</p>
-          <p>The spreadsheet can stay. fein reads it too.</p>
+          <p>It works until the raise opens. A spreadsheet holds what somebody typed, on the day they typed it. It does not know that an anchor went quiet eight months ago, or that a promise from the AGM is still open. fein keeps all of that current with nobody maintaining it. The spreadsheet can stay; fein reads it too.</p>
         </details>
         <details>
           <summary>Where does our data go?</summary>
-          <p>Your data goes nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path. Every line of code that touches your data is public. You can read it before you run anything.</p>
+          <p>Nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path.</p>
         </details>
         <!-- Bounded by fein-docs/legal/dpa.md, same as the /pe answer: no
              tamper-proof audit trail of administrative access is claimed, and
@@ -2860,20 +2859,20 @@
              this only after the product changes, not before. -->
         <details>
           <summary>What access does your engineer have?</summary>
-          <p>The engineer works inside your environment, on access your IT grants. You can revoke it at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported.</p>
-          <p>One thing we will not overstate: fein does not today keep a tamper-proof audit trail of administrative access. Your own logging is the record that counts. The graph also sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is the reason the machine is yours and not ours.</p>
+          <p>The engineer works inside your environment, on access your IT grants and can revoke at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. It ends when the build ends, unless you ask us to keep the connectors supported.</p>
+          <p>To be plain about the limits: fein does not today keep a tamper-proof audit trail of administrative access, so your own logging is the record that counts. The graph also sits unencrypted above the volume, and anyone with host access can read it. That is true of your other systems too, and it is why the machine is yours.</p>
         </details>
         <details>
           <summary>Can the IR desk use it without opening the deal side to everyone?</summary>
-          <p>Access is per person. Each person&rsquo;s sensitive sources live in a private layer inside the shared graph, and fein enforces that scoping inside every query. A partner&rsquo;s LP correspondence can stay theirs while the coverage map stays shared. The detail is on the security page.</p>
+          <p>Yes. Access is per person, and fein enforces that scoping inside every query. A partner&rsquo;s LP correspondence can stay theirs while the coverage map stays shared. The detail is on the security page.</p>
         </details>
         <details>
           <summary>How far back does it read?</summary>
-          <p>fein reads as far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers the whole of the last raise. That is the point. On day fourteen fein answers like a colleague who sat through every LP meeting your firm has had.</p>
+          <p>As far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers the whole of the last raise. On day 14 fein answers like a colleague who sat through every LP meeting your firm has had.</p>
         </details>
         <details>
           <summary>What happens if we cancel?</summary>
-          <p>Nothing stops. fein runs on your servers. The graph, the connectors and every answer stay where they are. They keep working.</p>
+          <p>Nothing stops. fein runs on your servers, so the graph, the connectors and every answer stay where they are and keep working.</p>
         </details>
       </div>
     </div>
@@ -2884,7 +2883,7 @@
       <div class="formwrap">
         <div class="head reveal">
           <h2>Give us twenty minutes. We will show you your own LP graph.</h2>
-          <p class="lead">Tell us the name of your firm. We come to the call with what we can already see in public fund data: the allocators around your last close, and the paths your firm likely has to them. If it is not interesting, we have taken twenty minutes of your time and none of your money.</p>
+          <p class="lead">Tell us the name of your firm. We come to the call with what public fund data already shows: the allocators around your last close, and the paths your firm likely has to them. If it is not interesting, it cost you twenty minutes.</p>
           <div class="sec-cta">
             <a class="arrowlink" href="mailto:sales@fein.vc">Or email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           </div>

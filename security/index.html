@@ -2307,7 +2307,7 @@
     #burst{animation:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/security#faq","mainEntity":[{"@type":"Question","name":"Does our data ever reach fein the company?","acceptedAnswer":{"@type":"Answer","text":"No. fein is deployed into your environment and runs there. There is no telemetry, no analytics and no control plane of ours. On a managed setup, the engineer works inside your infrastructure with credentials you issue and can revoke."}},{"@type":"Question","name":"How do we verify any of this?","acceptedAnswer":{"@type":"Answer","text":"Read the code. Every line that touches your data is public on GitHub under Apache 2.0, and the binary you run is built from that source. A security review can audit the repository before anything is deployed."}},{"@type":"Question","name":"How is access controlled inside the firm?","acceptedAnswer":{"@type":"Answer","text":"One token gates the dashboard, the API and the agent endpoint. Inside the graph, each person’s sensitive sources live in a private layer, and fein enforces that scoping inside every query, for humans and agents alike."}},{"@type":"Question","name":"Is there an audit trail?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every ingest, merge and review decision is written to an append-only audit trail with the person or agent that made it. Facts are never overwritten: a fact that stops being true is struck, dated and kept, so you can always see what the firm believed and when."}},{"@type":"Question","name":"What happens to the data if we cancel or you disappear?","acceptedAnswer":{"@type":"Answer","text":"Nothing. The software is on your servers under a licence that cannot be revoked, and the graph is in your own database. There is no kill switch and nothing that expires. What stops with a cancelled contract is the upkeep, not the system."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/security#faq","mainEntity":[{"@type":"Question","name":"Does our data ever reach fein the company?","acceptedAnswer":{"@type":"Answer","text":"No. Nothing leaves your environment, not even telemetry. On a managed setup, our engineer works in your infrastructure with access you can end at any time."}},{"@type":"Question","name":"How do we verify any of this?","acceptedAnswer":{"@type":"Answer","text":"Read the code. The source is on GitHub, and the binary you run is built from it, so you can review before anything is deployed."}},{"@type":"Question","name":"How is access controlled inside the firm?","acceptedAnswer":{"@type":"Answer","text":"One token gates the dashboard, the API and the agent endpoint. Each person’s sensitive sources sit in a private layer that every query respects, human or agent."}},{"@type":"Question","name":"Is there an audit trail?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every ingest, merge and review decision lands in an append-only trail with the person or agent that made it. A fact that stops being true is struck, dated and kept."}},{"@type":"Question","name":"What happens to the data if we cancel or you disappear?","acceptedAnswer":{"@type":"Answer","text":"Nothing. The licence cannot be revoked, the graph is in your own database, and there is no kill switch or expiry. A cancelled contract stops the upkeep, not the system."}}]}</script>
 <link rel="dns-prefetch" href="https://widget.intercom.io">
 <link rel="dns-prefetch" href="https://js.intercomcdn.com">
 <link rel="dns-prefetch" href="https://api-iam.intercom.io">
@@ -2531,7 +2531,7 @@
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
       <h1>Your data never leaves your servers.</h1>
-      <p>fein reads your inbox, your calendar and your CRM to do its work, and that work runs inside your own environment. This page is the one to forward to the person who has to say yes: what fein touches, where it runs, and how you check every claim on it yourself.</p>
+      <p>This page is for the person who has to say yes: what fein touches, where it runs, and how to check each claim.</p>
     </div>
   </section>
 
@@ -2539,15 +2539,15 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>Six guarantees, each one checkable.</h2>
-        <p class="lead">None of these are policy promises. Each one is a property of how fein is built, and the code that makes it true is public.</p>
+        <p class="lead">The code that makes each one true is public.</p>
       </div>
       <ul class="sec-list" data-reveal-group="70">
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>fein runs in your environment, on infrastructure you control. It sends nothing to us.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>fein runs on infrastructure you control and sends nothing to us.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public, under Apache 2.0. Audit it before you run it.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>One token, every surface.</b><p>The dashboard, the API and the agent endpoint sit behind the same gate.</p></div></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Private by person.</b><p>Each person&rsquo;s sensitive sources stay in their own layer inside the shared graph. fein enforces the scoping inside every query.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Private by person.</b><p>Each person&rsquo;s sensitive sources stay in their own layer inside the shared graph, and fein enforces that scoping in every query.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Every change is written down.</b><p>Ingests, merges and review decisions are logged to an append-only audit trail, with the person or agent that made each one.</p></div></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Nothing phones home.</b><p>There is no telemetry, no analytics, and no control plane of ours for you to trust. Disconnect from the internet and fein carries on answering.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Nothing phones home.</b><p>No telemetry, no analytics, no control plane of ours. Disconnect from the internet and fein carries on answering.</p></div></li>
       </ul>
     </div>
   </section>
@@ -2556,14 +2556,13 @@
     <div class="wrap">
       <div class="head reveal">
         <h2>What fein reads, and where it stays.</h2>
-        <p class="lead">fein connects to the systems your firm already runs: email, calendar, files, notes and CRM. It reads them with credentials you issue and can revoke, from inside your own environment. What it builds from them, the graph and its history, lands in your own database and stays there.</p>
+        <p class="lead">fein connects to the systems your firm already runs: email, calendar, files, notes and CRM. The graph it builds, with its full history, lands in your own database.</p>
       </div>
       <div class="offer reveal">
-        <h3>The deployment surface, in one paragraph.</h3>
+        <h3>The deployment surface.</h3>
         <ul>
           <li><span class="tk">&rarr;</span><span><b>Runs where you say.</b> A machine you own, on-prem or in your own cloud account, deployed with Docker.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>Credentials stay yours.</b> Each source is connected with credentials your admin grants. Revoke one and that source goes dark to fein.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>On managed setups, our engineer works inside your infrastructure</b> with access you issue and can end at any time. Your data never reaches us either way.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Credentials stay yours.</b> Your admin grants credentials for each source. Revoke one and that source goes dark to fein.</span></li>
         </ul>
       </div>
     </div>
@@ -2697,23 +2696,23 @@
       <div class="faq">
         <details>
           <summary>Does our data ever reach fein the company?</summary>
-          <p>No. fein is deployed into your environment and runs there. There is no telemetry, no analytics and no control plane of ours. On a managed setup, the engineer works inside your infrastructure with credentials you issue and can revoke.</p>
+          <p>No. Nothing leaves your environment, not even telemetry. On a managed setup, our engineer works in your infrastructure with access you can end at any time.</p>
         </details>
         <details>
           <summary>How do we verify any of this?</summary>
-          <p>Read the code. Every line that touches your data is public on GitHub under Apache 2.0, and the binary you run is built from that source. A security review can audit the repository before anything is deployed.</p>
+          <p>Read the code. The source is on GitHub, and the binary you run is built from it, so you can review before anything is deployed.</p>
         </details>
         <details>
           <summary>How is access controlled inside the firm?</summary>
-          <p>One token gates the dashboard, the API and the agent endpoint. Inside the graph, each person&rsquo;s sensitive sources live in a private layer, and fein enforces that scoping inside every query, for humans and agents alike.</p>
+          <p>One token gates the dashboard, the API and the agent endpoint. Each person&rsquo;s sensitive sources sit in a private layer that every query respects, human or agent.</p>
         </details>
         <details>
           <summary>Is there an audit trail?</summary>
-          <p>Yes. Every ingest, merge and review decision is written to an append-only audit trail with the person or agent that made it. Facts are never overwritten: a fact that stops being true is struck, dated and kept, so you can always see what the firm believed and when.</p>
+          <p>Yes. Every ingest, merge and review decision lands in an append-only trail with the person or agent that made it. A fact that stops being true is struck, dated and kept.</p>
         </details>
         <details>
           <summary>What happens to the data if we cancel or you disappear?</summary>
-          <p>Nothing. The software is on your servers under a licence that cannot be revoked, and the graph is in your own database. There is no kill switch and nothing that expires. What stops with a cancelled contract is the upkeep, not the system.</p>
+          <p>Nothing. The licence cannot be revoked, the graph is in your own database, and there is no kill switch or expiry. A cancelled contract stops the upkeep, not the system.</p>
         </details>
       </div>
     </div>
@@ -2724,7 +2723,7 @@
       <div class="deploy-cta reveal">
         <div>
           <b>Put this page in front of your security team.</b>
-          <p>Then put the repository in front of them too. If they have a question the code does not answer, we will get on a call with them.</p>
+          <p>Then the repository. If the code leaves a question open, we will get on a call with them.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-white" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source</a>
