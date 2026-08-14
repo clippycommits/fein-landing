@@ -40,22 +40,10 @@ __STYLE__
   .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left}
 
 
-  /* Above 900px the shared sheet turns .hero-lead .wrap into a grid and places
-     h1, the lede and the actions by hand; anything else in there auto-flows to
-     the bottom, which would drop the pill under the headline it introduces.
-     This fold carries two children the index fold does not, so it re-places the
-     whole set one row down. Scoped to #view-pe: the index page must not move. */
-  @media (min-width:900px){
-    #view-pe .hero-lead .wrap>.hpill{grid-column:1 / -1;grid-row:1;justify-self:start;align-self:end}
-    #view-pe .hero-lead .wrap>h1{grid-row:2}
-    #view-pe .hero-lead .wrap>p{grid-row:3}
-    #view-pe .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:3}
-    #view-pe .hero-lead .wrap>.trust{grid-column:1 / -1;grid-row:4}
-  }
-
   /* the fold's third line: three claims that answer "what is this going to
-     cost me" before the reader has to ask anyone. */
-  .trust{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:1.9rem;font-size:.88rem;color:var(--fg-3)}
+     cost me" before the reader has to ask anyone. Centred with the rest of the
+     fold, which the shared sheet now sets on one axis at every width. */
+  .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.6rem;margin-top:1.9rem;font-size:.88rem;color:var(--fg-3)}
   .trust span{display:inline-flex;align-items:center;gap:.45rem}
   .trust span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--blue-l);opacity:.75}
 

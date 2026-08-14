@@ -1462,12 +1462,11 @@
      WhatsApp and CLI, three of them drawn and one named. No article, because at
      three letters it sits in the list as a fourth item rather than as a clause.
 
-     Where the marks are is a second statement, not the tail of the first, so it
-     takes its own line. A block span inside the paragraph rather than a <br>,
-     because the gap above it is the thing being set and a break cannot carry one;
-     and rather than a second <p>, because .hero-lead .wrap>p owns the lead's
-     measure and margin and a sibling would inherit both and open 2rem of air. */
-  .avail{display:block;margin-top:.9em}
+     Where the marks are is now the fold's opener: a pill above the headline
+     rather than the tail of the lede. inline-block so the centred fold places
+     it as a line of text would be, and a direct child of .wrap so it rides the
+     entrance stagger first. */
+  .avail{display:inline-block;padding:.42rem .95rem;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);font-size:.84rem;line-height:1.4;color:var(--fg-3)}
 .nmn{white-space:nowrap}
 .brandrow{display:flex;align-items:center;--bi:17px}
 .brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
@@ -1558,7 +1557,7 @@
   /* the fold's own wash, and it has to land on the page colour by the time it
      reaches the fold's bottom edge, or the band under it starts on a seam.
      It used to close on #000, which was the page; the page is --bg now. */
-  .cta-dark.hero-lead{text-align:left;background:linear-gradient(180deg,#0b0b0d 0%,var(--bg) 58%);padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(3rem,9.5vh,7.5rem))}
+  .cta-dark.hero-lead{text-align:center;background:linear-gradient(180deg,#0b0b0d 0%,var(--bg) 58%);padding-top:calc(var(--ribbon-h) + var(--nav-h) + clamp(3rem,9.5vh,7.5rem))}
   /* the starfield stays, at a fifth of itself: the fold reads as one flat dark
      ground with the picture the only lit thing on it */
   .hero-lead .burst-hold{opacity:.2}
@@ -1567,12 +1566,12 @@
      and the copy starts 107px inside the wordmark instead of under it. The
      measure taken is the bar's, not the page's, so the two share an edge. */
   .hero-lead .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
-  /* the resets that put everything on that edge. They sit out here and not in
-     the query below because the headline, the lede and the picture each
-     carried a centred breakout of their own, and a fold that is left set at
-     1512 and centred at 899 is two designs. Only the row is a wide idea. */
-  .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
-  .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) 0 0;max-width:52ch;font-size:1.05rem}
+  /* the fold is centred at every width: pill, headline, lede and actions all
+     on one axis, with the picture full-row under them. auto inline margins
+     because the headline and lede keep their own measures inside the wrap. */
+  .hero-lead .wrap>.avail{margin:0 auto clamp(1.1rem,2.2vh,1.6rem)}
+  .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0 auto;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
+  .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) auto 0;max-width:52ch;font-size:1.05rem}
   .hero-lead .wrap>.ah-fig{width:auto;margin:clamp(2.4rem,6vh,5.5rem) 0 0}
   /* the card takes the whole row, which is the figure's old footprint and the
      only width on this fold that lines up with anything: left edge under the
@@ -1582,21 +1581,7 @@
      margin-left:0 because .ask centres itself everywhere else and this is set
      left with the rest of the copy. */
   .hero-lead .wrap>.lead-stage{width:100%;margin:clamp(2.2rem,5vh,4.4rem) auto 0 0}
-  .hero-lead .hero-actions{justify-content:flex-start}
-  /* the lede and the actions share one row, which is the shape the reference
-     gets its calm from: a line of type on the left, the thing to press on the
-     right, nothing stacked between them. Stacked below 900px instead. */
-  /* every child here is placed explicitly, so anything added to this wrap needs
-     a row of its own: without one it auto-places into the first free cell, which
-     is the lede's, and lands on top of it. */
-  @media (min-width:900px){
-    .hero-lead .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(2rem,5vw,4rem);align-items:end}
-    .hero-lead .wrap>h1{grid-column:1 / -1;grid-row:1}
-    .hero-lead .wrap>p{grid-column:1;grid-row:2}
-    .hero-lead .wrap>.hero-actions{grid-column:2;grid-row:2;justify-content:flex-end;margin:0 0 .15rem}
-    .hero-lead .wrap>.ah-fig{grid-column:1 / -1;grid-row:3}
-    .hero-lead .wrap>.lead-stage{grid-column:1 / -1;grid-row:3}
-  }
+  .hero-lead .hero-actions{justify-content:center}
 
   /* ============ the funnel: what the answer was called from ============
      Three tiers that widen and quieten as they fall: the call, the documents
@@ -1606,7 +1591,9 @@
 
      The mask is what makes the bottom a fade rather than a last row, which is
      the difference between "and more of it" and "and that is all of it". */
-  .lead-stage{position:relative;display:flex;flex-direction:column}
+  /* the picture is an application window, not copy: it keeps its own left set
+     inside the centred fold */
+  .lead-stage{position:relative;display:flex;flex-direction:column;text-align:left}
   /* the three answers are different lengths and the funnel must not step up and
      down under them as they turn, so the tallest holds the box open */
   .ask-f b.lead-n{margin-left:0;font-weight:500;color:var(--fg-2);font-variant-numeric:tabular-nums}
