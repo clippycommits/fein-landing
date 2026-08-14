@@ -389,7 +389,7 @@ const intercomPrefetch = INTERCOM_APP_ID ? `<link rel="dns-prefetch" href="https
 // sales call handles, and #crm repeats the works strip as a wall. This ran as
 // the /b variant first and won; the template keeps all thirteen sections as
 // the source of truth, so any of them comes back by removing its id here. ----
-const HOME_CUT = ["figures", "change", "proof", "why", "crm"];
+const HOME_CUT = ["figures", "change", "proof", "why", "crm", "how"];
 let homeRest = rest;
 HOME_CUT.forEach(function (id) {
   const re = new RegExp('\\n?<section id="' + id + '"[\\s\\S]*?</section>');
