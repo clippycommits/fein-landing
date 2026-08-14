@@ -345,9 +345,9 @@ const intercom = INTERCOM_APP_ID ? `
 @media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-ava{width:54px;height:54px}}
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
-<button type="button" id="fein-chat" aria-label="Chat with Daniel, the founder of fein">
+<button type="button" id="fein-chat" aria-label="Chat with Daniel. Last seen 3 minutes ago.">
 <span class="fc-ava"><img src="data:image/webp;base64,${danielB64}" width="38" height="38" alt=""><span class="fc-dot"></span></span>
-<span class="fc-txt"><b>Chat with Daniel</b><span>Founder of fein</span></span>
+<span class="fc-txt"><b>Chat with Daniel</b><span>Last seen 3m ago</span></span>
 <span class="fc-badge" hidden></span>
 </button>
 <script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
