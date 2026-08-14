@@ -2084,6 +2084,13 @@
   }
 </style>
 <style>
+  /* The fold hands straight into the cards here: #plans opens with a
+     screen-reader-only h2, so the shared band's full top padding plus the
+     .fork margin that normally clears a visible heading stacked into ~200px
+     of empty black between the sub and the first card. Page-scoped: the
+     shared rhythm is right everywhere a band opens with a heading. */
+  #plans.band{padding-top:clamp(2.4rem,5vw,3.6rem)}
+  #plans .fork{margin-top:0}
   .plans{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(.8rem,1.4vw,1.1rem)}
   .plans .fork-card{padding:clamp(1.15rem,1.8vw,1.55rem)}
   .plans .fork-price b{font-size:clamp(1.45rem,2.3vw,1.85rem)}
