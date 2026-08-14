@@ -77,8 +77,10 @@
   .bar .right{margin-left:0;display:flex;align-items:center;gap:8px}
   .bar .right .sbtn-pri{display:none}
   .sbtn{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 16px;border-radius:999px;border:0;font-family:var(--nav-font);font-size:13.5px;font-weight:510;letter-spacing:-.01em;line-height:1;white-space:nowrap;cursor:pointer;text-decoration:none;transition:background .12s ease,color .12s ease}
-  .sbtn-pri{background:#fff;color:#08090a}
-  .sbtn-pri:hover{background:#e6e6e6}
+  /* nav.links a outranks .sbtn-pri on specificity, so the pill states carry
+     the scoped selector too or the cluster's grey link color wins */
+  .sbtn-pri,nav.links a.sbtn-pri{background:#fff;color:#08090a}
+  .sbtn-pri:hover,nav.links a.sbtn-pri:hover{background:#e6e6e6;color:#08090a}
   /* one wide surface under the whole bar, the reference's geometry: width and
      position never move, only the height animates between panels while their
      contents crossfade. */
