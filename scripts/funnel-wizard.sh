@@ -189,8 +189,8 @@ finish() {
 # STAGES — author this section. One stage() per step the human takes.
 # Replace the example below. Set the two totals to match the stages you write.
 # ──────────────────────────────────────────────────────────────────────────
-TOTAL_STAGES=10
-TOTAL_MINUTES=45
+TOTAL_STAGES=11
+TOTAL_MINUTES=50
 
 # Values are remembered here between runs (Enter keeps a saved value); at
 # stage 8 you copy them into Vercel's env settings.
@@ -254,7 +254,90 @@ say "  value both. They live on subdomains, so Google mail is untouched."
 step "Back in Resend, press 'Verify DNS Records'. 'Pending' is fine for now."
 pause "Records added and verification started? Press Enter."
 
-# ── 5 · Resend API key ────────────────────────────────────────────────────
+# ── 5 · Email authentication ──────────────────────────────────────────────
+stage "Email authentication — SPF, DKIM, DMARC" 5
+say "Stage 4's records authenticate the sending SERVICE. They do not give"
+say "fein.vc an SPF or a DMARC record, and without those Google Workspace"
+say "reads a notification from noah@fein.vc to daniel@fein.vc as our own"
+say "domain being spoofed and files it as spam. Skipping this stage is why"
+say "the first live lead went to the junk folder."
+open_url "https://ap.www.namecheap.com/domains/list/"
+step "Advanced DNS → ADD a TXT record on @, ALONGSIDE (not replacing) the"
+say "  google-site-verification one:"
+printf '\n      %sv=spf1 include:_spf.google.com ~all%s\n\n' "$BOLD" "$RESET"
+step "ADD a TXT record on _dmarc:"
+printf '\n      %sv=DMARC1; p=none; rua=mailto:daniel@fein.vc%s\n\n' "$BOLD" "$RESET"
+warn "Namecheap discards an inline edit unless you click the green ✓ on the row."
+note "  Delete and recreate rather than edit, then reload and read it back."
+say "p=none is monitor-only: reports arrive, nothing is ever rejected. Move to"
+say "p=quarantine once the rua reports show Google and Resend both passing."
+open_url "https://admin.google.com/ac/apps/gmail/authenticateemail"
+step "Google Admin → Apps → Gmail → Authenticate email → fein.vc: publish the"
+say "  google._domainkey TXT it shows, then press START AUTHENTICATION."
+note "  'Authenticating email with DKIM' + a STOP button means it is already on."
+note "  Never press GENERATE NEW RECORD — it voids the key already in DNS."
+pause "Records added? Press Enter to verify them."
+
+printf '\n'
+if command -v dig >/dev/null 2>&1; then
+  # Ask the authoritative nameservers, not a resolver: a cached answer hides
+  # an edit that never actually saved.
+  AUTH_NS=$(dig +short NS fein.vc | head -n1); AUTH_NS=${AUTH_NS:-8.8.8.8}
+  _pass() { printf '  %s✓%s %s\n' "$GREEN" "$RESET" "$1"; }
+  _fail() { printf '  %s✗%s %s\n' "$RED" "$RESET" "$1"; AUTH_BAD=$((AUTH_BAD + 1)); }
+  AUTH_BAD=0
+
+  # awk (not grep -c) so an empty result is still a clean exit under set -e.
+  SPF_INFO=$(dig +short TXT fein.vc @"$AUTH_NS" 2>/dev/null | tr -d '"' \
+    | awk '/v=spf1/{n++; last=$0} END{printf "%d|%s", n+0, last}')
+  case "${SPF_INFO%%|*}" in
+    0) _fail "no SPF record on fein.vc" ;;
+    1) if [[ "${SPF_INFO#*|}" == *"_spf.google.com"* ]]; then
+         _pass "SPF: ${SPF_INFO#*|}"
+       else
+         _fail "SPF is missing include:_spf.google.com — Workspace mail will not pass"
+       fi ;;
+    *) _fail "${SPF_INFO%%|*} SPF records on fein.vc — more than one is a hard fail" ;;
+  esac
+
+  # A long TXT arrives as several quoted chunks; stripping quotes and newlines
+  # rejoins them the way a resolver does.
+  DMARC=$(dig +short TXT _dmarc.fein.vc @"$AUTH_NS" 2>/dev/null | tr -d '"' | tr -d '\n')
+  # A dropped semicolon ("aspf=r p=none") parses as one tag with a spaced
+  # value and, per RFC 7489, voids the whole record — while still reading fine
+  # in the registrar's panel. Catch it here or it is invisible until mail
+  # starts landing in spam again.
+  MALFORMED='[a-zA-Z]+=[^;]*[[:space:]]+[a-zA-Z]+='
+  if   [[ -z "$DMARC" ]];              then _fail "no DMARC record on _dmarc.fein.vc"
+  elif [[ "$DMARC" != v=DMARC1* ]];    then _fail "DMARC must start with v=DMARC1: $DMARC"
+  elif [[ "$DMARC" =~ $MALFORMED ]];   then _fail "DMARC is malformed (missing ';' between tags), so receivers ignore it entirely: $DMARC"
+  else _pass "DMARC: $DMARC"
+  fi
+
+  for sel in resend google; do
+    if [[ -n "$(dig +short TXT "${sel}._domainkey.fein.vc" @"$AUTH_NS" 2>/dev/null)" ]]; then
+      _pass "DKIM: ${sel}._domainkey published"
+    else
+      _fail "DKIM: ${sel}._domainkey missing"
+    fi
+  done
+
+  if (( AUTH_BAD )); then
+    printf '\n'; warn "$AUTH_BAD record(s) not right yet."
+    note "Namecheap can lag its own nameservers by a few minutes. Re-run this"
+    note "wizard to re-check, or: dig +short TXT _dmarc.fein.vc @$AUTH_NS"
+    SKIPPED+=("email auth: $AUTH_BAD DNS record(s) still wrong — see stage 5")
+  else
+    printf '\n'; note "All four records good. The stage 10 test lead will confirm it"
+    note "end to end: open ⋮ → Show original and look for dkim=pass and dmarc=pass."
+  fi
+else
+  SKIPPED+=("verify SPF/DMARC by hand — dig not installed")
+  warn "dig not found, skipping the check. Verify at https://mxtoolbox.com/dmarc.aspx"
+fi
+pause "Press Enter to continue."
+
+# ── 6 · Resend API key ────────────────────────────────────────────────────
 stage "Resend — API key" 2
 open_url "https://resend.com/api-keys"
 step "Create API Key → name 'fein-leads', permission 'Sending access',"
@@ -262,7 +345,7 @@ say "  domain fein.vc → Create. Copy the key (shown once, starts re_)."
 ask_secret RESEND_API_KEY "Paste the Resend API key:"
 write_env RESEND_API_KEY "$RESEND_API_KEY"
 
-# ── 6 · cal.com event type ────────────────────────────────────────────────
+# ── 7 · cal.com event type ────────────────────────────────────────────────
 stage "cal.com — your booking page" 8
 say "This is the link every email and the site's success screen point at."
 open_url "https://app.cal.com/signup"
@@ -274,7 +357,7 @@ step "Copy the event's public link (looks like https://cal.com/<you>/fein-intro)
 ask CAL_LINK "Paste the booking link:"
 write_env CAL_LINK "$CAL_LINK"
 
-# ── 7 · cal.com webhook ───────────────────────────────────────────────────
+# ── 8 · cal.com webhook ───────────────────────────────────────────────────
 stage "cal.com — booking webhook" 4
 CALCOM_WEBHOOK_SECRET=$(_existing CALCOM_WEBHOOK_SECRET || true)
 if [[ -z "$CALCOM_WEBHOOK_SECRET" ]]; then
@@ -291,7 +374,7 @@ printf '\n      %s%s%s\n\n' "$BOLD" "$CALCOM_WEBHOOK_SECRET" "$RESET"
 step "Save the webhook."
 pause "Webhook saved? Press Enter."
 
-# ── 8 · Vercel environment variables ──────────────────────────────────────
+# ── 9 · Vercel environment variables ──────────────────────────────────────
 stage "Vercel — environment variables" 5
 say "Add these seven in Project → Settings → Environment Variables (all"
 say "environments), then Deployments → ⋯ on the latest → Redeploy:"
@@ -311,7 +394,7 @@ open_url "https://vercel.com/dashboard"
 step "Paste each one, save, then REDEPLOY so the functions pick them up."
 pause "Env vars saved and redeployed? Press Enter."
 
-# ── 9 · FormSubmit fallback ───────────────────────────────────────────────
+# ── 10 · FormSubmit fallback ──────────────────────────────────────────────
 stage "FormSubmit fallback" 2
 say "If the functions are ever unreachable, the form falls back to"
 say "FormSubmit, which emails the lead to daniel@fein.vc."
@@ -320,7 +403,7 @@ step "In the daniel@fein.vc inbox, find the FormSubmit activation"
 say "  email and click Activate. (The fallback is dead until it's clicked.)"
 pause "Activated (or already was)? Press Enter."
 
-# ── 10 · Smoke test + retire the VPS service ──────────────────────────────
+# ── 11 · Smoke test + retire the VPS service ──────────────────────────────
 stage "Smoke test" 5
 if HEALTH=$(curl -fsS --max-time 10 https://fein.vc/api/health 2>/dev/null); then
   if [[ "$HEALTH" == *'"missingConfig":[]'* ]]; then
