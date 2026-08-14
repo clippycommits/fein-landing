@@ -315,13 +315,13 @@ const posthog = POSTHOG_KEY ? `
 // internally; the site has no bundler so the npm package doesn't apply.
 const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
-// A custom launcher for the fein team: the Intercom bubble mark in a dark disc,
-// a green presence dot and "Chat with us", on a white pill so it reads on the
-// black page. Deliberately the team and not a named person, so nothing in chat
-// has to pretend Fin is a human. hide_default_launcher + a
-// custom_launcher_selector pointed at #fein-chat. The whole block is wrapped in
-// <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
-// (avatars/daniel.webp stays on disk for the Intercom teammate profile.)
+// A custom launcher for the fein team: Daniel's face (avatars/daniel.webp,
+// same photo as the Intercom teammate profile, inlined like the Slack-mock
+// avatars so the page stays one file), a green presence dot and "Chat with
+// us", on a white pill so it reads on the black page. hide_default_launcher +
+// a custom_launcher_selector pointed at #fein-chat. The whole block is wrapped
+// in <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
+const danielB64 = fs.readFileSync("avatars/daniel.webp").toString("base64");
 const intercom = INTERCOM_APP_ID ? `
 <!--fein-chat:start-->
 <style>
@@ -329,11 +329,8 @@ const intercom = INTERCOM_APP_ID ? `
 #fein-chat.fc-in{opacity:1;transform:none}
 #fein-chat:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
 #fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-/* the bubble is a solid white glyph with the smile knocked out of it, so the
-   smile is stroked in the disc colour: --fc-mk has to stay opaque and in sync
-   with the disc, or the smile stops reading as a cutout */
-#fein-chat .fc-mark{--fc-mk:#101114;position:relative;flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--fc-mk);color:#fff}
-#fein-chat .fc-mark svg{display:block}
+#fein-chat .fc-mark{position:relative;flex:none;width:38px;height:38px}
+#fein-chat .fc-mark img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
 /* the green dot ring is the pill's own white, so the dot reads as punched
    through the pill and not stickered onto the mark */
 #fein-chat .fc-dot{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#30d158;box-shadow:0 0 0 2px var(--fc-disc)}
@@ -349,7 +346,7 @@ const intercom = INTERCOM_APP_ID ? `
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
 <button type="button" id="fein-chat" aria-label="Chat with the fein team. Last seen 3 minutes ago.">
-<span class="fc-mark"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M7 4h10a3 3 0 0 1 3 3v13l-3.5-3.4H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><path d="M8.8 10.6c.9 1.5 2.05 2.25 3.2 2.25s2.3-.75 3.2-2.25" stroke="var(--fc-mk)" stroke-width="1.7" stroke-linecap="round"/></svg><span class="fc-dot"></span></span>
+<span class="fc-mark"><img src="data:image/webp;base64,${danielB64}" alt="" width="38" height="38"><span class="fc-dot"></span></span>
 <span class="fc-txt"><b>Chat with us</b><span>Last seen 3m ago</span></span>
 <span class="fc-badge" hidden></span>
 </button>
@@ -383,6 +380,23 @@ if(location.hash==="#chat")boot()})()</script>
 <script>(function(){var b=document.getElementById("fein-chat");if(!b)return;requestAnimationFrame(function(){requestAnimationFrame(function(){b.classList.add("fc-in")})});if(window.Intercom){Intercom("onShow",function(){b.classList.add("fc-open")});Intercom("onHide",function(){b.classList.remove("fc-open")});var g=b.querySelector(".fc-badge");if(g)Intercom("onUnreadCountChange",function(n){g.hidden=!n})}})()</script>
 <!--fein-chat:end-->` : "";
 
+// ---- distill: the served home page cuts the sections that restate one
+// another. #figures restates #how, #change and #proof restate what the
+// #memory thread and /security already show, #why answers an objection the
+// sales call handles, and #crm repeats the works strip as a wall. This ran as
+// the /b variant first and won; the template keeps all thirteen sections as
+// the source of truth, so any of them comes back by removing its id here. ----
+const HOME_CUT = ["figures", "change", "proof", "why", "crm"];
+let homeRest = rest;
+HOME_CUT.forEach(function (id) {
+  const re = new RegExp('\\n?<section id="' + id + '"[\\s\\S]*?</section>');
+  if (!re.test(homeRest)) throw new Error("home: section to cut not found: #" + id);
+  homeRest = homeRest.replace(re, "");
+});
+["figures", "change", "proof", "why", "crm"].forEach(function (id) {
+  if (homeRest.indexOf('href="#' + id + '"') > -1) throw new Error("home: link into cut section #" + id + " — repoint it in the template");
+});
+
 const indexHtml = `<!doctype html>
 <html lang="en">
 <head>
@@ -391,7 +405,7 @@ ${styleBlock}
 ${ldScript}
 </head>
 <body>
-${rest}
+${homeRest}
 ${spriteRest}
 ${analytics}${posthog}${intercom}
 </body>
@@ -403,38 +417,10 @@ fs.mkdirSync(out, { recursive: true });
 assertCharsetCovers(indexHtml, "index.html");
 fs.writeFileSync(path.join(out, "index.html"), indexHtml);
 
-// ---- /b: the distilled home page, derived from the same template ----
-// Same hero, same copy, same pictures — minus the sections that restate one
-// another: #figures restates #how, #change and #proof restate what the #memory
-// thread and /security already show, #why (the comparison table) is a sales
-// call answer, and #crm repeats the works-band strip as a wall. Deriving here
-// instead of forking the template means a copy edit lands on both pages.
-// noindex + no JSON-LD: /b is a review/variant URL, not a second home page.
-const B_CUT = ["figures", "change", "proof", "why", "crm"];
-let bRest = rest;
-B_CUT.forEach(function (id) {
-  const re = new RegExp('\\n?<section id="' + id + '"[\\s\\S]*?</section>');
-  if (!re.test(bRest)) throw new Error("/b: section to cut not found: #" + id);
-  bRest = bRest.replace(re, "");
-});
-// links into cut sections point at the full page instead of a dead anchor
-B_CUT.forEach(function (id) { bRest = bRest.split('href="#' + id + '"').join('href="/#' + id + '"'); });
-const bHead = headMeta
-  .replace(`<link rel="canonical" href="${SITE}/">`, `<link rel="canonical" href="${SITE}/b">`)
-  .replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex, follow">');
-const bHtml = `<!doctype html>
-<html lang="en">
-<head>
-${bHead}
-${styleBlock}
-</head>
-<body>
-${bRest}
-${spriteRest}
-${analytics}${posthog}${intercom}
-</body>
-</html>`;
-assertCharsetCovers(bHtml, "b/index.html");
+// ---- /b: the distilled page previewed here before it became the home page.
+// Kept as an alias so the review URL keeps working: same document, canonical
+// already points at the root, noindex so search engines never see two copies.
+const bHtml = indexHtml.replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex, follow">');
 fs.mkdirSync(path.join(out, "b"), { recursive: true });
 fs.writeFileSync(path.join(out, "b", "index.html"), bHtml);
 

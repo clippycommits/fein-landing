@@ -216,7 +216,7 @@
   /* one wide surface under the whole bar, the reference's geometry: width and
      position never move, only the height animates between panels while their
      contents crossfade. */
-  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:rgba(20,20,23,.98);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
+  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:#141417;border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1)}
   .ddwrap.snap{transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1)}
   .ddpanel{position:absolute;top:0;left:0;right:0;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .15s ease}
@@ -1878,16 +1878,16 @@
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
-  /* the engineer row on the managed card: a face at 28px and one sentence,
-     pinned above the card's action with the same quiet grey as the note. */
-  .fork-eng{display:flex;gap:10px;align-items:flex-start;margin-top:1rem;color:var(--fg-3);font-size:.92rem;line-height:1.5}
-  .fork-eng img{border-radius:50%;flex:none;margin-top:1px}
-  .fork-eng b{color:var(--fg);font-weight:550}
-  /* the signature under the fork. Sized like the fork-note it follows, one
-     face, first person, and the founder's real address in the accent the
-     success copy already uses for its links. */
-  .founder{display:flex;gap:14px;align-items:flex-start;margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
-  .founder img{border-radius:50%;flex:none}
+  /* each fork card opens with a 48px circle: Daniel's face on the managed
+     column, a terminal mark on the free one. Same size, same ring, so the
+     cards stay level and the pair reads as two doors on one decision. */
+  .fork-mark{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--bg-3);box-shadow:0 0 0 1px var(--line-2);color:var(--fg-2);margin-bottom:1rem;flex:none}
+  .fork-mark svg{width:20px;height:20px}
+  .fork-face{display:block;border-radius:50%;box-shadow:0 0 0 1px var(--line-2);margin-bottom:1rem}
+  /* the signature under the fork. Sized like the fork-note it follows, first
+     person, and the founder's real address in the accent the success copy
+     already uses for its links. The face lives on the card above, not here. */
+  .founder{margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
   .founder p{color:var(--fg-3);font-size:.94rem;line-height:1.6;text-wrap:pretty}
   .founder a{color:var(--blue-l);font-weight:500;transition:color .18s ease}
   .founder a:hover{color:#fff}
@@ -2400,7 +2400,7 @@ setTimeout(go,1200);})()</script>
               <a class="dd-l" href="#how">How it works</a>
               <a class="dd-l" href="#features">Features</a>
               <a class="dd-l" href="/security">Security</a>
-              <a class="dd-l" href="#why">Integrations</a>
+              <a class="dd-l" href="#integrations">Integrations</a>
             </div>
           </div>
           <div class="dd-foot">
@@ -2699,31 +2699,7 @@ setTimeout(go,1200);})()</script>
        a wireframe drawn on one isometric projection, then
        the claim and two lines under it. The drawings are built from a shared
        rhombus so the three sit in the same space rather than three styles. -->
-  <section id="figures" class="band fcards" aria-label="How fein works">
-    <div class="wrap figrow">
-      <figure class="figcard">
-        <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M160 62.343599999999995L246 112L160 161.65640000000002L74 112Z"/><path d="M160 80.4984L244 129L160 177.5016L76 129Z"/><path d="M160 98.6532L242 146L160 193.3468L78 146Z"/><path d="M160 116.80799999999999L240 163L160 209.192L80 163Z"/><path d="M160 134.96280000000002L238 180L160 225.03719999999998L82 180Z"/><path d="M160 153.11759999999998L236 197L160 240.88240000000002L84 197Z"/><path d="M160 36.343599999999995L246 86L160 135.65640000000002L74 86Z" class="lid"/><ellipse cx="160" cy="86" rx="44" ry="25"/><ellipse cx="160" cy="86" rx="30" ry="17"/><ellipse cx="160" cy="86" rx="16" ry="9" class="hi"/></svg>
-        <figcaption>
-          <h3>Reads everything</h3>
-          <p>fein reads your inbox, calendar, Drive, LinkedIn and CRM. It reads them continuously.</p>
-        </figcaption>
-      </figure>
-      <figure class="figcard">
-        <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M112 72.904L152 96L112 119.096L72 96ZM72 96L112 119.096L112 149.096L72 126ZM152 96L112 119.096L112 149.096L152 126Z"/><path d="M196 96.904L236 120L196 143.096L156 120ZM156 120L196 143.096L196 173.096L156 150ZM236 120L196 143.096L196 173.096L236 150Z"/><path d="M108 150L152 175.4056L152 209.4056L108 184ZM196 150L152 175.4056L152 209.4056L196 184Z"/><path d="M152 124.59440000000001L196 150L152 175.4056L108 150Z" class="hi"/><path d="M214 156.3684L248 176L214 195.6316L180 176ZM180 176L214 195.6316L214 221.6316L180 202ZM248 176L214 195.6316L214 221.6316L248 202Z"/></svg>
-        <figcaption>
-          <h3>Resolves to one record</h3>
-          <p>Every copy of a person becomes one identity, and the whole team shares it.</p>
-        </figcaption>
-      </figure>
-      <figure class="figcard">
-        <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M58.0 214.0L75.0 223.8L75.0 205.8L58.0 196.0Z"/><path d="M71.6 207.0L88.6 216.8L88.6 191.6L71.6 181.8Z"/><path d="M85.2 200.0L102.2 209.8L102.2 177.4L85.2 167.6Z"/><path d="M98.8 193.0L115.8 202.8L115.8 163.2L98.8 153.4Z"/><path d="M112.4 186.0L129.4 195.8L129.4 149.0L112.4 139.2Z"/><path d="M126.0 179.0L143.0 188.8L143.0 134.8L126.0 125.0Z"/><path d="M139.6 172.0L156.6 181.8L156.6 120.6L139.6 110.8Z"/><path d="M153.2 165.0L170.2 174.8L170.2 106.4L153.2 96.6Z"/><path d="M166.8 158.0L183.8 167.8L183.8 92.2L166.8 82.4Z"/><path d="M180.4 151.0L197.4 160.8L197.4 78.0L180.4 68.2Z"/><path d="M194.0 144.0L211.0 153.8L211.0 63.8L194.0 54.0Z"/><path d="M207.6 137.0L224.6 146.8L224.6 49.6L207.6 39.8Z"/><path d="M221.2 130.0L238.2 139.8L238.2 35.4L221.2 25.6Z"/><path d="M234.8 123.0L251.8 132.8L251.8 21.2L234.8 11.4Z" class="hi"/></svg>
-        <figcaption>
-          <h3>Answers everywhere</h3>
-          <p>One endpoint serves Claude, ChatGPT and Cursor, with the source on every line.</p>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
+  
 
 
   <!-- WORKS WITH: the tool proof. it used to sit directly under the hook, where
@@ -2733,7 +2709,7 @@ setTimeout(go,1200);})()</script>
        claims, it is the receipt for them, and it hands off to #security, which
        is the next question anyone asks about a thing that reads their inbox.
        No longer part of the hero choreography, so it reveals on scroll. -->
-  <section class="works-band" aria-label="The tools fein reads and answers in">
+  <section id="integrations" class="works-band" aria-label="The tools fein reads and answers in">
     <div class="works reveal">
       <p class="lab">It reads and answers in the tools you already use</p>
       <div class="marquee"><div class="row">
@@ -2778,7 +2754,7 @@ setTimeout(go,1200);})()</script>
       <h2 id="mem-h">Auditable, deterministic memory. Same answer every time, for everyone.</h2>
       <div>
         <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
-        <a class="arrowlink mem-more" href="#why"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="arrowlink mem-more" href="#how"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
 
@@ -3058,101 +3034,7 @@ setTimeout(go,1200);})()</script>
        "a fact that stops being true is superseded rather than deleted". Three
        of the four claims in #proof, demonstrated a screen before they are
        made. -->
-  <section id="change" class="band" aria-labelledby="change-h">
-    <div class="change-head">
-      <h2 id="change-h">Every fact keeps the sentence it came from.</h2>
-      <p class="sub">One record per company. Dated, sourced, and never overwritten.</p>
-    </div>
-
-    <div class="plates">
-
-      <figure class="plate reveal">
-        <div class="rec">
-          <div class="rec-top">
-            <h4>Halo Compute</h4>
-            <span class="rec-kind">company</span>
-            <span class="rec-meta">first seen 8 Nov 2024</span>
-          </div>
-          <ol class="rec-list">
-
-            <!-- the row the section exists for: the fact that replaced another
-                 one, with the one it replaced still under it, still readable,
-                 still carrying the document it came from -->
-            <li class="rec-i">
-              <div class="rec-m">
-                <p class="rec-fact">Opening a <b>$30M Series A</b>.</p>
-                <p class="rec-quote">We are opening a $30M Series A.</p>
-              </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Halo Compute, June update</span><em>2 Jun 2026</em></p>
-              <div class="rec-prev">
-                <div class="rec-m">
-                  <p class="rec-fact"><s>Raising a $4M seed.</s><span class="rec-sup">superseded 2 Jun 2026</span></p>
-                  <p class="rec-quote">They are raising a $4M seed.</p>
-                </div>
-                <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Halo Compute, seed deck</span><em>8 Nov 2024</em></p>
-              </div>
-            </li>
-
-            <li class="rec-i">
-              <div class="rec-m">
-                <p class="rec-fact"><b>Priya Nayar</b> is VP Engineering. <span class="rec-new">new record</span></p>
-                <p class="rec-quote">VP Engineering at Halo Compute.</p>
-              </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Priya Nayar, new position</span><em>3 Jun 2025</em></p>
-            </li>
-
-            <li class="rec-i">
-              <div class="rec-m">
-                <p class="rec-fact">Two <b>ex-Anthropic</b> infra engineers.</p>
-                <p class="rec-quote">Both founders are ex-Anthropic infra.</p>
-              </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Coffee with Halo Compute</span><em>21 Nov 2024</em></p>
-            </li>
-
-            <li class="rec-i">
-              <div class="rec-m">
-                <p class="rec-fact"><b>Marcus Feld</b> owns the conversation.</p>
-                <p class="rec-quote">Marcus Feld, Dev Raman, Halo Compute intro call.</p>
-              </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Halo Compute intro call</span><em>14 Nov 2024</em></p>
-            </li>
-
-            <li class="rec-i">
-              <div class="rec-m">
-                <p class="rec-fact">Introduced by <b>Dev Raman</b>, co-investor.</p>
-                <p class="rec-quote">Marcus, worth twenty minutes.</p>
-              </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Halo Compute, seed deck</span><em>8 Nov 2024</em></p>
-            </li>
-
-          </ol>
-        </div>
-      </figure>
-
-      <figure class="plate reveal">
-        <div class="ask">
-          <div class="ask-bar">
-            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q">Who should I bring into Halo Compute&rsquo;s Series A?<span class="ask-caret" aria-hidden="true"></span></p>
-            <span class="ask-in">
-              <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
-              <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
-            </span>
-          </div>
-          <p class="ask-a"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>, and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>. The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</p>
-          <p class="ask-f">
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>
-            <svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>
-            Read from 4,180 records across your firm<b>0.9s</b>
-          </p>
-        </div>
-      </figure>
-
-    </div>
-  </section>
+  
 
 
   <!-- The four claims the three figures above have just demonstrated, which is why
@@ -3165,28 +3047,7 @@ setTimeout(go,1200);})()</script>
 
        Same black ground and no rule, so the page still does not look joined. -->
 
-  <section id="proof" class="proofband" aria-label="What fein gives you">
-    <div class="ah-wrap">
-    <ul class="ah-proof">
-      <li>
-        <b><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>Open source</b>
-        <span>Self-host it on your own infrastructure, or let us run it. Your firm&rsquo;s memory is not our asset.</span>
-      </li>
-      <li>
-        <b><svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg><svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>Answers where you work</b>
-        <span>One MCP endpoint. Ask in Claude, ChatGPT or Cursor, with no new app to open.</span>
-      </li>
-      <li>
-        <b>Every claim cited</b>
-        <span>Each fact keeps the document it was read from, so you can click through and check it.</span>
-      </li>
-      <li>
-        <b>Nothing is deleted</b>
-        <span>Facts are dated and superseded, never overwritten. Ask what your firm believed in 2024 and it can still tell you.</span>
-      </li>
-    </ul>
-    </div>
-  </section>
+  
 
 
   <!-- WHAT THE ASSISTANTS GET: the objection every reader arrives with, answered
@@ -3194,44 +3055,7 @@ setTimeout(go,1200);})()</script>
        by then the reader has seen a fact filed and a fact retired, which is the
        whole of the first column's problem. The table concedes that column
        rather than caricaturing it: connectors are the way in, not the memory. -->
-  <section id="why" class="band why-band" aria-labelledby="why-h">
-    <div class="wrap">
-      <div class="head">
-        <h2 id="why-h">Supercharging <span class="nmn">Claude<svg class="nmk" aria-hidden="true"><use href="#l-claude"/></svg></span>, <span class="nmn">ChatGPT<svg class="nmk" aria-hidden="true"><use href="#l-openai"/></svg></span> and your team&rsquo;s AI tools.</h2>
-        <p class="lead">A connector gives an assistant a search box into one tool at a time. fein gives it your firm&rsquo;s whole memory, with the source document behind every line.</p>
-        <p class="why-path">reads your tools continuously <span class="arr" aria-hidden="true">&#8594;</span> resolves them into one context graph <span class="arr" aria-hidden="true">&#8594;</span> answers over one MCP endpoint</p>
-      </div>
-      <div class="why-grid">
-        <p class="hd"></p>
-        <p class="hd you">With a connector alone</p>
-        <p class="hd us">With fein</p>
-
-        <p class="rl">How it connects</p>
-        <p class="a">Each tool needs its own plug-in. Your assistant queries them one at a time.</p>
-        <p class="b"><b class="ben">The same plug.</b> fein is one MCP endpoint. Your assistant already knows how to call it. Behind it sits the graph, not a search box.</p>
-
-        <p class="rl">What it reads</p>
-        <p class="a">Whatever matches your query, this minute, in one tool. If your words miss the words in the email, the fact does not exist.</p>
-        <p class="b"><b class="ben">A context graph.</b> fein has already read every message, call and meeting. Each one is filed to its person and company before you ask.</p>
-
-        <p class="rl">Across your stack</p>
-        <p class="a">Gmail cannot join a call transcript to a job change to a calendar invite. Each search stands alone. You join the results yourself.</p>
-        <p class="b"><b class="ben">One graph, not many searches.</b> The email, the transcript and the invite land on the same record. One answer can cross all three.</p>
-
-        <p class="rl">When a fact changes</p>
-        <p class="a">It returns what it finds. That includes the line that stopped being true eighteen months ago. Search does not know the difference.</p>
-        <p class="b"><b class="ben">Auditable.</b> The old fact is struck, dated and kept. You get what is true now. You can still ask what your firm believed in 2024.</p>
-
-        <p class="rl">What comes back</p>
-        <p class="a">A paraphrase of some documents. It is as good as whatever was retrieved that time. Ask twice, get two answers.</p>
-        <p class="b"><b class="ben">Deterministic.</b> The same question gets the same answer, every time. The document behind each line is one click away.</p>
-
-        <p class="rl">Where it runs</p>
-        <p class="a">Your data leaves your firm. It goes to whichever vendor owns the connector.</p>
-        <p class="b"><b class="ben">Yours.</b> It runs on your own servers. You can read all of the code. It sends nothing to us.</p>
-      </div>
-    </div>
-  </section>
+  
 
 
   <!-- YOUR CRM STAYS: the second question after "what does it read?", and the
@@ -3241,26 +3065,7 @@ setTimeout(go,1200);})()</script>
        to the software they already pay for. The answer is nothing, and the
        stack column is there so a DealCloud firm can find DealCloud in it.
        Ported from /pe, where the same band sits in the same place. -->
-  <section id="crm" class="band">
-    <div class="wrap secgrid">
-      <div class="head reveal">
-        <h2>It sits on top of the systems you run today.</h2>
-        <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.</p>
-        <div class="sec-cta">
-          <a class="arrowlink" href="/demo">Ask about your stack <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
-        </div>
-      </div>
-      <ul class="stack-list" data-reveal-group="70">
-        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-attio"/></svg><svg class="bi" aria-hidden="true"><use href="#l-affinity"/></svg><svg class="bi" aria-hidden="true"><use href="#l-salesforce"/></svg></span><span class="sl">CRM and deal systems</span><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></li>
-        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gmail"/></svg><svg class="bi" aria-hidden="true"><use href="#l-gcal"/></svg></span><span class="sl">Email and calendar</span><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></li>
-        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-gdrive"/></svg><svg class="bi" aria-hidden="true"><use href="#l-dropbox"/></svg><svg class="bi" aria-hidden="true"><use href="#l-box"/></svg></span><span class="sl">Files and data rooms</span><p>Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend</p></li>
-        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-granola"/></svg><svg class="bi" aria-hidden="true"><use href="#l-slack"/></svg><svg class="bi" aria-hidden="true"><use href="#l-notion"/></svg></span><span class="sl">Meetings, notes and chat</span><p>Granola, Zoom, Google Meet, Slack, Microsoft Teams, Notion</p></li>
-        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-linkedin"/></svg><svg class="bi" aria-hidden="true"><use href="#l-crunchbase"/></svg></span><span class="sl">People and market data</span><p>LinkedIn, PitchBook, Crunchbase, Harmonic</p></li>
-        <li class="reveal"><span class="brandrow" aria-hidden="true"><svg class="bi" aria-hidden="true"><use href="#l-googlesheets"/></svg></span><span class="sl">Portfolio and back office</span><p>Carta, Standard Metrics, Google Sheets, Excel</p></li>
-        <li class="reveal sl-all"><span class="sl">30+ tools in all</span><p>If your team runs something else, we read that too. Ask us.</p></li>
-      </ul>
-    </div>
-  </section>
+  
 
 
   <!-- SECURITY: you control your data. Six short commitments in two columns,
@@ -3310,6 +3115,10 @@ setTimeout(go,1200);})()</script>
       </div>
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
+          <!-- each column opens with the face of what you get: a terminal for
+               the repo, Daniel for the engineer. Same 48px circle, so the two
+               cards read as one decision with two doors. -->
+          <span class="fork-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7L10 12L5 17"/><path d="M13 17H19"/></svg></span>
           <h3>Clone it and go</h3>
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>
@@ -3320,18 +3129,14 @@ setTimeout(go,1200);})()</script>
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
+          <img class="fork-face" src="data:image/webp;base64,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" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
           <h3>A forward-deployed engineer</h3>
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
           <ul>
-            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls.</span></li>
-            <li><span class="tk">&rarr;</span><span>Connectors built for your stack, and kept working.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls with Daniel.</span></li>
+            <li><span class="tk">&rarr;</span><span>Daniel connects each source, reads your history back, and keeps it all working.</span></li>
             <li><span class="tk">&rarr;</span><span>Priced on fund size. Month to month, no lock-in.</span></li>
           </ul>
-          <!-- the engineer has a name. This column asks a fund to hand over
-               credentials to its inbox and CRM, and "an engineer" is the one
-               anonymous noun on the page. Both calls are with the person named
-               here, so naming him is a fact, not a flourish. -->
-          <div class="fork-eng"><img src="data:image/webp;base64,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" alt="" width="28" height="28" decoding="async" loading="lazy"><span>The engineer is <b>Daniel Hull</b>, who built fein. He does every setup himself, and both calls are with him.</span></div>
           <!-- the action here was "See what the fortnight covers", pointing at
                /deploy. It is the one column with something we can do for the
                reader, so the button is the booking and the page it used to lead
@@ -3349,11 +3154,8 @@ setTimeout(go,1200);})()</script>
            just raised. First person, because a signature in the third person
            is a press release. -->
       <div class="founder reveal">
-        <img src="data:image/webp;base64,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" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
-        <div>
-          <p>fein reads your inbox, so you should know who is behind it. I built fein and I run every setup myself. The demo call is with me, and so is this address: <a href="mailto:daniel@fein.vc">daniel@fein.vc</a>.</p>
-          <p class="f-sig"><b>Daniel Hull</b> &middot; founder, fein</p>
-        </div>
+        <p>fein reads your inbox, so you should know who is behind it. I built fein and I run every setup myself. The demo call is with me, and so is this address: <a href="mailto:daniel@fein.vc">daniel@fein.vc</a>.</p>
+        <p class="f-sig"><b>Daniel Hull</b> &middot; founder, fein</p>
       </div>
     </div>
   </section>
@@ -4656,11 +4458,8 @@ setTimeout(go,1200);})()</script>
 #fein-chat.fc-in{opacity:1;transform:none}
 #fein-chat:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
 #fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-/* the bubble is a solid white glyph with the smile knocked out of it, so the
-   smile is stroked in the disc colour: --fc-mk has to stay opaque and in sync
-   with the disc, or the smile stops reading as a cutout */
-#fein-chat .fc-mark{--fc-mk:#101114;position:relative;flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--fc-mk);color:#fff}
-#fein-chat .fc-mark svg{display:block}
+#fein-chat .fc-mark{position:relative;flex:none;width:38px;height:38px}
+#fein-chat .fc-mark img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
 /* the green dot ring is the pill's own white, so the dot reads as punched
    through the pill and not stickered onto the mark */
 #fein-chat .fc-dot{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#30d158;box-shadow:0 0 0 2px var(--fc-disc)}
@@ -4676,7 +4475,7 @@ setTimeout(go,1200);})()</script>
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
 <button type="button" id="fein-chat" aria-label="Chat with the fein team. Last seen 3 minutes ago.">
-<span class="fc-mark"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M7 4h10a3 3 0 0 1 3 3v13l-3.5-3.4H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><path d="M8.8 10.6c.9 1.5 2.05 2.25 3.2 2.25s2.3-.75 3.2-2.25" stroke="var(--fc-mk)" stroke-width="1.7" stroke-linecap="round"/></svg><span class="fc-dot"></span></span>
+<span class="fc-mark"><img src="data:image/webp;base64,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" alt="" width="38" height="38"><span class="fc-dot"></span></span>
 <span class="fc-txt"><b>Chat with us</b><span>Last seen 3m ago</span></span>
 <span class="fc-badge" hidden></span>
 </button>

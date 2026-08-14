@@ -268,7 +268,7 @@
   /* one wide surface under the whole bar, the reference's geometry: width and
      position never move, only the height animates between panels while their
      contents crossfade. */
-  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:rgba(20,20,23,.98);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
+  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:#141417;border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1)}
   .ddwrap.snap{transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1)}
   .ddpanel{position:absolute;top:0;left:0;right:0;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .15s ease}
@@ -350,7 +350,7 @@
               <a class="dd-l" href="/#how">How it works</a>
               <a class="dd-l" href="/#features">Features</a>
               <a class="dd-l" href="/security">Security</a>
-              <a class="dd-l" href="/#why">Integrations</a>
+              <a class="dd-l" href="/#integrations">Integrations</a>
             </div>
           </div>
           <div class="dd-foot">

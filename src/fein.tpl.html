@@ -173,7 +173,7 @@
   /* one wide surface under the whole bar, the reference's geometry: width and
      position never move, only the height animates between panels while their
      contents crossfade. */
-  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:rgba(20,20,23,.98);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
+  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:#141417;border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1)}
   .ddwrap.snap{transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1)}
   .ddpanel{position:absolute;top:0;left:0;right:0;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .15s ease}
@@ -1835,16 +1835,16 @@
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
   .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
-  /* the engineer row on the managed card: a face at 28px and one sentence,
-     pinned above the card's action with the same quiet grey as the note. */
-  .fork-eng{display:flex;gap:10px;align-items:flex-start;margin-top:1rem;color:var(--fg-3);font-size:.92rem;line-height:1.5}
-  .fork-eng img{border-radius:50%;flex:none;margin-top:1px}
-  .fork-eng b{color:var(--fg);font-weight:550}
-  /* the signature under the fork. Sized like the fork-note it follows, one
-     face, first person, and the founder's real address in the accent the
-     success copy already uses for its links. */
-  .founder{display:flex;gap:14px;align-items:flex-start;margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
-  .founder img{border-radius:50%;flex:none}
+  /* each fork card opens with a 48px circle: Daniel's face on the managed
+     column, a terminal mark on the free one. Same size, same ring, so the
+     cards stay level and the pair reads as two doors on one decision. */
+  .fork-mark{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--bg-3);box-shadow:0 0 0 1px var(--line-2);color:var(--fg-2);margin-bottom:1rem;flex:none}
+  .fork-mark svg{width:20px;height:20px}
+  .fork-face{display:block;border-radius:50%;box-shadow:0 0 0 1px var(--line-2);margin-bottom:1rem}
+  /* the signature under the fork. Sized like the fork-note it follows, first
+     person, and the founder's real address in the accent the success copy
+     already uses for its links. The face lives on the card above, not here. */
+  .founder{margin-top:clamp(1.6rem,3vw,2.2rem);max-width:34rem}
   .founder p{color:var(--fg-3);font-size:.94rem;line-height:1.6;text-wrap:pretty}
   .founder a{color:var(--blue-l);font-weight:500;transition:color .18s ease}
   .founder a:hover{color:#fff}
@@ -3248,18 +3248,14 @@ __LOGO_SPRITE__
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
         </div>
         <div class="fork-card pick reveal">
+          <img class="fork-face" src="data:image/webp;base64,__AV_DH__" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
           <h3>A forward-deployed engineer</h3>
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $1,000 a month</span></div>
           <ul>
-            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls.</span></li>
-            <li><span class="tk">&rarr;</span><span>Connectors built for your stack, and kept working.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls with Daniel.</span></li>
+            <li><span class="tk">&rarr;</span><span>Daniel connects each source, reads your history back, and keeps it all working.</span></li>
             <li><span class="tk">&rarr;</span><span>Priced on fund size. Month to month, no lock-in.</span></li>
           </ul>
-          <!-- the engineer has a name. This column asks a fund to hand over
-               credentials to its inbox and CRM, and "an engineer" is the one
-               anonymous noun on the page. Both calls are with the person named
-               here, so naming him is a fact, not a flourish. -->
-          <div class="fork-eng"><img src="data:image/webp;base64,__AV_DH__" alt="" width="28" height="28" decoding="async" loading="lazy"><span>The engineer is <b>Daniel Hull</b>, who built fein. He does every setup himself, and both calls are with him.</span></div>
           <!-- the action here was "See what the fortnight covers", pointing at
                /deploy. It is the one column with something we can do for the
                reader, so the button is the booking and the page it used to lead
@@ -3277,11 +3273,8 @@ __LOGO_SPRITE__
            just raised. First person, because a signature in the third person
            is a press release. -->
       <div class="founder reveal">
-        <img src="data:image/webp;base64,__AV_DH__" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
-        <div>
-          <p>fein reads your inbox, so you should know who is behind it. I built fein and I run every setup myself. The demo call is with me, and so is this address: <a href="mailto:daniel@fein.vc">daniel@fein.vc</a>.</p>
-          <p class="f-sig"><b>Daniel Hull</b> &middot; founder, fein</p>
-        </div>
+        <p>fein reads your inbox, so you should know who is behind it. I built fein and I run every setup myself. The demo call is with me, and so is this address: <a href="mailto:daniel@fein.vc">daniel@fein.vc</a>.</p>
+        <p class="f-sig"><b>Daniel Hull</b> &middot; founder, fein</p>
       </div>
     </div>
   </section>
