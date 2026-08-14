@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE = "https://fein.vc";
-const TITLE = "fein · the shared memory of a venture capital team";
+const TITLE = "fein · the memory layer for venture capital";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD.
 // Both are written in Simplified Technical English, one idea to a sentence, and
 // both hold the approved terms: "your team" for the customer, "context graph"
@@ -168,7 +168,7 @@ const rest = body.slice(sEnd);
 // which is why there is no FAQPage in the JSON-LD: that markup requires the
 // answers to be visible on the page it is served from. ----
 const faqs = [
-  ["What exactly is fein?", "fein is the shared memory of your firm. It reads your email, calendar, notes, and CRM. It resolves them into one context graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
+  ["What exactly is fein?", "fein is your firm's memory layer. It reads your email, calendar, notes, and CRM. It resolves them into one context graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
   ["How is this different from Affinity or Attio?", "A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."],
   ["What does it cost?", "It costs $5,000 once to build it into your stack. Then you pick a monthly plan set by how much we keep doing: Core is $250 each month, Plus is $500, and Pro is $750. An annual plan, paid in advance, costs 15% less. There is no per-seat pricing. Running it yourself is free forever."],
   ["Can't we build this ourselves?", "Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it."],
@@ -231,7 +231,7 @@ const ld = {
       isPartOf: { "@id": SITE + "/#webpage" },
       about: { "@id": SITE + "/#app" }
     },
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the shared memory of a venture capital team", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: ["https://github.com/clippycommits/fein"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the memory layer for venture capital", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: ["https://github.com/clippycommits/fein"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, video: { "@id": SITE + "/#demo-film" }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -279,12 +279,12 @@ const headMeta = `<meta charset="utf-8">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the shared memory of a venture capital team">
+<meta property="og:image:alt" content="fein · the memory layer for venture capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
 <meta name="twitter:image" content="${SITE}/og.png">
-<meta name="twitter:image:alt" content="fein · the shared memory of a venture capital team">`;
+<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">`;
 
 // GoatCounter (fein.goatcounter.com) — standalone site only, never the artifact
 // copy: claude.ai's CSP blocks external scripts. Hash routes count as pages so
@@ -443,7 +443,7 @@ if (intercom) {
 
 // robots.txt — welcome AI answer engines explicitly
 const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "Applebot-Extended", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
-const robots = `# fein · the shared memory of a venture capital team
+const robots = `# fein · the memory layer for venture capital
 # AI assistants welcome. Summary: ${SITE}/llms.txt · Full page: ${SITE}/llms-full.txt
 
 User-agent: *
@@ -586,7 +586,7 @@ const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the shared memory of an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
+const LLMS_SUMMARY = `> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -672,7 +672,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 
 // llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
 // Every line here restates visible site copy; keep it in sync when copy changes.
-fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the shared memory of a venture capital team
+fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the memory layer for venture capital
 
 ${LLMS_SUMMARY}
 
@@ -833,7 +833,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
-  name: "fein", short_name: "fein", description: "The shared memory of a venture capital team.",
+  name: "fein", short_name: "fein", description: "The memory layer for venture capital.",
   start_url: "/", display: "standalone", background_color: "#08090A", theme_color: "#08090A",
   icons: [
     { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -860,9 +860,9 @@ text{font-family:'Geist','Helvetica Neue',Arial,sans-serif}
 <line x1="960" y1="150" x2="1068" y2="248"/><line x1="1068" y1="248" x2="998" y2="382"/><line x1="1068" y1="248" x2="1132" y2="340"/><line x1="998" y1="382" x2="1086" y2="486"/><line x1="1132" y1="340" x2="1086" y2="486"/>
 <circle cx="960" cy="150" r="7"/><circle cx="1068" cy="248" r="10" fill="#ffffff" stroke="#ffffff"/><circle cx="998" cy="382" r="6"/><circle cx="1132" cy="340" r="5"/><circle cx="1086" cy="486" r="6"/>
 </g>
-<text x="92" y="150" fill="#8f8f8f" font-size="22" font-weight="500" letter-spacing="4">THE GRAPH FOR VC TEAMS</text>
+<text x="92" y="150" fill="#8f8f8f" font-size="22" font-weight="500" letter-spacing="4">OPEN SOURCE · SELF-HOSTED</text>
 <text x="84" y="330" fill="#ffffff" font-size="200" font-weight="600" letter-spacing="-8">fein</text>
-<text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The relationship layer your AI acts on.</text>
+<text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The memory layer for venture capital.</text>
 <text x="92" y="458" fill="#7d7d7d" font-size="25" font-weight="400">Warm intros · meeting prep · deal memory, inside Claude &amp; ChatGPT</text>
 <text x="92" y="560" fill="#ededed" font-size="26" font-weight="500">fein.vc</text>
 </g>

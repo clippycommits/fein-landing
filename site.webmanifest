@@ -1,7 +1,7 @@
 {
   "name": "fein",
   "short_name": "fein",
-  "description": "The shared memory of a venture capital team.",
+  "description": "The memory layer for venture capital.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#08090A",
