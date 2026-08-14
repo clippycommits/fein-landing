@@ -2231,18 +2231,24 @@
   #figures{padding:0 0 clamp(3rem,7vh,5.5rem)}
   .fcards .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
   .figrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
-  .figcard{margin:0;padding:clamp(1.4rem,2.4vw,2.1rem) clamp(1.2rem,2.2vw,2rem) 0;border-left:1px solid var(--line)}
+  .figcard{--figpad:clamp(1.2rem,2.2vw,2rem);--apad:0px;margin:0;padding:clamp(1.4rem,2.4vw,2.1rem) var(--figpad) 0;border-left:1px solid var(--line)}
   /* the row is inset from its rules and flush with the page's: a column pads
      away from the rule it is ruled off, and the two outer columns drop the
      padding on the side that faces the margin. Without that last part the row
      starts on the measure and stops 32px short of it, which is the one edge on
      the page that does not line up. */
-  .figcard:first-child{border-left:0;padding-left:0}
-  .figcard:last-child{padding-right:0}
+  .figcard:first-child{border-left:0;padding-left:0;--apad:calc(var(--figpad) + 1px)}
+  .figcard:last-child{padding-right:0;--apad:var(--figpad)}
   /* the mono FIG 0.x figure numbers are gone with the plate labels: the last
      of the small tracked-mono annotations in the page chrome. Mono now only
      appears inside the product pictures, where it is a readout. */
-  .figart{display:block;width:100%;height:auto;max-width:340px;margin:clamp(1.4rem,3vw,2.6rem) auto clamp(1.6rem,3.4vw,3rem);
+  /* the outer columns drop one side of their padding, which left their content
+     boxes one pad wider than the middle one: at the full measure the outer
+     drawings hit the 340px cap while the middle one stopped at ~324px, so its
+     caption rode 13px high. --apad gives the art back the pad its column
+     dropped, so all three drawings compute the same width, and the same
+     height, at every viewport. */
+  .figart{display:block;width:calc(100% - var(--apad));height:auto;max-width:340px;margin:clamp(1.4rem,3vw,2.6rem) auto clamp(1.6rem,3.4vw,3rem);
     stroke:rgba(255,255,255,.26);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
   .figart .lid{stroke:rgba(255,255,255,.4)}
   .figart ellipse{stroke:rgba(255,255,255,.16)}
@@ -2259,7 +2265,7 @@
   .figcard figcaption p{margin:0;font-size:.95rem;line-height:1.5;color:var(--fg-3);max-width:23rem;text-wrap:pretty}
   @media (max-width:860px){
     .figrow{grid-template-columns:minmax(0,1fr)}
-    .figcard{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-right:0}
+    .figcard{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-right:0;--apad:0px}
     .figcard:first-child{border-top:0}
     .figart{max-width:250px;margin-inline:0}
   }
