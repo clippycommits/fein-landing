@@ -384,19 +384,20 @@ const intercomPrefetch = INTERCOM_APP_ID ? `<link rel="dns-prefetch" href="https
 ` : "";
 
 // ---- distill: the served home page cuts the sections that restate one
-// another. #figures restates #how, #change and #proof restate what the
-// #memory thread and /security already show, #why answers an objection the
-// sales call handles, and #crm repeats the works strip as a wall. This ran as
-// the /b variant first and won; the template keeps all thirteen sections as
-// the source of truth, so any of them comes back by removing its id here. ----
-const HOME_CUT = ["figures", "change", "proof", "why", "crm", "how"];
+// another. #change and #proof restate what the #memory thread and /security
+// already show, #why answers an objection the sales call handles, and #crm
+// repeats the works strip as a wall. This ran as the /b variant first and
+// won; the template keeps all thirteen sections as the source of truth, so
+// any of them comes back by removing its id here. #figures came back as the
+// three use-case cards: sourcing, raising, portfolio. ----
+const HOME_CUT = ["change", "proof", "why", "crm", "how"];
 let homeRest = rest;
 HOME_CUT.forEach(function (id) {
   const re = new RegExp('\\n?<section id="' + id + '"[\\s\\S]*?</section>');
   if (!re.test(homeRest)) throw new Error("home: section to cut not found: #" + id);
   homeRest = homeRest.replace(re, "");
 });
-["figures", "change", "proof", "why", "crm"].forEach(function (id) {
+["change", "proof", "why", "crm"].forEach(function (id) {
   if (homeRest.indexOf('href="#' + id + '"') > -1) throw new Error("home: link into cut section #" + id + " — repoint it in the template");
 });
 
