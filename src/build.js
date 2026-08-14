@@ -463,6 +463,8 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
   <url><loc>${SITE}/deploy</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/self-host</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/fundraising</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/portfolio</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/security</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/integrations</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/demo</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
@@ -558,7 +560,7 @@ function homeSection(id) {
 }
 const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay:end*/", "change-replay");
 
-["pe", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
+["pe", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__STYLE__").join(styleBlock)
     .split("__LOGO_SPRITE__").join(spriteAll)
@@ -619,6 +621,20 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
 - It works with DealCloud, Affinity, Salesforce, and Attio. It replaces no system and migrates no data.
 
+## For fundraising
+- fein serves the fundraising and LP relations side of a firm as well as the deal side. The page for fundraising is ${SITE}/fundraising.
+- fein lists every LP the firm has ever spoken to, scored from real signal, with the partner who owns each relationship named.
+- It flags each LP relationship that drifts away from its own rhythm, years before the raise makes it urgent.
+- It files every LP ask and every commitment to the LP it belongs to, with the meeting or email it came from, and keeps it open until it is closed.
+- It finds the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors.
+
+## For portfolio teams
+- fein serves the platform and portfolio support side of a firm. The page for portfolio teams is ${SITE}/portfolio.
+- Before each board meeting, fein lists what is open: the asks the founder made, the promises the firm made, and what changed since the last pack.
+- It files every promised introduction to the company it belongs to, marks the ones that happened, and flags the ones still open.
+- It matches a founder's ask for a hire, a customer, or an expert against the firm's whole graph, ranked by how warm each path is.
+- It keeps the record of what the firm did for each company, with a source behind every line.
+
 ## Pricing
 - There are two ways to have fein and they run the same software. The full comparison is at ${SITE}/pricing.
 - Running it yourself is free, forever. The code is Apache 2.0 licensed. There is no paid tier of the software, and no feature is held back to make one. The page for this path is ${SITE}/self-host.
@@ -646,6 +662,8 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - [Managed setup](${SITE}/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
 - [Pricing](${SITE}/pricing): both paths priced against each other, with the three monthly plans
 - [fein for private equity](${SITE}/pe): the page for private equity firms
+- [fein for fundraising](${SITE}/fundraising): the page for LP relations and the next raise
+- [fein for portfolio teams](${SITE}/portfolio): the page for platform and portfolio support
 - [Security](${SITE}/security): self-hosted, open source, auditable. The page for a security review
 - [Source on GitHub](https://github.com/clippycommits/fein): Apache 2.0 licensed, free to self-host
 - [Full page content for LLMs](${SITE}/llms-full.txt): the whole page in Markdown
@@ -755,6 +773,22 @@ An intermediary is a banker, a broker, an accountant, or a lawyer who brings a f
 fein answers four questions for a deal team. It lists every intermediary who sends the firm deals, scored from real signal, with the owner of each relationship named. It flags each relationship that drifts away from its own rhythm, with the last contact and the colleague who must make the call. It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line. It finds the shortest real path to a management team, a seller, an operator, or an LP, and names the best colleague to make the introduction.
 
 fein works with DealCloud, Affinity, Salesforce, and Attio. It reads the CRM and everything around it. It replaces no system, it migrates no data, and it asks the team for no new data entry.
+
+## For fundraising: ${SITE}/fundraising
+
+fein serves the fundraising and LP relations side of a firm as well as the deal side. The page at ${SITE}/fundraising describes the same product in the language an IR desk uses.
+
+The next fund is raised in the two years before it opens, and the record of the firm's LP relationships sits in four partners' inboxes. Four problems follow from that. Coverage is a partner's memory, rebuilt by hand when the raise opens. Promises made to LPs quietly expire, and the LP remembers. Quiet is invisible until it is expensive, because an anchor drifts from quarterly contact to nothing and the firm learns it when the re-up conversation starts cold. The last raise is not searchable, because who passed and the stated reason sit in threads three years old.
+
+fein answers four questions for an IR desk. It lists every LP the firm has ever spoken to, scored from real signal, with the partner who owns each relationship named. It flags each LP relationship that drifts away from its own rhythm, years before the raise makes it urgent. It files every LP ask and every commitment to the LP it belongs to, with the meeting or email it came from, and keeps it open until it is closed. It finds the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors.
+
+## For portfolio teams: ${SITE}/portfolio
+
+fein serves the platform and portfolio support side of a firm. The page at ${SITE}/portfolio describes the same product in the language a platform team uses.
+
+Founders remember what the firm promised, and the firm's tools do not. Four problems follow from that. Board prep is an excavation across three tools and one partner's inbox. Promised introductions vanish, because a month after the board nobody can list them. Founder asks die in Slack, because the right candidate emailed a partner last week and the two facts never meet. The help is invisible later, because the record of what the firm did for each company is nobody's single list.
+
+fein answers four questions for a platform team. Before each board meeting it lists what is open: the asks the founder made, the promises the firm made, and what changed since the last pack. It files every promised introduction to the company it belongs to, marks the ones that happened, and flags the ones still open. It matches a founder's ask for a hire, a customer, or an expert against the firm's whole graph, ranked by how warm each path is, ending in the colleague who should make the call. It keeps the record of what the firm did for each company, with a source behind every line.
 
 ## Pricing
 

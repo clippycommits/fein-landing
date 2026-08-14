@@ -1158,9 +1158,11 @@
   }
 
   /* ============ one memory, asked from the thread it is about ================
-     Headline left, the sentence that qualifies it right, and under both the
-     picture in two parts: the raw material at reading size, then the product
-     answering at the full measure below it.
+     One block, read left to right and then down: the copy on the left rule, the
+     thread beside it holding the question, and the product answering across the
+     full measure under both. The head and the card share a row so neither is
+     stranded next to empty column, and the film below is wide enough that the
+     two halves above visibly belong to it.
 
      The panel is a replica of the client, so it is measured like one rather than
      styled like the rest of the page. Slack's own geometry: a 36px avatar on an
@@ -1179,9 +1181,10 @@
   .mem-head,.mem-stage{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--bar-pad)}
   /* and the split is the reference's: two equal halves of the measure with a
      64px gutter cut out of the middle, so the heading starts on FIG 0.1's rule
-     and the lead starts on the midpoint. The old 1.16/.84 pushed the right
-     column past the middle and squeezed it. */
-  .mem-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(1.5rem,4.4vw,4rem);align-items:start}
+     and the thread starts on the midpoint. Centred against the card rather than
+     top-aligned, because the card is the taller half and copy hanging off its
+     top corner is the orphan this row exists to avoid. */
+  .mem-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(1.5rem,4.4vw,4rem);align-items:center}
   /* both blocks of type are held at ~89% of their column, which is where the
      reference sets its own two: near enough the same width as each other, and
      each stopping just short of the gutter rather than at a count of characters
@@ -1191,24 +1194,22 @@
      size. A heading that outweighs the sentence under it is doing the arguing by
      being loud. */
   .mem-head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;color:#fff;max-width:11.6em;text-wrap:balance}
-  /* the right column is set at lead size rather than body size, so it reads as
-     the headline's second half and not as a caption underneath it. */
-  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
+  /* still lead size rather than body size, so it reads as the headline's
+     second half and not as a caption, but it sits under the headline now that
+     the right column belongs to the thread. */
+  .mem-lead{margin:1.1rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
   .mem-more{display:flex;width:fit-content;margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
   .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
   /* the numbered links stack: the first keeps the big gap off the lead, the
      rest sit a line apart, each pointing at the page that argues it in full */
   .mem-more+.mem-more{margin-top:.7rem}
 
-  /* one column, two sizes. The two layers used to share a row, the thread laid
-     over the film's left edge, which capped the film at .57 of the measure and
-     hid another slice of it under the card and a fade. The film is the answer
-     and the one moving picture on the page, so it now takes the whole measure,
-     the same span the nav and the fold are on. The thread keeps the question
-     at the width a thread actually has, on the page's left rule, and the film
-     runs edge to edge under it: question above, answer below, which is the
-     order the section tells the story in anyway. */
-  .mem-stage{position:relative;margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;display:grid;grid-template-columns:minmax(0,1fr);row-gap:clamp(14px,1.9vw,22px)}
+  /* the stage is the film alone now. The thread lives up in the head's right
+     column, so the row that used to hold both layers is one wide frame: the
+     answer at the full measure, the same span the nav and the fold are on. The
+     gap above it is a rule's worth, not a section's worth, because the card and
+     the film are two parts of the same picture and the seam should say so. */
+  .mem-stage{margin:clamp(1.5rem,3.2vw,2.4rem) auto 0}
   .mem-film{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;isolation:isolate;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98)}
   .mem-video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
   /* stopped, the picture sits under a wash so the button on it is the brightest
@@ -1323,7 +1324,7 @@
      stack that used to be this query's fallback is simply the layout. 1080 is
      where two blocks of display type stop being worth a shared row. */
   @media (max-width:1080px){
-    .mem-head{grid-template-columns:minmax(0,1fr);gap:1.1rem}
+    .mem-head{grid-template-columns:minmax(0,1fr);gap:1.6rem}
     .mem-head h2{max-width:26ch}
     .mem-lead{max-width:58ch}
   }
@@ -1789,12 +1790,15 @@
      black with the panel's own yellow for its label. */
   .fork-card.pick{background:#E4F229;border-color:#E4F229;box-shadow:0 0 34px -12px rgba(228,242,41,.4)}
   .fork-card.pick h3,.fork-card.pick .fork-price b,.fork-card.pick li b,.fork-card.pick li .tk{color:#0A0B0A}
-  .fork-card.pick>p,.fork-card.pick li{color:rgba(10,11,10,.78)}
-  .fork-card.pick .fork-price{border-top-color:rgba(10,11,10,.18)}
-  .fork-card.pick .fork-price .per{color:rgba(10,11,10,.6)}
+  /* ink on the acid panel runs darker than the grey ladder the dark cards use:
+     what reads as quiet grey on black goes muddy olive over #E4F229, so the
+     secondary voices sit at .9/.75 instead of the .78/.6 they launched at. */
+  .fork-card.pick>p,.fork-card.pick li{color:rgba(10,11,10,.9)}
+  .fork-card.pick .fork-price{border-top-color:rgba(10,11,10,.22)}
+  .fork-card.pick .fork-price .per{color:rgba(10,11,10,.75)}
   .fork-card.pick .btn-primary{background:#0A0B0A;color:#E4F229;box-shadow:0 1px 2px rgba(0,0,0,.25)}
   .fork-card.pick .btn-primary:hover{background:#000}
-  .fork-card.pick .fork-more{color:rgba(10,11,10,.62)}
+  .fork-card.pick .fork-more{color:rgba(10,11,10,.75)}
   .fork-card.pick .fork-more:hover{color:#0A0B0A}
   .fork-card.pick .fork-face{box-shadow:0 0 0 1px rgba(10,11,10,.25)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
@@ -1831,7 +1835,11 @@
      and given its own row, so the two actions read as one stack. */
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
-  .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
+  /* the closing line under the fork is a contact now, not a licence recap: one
+     centred question with the sales address as its answer. */
+  .fork-contact{margin-top:clamp(1.3rem,2.6vw,1.8rem);text-align:center;color:var(--fg-3);font-size:.94rem;line-height:1.55}
+  .fork-contact a{color:var(--fg);font-weight:500;transition:color .18s ease}
+  .fork-contact a:hover{color:#fff}
   /* each fork card opens with a 48px circle: Daniel's face on the managed
      column, a terminal mark on the free one. Same size, same ring, so the
      cards stay level and the pair reads as two doors on one decision. */
@@ -2317,8 +2325,10 @@ __LOGO_SPRITE__
           <div class="dd-cols">
             <div class="dd-col">
               <span class="dd-h">Use cases</span>
-              <a class="dd-l" href="/">For venture capital</a>
-              <a class="dd-l" href="/pe">For private equity</a>
+              <a class="dd-l" href="/">Deal sourcing</a>
+              <a class="dd-l" href="/fundraising">Fundraising and LPs</a>
+              <a class="dd-l" href="/portfolio">Portfolio support</a>
+              <a class="dd-l" href="/pe">Private equity</a>
             </div>
             <div class="dd-col">
               <span class="dd-h">Product</span>
@@ -2355,6 +2365,8 @@ __LOGO_SPRITE__
       <nav id="mobile-menu" class="mmenu" aria-label="Primary mobile">
         <a href="#features">Features</a>
         <a href="/security">Security</a>
+        <a href="/fundraising">For fundraising</a>
+        <a href="/portfolio">For portfolio teams</a>
         <a href="/pe">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
@@ -2462,16 +2474,20 @@ __LOGO_SPRITE__
     <div class="wrap" id="content" tabindex="-1">
 
       <span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="WhatsApp"><use href="#l-whatsapp"/></svg> and CLI.</span>
-      <h1>The shared memory of your venture capital team.</h1>
-      <!-- The headline is the pitch, said the same way the <title>, the og alt,
-           the manifest and llms-full.txt already say it: one sentence, one idea,
-           no synonym. "Welcome to agentic venture capital" named a category and
-           not the product; "agentic" fails the say-it-to-anyone test. The line
-           below carries the mechanism in DESC's own Simplified Technical English
-           and closes on the deploy triplet the sub-pages already use. The
-           customer is "your fund" here and "your team" in DESC and DESC_LONG in
-           build.js, which are deliberately left alone: those two strings are
-           what an answer engine quotes back. -->
+      <h1>The warmest path into every deal you want to do.</h1>
+      <!-- The headline is the wedge, not the identity. "The shared memory of
+           your venture capital team" is the true description, but nobody holds
+           a budget line for memory; funds hold one for sourcing, and the
+           fold's own picture is a sourcing scenario (the Halo Compute warm
+           path). So the h1 sells the outcome the picture demonstrates, the sub
+           under it carries the mechanism, and the identity claim moves one
+           band down to the stance line, where it explains rather than opens.
+           The <title>, og alt, manifest and llms-full.txt keep the identity:
+           that is the string an answer engine should quote. The other desks
+           find their own pages in #desks near the foot of the page and in the
+           Use cases column of the nav. The customer is "your fund" here and
+           "your team" in DESC and DESC_LONG in build.js, which are
+           deliberately left alone. -->
       <!-- The original single-sentence sub, kept for its cadence, with the two
            concrete gains from the STE rewrite folded in: the named sources
            instead of "raw data", and provenance as the closing beat. -->
@@ -2705,19 +2721,17 @@ __LOGO_SPRITE__
        the heading. -->
   <section id="memory" class="band" aria-labelledby="mem-h">
     <div class="mem-head">
-      <!-- "Auditable, deterministic memory" restated the plain half in jargon;
-           the plain half is the claim, and #proof / the features below carry
-           auditability ("Every fact keeps its source") without the word. -->
-      <h2 id="mem-h">Same answer every time, for everyone.</h2>
-      <div>
+      <div class="mem-copy">
+        <!-- "Auditable, deterministic memory" restated the plain half in jargon;
+             the plain half is the claim, and #proof / the features below carry
+             auditability ("Every fact keeps its source") without the word. -->
+        <h2 id="mem-h">Same answer every time, for everyone.</h2>
         <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
         <a class="arrowlink mem-more" href="/integrations"><i>01</i>Ask in your own tools<span class="arw" aria-hidden="true">&rarr;</span></a>
         <a class="arrowlink mem-more" href="/security"><i>02</i>Every fact keeps its source<span class="arw" aria-hidden="true">&rarr;</span></a>
       </div>
-    </div>
 
-    <figure class="mem-stage" aria-label="A thread in Slack where fein is asked a question, and the walkthrough of it answering">
-      <article class="mem-msg" id="mem-msg">
+      <article class="mem-msg" id="mem-msg" aria-label="A thread in Slack where fein is asked the question the film below answers">
         <div class="mem-bar">
           <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
           <span>Thread in <b>#dealflow</b></span>
@@ -2796,12 +2810,14 @@ __LOGO_SPRITE__
           </div>
         </div>
       </article>
+    </div>
 
-      <!-- the walkthrough. It is the only film on the page now, and it runs itself
-           once it is on screen: silent, on a loop, with the button still up on
-           top of it, because the press is the sound control. When somebody asks,
-           they get the whole thing from the top, narration included, once through
-           rather than on a loop. -->
+    <!-- the walkthrough. It is the only film on the page now, and it runs itself
+         once it is on screen: silent, on a loop, with the button still up on
+         top of it, because the press is the sound control. When somebody asks,
+         they get the whole thing from the top, narration included, once through
+         rather than on a loop. -->
+    <figure class="mem-stage" aria-label="A twenty-six second walkthrough of fein answering the question asked in the thread above">
       <div class="mem-film paused" id="mem-film">
         <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A twenty-six second narrated walkthrough of fein answering this question." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
           <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
@@ -3221,6 +3237,28 @@ __LOGO_SPRITE__
   </section>
 
 
+  <!-- THE DESKS: the coverage strip for the value chain the hero deliberately
+       does not carry. The page above sells one wedge, sourcing, because a page
+       that speaks to every desk at once reads as a CRM-ish thing for nobody in
+       particular. The other desks are not lost: they get one ruled row each
+       here, and a page of their own where the argument is made in their
+       vocabulary. Cold outbound points at those pages directly; this strip is
+       for the visitor who landed on the wedge and is not the wedge's buyer. -->
+  <section id="desks" class="band" aria-labelledby="desks-h">
+    <div class="wrap secgrid">
+      <div class="head reveal">
+        <h2 id="desks-h">One graph. Every desk at the firm.</h2>
+        <p class="lead">This page is written for sourcing, because that is where the graph earns its keep first. The same memory answers for the rest of the firm, and each desk has its own page.</p>
+      </div>
+      <ul class="stack-list" data-reveal-group="70">
+        <li class="reveal"><span class="sl">Fundraising and LP relations</span><p>Every LP conversation, commitment and promise as one record, warm before the next raise opens. <a class="arrowlink" href="/fundraising">fein for fundraising <span class="arw" aria-hidden="true">&rarr;</span></a></p></li>
+        <li class="reveal"><span class="sl">Portfolio support</span><p>Board prep, promised introductions and founder asks, tracked from the record the firm already makes. <a class="arrowlink" href="/portfolio">fein for portfolio teams <span class="arw" aria-hidden="true">&rarr;</span></a></p></li>
+        <li class="reveal"><span class="sl">Private equity</span><p>Every intermediary who sends the firm deals. Ranked, owned and current. <a class="arrowlink" href="/pe">fein for private equity <span class="arw" aria-hidden="true">&rarr;</span></a></p></li>
+      </ul>
+    </div>
+  </section>
+
+
   <!-- THE FORK: the band this site was missing.
        "open source" is claimed in the fold, again in the security band above,
        and a third time in the footer, and until now the only thing a reader
@@ -3250,10 +3288,15 @@ __LOGO_SPRITE__
           <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier.</span></li>
+            <li><span class="tk">&rarr;</span><span>One context graph of email, calendar, notes, and CRM.</span></li>
+            <li><span class="tk">&rarr;</span><span>Answers in Claude, ChatGPT, and Cursor, each with its source document.</span></li>
             <li><span class="tk">&rarr;</span><span>The connectors that exist today. You write the rest.</span></li>
             <li><span class="tk">&rarr;</span><span>Your servers, your credentials, your time.</span></li>
           </ul>
-          <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself for free</a></div>
+          <div class="fork-act">
+            <a class="btn btn-ghost" href="/self-host">Run it yourself for free</a>
+            <a class="arrowlink fork-more" href="/pricing">View more information on pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          </div>
         </div>
         <div class="fork-card pick reveal">
           <img class="fork-face" src="data:image/webp;base64,__AV_DH__" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
@@ -3261,8 +3304,10 @@ __LOGO_SPRITE__
           <div class="fork-price"><b>$5,000</b><span class="per">once, then from $250 a month</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls with Daniel.</span></li>
-            <li><span class="tk">&rarr;</span><span>Daniel connects each source, reads your history back, and keeps it all working.</span></li>
-            <li><span class="tk">&rarr;</span><span>From $250 a month, never per seat. Month to month, no lock-in.</span></li>
+            <li><span class="tk">&rarr;</span><span>Daniel connects each source and reads your history back.</span></li>
+            <li><span class="tk">&rarr;</span><span>Years of duplicate contacts resolved into one record each.</span></li>
+            <li><span class="tk">&rarr;</span><span>New connectors, fixes, and upgrades handled for you.</span></li>
+            <li><span class="tk">&rarr;</span><span>From $250 a month, set by how much we keep doing.</span></li>
           </ul>
           <!-- the action here was "See what the fortnight covers", pointing at
                /deploy. It is the one column with something we can do for the
@@ -3271,10 +3316,11 @@ __LOGO_SPRITE__
           <div class="fork-act">
             <a class="btn btn-primary" href="/demo">Get a demo</a>
             <a class="arrowlink fork-more" href="/deploy">See what the fortnight covers <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+            <a class="arrowlink fork-more" href="/pricing">View more information on pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           </div>
         </div>
       </div>
-      <p class="fork-note">Same code, same licence, your servers. Stop paying and it all keeps working. <a class="arrowlink" href="/pricing">Full pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+      <p class="fork-contact">Questions? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
     </div>
   </section>
 
@@ -3309,10 +3355,12 @@ __LOGO_SPRITE__
           <a href="/pricing">Pricing</a>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
-        <nav class="fcol" aria-label="Footer firms">
-          <b>Firms</b>
-          <a href="#home">For venture capital</a>
-          <a href="/pe">For private equity</a>
+        <nav class="fcol" aria-label="Footer use cases">
+          <b>Use cases</b>
+          <a href="#home">Deal sourcing</a>
+          <a href="/fundraising">Fundraising</a>
+          <a href="/portfolio">Portfolio</a>
+          <a href="/pe">Private equity</a>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>

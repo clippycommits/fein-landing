@@ -1189,9 +1189,11 @@
   }
 
   /* ============ one memory, asked from the thread it is about ================
-     Headline left, the sentence that qualifies it right, and under both the
-     picture in two parts: the raw material at reading size, then the product
-     answering at the full measure below it.
+     One block, read left to right and then down: the copy on the left rule, the
+     thread beside it holding the question, and the product answering across the
+     full measure under both. The head and the card share a row so neither is
+     stranded next to empty column, and the film below is wide enough that the
+     two halves above visibly belong to it.
 
      The panel is a replica of the client, so it is measured like one rather than
      styled like the rest of the page. Slack's own geometry: a 36px avatar on an
@@ -1210,9 +1212,10 @@
   .mem-head,.mem-stage{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--bar-pad)}
   /* and the split is the reference's: two equal halves of the measure with a
      64px gutter cut out of the middle, so the heading starts on FIG 0.1's rule
-     and the lead starts on the midpoint. The old 1.16/.84 pushed the right
-     column past the middle and squeezed it. */
-  .mem-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(1.5rem,4.4vw,4rem);align-items:start}
+     and the thread starts on the midpoint. Centred against the card rather than
+     top-aligned, because the card is the taller half and copy hanging off its
+     top corner is the orphan this row exists to avoid. */
+  .mem-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(1.5rem,4.4vw,4rem);align-items:center}
   /* both blocks of type are held at ~89% of their column, which is where the
      reference sets its own two: near enough the same width as each other, and
      each stopping just short of the gutter rather than at a count of characters
@@ -1222,24 +1225,22 @@
      size. A heading that outweighs the sentence under it is doing the arguing by
      being loud. */
   .mem-head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;color:#fff;max-width:11.6em;text-wrap:balance}
-  /* the right column is set at lead size rather than body size, so it reads as
-     the headline's second half and not as a caption underneath it. */
-  .mem-lead{margin:.3rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
+  /* still lead size rather than body size, so it reads as the headline's
+     second half and not as a caption, but it sits under the headline now that
+     the right column belongs to the thread. */
+  .mem-lead{margin:1.1rem 0 0;color:var(--fg);font-size:clamp(1.08rem,1.8vw,1.4rem);line-height:1.44;letter-spacing:-.02em;max-width:26em;text-wrap:pretty}
   .mem-more{display:flex;width:fit-content;margin-top:clamp(1.6rem,2.8vw,2.3rem);gap:.6rem;color:var(--fg-3);font-size:.95rem;font-weight:500}
   .mem-more i{font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums}
   /* the numbered links stack: the first keeps the big gap off the lead, the
      rest sit a line apart, each pointing at the page that argues it in full */
   .mem-more+.mem-more{margin-top:.7rem}
 
-  /* one column, two sizes. The two layers used to share a row, the thread laid
-     over the film's left edge, which capped the film at .57 of the measure and
-     hid another slice of it under the card and a fade. The film is the answer
-     and the one moving picture on the page, so it now takes the whole measure,
-     the same span the nav and the fold are on. The thread keeps the question
-     at the width a thread actually has, on the page's left rule, and the film
-     runs edge to edge under it: question above, answer below, which is the
-     order the section tells the story in anyway. */
-  .mem-stage{position:relative;margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;display:grid;grid-template-columns:minmax(0,1fr);row-gap:clamp(14px,1.9vw,22px)}
+  /* the stage is the film alone now. The thread lives up in the head's right
+     column, so the row that used to hold both layers is one wide frame: the
+     answer at the full measure, the same span the nav and the fold are on. The
+     gap above it is a rule's worth, not a section's worth, because the card and
+     the film are two parts of the same picture and the seam should say so. */
+  .mem-stage{margin:clamp(1.5rem,3.2vw,2.4rem) auto 0}
   .mem-film{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;isolation:isolate;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98)}
   .mem-video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
   /* stopped, the picture sits under a wash so the button on it is the brightest
@@ -1354,7 +1355,7 @@
      stack that used to be this query's fallback is simply the layout. 1080 is
      where two blocks of display type stop being worth a shared row. */
   @media (max-width:1080px){
-    .mem-head{grid-template-columns:minmax(0,1fr);gap:1.1rem}
+    .mem-head{grid-template-columns:minmax(0,1fr);gap:1.6rem}
     .mem-head h2{max-width:26ch}
     .mem-lead{max-width:58ch}
   }
@@ -1820,12 +1821,15 @@
      black with the panel's own yellow for its label. */
   .fork-card.pick{background:#E4F229;border-color:#E4F229;box-shadow:0 0 34px -12px rgba(228,242,41,.4)}
   .fork-card.pick h3,.fork-card.pick .fork-price b,.fork-card.pick li b,.fork-card.pick li .tk{color:#0A0B0A}
-  .fork-card.pick>p,.fork-card.pick li{color:rgba(10,11,10,.78)}
-  .fork-card.pick .fork-price{border-top-color:rgba(10,11,10,.18)}
-  .fork-card.pick .fork-price .per{color:rgba(10,11,10,.6)}
+  /* ink on the acid panel runs darker than the grey ladder the dark cards use:
+     what reads as quiet grey on black goes muddy olive over #E4F229, so the
+     secondary voices sit at .9/.75 instead of the .78/.6 they launched at. */
+  .fork-card.pick>p,.fork-card.pick li{color:rgba(10,11,10,.9)}
+  .fork-card.pick .fork-price{border-top-color:rgba(10,11,10,.22)}
+  .fork-card.pick .fork-price .per{color:rgba(10,11,10,.75)}
   .fork-card.pick .btn-primary{background:#0A0B0A;color:#E4F229;box-shadow:0 1px 2px rgba(0,0,0,.25)}
   .fork-card.pick .btn-primary:hover{background:#000}
-  .fork-card.pick .fork-more{color:rgba(10,11,10,.62)}
+  .fork-card.pick .fork-more{color:rgba(10,11,10,.75)}
   .fork-card.pick .fork-more:hover{color:#0A0B0A}
   .fork-card.pick .fork-face{box-shadow:0 0 0 1px rgba(10,11,10,.25)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
@@ -1862,7 +1866,11 @@
      and given its own row, so the two actions read as one stack. */
   .fork-more{display:flex;justify-content:center;margin-top:.9rem;font-size:.92rem;color:var(--fg-3);font-weight:450}
   .fork-more:hover{color:#fff}
-  .fork-note{margin-top:clamp(1.1rem,2.2vw,1.5rem);color:var(--fg-3);font-size:.94rem;line-height:1.55;text-wrap:pretty}
+  /* the closing line under the fork is a contact now, not a licence recap: one
+     centred question with the sales address as its answer. */
+  .fork-contact{margin-top:clamp(1.3rem,2.6vw,1.8rem);text-align:center;color:var(--fg-3);font-size:.94rem;line-height:1.55}
+  .fork-contact a{color:var(--fg);font-weight:500;transition:color .18s ease}
+  .fork-contact a:hover{color:#fff}
   /* each fork card opens with a 48px circle: Daniel's face on the managed
      column, a terminal mark on the free one. Same size, same ring, so the
      cards stay level and the pair reads as two doors on one decision. */
@@ -2402,8 +2410,10 @@
           <div class="dd-cols">
             <div class="dd-col">
               <span class="dd-h">Use cases</span>
-              <a class="dd-l" href="/">For venture capital</a>
-              <a class="dd-l" href="/pe">For private equity</a>
+              <a class="dd-l" href="/">Deal sourcing</a>
+              <a class="dd-l" href="/fundraising">Fundraising and LPs</a>
+              <a class="dd-l" href="/portfolio">Portfolio support</a>
+              <a class="dd-l" href="/pe">Private equity</a>
             </div>
             <div class="dd-col">
               <span class="dd-h">Product</span>
@@ -2440,6 +2450,8 @@
       <nav id="mobile-menu" class="mmenu" aria-label="Primary mobile">
         <a href="/#features">Features</a>
         <a href="/security">Security</a>
+        <a href="/fundraising">For fundraising</a>
+        <a href="/portfolio">For portfolio teams</a>
         <a href="/pe">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
@@ -2721,10 +2733,12 @@
           <a href="/security">Security</a>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
-        <nav class="fcol" aria-label="Footer firms">
-          <b>Firms</b>
-          <a href="/">For venture capital</a>
-          <a href="/pe">For private equity</a>
+        <nav class="fcol" aria-label="Footer use cases">
+          <b>Use cases</b>
+          <a href="/">Deal sourcing</a>
+          <a href="/fundraising">Fundraising</a>
+          <a href="/portfolio">Portfolio</a>
+          <a href="/pe">Private equity</a>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>

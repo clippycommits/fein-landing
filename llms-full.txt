@@ -100,6 +100,22 @@ fein answers four questions for a deal team. It lists every intermediary who sen
 
 fein works with DealCloud, Affinity, Salesforce, and Attio. It reads the CRM and everything around it. It replaces no system, it migrates no data, and it asks the team for no new data entry.
 
+## For fundraising: https://fein.vc/fundraising
+
+fein serves the fundraising and LP relations side of a firm as well as the deal side. The page at https://fein.vc/fundraising describes the same product in the language an IR desk uses.
+
+The next fund is raised in the two years before it opens, and the record of the firm's LP relationships sits in four partners' inboxes. Four problems follow from that. Coverage is a partner's memory, rebuilt by hand when the raise opens. Promises made to LPs quietly expire, and the LP remembers. Quiet is invisible until it is expensive, because an anchor drifts from quarterly contact to nothing and the firm learns it when the re-up conversation starts cold. The last raise is not searchable, because who passed and the stated reason sit in threads three years old.
+
+fein answers four questions for an IR desk. It lists every LP the firm has ever spoken to, scored from real signal, with the partner who owns each relationship named. It flags each LP relationship that drifts away from its own rhythm, years before the raise makes it urgent. It files every LP ask and every commitment to the LP it belongs to, with the meeting or email it came from, and keeps it open until it is closed. It finds the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors.
+
+## For portfolio teams: https://fein.vc/portfolio
+
+fein serves the platform and portfolio support side of a firm. The page at https://fein.vc/portfolio describes the same product in the language a platform team uses.
+
+Founders remember what the firm promised, and the firm's tools do not. Four problems follow from that. Board prep is an excavation across three tools and one partner's inbox. Promised introductions vanish, because a month after the board nobody can list them. Founder asks die in Slack, because the right candidate emailed a partner last week and the two facts never meet. The help is invisible later, because the record of what the firm did for each company is nobody's single list.
+
+fein answers four questions for a platform team. Before each board meeting it lists what is open: the asks the founder made, the promises the firm made, and what changed since the last pack. It files every promised introduction to the company it belongs to, marks the ones that happened, and flags the ones still open. It matches a founder's ask for a hire, a customer, or an expert against the firm's whole graph, ranked by how warm each path is, ending in the colleague who should make the call. It keeps the record of what the firm did for each company, with a source behind every line.
+
 ## Pricing
 
 Every investment team needs a data engineer. Now every team can afford one.

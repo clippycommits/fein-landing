@@ -66,6 +66,10 @@ export async function POST(request) {
     size: str(lead.size), crm: str(lead.crm), ask: str(lead.ask, 2000),
     site: str(lead.site, 200),
     region: str(lead.region, 40),
+    // which page sent the lead ("pe", "fundraising", "portfolio"; the demo
+    // modal sends none). The segment pages exist to learn which desk converts,
+    // so the attribution has to survive into the log and the notify mail.
+    source: str(lead.source, 40),
     interests: Array.isArray(lead.interests)
       ? (lead.interests.slice(0, 12).map((v) => str(v, 60)).filter(Boolean).join(", ") || null)
       : null,

@@ -340,7 +340,7 @@ export function notifyEmail(lead, { hold = false } = {}) {
   const rows = [
     ["Name", `${lead.first ?? ""} ${lead.last ?? ""}`], ["Email", lead.email],
     ["Firm", lead.fund], ["Website", lead.site], ["Region", lead.region],
-    ["AUM", lead.size], ["Pipeline", lead.crm],
+    ["AUM", lead.size], ["Pipeline", lead.crm], ["Page", lead.source],
     ["Interested in", lead.interests], ["First question", lead.ask],
   ].filter(([, v]) => v && String(v).trim());
   return {

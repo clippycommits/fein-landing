@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fein for private equity · every intermediary who sends you deals</title>
-<meta name="description" content="fein reads your email, calendar, Drive, LinkedIn and CRM. It resolves every intermediary into one record. It scores each relationship from real signal. Self-hosted, open source, live in 14 days.">
-<link rel="canonical" href="https://fein.vc/pe">
+<title>fein for fundraising &middot; every LP relationship, warm before the raise</title>
+<meta name="description" content="fein reads your firm's email, calendar, Drive, LinkedIn and CRM. Every LP conversation, commitment and promise becomes one record, scored from real signal. Self-hosted, open source, live in 14 days.">
+<link rel="canonical" href="https://fein.vc/fundraising">
 <meta name="robots" content="index, follow">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090A">
@@ -14,47 +14,28 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
-<meta property="og:title" content="fein for private equity">
-<meta property="og:description" content="Every intermediary who sends you deals. Ranked, owned, and current. Self-hosted, open source, live in 14 days.">
-<meta property="og:url" content="https://fein.vc/pe">
+<meta property="og:title" content="fein for fundraising">
+<meta property="og:description" content="Every LP relationship your firm has, warm before the raise opens. Self-hosted, open source, live in 14 days.">
+<meta property="og:url" content="https://fein.vc/fundraising">
 <meta property="og:image" content="https://fein.vc/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="fein for private equity">
-<meta name="twitter:description" content="Every intermediary who sends you deals. Ranked, owned, and current.">
+<meta name="twitter:title" content="fein for fundraising">
+<meta name="twitter:description" content="Every LP relationship your firm has, warm before the raise opens.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
 
-<!-- The index page's entire stylesheet, injected by build.js. This page is a
-     segment page, not a second product: it has to read as the same site, in the
-     same type at the same rhythm, and it has to keep doing that after somebody
-     restyles the home page. Sharing the sheet is the only version of that which
-     stays true; a hand-copied subset agrees with the original for exactly one
-     commit. Everything below is what this page has and the index page does not:
-     a price table, an FAQ, and a lead form. -->
+<!-- The index page's entire stylesheet, injected by build.js. Same argument as
+     /pe: a segment page has to read as the same site after every home-page
+     restyle, and only a shared sheet stays true to that. Below it is only what
+     this page has and the index does not. -->
 __STYLE__
 <style>
-  /* the fixed bar is scoped to #view-home on the index page, where the shell
-     also carries the scroll behaviour. Here it is the same geometry with no
-     script behind it: the fold reserves --nav-h either way. */
   .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left}
 
-
-  /* the fold's third line: three claims that answer "what is this going to
-     cost me" before the reader has to ask anyone. Centred with the rest of the
-     fold, which the shared sheet now sets on one axis at every width. */
   .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.6rem;margin-top:1.9rem;font-size:.88rem;color:var(--fg-3)}
   .trust span{display:inline-flex;align-items:center;gap:.45rem}
   .trust span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--blue-l);opacity:.75}
-
-  /* the film. On the index page .mem-film is the right-hand cell of the thread
-     grid, so it carries a grid-area and a negative margin that pull it under the
-     panel beside it, plus a left fade where that panel overlaps. Here it stands
-     on its own and needs none of that. Everything else, the veil, the hit area
-     and the play glyph, comes from the shared sheet unchanged. */
-  #view-pe .mem-film{grid-area:auto;margin:clamp(1.8rem,3.6vw,2.6rem) auto 0;max-width:940px}
-  #view-pe .mem-film::after{display:none}
-  .filmcap{margin:1rem auto 0;max-width:940px;font-size:.88rem;color:var(--dim)}
 
   /* the problem list: four ruled rows, the same hairline the stack list uses */
   .plist{list-style:none;padding:0;margin:clamp(2rem,4vw,3rem) 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 2.4rem}
@@ -62,12 +43,7 @@ __STYLE__
   .plist b{display:block;color:#fff;font-weight:550;font-size:.99rem;letter-spacing:-.016em;margin-bottom:.3rem}
   @media(max-width:860px){.plist{grid-template-columns:minmax(0,1fr);gap:1.4rem}}
 
-  /* .ptable, .pnote, .offer and .faq used to be defined here. They are in the
-     shared sheet now: /pricing and /deploy set prices and answer objections in
-     the same components, and three hand-copied versions of a price table agree
-     with each other only on the day the third one is written. */
-
-  /* the form. Two columns on a desktop, the copy holding the left. */
+  /* the form, same two columns as /pe */
   .formwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2.4rem,6vw,5rem);align-items:start}
   @media(max-width:900px){.formwrap{grid-template-columns:minmax(0,1fr);gap:2.4rem}}
   #lead{display:grid;gap:.9rem;padding:clamp(1.3rem,2.6vw,1.9rem);border:1px solid var(--line);border-radius:var(--r-lg);background:var(--bg-2);box-shadow:var(--hl-top)}
@@ -93,7 +69,7 @@ __STYLE__
 __LOGO_SPRITE__
 <a class="skip" href="#start">Skip to the form</a>
 
-<main id="view-pe">
+<main id="view-fundraising">
 
   <section id="top" class="cta-dark hero-lead">
     <div class="grain-overlay on-dark"></div>
@@ -101,8 +77,8 @@ __LOGO_SPRITE__
 
     <div class="wrap" id="content" tabindex="-1">
       <span class="hpill">Self-hosted &middot; open source &middot; live in 14 days</span>
-      <h1>Every intermediary who sends you deals. Ranked, owned, and current.</h1>
-      <p>Your firm works with thousands of bankers, brokers, accountants and lawyers. The record of who sends you what sits in ten thousand emails. fein reads those emails. Every intermediary becomes one record, scored from real signal, owned by a named partner. Ask in Claude, ChatGPT or Cursor. Each answer carries the email it came from.</p>
+      <h1>Every LP relationship your firm has, warm before the raise opens.</h1>
+      <p>The next fund is raised in the two years before it opens. fein reads your firm&rsquo;s email, calendar, notes and CRM. Every LP conversation, commitment and promise becomes one record, scored from real signal, owned by a named partner. Ask in Claude, ChatGPT or Cursor. Each answer carries the email it came from.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Book 20 minutes</a>
         <a class="btn btn-ghost" href="#pricing">See pricing</a>
@@ -140,13 +116,13 @@ __LOGO_SPRITE__
   <section id="problem" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <h2>Your edge is proprietary deal flow. Nobody can see it.</h2>
+        <h2>The next fund is decided between raises. Nobody is watching then.</h2>
       </div>
       <ul class="plist" data-reveal-group="70">
-        <li class="reveal"><b>Your coverage is a guess</b>Your firm holds thousands of intermediary relationships, and two systems disagree about them. The CRM says one thing and the inbox says another. Nobody can tell you which one is right.</li>
-        <li class="reveal"><b>Relationships go quiet in silence</b>An intermediary sends you three deals. Eleven months then pass with no contact. You learn this when the fourth deal goes to a competitor.</li>
-        <li class="reveal"><b>Ownership leaves when people do</b>A partner holds a relationship for six years, then joins another firm. What that partner knew was never written down anywhere you can query.</li>
-        <li class="reveal"><b>Deal history is not searchable</b>A company you passed on in 2023 comes back at a lower multiple. The memo, the reason and the intermediary who brought it sit in three systems and one person&rsquo;s memory.</li>
+        <li class="reveal"><b>Coverage is a partner&rsquo;s memory</b>Your firm holds hundreds of LP relationships across four partners&rsquo; inboxes. When the raise opens, the map of who is warm gets rebuilt by hand, from memory, under time pressure.</li>
+        <li class="reveal"><b>Promises quietly expire</b>An LP asks for co-invest deal flow in March. By the AGM, nobody at your firm remembers exactly who promised what. The LP remembers.</li>
+        <li class="reveal"><b>Quiet is invisible until it is expensive</b>An anchor from the last fund drifts from quarterly contact to nothing. You learn the relationship went cold when the re-up conversation starts cold.</li>
+        <li class="reveal"><b>The last raise is not searchable</b>Which LPs passed on the last fund, and the exact reason each one gave, sits in threads three years old. The team re-learns it one call at a time.</li>
       </ul>
     </div>
   </section>
@@ -154,7 +130,7 @@ __LOGO_SPRITE__
   <section id="what" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <h2>Four questions your deal team asks every week.</h2>
+        <h2>Four questions your IR desk asks every quarter.</h2>
         <p class="lead">fein answers each one from the record your firm already makes. Answers arrive in seconds, and each line shows its source document.</p>
       </div>
       <div class="featgrid">
@@ -162,15 +138,15 @@ __LOGO_SPRITE__
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
             <div class="mock" aria-hidden="true">
-              <div class="mock-title">Intermediaries &middot; industrials</div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Halvorsen &amp; Co</b> &middot; 9 deals &middot; owned by Marcus</span><b class="mtag strong">Strong</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Peter Lund</b> &middot; 4 deals &middot; owned by Anna</span><b class="mtag">Warm</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Broadmoor Partners</b> &middot; 1 deal, 2021</span><b class="mtag dim">Thin</b></div>
+              <div class="mock-title">LPs &middot; next fund pipeline</div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Northwind Capital</b> &middot; re-up likely &middot; owned by Elena</span><b class="mtag strong">Strong</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Bergen Pension</b> &middot; passed last fund &middot; revisit</span><b class="mtag">Warm</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Solstice Family Office</b> &middot; one meeting, 2024</span><b class="mtag dim">Thin</b></div>
             </div>
           </div>
           <div class="featcap">
-            <h3>Your coverage map</h3>
-            <p>fein lists every intermediary who sends you deals. Meetings, replies and shared documents set each score, not a field somebody filled in. Each row names the partner who owns the relationship.</p>
+            <h3>Your LP coverage map</h3>
+            <p>fein lists every LP your firm has ever spoken to. Meetings, replies and shared documents set each score, not a field somebody filled in. Each row names the partner who owns the relationship.</p>
           </div>
         </article>
         <article class="featcell reveal">
@@ -178,79 +154,47 @@ __LOGO_SPRITE__
             <span class="featghost"></span>
             <div class="mock" aria-hidden="true">
               <div class="mock-title">Going quiet</div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Jonas Keller</b> &middot; every 6 weeks &middot; 5 months silent</span><b class="mtag strong">Flag</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Priya Shah</b> &middot; quarterly &middot; 7 months silent</span><b class="mtag strong">Flag</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Tom Aldridge</b> &middot; twice a year &middot; on cadence</span><b class="mtag dim">OK</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Meridian Endowment</b> &middot; quarterly &middot; 8 months silent</span><b class="mtag strong">Flag</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Aldergate FO</b> &middot; every 2 months &middot; 5 months silent</span><b class="mtag strong">Flag</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Bergen Pension</b> &middot; twice a year &middot; on cadence</span><b class="mtag dim">OK</b></div>
             </div>
           </div>
           <div class="featcap">
-            <h3>The relationships going quiet</h3>
-            <p>fein learns the rhythm of each relationship from your history. It then flags the ones that drift away from that rhythm. Each flag shows the last contact, the deals that intermediary sent, and whose call it is. Dates and intervals do this work. Guesses do not.</p>
+            <h3>The LPs going quiet</h3>
+            <p>fein learns the rhythm of each relationship from your history. It then flags the ones that drift away from that rhythm, years before the raise makes them urgent. Each flag shows the last contact and whose call it is. Dates and intervals do this work. Guesses do not.</p>
           </div>
         </article>
         <article class="featcell reveal">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
             <div class="mock" aria-hidden="true">
-              <div class="mock-title">Kestrel Industrial &middot; first seen 2023</div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Introduced by</b> &middot; Halvorsen, March 2023</span><b class="mtag">Source</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gdrive"/></svg><span><b>Passed</b> &middot; customer concentration, memo p.4</span><b class="mtag">Memo</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>What changed</b> &middot; top account down to 19%</span><b class="mtag strong">Update</b></div>
+              <div class="mock-title">Northwind Capital &middot; commitments</div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Asked</b> &middot; more AI infrastructure exposure</span><b class="mtag">Source</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Promised</b> &middot; co-invest on compute deals</span><b class="mtag">Memo</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> &middot; quarterly co-invest list since June</span><b class="mtag strong">Flag</b></div>
             </div>
           </div>
           <div class="featcap">
-            <h3>Where each deal came from</h3>
-            <p>Every deal carries its origin: which intermediary sent it, and when. The record holds what your team said, and the exact reason you passed. Each line points back at the email or the memo behind it. You ask once, in plain language.</p>
+            <h3>What each LP asked for, and what you promised</h3>
+            <p>Every ask and every commitment is filed to the LP it belongs to, with the meeting or email it came from. Before the annual meeting, one question lists what is open. Nothing expires because somebody changed jobs or lost a notebook.</p>
           </div>
         </article>
         <article class="featcell reveal">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
             <div class="mock" aria-hidden="true">
-              <div class="mock-title">Paths to Clara Voss, CEO</div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> &middot; 14 shared meetings</span><b class="mtag strong">Strong</b></div>
-              <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Marc Weber</b> &middot; two hops, via Priya</span><b class="mtag">Warm</b></div>
+              <div class="mock-title">Paths to Meridian Endowment</div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Elena Marsh</b> &middot; co-LP with Northwind</span><b class="mtag strong">Strong</b></div>
+              <div class="mrow"><svg class="tlogo"><use href="#l-linkedin"/></svg><span><b>Dev Raman</b> &middot; two hops, via a founder</span><b class="mtag">Warm</b></div>
               <div class="mrow"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Cold outreach</b> &middot; not recommended</span><b class="mtag dim">Cold</b></div>
             </div>
           </div>
           <div class="featcap">
-            <h3>The warm path in</h3>
-            <p>fein finds the shortest real route to a management team, a seller, an operator or an LP. It weighs each step against how well your firm knows that person. The answer ends in the name of the colleague who should make the call.</p>
+            <h3>The warm path to a new LP</h3>
+            <p>fein finds the shortest real route to an allocator you have never met: through your existing LPs, your founders and your co-investors. It weighs each step against how well your firm knows that person, and it ends in the name of the colleague who should make the call.</p>
           </div>
         </article>
       </div>
-    </div>
-  </section>
-
-  <section id="film" class="band">
-    <div class="wrap">
-      <div class="head reveal">
-        <h2>Watch it answer one.</h2>
-        <p class="lead">A partner asks who the warmest path into a company is, and what the firm said when it passed. fein answers from seven documents across four sources. Each claim carries its citation.</p>
-      </div>
-      <!-- the same film the index page runs, on the same terms: preload is none,
-           nothing is fetched until somebody presses, and the 720 cut swaps in on
-           the press for a small screen or a metered connection. It plays once
-           through with narration rather than looping. -->
-      <div class="mem-film paused" id="mem-film">
-        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A twenty-six second narrated walkthrough of fein answering a question about a company the firm passed on." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
-          <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
-          <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
-          <!-- the narration is the film's whole argument and it exists nowhere on
-               this page as text, so the caption track is the only way a reader
-               who cannot hear it gets the argument at all. The file already
-               ships; the index page just does not attach it. -->
-          <track kind="captions" src="/video/fein-demo.en.vtt" srclang="en" label="English" default>
-        </video>
-        <div class="mem-veil" aria-hidden="true"></div>
-        <button class="mem-hit" id="mem-hit" type="button" aria-label="Play the walkthrough">
-          <span class="mem-big" aria-hidden="true">
-            <svg class="g-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg class="g-stop" viewBox="0 0 24 24"><path d="M7 6h3.6v12H7zM13.4 6H17v12h-3.6z"/></svg>
-          </span>
-        </button>
-      </div>
-      <p class="filmcap">The walkthrough is recorded on a fictional dataset. It runs with sound.</p>
     </div>
   </section>
 
@@ -265,14 +209,14 @@ __LOGO_SPRITE__
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M160 62.343599999999995L246 112L160 161.65640000000002L74 112Z"/><path d="M160 80.4984L244 129L160 177.5016L76 129Z"/><path d="M160 98.6532L242 146L160 193.3468L78 146Z"/><path d="M160 116.80799999999999L240 163L160 209.192L80 163Z"/><path d="M160 134.96280000000002L238 180L160 225.03719999999998L82 180Z"/><path d="M160 153.11759999999998L236 197L160 240.88240000000002L84 197Z"/><path d="M160 36.343599999999995L246 86L160 135.65640000000002L74 86Z" class="lid"/><ellipse cx="160" cy="86" rx="44" ry="25"/><ellipse cx="160" cy="86" rx="30" ry="17"/><ellipse cx="160" cy="86" rx="16" ry="9" class="hi"/></svg>
         <figcaption>
           <h3>It reads what you already write</h3>
-          <p>fein reads your email, calendar, Drive, LinkedIn and CRM, and it reads them continuously. The first pass takes in years of history. Your deal team logs nothing and changes nothing.</p>
+          <p>fein reads your email, calendar, Drive, LinkedIn and CRM, and it reads them continuously. The first pass takes in years of history, including the last raise. Your partners log nothing and change nothing.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M112 72.904L152 96L112 119.096L72 96ZM72 96L112 119.096L112 149.096L72 126ZM152 96L112 119.096L112 149.096L152 126Z"/><path d="M196 96.904L236 120L196 143.096L156 120ZM156 120L196 143.096L196 173.096L156 150ZM236 120L196 143.096L196 173.096L236 150Z"/><path d="M108 150L152 175.4056L152 209.4056L108 184ZM196 150L152 175.4056L152 209.4056L196 184Z"/><path d="M152 124.59440000000001L196 150L152 175.4056L108 150Z" class="hi"/><path d="M214 156.3684L248 176L214 195.6316L180 176ZM180 176L214 195.6316L214 221.6316L180 202ZM248 176L214 195.6316L214 221.6316L248 202Z"/></svg>
         <figcaption>
-          <h3>One record per person</h3>
-          <p>Every duplicate copy of a contact joins into one identity. Real signal scores that identity, not a language model guess. When a fact stops being true, fein strikes it and dates it. Nothing is deleted, so 2023 stays answerable.</p>
+          <h3>One record per LP</h3>
+          <p>Every duplicate copy of a contact joins into one identity. Real signal scores that identity, not a language model guess. When a fact stops being true, fein strikes it and dates it. Nothing is deleted, so the last raise stays answerable.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
@@ -288,31 +232,31 @@ __LOGO_SPRITE__
   <section id="why" class="band why-band" aria-labelledby="why-h">
     <div class="wrap">
       <div class="head reveal">
-        <h2 id="why-h">You already have DealCloud. This is the part it cannot do.</h2>
+        <h2 id="why-h">You already track LPs somewhere. This is the part it cannot do.</h2>
       </div>
       <div class="why-grid">
         <p class="hd"></p>
-        <p class="hd you">A CRM on its own</p>
+        <p class="hd you">A spreadsheet or CRM on its own</p>
         <p class="hd us">With fein</p>
 
         <p class="rl">What it holds</p>
-        <p class="a">The fields somebody remembered to fill in, on the day they filled them in.</p>
-        <p class="b"><b class="ben">Everything that already exists.</b> Every email, invite, call note and document, resolved onto the people and firms they belong to.</p>
+        <p class="a">The rows somebody remembered to update, last updated during the last raise.</p>
+        <p class="b"><b class="ben">Everything that already exists.</b> Every email, invite, call note and document, resolved onto the LPs they belong to.</p>
 
         <p class="rl">Who keeps it current</p>
-        <p class="a">An analyst, chasing a deal team that has better things to do.</p>
-        <p class="b"><b class="ben">Nobody.</b> fein reads the record your team makes anyway. If the CRM is stale, fein is still current.</p>
+        <p class="a">Whoever owns the spreadsheet, between their other jobs.</p>
+        <p class="b"><b class="ben">Nobody.</b> fein reads the record your firm makes anyway. Two years after the close, it is still current.</p>
 
         <p class="rl">Relationship strength</p>
-        <p class="a">A dropdown. Somebody&rsquo;s opinion from a quarter ago.</p>
+        <p class="a">A colour somebody chose in a cell, a raise ago.</p>
         <p class="b"><b class="ben">Measured.</b> Meetings, replies and shared documents, with the signals shown behind every score.</p>
 
-        <p class="rl">When a fact changes</p>
-        <p class="a">The old value is overwritten, or it sits there being wrong.</p>
-        <p class="b"><b class="ben">Auditable.</b> The old fact is struck, dated and kept. You get what is true now, and you can still ask what the firm believed in 2023.</p>
+        <p class="rl">Promises and asks</p>
+        <p class="a">In the notes column, if they made it there at all.</p>
+        <p class="b"><b class="ben">Filed to the LP.</b> Each ask and commitment keeps the meeting or email it came from, and stays open until it is closed.</p>
 
         <p class="rl">Where it runs</p>
-        <p class="a">A vendor&rsquo;s cloud, on terms you renegotiate at renewal.</p>
+        <p class="a">A vendor&rsquo;s cloud, or a file on one person&rsquo;s laptop.</p>
         <p class="b"><b class="ben">Yours.</b> Your own servers, on code you can read before you run it.</p>
       </div>
     </div>
@@ -343,7 +287,7 @@ __LOGO_SPRITE__
     <div class="wrap secgrid">
       <div class="head reveal">
         <h2>Your data never leaves your servers.</h2>
-        <p class="lead">fein reads your inbox, your calendar and your CRM to do its work. That work runs inside your own environment. You can read every line of the code before you run any of it.</p>
+        <p class="lead">LP correspondence is the most sensitive record your firm holds. fein reads it inside your own environment, and sends nothing to us. You can read every line of the code before you run any of it.</p>
         <div class="sec-cta">
           <a class="arrowlink" href="/security">The full security page <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
@@ -351,22 +295,16 @@ __LOGO_SPRITE__
       <ul class="sec-list" data-reveal-group="70">
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Always self-hosted.</b><p>fein runs in your environment. It sends nothing to us.</p></div></li>
         <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Open source, end to end.</b><p>Every line that touches your data is public. Audit it before you run it.</p></div></li>
-        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Every change is written down.</b><p>fein logs each ingest, each merge and each decision with the person or agent that made it. The rest, from per-person privacy to the single token gate, is on the security page.</p></div></li>
+        <li class="reveal"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span><div><b>Private by person.</b><p>Access is per person, and each person&rsquo;s sensitive sources live in a private layer inside the shared graph. The rest, from the audit trail to the single token gate, is on the security page.</p></div></li>
       </ul>
     </div>
   </section>
 
-  <!-- The offer, in the two columns the rest of the site now uses. /pricing is
-       the canonical page and the only one that carries the three plans; this
-       page keeps the headline prices ($0 and $5,000 + from $250) because it is
-       a cold outbound landing page and a stranger should see what it costs
-       without a second click. The plans themselves live on /pricing only, so a
-       price change is a one-page edit. -->
   <section id="pricing" class="band">
     <div class="wrap">
       <div class="head reveal">
         <h2>The software is free. We charge for the setup.</h2>
-        <p class="lead">fein is Apache 2.0 licensed and self-hosted. Your team can clone it and run it for nothing. What a deal team usually buys instead is the fortnight: an engineer who connects every source, resolves a decade of duplicate contacts, and hands over a working graph on day 14.</p>
+        <p class="lead">fein is Apache 2.0 licensed and self-hosted. Your team can clone it and run it for nothing. What a firm usually buys instead is the fortnight: an engineer who connects every source, resolves a decade of duplicate contacts, and hands over a working graph on day 14.</p>
       </div>
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
@@ -397,7 +335,7 @@ __LOGO_SPRITE__
         <h3>We take five firms this quarter.</h3>
         <ul>
           <li><span class="tk">&rarr;</span><span><b>It is live in 14 days.</b> The date is a commitment, not an estimate. Your part is two short calls.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>You have thirty days to decide.</b> If fein is not useful to your deal team, we refund everything. This includes the build fee.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>You have thirty days to decide.</b> If fein is not useful to your firm, we refund everything. This includes the build fee.</span></li>
           <li><span class="tk">&rarr;</span><span><b>Your price is locked</b> at the band you join on. It stays locked for as long as you are a customer, through every fund you raise.</span></li>
         </ul>
       </div>
@@ -408,7 +346,7 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="head reveal">
         <h2>We deploy fein in two weeks. Then it works on its own.</h2>
-        <p class="lead">Your part is two short calls: one on day 1 to connect your systems, one on day 14 to check the answers before it goes live. Between them fein reads years of email, meetings and documents into one record. Day by day, it is written up once, on its own page. <a class="arrowlink" href="/deploy">What the fortnight covers <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+        <p class="lead">Your part is two short calls: one on day 1 to connect your systems, one on day 14 to check the answers before it goes live. Between them fein reads years of email, meetings and documents into one record, including the whole of your last raise. Day by day, it is written up once, on its own page. <a class="arrowlink" href="/deploy">What the fortnight covers <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
       </div>
     </div>
   </section>
@@ -416,45 +354,34 @@ __LOGO_SPRITE__
   <section id="faq" class="band">
     <div class="wrap">
       <div class="head reveal">
-        <h2>What deal teams ask first.</h2>
+        <h2>What IR teams ask first.</h2>
       </div>
       <div class="faq">
         <details>
-          <summary>We already have DealCloud. Why do we need this?</summary>
-          <p>A CRM is a database your team fills in by hand. It is only as current as the last person who updated it. fein is not a CRM, and it replaces nothing. It reads your CRM and everything around it. The whole picture resolves into one context graph. That graph stays current, and nobody touches a field.</p>
-          <p>fein also answers questions a CRM cannot. Relationship strength comes from real behaviour. Intermediaries get flagged when they go quiet. The reason you passed on a deal three years ago comes back with the document that says so.</p>
+          <summary>We track LPs in a spreadsheet and it mostly works. Why change?</summary>
+          <p>It works until the raise opens. A spreadsheet holds what somebody typed into it, on the day they typed it. It does not know that an anchor went quiet eight months ago, or that a promise made at the AGM is still open, or which partner actually owns a relationship. fein reads the record your firm already makes and keeps all of that current, and nobody maintains it.</p>
+          <p>The spreadsheet can stay. fein reads it too.</p>
         </details>
         <details>
           <summary>Where does our data go?</summary>
           <p>Your data goes nowhere. fein runs on your infrastructure and sends nothing to us. There is no telemetry, and no control plane of ours in the path. Every line of code that touches your data is public. You can read it before you run anything.</p>
         </details>
-        <!-- This answer is bounded by fein-docs/legal/dpa.md and must stay that
-             way. Annex II section 6 states there is no tamper-proof audit trail
-             of administrative access, so "we log everything our engineer does"
-             is not supportable and is not claimed here. Section 4 is the one
-             positive commitment the DPA makes about people, and it is the one
-             the answer leans on. Annex II section 3 is why the machine matters:
-             application data is not encrypted by the application, so whoever
-             holds the host reads the content. On a self-hosted deployment that
-             host is the customer's, which is the honest version of the
-             reassurance. Strengthen any of this only after the product changes,
-             not before. -->
+        <!-- Bounded by fein-docs/legal/dpa.md, same as the /pe answer: no
+             tamper-proof audit trail of administrative access is claimed, and
+             the honest version of the host-access point stays in. Strengthen
+             this only after the product changes, not before. -->
         <details>
           <summary>What access does your engineer have?</summary>
           <p>The engineer works inside your environment, on access your IT grants. You can revoke it at any time. Our people are bound by confidentiality, and access is limited to those who need it to support the service. Nothing is granted permanently. Access ends when the build ends, unless you ask us to keep the connectors supported.</p>
           <p>One thing we will not overstate: fein does not today keep a tamper-proof audit trail of administrative access. Your own logging is the record that counts. The graph also sits on your machine unencrypted above the volume, so whoever you give host access to can read it. That is true of your other systems too, and it is the reason the machine is yours and not ours.</p>
         </details>
         <details>
-          <summary>What must we do?</summary>
-          <p>You join two short calls. On the first call we connect your email, calendar, Drive, LinkedIn and CRM. We do all of the work between the calls. On the second call, fourteen days later, you check the answers against what you know. fein then goes live.</p>
+          <summary>Can the IR desk use it without opening the deal side to everyone?</summary>
+          <p>Access is per person. Each person&rsquo;s sensitive sources live in a private layer inside the shared graph, and fein enforces that scoping inside every query. A partner&rsquo;s LP correspondence can stay theirs while the coverage map stays shared. The detail is on the security page.</p>
         </details>
         <details>
           <summary>How far back does it read?</summary>
-          <p>fein reads as far back as your mail retention allows. Most firms give us years of history on the first pass. That is the point. On day fourteen fein answers like a colleague who has been at your firm the whole time.</p>
-        </details>
-        <details>
-          <summary>Can we run it ourselves?</summary>
-          <p>Yes. fein is Apache 2.0 licensed and the repository is public. The code we deploy for clients is the code you clone. The fee pays for the build and the upkeep. Your engineers then build on top of the graph instead of maintaining connectors.</p>
+          <p>fein reads as far back as your mail retention allows. Most firms give us years of history on the first pass, which usually covers the whole of the last raise. That is the point. On day fourteen fein answers like a colleague who sat through every LP meeting your firm has had.</p>
         </details>
         <details>
           <summary>What happens if we cancel?</summary>
@@ -468,8 +395,8 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="formwrap">
         <div class="head reveal">
-          <h2>Give us twenty minutes. We will show you your own graph.</h2>
-          <p class="lead">Tell us the name of your firm. We come to the call with what we can already see in public deal data. That is the intermediaries who send you deals, and the ones who have gone quiet. If it is not interesting, we have taken twenty minutes of your time and none of your money.</p>
+          <h2>Give us twenty minutes. We will show you your own LP graph.</h2>
+          <p class="lead">Tell us the name of your firm. We come to the call with what we can already see in public fund data: the allocators around your last close, and the paths your firm likely has to them. If it is not interesting, we have taken twenty minutes of your time and none of your money.</p>
           <div class="sec-cta">
             <a class="arrowlink" href="mailto:sales@fein.vc">Or email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
           </div>
@@ -492,10 +419,9 @@ __LOGO_SPRITE__
               </select>
             </div>
           </div>
-          <!-- id is crmnow, not crm: the band above is <section id="crm">, and two
-               elements sharing an id makes the #crm anchor ambiguous. The posted
+          <!-- id is crmnow, not crm: <section id="crm"> is above, and the posted
                key stays "crm" -- see the id map in the submit handler. -->
-          <div><label for="crmnow">Current CRM</label><input id="crmnow" name="crm" placeholder="DealCloud, Affinity, Salesforce, none"></div>
+          <div><label for="crmnow">Where you track LPs today</label><input id="crmnow" name="crm" placeholder="Excel, Salesforce, Affinity, none"></div>
           <div><label for="ask">Anything you want answered on the call</label><textarea id="ask" name="ask" placeholder="Optional"></textarea></div>
           <div class="hp" aria-hidden="true"><label for="website">Leave this empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
           <button class="btn btn-primary" type="submit" id="submit">Book 20 minutes</button>
@@ -512,7 +438,7 @@ __LOGO_SPRITE__
       <div class="fgrid">
         <div class="fbrand">
           <a class="brand" href="/">fein</a>
-          <p>The open-source shared memory for private equity deal teams.</p>
+          <p>The open-source shared memory for investment teams.</p>
         </div>
         <nav class="fcol" aria-label="Footer product">
           <b>Product</b>
@@ -583,66 +509,6 @@ __LOGO_SPRITE__
   var rz; window.addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(speed,150); });
 })();
 
-/* the film. Nothing is fetched until a press, because preload is none and the
-   720 swap happens on the press too. It plays from the top, unmuted, once
-   through. A narration on a loop is worse than a silent picture. */
-(function(){
-  var f=document.getElementById('mem-film'); if(!f) return;
-  var v=document.getElementById('mem-video'), hit=document.getElementById('mem-hit');
-  if(!v||!hit) return;
-  var conn=navigator.connection||{};
-  var thrifty=conn.saveData===true||/(^|-)([23])g$/.test(conn.effectiveType||'');
-  var cut=false;
-
-  function cutIn(){
-    if(cut) return; cut=true;
-    if(!(window.matchMedia('(max-width:900px)').matches||thrifty)) return;
-    [].forEach.call(v.querySelectorAll('source'),function(s){ v.removeChild(s); });
-    var s=document.createElement('source');
-    s.src='/video/fein-demo-720.mp4';
-    s.type='video/mp4; codecs="avc1.640028, mp4a.40.2"';
-    v.insertBefore(s,v.firstChild);
-    v.load();
-  }
-  function mark(p){
-    f.classList.toggle('paused',p);
-    hit.setAttribute('aria-label',p?'Play the walkthrough with sound':'Pause the walkthrough');
-  }
-
-  v.addEventListener('play',function(){ mark(false); });
-  v.addEventListener('pause',function(){ mark(true); });
-  v.addEventListener('ended',function(){ mark(true); try{ v.currentTime=0; }catch(e){} });
-
-  hit.addEventListener('click',function(){
-    if(!v.paused){ v.pause(); return; }
-    cutIn();
-    v.muted=false;
-    try{ v.currentTime=0; }catch(e){}
-    var p=v.play();
-    if(p&&p['catch']) p['catch'](function(){
-      /* a platform that refuses audio without a gesture it recognises (iOS low
-         power is the usual one) should still get the picture rather than nothing */
-      v.muted=true;
-      var q=v.play();
-      if(q&&q['catch']) q['catch'](function(){ mark(true); });
-    });
-  });
-
-  /* it keeps running while it is on screen and stops when it is not. A decoder
-     left running behind the reader is waste, and a tab switch is the case the
-     observer never sees. */
-  if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(!e.isIntersecting&&!v.paused) v.pause();
-      });
-    },{threshold:[0,0.25]}).observe(f);
-  }
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden&&!v.paused) v.pause();
-  });
-})();
-
 (function(){
   var loadedAt = Date.now();
   var form = document.getElementById("lead");
@@ -665,7 +531,7 @@ __LOGO_SPRITE__
     if(!d.email || d.email.indexOf("@") < 1){ show(err); return; }
     // the API rejects anything faster than 2.5s after the form appeared
     d.t = Math.max(2600, Date.now() - loadedAt);
-    d.source = "pe";
+    d.source = "fundraising";
     btn.disabled = true; btn.textContent = "Sending";
     fetch("/api/enquiry", {
       method: "POST",
@@ -674,7 +540,7 @@ __LOGO_SPRITE__
     }).then(function(r){ return r.ok ? r.json() : Promise.reject(r); })
       .then(function(){
         show(ok); form.reset(); btn.disabled = true; btn.textContent = "Sent";
-        if(window.goatcounter && goatcounter.count) goatcounter.count({path:"/pe#sent", title:"pe lead"});
+        if(window.goatcounter && goatcounter.count) goatcounter.count({path:"/fundraising#sent", title:"fundraising lead"});
       })
       .catch(function(){
         show(err); btn.disabled = false; btn.textContent = "Book 20 minutes";

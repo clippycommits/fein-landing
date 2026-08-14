@@ -32,6 +32,20 @@ Updated: 2026-08-14. Full page content in Markdown: https://fein.vc/llms-full.tx
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
 - It works with DealCloud, Affinity, Salesforce, and Attio. It replaces no system and migrates no data.
 
+## For fundraising
+- fein serves the fundraising and LP relations side of a firm as well as the deal side. The page for fundraising is https://fein.vc/fundraising.
+- fein lists every LP the firm has ever spoken to, scored from real signal, with the partner who owns each relationship named.
+- It flags each LP relationship that drifts away from its own rhythm, years before the raise makes it urgent.
+- It files every LP ask and every commitment to the LP it belongs to, with the meeting or email it came from, and keeps it open until it is closed.
+- It finds the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors.
+
+## For portfolio teams
+- fein serves the platform and portfolio support side of a firm. The page for portfolio teams is https://fein.vc/portfolio.
+- Before each board meeting, fein lists what is open: the asks the founder made, the promises the firm made, and what changed since the last pack.
+- It files every promised introduction to the company it belongs to, marks the ones that happened, and flags the ones still open.
+- It matches a founder's ask for a hire, a customer, or an expert against the firm's whole graph, ranked by how warm each path is.
+- It keeps the record of what the firm did for each company, with a source behind every line.
+
 ## Pricing
 - There are two ways to have fein and they run the same software. The full comparison is at https://fein.vc/pricing.
 - Running it yourself is free, forever. The code is Apache 2.0 licensed. There is no paid tier of the software, and no feature is held back to make one. The page for this path is https://fein.vc/self-host.
@@ -59,6 +73,8 @@ Updated: 2026-08-14. Full page content in Markdown: https://fein.vc/llms-full.tx
 - [Managed setup](https://fein.vc/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
 - [Pricing](https://fein.vc/pricing): both paths priced against each other, with the three monthly plans
 - [fein for private equity](https://fein.vc/pe): the page for private equity firms
+- [fein for fundraising](https://fein.vc/fundraising): the page for LP relations and the next raise
+- [fein for portfolio teams](https://fein.vc/portfolio): the page for platform and portfolio support
 - [Security](https://fein.vc/security): self-hosted, open source, auditable. The page for a security review
 - [Source on GitHub](https://github.com/clippycommits/fein): Apache 2.0 licensed, free to self-host
 - [Full page content for LLMs](https://fein.vc/llms-full.txt): the whole page in Markdown
