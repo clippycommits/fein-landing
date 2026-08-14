@@ -363,7 +363,7 @@
   .orb-t1{left:79%;top:26%}
   .orb-t2{left:74%;top:78%}
   .orb-t3{left:16%;top:48%}
-  .orb-tile .ask{display:block;min-height:1.1em;font-family:var(--mono);font-size:.63rem;line-height:1.35;color:var(--fg-3)}
+  .orb-tile .ask{display:block;min-height:1.1em;font-family:var(--font);font-size:.63rem;line-height:1.35;color:var(--fg-3)}
   .orb-tile .ask::before{content:"›";color:var(--blue-l);font-weight:600;margin-right:.36rem}
   .orb-tile p{margin:.36rem 0 0;font-size:.84rem;line-height:1.45;color:var(--fg-2)}
   .orb-tile p b{color:var(--fg);font-weight:550}
@@ -541,7 +541,7 @@
      product, sitting over rows of mono status pills, and it should read as
      chrome. What it loses is the caps and the tracking, which is the part that
      was decoration rather than information. */
-  .mock-title{font-family:var(--mono);font-size:calc(.78rem*var(--mk));font-weight:500;letter-spacing:.005em;color:var(--fg-3);padding:0 calc(.35rem*var(--mk)) calc(.75rem*var(--mk));text-wrap:balance}
+  .mock-title{font-family:var(--font);font-size:calc(.78rem*var(--mk));font-weight:500;letter-spacing:0;color:var(--fg-3);padding:0 calc(.35rem*var(--mk)) calc(.75rem*var(--mk));text-wrap:balance}
   /* the row aligns to its top, not its middle. Centring is identical to this
      while every row is one line, and every row is one line at the measure the
      copy is cut to -- but the moment one wraps on a narrower cell, centring
@@ -558,7 +558,7 @@
      to be the thing the finding is not. The fill is what the tag was missing --
      an outline on the panel's own ground read as a hairline artefact next to
      the pills in #how, which all carry one. */
-  .mtag{flex:none;margin-top:calc(-.04rem*var(--mk));font-family:var(--mono);font-size:calc(.6rem*var(--mk));font-weight:500;letter-spacing:.1em;line-height:1.5;color:var(--fg-3);background:rgba(255,255,255,.032);border:1px solid var(--line-2);border-radius:5px;padding:calc(.2rem*var(--mk)) calc(.45rem*var(--mk));white-space:nowrap}
+  .mtag{flex:none;margin-top:calc(-.04rem*var(--mk));font-family:var(--font);font-size:calc(.64rem*var(--mk));font-weight:500;letter-spacing:.02em;line-height:1.5;color:var(--fg-3);background:rgba(255,255,255,.032);border:1px solid var(--line-2);border-radius:5px;padding:calc(.2rem*var(--mk)) calc(.45rem*var(--mk));white-space:nowrap}
   .mtag.strong{color:var(--blue-l);border-color:rgba(82,168,255,.32);background:rgba(82,168,255,.09)}
   .mtag.dim{color:var(--dim);background:none;border-color:var(--line)}
 
@@ -634,7 +634,7 @@
      the day carries on past the frame, the meeting is a thing inside it. */
   .day{position:relative;margin-top:calc(.2rem*var(--mk));padding-left:calc(40px*var(--mk))}
   .dslot{position:relative;height:calc(58px*var(--mk));margin-right:calc(-1rem*var(--mk));border-top:1px solid var(--line)}
-  .dslot span{position:absolute;left:calc(-40px*var(--mk));top:0;transform:translateY(-50%);font-family:var(--mono);font-size:calc(.66rem*var(--mk));color:var(--dim)}
+  .dslot span{position:absolute;left:calc(-40px*var(--mk));top:0;transform:translateY(-50%);font-family:var(--font);font-size:calc(.66rem*var(--mk));color:var(--dim)}
   /* the block runs off the right edge with the hour rules it sits on. Stopping
      it inside the padding left each rule sticking out past it by the width of
      that padding, which read as a hairline coming loose from the block. */
@@ -664,7 +664,7 @@
      a page of prose looks like, and drawing it as text would be four lines of
      writing nobody is meant to read. The one sentence that is set is the one
      the answer turns on. */
-  .mm-h{display:flex;align-items:center;gap:calc(.5rem*var(--mk));padding:0 calc(.1rem*var(--mk)) calc(.68rem*var(--mk));border-bottom:1px solid var(--line);font-family:var(--mono);font-size:calc(.72rem*var(--mk));color:var(--fg-3)}
+  .mm-h{display:flex;align-items:center;gap:calc(.5rem*var(--mk));padding:0 calc(.1rem*var(--mk)) calc(.68rem*var(--mk));border-bottom:1px solid var(--line);font-family:var(--font);font-size:calc(.74rem*var(--mk));color:var(--fg-3)}
   .mm-h .tlogo{width:calc(14px*var(--mk));height:calc(14px*var(--mk));flex:none}
   .mm-h b{margin-left:auto;font-weight:500;color:var(--dim)}
   .mm-l{height:calc(7px*var(--mk));margin:calc(.62rem*var(--mk)) 0;border-radius:3px;background:rgba(255,255,255,.05)}
@@ -694,7 +694,7 @@
   .cnm .tlogo{width:calc(15px*var(--mk));height:calc(15px*var(--mk));flex:none}
   .cnm>span{display:flex;flex-direction:column;min-width:0}
   .cnm b{font-size:calc(.85rem*var(--mk));font-weight:550;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cnm i{margin-top:1px;font-family:var(--mono);font-style:normal;font-size:calc(.63rem*var(--mk));color:var(--dim);white-space:nowrap}
+  .cnm i{margin-top:1px;font-family:var(--font);font-style:normal;font-size:calc(.63rem*var(--mk));color:var(--dim);white-space:nowrap}
   /* --w is how much of the twelve weeks holds contact, --pitch is the gap
      between two of them: ten days, a fortnight, a week. Both live on the row so
      the track and anything else that wants the rhythm can read them. */
@@ -711,7 +711,7 @@
   /* the axis sits under the tracks and nothing else: the margins are the name
      column and the pill column, so the two labels line up with the plot rather
      than with the panel */
-  .cax{display:flex;justify-content:space-between;margin:calc(.1rem*var(--mk)) calc(75px*var(--mk)) 0 calc(143px*var(--mk));padding-top:calc(.5rem*var(--mk));border-top:1px solid var(--line);font-family:var(--mono);font-size:calc(.62rem*var(--mk));color:var(--dim)}
+  .cax{display:flex;justify-content:space-between;margin:calc(.1rem*var(--mk)) calc(75px*var(--mk)) 0 calc(143px*var(--mk));padding-top:calc(.5rem*var(--mk));border-top:1px solid var(--line);font-family:var(--font);font-size:calc(.64rem*var(--mk));color:var(--dim)}
   .featcell.in .r1 .ctr{animation:cadDraw .95s cubic-bezier(.22,.61,.36,1) .1s both}
   .featcell.in .r2 .ctr{animation:cadDraw .95s cubic-bezier(.22,.61,.36,1) .25s both}
   .featcell.in .r3 .ctr{animation:cadDraw .95s cubic-bezier(.22,.61,.36,1) .4s both}
@@ -896,7 +896,7 @@
   .ah-plus{display:grid;place-items:center;width:20px;height:20px;border-radius:999px;color:var(--fg-3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}
   .ah-plus svg{width:11px;height:11px}
   /* where the client shows its model, the picture shows the server it is on */
-  .ah-mcp{display:inline-flex;align-items:center;gap:.36rem;margin-left:auto;padding:.16rem .45rem;border-radius:6px;font-family:var(--mono);font-size:9.8px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3);background:rgba(255,255,255,.045);white-space:nowrap}
+  .ah-mcp{display:inline-flex;align-items:center;gap:.36rem;margin-left:auto;padding:.16rem .45rem;border-radius:6px;font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-3);background:rgba(255,255,255,.045);white-space:nowrap}
   .ah-live{width:5px;height:5px;border-radius:50%;background:var(--cli,#d97757)}
   .ah-send{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.1);color:var(--fg-2)}
   .ah-send svg{width:12px;height:12px}
@@ -909,7 +909,7 @@
   .ah-tool{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem .6rem;margin:.4rem 1.15rem .1rem;padding:.34rem .55rem;border:1px solid rgba(255,255,255,.08);border-left:2px solid var(--cli,#d97757);border-radius:0 7px 7px 0;background:rgba(255,255,255,.022)}
   .ah-tool-n{display:inline-flex;align-items:baseline;gap:.38rem;white-space:nowrap}
   .ah-tool-n b{font-size:11.6px;font-weight:600;letter-spacing:-.012em;color:var(--fg)}
-  .ah-tool-n i{font-family:var(--mono);font-style:normal;font-size:10.4px;color:var(--fg-3)}
+  .ah-tool-n i{font-family:var(--font);font-style:normal;font-size:10.4px;color:var(--fg-3)}
   .ah-tool em{font-style:normal;font-size:10.6px;color:var(--dim)}
   .ah-cli .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .3s ease}
   .ah-cli b{font-weight:450}
@@ -925,7 +925,7 @@
 
   /* the rail: one list, ruled, not six cards abreast */
   .hero-lead .ah-srcs{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:0;width:auto;padding:.45rem 0 .6rem;border-right:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}
-  .hero-lead .ah-srcs::before{content:"What fein read";padding:.4rem .85rem .45rem;font-family:var(--mono);font-size:9.6px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+  .hero-lead .ah-srcs::before{content:"What fein read";padding:.4rem .85rem .45rem;font-family:var(--font);font-size:10.2px;font-weight:500;letter-spacing:.01em;color:var(--dim)}
   .hero-lead .ah-src{grid-template-columns:15px minmax(0,1fr);gap:.5rem;padding:.35rem .85rem;background:transparent;border:0;border-radius:0}
   .hero-lead .ah-src .tlogo{width:13px;height:13px}
   .hero-lead .ah-src b{font-size:12.1px;line-height:1.3}
@@ -1082,7 +1082,7 @@
   .rec-top{display:flex;align-items:baseline;gap:.6rem;padding:.95rem 20px;border-bottom:1px solid var(--line)}
   .rec-top h4{font-size:1.04rem;font-weight:600;letter-spacing:-.02em;color:#fff}
   .rec-kind{padding:.08rem .36rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--dim)}
-  .rec-meta{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .rec-meta{margin-left:auto;font-family:var(--font);font-size:.76rem;font-weight:450;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 
   .rec-list{list-style:none;margin:0;padding:0}
   /* one grid for the row and one for the superseded row nested inside it, on the
@@ -1101,7 +1101,7 @@
   .rec-doc{display:flex;flex-direction:column;gap:.26rem;min-width:0;padding-left:clamp(1rem,2.2vw,1.7rem);border-left:1px solid var(--line);font-size:.82rem;line-height:1.4;color:var(--fg-2)}
   .rec-dt{display:flex;align-items:flex-start;gap:.44rem;text-wrap:pretty}
   .rec-dt .tlogo{width:14px;height:14px;flex:none;margin-top:.2rem}
-  .rec-doc em{font-style:normal;font-family:var(--mono);font-size:.73rem;color:var(--dim);font-variant-numeric:tabular-nums}
+  .rec-doc em{font-style:normal;font-family:var(--font);font-size:.77rem;font-weight:450;color:var(--dim);font-variant-numeric:tabular-nums}
   .rec-new{display:inline-block;margin-left:.2rem;padding:.06rem .32rem;translate:0 -1px;border-radius:4px;background:rgba(63,191,127,.14);font-size:.66rem;font-weight:500;letter-spacing:0;color:var(--mem-new);vertical-align:middle}
 
   /* the fact this one replaced, still on the record, still readable, still
@@ -1118,7 +1118,7 @@
   .rec-prev .rec-quote{color:var(--dim)}
   .rec-prev .rec-doc{color:var(--dim)}
   .rec-fact s{text-decoration:none;background:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule)) no-repeat 0 .72em/100% 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-  .rec-sup{display:inline-block;margin-left:.5rem;padding:.06rem .36rem;translate:0 -1px;border:1px solid var(--line);border-radius:4px;font-family:var(--mono);font-size:.66rem;color:var(--dim);white-space:nowrap;vertical-align:middle}
+  .rec-sup{display:inline-block;margin-left:.5rem;padding:.06rem .36rem;translate:0 -1px;border:1px solid var(--line);border-radius:4px;font-family:var(--font);font-size:.7rem;font-weight:450;color:var(--dim);white-space:nowrap;vertical-align:middle}
   /* ---- the record, replayed. JS adds .play, the card scrolls into view, and
      the eighteen months arrive in the order the tools wrote them: the seed
      deck forward, the intro call, the coffee, the LinkedIn change, and last
