@@ -72,6 +72,39 @@ export async function redis(...command) {
   return data.result ?? null;
 }
 
+// ---- form-spam guards shared by /api/enquiry and /api/message ----
+
+// Same-site check: browsers send an Origin header on every fetch() POST, so a
+// request with none (curl, generic form-spam bots) or someone else's origin is
+// not the site's own form posting. Preview deploys post from *.vercel.app.
+// The endpoints return an explicit error on rejection, so a real visitor
+// behind something exotic still lands on the widget's mailto fallback.
+export function originOk(request) {
+  const o = request.headers.get("origin");
+  if (!o) return false;
+  try {
+    const h = new URL(o).hostname;
+    return h === "fein.vc" || h === "www.fein.vc" || h === "localhost" || h.endsWith(".vercel.app");
+  } catch {
+    return false;
+  }
+}
+
+// Fallback rate limit for when Upstash is not configured (redis() returns null
+// and the Redis caps never trip): a per-warm-instance counter. Cold starts
+// reset it, so it is a backstop rather than the real limiter, but it turns
+// "unlimited" into "a handful per instance per hour" with zero dependencies.
+const softHits = new Map();
+export function softLimit(bucket, max, windowMs = 3600_000) {
+  const now = Date.now();
+  if (softHits.size > 1000) softHits.clear();
+  const rec = softHits.get(bucket) ?? { n: 0, reset: now + windowMs };
+  if (now > rec.reset) { rec.n = 0; rec.reset = now + windowMs; }
+  rec.n += 1;
+  softHits.set(bucket, rec);
+  return rec.n <= max;
+}
+
 // Best-effort event log: a Redis list, newest first. The email notifications
 // are the primary record; losing a log line must never fail a request.
 export async function logEvent(ev) {

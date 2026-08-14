@@ -373,14 +373,14 @@ const chat = `
 <div id="fein-msg" role="dialog" aria-label="Send us a message" hidden>
 <div class="fm-head">
 <img src="data:image/webp;base64,${danielB64}" alt="" width="34" height="34">
-<div class="fm-who"><b>Send us a message</b><span>Goes to Daniel. He replies to your email.</span></div>
+<div class="fm-who"><b>Send us a message</b><span>You're writing to the founder. Replies usually same day.</span></div>
 <button type="button" id="fm-close" aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg></button>
 </div>
 <div id="fm-body">
 <form id="fm-form" novalidate>
 <input id="fm-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
 <input id="fm-email" name="email" type="email" placeholder="you@fund.com" autocomplete="email" required aria-label="Your email">
-<textarea id="fm-text" name="message" rows="4" placeholder="What can we help with?" required aria-label="Your message"></textarea>
+<textarea id="fm-text" name="message" rows="4" placeholder="Ask anything. Pricing, setup, whether it works with your CRM&#8230;" required aria-label="Your message"></textarea>
 <p id="fm-err" class="fm-err" hidden></p>
 <button type="submit" id="fm-send">Send</button>
 </form>

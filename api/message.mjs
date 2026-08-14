@@ -1,4 +1,4 @@
-import { cfg, json, resend, redis, logEvent } from "./_lib.mjs";
+import { cfg, json, resend, redis, logEvent, originOk, softLimit } from "./_lib.mjs";
 
 // The "Send a message" widget's endpoint. Deliberately lighter than /api/enquiry:
 // one notify mail to NOTIFY_TO with reply_to set to the visitor, and nothing sent
@@ -22,12 +22,17 @@ export async function POST(request) {
   const t = Number(body.t);
   if (!Number.isFinite(t) || t < 2000) return json({ error: "too fast" }, 400);
 
+  if (!originOk(request)) return json({ error: "bad origin" }, 403);
   const email = String(body.email ?? "").trim().toLowerCase();
   if (!EMAIL_RE.test(email)) return json({ error: "enter a valid email" }, 400);
   const message = str(body.message, 4000);
   if (!message) return json({ error: "write a message" }, 400);
+  // Link-stuffed submissions are comment spam; real questions carry at most a
+  // site or a deck link.
+  if ((message.match(/https?:\/\//gi) || []).length > 3) return json({ error: "too many links" }, 400);
 
   const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  if (!softLimit(`m:${ip}`, 5)) return json({ error: "too many requests" }, 429);
   try {
     const hour = await redis("INCR", `fein:rl:m:h:${ip}`);
     if (hour === 1) await redis("EXPIRE", `fein:rl:m:h:${ip}`, "3600");

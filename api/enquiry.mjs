@@ -1,4 +1,4 @@
-import { cfg, json, resend, redis, logEvent, welcomeEmail, followupEmail, notifyEmail, WELCOME_HOLD_MINUTES } from "./_lib.mjs";
+import { cfg, json, resend, redis, logEvent, originOk, softLimit, welcomeEmail, followupEmail, notifyEmail, WELCOME_HOLD_MINUTES } from "./_lib.mjs";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const str = (v, max = 300) => (v == null ? null : String(v).slice(0, max).trim() || null);
@@ -19,10 +19,15 @@ export async function POST(request) {
   // client's relay fallback.
   const t = Number(lead.t);
   if (!Number.isFinite(t) || t < 2500) return json({ error: "too fast" }, 400);
+  // This endpoint mails the address the client supplies (welcome + nudge), so
+  // an unguarded POST loop would let a bot bomb third parties from our domain.
+  if (!originOk(request)) return json({ error: "bad origin" }, 403);
   const email = String(lead.email ?? "").trim().toLowerCase();
   if (!EMAIL_RE.test(email)) return json({ error: "enter a valid email" }, 400);
 
   const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  // Backstop when Upstash is absent and the Redis caps below never trip.
+  if (!softLimit(`e:${ip}`, 5)) return json({ error: "too many requests" }, 429);
   // Per-IP rate limit (needs Upstash; without it redis() returns null and the
   // caps never trip). Redis being down must not cost a lead.
   try {
