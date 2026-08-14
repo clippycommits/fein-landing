@@ -1186,8 +1186,9 @@
   }
 
   /* ============ one memory, asked from the thread it is about ================
-     Headline left, the sentence that qualifies it right, and under both a picture
-     in two layers: the raw material in front at reading size, the product behind.
+     Headline left, the sentence that qualifies it right, and under both the
+     picture in two parts: the raw material at reading size, then the product
+     answering at the full measure below it.
 
      The panel is a replica of the client, so it is measured like one rather than
      styled like the rest of the page. Slack's own geometry: a 36px avatar on an
@@ -1227,18 +1228,17 @@
      rest sit a line apart, each pointing at the page that argues it in full */
   .mem-more+.mem-more{margin-top:.7rem}
 
-  /* one row, two layers. Grid rather than absolute positioning, so the row is as
-     tall as whichever layer is the taller one and nothing has to be measured in
-     script: the film takes the right column and reaches back under the thread,
-     the thread holds the left column on top of it.
-
-     The pull is about the width of the app's own sidebar in the film, which is
-     the one column of that picture carrying no part of the answer. */
-  .mem-stage{position:relative;margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;display:grid;grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);align-items:center}
-  .mem-film{grid-area:1/2/2/3;position:relative;margin-left:calc(-1 * clamp(1.5rem,4.4vw,5rem));aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;isolation:isolate}
+  /* one column, two sizes. The two layers used to share a row, the thread laid
+     over the film's left edge, which capped the film at .57 of the measure and
+     hid another slice of it under the card and a fade. The film is the answer
+     and the one moving picture on the page, so it now takes the whole measure,
+     the same span the nav and the fold are on. The thread keeps the question
+     at the width a thread actually has, on the page's left rule, and the film
+     runs edge to edge under it: question above, answer below, which is the
+     order the section tells the story in anyway. */
+  .mem-stage{position:relative;margin:clamp(2.4rem,5.5vw,4.2rem) auto 0;display:grid;grid-template-columns:minmax(0,1fr);row-gap:clamp(14px,1.9vw,22px)}
+  .mem-film{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;isolation:isolate;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98)}
   .mem-video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
-  /* the seam is a fade, not a hairline butting into the back of a card */
-  .mem-film::after{content:"";position:absolute;inset:0 auto 0 0;width:24%;background:linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,.28) 55%,transparent);pointer-events:none;z-index:1}
   /* stopped, the picture sits under a wash so the button on it is the brightest
      thing in the frame. Running, the wash lifts and the film is just the film. */
   .mem-veil{position:absolute;inset:0;z-index:1;background:radial-gradient(56% 56% at 50% 50%,rgba(0,0,0,.5),rgba(0,0,0,.2) 68%,rgba(0,0,0,.06));opacity:0;transition:opacity .3s ease;pointer-events:none}
@@ -1253,7 +1253,7 @@
      white object on the page because it is the one thing asking to be pressed;
      this is a control on a picture that is already making its point, and the
      page keeps exactly one invitation. */
-  .mem-big{position:absolute;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:clamp(46px,4.4vw,58px);aspect-ratio:1;border-radius:50%;background:rgba(10,10,13,.62);box-shadow:0 0 0 1px rgba(255,255,255,.2),var(--hl-top),0 10px 30px -12px rgba(0,0,0,.9);-webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%);transition:opacity .2s ease,scale .2s cubic-bezier(.22,.61,.36,1)}
+  .mem-big{position:absolute;left:50%;top:50%;translate:-50% -50%;display:grid;place-items:center;width:clamp(50px,5.2vw,68px);aspect-ratio:1;border-radius:50%;background:rgba(10,10,13,.62);box-shadow:0 0 0 1px rgba(255,255,255,.2),var(--hl-top),0 10px 30px -12px rgba(0,0,0,.9);-webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%);transition:opacity .2s ease,scale .2s cubic-bezier(.22,.61,.36,1)}
   .mem-big svg{width:42%;height:42%;display:block;fill:currentColor;translate:1px 0}
   .mem-big .g-stop{translate:0 0}
   .mem-hit:hover .mem-big{scale:1.05}
@@ -1272,7 +1272,7 @@
      tell that gives a mock away, and it is the mistake this had. These are absolute
      values, not alphas over the page: the panel is a picture of another product and
      it should not take a tint from whatever is behind it. */
-  .mem-msg{grid-area:1/1/2/2;position:relative;z-index:2;display:flex;flex-direction:column;background:#111213;border:1px solid rgb(39,40,41);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
+  .mem-msg{width:min(100%,600px);display:flex;flex-direction:column;background:#111213;border:1px solid rgb(39,40,41);border-radius:14px;box-shadow:var(--hl-top),0 40px 84px -32px rgba(0,0,0,.98);overflow:hidden}
   /* the rule plus a short shadow under it: in the reference there is a darker band
      below the header, which is the thread being scrolled under a fixed bar. That
      shadow is the only thing in the panel saying there is more above. */
@@ -1347,21 +1347,13 @@
   .mem-box.sent .mem-send:hover{background:transparent}
   .mem-box.sent .mem-sdiv{background:rgb(48,49,50)}
 
-  /* the head and the stage break at the same width, and the stage is the reason
-     it is this width and not 900. Two layers side by side only work while both
-     are worth looking at: the thread sets its own height off its messages and a
-     composer, the film takes whatever the column gives it at 16:9, and below
-     about 1080 the film is the shorter of the two by enough that the row reads
-     as a card with a picture stranded next to it. Stacked, both are full width
-     and the fade goes with the overlap it was there to cover. */
+  /* only the head breaks now: the stage is one column at every width, so the
+     stack that used to be this query's fallback is simply the layout. 1080 is
+     where two blocks of display type stop being worth a shared row. */
   @media (max-width:1080px){
     .mem-head{grid-template-columns:minmax(0,1fr);gap:1.1rem}
     .mem-head h2{max-width:26ch}
     .mem-lead{max-width:58ch}
-    .mem-stage{grid-template-columns:minmax(0,1fr);row-gap:14px}
-    .mem-msg{grid-area:1/1/2/2}
-    .mem-film{grid-area:2/1/3/2;margin-left:0}
-    .mem-film::after{display:none}
   }
   @media (max-width:560px){
     .mem-bar,.mem-t{padding-left:14px;padding-right:14px}
@@ -1819,12 +1811,20 @@
   @supports (grid-template-rows: subgrid){
     .fork-card{display:grid;grid-template-rows:subgrid;grid-row:span 5}
   }
-  /* the paid column: same ground, one lit edge. A filled panel here would
-     read as the "real" product and undercut the sentence above it. At .42 the
-     blue sat at the same brightness as the grey hairline beside it and read as
-     a mismatched stroke rather than a choice, so it is brighter now and
-     carries the quiet ring-and-glow the orbit tiles already use when lit. */
-  .fork-card.pick{border-color:rgba(82,168,255,.6);box-shadow:var(--hl-top),0 0 0 1px rgba(82,168,255,.22),0 0 30px -10px rgba(82,168,255,.3)}
+  /* the paid column: a filled acid-chartreuse panel (#E4F229), the one block of
+     colour on the page, so the card we can act on is unmistakably the lit one.
+     Everything on the panel flips to near-black ink; the button inverts to
+     black with the panel's own yellow for its label. */
+  .fork-card.pick{background:#E4F229;border-color:#E4F229;box-shadow:0 0 34px -12px rgba(228,242,41,.4)}
+  .fork-card.pick h3,.fork-card.pick .fork-price b,.fork-card.pick li b,.fork-card.pick li .tk{color:#0A0B0A}
+  .fork-card.pick>p,.fork-card.pick li{color:rgba(10,11,10,.78)}
+  .fork-card.pick .fork-price{border-top-color:rgba(10,11,10,.18)}
+  .fork-card.pick .fork-price .per{color:rgba(10,11,10,.6)}
+  .fork-card.pick .btn-primary{background:#0A0B0A;color:#E4F229;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+  .fork-card.pick .btn-primary:hover{background:#000}
+  .fork-card.pick .fork-more{color:rgba(10,11,10,.62)}
+  .fork-card.pick .fork-more:hover{color:#0A0B0A}
+  .fork-card.pick .fork-face{box-shadow:0 0 0 1px rgba(10,11,10,.25)}
   /* .fork-k set a small lowercase label over each card's heading ("run it
      yourself", "we deploy it"). It said what the heading under it already said,
      in the same voice as the section eyebrows that came off the site with it. */
