@@ -355,7 +355,7 @@ const intercom = INTERCOM_APP_ID ? `
 <span class="fc-txt"><b>Send us a message</b></span>
 <span class="fc-badge" hidden></span>
 </button>
-<script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
+<script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat,#nav-chat"}</script>
 <!-- Intercom, booted on first interaction instead of on window.load.
 
      Measured on the live page with a real Chrome UA (a headless UA makes the

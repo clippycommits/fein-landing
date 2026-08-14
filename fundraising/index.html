@@ -2155,7 +2155,10 @@
           <a href="#" data-dd="dd-product" aria-haspopup="true" aria-expanded="false" aria-controls="dd-product">Platform</a>
           <a href="#" data-dd="dd-getfein" aria-haspopup="true" aria-expanded="false" aria-controls="dd-getfein">Resources</a>
           <a href="/pricing">Pricing</a>
-          <a href="mailto:sales@fein.vc">Contact</a>
+          <!-- opens the Intercom messenger via custom_launcher_selector (#nav-chat,
+               set in build.js); the mailto is the fallback when the widget has not
+               booted or is blocked, per Intercom's own custom-launcher guidance -->
+          <a id="nav-chat" href="mailto:sales@fein.vc">Send a message</a>
           <span class="navsep" aria-hidden="true"></span>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">GitHub</a>
           <a class="sbtn sbtn-pri" href="/demo">Get a demo</a>
@@ -2934,7 +2937,7 @@
 <span class="fc-txt"><b>Send us a message</b></span>
 <span class="fc-badge" hidden></span>
 </button>
-<script>window.intercomSettings={api_base:"https://api-iam.intercom.io",app_id:"i91a73cr",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
+<script>window.intercomSettings={api_base:"https://api-iam.intercom.io",app_id:"i91a73cr",hide_default_launcher:true,custom_launcher_selector:"#fein-chat,#nav-chat"}</script>
 <!-- Intercom, booted on first interaction instead of on window.load.
 
      Measured on the live page with a real Chrome UA (a headless UA makes the
