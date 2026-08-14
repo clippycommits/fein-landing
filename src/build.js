@@ -315,13 +315,13 @@ const posthog = POSTHOG_KEY ? `
 // internally; the site has no bundler so the npm package doesn't apply.
 const INTERCOM_APP_ID = "i91a73cr";
 const INTERCOM_API_BASE = "https://api-iam.intercom.io"; // EU: api-iam.eu.intercom.io / AU: api-iam.au.intercom.io
-// A custom launcher that is literally Daniel: his face, a green presence dot
-// and "Chat with Daniel", on a white pill so it reads on the black page.
-// hide_default_launcher + a custom_launcher_selector pointed at #fein-chat.
-// The photo is avatars/daniel.webp (216px square, cropped from IMG_3440),
-// inlined like every other image so the page stays one file. The whole block is
-// wrapped in <!--fein-chat--> markers so rederive-tpl.js can strip it back out.
-const danielB64 = fs.readFileSync("avatars/daniel.webp").toString("base64");
+// A custom launcher for the fein team: the Intercom bubble mark in a dark disc,
+// a green presence dot and "Chat with us", on a white pill so it reads on the
+// black page. Deliberately the team and not a named person, so nothing in chat
+// has to pretend Fin is a human. hide_default_launcher + a
+// custom_launcher_selector pointed at #fein-chat. The whole block is wrapped in
+// <!--fein-chat--> markers so rederive-tpl.js can strip it back out cleanly.
+// (avatars/daniel.webp stays on disk for the Intercom teammate profile.)
 const intercom = INTERCOM_APP_ID ? `
 <!--fein-chat:start-->
 <style>
@@ -329,10 +329,13 @@ const intercom = INTERCOM_APP_ID ? `
 #fein-chat.fc-in{opacity:1;transform:none}
 #fein-chat:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
 #fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-#fein-chat .fc-ava{position:relative;flex:none;width:38px;height:38px}
-#fein-chat .fc-ava img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
+/* the bubble is a solid white glyph with the smile knocked out of it, so the
+   smile is stroked in the disc colour: --fc-mk has to stay opaque and in sync
+   with the disc, or the smile stops reading as a cutout */
+#fein-chat .fc-mark{--fc-mk:#101114;position:relative;flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--fc-mk);color:#fff}
+#fein-chat .fc-mark svg{display:block}
 /* the green dot ring is the pill's own white, so the dot reads as punched
-   through the pill and not stickered onto the photo */
+   through the pill and not stickered onto the mark */
 #fein-chat .fc-dot{position:absolute;right:-1px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#30d158;box-shadow:0 0 0 2px var(--fc-disc)}
 #fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
 #fein-chat .fc-txt b{font-weight:600;font-size:13px;letter-spacing:-.01em;color:#0b0c0e}
@@ -342,12 +345,12 @@ const intercom = INTERCOM_APP_ID ? `
    outbound message lands as an unread conversation, and the default launcher
    would show its own red badge, so the custom one has to keep that signal */
 #fein-chat .fc-badge{position:absolute;top:-1px;right:-1px;width:12px;height:12px;border-radius:50%;background:#ff3b30;box-shadow:0 0 0 2px var(--fc-disc)}
-@media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-ava{width:54px;height:54px}}
+@media(max-width:520px){#fein-chat{padding:0;width:54px;height:54px;gap:0;justify-content:center}#fein-chat .fc-txt{display:none}#fein-chat .fc-mark{width:54px;height:54px}}
 @media(prefers-reduced-motion:reduce){#fein-chat,#fein-chat.fc-in{transition:opacity .2s ease;transform:none}#fein-chat:hover{transform:none}}
 </style>
-<button type="button" id="fein-chat" aria-label="Chat with Daniel. Last seen 3 minutes ago.">
-<span class="fc-ava"><img src="data:image/webp;base64,${danielB64}" width="38" height="38" alt=""><span class="fc-dot"></span></span>
-<span class="fc-txt"><b>Chat with Daniel</b><span>Last seen 3m ago</span></span>
+<button type="button" id="fein-chat" aria-label="Chat with the fein team. Last seen 3 minutes ago.">
+<span class="fc-mark"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M7 4h10a3 3 0 0 1 3 3v13l-3.5-3.4H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" fill="currentColor"/><path d="M8.8 10.6c.9 1.5 2.05 2.25 3.2 2.25s2.3-.75 3.2-2.25" stroke="var(--fc-mk)" stroke-width="1.7" stroke-linecap="round"/></svg><span class="fc-dot"></span></span>
+<span class="fc-txt"><b>Chat with us</b><span>Last seen 3m ago</span></span>
 <span class="fc-badge" hidden></span>
 </button>
 <script>window.intercomSettings={api_base:"${INTERCOM_API_BASE}",app_id:"${INTERCOM_APP_ID}",hide_default_launcher:true,custom_launcher_selector:"#fein-chat"}</script>
