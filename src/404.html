@@ -11,22 +11,41 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
-  :root{color-scheme:dark}
+  /* Standalone sheet: the 404 carries none of the shared template CSS, but it
+     should still read as the same site. build.js fills the two placeholders
+     below with the same subset woff2s every other page embeds, and the tokens
+     are the site values from fein.tpl.html: Inter for body, Geist for the h1. */
+  @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__GEIST_SANS_B64__) format('woff2');}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2');}
+  :root{
+    color-scheme:dark;
+    --bg:#08090A;
+    --fg-2:#a1a1a1; --fg-3:#8a8f98;
+    --line-2:rgba(255,255,255,.16);
+    --blue:#0070F3; --blue-l:#52A8FF;
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    --display:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
-  body{margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;background:#08090A;color:#a1a1a1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:17px;line-height:1.55;letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
+  body{margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;background:var(--bg);color:var(--fg-2);font-family:var(--font);font-size:17px;line-height:1.55;letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--blue);color:#fff}
+  a:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
   main{text-align:center;padding:2rem;max-width:34rem}
-  .eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#8a8f98}
-  h1{margin:.9rem 0 0;font-size:clamp(1.7rem,4vw,2.2rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;color:#fff}
-  p{margin:.9rem auto 0;max-width:36ch;color:#8a8f98}
+  .eyebrow{display:block;font-family:var(--font);font-size:.8rem;font-weight:500;line-height:1.25;letter-spacing:0;text-transform:lowercase;color:var(--fg-3)}
+  h1{margin:.9rem 0 0;font-family:var(--display);font-size:clamp(1.7rem,4vw,2.2rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;color:#fff}
+  p{margin:.9rem auto 0;max-width:36ch;color:var(--fg-3)}
   .also{margin:1.4rem auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1.4rem;font-size:.9rem}
-  .also a{color:#8a8f98;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:1px;transition:color .15s ease,border-color .15s ease}
+  .also a{color:var(--fg-3);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:1px;transition:color .15s ease,border-color .15s ease}
   .also a:hover{color:#fff;border-color:rgba(255,255,255,.5)}
-  .rule{width:56px;height:1px;background:rgba(255,255,255,.16);margin:1.8rem auto}
-  a.home{display:inline-flex;align-items:center;gap:.4rem;font-weight:550;font-size:.98rem;color:#000;background:#fff;border-radius:9999px;padding:.6rem 1.15rem;text-decoration:none;transition:background .18s ease,transform .18s ease}
+  .rule{width:56px;height:1px;background:var(--line-2);margin:1.8rem auto}
+  /* the hero-primary geometry from the shared sheet (44px / r11 / 0 19px / 15px,
+     growing to 46px / r12 for touch), not a pill: pills belong to the nav */
+  a.home{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:500;font-size:15px;height:44px;padding:0 19px;border-radius:11px;color:#000;background:#fff;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5);text-decoration:none;transition:background .18s ease,transform .18s ease}
   a.home svg{width:1.05em;height:1.05em}
   @media (hover:hover){a.home:hover{background:#e9e9e9;transform:translateY(-1.5px)}}
-  @media (pointer:coarse){a.home{padding:.75rem 1.3rem}}
+  @media (pointer:coarse){a.home{height:46px;border-radius:12px;font-size:16px}}
+  @media (prefers-reduced-motion:reduce){a.home,.also a{transition:none}a.home:hover{transform:none}}
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>

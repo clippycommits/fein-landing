@@ -6,24 +6,29 @@
 <title>fein integrations &middot; 30+ tools in, one endpoint out</title>
 <meta name="description" content="fein reads your CRM, email, calendar, files, and notes. 30+ tools resolve into one context graph. Claude, ChatGPT, and Cursor query it over one MCP endpoint.">
 <link rel="canonical" href="https://fein.vc/integrations">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090A">
 <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="fein integrations">
 <meta property="og:description" content="30+ tools resolve into one context graph, served to Claude, ChatGPT, and Cursor over one MCP endpoint.">
 <meta property="og:url" content="https://fein.vc/integrations">
 <meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fein · the memory layer for venture capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fein integrations">
 <meta name="twitter:description" content="30+ tools resolve into one context graph, served over one MCP endpoint.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
+<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
 
 <!-- The index page's whole stylesheet, injected by build.js. The two sections
      this page rehomes (#crm, #why) are index-page markup, so every class they
@@ -54,14 +59,20 @@ __LOGO_SPRITE__
 
   __SECTION_WHY__
 
+  <!-- the same framed closing panel every document page ends on (pricing,
+       deploy, security, self-host), so the family keeps one closing rhythm
+       and the email path is never missing. -->
   <section class="band">
     <div class="wrap">
-      <div class="head reveal">
-        <h2>Something in your stack we did not name?</h2>
-        <p class="lead">We read that too. Twenty minutes on a call gets you a straight answer on whether it fits.</p>
-      </div>
-      <div class="reveal" style="margin-top:1.6rem">
-        <a class="btn btn-primary" href="/demo">Get a demo</a>
+      <div class="deploy-cta reveal">
+        <div>
+          <b>Something in your stack we did not name?</b>
+          <p>We read that too. Twenty minutes on a call gets you a straight answer on whether it fits.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/demo">Get a demo</a>
+          <a class="arrowlink" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+        </div>
       </div>
     </div>
   </section>
@@ -73,12 +84,17 @@ __LOGO_SPRITE__
           <a class="brand" href="/">fein</a>
           <p>The open-source memory layer for investment teams.</p>
         </div>
+        <nav class="fcol" aria-label="Footer product">
+          <b>Product</b>
+          <a href="/#features">Features</a>
+          <a href="/security">Security</a>
+          <a href="/integrations">Integrations</a>
+        </nav>
         <nav class="fcol" aria-label="Footer ways to run fein">
           <b>Get fein</b>
           <a href="/self-host">Run it yourself for free</a>
           <a href="/deploy">Managed setup</a>
           <a href="/pricing">Pricing</a>
-          <a href="/security">Security</a>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
         <nav class="fcol" aria-label="Footer use cases">
@@ -120,7 +136,7 @@ __LOGO_SPRITE__
     entries.forEach(function(e){
       if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
     });
-  },{rootMargin:'0px 0px -12% 0px',threshold:.08});
+  },{threshold:0.12, rootMargin:'0px 0px -6% 0px'});
   items.forEach(function(el){io.observe(el);});
 })();
 </script>

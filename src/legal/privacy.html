@@ -6,18 +6,34 @@
 <title>Privacy Policy · fein</title>
 <meta name="description" content="How fein collects, uses, and protects information from visitors to fein.vc and people who contact us.">
 <link rel="canonical" href="https://fein.vc/privacy">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090A">
+<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="fein">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Privacy Policy · fein">
 <meta property="og:description" content="How fein collects, uses, and protects information from visitors to fein.vc and people who contact us.">
 <meta property="og:url" content="https://fein.vc/privacy">
+<meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fein · the memory layer for venture capital">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy Policy · fein">
+<meta name="twitter:description" content="How fein collects, uses, and protects information from visitors to fein.vc and people who contact us.">
+<meta name="twitter:image" content="https://fein.vc/og.png">
+<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
 <style>
   @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__GEIST_SANS_B64__) format('woff2');}
   @font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2');}
   :root{
+    color-scheme:dark;
     --bg:#08090A; --bg-2:#121316;
     --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
@@ -27,18 +43,27 @@
     --maxw:720px;
   }
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%;background:var(--bg);scroll-behavior:smooth}
+  html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;background:var(--bg);scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.skip{transition:none}}
+  /* 16px on 1.7 is deliberate, not drift from the site's 17/1.55: this is a
+     long single-column document read top to bottom, and the smaller size on
+     looser leading holds the 720px measure at a comfortable line length.
+     Letter-spacing stays the site body value. */
   body{margin:0;background:var(--bg);color:var(--fg-2);font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   ::selection{background:#0070F3;color:#fff}
   a{color:var(--blue-l);text-decoration:none}
   a:hover{text-decoration:underline;text-underline-offset:3px}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  /* the skip link, same geometry as the shared sheet's: this page receives
+     only the nav slice, which does not carry it */
+  .skip{position:fixed;top:12px;left:12px;z-index:100;background:#fff;color:#000;padding:.6rem 1rem;border-radius:9999px;font-weight:550;font-size:.92rem;transform:translateY(-300%);transition:transform .2s ease}
+  .skip:focus{transform:none}
   /* header: the site-wide nav, injected by build.js via its NAV placeholders */
   main{padding:calc(var(--nav-h,64px) + 3.4rem) 0 4.5rem}
-  .eyebrow{font-family:var(--display);font-size:.74rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin:0 0 .9rem}
-  h1{font-family:var(--display);color:#fff;font-weight:560;font-size:2.3rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 .8rem}
+  .eyebrow{font-family:var(--font);font-size:.8rem;font-weight:500;line-height:1.25;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);margin:0 0 .9rem}
+  h1{font-family:var(--display);color:#fff;font-weight:520;font-size:2.3rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 .8rem}
   .updated{font-size:.9rem;color:var(--dim);margin:0 0 2.6rem}
-  h2{font-family:var(--display);color:var(--fg);font-weight:550;font-size:1.22rem;letter-spacing:-.02em;margin:2.8rem 0 .7rem;scroll-margin-top:84px}
+  h2{font-family:var(--display);color:var(--fg);font-weight:550;font-size:1.22rem;letter-spacing:-.02em;margin:2.8rem 0 .7rem}
   h3{color:var(--fg);font-weight:600;font-size:1rem;margin:1.6rem 0 .4rem}
   p{margin:0 0 1rem}
   ul{margin:0 0 1rem;padding-left:1.2rem}
@@ -50,27 +75,38 @@
   .lfoot a{color:var(--fg-3)}
   .lfoot a:hover{color:#fff;text-decoration:none}
   .lfoot .sep{color:var(--line-2)}
+  @media (max-width:640px){
+    /* the chat launcher is fixed bottom right, 54px tall and 20px off the
+       edge; without this the footer's last line ends underneath it at 390px.
+       Reserve its 74px, as the shared footer does for the same links. */
+    .lfoot{padding-bottom:56px}
+    /* 16px tall inline links: the vertical padding grows each link's hit box
+       to thumb size, and the negative inline margin keeps the middot
+       separators evenly spaced. */
+    .lfoot a{padding:.85rem .25rem;margin:0 -.25rem}
+  }
   @media (max-width:560px){ h1{font-size:1.95rem} main{padding:calc(var(--nav-h,64px) + 2.4rem) 0 3.4rem} }
 </style>
 __NAV_CSS__
 </head>
 <body>
+<a class="skip" href="#content">Skip to content</a>
 <div class="topshell">__NAV__</div>
 <main>
-  <div class="wrap">
-    <p class="eyebrow">Legal</p>
+  <div class="wrap" id="content" tabindex="-1">
+    <p class="eyebrow">legal</p>
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated __LASTMOD__</p>
+    <p class="updated">Last updated <time datetime="__LASTMOD__">__LASTMOD_HUMAN__</time></p>
 
     <p class="lead">This Privacy Policy explains how fein ("fein", "we", "us", or "our") collects, uses, and protects information when you visit <a href="https://fein.vc">fein.vc</a> (the "Site") or contact us. It covers the Site and our related sales and support activity. It does not cover the fein software once you run it on your own infrastructure: that data stays on your servers and we do not collect or have access to it.</p>
 
     <h2>1. Information we collect</h2>
     <h3>Information you give us</h3>
-    <p>When you fill in our "Talk to sales" form or otherwise contact us, we collect the details you provide, such as your name, work email, phone number, region, number of users, and anything you write in the message field.</p>
+    <p>When you request a demo or book a call through the forms on the Site, or otherwise contact us, we collect the details you provide. Depending on the form, this can include your name, work email, region, firm, fund size, current CRM, the topics you are interested in, and anything you write in the free-text field.</p>
     <h3>Information we collect automatically</h3>
     <p>When you visit the Site, we and our providers may collect basic technical and usage information, such as your IP address, browser and device type, referring page, the pages you view, and the date and time of your visit. We use a privacy-friendly analytics tool that does not use cross-site tracking cookies or build advertising profiles.</p>
     <h3>Cookies and similar technologies</h3>
-    <p>The Site uses a small number of cookies and similar technologies that are necessary for it to work, to keep it secure, and to understand aggregate usage. Some are set by the third-party services described below, including Google reCAPTCHA on our contact form and our in-app messenger. You can control cookies through your browser settings.</p>
+    <p>The Site uses a small number of cookies and similar technologies that are necessary for it to work, to keep it secure, and to understand aggregate usage. Some are set by the third-party services described below, including Google reCAPTCHA on our forms and our in-app messenger. You can control cookies through your browser settings.</p>
 
     <h2>2. How we use information</h2>
     <ul>
@@ -83,7 +119,7 @@ __NAV_CSS__
     <p>We do not sell your personal information, and we do not use it for third-party advertising.</p>
 
     <h2>3. Legal bases for processing</h2>
-    <p>Where the UK GDPR or EU GDPR applies, we rely on the following legal bases: your <strong>consent</strong> (for example, when you submit the contact form); our <strong>legitimate interests</strong> in operating, securing, and improving our business and the Site; the <strong>performance of a contract</strong> with you or steps taken at your request before entering one; and <strong>compliance with a legal obligation</strong>.</p>
+    <p>Where the UK GDPR or EU GDPR applies, we rely on the following legal bases: your <strong>consent</strong> (for example, when you submit one of our forms); our <strong>legitimate interests</strong> in operating, securing, and improving our business and the Site; the <strong>performance of a contract</strong> with you or steps taken at your request before entering one; and <strong>compliance with a legal obligation</strong>.</p>
 
     <h2>4. How we share information</h2>
     <p>We share information only as needed to run our business and the Site:</p>
@@ -119,8 +155,8 @@ __NAV_CSS__
 
     <div class="lfoot">
       <a href="/">fein.vc</a><span class="sep">·</span>
-      <a href="/privacy">Privacy</a><span class="sep">·</span>
-      <a href="/terms">Terms</a><span class="sep">·</span>
+      <a href="/privacy">privacy</a><span class="sep">·</span>
+      <a href="/terms">terms</a><span class="sep">·</span>
       <span>© 2026 fein</span>
     </div>
   </div>

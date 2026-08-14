@@ -6,24 +6,29 @@
 <title>Run fein yourself &middot; free, open source, on your own servers</title>
 <meta name="description" content="fein is Apache 2.0 licensed and free to self-host, forever. Clone the repository, add an LLM key, and run it. Here is what the setup involves and how long the parts really take.">
 <link rel="canonical" href="https://fein.vc/self-host">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090A">
 <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Run fein yourself">
 <meta property="og:description" content="Free, open source, on your own servers. Clone it and run it. Here is what the setup actually involves.">
 <meta property="og:url" content="https://fein.vc/self-host">
 <meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fein · the memory layer for venture capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Run fein yourself">
 <meta name="twitter:description" content="Free, open source, on your own servers. Clone it and run it.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
+<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
 
 <!-- Shared stylesheet, injected by build.js. See pricing.html. -->
 __STYLE__
@@ -40,7 +45,7 @@ __LOGO_SPRITE__
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
       <h1>Clone it, run it, pay nothing.</h1>
-      <p>fein is Apache 2.0 licensed and self-hosted by design. There is no trial, no seat count and no paid tier. This page is an honest account of the setup.</p>
+      <p>fein is Apache 2.0 licensed and self-hosted by design. There is no trial, no seat count, and no paid tier. This page is an honest account of the setup.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener"><svg class="tlogo" aria-hidden="true"><use href="#l-github"/></svg>View on GitHub</a>
         <a class="btn btn-ghost" href="#steps">Read the setup</a>
@@ -55,8 +60,8 @@ __LOGO_SPRITE__
         <p class="lead">The default stack runs entirely on local disk, so there is nothing external to provision.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB and Ladybug on local disk. When you outgrow that, Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate and Milvus are swappable through the environment file.</p></div>
-        <div class="wcard reveal"><h3>An LLM API key</h3><p>Adding a document runs entity extraction and embedding, so ingestion and search need a key; browsing works without one. The default is <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock and any OpenAI-compatible endpoint work too.</p></div>
+        <div class="wcard reveal"><h3>Somewhere to run it</h3><p>A server you control. The default stack is SQLite, LanceDB, and Ladybug on local disk. When you outgrow that, Postgres, Neo4j, pgvector, Chroma, Qdrant, Weaviate, and Milvus are swappable through the environment file.</p></div>
+        <div class="wcard reveal"><h3>An LLM API key</h3><p>Adding a document runs entity extraction and embedding, so ingestion and search need a key; browsing works without one. The default is <code>openai/gpt-5-mini</code>, and Anthropic, Gemini, Ollama, Azure, Bedrock, and any OpenAI-compatible endpoint work too.</p></div>
         <div class="wcard reveal"><h3>Admin access to each source</h3><p>Every system you want read has its own OAuth app or API credential to register. This part takes the most calendar time.</p></div>
       </div>
     </div>
@@ -73,7 +78,7 @@ __LOGO_SPRITE__
           <div>
             <b>Clone the repository</b>
             <p>Everything is in one repo, including the connectors and the dashboard.</p>
-            <code>git clone https://github.com/clippycommits/fein
+            <code class="cmd">git clone https://github.com/clippycommits/fein
 cd fein</code>
           </div>
         </li>
@@ -81,7 +86,7 @@ cd fein</code>
           <div>
             <b>Add a model key</b>
             <p>Copy the template and set your key; it documents every provider and every swappable database.</p>
-            <code>cp .env.template .env
+            <code class="cmd">cp .env.template .env
 # then set LLM_API_KEY="sk-..." in .env</code>
           </div>
         </li>
@@ -89,7 +94,7 @@ cd fein</code>
           <div>
             <b>Start the stack</b>
             <p>One command. It sets up the Python environment and UI dependencies if they are missing, starts the API on port 8000 and the dashboard on port 3000, and opens a browser once both answer. Logs land in <code>.run/api.log</code> and <code>.run/ui.log</code>.</p>
-            <code>./fein          # start the stack
+            <code class="cmd">./fein          # start the stack
 ./fein stop     # stop it
 ./fein status   # what is running</code>
           </div>
@@ -112,12 +117,12 @@ cd fein</code>
         <p class="lead">Making fein useful means pointing it at a decade of real mail. We would rather say so here than have you find out in week three.</p>
       </div>
       <div class="offer reveal">
-        <h3>Where the time actually goes</h3>
+        <h3>Where the time actually goes.</h3>
         <ul>
-          <li><span class="tk">&rarr;</span><span><b>OAuth apps, one per source.</b> Each of Gmail, Calendar, Drive, LinkedIn and your CRM needs its own registered application and admin consent. Google and Microsoft both review some scopes. Budget days rather than hours; most of it is waiting on other people.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>OAuth apps, one per source.</b> Each of Gmail, Calendar, Drive, LinkedIn, and your CRM needs its own registered application and admin consent. Google and Microsoft both review some scopes. Budget days rather than hours; most of it is waiting on other people.</span></li>
           <li><span class="tk">&rarr;</span><span><b>The historical backfill.</b> Reading years of mail and documents is slow, rate-limited by the upstream APIs, and needs restarting when it breaks. It is the single longest step.</span></li>
           <li><span class="tk">&rarr;</span><span><b>Entity resolution.</b> In a decade of mail, one person often looks like four: work address, personal address, a maiden name, a typo. Getting to one record per human is what makes the graph answer well.</span></li>
-          <li><span class="tk">&rarr;</span><span><b>Keeping it alive.</b> Upstream APIs change on their own schedule. Once fein is load-bearing, somebody at the firm owns thirty integrations for as long as you run it.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Keeping it alive.</b> Upstream APIs change on their own schedule. Once fein is load-bearing, somebody at the firm owns 30 integrations for as long as you run it.</span></li>
         </ul>
       </div>
       <!-- the route back. Before this page existed, a reader who followed the
@@ -128,12 +133,12 @@ cd fein</code>
            plainly, not a feature the free column is missing. -->
       <div class="deploy-cta reveal">
         <div>
-          <b>That list is a quarter of someone's time.</b>
+          <b>That list is a quarter of someone&rsquo;s time.</b>
           <p>This work is why the managed option exists. Same software, same servers, same licence: an engineer of ours does the four things above and hands it over working on day 14. If you would rather do it yourself, everything you need is public.</p>
         </div>
         <div class="hero-actions">
-          <a class="btn btn-white" href="/deploy">See the managed setup</a>
-          <a class="arrowlink" style="color:#fff" href="/pricing">Compare the two <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          <a class="btn btn-primary" href="/deploy">See the managed setup</a>
+          <a class="arrowlink" href="/pricing">Compare the two <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
     </div>
@@ -151,11 +156,11 @@ cd fein</code>
         </details>
         <details>
           <summary>What is the licence, exactly?</summary>
-          <p>Apache 2.0. fein derives from <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener">topoteretes/cognee</a> and keeps its licence, the upstream attribution and a statement of changes. You can run it commercially, modify it, and keep your changes private. Over a shorter licence, the one obligation Apache adds is attribution: keep the NOTICE file with the code.</p>
+          <p>Apache 2.0. fein derives from <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener">topoteretes/cognee</a> and keeps its licence, the upstream attribution, and a statement of changes. You can run it commercially, modify it, and keep your changes private. Over a shorter licence, the one obligation Apache adds is attribution: keep the NOTICE file with the code.</p>
         </details>
         <details>
           <summary>Do you see anything we run?</summary>
-          <p>Nothing. There is no telemetry, no analytics and no control plane. We do not know you are running it unless you tell us, which also means we cannot help unprompted when something breaks.</p>
+          <p>Nothing. There is no telemetry, no analytics, and no control plane. We do not know you are running it unless you tell us, which also means we cannot help unprompted when something breaks.</p>
         </details>
         <details>
           <summary>Can we get support?</summary>
@@ -176,12 +181,17 @@ cd fein</code>
           <a class="brand" href="/">fein</a>
           <p>The open-source memory layer for investment teams.</p>
         </div>
+        <nav class="fcol" aria-label="Footer product">
+          <b>Product</b>
+          <a href="/#features">Features</a>
+          <a href="/security">Security</a>
+          <a href="/integrations">Integrations</a>
+        </nav>
         <nav class="fcol" aria-label="Footer ways to run fein">
           <b>Get fein</b>
           <a href="/self-host">Run it yourself for free</a>
           <a href="/deploy">Managed setup</a>
           <a href="/pricing">Pricing</a>
-          <a href="/security">Security</a>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
         <nav class="fcol" aria-label="Footer use cases">

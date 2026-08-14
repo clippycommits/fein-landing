@@ -76,6 +76,7 @@ Updated: 2026-08-14. Full page content in Markdown: https://fein.vc/llms-full.tx
 - [fein for fundraising](https://fein.vc/fundraising): the page for LP relations and the next raise
 - [fein for portfolio teams](https://fein.vc/portfolio): the page for platform and portfolio support
 - [Security](https://fein.vc/security): self-hosted, open source, auditable. The page for a security review
+- [Integrations](https://fein.vc/integrations): the 30+ tools fein reads, and the assistants it answers in
 - [Source on GitHub](https://github.com/clippycommits/fein): Apache 2.0 licensed, free to self-host
 - [Full page content for LLMs](https://fein.vc/llms-full.txt): the whole page in Markdown
 - [Sitemap](https://fein.vc/sitemap.xml): every indexable URL

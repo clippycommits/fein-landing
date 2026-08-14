@@ -6,24 +6,29 @@
 <title>fein managed setup &middot; an engineer builds it into your stack in 14 days</title>
 <meta name="description" content="A forward-deployed engineer connects every source, resolves your duplicates and reads your full history back. Live in 14 days on your own servers. $5,000 once, then from $250 a month.">
 <link rel="canonical" href="https://fein.vc/deploy">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090A">
 <link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fein">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="fein managed setup">
 <meta property="og:description" content="A forward-deployed engineer builds fein into your stack. Live in 14 days, on your own servers.">
 <meta property="og:url" content="https://fein.vc/deploy">
 <meta property="og:image" content="https://fein.vc/og.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fein · the memory layer for venture capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fein managed setup">
 <meta name="twitter:description" content="A forward-deployed engineer builds fein into your stack. Live in 14 days, on your own servers.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
+<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
 
 <!-- Shared stylesheet, injected by build.js. See pricing.html: this page owns
      copy and structure only. -->
@@ -43,21 +48,22 @@
        levels off #08090A: every card loses its fill and only the hairline is
        left holding it. */
     --bg:#08090A; --bg-2:#121316; --bg-3:#18191E;
-    --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --muted:#8a8f98; --dim:#767982;
+    --fg:#ededed; --fg-2:#a1a1a1; --fg-3:#8a8f98; --dim:#767982;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
     /* the outline of a form control. 1.4.11 asks 3:1 against *adjacent colours*,
-       plural, and a field in the contact modal has two of them: its own --bg fill
-       on the inside and the --bg-2 modal surface on the outside. A 1px border is
+       plural, and a field can have two of them: its own --bg fill on the inside
+       and a --bg-2 panel surface on the outside (the retired contact modal is
+       where the pair was measured; the forms keep the tokens). A 1px border is
        painted over the element's own background (background-clip is border-box),
        so the outline composites on the fill either way -- .36 landed at 3.13:1 on
        the fill but only 2.95:1 on the surface, which is the edge that was missing.
        .38 is 3.50:1 on the fill and 3.31:1 on the surface, and .5 is the hover and
        open lift above it. Both ratios are quoted for the ground this file paints
-       today (--bg #08090A inside a --bg-2 #121316 modal); they were 3.39 and 3.19
+       today (--bg #08090A inside a --bg-2 #121316 panel); they were 3.39 and 3.19
        when the ground was #000, so the margin over 3:1 grew rather than shrank.
        The decorative hairlines stay on --line/--line-2 */
     --line-ctl:rgba(255,255,255,.38); --line-ctl-2:rgba(255,255,255,.5);
-    --blue:#0070F3; --blue-l:#52A8FF; --violet:#7928CA;
+    --blue:#0070F3; --blue-l:#52A8FF;
     /* the only two colours outside the blue accent, and they live on a 0.7rem
        glyph and a 1px rule. --mem-ret is the invalid-field hue this file already
        uses; --mem-new is cyan shifted so the pair reads as siblings of the blue */
@@ -99,7 +105,7 @@
     --hl-top:inset 0 1px 0 rgba(255,255,255,.06);
     --shadow-card:0 0 0 1px rgba(255,255,255,.06),0 2px 6px rgba(0,0,0,.5),0 24px 60px -24px rgba(0,0,0,.9);
     --g-edge:#2a2c31; --g-node:#b9bec7;
-    /* static film grain — inline SVG feTurbulence data-URI, CSP-safe, kills banding */
+    /* static film grain: inline SVG feTurbulence data-URI, CSP-safe, kills banding */
     --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
@@ -108,38 +114,37 @@
   h1,h2,h3,p{margin:0}
   a{color:inherit;text-decoration:none}
   [hidden]{display:none!important}
-  ::selection{background:#0070F3;color:#fff}
+  ::selection{background:var(--blue);color:#fff}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--bar-pad)}
   .skip{position:fixed;top:12px;left:12px;z-index:100;background:#fff;color:#000;padding:.6rem 1rem;border-radius:9999px;font-weight:550;font-size:.92rem;transform:translateY(-300%);transition:transform .2s ease}
   .skip:focus{transform:none}
+  /* a label for the accessibility tree alone: the standard clip pattern, for
+     headings and table labels the visual design carries by other means */
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
   /* ---- display type: white statements, grey continuations, small grey labels ----
 
-     The label above a heading has been three things. It was mono, 0.72rem,
-     uppercase, tracked out to .14em, which is what every other product page on
-     a black background does. It was then Newsreader italic at reading size,
-     which was a voice, but an italic serif is a loud way to say one word and it
-     was the only face on the page doing it.
+     The small label has been three things. It was mono, 0.72rem, uppercase,
+     tracked out to .14em, which is what every other product page on a black
+     background does. It was then Newsreader italic at reading size, which was
+     a voice, but an italic serif is a loud way to say one word and it was the
+     only face on the page doing it.
 
      It is now the interface face at label size in grey: small Inter, lower
-     case, sitting under the heading rather than in front of it. Nothing on the
-     page is now set in a face the rest of the page does not already use.
+     case. Nothing on the page is set in a face the rest of the page does not
+     already use. The section heads dropped their labels, so no shared .eyebrow
+     class survives; the voice lives on where a label still earns its place:
+     .works .lab, .orb-badge, .mock-title, .why3 .wstep.
 
      Lower case is forced rather than typed so the labels stay legible as
      sentences in the markup, in the CMS, and to a screen reader. ---- */
-  .eyebrow{display:block;font-family:var(--font);font-size:.8rem;font-weight:500;line-height:1.25;letter-spacing:0;text-transform:lowercase;color:var(--fg-3)}
   h1,h2,h3{color:#fff;letter-spacing:-.025em;font-weight:600}
   h1,h2{font-family:var(--display)}
-  .th{font-size:clamp(1.7rem,3.3vw,2.4rem);font-weight:600;letter-spacing:-.03em;line-height:1.14;color:#fff;max-width:34ch;text-wrap:balance}
-  .th .cont{display:block;margin-top:.75rem;font-family:var(--font);font-size:1.12rem;font-weight:450;letter-spacing:-.011em;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
 
   /* ---- icons ---- */
-  .arw,.barw{display:inline-flex;align-items:center;justify-content:center}
-  .arw svg,.barw svg{width:1.05em;height:1.05em;display:block}
-  .ic svg{width:22px;height:22px;display:block}
-  .tick svg,.tick2 svg{display:block}
-  .tick svg{width:12px;height:12px}
-  .tick2 svg{width:22px;height:22px}
+  .arw{display:inline-flex;align-items:center;justify-content:center}
+  .arw svg{width:1.05em;height:1.05em;display:block}
+  .tick svg{display:block;width:12px;height:12px}
 
   /* ---- buttons: reference-replica geometry (36px / r10 / 0 12px / 14px; grows 46px / r12 below 900), fein colors: white primary, hairline ghost ---- */
   .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font);font-weight:500;font-size:14px;height:36px;padding:0 12px;border-radius:10px;cursor:pointer;border:0;white-space:nowrap;line-height:1;transition:background .3s ease-in-out,color .3s ease-in-out,box-shadow .3s ease-in-out}
@@ -167,22 +172,29 @@
      markers so build.js can inject the identical rules into /demo and the
      legal pages, which carry their own reduced stylesheets. Everything here
      reads its tokens through var(..., fallback) so the block is self-sufficient
-     on a page that defines none of them. ============ */
+     on a page that defines none of them. The bar's geometry is slice-owned for
+     the same reason: it used to read the page's --maxw/--bar-pad, and the
+     legal pages set --maxw to their 720px reading measure, which shrank the
+     one fixed header the site has to the width of an article. --nav-w and
+     --nav-pad are declared here, on the nav's own root, so no page token can
+     reach them; they mirror the home page's 1232px/32px (24px below 640). ============ */
   /*fein-nav:css:start*/
   .topshell{position:fixed;top:0;left:0;right:0;z-index:50;text-align:left}
-  #view-home .topshell{will-change:transform}
-  header.site-nav{position:relative;z-index:5;--nav-font:var(--font,'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif);background:rgba(8,9,10,.8);-webkit-backdrop-filter:saturate(140%) blur(20px);backdrop-filter:saturate(140%) blur(20px);border-bottom:1px solid rgba(255,255,255,.06);transition:border-color .25s ease}
+  header.site-nav{position:relative;z-index:5;--nav-w:1232px;--nav-pad:32px;--nav-font:var(--font,'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif);background:rgba(8,9,10,.8);-webkit-backdrop-filter:saturate(140%) blur(20px);backdrop-filter:saturate(140%) blur(20px);border-bottom:1px solid rgba(255,255,255,.06);transition:border-color .25s ease}
+  @media (max-width:640px){header.site-nav{--nav-pad:24px}}
   header.site-nav.scrolled{border-bottom-color:rgba(255,255,255,.11)}
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
     header.site-nav{background:rgba(10,10,12,.96)}
   }
-  .bar{position:relative;display:flex;align-items:center;height:var(--nav-h,64px);max-width:var(--maxw,1232px);margin:0 auto;padding:0 var(--bar-pad,24px);box-sizing:border-box}
+  .bar{position:relative;display:flex;align-items:center;height:var(--nav-h,64px);max-width:var(--nav-w,1232px);margin:0 auto;padding:0 var(--nav-pad,24px);box-sizing:border-box}
   .brand{display:inline-flex;align-items:center;font-family:var(--nav-font,var(--font));font-weight:600;font-size:1.3rem;line-height:1;letter-spacing:-.03em;color:#fff;text-decoration:none}
   /* the whole run of links, the divider, the quiet GitHub link and the white
      pill travel as one centered cluster, the way the reference sets its
      Product ... Contact | Docs (Open app) row */
   nav.links{display:flex;align-items:center;gap:0;white-space:nowrap;margin-left:auto}
   nav.links a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;color:var(--fg-3,#8a8f98);font-family:var(--nav-font);font-weight:510;font-size:13.5px;letter-spacing:-.01em;line-height:1;text-decoration:none;transition:color .12s ease,background .12s ease}
+  /* #f7f8f8 is the nav's own hover/current white, a half-step under #fff so a
+     lit link reads as lit without outshining the white pill beside it */
   nav.links a:hover{color:#f7f8f8;background:rgba(255,255,255,.07)}
   nav.links a[aria-current="page"]{color:#f7f8f8}
   nav.links a.ddon,nav.links a[aria-expanded="true"]{color:#f7f8f8;background:rgba(255,255,255,.07)}
@@ -198,11 +210,18 @@
   /* nav.links a outranks .sbtn-pri on specificity, so the pill states carry
      the scoped selector too or the cluster's grey link color wins */
   .sbtn-pri,nav.links a.sbtn-pri{background:#fff;color:#08090a}
-  .sbtn-pri:hover,nav.links a.sbtn-pri:hover{background:#e6e6e6;color:#08090a}
+  /* hover fills are gated like the body buttons ("touch: no sticky hover
+     states"): the bar is fixed on-screen, so a tapped pill or menu button
+     otherwise wears its grey until the next tap lands somewhere else.
+     #e9e9e9 is the site's white-button hover, shared with .btn-primary. */
+  @media (hover:hover){
+    .sbtn-pri:hover,nav.links a.sbtn-pri:hover{background:#e9e9e9;color:#08090a}
+    .menu-btn:hover{background:rgba(255,255,255,.07)}
+  }
   /* one wide surface under the whole bar, the reference's geometry: width and
      position never move, only the height animates between panels while their
      contents crossfade. */
-  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--maxw,1232px)) / 2, 0px) + var(--bar-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:#141417;border:1px solid rgba(255,255,255,.06);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
+  .ddwrap{position:absolute;top:calc(var(--nav-h,64px) + 4px);left:auto;right:calc(max((100% - var(--nav-w,1232px)) / 2, 0px) + var(--nav-pad,24px));margin:0;width:min(740px,calc(100% - 32px));height:0;z-index:60;background:#141417;border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 24px 48px -12px rgba(0,0,0,.7);overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1),visibility 0s .16s}
   .ddwrap.on{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1),height .26s cubic-bezier(.25,.1,.25,1)}
   .ddwrap.snap{transition:opacity .16s ease,transform .2s cubic-bezier(.25,.1,.25,1)}
   .ddpanel{position:absolute;top:0;left:0;right:0;font-family:var(--nav-font);opacity:0;pointer-events:none;transition:opacity .15s ease}
@@ -210,13 +229,8 @@
   .dd-cols{display:flex;align-items:stretch;padding:24px 0 26px}
   .dd-col{flex:1;min-width:0;padding:2px 28px}
   .dd-col + .dd-col{border-left:1px solid rgba(255,255,255,.07)}
-  .dd-e{display:block;text-decoration:none;margin:0 0 26px}
-  .dd-e:last-child{margin-bottom:0}
-  .dd-e i{display:block;font-style:normal;font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);line-height:1.4;transition:color .12s ease}
-  .dd-e b{display:block;font-size:14.5px;font-weight:510;color:#e3e5ea;line-height:1.45;margin-top:2px;max-width:26ch;transition:color .12s ease}
-  .dd-e:hover b{color:#fff}
   .dd-h{display:block;font-size:13.5px;font-weight:475;color:var(--fg-3,#8a8f98);line-height:1.4;margin:0 0 14px}
-  .dd-l{display:block;text-decoration:none;font-size:14.5px;font-weight:510;color:#e3e5ea;line-height:1.45;margin:0 0 12px;transition:color .12s ease}
+  .dd-l{display:block;text-decoration:none;font-size:14.5px;font-weight:510;color:var(--fg,#ededed);line-height:1.45;margin:0 0 12px;transition:color .12s ease}
   .dd-l:last-child{margin-bottom:0}
   .dd-l:hover{color:#fff}
   .dd-foot{display:flex;align-items:center;gap:22px;padding:16px 28px;border-top:1px solid rgba(255,255,255,.07)}
@@ -224,9 +238,8 @@
   .dd-foot a:hover{color:#f7f8f8}
   /* the reference sets this one link in its brand purple; ours is white */
   .dd-foot a.acc{margin-left:auto;color:#fff;font-weight:510}
-  .dd-foot a.acc:hover{color:#e6e6e6}
+  .dd-foot a.acc:hover{color:#e9e9e9}
   .menu-btn{display:none;align-items:center;justify-content:center;width:40px;height:40px;margin-right:-8px;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;border-radius:999px;transition:background .12s ease}
-  .menu-btn:hover{background:rgba(255,255,255,.07)}
   .menu-btn svg{width:22px;height:22px;display:block}
   .menu-btn .i-close{display:none}
   .menu-btn[aria-expanded="true"] .i-open{display:none}
@@ -239,41 +252,22 @@
     .ddwrap{display:none}
     .bar .right .sbtn-pri{display:inline-flex}
     .menu-btn{display:inline-flex;width:44px;height:44px}
-    .mmenu{display:block;position:absolute;top:calc(var(--nav-h,64px) - 8px);left:auto;right:var(--bar-pad,24px);width:min(320px,calc(100vw - var(--bar-pad,24px) * 2));background:#141417;border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h,64px) - 16px);overflow:auto;overscroll-behavior:contain}
+    .mmenu{display:block;position:absolute;top:calc(var(--nav-h,64px) - 8px);left:auto;right:var(--nav-pad,24px);width:min(320px,calc(100vw - var(--nav-pad,24px) * 2));background:#141417;border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);padding:.5rem;opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1),visibility 0s .22s;z-index:45;max-height:calc(100dvh - var(--nav-h,64px) - 16px);overflow:auto;overscroll-behavior:contain}
     .mmenu.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .22s cubic-bezier(.22,.61,.36,1),transform .22s cubic-bezier(.22,.61,.36,1)}
     html:has(.mmenu.open) body::before{content:"";position:fixed;inset:0;z-index:40;background:rgba(5,5,7,.62);-webkit-backdrop-filter:saturate(120%) blur(3px);backdrop-filter:saturate(120%) blur(3px);animation:navBackdropIn .22s ease}
     .mmenu a{display:flex;align-items:center;min-height:44px;padding:.5rem .8rem;border-radius:10px;color:var(--fg,#ededed);font-weight:500;font-size:1rem;text-decoration:none;transition:background .15s ease}
-    .mmenu a:hover{background:rgba(255,255,255,.06)}
+    @media (hover:hover){.mmenu a:hover{background:rgba(255,255,255,.06)}}
     .mmenu .sep{height:1px;background:var(--line,rgba(255,255,255,.09));margin:.4rem .5rem}
   }
+  /* the slice's own reduced-motion cover. The sheet's blanket kill at the foot
+     of this file never reaches the pages that receive only this block (/demo,
+     the legal pages), so the menu and the dropdown appear in place here rather
+     than sliding, and the backdrop stops fading in. */
+  @media (prefers-reduced-motion:reduce){
+    .ddwrap,.ddwrap.on,.ddwrap.snap,.mmenu,.mmenu.open{transition:none}
+    html:has(.mmenu.open) body::before{animation:none}
+  }
   /*fein-nav:css:end*/
-
-  /* ============ ribbon: one line of news above the bar ============
-     this row is the last thing on the page that should be read, so it is the
-     last thing that may be seen. a lifted plane (bg-2 with a lit top edge) put
-     the brightest surface of the whole page above the wordmark and inverted the
-     hierarchy: news over headline. so the ground goes back to the page's own
-     black and the sentence drops a step to fg-2, one below the nav links. what
-     is left of the row is a hairline and a grey line of type; hover lifts the
-     sentence to white, which is where the only reward for looking belongs.
-     opaque, not transparent: the shell is fixed and the hero scrolls under it. */
-  /* spacing is the reference bar's, measured off it: 20px line, -.16px tracking,
-     6px from the sentence to the arrow, in a 48px row on black. the size is not:
-     13px read too small once it was also grey, so the sentence keeps its 14px
-     and the step below the 15px nav links is carried by weight and colour. */
-  .ribbon{position:relative;height:var(--ribbon-h);display:flex;align-items:center;justify-content:center;padding:0 52px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--font);font-size:14px;line-height:20px;overflow:hidden}
-  .rb-msg{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--fg-2);font-weight:450;transition:color .18s ease}
-  .rb-msg:hover{color:#fff}
-  .rb-txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.16px}
-  .rb-msg .arw{flex:none;color:var(--dim);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
-  .rb-msg .arw svg{width:11px;height:11px;stroke-width:2.6}
-  .rb-msg:hover .arw{transform:translateX(3px);color:#fff}
-  .rb-x{position:absolute;top:50%;right:14px;translate:0 -50%;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--dim);cursor:pointer;transition:background .18s ease,color .18s ease}
-  .rb-x:hover{background:rgba(255,255,255,.07);color:#fff}
-  .rb-x svg{width:13px;height:13px;display:block}
-  /* dismissed: the row is gone and every offset measured from it collapses */
-  .nobanner .ribbon{display:none}
-  .nobanner{--ribbon-h:0px}
 
   /* ============ hero entrance choreography (pure CSS, staggered) ============ */
   @keyframes lpUp{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
@@ -303,7 +297,7 @@
      begins, so the fold reads as a single rise rather than four steps. The last
      lands at ~1.08s, just after the fan settles at ~1.0s. */
   /* The field the threads light up across is painted into #burst at full
-     strength on the very first ignition frame — it cannot be faded in by
+     strength on the very first ignition frame: it cannot be faded in by
      painting it in steps, because at 8 bits the outer falloff rounds to nothing
      (see bloomTo). So the swell is done by the compositor instead: the canvas
      itself fades up while the threads grow inside it, which costs nothing and
@@ -317,12 +311,11 @@
      of the document to reach its first frame. That cost grows with the page: it
      was ~0ms when the gate landed and ~80ms once the "what changed" band was
      added, which pushed the headline's start to 180ms and left the nav lit over
-     a headline that was still a ghost. The ladder is therefore front-loaded —
-     the headline is only 20ms behind the bar — and the rungs earn their
+     a headline that was still a ghost. The ladder is therefore front-loaded,
+     the headline only 20ms behind the bar, and the rungs earn their
      separation from the overlap of their durations rather than from dead time.
      If this fold grows again, re-measure before adding delay back. */
   .hero-lead .wrap>*{animation:lpUp .78s cubic-bezier(.16,.84,.44,1) both}
-  .hero-lead .eyebrow{animation-delay:0s}
   .hero-lead .wrap>h1,.hero-lead .wrap>h2{animation:lpH1 .9s cubic-bezier(.16,.84,.44,1) .02s both}
   .hero-lead .wrap>p{animation-delay:.12s}
   .hero-lead .hero-actions{animation-delay:.22s}
@@ -352,13 +345,13 @@
   .prep-wrap{position:absolute;top:0;bottom:0;left:calc(50% - min(50vw,700px));width:min(100vw,1400px);z-index:1;pointer-events:none}
   #prepflow{position:absolute;inset:0;width:100%;height:100%}
   .glass{background:rgba(15,15,19,.46);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.12);box-shadow:var(--hl-top),0 18px 44px -24px rgba(0,0,0,.85)}
-  .orb-head{position:absolute;left:50%;top:7%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:13px;z-index:2;text-align:center;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1)}
+  .orb-head{position:absolute;left:50%;top:7%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:14px;z-index:2;text-align:center;transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1)}
   .orb-head b{font-size:.88rem;font-weight:550;color:var(--fg);letter-spacing:-.01em;white-space:nowrap}
   .orb-head .hsub{font-size:.72rem;color:var(--fg-3);white-space:nowrap}
   /* the state of the card, in the voice the page labels things in. It was mono
      at .6rem with .12em of tracking in caps -- AUTO-DRAFTING -- which is the
-     tracked-out mono cap this design replaced everywhere else: .eyebrow, the
-     .plate-lab labels and .works .lab are all small lowercase Inter now. The
+     tracked-out mono cap this design replaced everywhere else: every label
+     left on the site (.works .lab, this one) is small lowercase Inter now. The
      mono that is left on the page is readouts (the dates and tags inside the
      product mocks), and this is a status, not a readout. */
   .orb-badge{font-family:var(--font);font-size:.7rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:.22rem .5rem;background:rgba(10,10,13,.66);white-space:nowrap}
@@ -395,7 +388,7 @@
   .prep-wrap.anim .orb-head{opacity:0;transform:translate(-50%,-50%) translateY(-8px)}
   .prep-wrap.anim .orb-head.on{opacity:1;transform:translate(-50%,-50%)}
 
-  /* works-with strip — slow marquee behind soft masks; pauses on hover */
+  /* works-with strip: slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
   /* the strip's one exit: a quiet centred link under the marquee, to the page
@@ -415,7 +408,7 @@
 
   /* ============ sections: black bands, separated by their own air ============ */
   section{scroll-margin-top:20px}
-  section[id],.feat[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
+  section[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
   /* no rule between sections. This carried a border-top, which drew a full-bleed
      hairline above all eleven bands: a line the width of the viewport, cutting
      the page into stacked boxes and running out past the measure everything else
@@ -428,9 +421,7 @@
   .band{position:relative;padding:clamp(4rem,8vw,6.5rem) 0}
   .head{max-width:60ch}
   .head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);letter-spacing:-.026em;font-weight:500;text-wrap:balance;margin-top:.7rem;line-height:1.09}
-  .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch}
-  /* ============ features: one claim, one sentence, one mock. alternating ============ */
-  .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:center;margin-top:0}
+  .head .lead{margin-top:1rem;font-size:1.12rem;color:var(--fg-2);max-width:52ch;text-wrap:pretty}
   /* ---- the feature grid ----
      Four alternating copy/mock rows became one ruled grid, off the reference.
      Measured from it rather than judged: the container and its dividers are a
@@ -497,7 +488,7 @@
   .featart .mock::after{left:48px;right:48px;top:-19px;height:10px;border-color:rgba(255,255,255,.038)}
   .featcap{padding:clamp(1.3rem,2.5vw,2.25rem)}
   .featcap h3{font-size:.95rem;font-weight:600;letter-spacing:-.012em;line-height:1.4;color:#fff}
-  .featcap p{margin-top:.42rem;font-size:.95rem;line-height:1.5;color:#989da5;max-width:48ch;text-wrap:pretty}
+  .featcap p{margin-top:.42rem;font-size:.95rem;line-height:1.5;color:var(--fg-2);max-width:48ch;text-wrap:pretty}
   /* one column, and the rules follow: every cell now opens with a rule above it
      except the first, and none of them has one down the side.
 
@@ -746,6 +737,11 @@
     .pchip>span{white-space:normal;overflow:visible;text-overflow:clip}
     .mm-f{align-items:flex-start}
     .mm-f span{white-space:normal;overflow:visible;text-overflow:clip}
+    /* the brief's fact rows wrap here too, and the event block grows to hold
+       them instead of clipping a wrapped fact against its fixed height */
+    .dfact{align-items:flex-start}
+    .dfact span{white-space:normal;overflow:visible;text-overflow:clip}
+    .devt{height:auto;min-height:calc(116px*var(--mk))}
     .cnm{width:calc(116px*var(--mk))}
     .crow>.mtag{width:calc(56px*var(--mk))}
     .crow.r1{--pitch:16px}
@@ -758,231 +754,21 @@
      panels stagger, so without this a reader who asks for no motion would get
      an empty panel that pops two seconds later. */
   @media (prefers-reduced-motion:reduce){.featgrid *{animation-delay:0s!important}}
-  /* ============ the fold: the documents, the question, the answer ============
-     Three objects, stacked, and nothing drawn between them. The connection is
-     made by the citation on each claim and by the document lighting as that
-     claim lands, which is a truer picture than a line anyway: fein does not
-     pipe five files into a box, it recalls the two or three that answer you.
-
-     The row is quiet outlines and the answer is the one filled object on the
-     page, so the eye goes to the output. There is no accent in here beyond the
-     logos and a single struck fact; the blue belongs to the rest of the site. */
-  /* one object, not three floating over a starburst. The documents, the wiring
-     and the answer live inside a single panel, which is what makes a product
-     shot read as calm: there is one thing on the page below the copy, and the
-     burst is behind it rather than through it */
-  .ah-fig{position:relative;margin-top:clamp(2.8rem,6vh,4.4rem);padding:clamp(1rem,1.9vw,1.6rem);background:linear-gradient(180deg,#0b0d11,#08090b);border:1px solid rgba(255,255,255,.075);border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 48px 110px -48px rgba(0,0,0,.95)}
-  /* the hero copy is set to a reading measure and the picture is not: both are
-     centred on the same axis, but the documents, the box and the four claims
-     under them break out of .wrap into a column of their own */
-  /* widened with margins rather than a transform: the hero's entrance animates
-     translate on every child of .wrap, and a keyframe beats a static property */
+  /* ============ the proof band: four claims, said plainly ============
+     What the styles here serve is #proof, the ruled four-across list of claims.
+     The hero-window figure that used to sit above it went with the fold rebuild
+     (the fold is .lead-stage now); its ah-* styles and driver went with it. */
   .proofband{position:relative;background:var(--bg);padding:0 0 clamp(3rem,7vh,5rem)}
   .proofband .ah-wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--bar-pad)}
   .ah-proof{margin-top:0}
-  .hero-lead .ah-fig,.proofband .ah-proof{--fw:min(1180px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--fw);margin-left:calc((100% - var(--fw)) / 2)}
-  /* the inflow. Five documents, five runs into the top edge of the box, drawn
-     in the ground's own grey rather than an accent: the point is the direction
-     of travel, and a coloured line would be the loudest thing on the fold */
-  .ah-wires{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:visible}
-  .ah-wires path{fill:none;stroke:rgba(255,255,255,.17);stroke-width:1;stroke-linecap:round;transition:stroke .35s ease}
-  .ah-wires path.hot{stroke:rgba(255,255,255,.7)}
-  .ah-wires circle{fill:rgba(255,255,255,.34)}
-  /* the documents: outlines, not objects. They are what fein read, and the
-     thing worth looking at is what it said back */
-  .ah-srcs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(.4rem,.85vw,.68rem);list-style:none;width:100%;margin:0;padding:0}
-  .ah-src{display:grid;grid-template-columns:20px minmax(0,1fr);gap:.55rem;align-items:center;padding:.62rem .75rem;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.06);border-radius:9px;text-align:left;transition:border-color .35s ease,background .35s ease,opacity .5s ease,translate .5s cubic-bezier(.22,.61,.36,1)}
-  .ah-src .tlogo{width:14px;height:14px;justify-self:center;opacity:.85;transition:opacity .35s ease}
-  .ah-src b{display:block;font-size:.79rem;font-weight:500;line-height:1.25;letter-spacing:-.01em;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ah-src em{display:block;font-style:normal;font-size:.72rem;color:var(--fg-3);margin-top:.08rem}
-  /* a document lights while the claim it wrote is landing, and again when the
-     reader hovers that claim. That is the whole wiring diagram */
-  .ah-src.hot{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.035)}
-  .ah-src.hot b{color:#fff}
-  .ah-src.hot .tlogo{opacity:1}
-
-  .ask.ask--hero{width:100%;margin:clamp(2.2rem,4.4vh,3.2rem) 0 0;position:relative;z-index:1;text-align:left;background:#101318;border-color:rgba(255,255,255,.1);border-radius:12px;box-shadow:var(--hl-top),0 20px 50px -28px rgba(0,0,0,.9)}
-  /* the question is chosen inside the product: three jobs a firm actually has,
-     each answered out of a different handful of the same documents */
-  .ask--hero .ask-q{font-size:clamp(1rem,1.5vw,1.13rem)}
-  .ask--hero .ask-a{font-size:clamp(.98rem,1.35vw,1.04rem);line-height:1.58;min-height:7.6em}
-  .ask--hero .cl{display:block;padding-left:.95rem;text-indent:-.95rem;cursor:default}
-  .ask.ask--hero .cl + .cl{margin-top:.52rem}
-  .ask--hero .cl::before{content:"";display:inline-block;width:3px;height:3px;margin:0 .62rem .2rem 0;border-radius:50%;background:rgba(255,255,255,.3);text-indent:0}
-  /* a fact fein has retired: struck and dated for the same reason it is struck
-     and dated in the graph */
-  .ask-a s{text-decoration:none;color:var(--fg-3);background:linear-gradient(var(--mem-ret-rule),var(--mem-ret-rule)) no-repeat 0 .64em/100% 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-  .was{display:inline-block;text-indent:0;margin-left:.28rem;padding:.06rem .34rem;border:1px solid rgba(255,138,133,.24);border-radius:5px;font-size:.69rem;color:#c08a86;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .ask-f em{font-style:normal;color:var(--fg-3);white-space:nowrap}
-  .ask-f i{font-style:normal;white-space:nowrap}
-
-
-  /* four things the picture above has just demonstrated, said plainly */
+  /* the list is a figure, not copy: it breaks out of the reading measure into
+     the wider figure column, centred with margins rather than a transform */
+  .proofband .ah-proof{--fw:min(1180px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--fw);margin-left:calc((100% - var(--fw)) / 2)}
+  /* four things the figures above have just demonstrated, said plainly */
   .ah-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.2rem,3vw,2.8rem);list-style:none;margin:clamp(2.4rem,5vh,3.6rem) 0 0;position:relative;padding:clamp(1.5rem,2.8vh,2.1rem) 0 0;border-top:1px solid var(--line);text-align:left}
   .ah-proof b{display:flex;align-items:center;gap:.4rem;font-size:.92rem;font-weight:550;letter-spacing:-.012em;color:#fff}
   .ah-proof .tlogo{width:14px;height:14px}
   .ah-proof span{display:block;margin-top:.34rem;font-size:.88rem;line-height:1.5;color:var(--fg-3);text-wrap:pretty}
-
-  /* the sequence: nothing is removed from the page, only held back */
-  .ah-fig.armed .ah-src{opacity:0;translate:0 6px}
-  .ah-fig.armed .ah-src.in{opacity:1;translate:0 0}
-  .ah-fig.armed .cl{opacity:0;transition:opacity .55s ease}
-  .ah-fig.armed .cl.in{opacity:1}
-  .ah-fig.armed .ask-f{opacity:0;transition:opacity .5s ease}
-  .ah-fig.armed .ask-f.in{opacity:1}
-
-  /* THE FIGURE AS A WINDOW.
-
-     It was six identical cards in a perfect row, a fan of symmetrical wires
-     dropping to a single point, and a panel of prose set larger than the page's
-     own lede. Each of those is a drawing of software rather than software, and
-     together they are the reason it read as generated: real interfaces are not
-     symmetrical, do not repeat one card six times, and are not set at essay
-     size. Every element here is the same content as before, in the shape the
-     product would actually put it in.
-
-     Scoped to .hero-lead so it beats the base rules on specificity rather than
-     on source order, and does not touch the same classes on /pe. */
-  /* one pane. The rail listed what had been read beside an answer that already
-     cites every line of itself, so it was the same evidence twice and it took a
-     third of the window to say it. The markup stays because the figure's script
-     lights those rows from the citations and measures them; it is the layout it
-     leaves, not the DOM. */
-  .hero-lead .ah-fig{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);padding:0;overflow:hidden;border-radius:14px;position:relative}
-  /* the client, abstracted to a colour. A ribbon across the head of the window
-     and a wash of the same hue under it: at a glance, across the room, that is
-     which application you are looking at, and it needs none of their chrome. */
-  .hero-lead .ah-fig::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--cli,#d97757);z-index:4;transition:background .35s ease}
-  .hero-lead .ah-fig::after{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:0;pointer-events:none;background:radial-gradient(72% 100% at 50% 0%,var(--cli-soft,transparent),transparent 72%);transition:background .35s ease}
-  .hero-lead .ah-fig>*{position:relative;z-index:1}
-  .hero-lead .ah-fig .ah-srcs{display:none}
-  .hero-lead .ask.ask--hero{grid-column:1;grid-row:2}
-  /* the wires went with the row that made sense of them */
-  .hero-lead .ah-wires{display:none}
-
-  /* the window bar */
-  .ah-top{grid-column:1 / -1;display:flex;align-items:center;gap:.62rem;height:36px;padding:0 .85rem;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02)}
-  .ah-dots{display:inline-flex;gap:5px}
-  .ah-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.13)}
-  /* the clients as tabs: the one being asked is lit, the other two are the
-     same endpoint waiting. This is the sentence the proof band makes in words,
-     made in the picture instead, and it is why the frame is worth having. */
-  .ah-tabs{display:flex;align-items:center;gap:.2rem}
-  /* buttons now, so the claim can be checked with a press or a tab key */
-  .ah-cli{display:inline-flex;align-items:center;gap:.34rem;margin:0;padding:.2rem .48rem;border:0;border-radius:6px;font-family:inherit;font-size:11.4px;font-weight:450;letter-spacing:-.008em;color:var(--dim);white-space:nowrap;background:transparent;cursor:pointer;-webkit-appearance:none;appearance:none;transition:color .18s ease,background .18s ease}
-  .ah-cli:hover{color:var(--fg-2);background:rgba(255,255,255,.035)}
-  .ah-cli:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px}
-  /* each client lights in its own colour, which is most of what tells you the
-     frame changed at all */
-  /* EACH CLIENT'S OWN GROUND. Sampled off a real window rather than guessed:
-     Claude's page is rgb(21,21,21) and its composer rgb(32,32,31), which is a
-     warmer and lighter dark than this page uses, and that difference is most of
-     what tells you the picture is somebody else's application. The others are
-     set to their own dark grounds on the same footing.
-
-     What is replicated is the ground, the shape of the composer and the type:
-     the layout language you recognise a client by. Not their account furniture,
-     not a model version, not a billing promotion. Those are Anthropic's claims
-     about Anthropic's product, they are not ours to draw, and they would be
-     stale within a release. Where a client puts its model, this puts the thing
-     the picture is actually about: the server it is connected to. */
-  /* radius and bubble are the rest of the fingerprint: Claude rounds its
-     composer at about 15px and tints the reader's turn faintly; ChatGPT rounds
-     its composer almost to a pill and gives the turn a solid grey block. Set
-     side by side with the same words in them, that is the whole difference. */
-  .ah-fig[data-client="claude"]{--cli:#d97757;--cli-soft:rgba(217,119,87,.16);--cf-bg:#151515;--cf-panel:#20201f;--cf-line:rgba(255,255,255,.085);--cf-rail:#191918;--cf-bub:rgba(255,255,255,.055);--cf-brad:14px;--cf-crad:15px}
-  .ah-fig[data-client="openai"]{--cli:#10a37f;--cli-soft:rgba(16,163,127,.14);--cf-bg:#171717;--cf-panel:#2f2f2f;--cf-line:rgba(255,255,255,.085);--cf-rail:#1c1c1c;--cf-bub:#303030;--cf-brad:20px;--cf-crad:26px}
-  .ah-fig[data-client="cursor"]{--cli:#9aa0aa;--cli-soft:rgba(154,160,170,.10);--cf-bg:#141416;--cf-panel:#202024;--cf-line:rgba(255,255,255,.08);--cf-rail:#18181b;--cf-bub:rgba(255,255,255,.05);--cf-brad:8px;--cf-crad:9px}
-  /* the window wears it */
-  .hero-lead .ah-fig{background:var(--cf-bg,#0a0c10);border-color:var(--cf-line,rgba(255,255,255,.075));transition:background .35s ease,border-color .35s ease}
-  .hero-lead .ah-fig .ah-srcs{background:var(--cf-rail,rgba(255,255,255,.012));border-right-color:var(--cf-line,rgba(255,255,255,.07));transition:background .35s ease}
-  .ah-top{background:var(--cf-rail,rgba(255,255,255,.02));border-bottom-color:var(--cf-line,rgba(255,255,255,.07));transition:background .35s ease}
-  /* THE COMPOSER, to the reference's shape: a written line with a row of
-     controls under it inside one generously rounded box, sitting a step lighter
-     than the ground it is on. Claude's is 16px of radius and a lot of air. */
-  .ah-compose{display:block;margin:.6rem 1.15rem .2rem;padding:.62rem .7rem .5rem;border:1px solid var(--cf-line,rgba(255,255,255,.09));border-radius:var(--cf-crad,14px);background:var(--cf-panel,rgba(255,255,255,.022));transition:background .35s ease,border-color .35s ease,border-radius .35s ease}
-  .ah-ph{display:block;font-size:12.6px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ah-crow{display:flex;align-items:center;gap:.5rem;margin-top:.6rem}
-  .ah-plus{display:grid;place-items:center;width:20px;height:20px;border-radius:999px;color:var(--fg-3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}
-  .ah-plus svg{width:11px;height:11px}
-  /* where the client shows its model, the picture shows the server it is on */
-  .ah-mcp{display:inline-flex;align-items:center;gap:.36rem;margin-left:auto;padding:.16rem .45rem;border-radius:6px;font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-3);background:rgba(255,255,255,.045);white-space:nowrap}
-  .ah-live{width:5px;height:5px;border-radius:50%;background:var(--cli,#d97757)}
-  .ah-send{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.1);color:var(--fg-2)}
-  .ah-send svg{width:12px;height:12px}
-  .ah-cli.on{color:var(--fg);background:rgba(255,255,255,.055);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
-  .ah-cli.on .tlogo{opacity:1}
-  /* THE TOOL CALL: the row that makes this about fein and not about the
-     assistant. A client shows a server by name when it uses one, with what it
-     did; that is exactly the value being claimed, so it is drawn the same way.
-     It does not change when the client does, which is the argument. */
-  .ah-tool{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem .6rem;margin:.4rem 1.15rem .1rem;padding:.34rem .55rem;border:1px solid rgba(255,255,255,.08);border-left:2px solid var(--cli,#d97757);border-radius:0 7px 7px 0;background:rgba(255,255,255,.022)}
-  .ah-tool-n{display:inline-flex;align-items:baseline;gap:.38rem;white-space:nowrap}
-  .ah-tool-n b{font-size:11.6px;font-weight:600;letter-spacing:-.012em;color:var(--fg)}
-  .ah-tool-n i{font-family:var(--font);font-style:normal;font-size:10.4px;color:var(--fg-3)}
-  .ah-tool em{font-style:normal;font-size:10.6px;color:var(--dim)}
-  .ah-cli .tlogo{width:13px;height:13px;opacity:.5;transition:opacity .3s ease}
-  .ah-cli b{font-weight:450}
-  /* the ask bar carried the same three marks. With the frame naming them it was
-     the claim twice on one picture, so the row keeps only the question. */
-  .hero-lead .ask--hero .ask-in{display:none}
-  /* under 620px the three names will not sit in the bar beside the endpoint.
-     The lit one keeps its word, the other two hold their mark alone. */
-  @media (max-width:620px){
-    .ah-cli:not(.on) b{display:none}
-    .ah-top{gap:.45rem;padding:0 .7rem}
-  }
-
-  /* the rail: one list, ruled, not six cards abreast */
-  .hero-lead .ah-srcs{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:0;width:auto;padding:.45rem 0 .6rem;border-right:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}
-  .hero-lead .ah-srcs::before{content:"What fein read";padding:.4rem .85rem .45rem;font-family:var(--font);font-size:10.2px;font-weight:500;letter-spacing:.01em;color:var(--dim)}
-  .hero-lead .ah-src{grid-template-columns:15px minmax(0,1fr);gap:.5rem;padding:.35rem .85rem;background:transparent;border:0;border-radius:0}
-  .hero-lead .ah-src .tlogo{width:13px;height:13px}
-  .hero-lead .ah-src b{font-size:12.1px;line-height:1.3}
-  .hero-lead .ah-src em{font-size:10.7px;margin-top:.02rem}
-  /* the lit state is a bar in the margin now: a border on a borderless row */
-  .hero-lead .ah-src.hot{background:rgba(255,255,255,.045);box-shadow:inset 2px 0 0 var(--blue-l)}
-
-  /* the answer pane */
-  .hero-lead .ask.ask--hero{grid-column:1;grid-row:2;display:flex;flex-direction:column;width:auto;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-  /* THE PANE AS A CONVERSATION, because that is where this product is used.
-     A search field with an answer under it is a database with a nice front on
-     it; the thing being shown is a question asked in an assistant the firm
-     already has open, and answered out of their own history. So the pane takes
-     the shape every one of those clients uses: the question sits in the reader's
-     own bubble on the right, the assistant answers under its name on the left,
-     and a composer waits at the foot.
-
-     The layout convention is the client's; the palette, the type and the answer
-     are ours. It is fein's picture of working inside Claude, not a copy of
-     Claude's window with our text pasted into it. */
-  .hero-lead .ask--hero .ask-bar{display:flex;justify-content:flex-end;padding:1rem 1.15rem .1rem;border-bottom:0;background:transparent}
-  .hero-lead .ask--hero .ask-bar .mag{display:none}
-  .hero-lead .ask--hero .ask-q{max-width:74%;padding:.5rem .8rem;border-radius:var(--cf-brad,14px);background:var(--cf-bub,rgba(255,255,255,.075));box-shadow:none;font-size:13.4px;font-weight:450;line-height:1.5;color:var(--fg);transition:background .35s ease,border-radius .35s ease}
-  /* the assistant's turn, named the way a client names it */
-  .ah-reply{display:flex;align-items:center;gap:.4rem;padding:.85rem 1.15rem .1rem}
-  .ah-reply .tlogo{width:14px;height:14px}
-  .ah-reply span{font-size:11.6px;font-weight:500;color:var(--fg-2)}
-  /* the composer. Nothing about it invites a press: it is the resting state of
-     the box the question was typed into, which is what makes the turn above it
-     read as having just happened */
-  .ah-send{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.1);color:var(--fg-2)}
-  .ah-send svg{width:12px;height:12px}
-  /* UI scale, not prose scale. This was 16.6px against a page lede of 16.8:
-     the panel was setting its body copy larger than the page it sits on. */
-  .hero-lead .ask--hero .ask-a{padding:.75rem 1.15rem;font-size:13.2px;line-height:1.65;min-height:0}
-  .hero-lead .ask.ask--hero .cl + .cl{margin-top:.66rem}
-  /* the answer ends on what to do about it. Facts with a decision under them
-     are worth more than one more fact, and it is the line a partner repeats. */
-  .hero-lead .ask--hero .cl-do{margin-top:.85rem;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.07);color:var(--fg);text-indent:0;padding-left:0}
-  .hero-lead .ask--hero .cl-do::before{display:none}
-  .hero-lead .ask--hero .cite{font-size:9.8px;padding:.1rem .34rem}
-  .hero-lead .ask--hero .was{font-size:9.8px}
-  /* the stat strip becomes the window's status bar, which is where a number
-     like this belongs in an interface and stops it reading as a badge */
-  .hero-lead .ask--hero .ask-f{margin-top:auto;padding:.55rem 1.15rem;font-size:10.4px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015)}
-
-  .ah-cursor{display:inline-block;width:.42em;height:1.02em;translate:0 2px;background:var(--fg-2);animation:caretB 1s steps(2,start) infinite}
 
   /* ---- the objection, on its own ----
      66ch and not 60: two inline marks are about a character and a half each, and
@@ -1011,19 +797,9 @@
   .why-grid>.a,.why-grid>.b{font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
   .why-grid>.b{color:var(--fg-2)}
   .why-grid>.b b{color:#fff;font-weight:550}
-  .why-note{margin-top:1.3rem;max-width:64ch;font-size:.95rem;line-height:1.55;color:var(--fg-3)}
-  .why-note b{color:#fff;font-weight:550}
 
   @media (max-width:900px){
-    /* stacked, the documents sit in two columns and the runs would cross each
-       other on the way down. The citation on each claim is doing the work */
-    .ah-wires{display:none}
-    /* the gap above the box was room for the runs, and there are none here */
-    .ask.ask--hero{margin-top:1.6rem}
-    .ah-srcs{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .ah-fig{margin-top:1.8rem}
     .ah-proof{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem}
-    .ask--hero .ask-a{min-height:0}
     /* one column: the rule now opens each block rather than boxing each cell,
        and the two prefixes carry the columns the header row is no longer here
        to name */
@@ -1033,11 +809,13 @@
     .why-grid>.rl{padding:1.35rem 0 .45rem}
     .why-grid>.a{padding:.35rem 0;border-top:0}
     .why-grid>.b{padding:.35rem 0 .2rem;border-top:0}
-    .why-grid>.a::before{content:"a connector: ";color:var(--dim)}
+    /* the prefix names the table's own left column, so a page whose column is
+       not a connector (the segment pages' CRM / spreadsheet / tracker tables)
+       sets --why-label on its .why-grid instead of inheriting a wrong noun */
+    .why-grid>.a::before{content:var(--why-label,"a connector: ");color:var(--dim)}
     .why-grid>.b::before{content:"fein: ";color:var(--dim)}
   }
   @media (max-width:640px){
-    .ah-src b{font-size:.75rem}
     .ah-proof{grid-template-columns:minmax(0,1fr)}
   }
   /* ============ what changed: three figures, one grammar =====================
@@ -1059,7 +837,10 @@
   /* the head shares the figures' measure, not .wrap's, so the eyebrow, the
      heading and every panel below them start on one left edge */
   .change-head{width:100%;max-width:var(--maxw);margin-inline:auto;padding:0 var(--bar-pad) clamp(1.4rem,3.4vw,2.3rem)}
-  .change-head h2{font-size:clamp(1.85rem,3.4vw,2.5rem);line-height:1.12;letter-spacing:-.03em;margin-top:.75rem;text-wrap:balance;max-width:26ch}
+  /* the section-heading scale (.head h2), not a showpiece size of its own:
+     this band ships on /security between two .head sections, and a bigger,
+     bolder h2 in the middle of that run read as pasted in from another page */
+  .change-head h2{font-size:clamp(1.5rem,2.62vw,2.9rem);line-height:1.09;letter-spacing:-.026em;font-weight:500;margin-top:.75rem;text-wrap:balance;max-width:26ch}
   .change-head .sub{max-width:52ch;margin:1.15rem 0 0;color:var(--fg-2);font-size:clamp(1.02rem,1.5vw,1.15rem);line-height:1.55;text-wrap:pretty}
   /* ---- the record ----------------------------------------------------------
      What stood here was .fig: three figures, each a document panel on the left,
@@ -1090,7 +871,9 @@
 
   .rec{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:var(--hl-top),0 30px 70px -34px rgba(0,0,0,.95);overflow:hidden}
   .rec-top{display:flex;align-items:baseline;gap:.6rem;padding:.95rem 20px;border-bottom:1px solid var(--line)}
-  .rec-top h4{font-size:1.04rem;font-weight:600;letter-spacing:-.02em;color:#fff}
+  /* the card title is mock-UI chrome, not a document heading: a heading here
+     put an h4 straight under the section h2 in the page outline */
+  .rec-top .rec-name{font-size:1.04rem;font-weight:600;letter-spacing:-.02em;color:#fff}
   .rec-kind{padding:.08rem .36rem;border:1px solid var(--line);border-radius:4px;font-size:.68rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--dim)}
   .rec-meta{margin-left:auto;font-family:var(--font);font-size:.76rem;font-weight:450;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 
@@ -1315,7 +1098,7 @@
   .mem-ment{color:var(--blue-l);font-weight:500}
   /* the reply arrives, so it arrives from somewhere: it fades up under its own
      rule rather than appearing between two frames */
-  .mem-posted-in,.mem-reply-in{animation:memIn .34s cubic-bezier(.22,.61,.36,1) both}
+  .mem-reply-in{animation:memIn .34s cubic-bezier(.22,.61,.36,1) both}
   @keyframes memIn{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
   /* the evidence, in the shape the client gives a list: the document is the link
      and the fact is the line. Not interactive, because it is a picture of an
@@ -1341,7 +1124,7 @@
      the question is sent there is nothing left to send, so it goes quiet rather
      than staying lit and inviting a second press that would do nothing. */
   .mem-send{margin-left:auto;display:inline-flex;align-items:center;gap:.34rem;padding:.3rem .42rem;border:0;border-radius:6px;background:var(--blue);color:#fff;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background .18s ease,opacity .18s ease}
-  .mem-send:hover{background:#0b80ff}
+  .mem-send:hover{background:var(--blue-l)}
   .mem-send .mem-arrow{width:14px;height:14px;display:block;fill:currentColor}
   .mem-send .mem-chev{width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
   .mem-sdiv{width:1px;height:14px;background:rgba(255,255,255,.34)}
@@ -1363,25 +1146,15 @@
     .mem-scroll{max-height:none}
   }
 
-  /* how it works: one bright subhead carries the whole mechanism, so the head
-     stays a single block and the figure below does the rest of the explaining */
-  .head .sub{margin-top:1.05rem;color:var(--fg);font-size:clamp(1.06rem,1.7vw,1.18rem);line-height:1.5;letter-spacing:-.016em}
   /* the three steps: a legend for the figure above, column per zone */
   .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(1.6rem,3vw,2.2rem)}
   .why3 .wcard{border-top:1px solid var(--line-2);padding-top:1.2rem}
-  .why3 .wstep{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:#8d939d;margin-bottom:.5rem}
+  .why3 .wstep{display:block;font-family:var(--font);font-size:.76rem;font-weight:500;letter-spacing:0;text-transform:lowercase;color:var(--fg-3);margin-bottom:.5rem}
   .why3 h3{font-size:1.08rem;letter-spacing:-.015em}
   .why3 p{margin-top:.5rem;color:var(--fg-3);font-size:.95rem;line-height:1.5}
-  .code-card{position:relative;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -30px rgba(0,0,0,.9);overflow:hidden;font-family:var(--mono)}
-  .code-top{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-bottom:1px solid var(--line)}
-  .code-top i{width:11px;height:11px;border-radius:50%;display:inline-block}
-  .code-top .r{background:#ff5f57}.code-top .y{background:#febc2e}.code-top .g{background:#28c840}
-  .code-top .name{margin-left:.5rem;font-size:.72rem;color:var(--fg-3);letter-spacing:.04em}
-  .code-card pre{margin:0;padding:1.15rem 1.25rem;font-size:clamp(.6rem,2.9vw,.82rem);line-height:1.75;color:#c8ccd2;overflow-x:auto;min-height:12.2em}
-  .c-com{color:#7d8490}.c-key{color:#52A8FF}.c-fn{color:#9ecbff}.c-usr{color:#ffffff}.c-out{color:#52A8FF}.c-hl{color:#fff;font-weight:500;background:rgba(0,112,243,.18);padding:0 .2em;border-radius:3px}
-  .caret{display:inline-block;width:.55em;height:1.05em;margin-left:1px;background:#ededed;vertical-align:text-bottom;animation:caretB 1s steps(2,start) infinite}
+  /* the blink every caret on the page shares (.ask-caret, .mem-caret) */
   @keyframes caretB{50%{opacity:0}}
-  /* the dawn: hairline threads converging on one endpoint — now the final CTA's horizon.
+  /* the dawn: hairline threads converging on one endpoint, now the final CTA's horizon.
      The canvas owns the whole section, so the fan runs off every edge instead of
      stopping at a wall; auto pointer-events let it answer the cursor, and the copy
      sits above it on its own stacking context so the links stay clickable. */
@@ -1393,9 +1166,6 @@
   #burst,#burstfx{position:absolute;inset:0;width:100%;height:100%;display:block}
   #burstfx{mix-blend-mode:screen;pointer-events:auto}
 
-  .spot{position:relative}
-  .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.045),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1}
-  .spot:hover::before{opacity:1}
   /* ============ security ============
      The claim holds the left, the commitments run down the right. Six short
      rows in two columns rather than three long ones in one: the band fills at
@@ -1403,19 +1173,21 @@
      breaks at the same measure so the column ends square. */
   .secgrid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,7fr);gap:clamp(2.4rem,6vw,5.5rem);align-items:start}
   .sec-cta{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:1.6rem;font-size:.95rem}
-  .sec-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.7rem 2rem}
+  .sec-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 2rem}
   .sec-list li{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:start}
-  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(50,145,255,.12);box-shadow:inset 0 0 0 1px rgba(82,168,255,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
-  .sec-list b{display:block;color:#fff;font-weight:550;font-size:1.02rem;letter-spacing:-.016em;line-height:1.35}
+  .sec-list .tick{width:20px;height:20px;border-radius:50%;background:rgba(82,168,255,.12);box-shadow:inset 0 0 0 1px rgba(82,168,255,.2);color:var(--blue-l);display:grid;place-items:center;margin-top:.15rem}
+  .sec-list b{display:block;color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em;line-height:1.35}
   .sec-list p{margin-top:.35rem;color:var(--fg-2);font-size:.94rem;line-height:1.55;text-wrap:pretty}
 
   /* YOUR CRM STAYS: the compatibility answer, on the same 5/7 grid as security,
-     because it is the same shape of question — the argument in the narrow
+     because it is the same shape of question: the argument in the narrow
      column, the receipt in the wide one. The stack is named rather than drawn:
      the marquee above already carries the marks, and thirty of them would be a
      logo wall. Each group is a hairline-topped row so the column reads as a
      spec sheet, which is what a reader checking for their own CRM wants. */
-  .stack-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 2rem}
+  /* one gap pair for every two-column ruled list on the site (.sec-list above
+     shares it, and the segment pages' .plist is tuned to the same numbers) */
+  .stack-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 2rem}
   .stack-list li{border-top:1px solid var(--line);padding-top:.8rem}
   .stack-list .sl{display:block;color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em}
 /* ============ brand marks ============
@@ -1435,11 +1207,11 @@
      Unlike .nmk above, these keep their own colour: that one sets a mark beside a
      word it is already reading, where a second hue is noise, and here the mark IS
      the word, so recolouring it to grey would leave three grey shapes nobody can
-     name. Claude and WhatsApp carry their brand fills, which nothing here touches
-     because both paths declare their own. The OpenAI mark is in build's MONO list,
-     so it has no fill of its own and takes currentColor: the color:#fff below is
-     for that one mark alone, and it is there because inheriting the lead's grey
-     left ChatGPT visibly dimmer than the two either side of it.
+     name. Claude carries its brand fill, which nothing here touches because its
+     paths declare their own. The OpenAI and Cursor marks are in build's MONO
+     list, so they have no fill of their own and take currentColor: the
+     color:#fff below is for those two, and it is there because inheriting the
+     lead's grey left them visibly dimmer than the mark beside them.
 
      Sized in em so they track the lead's clamp, and set a shade above the cap
      rather than on the baseline, where a square glyph reads as having dropped.
@@ -1452,7 +1224,8 @@
   /* the line closes on a word rather than on a mark, which is what gives it a full
      stop: three logos and then a fourth place that has no logo, because a command
      line is not a product with a mark. So the sentence reads Claude, ChatGPT,
-     WhatsApp and CLI, three of them drawn and one named. No article, because at
+     Cursor, and CLI, three of them drawn and one named: the same three surfaces
+     the ask bar, the works strip, and DESC already claim. No article, because at
      three letters it sits in the list as a fourth item rather than as a clause.
 
      Where the marks are is now the fold's opener: a pill above the headline
@@ -1462,6 +1235,10 @@
   .avail{display:inline-block;padding:.42rem .95rem;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);font-size:.84rem;line-height:1.4;color:var(--fg-3)}
 .nmn{white-space:nowrap}
 .brandrow{display:flex;align-items:center;--bi:17px}
+/* both absolutes are deliberate: #131418 is a near---bg-2 chip ground, held a
+   point off the token so an overlapped chip still separates from the panel it
+   sits on; #c8ccd2 is the chip ink, a step above --fg-2 because a 17px mark
+   needs more light than a line of type to read at all. */
 .brandrow .bi{width:var(--bi);height:var(--bi);box-sizing:content-box;padding:3px;border-radius:6px;
   background:#131418;box-shadow:0 0 0 1px var(--line);margin-left:-7px;color:#c8ccd2;fill:currentColor;flex:none}
 .brandrow .bi:first-child{margin-left:0}
@@ -1479,26 +1256,23 @@
    Each fein cell opens with the property it buys you. */
 .why-grid .b .ben{color:#fff;font-weight:400}
 
-/* ============ badge ============
-   Status label above a section headline. Uppercase and tracked so it cannot be
-   mistaken for the lead, accent-tinted so it carries at a glance. */
-.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font);font-size:.7rem;font-weight:650;
-  letter-spacing:.09em;text-transform:uppercase;color:var(--blue-l);
-  background:rgba(0,112,243,.12);border:1px solid rgba(0,112,243,.32);border-radius:999px;padding:.36rem .72rem}
-.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-l);box-shadow:0 0 0 3px rgba(0,112,243,.18);flex:none}
   .stack-list p{margin-top:.4rem;color:var(--fg-2);font-size:.93rem;line-height:1.6;text-wrap:pretty}
   /* the count spans the column: it is the claim the six rows above are evidence
      for, so it closes them rather than sitting as a seventh group */
   .stack-list .sl-all{grid-column:1/-1;border-top-color:var(--line-2)}
   .stack-list .sl-all p{color:var(--fg-3)}
+  /* the desks keep their section's own rule, one ruled row per desk: three
+     desks in the two-column grid left the last one dangling beside an empty
+     cell. One column, and each row's exit link steps onto its own line so
+     the three rows close identically instead of wrapping mid-sentence. */
+  #desks .stack-list{grid-template-columns:minmax(0,1fr)}
+  #desks .stack-list p .arrowlink{display:flex;width:fit-content;margin-top:.45rem}
 
   /* ============ CTA: the finale, given the room the animation was missing ============ */
   .cta-dark{position:relative;overflow:hidden;background:var(--bg);color:#fff;min-height:clamp(600px,86vh,1000px);display:flex;justify-content:center;padding:clamp(4.5rem,9vh,7.5rem) 0 clamp(9rem,20vh,14rem);text-align:center;border-top:1px solid var(--line)}
   .cta-dark .wrap{position:relative;z-index:1;align-self:flex-start}
   /* a pool of dark under the words so the threads pass behind them, never through */
   .cta-dark .wrap::before{content:"";position:absolute;left:50%;top:46%;translate:-50% -50%;width:min(1240px,132%);height:250%;z-index:-1;pointer-events:none;background:radial-gradient(48% 44% at 50% 50%,rgba(0,0,0,.82),rgba(0,0,0,.45) 52%,rgba(0,0,0,0) 76%)}
-  .cta-dark .eyebrow{display:block}
-  .cta-dark h1,.cta-dark h2{font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.033em;text-wrap:balance;max-width:17ch;margin:.9rem auto 0;line-height:1.08}
   /* .wrap> is load-bearing, not decoration: the nav lives inside this section,
      and the dropdown's section labels are <p>. an unscoped `.cta-dark p` beats
      `.dd-label` on specificity and was setting those 9.5px labels to hero body
@@ -1514,25 +1288,17 @@
      canvas keeps one screen while the section grows past it. Without this the
      light walks off the fold the moment the picture is added */
   .hero-lead .burst-hold{inset:0 0 auto;height:100svh}
-  /* the lead hero carries the page, so it gets its own scale: the headline runs
-     to 4.75rem and the three rungs under it (kicker, lede, actions) step down
-     in weight and up in spacing so the eye lands on the statement first.
-     the 17ch measure is what holds the authored two-line break, and ch scales
-     with the font, so the wrap pattern is identical at every size.
-
-     the four rungs are spaced on one ladder, tightest at the top: 17 / 22 / 38.
-     the kicker belongs to the headline, so it sits closest to it; the lede is a
-     separate thought and gets a real step; the buttons are a separate act and
-     get the widest. the lede reads at 1.5 rather than the old 1.3, which was
-     display leading applied to body copy three lines deep. */
-  .hero-lead .wrap>.eyebrow{display:block;margin:0 0 clamp(.85rem,1.8vh,1.25rem);line-height:1.35;letter-spacing:.22em;font-size:.715rem;color:var(--fg-3)}
-  /* the display line is the loudest thing on the page and it was being set to
-     the width of a paragraph. It breaks out to its own measure and sizes to
-     hold on one line wherever one line fits, which buys back more height than
-     the larger type costs and is why the picture below it still clears */
-  .hero-lead h1,.hero-lead h2{--hw:min(1120px,calc(100vw - clamp(2.5rem,6vw,5rem)));width:var(--hw);max-width:none;margin:1.7rem 0 0 calc((100% - var(--hw)) / 2);font-size:clamp(2.1rem,4.4vw,4rem);letter-spacing:-.044em;line-height:1.04;text-wrap:balance}
+  /* the lead hero carries the page, so it gets its own scale, and that scale
+     lives in ONE rule: `.hero-lead .wrap>h1` in the centred-fold block below
+     (4.55rem cap, -.028em, weight 520, 17ch). Two older generations of
+     headline metrics used to sit here, a `.cta-dark h1` at 3.5rem and a
+     full-measure `.hero-lead h1` at 4rem. Every fold h1 on the site is a
+     direct .wrap child, so both were shadowed on every page that rendered
+     them; they came out rather than inviting an edit that paints nothing. */
   .hero-lead .wrap>p{margin-top:1.8rem;font-size:1.07rem;line-height:1.55;max-width:33rem;color:var(--fg-3);text-wrap:pretty}
-  .hero-lead .hero-actions{margin-top:1.9rem;gap:.6rem}
+  /* the pair keeps .hero-actions' own .8rem gap: every action row on the site
+     sits at one gap now, after this fold ran .2rem tighter for no reason */
+  .hero-lead .hero-actions{margin-top:1.9rem}
   .hero-lead .hero-actions .btn{height:44px;padding:0 19px;font-size:15px;border-radius:11px}
   .hero-lead .hero-actions .btn .tlogo{width:16px;height:16px}
 
@@ -1565,7 +1331,6 @@
   .hero-lead .wrap>.avail{margin:0 auto clamp(1.1rem,2.2vh,1.6rem)}
   .hero-lead .wrap>h1{width:auto;max-width:17ch;margin:0 auto;font-size:clamp(2.2rem,5.4vw,4.55rem);line-height:1.045;letter-spacing:-.028em;font-weight:520;text-wrap:balance}
   .hero-lead .wrap>p{margin:clamp(1.3rem,2.4vh,2rem) auto 0;max-width:52ch;font-size:1.05rem}
-  .hero-lead .wrap>.ah-fig{width:auto;margin:clamp(2.4rem,6vh,5.5rem) 0 0}
   /* the card takes the whole row, which is the figure's old footprint and the
      only width on this fold that lines up with anything: left edge under the
      wordmark and the headline, right edge on the actions and the bar above
@@ -1587,10 +1352,6 @@
   /* the picture is an application window, not copy: it keeps its own left set
      inside the centred fold */
   .lead-stage{position:relative;display:flex;flex-direction:column;text-align:left}
-  /* the three answers are different lengths and the funnel must not step up and
-     down under them as they turn, so the tallest holds the box open */
-  .ask-f b.lead-n{margin-left:0;font-weight:500;color:var(--fg-2);font-variant-numeric:tabular-nums}
-
   /* the answer arrives a claim at a time. The spans are inline and the text
      holds its space from the start, so what the reader sees is the sentence
      completing rather than the paragraph reflowing under it. */
@@ -1710,10 +1471,12 @@
      one step off it rather than the two steps it needed when it had a kicker
      underneath to clear. */
   .hero-lead .hpill{position:relative;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px 0 14px;margin-bottom:.95rem;border-radius:999px;background:rgba(12,12,15,.7);color:var(--fg);font-size:13.5px;font-weight:450;letter-spacing:-.008em;line-height:1;white-space:nowrap;box-shadow:0 0 0 1px rgba(255,255,255,.14),var(--hl-top);transition:color .18s ease,background .18s ease,box-shadow .18s ease}
-  .hero-lead .hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
+  /* hover is scoped to the linked pill: the segment folds set .hpill as an
+     inert span, and a lift with nothing to click is a false affordance */
+  .hero-lead a.hpill:hover{color:#fff;background:rgba(20,20,25,.78);box-shadow:0 0 0 1px rgba(255,255,255,.26),var(--hl-top)}
   .hpill .chev{display:inline-flex;flex:none;color:var(--dim);transition:transform .22s cubic-bezier(.22,.61,.36,1),color .18s ease}
   .hpill .chev svg{width:11px;height:11px;display:block}
-  .hero-lead .hpill:hover .chev{transform:translateX(3px);color:#fff}
+  .hero-lead a.hpill:hover .chev{transform:translateX(3px);color:#fff}
   /* the seam: the ring is a flat hairline all the way round, and this is the
      one place it catches light. Not an edge, a wisp. A lit bottom edge, however
      well it follows the corners, is still a line under a word and reads as a
@@ -1735,7 +1498,7 @@
      broken one. */
   @supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
     .hpill::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:radial-gradient(42% 120% at 66% 0%,rgba(146,214,255,.34) 0%,rgba(0,112,243,.16) 46%,transparent 74%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;transition:opacity .18s ease}
-    .hero-lead .hpill:hover::after{opacity:.6}
+    .hero-lead a.hpill:hover::after{opacity:.6}
   }
   /* the tool strip stands alone under the lead hero now, so it needs the bottom
      margin the hero section used to give it */
@@ -1765,13 +1528,23 @@
      The tiles still swing wide of the copy at 560px; they just do it in a fold
      the reader can see the bottom of.
 
+     The svh term is 70, not the 58 this rule launched at: on an 800 to 900px
+     window 58svh gave the box 460 to 520px, and with the copy centred in that
+     there was no gap left between the bar and the headline for the prep card,
+     which ended up painted under the h1. 70svh buys those windows the gap back;
+     the 560px cap still owns every taller screen, so the fold never returns to
+     the half-screen of empty ground the cap was written to end. The script
+     clamps the card into that gap and hides it when a window is shorter still.
+
      The override names both classes rather than one. `.deploy-orbit .hero-inner`
      is declared a few lines below this and matches at the same specificity, so a
      single-class rule here would be written and then quietly lost to source
      order, which is exactly what happened the first time. */
   .deploy-hero{border-top:0;padding-top:calc(var(--nav-h) + clamp(1.4rem,3.5vh,2.8rem));padding-bottom:clamp(2.4rem,5vw,3.6rem)}
-  .deploy-orbit.deploy-hero .hero-inner{min-height:min(58svh,560px)}
-  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.9rem,4.2vw,3.2rem);font-weight:500;letter-spacing:-.032em;line-height:1.07;text-wrap:balance;max-width:22ch}
+  .deploy-orbit.deploy-hero .hero-inner{min-height:min(70svh,560px)}
+  /* same metrics as .seg-fold h1: the top-of-page h1 on a document page is one
+     tier, and this fold sat 0.05rem above it for no reason anyone wrote down */
+  .deploy-hero .hero-copy h1{margin:0;font-size:clamp(1.85rem,4.1vw,3.15rem);font-weight:500;letter-spacing:-.032em;line-height:1.06;text-wrap:balance;max-width:20ch}
   .deploy-hero .hero-copy .lead{max-width:54ch}
   .deploy-orbit .hero-inner{min-height:min(74svh,820px)}
   .deploy-orbit .hero-copy .lead{margin-top:1.1rem;text-wrap:pretty}
@@ -1786,6 +1559,9 @@
   .deploy-cta b{display:block;color:#fff;font-size:clamp(1.05rem,1.7vw,1.25rem);font-weight:550;letter-spacing:-.018em;line-height:1.25}
   .deploy-cta p{margin-top:.5rem;max-width:56ch;color:var(--fg-2);font-size:1rem;line-height:1.55;text-wrap:pretty}
   .deploy-cta .hero-actions{margin-top:0}
+  /* the panel's quiet second action reads white on the raised ground; one
+     shared rule, so no page restates it inline on the link it puts here */
+  .deploy-cta .arrowlink{color:#fff}
 
   /* ============ THE FORK ============
      The page says "open source" in the fold, in the security band and in the
@@ -1880,19 +1656,13 @@
      need is what separates them. */
   @media (max-width:760px){.fork{grid-template-columns:1fr;row-gap:clamp(1rem,2.2vw,1.5rem)}.fork-card{display:flex;grid-row:auto}.fork-act{margin-top:auto}}
 
-  /* ---- price table, offer panel and FAQ ----
-     These three were page-local to /pe, written when /pe was the only page that
-     carried a price. The offer now lives on /pricing and /deploy as well, and
-     the index page's fork links at both, so they are shared components here:
-     one definition, four pages, no drift. */
-  .ptable{width:100%;border-collapse:collapse;margin-top:clamp(1.8rem,3.6vw,2.6rem);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--bg-2);text-align:left}
-  .ptable caption{caption-side:top;padding:.7rem 1.05rem;background:rgba(255,255,255,.02);border-bottom:1px solid var(--line);font-size:.8rem;font-weight:500;color:var(--fg-3);text-align:left}
-  .ptable td{padding:.9rem 1.05rem;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--fg-2)}
-  .ptable tr:last-child td{border-bottom:0}
-  .ptable td:first-child{color:#fff;font-weight:500;letter-spacing:-.012em}
-  .ptable td:last-child{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff;font-weight:550}
-  .ptable tr:last-child td:last-child{color:var(--blue-l)}
-  .ptable .per{color:var(--dim);font-weight:450;font-size:.86rem}
+  /* ---- price note, offer panel and FAQ ----
+     These were page-local to /pe, written when /pe was the only page that
+     carried a price. They are shared components now, one definition each, no
+     drift: .pnote and .offer sit on every segment and document page that
+     states the deal, and .faq on every page that answers objections. The
+     .ptable price table that used to open this block is gone with the pages
+     that set it; /pricing draws its comparison as .cmp instead. */
   .pnote{margin-top:1.1rem;font-size:.92rem;line-height:1.65;color:var(--fg-3);max-width:62ch;text-wrap:pretty}
   .pnote b{color:#fff;font-weight:550}
 
@@ -1900,7 +1670,9 @@
   .offer h3{font-size:1.05rem;font-weight:550;letter-spacing:-.02em}
   .offer ul{list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.8rem}
   .offer li{display:grid;grid-template-columns:auto 1fr;gap:.7rem;align-items:start;font-size:.93rem;line-height:1.6;color:var(--fg-3)}
-  .offer .tk{color:var(--blue-l);font-family:var(--mono);font-size:.8rem;line-height:1.65}
+  /* the same token .fork-card lists carry: Inter at the list's own size. Mono
+     is reserved for readouts inside the product mockups, and this is copy. */
+  .offer .tk{color:var(--blue-l);font-weight:500;line-height:1.6}
   .offer b{color:#fff;font-weight:550}
 
   /* FAQ: the objections a team raises on the first call, in the order they
@@ -1914,13 +1686,13 @@
   .faq details[open] summary::after{rotate:225deg;translate:0 -20%;border-color:var(--blue-l)}
   .faq details p{margin:0 0 1.1rem;max-width:68ch;font-size:.95rem;line-height:1.7;color:var(--fg-3);text-wrap:pretty}
   .faq details p + p{margin-top:-.3rem}
-  .faq summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+  .faq summary:focus-visible{outline:2px solid var(--blue-l);outline-offset:2px;border-radius:6px}
 
   /* ---- segment-page chrome ----
      /self-host, /deploy and /pricing are plain documents: a fixed bar, a fold,
-     bands. /pe carries its own copy of these two rules because it predates them
-     and also restyles the bar; these are here so a new segment page needs no
-     stylesheet of its own at all. */
+     bands. These are here so a new document page needs no stylesheet of its
+     own at all. (The /pe family's shared anatomy sits further down, with the
+     form controls.) */
   /* the fold on a document page: no generative art behind it, so the headline
      carries it. Sized under the index h1 so neither reads as the other.
 
@@ -1934,9 +1706,14 @@
      and .cta-dark is off these pages: same gradient, none of the hero geometry. */
   .seg-fold{position:relative;overflow:hidden;text-align:left;color:#fff;background:linear-gradient(180deg,#0b0b0d 0%,var(--bg) 62%);padding:calc(var(--nav-h) + clamp(3.4rem,8vh,6rem)) 0 clamp(2.8rem,6vh,4.4rem)}
   .seg-fold .wrap{position:relative;z-index:1}
-  /* the index fold's h1 is clamped to 4.6vw and this one to 4.1vw, so a segment
-     page never reads as a second home page. margin-inline stays 0: .cta-dark
-     set `margin:.9rem auto 0`, which is what centred these. */
+  /* the fold's grain used to stop dead on the section's bottom edge, which
+     printed a faint straight seam against the ungrained band below. The
+     fold's own gradient already lands on var(--bg) before the edge; the
+     texture now dies out over the last 48px the same way. */
+  .seg-fold .grain-overlay{-webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(180deg,#000 calc(100% - 48px),transparent)}
+  /* the index fold's h1 is clamped to 5.4vw and this one to 4.1vw, so a segment
+     page never reads as a second home page. margin-inline stays 0: the fold
+     rule these borrowed from centred its headline with auto margins. */
   .seg-fold h1{margin:.9rem 0 0;font-size:clamp(1.85rem,4.1vw,3.15rem);font-weight:500;letter-spacing:-.032em;line-height:1.06;text-wrap:balance;max-width:20ch}
   .seg-fold>.wrap>p{margin:clamp(1rem,2vw,1.35rem) 0 0;max-width:60ch;font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.55;color:var(--fg-2);text-wrap:pretty}
   .seg-fold .hero-actions{justify-content:flex-start;margin-top:clamp(1.7rem,3.2vw,2.4rem)}
@@ -1944,9 +1721,16 @@
   .steps{list-style:none;margin:clamp(1.8rem,3.6vw,2.6rem) 0 0;padding:0;counter-reset:s}
   .steps li{counter-increment:s;border-top:1px solid var(--line);padding:1.15rem 0 1.35rem;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem 1rem}
   .steps li::before{content:counter(s,decimal-leading-zero);grid-row:1 / span 3;font-family:var(--font);font-size:.76rem;font-weight:500;line-height:1.5;color:var(--blue-l);font-variant-numeric:tabular-nums}
-  .steps b{color:#fff;font-weight:550;font-size:1rem;letter-spacing:-.016em}
+  /* .98rem is the white lead-in size everywhere this voice appears (.sec-list
+     b, .stack-list .sl, the segment pages' .plist b) */
+  .steps b{color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em}
   .steps p{margin-top:.35rem;color:var(--fg-3);font-size:.94rem;line-height:1.6;max-width:64ch;text-wrap:pretty}
-  .steps code{display:block;margin-top:.7rem;padding:.7rem .9rem;border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg-2);font-family:var(--mono);font-size:.84rem;line-height:1.6;color:var(--fg-2);overflow-x:auto;white-space:pre}
+  /* two kinds of code in a step. A command to run is a block box (code.cmd);
+     a file path or name cited mid-sentence stays in the sentence as quiet
+     inline mono. One selector for both turned ".run/api.log" into a
+     full-width command box with a stranded "and" beside it. */
+  .steps code{padding:.1em .35em;border-radius:6px;background:rgba(255,255,255,.05);font-family:var(--mono);font-size:inherit;color:var(--fg-2)}
+  .steps code.cmd{display:block;margin-top:.7rem;padding:.7rem .9rem;border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg-2);font-size:.84rem;line-height:1.6;overflow-x:auto;white-space:pre}
 
   /* no border here: the horizon hairline the threads land on is this divider */
   footer{background:var(--bg);color:var(--fg-3);padding:3.5rem 0 2.2rem}
@@ -1974,32 +1758,12 @@
   .fbottom a{color:var(--fg-3);transition:color .18s ease}
   .fbottom a:hover{color:#fff}
 
-  /* ============ contact modal: one hairline card over a dimmed page ============ */
-  .cmodal{width:min(580px,calc(100vw - 32px));max-width:none;margin:auto;padding:0;background:var(--bg-2);border:1px solid var(--line-2);border-radius:24px;color:var(--fg);box-shadow:0 40px 120px -30px rgba(0,0,0,.85)}
-  .cmodal::backdrop{background:rgba(5,5,7,.45);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px)}
-  .cmodal[open]{animation:modalIn .26s cubic-bezier(.22,.61,.36,1)}
-  .cmodal[open]::backdrop{animation:backdropIn .26s ease}
-  @keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
-  @keyframes backdropIn{from{opacity:0}to{opacity:1}}
-  html:has(.cmodal[open]){overflow:hidden}
-  .cmodal-inner{position:relative;padding:clamp(1.35rem,3.4vw,2rem);max-height:calc(100dvh - 3rem);overflow:auto;overscroll-behavior:contain}
-  .cmodal-x{position:absolute;top:1.75rem;right:1.75rem;display:grid;place-items:center;width:38px;height:38px;background:none;border:1px solid var(--line-2);border-radius:10px;color:var(--fg-2);cursor:pointer;transition:color .15s ease,border-color .15s ease}
-  .cmodal-x:hover{color:#fff;border-color:var(--fg-3)}
-  .cmodal-x svg{width:15px;height:15px}
-  .cmodal h2{font-size:2rem;font-weight:650;letter-spacing:-.03em;margin-right:3rem}
-  .cmodal h2:focus{outline:none}
-  .csub{margin:.4rem 0 2.1rem;font-size:1.12rem;line-height:1.4;color:var(--fg-3)}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-  .field{display:flex;flex-direction:column;gap:.35rem}
-  .form-row+.field,.field+.field,.field+.form-row{margin-top:1.2rem}
-  .form-row .field+.field{margin-top:0}
-  .field label{font-size:.92rem;font-weight:550;color:var(--fg)}
-  .field input,.field select,.field textarea{font-family:var(--font);font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line-ctl);border-radius:10px;padding:10px 14px;width:100%;transition:border-color .15s,box-shadow .15s;color-scheme:dark}
-  .field input,.field select{height:46px;padding:0 14px}
-  .field input::placeholder,.field textarea::placeholder{color:var(--dim)}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
-  .field textarea{resize:vertical;min-height:70px}
-
+  /* ---- shared form controls ----
+     The contact modal that used to own this block is retired; /demo is the
+     form now. What stays is what the forms still reach for: the enhanced
+     select below, which ships to every page that takes this sheet so the
+     segment forms can adopt the same listbox /demo builds at runtime, plus
+     the .err line and the reCAPTCHA note /demo's markup carries. */
   /* ---- select: the native popup can't be styled, so JS layers a listbox over
      it. The <select> stays in the DOM as the value source (form data, change
      events, validation), the button and list are what you see. No JS = the
@@ -2023,30 +1787,63 @@
   .sel-opt .tickm{width:14px;height:14px;flex:none;color:var(--fg-3);opacity:0}
   .sel-opt[aria-selected="true"] .tickm{opacity:1}
 
-  .cmodal .submit{margin-top:2.1rem;width:100%;justify-content:center;font-size:1.02rem;height:44px;padding:0 1.1rem;border-radius:12px}
-  .clegal{margin-top:1.4rem;font-size:.82rem;color:var(--dim);line-height:1.35}
-  .clegal a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
-  .clegal a:hover{color:#fff}
   .recap{margin-top:1rem;font-size:.82rem;color:var(--dim);line-height:1.3;max-width:34ch}
   .recap a{color:var(--fg-3);text-decoration:underline;text-underline-offset:3px;transition:color .15s ease}
   .recap a:hover{color:#fff}
-  .success{text-align:center;padding:3.4rem .6rem 4rem}
-  .success .aicon{display:block;width:132px;height:auto;margin:0 auto 2.6rem}
-  .success .aicon .face{fill:var(--bg-2);stroke:#cfcfd8;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
-  .success .aicon .ring{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.6}
-  .success h2{font-size:1.9rem;letter-spacing:-.03em;font-weight:650}
-  .success p{margin:1rem auto 0;color:var(--fg-3);max-width:42ch;line-height:1.55;font-size:1.02rem}
-  .success p a:not(.btn){color:var(--blue-l);font-weight:500;transition:color .18s ease}
-  .success p a:not(.btn):hover{color:#fff}
 
-  /* ---- contact-sales form: validation + failure states ---- */
+  /* the failure line the forms show: hidden until the page's own script or a
+     stateful class brings it out, in the retired-fact red the tokens name */
   .err{display:none;font-size:.84rem;color:#ff8a85;margin:0}
-  .field .err{margin-top:-.05rem}
-  .field.invalid input,.field.invalid select,.field.invalid .sel-btn{border-color:rgba(255,138,133,.65)}
-  .field.invalid .err{display:block}
-  .form-err{display:none;margin-top:1.1rem;font-size:.9rem;line-height:1.5;color:var(--fg-2);border:1px solid rgba(255,138,133,.35);border-radius:var(--r-sm);padding:.8rem .95rem;background:rgba(255,138,133,.06)}
-  .form-err.show{display:block}
-  .form-err a{color:#fff;font-weight:550;text-decoration:underline;text-underline-offset:3px}
+
+  /* ---- the segment trio's shared anatomy ----
+     /pe, /fundraising and /portfolio are one page written in three voices:
+     the same fold line of three cost claims, the same four-row problem list,
+     the same two-column booking form. These rules lived as three hand-copied
+     blocks in the pages, which is the arrangement the .pnote/.offer/.faq
+     promotion above already retired once: three copies agree with each other
+     only on the day the third one is written. One definition here now; each
+     page keeps only its own why-grid label and one band tightening. The
+     booking scripts stay in the pages: they differ by the source slug they
+     post, and pages share this sheet but have no script injection to share. */
+  /* the fold's third line: three claims that answer "what is this going to
+     cost me" before the reader has to ask anyone. Centred with the rest of
+     the fold, which the sheet sets on one axis at every width. */
+  .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.6rem;margin-top:1.9rem;font-size:.88rem;color:var(--fg-3)}
+  .trust span{display:inline-flex;align-items:center;gap:.45rem}
+  .trust span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--blue-l);opacity:.75}
+  /* the problem list: four ruled rows under the same hairline the stack list
+     uses. On joining the sheet it took the site's one gap pair for two-column
+     ruled lists (1.6rem 2rem; the pages carried 2.4rem column gaps from
+     before that unification) and the .98rem white lead-in voice of .sec-list
+     b, .stack-list .sl and .steps b (the pages carried .99rem). */
+  .plist{list-style:none;padding:0;margin:clamp(2rem,4vw,3rem) 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 2rem}
+  .plist li{border-top:1px solid var(--line);padding-top:.85rem;font-size:.95rem;line-height:1.6;color:var(--fg-3);text-wrap:pretty}
+  .plist b{display:block;color:#fff;font-weight:550;font-size:.98rem;letter-spacing:-.016em;margin-bottom:.3rem}
+  @media(max-width:860px){.plist{grid-template-columns:minmax(0,1fr);gap:1.4rem}}
+  /* the booking form. Two columns on a desktop, the copy holding the left. */
+  .formwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2.4rem,6vw,5rem);align-items:start}
+  @media(max-width:900px){.formwrap{grid-template-columns:minmax(0,1fr);gap:2.4rem}}
+  #lead{display:grid;gap:.9rem;padding:clamp(1.3rem,2.6vw,1.9rem);border:1px solid var(--line);border-radius:var(--r-lg);background:var(--bg-2);box-shadow:var(--hl-top)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+  @media(max-width:520px){.frow{grid-template-columns:1fr}}
+  #lead label{display:block;margin-bottom:.35rem;font-size:.82rem;font-weight:500;color:var(--fg-3)}
+  #lead input,#lead select,#lead textarea{width:100%;padding:.62rem .75rem;background:var(--bg);color:var(--fg);border:1px solid var(--line-ctl);border-radius:10px;font-family:var(--font);font-size:.95rem;line-height:1.4;transition:border-color .16s ease,box-shadow .16s ease}
+  #lead textarea{min-height:76px;resize:vertical}
+  #lead input:hover,#lead select:hover,#lead textarea:hover{border-color:var(--line-ctl-2)}
+  #lead input:focus,#lead select:focus,#lead textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,112,243,.25)}
+  #lead button[type=submit]{height:46px;font-size:15px;border-radius:11px;margin-top:.2rem}
+  #lead button[disabled]{opacity:.62;cursor:default}
+  /* the enhanced fund-size listbox sits beside the Firm input in one .frow, so
+     it takes the inputs' metrics rather than the shared .sel-btn's 46px */
+  #lead .sel-btn{height:auto;padding:.62rem .75rem;font-size:.95rem;line-height:1.4}
+  .fnote{font-size:.83rem;color:var(--dim);text-align:center}
+  .fmsg{display:none;font-size:.9rem;line-height:1.55;padding:.7rem .85rem;border-radius:10px}
+  .fmsg.on{display:block}
+  .fmsg.ok{color:#bdf0d4;background:rgba(63,191,127,.1);border:1px solid rgba(63,191,127,.32)}
+  .fmsg.err{color:var(--mem-ret);background:rgba(255,138,133,.09);border:1px solid var(--mem-ret-rule)}
+  .fmsg a{color:inherit;text-decoration:underline}
+  /* honeypot: never shown, never filled by a human, checked server side */
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
   /* ============ scroll-reveal (translate, so it never fights hover transforms) ============ */
   .reveal{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.22,.61,.36,1),translate .6s cubic-bezier(.22,.61,.36,1);will-change:opacity,translate}
@@ -2066,7 +1863,10 @@
      cross the centered copy: retire the demo and let the hero size to content */
   @media (max-width:1023px){
     .prep-wrap{display:none}
-    .deploy-orbit .hero-inner{min-height:0}
+    /* the reset names the fold variant too: the three-class rule above outranks
+       a two-class reset at every width, which is how phones kept ~490px of
+       reserved height under a hidden orbit the first time round */
+    .deploy-orbit .hero-inner,.deploy-orbit.deploy-hero .hero-inner{min-height:0}
     /* the copy now sits high, right behind the dropdown panels, so those get
        denser and more opaque in this band: at 901 the panel is only as wide as
        the viewport allows, so the rail and gutters give back the width the
@@ -2081,21 +1881,14 @@
   }
 
 
-  /* 769-900 keeps the desktop two-column density; this just buys it room */
-  @media (min-width:769px) and (max-width:900px){
-    .code-card pre{font-size:.76rem}
-  }
-
   /* below 768 a copy column and its mock can no longer sit side by side */
   @media (max-width:768px){
-    .split{grid-template-columns:1fr;gap:2.2rem}
-    /* the two .feat rules that were here went with the alternating rows: the
-       grid that replaced them stacks on its own breakpoint at 1040 */
+    /* no feature-grid rules here: the grid stacks on its own breakpoint at 1040 */
     .why3{grid-template-columns:1fr;gap:1.6rem}
     .why3 p{max-width:52ch}
     .head .lead{font-size:1.06rem}
-    .sec-list{grid-template-columns:1fr;gap:1.5rem}
-    .stack-list{grid-template-columns:1fr;gap:1.25rem}
+    .sec-list{grid-template-columns:1fr;gap:1.4rem}
+    .stack-list{grid-template-columns:1fr;gap:1.4rem}
   }
 
   @media (max-width:640px){
@@ -2110,13 +1903,6 @@
        and the copy under the fold start on one line. */
     :root{--bar-pad:24px}
     .bar .right .sbtn{height:34px;padding:0 15px;font-size:13.5px;border-radius:999px}
-    /* a phone gives the row about 300px between the dismiss button and the edge.
-       the sentence keeps its claim and drops its run-up, which is the only part
-       of it that is not information: "fein answers in ..." fits, "See how fein
-       answers in ..." truncates on the word that matters */
-    .ribbon{padding:0 40px;font-size:12.5px}
-    .rb-pre{display:none}
-    .rb-x{right:6px}
     /* one line per fact is worth more here than a tenth of a rem of type size */
     .ask-a{font-size:.98rem;padding:.95rem 14px 1rem}
     .ask-q{font-size:.96rem}
@@ -2157,11 +1943,6 @@
        stamp cannot share one, and the name is the part that must not wrap */
     .rec-top{flex-wrap:wrap}
     .rec-meta{flex-basis:100%;margin-left:0;margin-top:.3rem}
-    .form-row{grid-template-columns:1fr}
-    .code-card pre{padding:1.05rem .9rem}
-    .cmodal-inner{padding:1.35rem 1.15rem}
-    .cmodal h2{font-size:1.7rem;margin-right:2.5rem}
-    .csub{font-size:1.04rem;margin-bottom:1.7rem}
   }
 
   /* the orbit heading carries an authored break between its two sentences. on a
@@ -2174,14 +1955,9 @@
   }
 
   /* the announcement pill is one unbroken line, so it is sized off the
-     narrowest phone rather than left to overflow, and below 520 it drops the
-     version prefix the way the ribbon drops its own, leaving "deal memory,
-     warm intros, and more" at 300px. */
+     narrowest phone rather than left to overflow. */
   @media (max-width:600px){
     .hero-lead .hpill{height:29px;padding:0 9px 0 12px;font-size:12.75px;margin-bottom:.8rem}
-  }
-  @media (max-width:519px){
-    .hpill .hp-pre{display:none}
   }
 
   /* the CTA pair needs 316px, so below 365 it wrapped into two pills of very
@@ -2191,12 +1967,13 @@
     .hero-inner .hero-actions .btn{width:100%;max-width:20rem}
   }
 
-  /* the lead hero's own pair is narrower than the orbit's: 291px against 24px
-     gutters, so it clears 365 and only wraps below 340, into two pills of
-     different widths stacked down the middle. Stack it on purpose at the width
-     it actually breaks, so the two read as one control group. Measured from the
-     live strings; re-measure if either label changes. */
-  @media (max-width:340px){
+  /* the lead hero's own pair is narrower than the orbit's: ~294px against 24px
+     gutters (measured at the shared .8rem gap), so it clears 365 and only
+     wraps below ~344, into two pills of different widths stacked down the
+     middle. Stack it on purpose at the width it actually breaks, so the two
+     read as one control group. Measured from the live strings; re-measure if
+     either label changes. */
+  @media (max-width:344px){
     .hero-lead .hero-actions{flex-direction:column;align-items:center;width:100%}
     .hero-lead .hero-actions .btn{width:100%;max-width:20rem}
   }
@@ -2215,13 +1992,8 @@
     .works .row span:hover{color:#fff}
   }
   @media (pointer:coarse){
-    .cmodal-x{width:44px;height:44px;top:1.4rem;right:1.4rem}
-    /* the ribbon is 48px tall, so the dismiss can carry a full 44px hit area
-       from a pseudo-element without growing its 28px box or crowding the
-       message beside it */
-    .rb-x::after{content:"";position:absolute;top:50%;left:50%;translate:-50% -50%;width:44px;height:44px}
-    /* and the same trick for the bar's pill, which is sized to the strip rather
-       than to the thumb: it keeps its 38px look and hands the thumb a 44px box.
+    /* the bar's pill is sized to the strip rather than to the thumb: a
+       pseudo-element keeps its 38px look and hands the thumb a 44px box.
        Height only, so it never reaches under the menu button beside it */
     .sbtn{position:relative}
     .sbtn::after{content:"";position:absolute;top:50%;left:0;right:0;translate:0 -50%;height:44px}
@@ -2233,8 +2005,12 @@
   }
 
   /* the figure row. Columns ruled off each other, the drawing given most of the
-     height, the words held to two lines so the three read as one row. */
-  #figures{padding:0 0 clamp(3rem,7vh,5.5rem)}
+     height, the words held to two lines so the three read as one row.
+     The bottom paces off width like every band around it (see the #stance
+     note: one clamp language for the whole column); 4.4vw reproduces the
+     63px this sat at when it was 7vh on a 900px-tall window, so the gap
+     stops drifting with monitor height without retuning the rhythm. */
+  #figures{padding:0 0 clamp(3rem,4.4vw,5.5rem)}
   .fcards .wrap{width:100%;max-width:var(--maxw);padding-inline:var(--bar-pad)}
   .figrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
   .figcard{--figpad:clamp(1.2rem,2.2vw,2rem);--apad:0px;margin:0;padding:clamp(1.4rem,2.4vw,2.1rem) var(--figpad) 0;border-left:1px solid var(--line)}
@@ -2305,7 +2081,7 @@
     #burst{animation:none}
   }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/deploy#faq","mainEntity":[{"@type":"Question","name":"Why would we pay for software that is free?","acceptedAnswer":{"@type":"Answer","text":"You pay for fourteen days instead of three months, and for keeping your own engineer off connector plumbing. fein reads about thirty systems, each with its own authentication, rate limits and idea of what a person is. Getting that to run against real data is hard, boring work. We have done it before."}},{"@type":"Question","name":"Does our data ever reach you?","acceptedAnswer":{"@type":"Answer","text":"No. fein runs inside your environment, and the engineer works there with credentials you issue and can revoke. There is no telemetry, no analytics and no control plane of ours. Disconnect the firm from the internet and fein carries on answering."}},{"@type":"Question","name":"What do you actually need from us?","acceptedAnswer":{"@type":"Answer","text":"Somewhere to run it, admin consent on each source you want connected, and about ninety minutes of a partner's time across the two calls."}},{"@type":"Question","name":"Can we start self-hosted and move to managed later?","acceptedAnswer":{"@type":"Answer","text":"Yes, and a fair number of firms do. Call us when the maintenance stops being a sensible use of your engineer. We pick up what you have built rather than starting again, and the build fee is the same."}},{"@type":"Question","name":"What if fourteen days slips?","acceptedAnswer":{"@type":"Answer","text":"Then it is our problem, not your invoice. The build fee is fixed and the thirty-day refund covers the whole engagement."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/deploy#faq","mainEntity":[{"@type":"Question","name":"Why would we pay for software that is free?","acceptedAnswer":{"@type":"Answer","text":"You pay for 14 days instead of three months, and for keeping your own engineer off connector plumbing. fein reads about thirty systems, each with its own authentication, rate limits, and idea of what a person is. Getting that to run against real data is hard, boring work. We have done it before."}},{"@type":"Question","name":"Does our data ever reach you?","acceptedAnswer":{"@type":"Answer","text":"No. fein runs inside your environment, and the engineer works there with credentials you issue and can revoke. There is no telemetry, no analytics, and no control plane of ours. Disconnect the firm from the internet and fein carries on answering."}},{"@type":"Question","name":"What do you actually need from us?","acceptedAnswer":{"@type":"Answer","text":"Somewhere to run it, admin consent on each source you want connected, and about 90 minutes of a partner’s time across the two calls."}},{"@type":"Question","name":"Can we start self-hosted and move to managed later?","acceptedAnswer":{"@type":"Answer","text":"Yes, and a fair number of firms do. Call us when the maintenance stops being a sensible use of your engineer. We pick up what you have built rather than starting again, and the build fee is the same."}},{"@type":"Question","name":"What if 14 days slips?","acceptedAnswer":{"@type":"Answer","text":"Then it is our problem, not your invoice. The build fee is fixed and the 30-day refund covers the whole engagement."}}]}</script>
 <link rel="dns-prefetch" href="https://widget.intercom.io">
 <link rel="dns-prefetch" href="https://js.intercomcdn.com">
 <link rel="dns-prefetch" href="https://api-iam.intercom.io">
@@ -2349,7 +2125,7 @@
         <path d="M128.001268,73.3111515 L87.680265,3.51893479 C83.7213885,5.86488134 80.3489013,9.09044179 78.0030446,13.1960654 L3.51893479,142.223575 C1.17298825,146.329198 0,150.874464 0,155.41973 L80.6423954,155.41973 L128.001268,73.3111515 Z" fill="#00AC47"></path>
         <path d="M215.241501,77.7099697 L177.999492,13.1960654 C175.653635,9.09044179 172.281148,5.86488134 168.322271,3.51893479 L128.001268,73.3111515 L175.360141,155.41973 L255.855999,155.41973 C255.855999,150.874464 254.682921,146.329198 252.337064,142.223575 L215.241501,77.7099697 Z" fill="#FFBA00"></path>
     </g>
-</symbol><symbol id="l-attio" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.4" fill="#fff"/><g stroke="#111" stroke-linecap="round" fill="none"><path d="M6.6 18.2 11.4 5.6" stroke-width="5"/><path d="M12.6 18.2 15.4 10.8" stroke-width="2.4"/></g><path d="M17.2 14.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 1 1 0-5.8z" fill="#111"/></symbol><symbol id="l-notion" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="#fff"/><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="none" stroke="#d9d9d4" stroke-width="1"/><path fill="#111" d="M7.1 6.2h2.9l4.7 8.1V6.2h-1.3v-.9h3.9v.9h-1.2v11.6h-1.8L9.4 8.6v8.3h1.3v.9H6.8v-.9h1.2V7.1H6.8z"/></symbol><symbol id="l-gemini" viewBox="0 0 24 24"><g fill="currentColor"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></g></symbol><symbol id="l-perplexity" viewBox="0 0 24 24"><g fill="currentColor"><title>Perplexity</title><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></g></symbol><symbol id="l-copilot" viewBox="0 0 24 24"><g fill="currentColor"><title>GitHub Copilot</title><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"/></g></symbol><symbol id="l-salesforce" viewBox="0 0 24 24"><title>Salesforce</title><path d="M10.006 5.415a4.195 4.195 0 013.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.176 5.22c-.345 0-.69-.044-1.02-.104a3.75 3.75 0 01-3.3 1.95c-.6 0-1.155-.15-1.65-.375A4.314 4.314 0 018.88 20.4a4.302 4.302 0 01-4.05-2.82c-.27.062-.54.076-.825.076-2.204 0-4.005-1.8-4.005-4.05 0-1.5.811-2.805 2.01-3.51-.255-.57-.39-1.2-.39-1.846 0-2.58 2.1-4.65 4.65-4.65 1.53 0 2.85.705 3.72 1.8"/></symbol><symbol id="l-dropbox" viewBox="0 0 24 24"><title>Dropbox</title><path d="M6 1.807L0 5.629l6 3.822 6.001-3.822L6 1.807zM18 1.807l-6 3.822 6 3.822 6-3.822-6-3.822zM0 13.274l6 3.822 6.001-3.822L6 9.452l-6 3.822zM18 9.452l-6 3.822 6 3.822 6-3.822-6-3.822zM6 18.371l6.001 3.822 6-3.822-6-3.822L6 18.371z"/></symbol><symbol id="l-box" viewBox="0 0 24 24"><title>Box</title><path d="M.959 5.523c-.54 0-.959.42-.959.899v7.549a4.59 4.59 0 004.613 4.494 4.717 4.717 0 004.135-2.457c.779 1.438 2.337 2.457 4.074 2.457 2.577 0 4.674-2.037 4.674-4.613.06-2.457-2.037-4.495-4.613-4.495-1.738 0-3.295.959-4.074 2.397-.78-1.438-2.338-2.397-4.135-2.397-1.079 0-2.038.36-2.817.899V6.422a.92.92 0 00-.898-.899zM17.602 9.26a.95.95 0 00-.704.158c-.36.3-.479.899-.18 1.318l2.397 3.116-2.396 3.115c-.3.42-.24.96.18 1.26.419.3 1.016.298 1.316-.122l2.039-2.636 2.096 2.697c.3.36.899.419 1.318.12.36-.3.42-.84.121-1.259l-2.338-3.115 2.338-3.057c.3-.419.298-1.018-.121-1.318-.48-.3-1.019-.24-1.318.18l-2.096 2.576-2.04-2.695c-.149-.18-.373-.3-.612-.338zM4.613 11.154c1.558 0 2.817 1.26 2.817 2.758 0 1.558-1.259 2.756-2.817 2.756-1.558 0-2.816-1.198-2.816-2.756 0-1.498 1.258-2.758 2.816-2.758zm8.27 0c1.558 0 2.816 1.26 2.816 2.758-.06 1.558-1.318 2.756-2.816 2.756-1.558 0-2.817-1.198-2.817-2.756 0-1.498 1.259-2.758 2.817-2.758Z"/></symbol><symbol id="l-crunchbase" viewBox="0 0 24 24"><title>Crunchbase</title><path d="M21.6 0H2.4A2.41 2.41 0 0 0 0 2.4v19.2A2.41 2.41 0 0 0 2.4 24h19.2a2.41 2.41 0 0 0 2.4-2.4V2.4A2.41 2.41 0 0 0 21.6 0zM7.045 14.465A2.11 2.11 0 0 0 9.84 13.42h1.66a3.69 3.69 0 1 1 0-1.75H9.84a2.11 2.11 0 1 0-2.795 2.795zm11.345.845a3.55 3.55 0 0 1-1.06.63 3.68 3.68 0 0 1-3.39-.38v.38h-1.51V5.37h1.5v4.11a3.74 3.74 0 0 1 1.8-.63H16a3.67 3.67 0 0 1 2.39 6.46zm-.223-2.766a2.104 2.104 0 1 1-4.207 0 2.104 2.104 0 0 1 4.207 0z"/></symbol><symbol id="l-googlesheets" viewBox="0 0 24 24"><title>Google Sheets</title><path d="M11.318 12.545H7.91v-1.909h3.41v1.91zM14.728 0v6h6l-6-6zm1.363 10.636h-3.41v1.91h3.41v-1.91zm0 3.273h-3.41v1.91h3.41v-1.91zM20.727 6.5v15.864c0 .904-.732 1.636-1.636 1.636H4.909a1.636 1.636 0 0 1-1.636-1.636V1.636C3.273.732 4.005 0 4.909 0h9.318v6.5h6.5zm-3.273 2.773H6.545v7.909h10.91v-7.91zm-6.136 4.636H7.91v1.91h3.41v-1.91z"/></symbol></svg>
+</symbol><symbol id="l-attio" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.4" fill="#fff"/><g stroke="#111" stroke-linecap="round" fill="none"><path d="M6.6 18.2 11.4 5.6" stroke-width="5"/><path d="M12.6 18.2 15.4 10.8" stroke-width="2.4"/></g><path d="M17.2 14.2a2.9 2.9 0 1 1 0 5.8 2.9 2.9 0 1 1 0-5.8z" fill="#111"/></symbol><symbol id="l-notion" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="#fff"/><rect x="1.5" y="1.5" width="21" height="21" rx="3.4" fill="none" stroke="#d9d9d4" stroke-width="1"/><path fill="#111" d="M7.1 6.2h2.9l4.7 8.1V6.2h-1.3v-.9h3.9v.9h-1.2v11.6h-1.8L9.4 8.6v8.3h1.3v.9H6.8v-.9h1.2V7.1H6.8z"/></symbol><symbol id="l-gemini" viewBox="0 0 24 24"><g fill="currentColor"><title>Google Gemini</title><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></g></symbol><symbol id="l-perplexity" viewBox="0 0 24 24"><g fill="currentColor"><title>Perplexity</title><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></g></symbol><symbol id="l-copilot" viewBox="0 0 24 24"><g fill="currentColor"><title>GitHub Copilot</title><path d="M23.922 16.997C23.061 18.492 18.063 22.02 12 22.02 5.937 22.02.939 18.492.078 16.997A.641.641 0 0 1 0 16.741v-2.869a.883.883 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.098 10.098 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952C7.255 2.937 9.248 1.98 11.978 1.98c2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.841.841 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256Zm-11.75-5.992h-.344a4.359 4.359 0 0 1-.355.508c-.77.947-1.918 1.492-3.508 1.492-1.725 0-2.989-.359-3.782-1.259a2.137 2.137 0 0 1-.085-.104L4 11.746v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.359 4.359 0 0 1-.355-.508Zm2.328 3.25c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm-5 0c.549 0 1 .451 1 1v2c0 .549-.451 1-1 1-.549 0-1-.451-1-1v-2c0-.549.451-1 1-1Zm3.313-6.185c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"/></g></symbol><symbol id="l-salesforce" viewBox="0 0 24 24"><title>Salesforce</title><path fill="#00A1E0" d="M10.006 5.415a4.195 4.195 0 013.045-1.306c1.56 0 2.954.9 3.69 2.205.63-.3 1.35-.45 2.1-.45 2.85 0 5.159 2.34 5.159 5.22s-2.31 5.22-5.176 5.22c-.345 0-.69-.044-1.02-.104a3.75 3.75 0 01-3.3 1.95c-.6 0-1.155-.15-1.65-.375A4.314 4.314 0 018.88 20.4a4.302 4.302 0 01-4.05-2.82c-.27.062-.54.076-.825.076-2.204 0-4.005-1.8-4.005-4.05 0-1.5.811-2.805 2.01-3.51-.255-.57-.39-1.2-.39-1.846 0-2.58 2.1-4.65 4.65-4.65 1.53 0 2.85.705 3.72 1.8"/></symbol><symbol id="l-dropbox" viewBox="0 0 24 24"><title>Dropbox</title><path fill="#0061FF" d="M6 1.807L0 5.629l6 3.822 6.001-3.822L6 1.807zM18 1.807l-6 3.822 6 3.822 6-3.822-6-3.822zM0 13.274l6 3.822 6.001-3.822L6 9.452l-6 3.822zM18 9.452l-6 3.822 6 3.822 6-3.822-6-3.822zM6 18.371l6.001 3.822 6-3.822-6-3.822L6 18.371z"/></symbol><symbol id="l-box" viewBox="0 0 24 24"><title>Box</title><path fill="#0061D5" d="M.959 5.523c-.54 0-.959.42-.959.899v7.549a4.59 4.59 0 004.613 4.494 4.717 4.717 0 004.135-2.457c.779 1.438 2.337 2.457 4.074 2.457 2.577 0 4.674-2.037 4.674-4.613.06-2.457-2.037-4.495-4.613-4.495-1.738 0-3.295.959-4.074 2.397-.78-1.438-2.338-2.397-4.135-2.397-1.079 0-2.038.36-2.817.899V6.422a.92.92 0 00-.898-.899zM17.602 9.26a.95.95 0 00-.704.158c-.36.3-.479.899-.18 1.318l2.397 3.116-2.396 3.115c-.3.42-.24.96.18 1.26.419.3 1.016.298 1.316-.122l2.039-2.636 2.096 2.697c.3.36.899.419 1.318.12.36-.3.42-.84.121-1.259l-2.338-3.115 2.338-3.057c.3-.419.298-1.018-.121-1.318-.48-.3-1.019-.24-1.318.18l-2.096 2.576-2.04-2.695c-.149-.18-.373-.3-.612-.338zM4.613 11.154c1.558 0 2.817 1.26 2.817 2.758 0 1.558-1.259 2.756-2.817 2.756-1.558 0-2.816-1.198-2.816-2.756 0-1.498 1.258-2.758 2.816-2.758zm8.27 0c1.558 0 2.816 1.26 2.816 2.758-.06 1.558-1.318 2.756-2.816 2.756-1.558 0-2.817-1.198-2.817-2.756 0-1.498 1.259-2.758 2.817-2.758Z"/></symbol><symbol id="l-crunchbase" viewBox="0 0 24 24"><title>Crunchbase</title><path fill="#0288D1" d="M21.6 0H2.4A2.41 2.41 0 0 0 0 2.4v19.2A2.41 2.41 0 0 0 2.4 24h19.2a2.41 2.41 0 0 0 2.4-2.4V2.4A2.41 2.41 0 0 0 21.6 0zM7.045 14.465A2.11 2.11 0 0 0 9.84 13.42h1.66a3.69 3.69 0 1 1 0-1.75H9.84a2.11 2.11 0 1 0-2.795 2.795zm11.345.845a3.55 3.55 0 0 1-1.06.63 3.68 3.68 0 0 1-3.39-.38v.38h-1.51V5.37h1.5v4.11a3.74 3.74 0 0 1 1.8-.63H16a3.67 3.67 0 0 1 2.39 6.46zm-.223-2.766a2.104 2.104 0 1 1-4.207 0 2.104 2.104 0 0 1 4.207 0z"/></symbol><symbol id="l-googlesheets" viewBox="0 0 24 24"><title>Google Sheets</title><path fill="#34A853" d="M11.318 12.545H7.91v-1.909h3.41v1.91zM14.728 0v6h6l-6-6zm1.363 10.636h-3.41v1.91h3.41v-1.91zm0 3.273h-3.41v1.91h3.41v-1.91zM20.727 6.5v15.864c0 .904-.732 1.636-1.636 1.636H4.909a1.636 1.636 0 0 1-1.636-1.636V1.636C3.273.732 4.005 0 4.909 0h9.318v6.5h6.5zm-3.273 2.773H6.545v7.909h10.91v-7.91zm-6.136 4.636H7.91v1.91h3.41v-1.91z"/></symbol></svg>
 <a class="skip" href="#content">Skip to content</a>
 
 <main id="view-deploy" class="seg">
@@ -2425,7 +2201,7 @@
         <a href="/pe">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
-        <a href="/deploy">Managed setup (14 days)</a>
+        <a href="/deploy" aria-current="page">Managed setup (14 days)</a>
         <a href="/pricing">Pricing</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="mailto:sales@fein.vc">Contact sales</a>
@@ -2540,7 +2316,7 @@
           <a class="btn btn-ghost" href="/pricing">See pricing</a>
         </div>
       </div>
-<div class="prep-wrap" role="img" aria-label="Example: fein auto-drafts the prep for tomorrow's Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around this section: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
+<div class="prep-wrap" role="img" aria-label="Example: fein auto-drafts the prep for tomorrow’s Series A meeting with Clara Voss of Meridian. Three questions are asked and answered in orbit around this section: how do we know Clara, three meetings; who can introduce us, Anna Lindqvist; anything still open, a CFO search that two people in your network fit. Each answer is cited to the tools it came from.">
         <canvas id="prepflow" aria-hidden="true"></canvas>
         <div class="orb-head glass" aria-hidden="true">
           <b>Meeting prep · Clara Voss</b>
@@ -2579,8 +2355,8 @@
         <p class="lead">The date is fixed. Everything between the two calls is our work.</p>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><h3>Day 1. We connect your systems</h3><p>On the first call we connect your email, calendar, Drive, LinkedIn and CRM. Around forty minutes, with whoever holds the admin credentials in the room.</p></div>
-        <div class="wcard reveal"><h3>Days 2 to 13. It reads your full history</h3><p>fein reads years of email, meetings and documents, and joins every copy of each person into one record. This is the slow part: in a decade of mail, one person can look like four.</p></div>
+        <div class="wcard reveal"><h3>Day 1. We connect your systems</h3><p>On the first call we connect your email, calendar, Drive, LinkedIn, and CRM. Around 40 minutes, with whoever holds the admin credentials in the room.</p></div>
+        <div class="wcard reveal"><h3>Days 2 to 13. It reads your full history</h3><p>fein reads years of email, meetings, and documents, and joins every copy of each person into one record. This is the slow part: in a decade of mail, one person can look like four.</p></div>
         <div class="wcard reveal"><h3>Day 14. You check it, then it goes live</h3><p>On the second call you ask fein things you already know the answer to. Then it goes live for the team.</p></div>
       </div>
     </div>
@@ -2603,7 +2379,7 @@
       <div class="offer reveal">
         <h3>What the monthly fee covers</h3>
         <ul>
-          <li><span class="tk">&rarr;</span><span><b>Keeping thirty connectors alive.</b> Gmail, LinkedIn, Attio and the rest change their APIs on their own schedule. That work is most of what the fee pays for.</span></li>
+          <li><span class="tk">&rarr;</span><span><b>Keeping thirty connectors alive.</b> Gmail, LinkedIn, Attio, and the rest change their APIs on their own schedule. That work is most of what the fee pays for.</span></li>
           <li><span class="tk">&rarr;</span><span><b>New answers on request.</b> When the team starts asking something fein does not answer yet, your engineer builds it.</span></li>
           <li><span class="tk">&rarr;</span><span><b>Stopping is allowed.</b> Month to month. Cancel and fein keeps running; you give up only the maintenance.</span></li>
         </ul>
@@ -2617,7 +2393,7 @@
         <h2>$5,000 for the build, then from $250 a month.</h2>
         <p class="lead">The monthly plan is set by how much we keep doing after setup: $250, $500, or $750 a month, never per seat. Everyone at the firm can query the graph, and so can every agent they run.</p>
       </div>
-      <p class="pnote">An annual plan, paid in advance, costs <b>15% less</b>. You have <b>thirty days</b> to decide: if fein is not useful to your team we refund everything, the build fee included. <a class="arrowlink" href="/pricing">See the pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+      <p class="pnote">An annual plan, paid in advance, costs <b>15% less</b>. You have <b>30 days</b> to decide: if fein is not useful to your team we refund everything, the build fee included. <a class="arrowlink" href="/pricing">See the pricing <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
     </div>
   </section>
 
@@ -2629,24 +2405,24 @@
       <div class="faq">
         <details>
           <summary>Why would we pay for software that is free?</summary>
-          <p>You pay for fourteen days instead of three months, and for keeping your own engineer off connector plumbing.</p>
-          <p>fein reads about thirty systems, each with its own authentication, rate limits and idea of what a person is. Getting that to run against real data is hard, boring work. We have done it before.</p>
+          <p>You pay for 14 days instead of three months, and for keeping your own engineer off connector plumbing.</p>
+          <p>fein reads about thirty systems, each with its own authentication, rate limits, and idea of what a person is. Getting that to run against real data is hard, boring work. We have done it before.</p>
         </details>
         <details>
           <summary>Does our data ever reach you?</summary>
-          <p>No. fein runs inside your environment, and the engineer works there with credentials you issue and can revoke. There is no telemetry, no analytics and no control plane of ours. Disconnect the firm from the internet and fein carries on answering.</p>
+          <p>No. fein runs inside your environment, and the engineer works there with credentials you issue and can revoke. There is no telemetry, no analytics, and no control plane of ours. Disconnect the firm from the internet and fein carries on answering.</p>
         </details>
         <details>
           <summary>What do you actually need from us?</summary>
-          <p>Somewhere to run it, admin consent on each source you want connected, and about ninety minutes of a partner's time across the two calls.</p>
+          <p>Somewhere to run it, admin consent on each source you want connected, and about 90 minutes of a partner’s time across the two calls.</p>
         </details>
         <details>
           <summary>Can we start self-hosted and move to managed later?</summary>
           <p>Yes, and a fair number of firms do. Call us when the maintenance stops being a sensible use of your engineer. We pick up what you have built rather than starting again, and the build fee is the same.</p>
         </details>
         <details>
-          <summary>What if fourteen days slips?</summary>
-          <p>Then it is our problem, not your invoice. The build fee is fixed and the thirty-day refund covers the whole engagement.</p>
+          <summary>What if 14 days slips?</summary>
+          <p>Then it is our problem, not your invoice. The build fee is fixed and the 30-day refund covers the whole engagement.</p>
         </details>
       </div>
     </div>
@@ -2660,8 +2436,8 @@
           <p>We will tell you honestly whether this is a fortnight of our time or an afternoon of yours. If it is the second one, the setup guide is free and public.</p>
         </div>
         <div class="hero-actions">
-          <a class="btn btn-white" href="/demo">Get a demo</a>
-          <a class="arrowlink" style="color:#fff" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
+          <a class="btn btn-primary" href="/demo">Get a demo</a>
+          <a class="arrowlink" href="mailto:sales@fein.vc">Email sales@fein.vc <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
       </div>
     </div>
@@ -2674,12 +2450,17 @@
           <a class="brand" href="/">fein</a>
           <p>The open-source memory layer for investment teams.</p>
         </div>
+        <nav class="fcol" aria-label="Footer product">
+          <b>Product</b>
+          <a href="/#features">Features</a>
+          <a href="/security">Security</a>
+          <a href="/integrations">Integrations</a>
+        </nav>
         <nav class="fcol" aria-label="Footer ways to run fein">
           <b>Get fein</b>
           <a href="/self-host">Run it yourself for free</a>
           <a href="/deploy">Managed setup</a>
           <a href="/pricing">Pricing</a>
-          <a href="/security">Security</a>
           <a href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Source on GitHub</a>
         </nav>
         <nav class="fcol" aria-label="Footer use cases">
@@ -2738,10 +2519,25 @@
     RY=Math.max(chh+140,H*.34);RY=Math.min(RY,C.y-88,H-C.y-100);
     BOX={l:C.x-cw-92,r:C.x+cw+92,t:C.y-chh-44,b:C.y+chh+44};
     tiles.forEach(function(t){ t.__hw=undefined; });
-    /* the floor clears the sticky bar. At 56 a short window put the prep card
-       under the nav, which is the one object in this picture that has to be
-       readable the moment the section lands */
-    head.style.left=(W/2)+'px';head.style.top=Math.max(104,ell(HEADA).y)+'px';
+    /* The card wants the ellipse top, but this box is the fold, not the index
+       band the composition was drawn in. Two things went wrong when it moved:
+       the short box crushes RY until the ellipse top lands inside the copy, and
+       the old constant floor of 104 assumed local and viewport coordinates were
+       the same thing, which stopped being true once the picture sat inside a
+       section whose own padding already clears the bar. Both landed the card on
+       the h1, and the card is the one object in this picture that has to be
+       readable the moment the section lands. So it is clamped into the gap the
+       fold actually has: top clear of the bar (measured against the page, since
+       this section sits at the top of it), bottom at least 8px off the copy,
+       and when a window is too short to hold both it hides rather than letting
+       the headline paint over it. */
+    var hh=head.offsetHeight/2||40;
+    var pageY=r.top+(window.pageYOffset||0);
+    var navH=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||64;
+    var hyMin=navH+8-pageY+hh,hyMax=C.y-chh-8-hh;
+    head.style.visibility=hyMin>hyMax?'hidden':'';
+    head.style.left=(W/2)+'px';
+    head.style.top=Math.min(Math.max(ell(HEADA).y,hyMin),hyMax)+'px';
   }
   function tilePoint(i,now){
     var a=ANG[i]+Math.sin(now*.00012+i*2.1)*4;
@@ -2821,7 +2617,7 @@
       ctx.beginPath();ctx.moveTo(tp.nx,tp.ny);ctx.lineTo(tp.x,tp.y);
       ctx.strokeStyle=on?'rgba(255,255,255,.12)':'rgba(255,255,255,.05)';ctx.stroke();
       ctx.beginPath();ctx.arc(tp.nx,tp.ny,2.4,0,6.283);
-      ctx.fillStyle=on?'rgba(125,188,255,.55)':'rgba(255,255,255,.18)';ctx.fill();
+      ctx.fillStyle=on?'rgba(82,168,255,.7)':'rgba(255,255,255,.18)';ctx.fill();
     });
     chips.forEach(function(ch,i){
       var b=parseFloat(ch.dataset.a)+(now-t0)/1000*CS[i];
@@ -2853,12 +2649,12 @@
     }
     if(q!==null){
       for(var j=14;j>=1;j--){
-        var tq=qpt(q-j*.0065),al=.4*(1-j/15);
+        var tq=qpt(q-j*.0065),al=.5*(1-j/15);
         ctx.beginPath();ctx.arc(tq.x,tq.y,2.3*(1-j/16)+.4,0,6.283);
-        ctx.fillStyle='rgba(125,188,255,'+al.toFixed(3)+')';ctx.fill();
+        ctx.fillStyle='rgba(82,168,255,'+al.toFixed(3)+')';ctx.fill();
       }
       var p=qpt(q);ctx.beginPath();ctx.arc(p.x,p.y,2.8,0,6.283);
-      ctx.fillStyle='#8ec4ff';ctx.shadowColor='rgba(82,168,255,.95)';ctx.shadowBlur=12;ctx.fill();ctx.shadowBlur=0;
+      ctx.fillStyle='#52A8FF';ctx.shadowColor='rgba(82,168,255,.95)';ctx.shadowBlur=12;ctx.fill();ctx.shadowBlur=0;
     }
   }
   function send(a,b,dur,cb){size();journey={a:a,b:b,t0:performance.now(),dur:dur,cb:cb};}
@@ -2899,12 +2695,19 @@
       });});
     },1050);
   }
-  var io=new IntersectionObserver(function(en){
-    var on=en[0].isIntersecting;
-    if(on&&!started)begin();
-    if(started){var was=running;running=on;if(on&&!was)requestAnimationFrame(draw);}
-  },{threshold:.2});
-  io.observe(wrap);
+  /* Guarded like every other observer on the site: this block runs ahead of
+     the reveal script below, so an unguarded throw here would strand every
+     .reveal section on the page at opacity 0. */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){
+      var on=en[0].isIntersecting;
+      if(on&&!started)begin();
+      if(started){var was=running;running=on;if(on&&!was)requestAnimationFrame(draw);}
+    },{threshold:.2});
+    io.observe(wrap);
+  }else{
+    begin();
+  }
   var rz;window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(size,150);});
 })();
 
@@ -2940,10 +2743,10 @@
 
 <!--fein-chat:start-->
 <style>
-#fein-chat{--fc-disc:#fff;position:fixed;right:20px;bottom:20px;z-index:2147483000;display:inline-flex;align-items:center;gap:10px;margin:0;padding:8px 16px 8px 8px;font-family:var(--font);background:var(--fc-disc);border:0;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
+#fein-chat{--fc-disc:#fff;position:fixed;right:20px;bottom:20px;z-index:2147483000;display:inline-flex;align-items:center;gap:10px;margin:0;padding:8px 16px 8px 8px;font-family:var(--font,'Inter','Inter Fallback',system-ui,sans-serif);background:var(--fc-disc);border:0;border-radius:999px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.5),0 16px 40px -12px rgba(0,0,0,.85);opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .2s ease;-webkit-tap-highlight-color:transparent}
 #fein-chat.fc-in{opacity:1;transform:none}
 #fein-chat:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.5),0 22px 52px -12px rgba(0,0,0,.9)}
-#fein-chat:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+#fein-chat:focus-visible{outline:2px solid var(--blue-l,#52A8FF);outline-offset:2px}
 #fein-chat .fc-mark{position:relative;flex:none;width:38px;height:38px}
 #fein-chat .fc-mark img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
 #fein-chat .fc-txt{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.2;text-align:left}
