@@ -2575,6 +2575,313 @@ fetch("/api/message",{method:"POST",headers:{"content-type":"application/json"},
 .then(function(r){if(!r.ok)throw 0;return r.json()})
 .then(function(){d.getElementById("fm-body").hidden=true;d.getElementById("fm-done").hidden=false})
 .catch(function(){btn.disabled=false;btn.textContent="Send";err.innerHTML='Something broke. Email us instead: <a href="mailto:sales@fein.vc">sales@fein.vc</a>';err.hidden=false})})})()</script>
-<!--fein-chat:end-->
+<!--fein-chat:end--><!--fein-demo:start-->
+<style>
+/* The site-wide "Get a demo" modal. Every a[href="/demo"] opens this instead
+   of leaving the page; the /demo page itself stays as the no-JS fallback, the
+   direct-URL landing, and the one page where the script deliberately does
+   nothing. Two steps by design: the email first, so the lead's address is the
+   cheapest thing to give, then the three questions the demo page asks, then
+   the cal.com booking modal over the top with everything prefilled.
+   The block lands on pages that define none of the site tokens (/privacy,
+   /terms, 404), so every var() carries its literal fallback, the same rule
+   the nav slice and the chat block follow. Ids are fdm- to stay clear of the
+   chat widget's fm- family. */
+#fdm{position:fixed;inset:0;z-index:2147482000;display:flex;align-items:center;justify-content:center;padding:20px;font-family:var(--font,'Inter','Inter Fallback',system-ui,sans-serif);font-size:17px;line-height:1.55;letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
+#fdm[hidden]{display:none}
+#fdm-back{position:absolute;inset:0;background:rgba(8,9,10,.78);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);animation:fdmFade .18s ease}
+#fdm-panel{position:relative;width:min(432px,100%);max-height:calc(100vh - 40px);overflow:auto;overscroll-behavior:contain;background:var(--bg-2,#121316);border:1px solid var(--line-2,rgba(255,255,255,.16));border-radius:16px;padding:30px 28px 26px;color:var(--fg,#ededed);box-shadow:0 1px 2px rgba(0,0,0,.6),0 32px 80px -20px rgba(0,0,0,.95);animation:fdmIn .22s cubic-bezier(.22,.61,.36,1)}
+@keyframes fdmFade{from{opacity:0}to{opacity:1}}
+@keyframes fdmIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#fdm-back,#fdm-panel{animation:none}}
+#fdm-x{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--fg-3,#8a8f98);cursor:pointer;transition:background .15s ease,color .15s ease}
+#fdm-x:hover{background:rgba(255,255,255,.07);color:#fff}
+#fdm-x:focus-visible{outline:none;box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
+#fdm h2{font-family:var(--display,'Geist',system-ui,sans-serif);font-size:1.45rem;line-height:1.15;letter-spacing:-.028em;font-weight:600;color:#fff;margin:0 0 .55rem}
+#fdm .fdm-lede{font-size:.95rem;color:var(--fg-2,#a1a1a1);margin:0 0 1.5rem;text-wrap:pretty}
+#fdm .fdm-fld{margin-bottom:1.05rem}
+#fdm label{display:block;font-size:.82rem;font-weight:500;color:var(--fg-3,#8a8f98);margin-bottom:.45rem;letter-spacing:0}
+#fdm .fdm-opt{color:var(--dim,#767982);font-weight:400}
+#fdm input[type=email],#fdm input[type=text]{width:100%;box-sizing:border-box;font-family:inherit;font-size:.98rem;color:var(--fg,#ededed);background:transparent;border:1px solid transparent;box-shadow:0 0 0 1px var(--line-ctl,rgba(255,255,255,.38));border-radius:8px;padding:.72rem .85rem;transition:box-shadow .15s ease}
+#fdm input::placeholder{color:var(--fg-3,#8a8f98)}
+#fdm input[type=email]:hover,#fdm input[type=text]:hover{box-shadow:0 0 0 1px var(--line-ctl-2,rgba(255,255,255,.5))}
+#fdm input[type=email]:focus,#fdm input[type=text]:focus{outline:none;box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
+/* the region answer is three pills, not a <select>: the browser's own menu
+   arrives in OS chrome and ignores every token above it, and porting the demo
+   page's listbox here would be sixty lines for three options */
+#fdm .fdm-pills{display:flex;flex-wrap:wrap;gap:.5rem}
+#fdm .fdm-pill{position:relative;display:inline-flex}
+#fdm .fdm-pill input{position:absolute;width:1px;height:1px;opacity:0;margin:0;pointer-events:none}
+#fdm .fdm-pill span{display:inline-flex;align-items:center;padding:.42rem .85rem;font-size:.9rem;color:var(--fg-2,#a1a1a1);border-radius:999px;box-shadow:0 0 0 1px var(--line-ctl,rgba(255,255,255,.38));cursor:pointer;user-select:none;transition:background .13s ease,color .13s ease,box-shadow .13s ease}
+#fdm .fdm-pill span:hover{box-shadow:0 0 0 1px var(--line-ctl-2,rgba(255,255,255,.5));color:var(--fg,#ededed)}
+#fdm .fdm-pill input:checked+span{background:#fff;color:#000;box-shadow:0 0 0 1px #fff}
+#fdm .fdm-pill input:focus-visible+span{box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
+#fdm .fdm-chkset{border:0;margin:0 0 1.05rem;padding:0;min-width:0}
+#fdm .fdm-chkset legend{display:block;padding:0;font-size:.82rem;font-weight:500;color:var(--fg-3,#8a8f98);margin-bottom:.5rem}
+#fdm .fdm-checks{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem}
+@media(max-width:420px){#fdm .fdm-checks{grid-template-columns:1fr}}
+#fdm .fdm-chk{display:flex;align-items:center;gap:.55rem;margin:0;font-size:.88rem;font-weight:400;color:var(--fg-2,#a1a1a1);cursor:pointer;user-select:none;transition:color .15s ease}
+#fdm .fdm-chk:hover{color:var(--fg,#ededed)}
+#fdm .fdm-chk input{position:absolute;width:1px;height:1px;opacity:0;margin:0;padding:0;pointer-events:none}
+#fdm .fdm-box{flex:0 0 auto;display:grid;place-items:center;width:16px;height:16px;border-radius:5px;background:transparent;box-shadow:0 0 0 1px var(--line-ctl,rgba(255,255,255,.38));color:#08090A;transition:background .13s ease,box-shadow .13s ease}
+#fdm .fdm-box svg{width:10px;height:10px;opacity:0;transition:opacity .13s ease}
+#fdm .fdm-chk input:checked+.fdm-box{background:#fff;box-shadow:0 0 0 1px #fff}
+#fdm .fdm-chk input:checked+.fdm-box svg{opacity:1}
+#fdm .fdm-chk input:focus-visible+.fdm-box{box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13)}
+#fdm .fdm-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* the site's 44px primary-button geometry, same as the demo page's .submit */
+#fdm .fdm-submit{width:100%;height:44px;margin-top:.35rem;padding:0 18px;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-size:15px;font-weight:500;line-height:1;white-space:nowrap;color:#000;background:#fff;border:0;border-radius:11px;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.5);text-decoration:none;cursor:pointer;transition:opacity .15s ease}
+#fdm .fdm-submit:hover{opacity:.88}
+#fdm .fdm-submit:disabled{opacity:.55;cursor:default}
+#fdm .fdm-back-btn{display:inline-flex;align-items:center;gap:4px;margin:0 0 .3rem;padding:.2rem .4rem .2rem 0;border:0;background:transparent;font-family:inherit;font-size:.82rem;color:var(--fg-3,#8a8f98);cursor:pointer;transition:color .15s ease}
+#fdm .fdm-back-btn:hover{color:#fff}
+#fdm .fdm-back-btn:focus-visible{outline:none;box-shadow:0 0 0 1px rgba(255,255,255,.92),0 0 0 4px rgba(255,255,255,.13);border-radius:6px}
+#fdm .fdm-back-btn svg{width:12px;height:12px}
+#fdm .fdm-who{font-size:.88rem;color:var(--fg-2,#a1a1a1);margin:0 0 1.3rem;overflow-wrap:anywhere}
+#fdm .fdm-fine{margin:1rem 0 0;font-size:.78rem;line-height:1.5;color:var(--dim,#767982)}
+#fdm .fdm-fine a{color:var(--fg-3,#8a8f98);text-decoration:none;transition:color .18s ease}
+#fdm .fdm-fine a:hover{color:#fff}
+#fdm .fdm-err{display:none;margin:.8rem 0 0;font-size:.88rem;color:#FF8A85}
+#fdm .fdm-err.on{display:block}
+#fdm .fdm-err a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+#fdm .fdm-done h2{margin-bottom:.7rem}
+#fdm .fdm-done h2 span{color:var(--fg-3,#8a8f98)}
+#fdm .fdm-done p{margin:0 0 1.3rem;color:var(--fg-2,#a1a1a1);font-size:.95rem}
+#fdm .fdm-done .fdm-aside{border-top:1px solid var(--line,rgba(255,255,255,.09));margin:1.5rem 0 0;padding-top:1.1rem;font-size:.85rem;color:var(--fg-3,#8a8f98)}
+#fdm .fdm-done .fdm-aside a{color:var(--fg,#ededed);text-decoration:none;transition:color .18s ease}
+#fdm .fdm-done .fdm-aside a:hover{color:#fff}
+</style>
+<div id="fdm" hidden>
+<div id="fdm-back"></div>
+<div id="fdm-panel" role="dialog" aria-modal="true" aria-labelledby="fdm-h">
+<button type="button" id="fdm-x" aria-label="Close"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6L18 18"/><path d="M18 6L6 18"/></svg></button>
+
+<div id="fdm-s1">
+<h2 id="fdm-h">Get a custom demo.</h2>
+<p class="fdm-lede">Twenty minutes with Daniel, who built fein. It starts with your work email.</p>
+<form id="fdm-f1" novalidate>
+<div class="fdm-fld"><label for="fdm-email">Work email</label><input id="fdm-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@firm.com" required></div>
+<button class="fdm-submit" type="submit">Continue</button>
+<p class="fdm-err" id="fdm-e1" role="alert">That does not look like an email address.</p>
+</form>
+<p class="fdm-fine">Prefer email? <a href="mailto:sales@fein.vc">sales@fein.vc</a></p>
+</div>
+
+<div id="fdm-s2" hidden>
+<button type="button" class="fdm-back-btn" id="fdm-backbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6"/><path d="M12 6L6 12L12 18"/></svg>Back</button>
+<h2 id="fdm-h2">Nearly there.</h2>
+<p class="fdm-who" id="fdm-who"></p>
+<form id="fdm-f2" novalidate>
+<div class="fdm-fld"><label for="fdm-name">Full name</label><input id="fdm-name" name="name" type="text" autocomplete="name" placeholder="Anna Lindqvist" required></div>
+<div class="fdm-fld"><label id="fdm-region-l">Part of the world <span class="fdm-opt">(optional)</span></label>
+<div class="fdm-pills" role="radiogroup" aria-labelledby="fdm-region-l">
+<label class="fdm-pill"><input type="radio" name="fdm-region" value="North America"><span>North America</span></label>
+<label class="fdm-pill"><input type="radio" name="fdm-region" value="Europe"><span>Europe</span></label>
+<label class="fdm-pill"><input type="radio" name="fdm-region" value="Rest of World"><span>Rest of World</span></label>
+</div></div>
+<fieldset class="fdm-chkset"><legend>What are you interested in? <span class="fdm-opt">(optional)</span></legend>
+<div class="fdm-checks">
+<label class="fdm-chk"><input type="checkbox" name="fdm-interest" value="Warm introductions"><span class="fdm-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Warm introductions</label>
+<label class="fdm-chk"><input type="checkbox" name="fdm-interest" value="Meeting prep"><span class="fdm-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Meeting prep</label>
+<label class="fdm-chk"><input type="checkbox" name="fdm-interest" value="Deal history"><span class="fdm-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Deal history</label>
+<label class="fdm-chk"><input type="checkbox" name="fdm-interest" value="Relationships going cold"><span class="fdm-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Relationships going cold</label>
+<label class="fdm-chk"><input type="checkbox" name="fdm-interest" value="Self-hosted deployment"><span class="fdm-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.8L9.8 17.2L19 6.8"/></svg></span>Self-hosted deployment</label>
+</div></fieldset>
+<div class="fdm-hp" aria-hidden="true"><label for="fdm-website">Leave this empty</label><input id="fdm-website" name="website" tabindex="-1" autocomplete="off"></div>
+<button class="fdm-submit" type="submit" id="fdm-send">Select a time that suits you</button>
+<p class="fdm-fine">By sending this you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms</a>.</p>
+<p class="fdm-err" id="fdm-e2" role="alert">That did not send. Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a> and we will pick it up.</p>
+</form>
+</div>
+
+<div id="fdm-done" class="fdm-done" hidden>
+<h2 tabindex="-1" id="fdm-done-h">Your details are with us. <span>Now pick a time.</span></h2>
+<p id="fdm-done-p">Twenty minutes with Daniel.</p>
+<a class="fdm-submit" id="fdm-reopen" href="/api/call">Select a time that suits you</a>
+<p class="fdm-aside">Something urgent? Write to <a href="mailto:sales@fein.vc">sales@fein.vc</a>.</p>
+</div>
+
+</div>
+</div>
+<script>(function(){
+"use strict";
+var d=document,w=window;
+/* The /demo page is this flow as a full page; opening the modal over it would
+   put the same form on the screen twice, so there the links stay links. */
+if(location.pathname==="/demo"||location.pathname==="/demo/")return;
+var root=d.getElementById("fdm");if(!root)return;
+var panel=d.getElementById("fdm-panel"),back=d.getElementById("fdm-back"),x=d.getElementById("fdm-x");
+var s1=d.getElementById("fdm-s1"),s2=d.getElementById("fdm-s2"),doneV=d.getElementById("fdm-done");
+var f1=d.getElementById("fdm-f1"),f2=d.getElementById("fdm-f2");
+var emailIn=d.getElementById("fdm-email"),nameIn=d.getElementById("fdm-name");
+var e1=d.getElementById("fdm-e1"),e2=d.getElementById("fdm-e2"),who=d.getElementById("fdm-who");
+var sendBtn=d.getElementById("fdm-send"),reopen=d.getElementById("fdm-reopen");
+var doneH=d.getElementById("fdm-done-h"),doneP=d.getElementById("fdm-done-p");
+var openedAt=0,lastFocus=null,sentOk=false,booked=false;
+
+/* cal.com, exactly as the demo page holds it: armed when the modal opens,
+   preloaded from there so the booking modal is instant at submit, and the
+   link comes from /api/cal so no page hardcodes the calendar. If any of it
+   fails the success view still carries an ordinary link to the booking page
+   and the server emails the same link a few minutes later. */
+var CAL_SRC="https://app.cal.com/embed/embed.js";
+var calLink="",calOrigin="https://cal.com",calArmed=false,calUp=false,calConfig=null;
+function armCal(){
+  if(calArmed)return;calArmed=true;
+  fetch("/api/cal").then(function(r){return r.ok?r.json():Promise.reject(r)})
+    .then(function(c){
+      if(!c||!c.link)return;
+      calLink=c.link;calOrigin=c.origin||calOrigin;
+      (function(C,A,L){var p=function(a,ar){a.q.push(ar)};var dd=C.document;
+      C.Cal=C.Cal||function(){var cal=C.Cal,ar=arguments;
+        if(!cal.loaded){cal.ns={};cal.q=cal.q||[];dd.head.appendChild(dd.createElement("script")).src=A;cal.loaded=true}
+        if(ar[0]===L){var api=function(){p(api,arguments)};var namespace=ar[1];api.q=api.q||[];
+          if(typeof namespace==="string"){cal.ns[namespace]=cal.ns[namespace]||api;p(cal.ns[namespace],ar);p(cal,["initNamespace",namespace])}
+          else p(cal,ar);return}
+        p(cal,ar)};})(w,CAL_SRC,"init");
+      w.Cal("init",{origin:calOrigin});
+      var s=d.querySelector('script[src="'+CAL_SRC+'"]');
+      if(s)s.addEventListener("load",function(){calUp=true});
+      w.Cal("ui",{theme:"dark",layout:"month_view",hideEventTypeDetails:false});
+      w.Cal("preload",{calLink:calLink});
+      w.Cal("on",{action:"bookingSuccessful",callback:onBooked});
+      w.Cal("on",{action:"bookingSuccessfulV2",callback:onBooked});
+    })
+    .catch(function(){/* no calendar to frame; the fallbacks carry it */});
+}
+function openCal(){
+  if(!calLink||!w.Cal||!calConfig)return false;
+  w.Cal("modal",{calLink:calLink,calOrigin:calOrigin,config:calConfig});
+  return true;
+}
+function onBooked(){
+  if(booked)return;booked=true;
+  doneH.innerHTML='You are booked. <span>The invite is on its way.</span>';
+  doneP.textContent="It carries the call details and a link to move it if you need to.";
+  reopen.style.display="none";
+  if(w.va)va("event",{name:"demo-booked"});
+}
+
+function show(view){
+  s1.hidden=view!==s1;s2.hidden=view!==s2;doneV.hidden=view!==doneV;
+}
+function openModal(){
+  if(!root.hidden)return;
+  lastFocus=d.activeElement;
+  root.hidden=false;
+  d.documentElement.style.overflow="hidden";
+  openedAt=openedAt||Date.now();
+  armCal();
+  var focusTo=sentOk?doneH:( !s2.hidden?nameIn:emailIn );
+  setTimeout(function(){try{focusTo.focus({preventScroll:true})}catch(_){focusTo.focus()}},40);
+  if(w.va)va("event",{name:"demo-modal-open"});
+}
+function closeModal(){
+  if(root.hidden)return;
+  root.hidden=true;
+  d.documentElement.style.overflow="";
+  if(lastFocus&&lastFocus.focus)lastFocus.focus();
+}
+/* Every "Get a demo" (and any other link into /demo) opens the modal instead.
+   Modified clicks keep their meaning: cmd-click still opens the page in a new
+   tab, and with no script at all the links never stopped working. */
+d.addEventListener("click",function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="/demo"]');
+  if(!a)return;
+  var href=a.getAttribute("href");
+  if(href!=="/demo"&&href!=="/demo/")return;
+  if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0)return;
+  if(a.target&&a.target!=="_self")return;
+  e.preventDefault();
+  openModal();
+});
+x.addEventListener("click",closeModal);
+back.addEventListener("click",closeModal);
+d.addEventListener("keydown",function(e){
+  if(root.hidden)return;
+  if(e.key==="Escape"){e.preventDefault();closeModal();return}
+  if(e.key!=="Tab")return;
+  /* keep Tab inside the dialog */
+  var els=panel.querySelectorAll('a[href],button:not([disabled]),input:not([type=radio]),input[type=radio]:checked,textarea,[tabindex="0"]');
+  var list=[].filter.call(els,function(el){return el.offsetParent!==null&&el.tabIndex>-1});
+  /* radio groups with nothing checked would vanish from the list; put the
+     first radio back so the group stays reachable */
+  if(!panel.querySelector('input[type=radio]:checked')){
+    var r=panel.querySelector('input[type=radio]');
+    if(r&&r.offsetParent!==null)list.push(r);
+  }
+  if(!list.length)return;
+  list.sort(function(a,b){return a.compareDocumentPosition(b)&4?-1:1});
+  var first=list[0],last=list[list.length-1];
+  if(e.shiftKey&&d.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&d.activeElement===last){e.preventDefault();first.focus()}
+});
+
+var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+f1.addEventListener("submit",function(e){
+  e.preventDefault();
+  var email=emailIn.value.trim();
+  if(!EMAIL_RE.test(email)){e1.classList.add("on");emailIn.focus();return}
+  e1.classList.remove("on");
+  who.textContent="Booking as "+email+".";
+  show(s2);
+  setTimeout(function(){nameIn.focus()},30);
+  if(w.va)va("event",{name:"demo-modal-email"});
+});
+d.getElementById("fdm-backbtn").addEventListener("click",function(){
+  show(s1);setTimeout(function(){emailIn.focus()},30);
+});
+
+function prefill(dd,full){
+  var notes=[];
+  if(dd.region)notes.push("Part of the world: "+dd.region);
+  if(dd.interests.length)notes.push("Interested in: "+dd.interests.join(", "));
+  var c={name:full,email:dd.email,theme:"dark"};
+  if(notes.length)c.notes=notes.join("\n");
+  return c;
+}
+f2.addEventListener("submit",function(e){
+  e.preventDefault();
+  e2.classList.remove("on");
+  var full=nameIn.value.trim();
+  if(!full){nameIn.focus();return}
+  var cut=full.lastIndexOf(" ");
+  var region=(f2.querySelector('input[name="fdm-region"]:checked')||{}).value||"";
+  var dd={
+    first:cut>0?full.slice(0,cut):full,
+    last:cut>0?full.slice(cut+1):"",
+    email:emailIn.value.trim(),
+    region:region,
+    interests:[].slice.call(f2.querySelectorAll('input[name="fdm-interest"]:checked')).map(function(c){return c.value}),
+    website:d.getElementById("fdm-website").value,
+    /* which page the modal was opened over, so the notify mail and the log
+       can tell the surfaces apart the way the segment pages already do */
+    source:("modal:"+location.pathname).slice(0,40),
+    t:Math.max(2600,Date.now()-openedAt)
+  };
+  if(calUp&&calLink)dd.booking="modal";
+  sendBtn.disabled=true;sendBtn.textContent="Sending";
+  fetch("/api/enquiry",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(dd)})
+    .then(function(r){return r.ok?r.json():Promise.reject(r)})
+    .then(function(){
+      sentOk=true;
+      calConfig=prefill(dd,full);
+      reopen.href="/api/call?name="+encodeURIComponent(full)+"&email="+encodeURIComponent(dd.email);
+      openCal();
+      show(doneV);
+      doneH.focus({preventScroll:true});
+      if(w.va)va("event",{name:"demo-sent"});
+    })
+    .catch(function(){
+      e2.classList.add("on");
+      sendBtn.disabled=false;sendBtn.textContent="Select a time that suits you";
+    });
+});
+reopen.addEventListener("click",function(e){
+  if(calUp&&openCal())e.preventDefault();
+});
+})()</script>
+<!--fein-demo:end-->
+
 </body>
 </html>

@@ -445,6 +445,18 @@ fetch("/api/message",{method:"POST",headers:{"content-type":"application/json"},
 .catch(function(){btn.disabled=false;btn.textContent="Send";err.innerHTML='Something broke. Email us instead: <a href="mailto:sales@fein.vc">sales@fein.vc</a>';err.hidden=false})})})()</script>
 <!--fein-chat:end-->`;
 
+// ---- "Get a demo" modal — site-wide, wrapped in <!--fein-demo--> markers so
+// rederive-tpl.js can strip it back out cleanly. Lives in src/demo-modal.html
+// (markers included). Every a[href="/demo"] opens it: step one asks only for
+// the email, step two the demo page's other questions, then the cal.com
+// booking modal opens over the page with everything prefilled. The /demo page
+// keeps working unchanged: it is the no-JS fallback, the direct-URL landing,
+// and the one page the modal script deliberately no-ops on (so the block is
+// not injected there either; nothing on that page would use it).
+const demoModal = fs.readFileSync("demo-modal.html", "utf8");
+if (demoModal.indexOf("<!--fein-demo:start-->") < 0 || demoModal.indexOf("<!--fein-demo:end-->") < 0)
+  throw new Error("demo-modal.html: fein-demo markers missing");
+
 // ---- distill: the served home page cuts the sections that restate one
 // another. #change and #proof restate what the #memory thread and /security
 // already show, #why answers an objection the sales call handles, and #crm
@@ -480,7 +492,7 @@ ${ldScript}
 <body>
 ${homeRest}
 ${spriteRest}
-${analytics}${posthog}${chat}
+${analytics}${posthog}${chat}${demoModal}
 </body>
 </html>`;
 
@@ -509,11 +521,14 @@ if (notFound.indexOf("__GEIST_SANS_B64__") < 0 || notFound.indexOf("__INTER_B64_
 notFound = notFound
   .split("__GEIST_SANS_B64__").join(sansB64)
   .split("__INTER_B64__").join(interB64)
-  .replace(/\s*<!--fein-chat:start-->[\s\S]*?<!--fein-chat:end-->/g, "");
+  .replace(/\s*<!--fein-chat:start-->[\s\S]*?<!--fein-chat:end-->/g, "")
+  .replace(/\s*<!--fein-demo:start-->[\s\S]*?<!--fein-demo:end-->/g, "");
 if (notFound.indexOf("__GEIST") > -1 || notFound.indexOf("__INTER") > -1) throw new Error("font placeholder left in 404");
 if (chat) {
   if (notFound.indexOf("</body>") < 0) throw new Error("404.html: no </body> to patch the chat launcher into");
-  notFound = notFound.replace("</body>", chat + "\n</body>");
+  // the 404 page's one call to action is its "Get a demo" link, so the modal
+  // rides along here too
+  notFound = notFound.replace("</body>", chat + demoModal + "\n</body>");
 }
 assertCharsetCovers(notFound, "404.html");
 fs.writeFileSync(path.join(out, "404.html"), notFound);
@@ -620,7 +635,7 @@ const AI_HEAD_LINKS = `<link rel="sitemap" type="application/xml" href="/sitemap
     .split("__NAV__").join(navFor(slug));
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__LASTMOD") > -1 || page.indexOf("__NAV") > -1) throw new Error("legal placeholder left in " + slug);
   page = page.replace("</head>", AI_HEAD_LINKS + "\n" + pageLdFor(page, slug) + "\n</head>");
-  page = page.replace("</body>", chat + "\n</body>");
+  page = page.replace("</body>", chat + demoModal + "\n</body>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);
@@ -716,7 +731,9 @@ const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay
   if (page.indexOf("__SECTION") > -1 || page.indexOf("__CHANGE_JS__") > -1) throw new Error("page placeholder left in " + slug);
   const faqLd = faqLdFor(page, slug);
   page = page.replace("</head>", AI_HEAD_LINKS + "\n" + pageLdFor(page, slug) + (faqLd ? "\n" + faqLd : "") + "\n</head>");
-  page = page.replace("</body>", chat + "\n</body>");
+  // /demo carries this flow as a full page; the modal script no-ops there, so
+  // the block would be dead bytes on the one page whose job is the same form.
+  page = page.replace("</body>", chat + (slug === "demo" ? "" : demoModal) + "\n</body>");
   fs.mkdirSync(path.join(out, slug), { recursive: true });
   assertCharsetCovers(page, slug + "/index.html");
   fs.writeFileSync(path.join(out, slug, "index.html"), page);

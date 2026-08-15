@@ -343,6 +343,110 @@ export function bookingEmail(lead, { when = null } = {}) {
   };
 }
 
+// ---- the pre-call drip ----------------------------------------------------
+// Booked is not done: between the invite and the call there is room for one
+// or two mails that make the twenty minutes worth more, which is the deck and
+// how to prepare. Timed off the call itself, not the booking:
+//
+//   more than 26h out  -> prep mail 24h before, a short note 2h before
+//   3h to 26h out      -> the prep mail alone, 2h before
+//   under 3h out       -> nothing; the confirmation just went and the invite
+//                         carries everything they need
+//
+// Both are Resend scheduled sends to the attendee, so the same sweep that
+// cancels a welcome or a nudge (cancelScheduledFor) takes these away when the
+// booking is cancelled, and a reschedule sweeps then re-times them. Nothing
+// here keeps state either.
+export const DECK_URL_DEFAULT = "https://fein.vc/deck/fein-deck.pdf";
+export const deckUrl = () => cfg("DECK_URL") ?? DECK_URL_DEFAULT;
+
+/** When the drip lands, relative to the call. Pure, so the tests can pin it.
+ * Returns [] when there is no room, [{kind, at}] otherwise, ordered. The 29
+ * day cap is Resend's scheduling window: a booking further out than that gets
+ * its prep mail at the cap, which is still before the call. */
+export function dripSchedule(startTime, now = new Date()) {
+  const start = new Date(startTime ?? "");
+  if (isNaN(start.getTime())) return [];
+  const H = 3600_000, ms = start - now;
+  if (ms <= 3 * H) return [];
+  const cap = now.getTime() + 29 * 24 * H;
+  if (ms <= 26 * H) return [{ kind: "prep", at: new Date(start - 2 * H) }];
+  const out = [{ kind: "prep", at: new Date(Math.min(start - 24 * H, cap)) }];
+  const dayAt = start - 2 * H;
+  if (dayAt <= cap) out.push({ kind: "day", at: new Date(dayAt) });
+  return out;
+}
+
+// The deck and how to prepare, a day before the call (or two hours before,
+// when the call was booked close in). The one mail in the funnel allowed
+// bullet points: it is a checklist by nature, and prose would bury it.
+export function prepEmail(lead, { when = null, scheduledAt } = {}) {
+  const url = deckUrl();
+  const hi = `Hi ${lead.first || "there"},`;
+  const opening = when
+    ? `Your call with Daniel is coming up on ${when}, and I wanted to send over a couple of things so the twenty minutes go as far as they can.`
+    : "Your call with Daniel is coming up, and I wanted to send over a couple of things so the twenty minutes go as far as they can.";
+  const deckLine = `First, a short deck on what fein is and how teams run it: ${url}. It's five minutes over a coffee, and none of it is required reading.`;
+  const prep = [
+    "Bring a real question, the kind you'd want answered on an ordinary working day. The best demos start there, and Daniel will build yours around it.",
+    "It helps to know what your team runs for email, calendar, notes and the CRM, since that's what fein reads.",
+    "And if a colleague should see this too, just forward them the invite.",
+  ];
+  const closing = "If the time no longer suits, the invite has a link to move it, no need to explain.";
+  return {
+    from: salesFrom(),
+    to: [lead.email],
+    reply_to: cfg("NOTIFY_TO"),
+    scheduled_at: new Date(scheduledAt).toISOString(),
+    subject: "before your call with Daniel",
+    text: [hi, opening, deckLine, prep.map((p) => `- ${p}`).join("\n"), closing,
+      "Speak soon,\nOlivia", `\n${signatureText(null)}`].join("\n\n"),
+    html: htmlMail([
+      `<p ${P}>${esc(hi)}</p>`,
+      `<p ${P}>${esc(opening)}</p>`,
+      `<p ${P}>First, a <a href="${esc(url)}" style="color:#1a73e8">short deck</a> on what fein is and how teams run it. It&#39;s five minutes over a coffee, and none of it is required reading.</p>`,
+      `<ul style="margin:0 0 16px;padding-left:20px">${prep.map((p) => `<li style="margin:0 0 8px">${esc(p)}</li>`).join("")}</ul>`,
+      `<p ${P}>${esc(closing)}</p>`,
+      `<p style="margin:0">Speak soon,<br>Olivia</p>`,
+      signatureHtml(null),
+    ]),
+  };
+}
+
+// Two hours before the call: the deck again for whoever never opened it, and
+// the same one ask the confirmation made. Plain text like the nudge, and for
+// the same reason: dressed the same as the prep mail it would read as a
+// sequence, and this is meant to read like Olivia checking in.
+export function dayOfEmail(lead, { scheduledAt } = {}) {
+  const url = deckUrl();
+  return {
+    from: salesFrom(),
+    to: [lead.email],
+    reply_to: cfg("NOTIFY_TO"),
+    scheduled_at: new Date(scheduledAt).toISOString(),
+    subject: "your fein call today",
+    text: [
+      `Hi ${lead.first || "there"},`,
+      "Just a quick note before your call with Daniel later today. The joining link is in the calendar invite.",
+      `If you've not had a minute for the deck, here it is again: ${url}. And if there's a question you'd like fein to answer live, just reply with it and Daniel will have it on screen when you join.`,
+      "Speak soon,\nOlivia",
+    ].join("\n\n"),
+  };
+}
+
+/** The drip for one booking: [{mail, key}], ready to send. The idempotency
+ * key carries the booking uid AND the start time, so a webhook cal.com
+ * retries cannot schedule the same mail twice, while a reschedule (new start
+ * time, same uid) mints new keys and is free to schedule again after the
+ * sweep. */
+export function dripEmails(lead, { startTime, timeZone = null, uid = null, now = new Date() } = {}) {
+  const when = whenLine(startTime, timeZone);
+  return dripSchedule(startTime, now).map(({ kind, at }) => ({
+    mail: kind === "prep" ? prepEmail(lead, { when, scheduledAt: at }) : dayOfEmail(lead, { scheduledAt: at }),
+    key: `${kind === "prep" ? "prep" : "prepday"}-${uid ?? lead.email}-${startTime}`,
+  }));
+}
+
 // Only ever sent when the attendee cancelled it themselves. Someone who books
 // and then drops the slot is still interested and has just left the funnel
 // silently, since the nudge that would have caught them was cancelled by the

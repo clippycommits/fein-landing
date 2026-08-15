@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>fein deck source</title>
+<!--
+  Source for deck/fein-deck.pdf, the short deck the pre-call drip links to
+  (DECK_URL in api/_lib.mjs). Ten 16:9 pages in the site's own system: black
+  ground, Geist display, Inter body, grey lowercase kickers, the one quiet
+  blue. Copy follows the house rules (no em dashes, no gush) and restates the
+  site, never invents: every number here is on /pricing, every claim on the
+  page that argues it.
+
+  Regenerate after editing (from src/):
+
+    node -e "const fs=require('fs');let h=fs.readFileSync('deck.html','utf8')
+      .replace('__GEIST_B64__',fs.readFileSync('GeistSans.woff2').toString('base64'))
+      .replace('__INTER_B64__',fs.readFileSync('Inter.woff2').toString('base64'))
+      .replace('__MONO_B64__',fs.readFileSync('GeistMono.woff2').toString('base64'));
+      fs.writeFileSync('/tmp/fein-deck-inline.html',h)"
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+      --print-to-pdf=../deck/fein-deck.pdf --no-pdf-header-footer /tmp/fein-deck-inline.html
+-->
+<style>
+@font-face{font-family:'Geist';font-style:normal;font-weight:100 900;src:url(data:font/woff2;base64,__GEIST_B64__) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;src:url(data:font/woff2;base64,__INTER_B64__) format('woff2')}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:100 900;src:url(data:font/woff2;base64,__MONO_B64__) format('woff2')}
+@page{size:1280px 720px;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#08090A}
+body{font-family:'Inter',system-ui,sans-serif;color:#ededed;-webkit-font-smoothing:antialiased;letter-spacing:-.011em}
+.slide{position:relative;width:1280px;height:720px;overflow:hidden;page-break-after:always;background:#08090A;padding:72px 84px}
+.kicker{font-size:15px;font-weight:500;color:#8a8f98;text-transform:lowercase;margin-bottom:18px}
+h1{font-family:'Geist',sans-serif;font-weight:520;font-size:104px;line-height:1.02;letter-spacing:-.035em;color:#fff}
+h2{font-family:'Geist',sans-serif;font-weight:560;font-size:54px;line-height:1.06;letter-spacing:-.03em;color:#fff;margin-bottom:30px;max-width:900px}
+p.lede{font-size:23px;line-height:1.5;color:#a1a1a1;max-width:760px}
+.page-n{position:absolute;bottom:40px;right:84px;font-family:'Geist Mono',monospace;font-size:14px;color:#4a4d55}
+.brand{position:absolute;bottom:40px;left:84px;font-family:'Geist',sans-serif;font-weight:600;font-size:16px;color:#4a4d55}
+.rule{border:0;border-top:1px solid rgba(255,255,255,.09);margin:34px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px;margin-top:44px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px 36px;margin-top:44px}
+.card h3{font-family:'Geist',sans-serif;font-weight:560;font-size:23px;letter-spacing:-.02em;color:#fff;margin-bottom:9px}
+.card p{font-size:17.5px;line-height:1.5;color:#8a8f98;max-width:430px}
+.num{font-family:'Geist Mono',monospace;font-size:14px;color:#52A8FF;display:block;margin-bottom:12px}
+.blue{color:#52A8FF}
+ul.qs{list-style:none;margin-top:40px}
+ul.qs li{display:flex;gap:20px;align-items:baseline;padding:22px 0;border-top:1px solid rgba(255,255,255,.09);font-size:22px;color:#ededed}
+ul.qs li:last-child{border-bottom:1px solid rgba(255,255,255,.09)}
+ul.qs .q{width:430px;flex:none;font-weight:550;color:#fff;letter-spacing:-.015em}
+ul.qs .a{font-size:18px;line-height:1.5;color:#8a8f98}
+table{width:100%;border-collapse:collapse;margin-top:40px}
+th{font-size:14px;font-weight:500;color:#8a8f98;text-align:left;text-transform:lowercase;padding:0 18px 12px 0}
+td{font-size:19px;color:#ededed;padding:18px 18px 18px 0;border-top:1px solid rgba(255,255,255,.09);vertical-align:top;line-height:1.45}
+td .m{font-family:'Geist Mono',monospace;color:#fff}
+td .sub{display:block;font-size:15.5px;color:#8a8f98;margin-top:4px;max-width:640px}
+.cover{display:flex;flex-direction:column;justify-content:center}
+.cover .tags{display:flex;gap:12px;margin-top:44px}
+.cover .tag{font-size:15px;color:#a1a1a1;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 18px}
+.gmark{position:absolute;top:80px;right:84px}
+.close{display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.close .links{margin-top:44px;font-size:21px;line-height:2.1;color:#a1a1a1}
+.close .links b{color:#fff;font-weight:550}
+.close .links .m{font-family:'Geist Mono',monospace;font-size:19px}
+</style>
+</head>
+<body>
+
+<!-- 1 · cover -->
+<section class="slide cover">
+  <svg class="gmark" width="240" height="200" viewBox="0 0 240 200" fill="none" aria-hidden="true">
+    <g stroke="#26272b" stroke-width="1.6">
+      <line x1="30" y1="160" x2="120" y2="46"/><line x1="120" y1="46" x2="196" y2="108"/>
+      <line x1="120" y1="46" x2="206" y2="30"/><line x1="196" y1="108" x2="150" y2="176"/>
+      <line x1="30" y1="160" x2="150" y2="176"/>
+    </g>
+    <circle cx="30" cy="160" r="7" fill="#26272b"/><circle cx="120" cy="46" r="9" fill="#fff"/>
+    <circle cx="206" cy="30" r="5" fill="#26272b"/><circle cx="196" cy="108" r="6" fill="#52A8FF"/>
+    <circle cx="150" cy="176" r="6" fill="#26272b"/>
+  </svg>
+  <p class="kicker">open source &middot; self-hosted</p>
+  <h1>fein</h1>
+  <p class="lede" style="font-size:30px;margin-top:22px;color:#c9c9c9">The memory layer for venture capital.</p>
+  <div class="tags">
+    <span class="tag">Warm introductions</span><span class="tag">Meeting prep</span>
+    <span class="tag">Deal memory</span><span class="tag">Answers in Claude and ChatGPT</span>
+  </div>
+  <span class="brand">fein.vc</span><span class="page-n">01</span>
+</section>
+
+<!-- 2 · problem -->
+<section class="slide">
+  <p class="kicker">the problem</p>
+  <h2>Your team's memory is scattered across the tools it works in.</h2>
+  <p class="lede">The real record of every relationship sits in inboxes, calendars, notes and the CRM. Each tool holds a piece, and no tool holds the picture.</p>
+  <div class="grid2">
+    <div class="card"><h3>The CRM shows one picture, the inbox another.</h3><p>Coverage is a guess, because the system of record is the one nobody keeps up to date.</p></div>
+    <div class="card"><h3>Relationships go quiet in silence.</h3><p>Nobody notices the drift until the next deal, or the next raise, goes somewhere warmer.</p></div>
+    <div class="card"><h3>When a partner leaves, the memory leaves.</h3><p>What they knew about a founder, an LP or a pass was never written anywhere.</p></div>
+    <div class="card"><h3>Deal history is not searchable.</h3><p>The memo, the reason and the introduction sit in three systems and one person's memory.</p></div>
+  </div>
+  <span class="brand">fein</span><span class="page-n">02</span>
+</section>
+
+<!-- 3 · what fein is -->
+<section class="slide">
+  <p class="kicker">what fein is</p>
+  <h2>One context graph of every relationship your team has.</h2>
+  <p class="lede">fein reads your team's email, calendar, notes and CRM. It resolves them into one live graph: who exists, who knows whom, and how well. Then it answers in Claude, ChatGPT and Cursor, and every answer carries its source document.</p>
+  <div class="grid3">
+    <div class="card"><span class="num">01</span><h3>Reads</h3><p>Your inbox, calendar, Drive, LinkedIn and CRM, read continuously. Your team logs nothing.</p></div>
+    <div class="card"><span class="num">02</span><h3>Resolves</h3><p>Every duplicate contact becomes one identity, scored from real signals, not an LLM guess.</p></div>
+    <div class="card"><span class="num">03</span><h3>Answers</h3><p>One MCP endpoint. The same cited answer in every AI tool your team already uses.</p></div>
+  </div>
+  <span class="brand">fein</span><span class="page-n">03</span>
+</section>
+
+<!-- 4 · four questions -->
+<section class="slide">
+  <p class="kicker">what you can ask</p>
+  <h2>Four questions your team asks every week.</h2>
+  <ul class="qs">
+    <li><span class="q">Who is the warmest path to this founder?</span><span class="a">The weighted shortest path through your real graph, and the best colleague to make the introduction.</span></li>
+    <li><span class="q">What should I know before this meeting?</span><span class="a">The attendees, how you know each of them, and what was open, on your screen before the meeting starts.</span></li>
+    <li><span class="q">Why did we pass on this company?</span><span class="a">The meeting, the memo and the exact stated reason, each line traced to its source document.</span></li>
+    <li><span class="q">Which relationships are going cold?</span><span class="a">The ones drifting from their own learned rhythm, flagged from dates and intervals, not a guess.</span></li>
+  </ul>
+  <span class="brand">fein</span><span class="page-n">04</span>
+</section>
+
+<!-- 5 · your CRM stays -->
+<section class="slide">
+  <p class="kicker">your stack stays</p>
+  <h2>It sits on top of the systems you run today.</h2>
+  <p class="lede">fein works with 30 or more tools. It reads the CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry.</p>
+  <div class="grid2" style="margin-top:38px">
+    <div class="card"><h3>CRM and deals</h3><p>DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable</p></div>
+    <div class="card"><h3>Email and calendar</h3><p>Gmail, Google Calendar, Outlook, Microsoft 365</p></div>
+    <div class="card"><h3>Files, notes and chat</h3><p>Drive, SharePoint, Dropbox, DocSend, Granola, Slack, Notion</p></div>
+    <div class="card"><h3>Where it answers</h3><p>Claude, ChatGPT, Gemini, Cursor, Perplexity, Copilot</p></div>
+  </div>
+  <span class="brand">fein</span><span class="page-n">05</span>
+</section>
+
+<!-- 6 · security -->
+<section class="slide">
+  <p class="kicker">security</p>
+  <h2>Your data never leaves your servers.</h2>
+  <div class="grid2" style="margin-top:40px">
+    <div class="card"><h3>Always self-hosted.</h3><p>It runs on your infrastructure and sends nothing to us. No telemetry, no control plane.</p></div>
+    <div class="card"><h3>Open source, end to end.</h3><p>Every line that touches your data is public, Apache 2.0 licensed. Read it before you run it.</p></div>
+    <div class="card"><h3>Private by person.</h3><p>Each person's sensitive sources live in their own layer, enforced inside every query.</p></div>
+    <div class="card"><h3>Every change written down.</h3><p>Ingests, merges and decisions land in an append only audit trail, with who made them.</p></div>
+  </div>
+  <span class="brand">fein</span><span class="page-n">06</span>
+</section>
+
+<!-- 7 · 14 days -->
+<section class="slide">
+  <p class="kicker">managed setup</p>
+  <h2>Live in 14 days. Your part is two short calls.</h2>
+  <div class="grid3" style="margin-top:48px">
+    <div class="card"><span class="num">day 1</span><h3>We connect your systems.</h3><p>On the first call we connect email, calendar, Drive, LinkedIn and the CRM, on your own servers.</p></div>
+    <div class="card"><span class="num">days 2 to 13</span><h3>It reads your full history.</h3><p>Years of email, meetings and documents, resolved into one record per person. Nobody maintains it by hand.</p></div>
+    <div class="card"><span class="num">day 14</span><h3>You check it, then it goes live.</h3><p>On a second short call you check the answers against what you know. Then fein works like it has been there for years.</p></div>
+  </div>
+  <span class="brand">fein</span><span class="page-n">07</span>
+</section>
+
+<!-- 8 · pricing -->
+<section class="slide">
+  <p class="kicker">pricing</p>
+  <h2>Setup and upkeep, never access. Never per seat.</h2>
+  <table>
+    <tr><th style="width:250px">option</th><th style="width:230px">price</th><th>what you get</th></tr>
+    <tr><td>Run it yourself</td><td><span class="m">$0</span> forever</td><td>The same code we deploy for clients, Apache 2.0.<span class="sub">No paid tier of the software, no feature held back.</span></td></tr>
+    <tr><td>Managed setup</td><td><span class="m">$5,000</span> once</td><td>A forward deployed engineer builds fein into your stack.<span class="sub">Live on day 14 with your full history read back.</span></td></tr>
+    <tr><td>Then a monthly plan</td><td><span class="m">$250 / $500 / $750</span></td><td>Core, Plus or Pro, set by how much we keep doing.<span class="sub">Connectors kept working, new answers on request, a named engineer on Pro. Annual, paid in advance, costs 15% less.</span></td></tr>
+  </table>
+  <span class="brand">fein</span><span class="page-n">08</span>
+</section>
+
+<!-- 9 · why it holds up -->
+<section class="slide">
+  <p class="kicker">why it holds up</p>
+  <h2>A graph your AI tools can trust, not a search box.</h2>
+  <ul class="qs">
+    <li><span class="q">Deterministic</span><span class="a">The same question gets the same answer every time, from structured graph traversal, not document scraping.</span></li>
+    <li><span class="q">Cited</span><span class="a">The document behind each line is one click away. Nothing has to be taken on faith.</span></li>
+    <li><span class="q">Aware of time</span><span class="a">A fact that stops being true is retired with its dates, not overwritten. You can ask what the team believed when it decided.</span></li>
+    <li><span class="q">Yours</span><span class="a">If you cancel, the software, the graph and every answer stay running on your servers.</span></li>
+  </ul>
+  <span class="brand">fein</span><span class="page-n">09</span>
+</section>
+
+<!-- 10 · close -->
+<section class="slide close">
+  <p class="kicker">next</p>
+  <h2 style="font-size:64px;max-width:980px">See it answer a real question from a team's own history.</h2>
+  <div class="links">
+    <b>Book the call</b> &nbsp;<span class="m">fein.vc/demo</span><br>
+    <b>Write to us</b> &nbsp;<span class="m">sales@fein.vc</span><br>
+    <b>Read the code</b> &nbsp;<span class="m">github.com/clippycommits/fein</span>
+  </div>
+  <span class="brand">fein</span><span class="page-n">10</span>
+</section>
+
+</body>
+</html>

@@ -39,6 +39,8 @@ let body = idx.slice(idx.indexOf("<body>") + "<body>".length, idx.lastIndexOf("<
 // ---- 2. strip what build.js appends after the page markup ----
 // the Intercom launcher + messenger, wrapped in <!--fein-chat--> delimiters
 body = body.replace(/\s*<!--fein-chat:start-->[\s\S]*?<!--fein-chat:end-->/g, "");
+// the "Get a demo" modal, wrapped in <!--fein-demo--> delimiters (src/demo-modal.html)
+body = body.replace(/\s*<!--fein-demo:start-->[\s\S]*?<!--fein-demo:end-->/g, "");
 // the GoatCounter pair (loader + hashchange counter)
 body = body.replace(/\s*<script data-goatcounter[\s\S]*?<\/script>\s*<script>[^<]*goatcounter[\s\S]*?<\/script>/g, "");
 // the Vercel insights stub and its two first-party loaders

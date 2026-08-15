@@ -18,8 +18,10 @@ retiring the old VPS service.
 ## The booking funnel
 
 ```
-/demo form ("Select a time that suits you")
-   ├─ GET /api/cal on first keystroke      (CAL_LINK, split for the embed)
+"Get a demo" (any page)  →  two-step modal (src/demo-modal.html, injected
+   site-wide by build.js; /demo stays the no-JS + direct-URL fallback)
+   step 1: work email only · step 2: name, region, interests
+   ├─ GET /api/cal on open                 (CAL_LINK, split for the embed)
    └─ POST /api/enquiry                    (Vercel function, same origin)
         ├─ notification → daniel@fein.vc   (Reply-To: the lead)
         ├─ welcome → lead, Daniel's calendar, what the call is
@@ -30,21 +32,35 @@ cal.com BOOKING_CREATED   → /api/webhooks/calcom (HMAC-verified)
         ├─ cancels every pending send to that address (welcome, nudge)
         ├─ confirmation → lead, what the twenty minutes are for, and the
         │    one ask: send a question you want fein to answer
+        ├─ pre-call drip scheduled (timed off the call, not the booking):
+        │    >26h out: deck+prep mail at T-24h, short note at T-2h
+        │    3-26h out: the deck+prep mail alone at T-2h
+        │    <3h out: nothing (the confirmation just went)
+        │    deck: DECK_URL, default https://fein.vc/deck/fein-deck.pdf
         └─ "fein call booked" notification → daniel@fein.vc
+cal.com BOOKING_RESCHEDULED → /api/webhooks/calcom
+        └─ sweeps the pending drip, re-times it against the new slot,
+           sends nothing now (cal.com already sent the updated invite)
 cal.com BOOKING_CANCELLED → /api/webhooks/calcom
+        ├─ sweeps the pending drip, whoever cancelled
         └─ if THEY cancelled: "another time for the fein call" + the calendar
            if we cancelled: nothing, we know why
 ```
+
+The cal.com webhook must have **Booking created, Booking cancelled and
+Booking rescheduled** ticked (Settings → Developer → Webhooks), or the drip
+outlives cancellations and mis-times reschedules.
 
 One mail per thing that can happen to a lead, and never two for one. The four
 journeys and what each one gets:
 
 | what they did | from cal.com | from us |
 | --- | --- | --- |
-| booked in the modal | invite | confirmation only (the welcome is cancelled before it was due) |
+| booked in the modal | invite | confirmation (the welcome is cancelled before it was due), then the pre-call drip |
 | closed the modal, never booked | nothing | welcome at +15m, one nudge at +72h, then we stop |
-| booked later, from the email | invite | welcome, then confirmation; the nudge is cancelled |
-| booked, then cancelled it themselves | cancellation | "another time" with the calendar |
+| booked later, from the email | invite | welcome, then confirmation; the nudge is cancelled; then the pre-call drip |
+| moved the call | updated invite | nothing new; the drip is swept and re-timed for the new slot |
+| booked, then cancelled it themselves | cancellation | the pending drip is swept; "another time" with the calendar |
 
 Cancelling those scheduled sends is a sweep of Resend's own schedule for
 anything still pending to that address (`cancelScheduledFor` in `_lib.mjs`).
@@ -92,9 +108,15 @@ modal and never a lead.
 
 ## Analytics (done — 2026-08-07)
 
-GoatCounter: https://fein.goatcounter.com (credentials in
-`~/.config/fein/goatcounter.txt`). Page views, hash routes, `lead-submitted`
-and `call-click` events; server-side call clicks also land in `fein:log`.
+Vercel Web Analytics is the one counter. Page views, hash routes,
+`lead-submitted` and `call-click` events; server-side call clicks also land in
+`fein:log`.
+
+GoatCounter (https://fein.goatcounter.com) was retired Aug 2026 and its local
+credentials file deleted. The account itself was registered to a
+`commixcapital.com` mailbox and must be deleted at goatcounter.com directly.
+The `data-goatcounter` strippers in `src/rederive-tpl.js` and `scripts/cms.mjs`
+are retained deliberately: they clear stale tags out of old templates.
 
 ## Email authentication (done — 2026-08-13)
 

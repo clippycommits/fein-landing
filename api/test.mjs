@@ -69,9 +69,12 @@ const { GET: calEmbedRoute } = await import("./cal.mjs");
 const { GET: health } = await import("./health.mjs");
 const { POST: webhook } = await import("./webhooks/calcom.mjs");
 
+// The origin header is what a browser sends on every fetch() POST and what
+// originOk requires; without it every enquiry dies at the same-site check
+// before a single guard below it is exercised.
 const post = (handler, body, headers = {}) =>
   handler(new Request("https://fein.vc/api/x", {
-    method: "POST", headers: { "content-type": "application/json", ...headers },
+    method: "POST", headers: { "content-type": "application/json", origin: "https://fein.vc", ...headers },
     body: typeof body === "string" ? body : JSON.stringify(body),
   }));
 
@@ -260,13 +263,18 @@ console.log("Booking modal path (demo page):");
   const cancels = sent.slice(mark).filter((s) => s.path.includes("/cancel")).map((s) => s.path);
   ok(cancels.length === 2, `booking cancels both the held welcome and the nudge — got ${cancels.length}`);
   const toLead = sent.slice(mark).filter((s) => s.path === "/emails" && s.body?.to?.[0] === "sam@northgate.example");
-  ok(toLead.length === 1 && toLead[0].body.subject === "your call with Daniel",
-    `a lead who books gets exactly one mail from us, and it is the confirmation — got ${toLead.length}`);
-  ok(toLead[0].headers["Idempotency-Key"] === "booking-bk_sam",
+  // The pre-call drip (tested in its own section below) may add scheduled
+  // sends here depending on how far away the fixture date is when the suite
+  // runs, so the invariant is about immediate mail: exactly one, the
+  // confirmation.
+  const immediate = toLead.filter((s) => !s.body.scheduled_at);
+  ok(immediate.length === 1 && immediate[0].body.subject === "your call with Daniel",
+    `a lead who books gets exactly one immediate mail from us, the confirmation — got ${immediate.length}`);
+  ok(immediate[0].headers["Idempotency-Key"] === "booking-bk_sam",
     "keyed on the booking, so a webhook cal.com retries cannot mail them twice");
-  ok(toLead[0].body.text.includes("warm introductions and meeting prep"),
+  ok(immediate[0].body.text.includes("warm introductions and meeting prep"),
     "which still knows what they ticked, read back off the notes the modal prefilled");
-  ok(toLead[0].body.text.includes("Thursday 20 August at 11:00 am"),
+  ok(immediate[0].body.text.includes("Thursday 20 August at 11:00 am"),
     "and states the time where they are, not where the server is");
 }
 
@@ -291,9 +299,93 @@ console.log("The whole funnel with no Upstash at all:");
   ok(sent.slice(mark).filter((s) => s.path.includes("/cancel")).length === 2,
     "and the booking still takes both sends away with no redis in the picture");
   const left = await (await fetch("https://resend.test/emails?limit=100")).json();
-  ok(!left.data.some((r) => r.last_event === "scheduled" && r.to.includes("ines@harbourline.example")),
-    "nothing is left queued for someone who booked");
+  // the pre-call drip is allowed to sit in the schedule for a booked lead;
+  // nothing from the pre-booking funnel (welcome, nudge) may be
+  const DRIP_SUBJECTS = ["before your call with Daniel", "your fein call today"];
+  ok(!left.data.some((r) => r.last_event === "scheduled" && r.to.includes("ines@harbourline.example")
+      && !DRIP_SUBJECTS.includes(r.subject)),
+    "nothing pre-booking is left queued for someone who booked");
   Object.assign(process.env, { UPSTASH_REDIS_REST_URL: url, UPSTASH_REDIS_REST_TOKEN: tok });
+}
+
+console.log("Pre-call drip:");
+{
+  const { dripSchedule, DECK_URL_DEFAULT } = await import("./_lib.mjs");
+  const H = 3600_000;
+  const now = new Date();
+  // the pure schedule
+  const far = dripSchedule(new Date(+now + 7 * 24 * H).toISOString(), now);
+  ok(far.length === 2 && far[0].kind === "prep" && far[1].kind === "day",
+    "a week out: the deck a day before, a note two hours before");
+  ok(Math.abs(far[0].at - (+now + 6 * 24 * H)) < 60_000 && Math.abs(far[1].at - (+now + 7 * 24 * H - 2 * H)) < 60_000,
+    "and both are timed off the call, not the booking");
+  const near = dripSchedule(new Date(+now + 10 * H).toISOString(), now);
+  ok(near.length === 1 && near[0].kind === "prep" && Math.abs(near[0].at - (+now + 8 * H)) < 60_000,
+    "booked close in: one mail, two hours before");
+  ok(dripSchedule(new Date(+now + 1 * H).toISOString(), now).length === 0,
+    "booked for within three hours: nothing; the confirmation just went");
+  ok(dripSchedule("not a date", now).length === 0 && dripSchedule(undefined, now).length === 0,
+    "no usable start time, no drip");
+  const distant = dripSchedule(new Date(+now + 40 * 24 * H).toISOString(), now);
+  ok(distant.length === 1 && Math.abs(distant[0].at - (+now + 29 * 24 * H)) < 60_000,
+    "past resend's window the prep clamps to it and the reminder is dropped");
+
+  // through the webhook, end to end
+  const start = new Date(+now + 7 * 24 * H).toISOString();
+  const b1 = JSON.stringify({
+    triggerEvent: "BOOKING_CREATED",
+    payload: { uid: "bk_leo", title: "fein intro", startTime: start,
+      attendees: [{ email: "leo@stackline.example", name: "Leo Marsh", timeZone: "Europe/London" }] },
+  });
+  let mark = sent.length;
+  const res = await post(webhook, b1, { "x-cal-signature-256": createHmac("sha256", SECRET).update(b1).digest("hex") });
+  ok((await res.json()).dripScheduled === 2, "booking a week out schedules both drip mails");
+  const drip = sent.slice(mark).filter((s) => s.path === "/emails" && s.body?.to?.[0] === "leo@stackline.example" && s.body.scheduled_at);
+  ok(drip.length === 2, `two scheduled sends to the lead — got ${drip.length}`);
+  const [prep, day] = drip.map((s) => s.body);
+  ok(prep.subject === "before your call with Daniel" && day.subject === "your fein call today",
+    "the deck mail and the day-of note");
+  ok(prep.text.includes(DECK_URL_DEFAULT) && day.text.includes(DECK_URL_DEFAULT) && prep.html.includes("short deck"),
+    "both carry the deck");
+  ok(prep.text.includes("Bring a real question"), "the prep mail says how to prepare");
+  ok(!day.html && day.text, "the day-of note stays plain text, like the nudge");
+  ok(new Date(prep.scheduled_at) < new Date(day.scheduled_at) && new Date(day.scheduled_at) < new Date(start),
+    "prep lands before the note, and both before the call");
+  ok(drip[0].headers["Idempotency-Key"] === `prep-bk_leo-${start}` && drip[1].headers["Idempotency-Key"] === `prepday-bk_leo-${start}`,
+    "keys carry the uid and the start time, so a retried webhook cannot double up");
+  ok(!JSON.stringify([prep, day]).match(/—|!|excited|thrilled|my calendar/i), "the drip keeps the copy rules");
+
+  // a reschedule re-times it against the new slot
+  const start2 = new Date(+now + 3 * 24 * H).toISOString();
+  const r1 = JSON.stringify({ triggerEvent: "BOOKING_RESCHEDULED",
+    payload: { uid: "bk_leo2", title: "fein intro", startTime: start2,
+      attendees: [{ email: "leo@stackline.example", name: "Leo Marsh", timeZone: "Europe/London" }] } });
+  mark = sent.length;
+  const res2 = await post(webhook, r1, { "x-cal-signature-256": createHmac("sha256", SECRET).update(r1).digest("hex") });
+  const body2 = await res2.json();
+  ok(body2.rescheduled === true && body2.dripScheduled === 2, "a reschedule sweeps and re-times the drip");
+  const cancels = sent.slice(mark).filter((s) => s.path.includes("/cancel"));
+  ok(cancels.length === 2, `the old drip was swept — ${cancels.length} cancelled`);
+  const redrip = sent.slice(mark).filter((s) => s.path === "/emails" && s.body?.scheduled_at);
+  ok(redrip.length === 2 && Math.abs(new Date(redrip[0].body.scheduled_at) - (+new Date(start2) - 24 * H)) < 60_000,
+    "and the new prep mail is timed off the new slot");
+  ok(!sent.slice(mark).some((s) => s.path === "/emails" && !s.body?.scheduled_at && s.body?.to?.[0] === "leo@stackline.example"),
+    "a reschedule sends nothing now: cal.com already sent the updated invite");
+
+  // cancelling the call takes the drip away with it
+  const c1 = JSON.stringify({ triggerEvent: "BOOKING_CANCELLED",
+    payload: { uid: "bk_leo2", title: "fein intro", startTime: start2,
+      attendees: [{ email: "leo@stackline.example", name: "Leo Marsh", timeZone: "Europe/London" }],
+      cancelledBy: { email: "daniel@fein.vc" } } });
+  mark = sent.length;
+  await post(webhook, c1, { "x-cal-signature-256": createHmac("sha256", SECRET).update(c1).digest("hex") });
+  ok(sent.slice(mark).filter((s) => s.path.includes("/cancel")).length === 2,
+    "cancelling the booking sweeps the pending drip, whoever cancelled");
+  ok(!sent.slice(mark).some((s) => s.path === "/emails" && s.body?.to?.[0] === "leo@stackline.example"),
+    "and us cancelling still says nothing to the lead");
+  const pending = await (await fetch("https://resend.test/emails?limit=100")).json();
+  ok(!pending.data.some((r) => r.last_event === "scheduled" && r.to.includes("leo@stackline.example")),
+    "nothing is left queued for a cancelled call");
 }
 
 console.log("Call redirect + health:");
