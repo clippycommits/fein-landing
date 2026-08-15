@@ -3,6 +3,12 @@
 Everything runs on Vercel: one project serves the static site and the
 `/api/*` lead functions on the same domain. Push to main = deploy.
 
+> 2026-08-15: the push of f40ad3c did NOT trigger the GitHub integration
+> (no new deployment appeared in `vercel ls`); production was deployed with
+> `vercel deploy --prod --yes` from a clean clone of the pushed commit
+> (never the working directory, a CMS session can leave drafts in it).
+> If pushes keep deploying nothing, re-check Project → Settings → Git.
+
 ## The one command
 
 ```bash
