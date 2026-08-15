@@ -59,6 +59,39 @@ __LOGO_SPRITE__
 
   __SECTION_WHY__
 
+  <!-- the questions this page gets sent to answer, in the same faq component
+       the other document pages use. build.js reads this block into FAQPage
+       JSON-LD, so the answers here are the ones an answer engine quotes. -->
+  <section id="questions" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>What teams ask about the integrations.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>How is this different from Affinity or Attio?</summary>
+          <p>A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it, then resolves the whole picture into one graph that stays current on its own. It sits on top of the CRM and asks for no new data entry.</p>
+        </details>
+        <details>
+          <summary>Do we have to replace anything?</summary>
+          <p>No. fein replaces no system and migrates no data. It reads the record your team already makes, so if the CRM is out of date, fein is still current.</p>
+        </details>
+        <details>
+          <summary>What does it connect to?</summary>
+          <p>Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola, with the rest of the wall above behind them. 30+ tools in all, and we add new connectors often.</p>
+        </details>
+        <details>
+          <summary>Which AI tools can ask it questions?</summary>
+          <p>Claude, ChatGPT, Gemini, and Cursor, over one MCP endpoint. Any MCP client works, and each answer arrives with its source document.</p>
+        </details>
+        <details>
+          <summary>What if our tool is not on the wall?</summary>
+          <p>We read that too. Twenty minutes on a call gets you a straight answer on whether your stack fits.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- the same framed closing panel every document page ends on (pricing,
        deploy, security, self-host), so the family keeps one closing rhythm
        and the email path is never missing. -->

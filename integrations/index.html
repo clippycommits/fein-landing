@@ -2082,6 +2082,11 @@
     #burst{animation:none}
   }
 </style>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="fein for AI assistants (summary)">
+<link rel="alternate" type="text/plain" href="/llms-full.txt" title="fein for AI assistants (full page)">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","url":"https://fein.vc/","logo":"https://fein.vc/icon-512.png","email":"sales@fein.vc","sameAs":["https://github.com/clippycommits/fein"]},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","url":"https://fein.vc/","applicationCategory":"BusinessApplication","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"license":"https://www.apache.org/licenses/LICENSE-2.0","installUrl":"https://github.com/clippycommits/fein"},{"@type":"WebPage","@id":"https://fein.vc/integrations#webpage","url":"https://fein.vc/integrations","name":"fein integrations · 30+ tools in, one endpoint out","description":"fein reads your CRM, email, calendar, files, and notes. 30+ tools resolve into one context graph. Claude, ChatGPT, and Cursor query it over one MCP endpoint.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"dateModified":"2026-08-15","inLanguage":"en","primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"breadcrumb":{"@id":"https://fein.vc/integrations#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://fein.vc/integrations#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"fein","item":"https://fein.vc/"},{"@type":"ListItem","position":2,"name":"fein integrations","item":"https://fein.vc/integrations"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/integrations#faq","mainEntity":[{"@type":"Question","name":"How is this different from Affinity or Attio?","acceptedAnswer":{"@type":"Answer","text":"A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it, then resolves the whole picture into one graph that stays current on its own. It sits on top of the CRM and asks for no new data entry."}},{"@type":"Question","name":"Do we have to replace anything?","acceptedAnswer":{"@type":"Answer","text":"No. fein replaces no system and migrates no data. It reads the record your team already makes, so if the CRM is out of date, fein is still current."}},{"@type":"Question","name":"What does it connect to?","acceptedAnswer":{"@type":"Answer","text":"Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola, with the rest of the wall above behind them. 30+ tools in all, and we add new connectors often."}},{"@type":"Question","name":"Which AI tools can ask it questions?","acceptedAnswer":{"@type":"Answer","text":"Claude, ChatGPT, Gemini, and Cursor, over one MCP endpoint. Any MCP client works, and each answer arrives with its source document."}},{"@type":"Question","name":"What if our tool is not on the wall?","acceptedAnswer":{"@type":"Answer","text":"We read that too. Twenty minutes on a call gets you a straight answer on whether your stack fits."}}]}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-github" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></g></symbol><symbol id="l-gmail" viewBox="0 0 256 193">
@@ -2369,6 +2374,39 @@
         <p class="rl">Where it runs</p>
         <p class="a">Your data leaves your firm. It goes to whichever vendor owns the connector.</p>
         <p class="b"><b class="ben">Yours.</b> It runs on your own servers. You can read all of the code. It sends nothing to us.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- the questions this page gets sent to answer, in the same faq component
+       the other document pages use. build.js reads this block into FAQPage
+       JSON-LD, so the answers here are the ones an answer engine quotes. -->
+  <section id="questions" class="band">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>What teams ask about the integrations.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>How is this different from Affinity or Attio?</summary>
+          <p>A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it, then resolves the whole picture into one graph that stays current on its own. It sits on top of the CRM and asks for no new data entry.</p>
+        </details>
+        <details>
+          <summary>Do we have to replace anything?</summary>
+          <p>No. fein replaces no system and migrates no data. It reads the record your team already makes, so if the CRM is out of date, fein is still current.</p>
+        </details>
+        <details>
+          <summary>What does it connect to?</summary>
+          <p>Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Granola, with the rest of the wall above behind them. 30+ tools in all, and we add new connectors often.</p>
+        </details>
+        <details>
+          <summary>Which AI tools can ask it questions?</summary>
+          <p>Claude, ChatGPT, Gemini, and Cursor, over one MCP endpoint. Any MCP client works, and each answer arrives with its source document.</p>
+        </details>
+        <details>
+          <summary>What if our tool is not on the wall?</summary>
+          <p>We read that too. Twenty minutes on a call gets you a straight answer on whether your stack fits.</p>
+        </details>
       </div>
     </div>
   </section>

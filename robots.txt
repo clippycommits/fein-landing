@@ -46,7 +46,16 @@ Allow: /
 User-agent: GoogleAgent-Mariner
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
 User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
 Allow: /
 
 User-agent: Bytespider

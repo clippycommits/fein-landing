@@ -35,6 +35,12 @@
       "headers": [
         { "key": "X-Robots-Tag", "value": "googlebot: noindex" }
       ]
+    },
+    {
+      "source": "/b/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
     }
   ]
 }
