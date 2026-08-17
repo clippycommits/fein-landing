@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE = "https://fein.vc";
-const TITLE = "fein · the memory layer for venture capital";
+const TITLE = "fein · the memory layer for private capital";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD.
 // Both are written in Simplified Technical English, one idea to a sentence, and
 // both hold the approved terms: "your team" for the customer, "context graph"
@@ -271,7 +271,7 @@ const ld = {
       isPartOf: { "@id": SITE + "/#webpage" },
       about: { "@id": SITE + "/#app" }
     },
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the memory layer for venture capital", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: [REPO_URL], knowsAbout: ["venture capital", "private equity", "limited partner relations", "relationship intelligence", "entity resolution", "knowledge graphs", "Model Context Protocol"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the memory layer for private capital", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: [REPO_URL], knowsAbout: ["venture capital", "private equity", "limited partner relations", "relationship intelligence", "entity resolution", "knowledge graphs", "Model Context Protocol"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, video: { "@id": SITE + "/#demo-film" }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -320,12 +320,12 @@ const headMeta = `<meta charset="utf-8">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the memory layer for venture capital">
+<meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
 <meta name="twitter:image" content="${SITE}/og.png">
-<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">`;
+<meta name="twitter:image:alt" content="fein · the memory layer for private capital">`;
 
 // GoatCounter retired Aug 2026: Vercel Web Analytics is the one counter now.
 const analytics = `<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
@@ -535,7 +535,7 @@ fs.writeFileSync(path.join(out, "404.html"), notFound);
 
 // robots.txt — welcome AI answer engines explicitly
 const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "GoogleOther", "Applebot", "Applebot-Extended", "Bingbot", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
-const robots = `# fein · the memory layer for venture capital
+const robots = `# fein · the memory layer for private capital
 # AI assistants welcome. Summary: ${SITE}/llms.txt · Full page: ${SITE}/llms-full.txt
 
 User-agent: *
@@ -554,7 +554,6 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
   <url><loc>${SITE}/pricing</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/deploy</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/self-host</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
-  <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/private-equity</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/fundraising</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/portfolio</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
@@ -713,7 +712,10 @@ function homeSection(id) {
 }
 const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay:end*/", "change-replay");
 
-["pe", "private-equity", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
+// /pe is retired in favour of /private-equity (vercel.json 301s the old path).
+const LEAD_STAGE = sliceBetween(rest, "<!--lead-stage:start-->", "<!--lead-stage:end-->", "lead-stage");
+const LEAD_JS = sliceBetween(rest, "/*lead-stage-js:start*/", "/*lead-stage-js:end*/", "lead-stage-js");
+["private-equity", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__STYLE__").join(styleBlock)
     .split("__LOGO_SPRITE__").join(spriteAll)
@@ -726,10 +728,13 @@ const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay
     .split("__SECTION_CRM__").join(homeSection("crm"))
     .split("__SECTION_WHY__").join(homeSection("why"))
     .split("__SECTION_CHANGE__").join(homeSection("change"))
+    .split("__SECTION_PROOF__").join(homeSection("clients"))
+    .split("__LEAD_STAGE__").join(LEAD_STAGE)
+    .split("__LEAD_JS__").join(LEAD_JS)
     .split("__CHANGE_JS__").join(CHANGE_JS);
   if (page.indexOf("__GEIST") > -1 || page.indexOf("__INTER") > -1 || page.indexOf("__ANALYTICS__") > -1) throw new Error("page placeholder left in " + slug);
   if (page.indexOf("__STYLE__") > -1 || page.indexOf("__LOGO_SPRITE__") > -1 || page.indexOf("__NAV") > -1) throw new Error("page placeholder left in " + slug);
-  if (page.indexOf("__SECTION") > -1 || page.indexOf("__CHANGE_JS__") > -1) throw new Error("page placeholder left in " + slug);
+  if (page.indexOf("__SECTION") > -1 || page.indexOf("__CHANGE_JS__") > -1 || page.indexOf("__LEAD_") > -1) throw new Error("page placeholder left in " + slug);
   const faqLd = faqLdFor(page, slug);
   page = page.replace("</head>", AI_HEAD_LINKS + "\n" + pageLdFor(page, slug) + (faqLd ? "\n" + faqLd : "") + "\n</head>");
   // /demo carries this flow as a full page; the modal script no-ops there, so
@@ -770,7 +775,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel.
 
 ## For private equity
-- fein serves private equity firms as well as venture capital firms. The page for private equity is ${SITE}/pe.
+- fein serves private equity firms as well as venture capital firms. The page for private equity is ${SITE}/private-equity.
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
 - fein lists every intermediary who sends the firm deals. It scores each relationship from real signal. It names the person at the firm who owns each relationship. It flags the relationships that go quiet.
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
@@ -820,7 +825,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 - [Run fein yourself](${SITE}/self-host): the free path. What the setup involves, what it needs, and how long each part really takes
 - [Managed setup](${SITE}/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
 - [Pricing](${SITE}/pricing): both paths priced against each other, with the three monthly plans
-- [fein for private equity](${SITE}/pe): the page for private equity firms
+- [fein for private equity](${SITE}/private-equity): the page for private equity firms
 - [fein for fundraising](${SITE}/fundraising): the page for LP relations and the next raise
 - [fein for portfolio teams](${SITE}/portfolio): the page for platform and portfolio support
 - [Security](${SITE}/security): self-hosted, open source, auditable. The page for a security review
@@ -832,7 +837,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 // llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
 // Every line here restates visible site copy; keep it in sync when copy changes.
-fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the memory layer for venture capital
+fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the memory layer for private capital
 
 ${LLMS_SUMMARY}
 
@@ -924,9 +929,9 @@ We deploy fein in two weeks. Then it works on its own. Your only part is two sho
 - Days 2-13, it reads your full history: it reads years of email, meetings, and documents. It joins every copy of each person into one record. The whole team shares this record. Nobody maintains it by hand.
 - Day 14, you check it, then it goes live: on a second short call, you check the answers against what you know. Then fein goes live. It holds your team's full history, like a colleague of many years.
 
-## For private equity: ${SITE}/pe
+## For private equity: ${SITE}/private-equity
 
-fein serves private equity firms as well as venture capital firms. The page at ${SITE}/pe describes the same product in the language a deal team uses.
+fein serves private equity firms as well as venture capital firms. The page at ${SITE}/private-equity describes the same product in the language a deal team uses.
 
 An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them, and the record of those relationships sits in ten thousand emails. Four problems follow from that. Coverage is a guess, because the CRM shows one picture and the inbox shows another. Relationships go quiet in silence, and the firm learns this when the next deal goes to a competitor. Ownership leaves when a partner leaves, because what the partner knew was never written down. Deal history is not searchable, because the memo, the reason, and the intermediary sit in three systems and one person's memory.
 
@@ -993,7 +998,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
-  name: "fein", short_name: "fein", description: "The memory layer for venture capital.",
+  name: "fein", short_name: "fein", description: "The memory layer for private capital.",
   start_url: "/", display: "standalone", background_color: "#08090A", theme_color: "#08090A",
   icons: [
     { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -1022,7 +1027,7 @@ text{font-family:'Geist','Helvetica Neue',Arial,sans-serif}
 </g>
 <text x="92" y="150" fill="#8f8f8f" font-size="22" font-weight="500" letter-spacing="4">OPEN SOURCE · SELF-HOSTED</text>
 <text x="84" y="330" fill="#ffffff" font-size="200" font-weight="600" letter-spacing="-8">fein</text>
-<text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The memory layer for venture capital.</text>
+<text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The memory layer for private capital.</text>
 <text x="92" y="458" fill="#7d7d7d" font-size="25" font-weight="400">Warm intros · meeting prep · deal memory, inside Claude &amp; ChatGPT</text>
 <text x="92" y="560" fill="#ededed" font-size="26" font-weight="500">fein.vc</text>
 </g>

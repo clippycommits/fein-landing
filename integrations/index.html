@@ -23,12 +23,12 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the memory layer for venture capital">
+<meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fein integrations">
 <meta name="twitter:description" content="30+ tools resolve into one context graph, served over one MCP endpoint.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
-<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
+<meta name="twitter:image:alt" content="fein · the memory layer for private capital">
 
 <!-- The index page's whole stylesheet, injected by build.js. The two sections
      this page rehomes (#crm, #why) are index-page markup, so every class they
@@ -392,6 +392,12 @@
   /* works-with strip: slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
+  /* the proof band: client names as quiet text, not a logo wall. One muted
+     centred paragraph so it reads as a fact stated once. The segment pages
+     inherit these rules through the injected stylesheet. */
+  .proof-band{text-align:center}
+  .proof-band .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase}
+  .proof-names{margin:1.2rem auto 0;max-width:56rem;font-size:.87rem;line-height:2;color:var(--fg-3);text-wrap:balance}
   /* the strip's one exit: a quiet centred link under the marquee, to the page
      that lists every tool and makes the one-endpoint argument in full */
   .works .works-more{margin:1.2rem auto 0;width:fit-content;color:var(--fg-3);font-size:.9rem;display:flex}
@@ -2164,7 +2170,7 @@
               <a class="dd-l" href="/">Deal sourcing</a>
               <a class="dd-l" href="/fundraising">Fundraising and LPs</a>
               <a class="dd-l" href="/portfolio">Portfolio support</a>
-              <a class="dd-l" href="/pe">Private equity</a>
+              <a class="dd-l" href="/private-equity">Private equity</a>
             </div>
             <div class="dd-col">
               <span class="dd-h">Product</span>
@@ -2203,7 +2209,7 @@
         <a href="/security">Security</a>
         <a href="/fundraising">For fundraising</a>
         <a href="/portfolio">For portfolio teams</a>
-        <a href="/pe">For private equity</a>
+        <a href="/private-equity">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
         <a href="/deploy">Managed setup (14 days)</a>
@@ -2454,7 +2460,7 @@
           <a href="/">Deal sourcing</a>
           <a href="/fundraising">Fundraising</a>
           <a href="/portfolio">Portfolio</a>
-          <a href="/pe">Private equity</a>
+          <a href="/private-equity">Private equity</a>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>

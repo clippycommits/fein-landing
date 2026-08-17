@@ -23,12 +23,12 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the memory layer for venture capital">
+<meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Firm memory for private equity">
 <meta name="twitter:description" content="Your firm has evaluated a thousand deals. Your AI has seen none of them.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
-<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
+<meta name="twitter:image:alt" content="fein · the memory layer for private capital">
 
 <!-- The index page's entire stylesheet, injected by build.js. Like /pe, this
      is a segment page and shares the sheet so it keeps reading as the same
@@ -63,6 +63,11 @@ __LOGO_SPRITE__
         <span>Reads your CRM, replaces nothing</span>
         <span>Nobody enters data</span>
       </div>
+      <!-- the fold's picture, rehomed from the home page by build.js: the
+           application window with the rail of source documents and the answer
+           assembled from them. Same markup, same drivers, sliced between the
+           lead-stage markers so a home-page edit lands here too. -->
+      __LEAD_STAGE__
     </div>
   </section>
 
@@ -111,6 +116,10 @@ __LOGO_SPRITE__
       </div>
     </div>
   </section>
+
+  <!-- the names behind the story above: the home page's #proof band, rehomed
+       so the 50-firms claim is followed by the firms. -->
+  __SECTION_PROOF__
 
   <section id="edge" class="band">
     <div class="wrap">
@@ -390,6 +399,10 @@ __LOGO_SPRITE__
 </main>
 
 <script>
+/* the fold's well and its hover-quote panel, sliced from the home page by
+   build.js so the lead-stage keeps playing here exactly as it does there. */
+__LEAD_JS__
+
 /* scroll-reveal, the same rise-and-fade the index page uses: the shared
    stylesheet ships .reveal at opacity 0, so without this the page is blank. */
 (function(){

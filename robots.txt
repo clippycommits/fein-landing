@@ -1,4 +1,4 @@
-# fein · the memory layer for venture capital
+# fein · the memory layer for private capital
 # AI assistants welcome. Summary: https://fein.vc/llms.txt · Full page: https://fein.vc/llms-full.txt
 
 User-agent: *

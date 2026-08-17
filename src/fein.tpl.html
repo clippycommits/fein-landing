@@ -357,6 +357,12 @@
   /* works-with strip: slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
+  /* the proof band: client names as quiet text, not a logo wall. One muted
+     centred paragraph so it reads as a fact stated once. The segment pages
+     inherit these rules through the injected stylesheet. */
+  .proof-band{text-align:center}
+  .proof-band .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase}
+  .proof-names{margin:1.2rem auto 0;max-width:56rem;font-size:.87rem;line-height:2;color:var(--fg-3);text-wrap:balance}
   /* the strip's one exit: a quiet centred link under the marquee, to the page
      that lists every tool and makes the one-endpoint argument in full */
   .works .works-more{margin:1.2rem auto 0;width:fit-content;color:var(--fg-3);font-size:.9rem;display:flex}
@@ -2099,7 +2105,7 @@ __LOGO_SPRITE__
               <a class="dd-l" href="/">Deal sourcing</a>
               <a class="dd-l" href="/fundraising">Fundraising and LPs</a>
               <a class="dd-l" href="/portfolio">Portfolio support</a>
-              <a class="dd-l" href="/pe">Private equity</a>
+              <a class="dd-l" href="/private-equity">Private equity</a>
             </div>
             <div class="dd-col">
               <span class="dd-h">Product</span>
@@ -2138,7 +2144,7 @@ __LOGO_SPRITE__
         <a href="/security">Security</a>
         <a href="/fundraising">For fundraising</a>
         <a href="/portfolio">For portfolio teams</a>
-        <a href="/pe">For private equity</a>
+        <a href="/private-equity">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
         <a href="/deploy">Managed setup (14 days)</a>
@@ -2245,7 +2251,7 @@ __LOGO_SPRITE__
     <div class="wrap" id="content" tabindex="-1">
 
       <span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="Cursor"><use href="#l-cursor"/></svg> and CLI.</span>
-      <h1>The memory layer for venture capital.</h1>
+      <h1>The memory layer for private capital.</h1>
       <!-- The pitch, decided by the founder and held everywhere the identity
            lives: <title>, og alt, slogan, manifest, robots, llms and the
            footers all say this same string. "Memory" is the human word (the
@@ -2294,6 +2300,7 @@ __LOGO_SPRITE__
            What ties a claim to its document here is that they light together and
            that the chip in the sentence carries the same date as the bar on the
            document. The sweep before the answer is the read itself. -->
+      <!--lead-stage:start-->
       <div class="lead-stage" id="lstage">
         <!-- ONE WINDOW. The three tiers made three things to look at and the
              fold wanted one, so the record becomes the rail of an application
@@ -2393,6 +2400,7 @@ __LOGO_SPRITE__
           </div>
         </div>
       </div>
+      <!--lead-stage:end-->
     </div>
 
   </section>
@@ -2404,7 +2412,18 @@ __LOGO_SPRITE__
        heading with a subtitle under it. -->
   <section id="stance" class="band stance" aria-label="What fein is">
     <div class="wrap">
-      <p class="stance-line"><b>One memory for the whole fund.</b> fein is for venture capital teams that work with AI. It reads the tools your firm already uses. It builds one context graph of every relationship the team has. Humans and agents ask it the same questions.</p>
+      <p class="stance-line"><b>One memory for the whole fund.</b> fein is for private capital teams that work with AI. It reads the tools your firm already uses. It builds one context graph of every relationship the team has. Humans and agents ask it the same questions.</p>
+    </div>
+  </section>
+
+
+  <!-- THE PROOF. The names behind the stance, as text: firms the team behind
+       fein has built for. Text and not logos on purpose: a logo wall is a
+       permission slip nobody granted, a list of names is a fact stated once. -->
+  <section id="clients" class="band proof-band" aria-label="Firms the team behind fein has worked with">
+    <div class="wrap">
+      <p class="lab reveal">proud to have worked with</p>
+      <p class="proof-names reveal">Ace Ventures &middot; Albion VC &middot; Anorak VC &middot; Arc Investors &middot; Auster Capital &middot; Backed VC &middot; Bain Capital Ventures &middot; Blue Cloud Ventures &middot; Bonfire Ventures &middot; Bread and Butter Ventures &middot; Breakers VC &middot; Cash App &middot; Connect Ventures &middot; Crane VC &middot; Culina Health &middot; Discord &middot; Dynamo Ventures &middot; Fintech Collective &middot; Fiori VC &middot; Friedkin International &middot; Graduate VC &middot; Hardware Club &middot; In Motion Ventures &middot; Karman VC &middot; Las Olas VC &middot; Long Journey Ventures &middot; Marathon Management Partners &middot; Markd VC &middot; Mass Mutual Ventures &middot; Midas AI &middot; Monte Carlo Capital &middot; ONE VC &middot; Originx &middot; Outlander VC &middot; Palo Alto Staffing &middot; Play VC &middot; Portal &middot; Prudence VC &middot; Regeneration Ventures &middot; RGB &middot; Singularity Capital &middot; Standup Ventures &middot; Tera VC &middot; The Council &middot; Ultratech Capital &middot; Union Square Ventures &middot; University of Michigan &middot; Wilden Design</p>
     </div>
   </section>
 
@@ -3028,7 +3047,7 @@ __LOGO_SPRITE__
       <ul class="stack-list" data-reveal-group="70">
         <li class="reveal"><span class="sl">Fundraising and LP relations</span><p>Every LP conversation, commitment, and promise becomes one record, warm before the next raise opens. <a class="arrowlink" href="/fundraising">fein for fundraising <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
         <li class="reveal"><span class="sl">Portfolio support</span><p>Open board asks, promised introductions, and founder requests, answered from the record the firm already makes. <a class="arrowlink" href="/portfolio">fein for portfolio teams <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
-        <li class="reveal"><span class="sl">Private equity</span><p>Every intermediary who sends the firm deals, ranked from real signal, owned by a named partner, and flagged when it goes quiet. <a class="arrowlink" href="/pe">fein for private equity <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
+        <li class="reveal"><span class="sl">Private equity</span><p>Every intermediary who sends the firm deals, ranked from real signal, owned by a named partner, and flagged when it goes quiet. <a class="arrowlink" href="/private-equity">fein for private equity <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
       </ul>
     </div>
   </section>
@@ -3119,7 +3138,7 @@ __LOGO_SPRITE__
       <div class="fgrid">
         <div class="fbrand">
           <a class="brand" href="#home">fein</a>
-          <p>The open-source memory layer for venture capital teams.</p>
+          <p>The open-source memory layer for private capital teams.</p>
         </div>
         <nav class="fcol" aria-label="Footer product">
           <b>Product</b>
@@ -3142,7 +3161,7 @@ __LOGO_SPRITE__
           <a href="#home">Deal sourcing</a>
           <a href="/fundraising">Fundraising</a>
           <a href="/portfolio">Portfolio</a>
-          <a href="/pe">Private equity</a>
+          <a href="/private-equity">Private equity</a>
         </nav>
         <nav class="fcol" aria-label="Footer contact">
           <b>Contact</b>
@@ -3606,6 +3625,7 @@ __LOGO_SPRITE__
 })();
 
 
+/*lead-stage-js:start*/
 /* the fold's well.
    One question, the read, and the documents the answer was assembled from
    lighting one at a time underneath it. Three questions turn on a timer with no
@@ -3889,6 +3909,7 @@ __LOGO_SPRITE__
     pane.addEventListener('mouseleave',drop);
   }
 })();
+/*lead-stage-js:end*/
 
 /* #memory's film, which is now the only one on the page: the band that used to
    autoplay a muted loop of it above the fold is gone, and this is where the

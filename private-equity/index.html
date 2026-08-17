@@ -23,12 +23,12 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the memory layer for venture capital">
+<meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Firm memory for private equity">
 <meta name="twitter:description" content="Your firm has evaluated a thousand deals. Your AI has seen none of them.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
-<meta name="twitter:image:alt" content="fein · the memory layer for venture capital">
+<meta name="twitter:image:alt" content="fein · the memory layer for private capital">
 
 <!-- The index page's entire stylesheet, injected by build.js. Like /pe, this
      is a segment page and shares the sheet so it keeps reading as the same
@@ -393,6 +393,12 @@
   /* works-with strip: slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
+  /* the proof band: client names as quiet text, not a logo wall. One muted
+     centred paragraph so it reads as a fact stated once. The segment pages
+     inherit these rules through the injected stylesheet. */
+  .proof-band{text-align:center}
+  .proof-band .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase}
+  .proof-names{margin:1.2rem auto 0;max-width:56rem;font-size:.87rem;line-height:2;color:var(--fg-3);text-wrap:balance}
   /* the strip's one exit: a quiet centred link under the marquee, to the page
      that lists every tool and makes the one-endpoint argument in full */
   .works .works-more{margin:1.2rem auto 0;width:fit-content;color:var(--fg-3);font-size:.9rem;display:flex}
@@ -2171,7 +2177,7 @@
               <a class="dd-l" href="/">Deal sourcing</a>
               <a class="dd-l" href="/fundraising">Fundraising and LPs</a>
               <a class="dd-l" href="/portfolio">Portfolio support</a>
-              <a class="dd-l" href="/pe">Private equity</a>
+              <a class="dd-l" href="/private-equity" aria-current="page">Private equity</a>
             </div>
             <div class="dd-col">
               <span class="dd-h">Product</span>
@@ -2210,7 +2216,7 @@
         <a href="/security">Security</a>
         <a href="/fundraising">For fundraising</a>
         <a href="/portfolio">For portfolio teams</a>
-        <a href="/pe">For private equity</a>
+        <a href="/private-equity" aria-current="page">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
         <a href="/deploy">Managed setup (14 days)</a>
@@ -2326,6 +2332,111 @@
         <span>Reads your CRM, replaces nothing</span>
         <span>Nobody enters data</span>
       </div>
+      <!-- the fold's picture, rehomed from the home page by build.js: the
+           application window with the rail of source documents and the answer
+           assembled from them. Same markup, same drivers, sliced between the
+           lead-stage markers so a home-page edit lands here too. -->
+      
+      <div class="lead-stage" id="lstage">
+        <!-- ONE WINDOW. The three tiers made three things to look at and the
+             fold wanted one, so the record becomes the rail of an application
+             and the answer becomes its main pane. A single frame, one border,
+             one radius, hairlines inside it instead of outlines around it.
+
+             The rail is also where the reading order wants the record. A list of
+             sources above an answer is a preamble; beside it, it is the thing
+             the answer was drawn from, and a claim landing on the right while
+             its row lights on the left is the whole mechanism in one gesture.
+
+             Each row's date is held back until its claim lands, so it arrives as
+             the tie to the chip in the sentence rather than sitting there being
+             a second column of dates nobody is reading yet. -->
+        <div class="lead-app">
+          <aside class="app-rail" aria-hidden="true">
+            <ol class="fn-read">
+            <li class="fn-src" data-d="0" data-quote="For the next fund we want more AI infrastructure. Compute, tooling, the layer underneath the models."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
+            <li class="fn-src" data-d="1" data-quote="Six design partners live and $2.4M ARR. We are opening a $30M Series A and would like you in it."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
+            <li class="fn-src" data-d="2" data-quote="Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fwd: Halo Compute, seed deck</b><em>8 Nov 2024</em></li>
+            <li class="fn-src" data-d="3" data-quote="Halo Compute closes next week. Do you want the introduction again?"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #dealflow</b><em>Today 14:16</em></li>
+            <li class="fn-src" data-d="4" data-quote="Both founders came out of Anthropic infra. No design partners live yet. Raising $4M at $18M post."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Coffee with Halo Compute</b><em>21 Nov 2024</em></li>
+            <li class="fn-src" data-d="5" data-quote="VP Engineering at Halo Compute. Previously five years at Databricks."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Priya Nayar, new position</b><em>3 Jun 2025</em></li>
+            <li class="fn-src" data-d="6" data-quote="Stage changed from Diligence to IC by Marcus Feld."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Halo Compute, moved to IC</b><em>14 Jul 2026</em></li>
+            <li class="fn-src" data-d="7" data-quote="Two of our LPs asked for more exposure to the compute layer this quarter."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Q3 LP letter, draft 2</b><em>4 Aug 2026</em></li>
+            <li class="fn-src" data-d="8" data-quote="Halo is the one we passed on and should not have. Anna to re-open it."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Partner sync, pipeline review</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="9" data-quote="Halo Compute, Series A. Marcus presenting to Anna, Elena and three more."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>IC Monday, 09:00</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="10" data-quote="Her manager at Databricks: the strongest scheduling engineer he has hired."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Reference call, Priya Nayar</b><em>22 Jul 2026</em></li>
+            <li class="fn-src" data-d="11" data-quote="GPU scheduling is consolidating. Halo and two others left standing."><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #research</b><em>Yesterday 16:04</em></li>
+            <li class="fn-src" data-d="12" data-quote="24 fields updated across 9 companies. Halo Compute moved twice."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Pipeline stage, 24 changes</b><em>11 Aug 2026</em></li>
+            <li class="fn-src" data-d="13" data-quote="Six new engineers at Halo Compute since June. Four of them from Databricks."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Series A hires, 6 updates</b><em>5 Aug 2026</em></li>
+            </ol>
+          </aside>
+
+          <div class="app-main" id="lcard">
+            <!-- the fourth claim is the one that argues for the product rather than
+                 describing it. The first three are history, and any search over a
+                 tidy archive could have found them. This one is four hours old: the
+                 answer's own warmest path was two years stale until a Slack message
+                 this afternoon superseded it, and the record had already read that
+                 message. Rail row 3 is that thread, which is why data-d gains it. -->
+            <!-- the three answers, stacked in one cell rather than swapped in one
+                 slot. Beside the rail their height never mattered: fourteen rows
+                 are taller than any of them, so the rail set the box and the
+                 answers turned inside it. Stacked, the rail is underneath and the
+                 answer is the only thing setting the height, so a four claim turn
+                 following a three claim one stepped the card 140px and took the
+                 query line and every row under it with it. A grid cell is as tall
+                 as its tallest child whatever the copy says, which is the part a
+                 measured min-height would not survive: the answers on this fold
+                 get rewritten, and a number in a stylesheet would go stale
+                 silently. -->
+            <div class="lead-ps">
+            <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2,3">
+            <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
+            <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>This changed four hours ago:</b> Dev offered that introduction again in #dealflow<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Today 14:16</span>, so the path is open today and not two years old.</span>
+            </p>
+
+            <p class="ask-a lead-p" data-q="What changed since we passed on Halo Compute?" data-d="2,1,5,6" hidden>
+            <span class="cl"><b>Four things.</b> You saw a $4M seed<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>,</span>
+            <span class="cl">and it is a $30M Series A now with six design partners live<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">They hired a <b>VP Engineering</b> out of Databricks<span class="cite" data-s="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span>,</span>
+            <span class="cl">and Marcus moved it to IC in July<span class="cite" data-s="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
+            </p>
+
+            <p class="ask-a lead-p" data-q="Who on the team has the warmest path in?" data-d="2,3,4" hidden>
+            <span class="cl"><b>Dev Raman</b> made the introduction and still co-invests<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
+            <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
+            </p>
+            </div>
+
+            <!-- what a source actually says, on hover. It reads into the pane rather
+                 than into a card floating over the rail, for two reasons: the pane is
+                 where document content belongs, and the space between the answer and
+                 the query line is already empty, so nothing has to move to make room.
+                 The row lights at the same moment, which is the tie this fold already
+                 uses everywhere instead of drawing a line between the two.
+                 Filled from the row's data-quote by script; empty and hidden without
+                 one, so it can never show a frame of blank furniture. -->
+            <figure class="fn-quote" id="lquote" aria-hidden="true" hidden>
+              <blockquote></blockquote>
+              <figcaption><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b></b><em></em></figcaption>
+            </figure>
+
+            <div class="ask-bar">
+            <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
+            <span class="ask-in">
+            <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
+            <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </section>
 
@@ -2372,6 +2483,15 @@
         <h2>We watched this fail at 50 firms before we built fein.</h2>
         <p class="lead">We spent years building the CRMs and data workflows inside 50+ private capital firms. The same pattern everywhere: the firm&rsquo;s real intelligence never lands in any system. It lives in heads and leaves in exits. When AI arrived, it had nothing to read. So we built the layer we kept wishing existed: one graph of everything the firm already knows, on the firm&rsquo;s own servers, readable by every partner and every AI tool the firm runs.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- the names behind the story above: the home page's #proof band, rehomed
+       so the 50-firms claim is followed by the firms. -->
+  <section id="clients" class="band proof-band" aria-label="Firms the team behind fein has worked with">
+    <div class="wrap">
+      <p class="lab reveal">proud to have worked with</p>
+      <p class="proof-names reveal">Ace Ventures &middot; Albion VC &middot; Anorak VC &middot; Arc Investors &middot; Auster Capital &middot; Backed VC &middot; Bain Capital Ventures &middot; Blue Cloud Ventures &middot; Bonfire Ventures &middot; Bread and Butter Ventures &middot; Breakers VC &middot; Cash App &middot; Connect Ventures &middot; Crane VC &middot; Culina Health &middot; Discord &middot; Dynamo Ventures &middot; Fintech Collective &middot; Fiori VC &middot; Friedkin International &middot; Graduate VC &middot; Hardware Club &middot; In Motion Ventures &middot; Karman VC &middot; Las Olas VC &middot; Long Journey Ventures &middot; Marathon Management Partners &middot; Markd VC &middot; Mass Mutual Ventures &middot; Midas AI &middot; Monte Carlo Capital &middot; ONE VC &middot; Originx &middot; Outlander VC &middot; Palo Alto Staffing &middot; Play VC &middot; Portal &middot; Prudence VC &middot; Regeneration Ventures &middot; RGB &middot; Singularity Capital &middot; Standup Ventures &middot; Tera VC &middot; The Council &middot; Ultratech Capital &middot; Union Square Ventures &middot; University of Michigan &middot; Wilden Design</p>
     </div>
   </section>
 
@@ -2653,6 +2773,294 @@
 </main>
 
 <script>
+/* the fold's well and its hover-quote panel, sliced from the home page by
+   build.js so the lead-stage keeps playing here exactly as it does there. */
+
+/* the fold's well.
+   One question, the read, and the documents the answer was assembled from
+   lighting one at a time underneath it. Three questions turn on a timer with no
+   control to pick one, because the claim being made is that the same record
+   answers all of them, not that the reader has a widget.
+
+   The order is the argument and it is why the sweep is there: every document is
+   touched before three of them are named, so what the reader watches is a search
+   over the whole record rather than three cards that happened to glow.
+
+   Nothing is drawn between a claim and its document. See the note in the markup.
+   Everything the finished state needs is already in the HTML; .armed is what
+   takes it away in order to play it back, and a watchdog puts it back. */
+(function(){
+  var stage=document.getElementById('lstage');
+  if(!stage) return;
+  var qEl=document.getElementById('lq'),
+      srcs=[].slice.call(stage.querySelectorAll('.fn-src')),
+      panels=[].slice.call(stage.querySelectorAll('.lead-p'));
+  if(!qEl||!panels.length||!srcs.length) return;
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* the same sequence, played at a phone's distance. On a wide screen the card
+     is one object among several in the fold and the rail is beside it, so the
+     pane can sit quiet for a beat while the question types and the read runs.
+     Stacked, the rail is underneath and the pane IS the fold: 285px of the
+     first screen, directly under the buttons. Every millisecond the answer
+     takes to arrive is a millisecond of empty box where the product should be,
+     and the reader is scrolling. So the read is quicker and the claims land
+     closer together -- the whole turn is under half what it was. */
+  var phone=window.matchMedia('(max-width:900px)').matches;
+  var TYPE=phone?9:15, SCAN=phone?26:62, HELD=phone?70:155,
+      TAIL=phone?120:200, BEAT=phone?140:240, LAND=phone?300:560;
+  var timers=[], typer=null, cycle=null, cur=0, done=false;
+
+  function at(ms,fn){ timers.push(setTimeout(fn,ms)); }
+  function clearAll(){ timers.forEach(clearTimeout); timers=[]; clearTimeout(typer); }
+  function dark(){ srcs.forEach(function(d){ d.classList.remove('hot'); d.classList.remove('scan'); }); }
+  function claims(i){ return [].slice.call(panels[i].querySelectorAll('.cl')); }
+  function sources(i){ return (panels[i].getAttribute('data-d')||'').split(','); }
+  function row(k){ return stage.querySelector('.fn-src[data-d="'+k+'"]'); }
+
+  function type(text,step,then){
+    clearTimeout(typer);
+    var n=0;
+    qEl.textContent='';
+    (function tick(){
+      qEl.textContent=text.slice(0,++n);
+      if(n<text.length) typer=setTimeout(tick,step);
+      else if(then) then();
+    })();
+  }
+
+  /* the read. Every document is touched, in the order they sit on screen.
+     On screen is the operative part: stacked, the rail shows eight of its
+     fourteen rows and the rest are display:none. Timing the sweep off srcs
+     spent six rows' worth of it -- a third of the read -- lighting nothing a
+     reader could see, and the answer waited behind all of it. */
+  function lit(){ return srcs.filter(function(d){ return d.offsetParent!==null; }); }
+  function sweep(then){
+    var rows=lit();
+    rows.forEach(function(d,i){
+      at(i*SCAN,function(){ d.classList.add('scan'); });
+      at(i*SCAN+HELD,function(){ d.classList.remove('scan'); });
+    });
+    at(rows.length*SCAN+TAIL,then);
+  }
+
+  function settle(i){
+    qEl.textContent=panels[i].getAttribute('data-q');
+    claims(i).forEach(function(c){ c.classList.add('in'); });
+  }
+
+  function show(i,animate){
+    cur=i; clearAll(); dark();
+    panels.forEach(function(p,k){
+      if(k===i) p.removeAttribute('hidden'); else p.setAttribute('hidden','');
+    });
+    var cl=claims(i), src=sources(i);
+    if(!animate||reduce){ settle(i); return; }
+    cl.forEach(function(c){ c.classList.remove('in'); });
+    function read(){
+      at(BEAT,function(){
+        sweep(function(){
+          cl.forEach(function(c,k){
+            at(k*LAND,function(){
+              c.classList.add('in');
+              var d=row(src[k]); if(d) d.classList.add('hot');
+            });
+          });
+          at(cl.length*LAND+2900,dark);
+        });
+      });
+    }
+    /* the question is placed, not typed, on a phone. Typing grows the line it is
+       typed into: these questions run to two lines at 390 and three at 320, so a
+       turn started on one line and stepped the card down 24px, then 24px again,
+       as the wrap found its final shape -- and the query line and the whole rail
+       under it moved each time. The claims solved this years ago by holding
+       their space and giving up only their ink, but a caret has to sit at the
+       end of what has been typed, so the same trick on the question would part
+       the caret from the text. It is a nicety either way, and on a phone it
+       costs the card's height to keep. The read and the answer still play. */
+    if(phone){ qEl.textContent=panels[i].getAttribute('data-q'); read(); }
+    else type(panels[i].getAttribute('data-q'),TYPE,read);
+  }
+
+  /* the record count went with the read-out row it lived in, and so did the
+     count-up that drove it. */
+
+  /* the last thing on the card that could still step it. The answers hold each
+     other open in their grid cell and the question is no longer typed, but the
+     three questions are different lengths, and at 320 and 375 one of them wraps
+     to a line fewer than the others: the card lost 24px on that turn and the
+     rail under it came up to meet it. Same rule as the answers -- the longest
+     holds the line open -- but a line of text cannot be stacked in a cell the
+     way three paragraphs can, so it is measured instead. Measured, not written
+     down: which question is longest depends on the width and on the copy, and
+     this fold's copy gets rewritten. Read again once the faces are loaded,
+     because the fallback's metrics are not the ones that end up on screen, and
+     again on a rotation, which changes every wrap on the card. */
+  function holdQuery(){
+    if(!phone||!qEl.parentNode) return;
+    var line=qEl.parentNode, keep=qEl.textContent, max=0;
+    line.style.minHeight='';
+    panels.forEach(function(p){
+      qEl.textContent=p.getAttribute('data-q');
+      if(line.offsetHeight>max) max=line.offsetHeight;
+    });
+    qEl.textContent=keep;
+    line.style.minHeight=max+'px';
+  }
+  if(phone){
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ if(cycle) holdQuery(); });
+    var rsz=null;
+    window.addEventListener('resize',function(){
+      clearTimeout(rsz); rsz=setTimeout(function(){ if(cycle) holdQuery(); },200);
+    },{passive:true});
+  }
+
+  function finish(){
+    if(done) return;
+    done=true;
+    clearAll(); dark();
+    stage.classList.remove('armed');
+    settle(cur);
+  }
+
+  function play(){
+    /* a phone does not get the reveal, it gets the answer.
+       The rule this file set for the funnel is that there is no state in which
+       it is blank, and on a wide screen the sequence keeps it: the rail is
+       beside the pane, so while the question types there are still fourteen
+       documents to look at. Stacked, the rail is below the fold's edge and the
+       pane is the only thing on screen -- and it opened empty for 2.7 seconds,
+       then filled a claim at a time, and did not finish until five. A reader
+       on a phone is gone by then, and what they saw of the product was an
+       empty rounded rectangle under the buttons.
+       So the first turn is served settled: sources up, panel one whole, no
+       type, no read, no waiting. The demo is not lost -- .armed goes on with
+       the first cycle and every turn after this one plays in full, quicker
+       than it did. What is lost is the one turn nobody was watching. */
+    if(phone){
+      srcs.forEach(function(d){ d.classList.add('in'); });
+      panels.forEach(function(p,k){
+        if(k===0) p.removeAttribute('hidden'); else p.setAttribute('hidden','');
+      });
+      cur=0; settle(0); holdQuery();
+      if(!cycle) cycle=setInterval(function(){
+        stage.classList.add('armed');
+        show((cur+1)%panels.length,true);
+      },11000);
+      return;
+    }
+    srcs.forEach(function(d,i){ at(70+i*44,function(){ d.classList.add('in'); }); });
+    var t=70+srcs.length*44+180;
+    at(t,function(){
+      show(0,true);
+      if(!cycle) cycle=setInterval(function(){ show((cur+1)%panels.length,true); },11000);
+    });
+  }
+
+  if(reduce||!('IntersectionObserver' in window)){ finish(); return; }
+  /* armed hides the claims so the sequence can bring them back, so on a phone
+     it waits for the first cycle: arming now would blank a card that is about
+     to be served whole, which is the flash this change exists to remove. */
+  if(!phone) stage.classList.add('armed');
+  var watchdog=setTimeout(finish,18000);
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(!e.isIntersecting) return;
+      io.disconnect(); clearTimeout(watchdog);
+      play();
+    });
+  },{threshold:0.12});
+  io.observe(stage);
+})();
+
+/* the rail's sources, quoted on hover.
+   Its own block rather than a hand inside the one above, because the two do not
+   share a single variable: that one plays a fixed sequence on a timer, this one
+   answers the pointer, and the only thing they touch in common is a row's classes.
+   Which is why the hover lights .peek and not .hot. .hot belongs to the sequence,
+   and hovering a row mid-sweep would otherwise hand the animation a state it did
+   not set and take one away that it did.
+
+   The quote lands in the pane's empty middle, and the bar's margin-top:auto is
+   what makes that free: the height it needs comes out of that auto margin, so
+   showing it moves neither the answer above nor the query line below. The panel is
+   hidden rather than merely transparent when idle, because an empty figure still
+   draws its own left hairline.
+
+   One listener on the rail rather than fourteen on the rows, and no hover styling
+   in CSS alone, because the same press has to fill the panel as lights the row. */
+(function(){
+  var stage=document.getElementById('lstage'); if(!stage) return;
+  var slot=document.getElementById('lquote'), rail=stage.querySelector('.app-rail');
+  if(!slot||!rail) return;
+  var body=slot.querySelector('blockquote'),
+      mark=slot.querySelector('use'),
+      name=slot.querySelector('figcaption b'),
+      when=slot.querySelector('figcaption em');
+  if(!body||!mark||!name||!when) return;
+  var lit=null, off=null;
+
+  function drop(){
+    if(lit){ lit.classList.remove('peek'); lit=null; }
+    slot.classList.remove('on');
+    clearTimeout(off);
+    /* hidden only after it has faded, so leaving the rail is not a cut */
+    off=setTimeout(function(){ slot.hidden=true; },220);
+  }
+  function lift(row){
+    var text=row.getAttribute('data-quote');
+    if(!text||row===lit) return;
+    clearTimeout(off);
+    if(lit) lit.classList.remove('peek');
+    lit=row; row.classList.add('peek');
+    body.textContent=text;
+    var b=row.querySelector('b'), e=row.querySelector('em'), u=row.querySelector('use');
+    name.textContent=b?b.textContent:'';
+    when.textContent=e?e.textContent:'';
+    if(u) mark.setAttribute('href',u.getAttribute('href'));
+    slot.hidden=false;
+    /* the fade needs a state to start from, and an element unhidden in this tick
+       has not been laid out yet. Reading a layout property flushes it, which is
+       synchronous and certain; a requestAnimationFrame hop is the usual way to buy
+       the same frame and it is not certain, because nothing guarantees the callback
+       runs before the class is wanted. */
+    void slot.offsetHeight;
+    slot.classList.add('on');
+  }
+
+  rail.addEventListener('mouseover',function(ev){
+    var row=ev.target&&ev.target.closest?ev.target.closest('.fn-src'):null;
+    if(row) lift(row);
+  });
+  rail.addEventListener('mouseleave',drop);
+
+  /* the citations in the sentence do the same thing, which is the more useful of
+     the two: the chip is where a reader's doubt actually lands. "Nobody here has
+     met the founders since the coffee in 2024" is a claim, and the chip beside it
+     is the offer to check. Hovering it quotes the coffee.
+
+     Each chip carries the row it cites in data-s rather than being matched on the
+     date it prints, and it resolves to the row so the panel is filled by the same
+     one function. The row lights at the same time, so hovering a claim in the pane
+     also points at the document in the rail: the tie the fold argues for, drawn
+     from the other end.
+
+     Leave is bound to the pane and not to the chip, so crossing from one chip to
+     the next does not blink, and the quote holds while the sentence is read. */
+  var pane=stage.querySelector('.app-main');
+  if(pane){
+    pane.addEventListener('mouseover',function(ev){
+      var chip=ev.target&&ev.target.closest?ev.target.closest('.lead-p .cite[data-s]'):null;
+      if(!chip) return;
+      var row=rail.querySelector('.fn-src[data-d="'+chip.getAttribute('data-s')+'"]');
+      if(row) lift(row);
+    });
+    pane.addEventListener('mouseleave',drop);
+  }
+})();
+
+
 /* scroll-reveal, the same rise-and-fade the index page uses: the shared
    stylesheet ships .reveal at opacity 0, so without this the page is blank. */
 (function(){

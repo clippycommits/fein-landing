@@ -1,5 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/pe", "destination": "/private-equity", "permanent": true },
+    { "source": "/pe/:path*", "destination": "/private-equity", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
