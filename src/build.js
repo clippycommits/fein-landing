@@ -555,6 +555,7 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
   <url><loc>${SITE}/deploy</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/self-host</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/pe</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
+  <url><loc>${SITE}/private-equity</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/fundraising</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/portfolio</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/security</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
@@ -712,7 +713,7 @@ function homeSection(id) {
 }
 const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay:end*/", "change-replay");
 
-["pe", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
+["pe", "private-equity", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__STYLE__").join(styleBlock)
     .split("__LOGO_SPRITE__").join(spriteAll)
