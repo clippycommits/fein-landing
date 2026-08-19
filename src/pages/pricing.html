@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fein pricing &middot; free to self-host, or fully managed</title>
-<meta name="description" content="fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup and upkeep are quoted on a short call, set by how much we keep doing. Never per seat.">
+<title>fein pricing &middot; free to self-host, or $450 a month managed</title>
+<meta name="description" content="fein is Apache 2.0 licensed and free to run yourself, forever. Or we build it into your stack and keep it running for a flat $450 a month, with nothing to pay up front. Never per seat.">
 <link rel="canonical" href="https://fein.vc/pricing">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="fein">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="fein pricing">
-<meta property="og:description" content="Free to self-host, forever. Or a managed build and upkeep, quoted on a call. Never per seat.">
+<meta property="og:description" content="Free to self-host, forever. Or a managed build and upkeep for a flat $450 a month. Never per seat.">
 <meta property="og:url" content="https://fein.vc/pricing">
 <meta property="og:image" content="https://fein.vc/og.png">
 <meta property="og:image:type" content="image/png">
@@ -26,14 +26,14 @@
 <meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fein pricing">
-<meta name="twitter:description" content="Free to self-host, forever. Or a managed build and upkeep, quoted on a call. Never per seat.">
+<meta name="twitter:description" content="Free to self-host, forever. Or a managed build and upkeep for a flat $450 a month. Never per seat.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
 <meta name="twitter:image:alt" content="fein · the memory layer for private capital">
 
 <!-- The index page's whole stylesheet, injected by build.js. Every component
      this page uses (.fork, .faq, .seg-fold) is defined there; the small block
-     after it holds only what this page adds on top: the four-across plan row
-     (a .fork variant) and the plan comparison table. -->
+     after it holds only what this page adds on top: the plan cards' lead-in
+     row (a .fork variant) and the plan comparison table. -->
 __STYLE__
 <style>
   /* The fold hands straight into the cards here: #plans opens with a
@@ -43,14 +43,10 @@ __STYLE__
      shared rhythm is right everywhere a band opens with a heading. */
   #plans.band{padding-top:clamp(2.4rem,5vw,3.6rem)}
   #plans .fork{margin-top:0}
-  .plans{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(.8rem,1.4vw,1.1rem)}
-  .plans .fork-card{padding:clamp(1.15rem,1.8vw,1.55rem)}
-  .plans .fork-price b{font-size:clamp(1.45rem,2.3vw,1.85rem)}
-  /* four across is narrower than the two-card fork, so the worded price steps
-     down again: "Talk to us" has to hold one line at 1024px. */
-  .plans .fork-price b.ask{font-size:clamp(1.05rem,1.5vw,1.22rem)}
-  .plans .fork-card>p{font-size:.92rem}
-  .plans .fork-card li{font-size:.9rem}
+  /* two cards now, which is exactly what the shared .fork grid already lays
+     out, so .plans no longer overrides the columns or steps the type down.
+     What it still carries is the lead-in row, which the four-across variant
+     introduced and the managed card still uses. */
   .plans .fork-card li.lead-in{color:var(--fg-3)}
   .plans .fork-card li.lead-in b{color:var(--fg-2)}
   /* the three-class lead-in greys above out-specify the shared sheet's two-class
@@ -58,12 +54,6 @@ __STYLE__
      specificity or the row renders washed-out page grey on chartreuse. */
   .plans .fork-card.pick li.lead-in{color:rgba(10,11,10,.9)}
   .plans .fork-card.pick li.lead-in b{color:#0A0B0A}
-  @media (max-width:1023px){
-    .plans{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:clamp(.9rem,2vw,1.2rem)}
-    .plans .fork-card{display:flex;grid-row:auto}
-    .plans .fork-act{margin-top:auto}
-  }
-  @media (max-width:560px){.plans{grid-template-columns:1fr}}
   .cmp-wrap{overflow-x:auto;margin-top:clamp(1.8rem,3.6vw,2.6rem);border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg-2)}
   /* the table scrolls sideways on phones, so the feature column is sticky with
      an opaque surface for the plan columns to slide under. Borders live on the
@@ -112,7 +102,7 @@ __LOGO_SPRITE__
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
       <h1>Simple pricing. One plan is free.</h1>
-      <p>The software is open source under Apache 2.0 and free to run yourself, forever. Or we build it into your stack and you pick how much we keep doing after that. We quote it on a short call. Never per seat.</p>
+      <p>The software is open source under Apache 2.0 and free to run yourself, forever. Or we build it into your stack and keep it running for $450 a month. That is the whole price, whatever the size of your firm. Never per seat.</p>
     </div>
   </section>
 
@@ -135,49 +125,26 @@ __LOGO_SPRITE__
           <div class="fork-act"><a class="btn btn-ghost" href="/self-host">Run it yourself</a></div>
         </div>
 
-        <div class="fork-card reveal">
-          <h3>Core</h3>
-          <p>We build it, then keep it running.</p>
-          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
+        <div class="fork-card pick reveal">
+          <h3>Managed</h3>
+          <p>We build it, then keep it running and growing.</p>
+          <div class="fork-price"><b>$450</b><span class="per">a month, flat</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Self-hosted, plus:</b></span></li>
-            <li><span class="tk">&rarr;</span><span><b>Built into your stack in 14 days.</b> A one-time build.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Built into your stack in 14 days.</b> Nothing to pay up front.</span></li>
             <li><span class="tk">&rarr;</span><span>Every source connected, duplicates resolved, full history read back.</span></li>
             <li><span class="tk">&rarr;</span><span>Connectors repaired after each upstream API change.</span></li>
             <li><span class="tk">&rarr;</span><span>Updates and security patches applied for you.</span></li>
-            <li><span class="tk">&rarr;</span><span>Email support, 2 business days.</span></li>
-          </ul>
-          <div class="fork-act"><a class="btn btn-ghost" href="/demo">Get a demo</a></div>
-        </div>
-
-        <div class="fork-card pick reveal">
-          <h3>Plus</h3>
-          <p>We keep it running, and keep it growing.</p>
-          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
-          <ul>
-            <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Core, plus:</b></span></li>
             <li><span class="tk">&rarr;</span><span><b>New answers built</b> when your team asks new questions.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>New connectors built</b> when you adopt new tools.</span></li>
             <li><span class="tk">&rarr;</span><span>A quarterly graph review. Duplicates resolved, drift fixed.</span></li>
-            <li><span class="tk">&rarr;</span><span>Priority support, next business day.</span></li>
+            <li><span class="tk">&rarr;</span><span>A named engineer who knows your stack. Same-day support.</span></li>
           </ul>
           <div class="fork-act"><a class="btn btn-primary" href="/demo">Get a demo</a></div>
         </div>
 
-        <div class="fork-card reveal">
-          <h3>Pro</h3>
-          <p>An engineer on call for your whole stack.</p>
-          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
-          <ul>
-            <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Plus, plus:</b></span></li>
-            <li><span class="tk">&rarr;</span><span><b>New connectors built</b> when you adopt new tools.</span></li>
-            <li><span class="tk">&rarr;</span><span>A named engineer who knows your stack.</span></li>
-            <li><span class="tk">&rarr;</span><span>Same-day support.</span></li>
-          </ul>
-          <div class="fork-act"><a class="btn btn-ghost" href="/demo">Get a demo</a></div>
-        </div>
-
       </div>
-      <p class="pnote">Every paid plan starts with a <b>one-time build</b>. <b>An annual plan, paid in advance, costs less.</b> Otherwise it is month to month, no lock-in.</p>
+      <p class="pnote">The build is included: there is <b>nothing to pay up front</b>. It is month to month, no lock-in, and <b>the same $450 whether you are four people or forty</b>.</p>
     </div>
   </section>
 
@@ -185,7 +152,7 @@ __LOGO_SPRITE__
     <div class="wrap">
       <div class="head reveal">
         <h2>Compare plans.</h2>
-        <p class="lead">Every column is the same software. The plans differ in what we do after setup.</p>
+        <p class="lead">Both columns are the same software. They differ only in who does the setup and the upkeep.</p>
       </div>
       <div class="cmp-wrap reveal">
         <table class="cmp">
@@ -195,31 +162,29 @@ __LOGO_SPRITE__
                    plans, so the label lives on the sr-only span alone -->
               <th scope="col"><span class="sr-only">Feature</span></th>
               <th scope="col">Self-hosted<span class="per">free</span></th>
-              <th scope="col">Core<span class="per">talk to us</span></th>
-              <th scope="col">Plus<span class="per">talk to us</span></th>
-              <th scope="col">Pro<span class="per">talk to us</span></th>
+              <th scope="col">Managed<span class="per">$450 a month</span></th>
             </tr>
           </thead>
           <tbody>
-            <tr class="grp"><td colspan="5">Platform</td></tr>
-            <tr><td>Every feature, nothing gated</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Unlimited people and agents</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>MCP endpoint for Claude, ChatGPT, and Cursor</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr class="grp"><td colspan="5">Setup</td></tr>
-            <tr><td>Built into your stack in 14 days</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Every source connected, history read back</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>One-time build</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr class="grp"><td colspan="5">Upkeep</td></tr>
-            <tr><td>Connectors repaired after upstream API changes</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Updates and security patches applied</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>New answers built on request</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Quarterly graph review</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>New connectors built for new tools</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
-            <tr><td>A named engineer who knows your stack</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
-            <tr class="grp"><td colspan="5">Support</td></tr>
-            <tr><td>Response time</td><td class="no">Community</td><td>2 business days</td><td>Next business day</td><td>Same day</td></tr>
-            <tr><td>30-day full refund, the build included</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Your rate locked for as long as you stay</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr class="grp"><td colspan="3">Platform</td></tr>
+            <tr><td>Every feature, nothing gated</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr><td>Unlimited people and agents</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr><td>MCP endpoint for Claude, ChatGPT, and Cursor</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr class="grp"><td colspan="3">Setup</td></tr>
+            <tr><td>Built into your stack in 14 days</td><td class="no">Your team</td><td class="yes">&check;</td></tr>
+            <tr><td>Every source connected, history read back</td><td class="no">Your team</td><td class="yes">&check;</td></tr>
+            <tr><td>Nothing to pay up front</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr class="grp"><td colspan="3">Upkeep</td></tr>
+            <tr><td>Connectors repaired after upstream API changes</td><td class="no">Your team</td><td class="yes">&check;</td></tr>
+            <tr><td>Updates and security patches applied</td><td class="no">Your team</td><td class="yes">&check;</td></tr>
+            <tr><td>New answers built on request</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
+            <tr><td>Quarterly graph review</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
+            <tr><td>New connectors built for new tools</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
+            <tr><td>A named engineer who knows your stack</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
+            <tr class="grp"><td colspan="3">Support</td></tr>
+            <tr><td>Response time</td><td class="no">Community</td><td>Same day</td></tr>
+            <tr><td>30-day full refund</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
+            <tr><td>Your rate locked for as long as you stay</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
           </tbody>
         </table>
       </div>
@@ -238,7 +203,7 @@ __LOGO_SPRITE__
         </details>
         <details>
           <summary>What is the difference between the plans?</summary>
-          <p>Upkeep. Core keeps the build running. Plus adds new answers on request. Pro adds new connectors and a named engineer. You can change plans at any time.</p>
+          <p>Who does the work. Self-hosted is the same software, run and maintained by your engineers. Managed is the same software, built into your stack and kept running by ours. There is no third plan and no feature gate between them.</p>
         </details>
         <details>
           <summary>What happens if we stop paying?</summary>
@@ -249,8 +214,8 @@ __LOGO_SPRITE__
           <p>No. Every person at the firm, and every agent they run, can query the graph at one price.</p>
         </details>
         <details>
-          <summary>We are a small fund. Is the build negotiable?</summary>
-          <p>No. The work is the same for every firm. If it is out of reach, run it yourself for free: it is the same software, and we will point you at the docs.</p>
+          <summary>We are a small fund. Is the price negotiable?</summary>
+          <p>No, and it does not need to be: $450 is already the same figure for every firm, so a four-person fund pays what a forty-person one pays. If it is still out of reach, run it yourself for free: it is the same software, and we will point you at the docs.</p>
         </details>
       </div>
     </div>

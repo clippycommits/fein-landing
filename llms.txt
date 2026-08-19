@@ -1,6 +1,6 @@
 # fein
 
-> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup is a one-time build, then a monthly plan set by how much we keep doing. We do not publish figures: both depend on how many sources and how much history a firm has, so we quote them on a short call. There is no per-seat pricing. The paid offer is setup and upkeep, never access.
+> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed service costs $450 a month, flat. It is one published figure for every firm, whatever its size. There is nothing to pay up front and there is no per-seat pricing. The paid offer is setup and upkeep, never access.
 
 Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.txt
 
@@ -50,10 +50,9 @@ Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.tx
 - There are two ways to have fein and they run the same software. The full comparison is at https://fein.vc/pricing.
 - Running it yourself is free, forever. The code is Apache 2.0 licensed. There is no paid tier of the software, and no feature is held back to make one. The page for this path is https://fein.vc/self-host.
 - The paid offer is setup and upkeep, never access. The page for this path is https://fein.vc/deploy.
-- Managed setup: a one-time build. A forward deployed engineer connects every source, resolves duplicate people, reads the firm's full history back, and hands over a working graph on day 14.
-- Then a monthly plan, set by how much we keep doing after the setup, never per seat: Core, Plus, or Pro.
-- Core keeps the connectors working through upstream API changes and applies updates. Plus adds new answers on request and a quarterly graph review. Pro adds new connectors for new tools and a named engineer.
-- We do not publish figures. Both the build and the monthly plan are quoted on a short call, because they depend on how many sources and how much history a firm has. An annual plan, paid in advance, costs less.
+- Managed: $450 a month, flat. A forward deployed engineer connects every source, resolves duplicate people, reads the firm's full history back, and hands over a working graph on day 14.
+- The same $450 then keeps it running: connectors repaired through upstream API changes, updates and security patches applied, new answers and new connectors built on request, a quarterly graph review, and a named engineer.
+- There is one price and one plan. There is no tier above or below it, nothing to pay up front, and no per-seat charge: $450 is the same figure whether the firm is four people or forty.
 - It is month to month, with no lock-in. If you cancel, the software and the graph stay yours and keep running. What stops is the upkeep.
 
 ## Security and data
@@ -73,7 +72,7 @@ fein is your firm's memory layer. It reads your email, calendar, notes, and CRM.
 A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry.
 
 ### What does it cost?
-Running it yourself is free forever: the software is Apache 2.0 and there is no paid tier. The paid offer is a one-time build into your stack, then a monthly plan set by how much we keep doing after that. We quote both on a short call, because the build depends on how many sources and how much history a firm has. There is no per-seat pricing.
+Running it yourself is free forever: the software is Apache 2.0 and there is no paid tier. Having us run it is $450 a month, flat. That is the whole price: the same figure for every firm, whatever its size, with nothing to pay up front and no per-seat charge. It covers the build into your stack, every connector kept working, and new answers and connectors on request. It is month to month.
 
 ### Can't we build this ourselves?
 Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it.
@@ -97,7 +96,7 @@ It connects to Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Gra
 ## Links
 - [Run fein yourself](https://fein.vc/self-host): the free path. What the setup involves, what it needs, and how long each part really takes
 - [Managed setup](https://fein.vc/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
-- [Pricing](https://fein.vc/pricing): both paths priced against each other, with the three monthly plans
+- [Pricing](https://fein.vc/pricing): both paths priced against each other, free to self-host or $450 a month managed
 - [fein for private equity](https://fein.vc/private-equity): the page for private equity firms
 - [fein for fundraising](https://fein.vc/fundraising): the page for LP relations and the next raise
 - [fein for portfolio teams](https://fein.vc/portfolio): the page for platform and portfolio support
