@@ -101,7 +101,6 @@ It connects to Gmail, Google Calendar, Drive, LinkedIn, Attio, Affinity, and Gra
 - [Managed setup](https://fein.vc/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
 - [Pricing](https://fein.vc/pricing): both paths priced against each other, with the three monthly plans
 - [fein for private equity](https://fein.vc/private-equity): the page for private equity firms
-- [The Warm Capital Map](https://fein.vc/warm-capital-map): the offer for a firm with a fund opening. Every allocator the firm already knows, ranked, built in 14 days
 - [fein for fundraising](https://fein.vc/fundraising): the page for LP relations and the next raise
 - [fein for portfolio teams](https://fein.vc/portfolio): the page for platform and portfolio support
 - [Security](https://fein.vc/security): self-hosted, open source, auditable. The page for a security review
