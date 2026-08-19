@@ -410,7 +410,11 @@
        .wm-mono  mono caps       -- Geist Mono, the technical voice
        .wm-light hairline caps   -- Geist 300, the boutique/design voice
      The segment pages inherit these rules through the injected stylesheet. */
-  .proof-band{text-align:center}
+  /* Hidden 2026-08-19 at the founder's request: the client band is off the
+     site until the names are cleared. Markup stays in place (build.js
+     lifts #clients into /private-equity via homeSection), so restoring
+     the band is deleting the display:none below and rebuilding. */
+  .proof-band{text-align:center;display:none}
   .proof-band .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase}
   /* centre-wrapped rather than a grid: 48 marks on a ruled grid reads as a
      table of vendors, the same names ragged-centred read as a wall of marks.
