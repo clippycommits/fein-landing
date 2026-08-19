@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fein pricing &middot; free to self-host, or from $250 a month</title>
-<meta name="description" content="fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup is $5,000 once, then $250, $500, or $750 a month depending on how much we keep doing. Never per seat.">
+<title>fein pricing &middot; free to self-host, or fully managed</title>
+<meta name="description" content="fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup and upkeep are quoted on a short call, set by how much we keep doing. Never per seat.">
 <link rel="canonical" href="https://fein.vc/pricing">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="fein">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="fein pricing">
-<meta property="og:description" content="Free to self-host, forever. Or $5,000 once, then $250, $500, or $750 a month. Never per seat.">
+<meta property="og:description" content="Free to self-host, forever. Or a managed build and upkeep, quoted on a call. Never per seat.">
 <meta property="og:url" content="https://fein.vc/pricing">
 <meta property="og:image" content="https://fein.vc/og.png">
 <meta property="og:image:type" content="image/png">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fein pricing">
-<meta name="twitter:description" content="Free to self-host, forever. Or $5,000 once, then $250, $500, or $750 a month. Never per seat.">
+<meta name="twitter:description" content="Free to self-host, forever. Or a managed build and upkeep, quoted on a call. Never per seat.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
 <meta name="twitter:image:alt" content="fein · the memory layer for private capital">
 
@@ -1613,9 +1613,10 @@
      to leave for GitHub and never came back.
 
      Two cards, because there are exactly two ways to have fein and the reader is
-     choosing between them, not reading a feature list. Both carry a price, and
-     the free one carries $0 rather than a dash, because the claim only works if
-     it is stated in the same units as the other column. The paid card is the one
+     choosing between them, not reading a feature list. Figures came off both
+     cards when pricing moved to a conversation; the free column still says
+     "Free" in words, because the claim only works if it is stated in the same
+     units as the other column, and "Talk to us" is those units. The paid card is the one
      with the accent border: not because the free path is a lesser product -- it
      is the same binary -- but because it is the only column with an action we
      can take on the reader's behalf. */
@@ -1658,6 +1659,10 @@
      same baseline however long the paragraph above them runs */
   .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
   .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  /* a worded price ("Talk to us") in the numeral size overruns a narrow card,
+     so it drops to the interface face a step down: still the loudest line in
+     the card, no longer pretending to be a figure. */
+  .fork-price b.ask{font-family:var(--font);font-size:clamp(1.2rem,2vw,1.5rem);font-weight:650;letter-spacing:-.022em}
   .fork-price .per{font-size:.92rem;color:var(--fg-3)}
   /* align-content:start because the list is the row that takes the slack: left to
      itself a stretched grid hands that slack to its own gaps, and the column with
@@ -2135,6 +2140,9 @@
   .plans{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(.8rem,1.4vw,1.1rem)}
   .plans .fork-card{padding:clamp(1.15rem,1.8vw,1.55rem)}
   .plans .fork-price b{font-size:clamp(1.45rem,2.3vw,1.85rem)}
+  /* four across is narrower than the two-card fork, so the worded price steps
+     down again: "Talk to us" has to hold one line at 1024px. */
+  .plans .fork-price b.ask{font-size:clamp(1.05rem,1.5vw,1.22rem)}
   .plans .fork-card>p{font-size:.92rem}
   .plans .fork-card li{font-size:.9rem}
   .plans .fork-card li.lead-in{color:var(--fg-3)}
@@ -2188,8 +2196,8 @@
 <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="fein for AI assistants (summary)">
 <link rel="alternate" type="text/plain" href="/llms-full.txt" title="fein for AI assistants (full page)">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","url":"https://fein.vc/","logo":"https://fein.vc/icon-512.png","email":"sales@fein.vc","sameAs":["https://github.com/clippycommits/fein"]},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","url":"https://fein.vc/","applicationCategory":"BusinessApplication","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"license":"https://www.apache.org/licenses/LICENSE-2.0","installUrl":"https://github.com/clippycommits/fein","offers":[{"@type":"Offer","@id":"https://fein.vc/self-host#offer","name":"Self-hosted, free","description":"Clone the repository and run fein yourself for nothing, forever. Apache 2.0 licensed. There is no paid tier of the software and no feature held back to make one.","url":"https://fein.vc/self-host","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},{"@type":"Offer","@id":"https://fein.vc/deploy#offer","name":"Managed setup","description":"A forward deployed engineer builds fein into the firm's stack: connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. $5,000 once, then a monthly plan.","url":"https://fein.vc/deploy","price":"5000","priceCurrency":"USD","availability":"https://schema.org/InStock"},{"@type":"Offer","@id":"https://fein.vc/pricing#core","name":"Core plan","description":"Connectors repaired after upstream API changes, updates and security patches applied, email support. Never per seat.","url":"https://fein.vc/pricing","availability":"https://schema.org/InStock","priceSpecification":{"@type":"UnitPriceSpecification","price":250,"priceCurrency":"USD","billingIncrement":1,"unitText":"month"}},{"@type":"Offer","@id":"https://fein.vc/pricing#plus","name":"Plus plan","description":"Everything in Core, plus new answers built on request, a quarterly graph review, priority support. Never per seat.","url":"https://fein.vc/pricing","availability":"https://schema.org/InStock","priceSpecification":{"@type":"UnitPriceSpecification","price":500,"priceCurrency":"USD","billingIncrement":1,"unitText":"month"}},{"@type":"Offer","@id":"https://fein.vc/pricing#pro","name":"Pro plan","description":"Everything in Plus, plus new connectors built for new tools, a named engineer, same-day support. Never per seat.","url":"https://fein.vc/pricing","availability":"https://schema.org/InStock","priceSpecification":{"@type":"UnitPriceSpecification","price":750,"priceCurrency":"USD","billingIncrement":1,"unitText":"month"}}]},{"@type":"WebPage","@id":"https://fein.vc/pricing#webpage","url":"https://fein.vc/pricing","name":"fein pricing · free to self-host, or from $250 a month","description":"fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup is $5,000 once, then $250, $500, or $750 a month depending on how much we keep doing. Never per seat.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"dateModified":"2026-08-15","inLanguage":"en","primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"breadcrumb":{"@id":"https://fein.vc/pricing#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://fein.vc/pricing#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"fein","item":"https://fein.vc/"},{"@type":"ListItem","position":2,"name":"fein pricing","item":"https://fein.vc/pricing"}]}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/pricing#faq","mainEntity":[{"@type":"Question","name":"If the software is free, what am I paying for?","acceptedAnswer":{"@type":"Answer","text":"Time. An engineer connects each system, resolves duplicate contacts, and reads your history back. Firms that do this themselves spend months; we do it in 14 days. The binary you get is the same one on GitHub."}},{"@type":"Question","name":"What is the difference between the plans?","acceptedAnswer":{"@type":"Answer","text":"Upkeep. Core keeps the build running. Plus adds new answers on request. Pro adds new connectors and a named engineer. You can change plans at any time."}},{"@type":"Question","name":"What happens if we stop paying?","acceptedAnswer":{"@type":"Answer","text":"fein keeps running. It is on your servers, the licence does not expire, and the graph stays in your database. Only the upkeep stops: the next broken connector is yours to fix."}},{"@type":"Question","name":"Is it per seat?","acceptedAnswer":{"@type":"Answer","text":"No. Every person at the firm, and every agent they run, can query the graph at one price."}},{"@type":"Question","name":"We are a small fund. Is the build fee negotiable?","acceptedAnswer":{"@type":"Answer","text":"No. The work is the same for every firm. If the fee is out of reach, run it yourself for free."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fein.vc/#org","name":"fein","url":"https://fein.vc/","logo":"https://fein.vc/icon-512.png","email":"sales@fein.vc","sameAs":["https://github.com/clippycommits/fein"]},{"@type":"WebSite","@id":"https://fein.vc/#website","url":"https://fein.vc/","name":"fein","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","inLanguage":"en","publisher":{"@id":"https://fein.vc/#org"}},{"@type":"SoftwareApplication","@id":"https://fein.vc/#app","name":"fein","url":"https://fein.vc/","applicationCategory":"BusinessApplication","operatingSystem":"Self-hosted (Docker)","description":"fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.","provider":{"@id":"https://fein.vc/#org"},"isAccessibleForFree":true,"license":"https://www.apache.org/licenses/LICENSE-2.0","installUrl":"https://github.com/clippycommits/fein"},{"@type":"WebPage","@id":"https://fein.vc/pricing#webpage","url":"https://fein.vc/pricing","name":"fein pricing · free to self-host, or fully managed","description":"fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup and upkeep are quoted on a short call, set by how much we keep doing. Never per seat.","isPartOf":{"@id":"https://fein.vc/#website"},"about":{"@id":"https://fein.vc/#app"},"dateModified":"2026-08-15","inLanguage":"en","primaryImageOfPage":{"@type":"ImageObject","contentUrl":"https://fein.vc/og.png","width":1200,"height":630},"breadcrumb":{"@id":"https://fein.vc/pricing#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://fein.vc/pricing#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"fein","item":"https://fein.vc/"},{"@type":"ListItem","position":2,"name":"fein pricing","item":"https://fein.vc/pricing"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","@id":"https://fein.vc/pricing#faq","mainEntity":[{"@type":"Question","name":"If the software is free, what am I paying for?","acceptedAnswer":{"@type":"Answer","text":"Time. An engineer connects each system, resolves duplicate contacts, and reads your history back. Firms that do this themselves spend months; we do it in 14 days. The binary you get is the same one on GitHub."}},{"@type":"Question","name":"What is the difference between the plans?","acceptedAnswer":{"@type":"Answer","text":"Upkeep. Core keeps the build running. Plus adds new answers on request. Pro adds new connectors and a named engineer. You can change plans at any time."}},{"@type":"Question","name":"What happens if we stop paying?","acceptedAnswer":{"@type":"Answer","text":"fein keeps running. It is on your servers, the licence does not expire, and the graph stays in your database. Only the upkeep stops: the next broken connector is yours to fix."}},{"@type":"Question","name":"Is it per seat?","acceptedAnswer":{"@type":"Answer","text":"No. Every person at the firm, and every agent they run, can query the graph at one price."}},{"@type":"Question","name":"We are a small fund. Is the build negotiable?","acceptedAnswer":{"@type":"Answer","text":"No. The work is the same for every firm. If it is out of reach, run it yourself for free: it is the same software, and we will point you at the docs."}}]}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="l-github" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></g></symbol><symbol id="l-gmail" viewBox="0 0 256 193">
@@ -2413,7 +2421,7 @@
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
       <h1>Simple pricing. One plan is free.</h1>
-      <p>The software is open source under Apache 2.0 and free to run yourself, forever. Or we build it into your stack for $5,000 once, then you pick how much we keep doing. Never per seat.</p>
+      <p>The software is open source under Apache 2.0 and free to run yourself, forever. Or we build it into your stack and you pick how much we keep doing after that. We quote it on a short call. Never per seat.</p>
     </div>
   </section>
 
@@ -2425,7 +2433,7 @@
         <div class="fork-card reveal">
           <h3>Self-hosted</h3>
           <p>The full platform on your own servers.</p>
-          <div class="fork-price"><b>$0</b><span class="per">free forever</span></div>
+          <div class="fork-price"><b>Free</b><span class="per">forever</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Every feature</b>, with no paid tier.</span></li>
             <li><span class="tk">&rarr;</span><span>The context graph and the memory that keeps it current.</span></li>
@@ -2439,10 +2447,10 @@
         <div class="fork-card reveal">
           <h3>Core</h3>
           <p>We build it, then keep it running.</p>
-          <div class="fork-price"><b>$250</b><span class="per">per month, after setup</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Self-hosted, plus:</b></span></li>
-            <li><span class="tk">&rarr;</span><span><b>Built into your stack in 14 days.</b> $5,000 once.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Built into your stack in 14 days.</b> A one-time build.</span></li>
             <li><span class="tk">&rarr;</span><span>Every source connected, duplicates resolved, full history read back.</span></li>
             <li><span class="tk">&rarr;</span><span>Connectors repaired after each upstream API change.</span></li>
             <li><span class="tk">&rarr;</span><span>Updates and security patches applied for you.</span></li>
@@ -2454,7 +2462,7 @@
         <div class="fork-card pick reveal">
           <h3>Plus</h3>
           <p>We keep it running, and keep it growing.</p>
-          <div class="fork-price"><b>$500</b><span class="per">per month, after setup</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Core, plus:</b></span></li>
             <li><span class="tk">&rarr;</span><span><b>New answers built</b> when your team asks new questions.</span></li>
@@ -2467,7 +2475,7 @@
         <div class="fork-card reveal">
           <h3>Pro</h3>
           <p>An engineer on call for your whole stack.</p>
-          <div class="fork-price"><b>$750</b><span class="per">per month, after setup</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Plus, plus:</b></span></li>
             <li><span class="tk">&rarr;</span><span><b>New connectors built</b> when you adopt new tools.</span></li>
@@ -2478,7 +2486,7 @@
         </div>
 
       </div>
-      <p class="pnote">Every paid plan starts with the <b>$5,000 build, once</b>. <b>An annual plan, paid in advance, costs 15% less.</b> Otherwise it is month to month, no lock-in.</p>
+      <p class="pnote">Every paid plan starts with a <b>one-time build</b>. <b>An annual plan, paid in advance, costs less.</b> Otherwise it is month to month, no lock-in.</p>
     </div>
   </section>
 
@@ -2495,10 +2503,10 @@
               <!-- visually empty corner: this column holds feature names, not
                    plans, so the label lives on the sr-only span alone -->
               <th scope="col"><span class="sr-only">Feature</span></th>
-              <th scope="col">Self-hosted<span class="per">$0</span></th>
-              <th scope="col">Core<span class="per">$250 / mo</span></th>
-              <th scope="col">Plus<span class="per">$500 / mo</span></th>
-              <th scope="col">Pro<span class="per">$750 / mo</span></th>
+              <th scope="col">Self-hosted<span class="per">free</span></th>
+              <th scope="col">Core<span class="per">talk to us</span></th>
+              <th scope="col">Plus<span class="per">talk to us</span></th>
+              <th scope="col">Pro<span class="per">talk to us</span></th>
             </tr>
           </thead>
           <tbody>
@@ -2509,7 +2517,7 @@
             <tr class="grp"><td colspan="5">Setup</td></tr>
             <tr><td>Built into your stack in 14 days</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
             <tr><td>Every source connected, history read back</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>One-time build fee</td><td class="nil">&ndash;</td><td>$5,000</td><td>$5,000</td><td>$5,000</td></tr>
+            <tr><td>One-time build</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
             <tr class="grp"><td colspan="5">Upkeep</td></tr>
             <tr><td>Connectors repaired after upstream API changes</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
             <tr><td>Updates and security patches applied</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
@@ -2519,8 +2527,8 @@
             <tr><td>A named engineer who knows your stack</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
             <tr class="grp"><td colspan="5">Support</td></tr>
             <tr><td>Response time</td><td class="no">Community</td><td>2 business days</td><td>Next business day</td><td>Same day</td></tr>
-            <tr><td>30-day full refund, build fee included</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Price locked for as long as you stay</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr><td>30-day full refund, the build included</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr><td>Your rate locked for as long as you stay</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
           </tbody>
         </table>
       </div>
@@ -2550,8 +2558,8 @@
           <p>No. Every person at the firm, and every agent they run, can query the graph at one price.</p>
         </details>
         <details>
-          <summary>We are a small fund. Is the build fee negotiable?</summary>
-          <p>No. The work is the same for every firm. If the fee is out of reach, run it yourself for free.</p>
+          <summary>We are a small fund. Is the build negotiable?</summary>
+          <p>No. The work is the same for every firm. If it is out of reach, run it yourself for free: it is the same software, and we will point you at the docs.</p>
         </details>
       </div>
     </div>
@@ -2562,7 +2570,7 @@
       <div class="deploy-cta reveal">
         <div>
           <b>Not sure which column you are in?</b>
-          <p>Book a 20-minute call. We look at your stack and tell you which plan fits.</p>
+          <p>Book a 20-minute call. We look at your stack, tell you which plan fits, and quote it there.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-white" href="/demo">Get a demo</a>

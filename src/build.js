@@ -176,7 +176,7 @@ const rest = body.slice(sEnd);
 const faqs = [
   ["What exactly is fein?", "fein is your firm's memory layer. It reads your email, calendar, notes, and CRM. It resolves them into one context graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
   ["How is this different from Affinity or Attio?", "A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."],
-  ["What does it cost?", "It costs $5,000 once to build it into your stack. Then you pick a monthly plan set by how much we keep doing: Core is $250 each month, Plus is $500, and Pro is $750. An annual plan, paid in advance, costs 15% less. There is no per-seat pricing. Running it yourself is free forever."],
+  ["What does it cost?", "Running it yourself is free forever: the software is Apache 2.0 and there is no paid tier. The paid offer is a one-time build into your stack, then a monthly plan set by how much we keep doing after that. We quote both on a short call, because the build depends on how many sources and how much history a firm has. There is no per-seat pricing."],
   ["Can't we build this ourselves?", "Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it."],
   ["What happens if we cancel?", "Nothing stops. It runs on your servers. The graph, the connectors, and every answer stay yours."],
   ["How long does setup take?", "Fourteen days. The date is a commitment. Your part is two short calls. We do everything between them."],
@@ -212,39 +212,18 @@ const VIDEO_DESC = "A short walkthrough of fein: a partner asks who the warmest 
 const VIDEO_TRANSCRIPT = "Introducing fein. Privacy-first, open-source, agentic memory layer, purpose-built for venture capital. Humans and agents can speak with fein to query and understand facts over time. Team members draw from the same system of record: a single endpoint for all of your AI agents to query and understand your VC's knowledge base.";
 const VIDEO_UPLOADED = "2026-08-11";
 
-// ---- the offer catalogue, stated once. These are the numbers the visible
-// pricing copy makes: $0 to run it yourself, $5,000 for the managed setup,
-// then Core/Plus/Pro monthly. They ride in the SoftwareApplication node on
-// every page whose visible copy states them (/, /pricing, /deploy,
-// /self-host), so an answer engine reads the prices as data instead of
-// parsing a table. Change a price on the page and it must change here too.
+// ---- the offer catalogue is gone, deliberately. The site no longer publishes
+// a figure, and a schema.org Offer exists to carry one: an Offer node with the
+// price stripped out is not a quieter offer, it is a malformed one, and it is
+// exactly the node Google reads to print a price next to the result. So the
+// prices leave the structured data the same day they leave the page.
+//
+// What survives is the part that is still true without a number:
+// isAccessibleForFree on the SoftwareApplication node (Apache 2.0, free to
+// self-host forever) and the licence URL beside it. If a figure ever goes back
+// on the page, the offers belong here again, and page and markup have to state
+// the same number on the same day.
 const REPO_URL = "https://github.com/clippycommits/fein";
-const OFFER_SELF_HOST = {
-  "@type": "Offer", "@id": SITE + "/self-host#offer", name: "Self-hosted, free",
-  description: "Clone the repository and run fein yourself for nothing, forever. Apache 2.0 licensed. There is no paid tier of the software and no feature held back to make one.",
-  url: SITE + "/self-host", price: "0", priceCurrency: "USD",
-  availability: "https://schema.org/InStock"
-};
-const OFFER_MANAGED = {
-  "@type": "Offer", "@id": SITE + "/deploy#offer", name: "Managed setup",
-  description: "A forward deployed engineer builds fein into the firm's stack: connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. $5,000 once, then a monthly plan.",
-  url: SITE + "/deploy", price: "5000", priceCurrency: "USD",
-  availability: "https://schema.org/InStock"
-};
-function monthlyOffer(plan, monthly, adds) {
-  return {
-    "@type": "Offer", "@id": SITE + "/pricing#" + plan.toLowerCase(), name: plan + " plan",
-    description: adds, url: SITE + "/pricing",
-    availability: "https://schema.org/InStock",
-    priceSpecification: { "@type": "UnitPriceSpecification", price: monthly, priceCurrency: "USD", billingIncrement: 1, unitText: "month" }
-  };
-}
-const OFFERS_MONTHLY = [
-  monthlyOffer("Core", 250, "Connectors repaired after upstream API changes, updates and security patches applied, email support. Never per seat."),
-  monthlyOffer("Plus", 500, "Everything in Core, plus new answers built on request, a quarterly graph review, priority support. Never per seat."),
-  monthlyOffer("Pro", 750, "Everything in Plus, plus new connectors built for new tools, a named engineer, same-day support. Never per seat.")
-];
-const OFFERS_ALL = [OFFER_SELF_HOST, OFFER_MANAGED].concat(OFFERS_MONTHLY);
 
 const ld = {
   "@context": "https://schema.org",
@@ -283,7 +262,6 @@ const ld = {
       installUrl: REPO_URL, downloadUrl: REPO_URL,
       softwareHelp: { "@type": "CreativeWork", url: SITE + "/self-host" },
       softwareRequirements: "Docker, self-hosted on the team's own infrastructure",
-      offers: OFFERS_ALL,
       keywords: "venture capital, private equity, relationship intelligence, warm introductions, deal memory, meeting preparation, LP relations, context graph, MCP endpoint, open source",
       audience: { "@type": "Audience", audienceType: ["Venture capital teams", "Private equity teams", "Fundraising and LP relations teams", "Portfolio and platform teams"] }
     }
@@ -571,12 +549,11 @@ fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="U
 // sub-page carries a WebPage + BreadcrumbList plus compact Organization /
 // WebSite / SoftwareApplication nodes, because an answer engine reads each
 // page alone and an @id pointing at a node that only exists on the home
-// page resolves to nothing. The three commercial pages carry the offer
-// catalogue their visible copy states. ----
+// page resolves to nothing. No page carries an offer node any more: the
+// visible copy states no price, so the markup states none either. ----
 const ORG_LITE = { "@type": "Organization", "@id": SITE + "/#org", name: "fein", url: SITE + "/", logo: SITE + "/icon-512.png", email: "sales@fein.vc", sameAs: [REPO_URL] };
 const WEBSITE_LITE = { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } };
 const APP_LITE = { "@type": "SoftwareApplication", "@id": SITE + "/#app", name: "fein", url: SITE + "/", applicationCategory: "BusinessApplication", operatingSystem: "Self-hosted (Docker)", description: DESC, provider: { "@id": SITE + "/#org" }, isAccessibleForFree: true, license: "https://www.apache.org/licenses/LICENSE-2.0", installUrl: REPO_URL };
-const OFFERS_BY_PAGE = { pricing: OFFERS_ALL, deploy: [OFFER_MANAGED].concat(OFFERS_MONTHLY), "self-host": [OFFER_SELF_HOST] };
 function headBit(page, re, label, slug) {
   const m = page.match(re);
   if (!m) throw new Error("page ld: " + label + " not found in " + slug);
@@ -589,7 +566,7 @@ function pageLdFor(page, slug) {
   // og:title is each page's short name; the legal pages suffix it with the
   // site name, which a breadcrumb does not repeat.
   const short = headBit(page, /<meta property="og:title" content="([^"]+)">/, "og:title", slug).replace(/ · fein$/, "");
-  const app = OFFERS_BY_PAGE[slug] ? Object.assign({}, APP_LITE, { offers: OFFERS_BY_PAGE[slug] }) : APP_LITE;
+  const app = APP_LITE;
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
@@ -746,7 +723,7 @@ const LEAD_JS = sliceBetween(rest, "/*lead-stage-js:start*/", "/*lead-stage-js:e
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
+const LLMS_SUMMARY = `> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup is a one-time build, then a monthly plan set by how much we keep doing. We do not publish figures: both depend on how many sources and how much history a firm has, so we quote them on a short call. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -799,10 +776,10 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - There are two ways to have fein and they run the same software. The full comparison is at ${SITE}/pricing.
 - Running it yourself is free, forever. The code is Apache 2.0 licensed. There is no paid tier of the software, and no feature is held back to make one. The page for this path is ${SITE}/self-host.
 - The paid offer is setup and upkeep, never access. The page for this path is ${SITE}/deploy.
-- Managed setup: $5,000 to build once. A forward deployed engineer connects every source, resolves duplicate people, reads the firm's full history back, and hands over a working graph on day 14.
-- Then a monthly plan, set by how much we keep doing after the setup, never per seat: Core is $250 each month, Plus is $500, Pro is $750.
+- Managed setup: a one-time build. A forward deployed engineer connects every source, resolves duplicate people, reads the firm's full history back, and hands over a working graph on day 14.
+- Then a monthly plan, set by how much we keep doing after the setup, never per seat: Core, Plus, or Pro.
 - Core keeps the connectors working through upstream API changes and applies updates. Plus adds new answers on request and a quarterly graph review. Pro adds new connectors for new tools and a named engineer.
-- An annual plan, paid in advance, costs 15% less.
+- We do not publish figures. Both the build and the monthly plan are quoted on a short call, because they depend on how many sources and how much history a firm has. An annual plan, paid in advance, costs less.
 - It is month to month, with no lock-in. If you cancel, the software and the graph stay yours and keep running. What stops is the upkeep.
 
 ## Security and data
@@ -959,23 +936,23 @@ fein answers four questions for a platform team. Before each board meeting it li
 
 Every investment team needs a data engineer. Now every team can afford one.
 
-| Option | Price | What you get |
-| --- | --- | --- |
-| A data hire | $200,000 per year | Skilled, but one person. The graph stays in their head. |
-| fein | $5,000 once + a monthly plan from $250 | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
-| Clone it yourself | $0 forever | The same code we deploy for clients. You run it and you maintain it. |
+| Option | What you get |
+| --- | --- |
+| A data hire | Skilled, but one person, and the graph stays in their head. |
+| fein | We build it into your stack in two weeks and keep it current for you. Live in 14 days. |
+| Clone it yourself | Free forever. The same code we deploy for clients. You run it and you maintain it. |
 
 The monthly plan is set by how much we keep doing after the setup, and never per seat.
 
-| Plan | Monthly | What it adds |
-| --- | --- | --- |
-| Core | $250 | Connectors repaired after upstream API changes, updates and security patches applied, email support. |
-| Plus | $500 | Everything in Core, plus new answers built on request, a quarterly graph review, priority support. |
-| Pro | $750 | Everything in Plus, plus new connectors built for new tools, a named engineer, same-day support. |
+| Plan | What it adds |
+| --- | --- |
+| Core | Connectors repaired after upstream API changes, updates and security patches applied, email support. |
+| Plus | Everything in Core, plus new answers built on request, a quarterly graph review, priority support. |
+| Pro | Everything in Plus, plus new connectors built for new tools, a named engineer, same-day support. |
 
 The fein plan reads your inbox, calendar, Drive, LinkedIn, and CRM. It resolves entities to one identity per person. It scores every relationship from real signals, not a guess. It answers over one MCP endpoint in Claude, ChatGPT, Gemini, and Cursor. It is open source and runs on your servers. We keep the connectors working through every API change. We build new answers when your team asks.
 
-A firm on Core pays $8,000 in the first year. That is a fraction of one month of a data hire. An annual plan, paid in advance, costs 15% less. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
+A year on Core costs a fraction of one month of a data hire. We do not publish figures: the build and the monthly plan both depend on how many sources and how much history a firm has, so we quote them on a short call. An annual plan, paid in advance, costs less. It is month to month, open source, and self-hosted. If you cancel, everything continues to run.
 
 ## FAQ
 
