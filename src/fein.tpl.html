@@ -1581,9 +1581,10 @@
      to leave for GitHub and never came back.
 
      Two cards, because there are exactly two ways to have fein and the reader is
-     choosing between them, not reading a feature list. Both carry a price, and
-     the free one carries $0 rather than a dash, because the claim only works if
-     it is stated in the same units as the other column. The paid card is the one
+     choosing between them, not reading a feature list. Figures came off both
+     cards when pricing moved to a conversation; the free column still says
+     "Free" in words, because the claim only works if it is stated in the same
+     units as the other column, and "Talk to us" is those units. The paid card is the one
      with the accent border: not because the free path is a lesser product -- it
      is the same binary -- but because it is the only column with an action we
      can take on the reader's behalf. */
@@ -1626,6 +1627,10 @@
      same baseline however long the paragraph above them runs */
   .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
   .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+  /* a worded price ("Talk to us") in the numeral size overruns a narrow card,
+     so it drops to the interface face a step down: still the loudest line in
+     the card, no longer pretending to be a figure. */
+  .fork-price b.ask{font-family:var(--font);font-size:clamp(1.2rem,2vw,1.5rem);font-weight:650;letter-spacing:-.022em}
   .fork-price .per{font-size:.92rem;color:var(--fg-3)}
   /* align-content:start because the list is the row that takes the slack: left to
      itself a stretched grid hands that slack to its own gaps, and the column with
@@ -2141,10 +2146,10 @@ __LOGO_SPRITE__
           <div class="dd-cols">
             <div class="dd-col">
               <span class="dd-h">Use cases</span>
-              <a class="dd-l" href="/">LP relations and the raise</a>
-              <a class="dd-l" href="/fundraising">Fundraising, in depth</a>
-              <a class="dd-l" href="/private-equity">Private equity deal teams</a>
+              <a class="dd-l" href="/">Deal sourcing</a>
+              <a class="dd-l" href="/fundraising">Fundraising and LPs</a>
               <a class="dd-l" href="/portfolio">Portfolio support</a>
+              <a class="dd-l" href="/private-equity">Private equity</a>
             </div>
             <div class="dd-col">
               <span class="dd-h">Product</span>
@@ -2182,8 +2187,8 @@ __LOGO_SPRITE__
         <a href="#features">Features</a>
         <a href="/security">Security</a>
         <a href="/fundraising">For fundraising</a>
-        <a href="/private-equity">For private equity</a>
         <a href="/portfolio">For portfolio teams</a>
+        <a href="/private-equity">For private equity</a>
         <div class="sep" aria-hidden="true"></div>
         <a href="/self-host">Self-host (free)</a>
         <a href="/deploy">Managed setup (14 days)</a>
@@ -2290,34 +2295,24 @@ __LOGO_SPRITE__
     <div class="wrap" id="content" tabindex="-1">
 
       <span class="avail">Available in <svg class="inmk" role="img" aria-label="Claude"><use href="#l-claude"/></svg><svg class="inmk" role="img" aria-label="ChatGPT"><use href="#l-openai"/></svg><svg class="inmk" role="img" aria-label="Cursor"><use href="#l-cursor"/></svg> and CLI.</span>
-      <h1>Every LP relationship, warm before the raise.</h1>
-      <!-- The pitch. Three takes are in the history: a sourcing wedge ("The
-           warmest path into every deal"), a category claim ("The memory layer
-           for private capital"), and a custody claim ("Your firm's edge is
-           what it knows. You do not own it."). The h1 is the category claim
-           again, narrowed to venture capital because that is the word a VC
-           uses for itself. Two deliberate consequences, both decided by the
-           founder rather than inherited:
-
-           1. The fold says venture capital while /private-equity sells to PE.
-              VC is the near-term ICP; a PE reader is expected to arrive on
-              that page, not this one. If PE ever leads, this h1 moves first.
-           2. The identity string does NOT track the h1. <title>, og alt,
-              slogan, manifest, robots, llms and the footers all say "the
-              context graph your firm owns", and the body below still argues
-              custody. The h1 names the category, the identity string names
-              the differentiator. Keep them in their own lanes: the reason
-              custody is not in the h1 is length, not doubt about the claim.
-
-           The film's voiceover also says "memory layer"; VIDEO_TRANSCRIPT in
-           build.js transcribes recorded audio and is left alone on purpose. -->
+      <h1>The memory layer for private capital.</h1>
+      <!-- The pitch, decided by the founder and held everywhere the identity
+           lives: <title>, og alt, slogan, manifest, robots, llms and the
+           footers all say this same string. "Memory" is the human word (the
+           earlier "context layer" candidate was rejected as AI-trade jargon
+           the buyer does not hold), "layer" carries the category claim, and
+           the film's own voiceover already says "memory layer". A prior take
+           made the h1 a sourcing wedge ("The warmest path into every deal");
+           if the pitch ever moves toward outcome-selling, that argument is in
+           the history. The customer is "your fund" here and "your team" in
+           DESC and DESC_LONG in build.js, which are deliberately left alone. -->
       <!-- The original single-sentence sub, kept for its cadence and content,
            tightened: it said the list twice, once abstractly ("transforms
            your fund's raw data" before naming email, calendar, notes, and
            CRM); now the list is the object. The provenance beat ("Every answer carries its source.")
            came off the end here; it still runs in DESC, the FAQ, and the
            feature grid, so the hero closes on the memory claim itself. -->
-      <p>The next fund is raised in the two years before it opens, and the record of those two years sits in four partners&rsquo; inboxes. fein reads it, resolves it into one open source context graph on your own servers, and answers in Claude, ChatGPT, and Cursor.</p>
+      <p>Built with privacy at its core, fein is an open source context graph that turns your fund&rsquo;s email, calendar, notes, and CRM into intelligent, searchable memory for agents and humans.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/demo">Get a demo</a>
         <!-- the second action used to be the repository, on the argument that the
@@ -2367,20 +2362,20 @@ __LOGO_SPRITE__
         <div class="lead-app">
           <aside class="app-rail" aria-hidden="true">
             <ol class="fn-read">
-            <li class="fn-src" data-d="0" data-quote="We would look at Fund IV, but we want a co-investment pipeline alongside it."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Meridian Pension, annual meeting</b><em>14 Mar 2026</em></li>
-            <li class="fn-src" data-d="1" data-quote="Meridian confirms $40M into Fund III as anchor, subject to the side letter."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fund III close, Meridian commitment</b><em>2 Mar 2023</em></li>
-            <li class="fn-src" data-d="2" data-quote="Marcus, worth twenty minutes. They are building a buyout programme and I can introduce you."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fwd: Meridian Pension, first look</b><em>8 Nov 2022</em></li>
-            <li class="fn-src" data-d="3" data-quote="I still sit on the Meridian advisory board. Do you want that introduction again?"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #ir</b><em>Today 14:16</em></li>
-            <li class="fn-src" data-d="4" data-quote="Send us the ESG policy and the last two audited statements before we go further."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Calder Endowment, diligence call</b><em>21 Nov 2024</em></li>
-            <li class="fn-src" data-d="5" data-quote="Head of Private Markets at Meridian Pension. Previously eight years at Calder."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Sofia Berg, new position</b><em>3 Jun 2026</em></li>
-            <li class="fn-src" data-d="6" data-quote="Stage changed from Warm to Re-up by Marcus Feld."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Meridian moved to Re-up</b><em>14 Jul 2026</em></li>
-            <li class="fn-src" data-d="7" data-quote="Two LPs asked for the same ESG language we sent Calder in 2024."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fund IV DDQ, draft 2</b><em>4 Aug 2026</em></li>
-            <li class="fn-src" data-d="8" data-quote="Nobody has spoken to Calder since the diligence call. Anna to re-open it."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>IR sync, LP coverage</b><em>10 Aug 2026</em></li>
-            <li class="fn-src" data-d="9" data-quote="Marcus presenting the Fund IV plan to Anna, Elena and three more."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Fund IV kickoff, 09:00</b><em>10 Aug 2026</em></li>
-            <li class="fn-src" data-d="10" data-quote="She ran the private markets book at Calder and knows our Fund II numbers."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Reference call, Sofia Berg</b><em>22 Jul 2026</em></li>
-            <li class="fn-src" data-d="11" data-quote="Hallam Partners has added two more clients to the buyout review since June."><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #ir</b><em>Yesterday 16:04</em></li>
-            <li class="fn-src" data-d="12" data-quote="24 fields updated across 9 LPs. Meridian moved twice."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>LP pipeline, 24 changes</b><em>11 Aug 2026</em></li>
-            <li class="fn-src" data-d="13" data-quote="MFN election and quarterly reporting agreed with Meridian for Fund III."><svg class="tlogo" aria-hidden="true"><use href="#l-gdrive"/></svg><b>Fund III side letter, Meridian</b><em>6 Mar 2023</em></li>
+            <li class="fn-src" data-d="0" data-quote="For the next fund we want more AI infrastructure. Compute, tooling, the layer underneath the models."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>Northwind Capital, LP quarterly review</b><em>12 Mar 2026</em></li>
+            <li class="fn-src" data-d="1" data-quote="Six design partners live and $2.4M ARR. We are opening a $30M Series A and would like you in it."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Halo Compute, June update</b><em>2 Jun 2026</em></li>
+            <li class="fn-src" data-d="2" data-quote="Marcus, worth twenty minutes. Two ex-Anthropic infra people building the scheduling layer for GPU fleets."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Fwd: Halo Compute, seed deck</b><em>8 Nov 2024</em></li>
+            <li class="fn-src" data-d="3" data-quote="Halo Compute closes next week. Do you want the introduction again?"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #dealflow</b><em>Today 14:16</em></li>
+            <li class="fn-src" data-d="4" data-quote="Both founders came out of Anthropic infra. No design partners live yet. Raising $4M at $18M post."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Coffee with Halo Compute</b><em>21 Nov 2024</em></li>
+            <li class="fn-src" data-d="5" data-quote="VP Engineering at Halo Compute. Previously five years at Databricks."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Priya Nayar, new position</b><em>3 Jun 2025</em></li>
+            <li class="fn-src" data-d="6" data-quote="Stage changed from Diligence to IC by Marcus Feld."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Halo Compute, moved to IC</b><em>14 Jul 2026</em></li>
+            <li class="fn-src" data-d="7" data-quote="Two of our LPs asked for more exposure to the compute layer this quarter."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Q3 LP letter, draft 2</b><em>4 Aug 2026</em></li>
+            <li class="fn-src" data-d="8" data-quote="Halo is the one we passed on and should not have. Anna to re-open it."><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg><b>Partner sync, pipeline review</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="9" data-quote="Halo Compute, Series A. Marcus presenting to Anna, Elena and three more."><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg><b>IC Monday, 09:00</b><em>10 Aug 2026</em></li>
+            <li class="fn-src" data-d="10" data-quote="Her manager at Databricks: the strongest scheduling engineer he has hired."><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg><b>Reference call, Priya Nayar</b><em>22 Jul 2026</em></li>
+            <li class="fn-src" data-d="11" data-quote="GPU scheduling is consolidating. Halo and two others left standing."><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg><b>Thread in #research</b><em>Yesterday 16:04</em></li>
+            <li class="fn-src" data-d="12" data-quote="24 fields updated across 9 companies. Halo Compute moved twice."><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg><b>Pipeline stage, 24 changes</b><em>11 Aug 2026</em></li>
+            <li class="fn-src" data-d="13" data-quote="Six new engineers at Halo Compute since June. Four of them from Databricks."><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg><b>Series A hires, 6 updates</b><em>5 Aug 2026</em></li>
             </ol>
           </aside>
 
@@ -2403,24 +2398,24 @@ __LOGO_SPRITE__
                  get rewritten, and a number in a stylesheet would go stale
                  silently. -->
             <div class="lead-ps">
-            <p class="ask-a lead-p" data-q="Who do we still need to warm before Fund IV opens?" data-d="1,0,2,3">
-            <span class="cl"><b>Meridian Pension.</b> They anchored Fund III at $40M<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Mar 2023</span>,</span>
-            <span class="cl">and asked for a co-investment pipeline before they look at Fund IV<span class="cite" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>14 Mar 2026</span>.</span>
-            <span class="cl">The warmest path in is <b>Dev Raman</b>, who made the first introduction<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2022</span>.</span>
-            <span class="cl"><b>This changed four hours ago:</b> Dev offered that introduction again in #ir<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Today 14:16</span>, so the path is open today and not four years old.</span>
+            <p class="ask-a lead-p" data-q="Who should I bring into Halo Compute&rsquo;s Series A?" data-d="0,1,2,3">
+            <span class="cl"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite" data-s="0"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>,</span>
+            <span class="cl">and Halo Compute cleared the design partner objection in June<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>This changed four hours ago:</b> Dev offered that introduction again in #dealflow<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Today 14:16</span>, so the path is open today and not two years old.</span>
             </p>
 
-            <p class="ask-a lead-p" data-q="What did we promise Calder Endowment?" data-d="4,7,8,5" hidden>
-            <span class="cl"><b>Two things, and one is still open.</b> They asked for the ESG policy and two audited statements<span class="cite" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
-            <span class="cl">The ESG policy went out, and the same wording is in the Fund IV DDQ<span class="cite" data-s="7"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>4 Aug 2026</span>.</span>
-            <span class="cl">The statements were never sent, and nobody has spoken to them since<span class="cite" data-s="8"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>10 Aug 2026</span>.</span>
-            <span class="cl"><b>Sofia Berg</b> ran that book at Calder before she moved to Meridian<span class="cite" data-s="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2026</span>, so the ask followed her.</span>
+            <p class="ask-a lead-p" data-q="What changed since we passed on Halo Compute?" data-d="2,1,5,6" hidden>
+            <span class="cl"><b>Four things.</b> You saw a $4M seed<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>,</span>
+            <span class="cl">and it is a $30M Series A now with six design partners live<span class="cite" data-s="1"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>.</span>
+            <span class="cl">They hired a <b>VP Engineering</b> out of Databricks<span class="cite" data-s="5"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>3 Jun 2025</span>,</span>
+            <span class="cl">and Marcus moved it to IC in July<span class="cite" data-s="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
             </p>
 
-            <p class="ask-a lead-p" data-q="Which LP relationships have gone quiet?" data-d="4,6,11" hidden>
-            <span class="cl"><b>Calder Endowment</b> has been quiet for twenty one months, since the diligence call<span class="cite" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
-            <span class="cl"><b>Meridian Pension</b> is covered. Marcus moved it to re-up in July<span class="cite" data-s="6"><svg class="tlogo" aria-hidden="true"><use href="#l-affinity"/></svg>14 Jul 2026</span>.</span>
-            <span class="cl"><b>Hallam Partners</b> has no owner here, and their buyout review is still open<span class="cite" data-s="11"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>Yesterday 16:04</span>.</span>
+            <p class="ask-a lead-p" data-q="Who on the team has the warmest path in?" data-d="2,3,4" hidden>
+            <span class="cl"><b>Dev Raman</b> made the introduction and still co-invests<span class="cite" data-s="2"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</span>
+            <span class="cl"><b>Marcus Feld</b> has owned the conversation since, and answered it again last week<span class="cite" data-s="3"><svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>#dealflow</span>.</span>
+            <span class="cl">Nobody here has met the founders since the coffee in 2024<span class="cite" data-s="4"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>21 Nov 2024</span>.</span>
             </p>
             </div>
 
@@ -2439,7 +2434,7 @@ __LOGO_SPRITE__
 
             <div class="ask-bar">
             <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q"><span id="lq">Who do we still need to warm before Fund IV opens?</span><span class="ask-caret" aria-hidden="true"></span></p>
+            <p class="ask-q"><span id="lq">Who should I bring into Halo Compute&rsquo;s Series A?</span><span class="ask-caret" aria-hidden="true"></span></p>
             <span class="ask-in">
             <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
             <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
@@ -2461,7 +2456,7 @@ __LOGO_SPRITE__
        heading with a subtitle under it. -->
   <section id="stance" class="band stance" aria-label="What fein is">
     <div class="wrap">
-      <p class="stance-line"><b>An agent for the raise, owned by the firm.</b> fein reads the tools your firm already runs and resolves them into one context graph of every relationship it has. It keeps each LP, each commitment, and each warm path current without anyone entering data. It runs on your infrastructure, so the record belongs to the firm and not to a vendor.</p>
+      <p class="stance-line"><b>One memory for the whole fund.</b> fein is for private capital teams that work with AI. It reads the tools your firm already uses. It builds one context graph of every relationship the team has. Humans and agents ask it the same questions.</p>
     </div>
   </section>
 
@@ -2545,27 +2540,27 @@ __LOGO_SPRITE__
     <!-- the row's three h3 cards are the first headings after the h1, so the
          section states its own h2 for the outline; the visual design carries
          the claim in the cards themselves and does not want a printed one -->
-    <h2 class="sr-only" id="figures-h">What an IR desk uses fein for.</h2>
+    <h2 class="sr-only" id="figures-h">What teams use fein for.</h2>
     <div class="wrap figrow">
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M160 62.343599999999995L246 112L160 161.65640000000002L74 112Z"/><path d="M160 80.4984L244 129L160 177.5016L76 129Z"/><path d="M160 98.6532L242 146L160 193.3468L78 146Z"/><path d="M160 116.80799999999999L240 163L160 209.192L80 163Z"/><path d="M160 134.96280000000002L238 180L160 225.03719999999998L82 180Z"/><path d="M160 153.11759999999998L236 197L160 240.88240000000002L84 197Z"/><path d="M160 36.343599999999995L246 86L160 135.65640000000002L74 86Z" class="lid"/><ellipse cx="160" cy="86" rx="44" ry="25"/><ellipse cx="160" cy="86" rx="30" ry="17"/><ellipse cx="160" cy="86" rx="16" ry="9" class="hi"/></svg>
         <figcaption>
-          <h3>LP coverage</h3>
-          <p>Every LP and consultant the firm has ever spoken to, in one list. Who owns each relationship, and how warm it really is.</p>
+          <h3>Deal sourcing</h3>
+          <p>Every founder the firm has ever met, in one funnel. Who saw them, who passed, and what changed since.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M112 72.904L152 96L112 119.096L72 96ZM72 96L112 119.096L112 149.096L72 126ZM152 96L112 119.096L112 149.096L152 126Z"/><path d="M196 96.904L236 120L196 143.096L156 120ZM156 120L196 143.096L196 173.096L156 150ZM236 120L196 143.096L196 173.096L236 150Z"/><path d="M108 150L152 175.4056L152 209.4056L108 184ZM196 150L152 175.4056L152 209.4056L196 184Z"/><path d="M152 124.59440000000001L196 150L152 175.4056L108 150Z" class="hi"/><path d="M214 156.3684L248 176L214 195.6316L180 176ZM180 176L214 195.6316L214 221.6316L180 202ZM248 176L214 195.6316L214 221.6316L248 202Z"/></svg>
         <figcaption>
-          <h3>The next fund</h3>
-          <p>Targets, stages, and commitments for the fund you are opening. Built from the inbox, not from data entry.</p>
+          <h3>Fundraising</h3>
+          <p>Every LP conversation, across every partner, resolves to one record. See who is warm before the next raise.</p>
         </figcaption>
       </figure>
       <figure class="figcard">
         <svg class="figart" viewBox="0 0 320 260" fill="none" aria-hidden="true"><path d="M58.0 214.0L75.0 223.8L75.0 205.8L58.0 196.0Z"/><path d="M71.6 207.0L88.6 216.8L88.6 191.6L71.6 181.8Z"/><path d="M85.2 200.0L102.2 209.8L102.2 177.4L85.2 167.6Z"/><path d="M98.8 193.0L115.8 202.8L115.8 163.2L98.8 153.4Z"/><path d="M112.4 186.0L129.4 195.8L129.4 149.0L112.4 139.2Z"/><path d="M126.0 179.0L143.0 188.8L143.0 134.8L126.0 125.0Z"/><path d="M139.6 172.0L156.6 181.8L156.6 120.6L139.6 110.8Z"/><path d="M153.2 165.0L170.2 174.8L170.2 106.4L153.2 96.6Z"/><path d="M166.8 158.0L183.8 167.8L183.8 92.2L166.8 82.4Z"/><path d="M180.4 151.0L197.4 160.8L197.4 78.0L180.4 68.2Z"/><path d="M194.0 144.0L211.0 153.8L211.0 63.8L194.0 54.0Z"/><path d="M207.6 137.0L224.6 146.8L224.6 49.6L207.6 39.8Z"/><path d="M221.2 130.0L238.2 139.8L238.2 35.4L221.2 25.6Z"/><path d="M234.8 123.0L251.8 132.8L251.8 21.2L234.8 11.4Z" class="hi"/></svg>
         <figcaption>
-          <h3>DDQ and diligence</h3>
-          <p>Every question an LP has asked, with the answer the firm gave and the document behind it. Answer it once.</p>
+          <h3>Portfolio support</h3>
+          <p>Updates, board notes, and metrics, filed to each company. Ask how a company is doing and see the sources.</p>
         </figcaption>
       </figure>
     </div>
@@ -2629,15 +2624,15 @@ __LOGO_SPRITE__
         <!-- "every&nbsp;time" is bound: it is the claim phrase, and the balanced
              heading was breaking the line between "every" and "time" -->
         <h2 id="mem-h">Same answer every&nbsp;time, for everyone.</h2>
-        <p class="mem-lead">Every LP call, every side letter, and every promise becomes one shared memory. fein reads each new document, labels the facts inside it, and keeps them up to date.</p>
+        <p class="mem-lead">Turn your team&rsquo;s conversations and raw data into one shared memory. fein reads every new document, labels the facts inside it, and keeps them up to date.</p>
         <a class="arrowlink mem-more" href="/integrations"><i>01</i>Ask in your own tools<span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         <a class="arrowlink mem-more" href="/security"><i>02</i>Every fact keeps its source<span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
       </div>
 
-      <article class="mem-msg" id="mem-msg" aria-label="A thread in Slack where fein is asked what the firm agreed with an LP">
+      <article class="mem-msg" id="mem-msg" aria-label="A thread in Slack where fein is asked the question the film below answers">
         <div class="mem-bar">
           <svg class="tlogo" aria-hidden="true"><use href="#l-slack"/></svg>
-          <span>Thread in <b>#ir</b></span>
+          <span>Thread in <b>#dealflow</b></span>
           <span class="mem-kebab" aria-hidden="true"><i></i><i></i><i></i></span>
         </div>
         <!-- the thread is a scroller with no visible bar, so the newest message
@@ -2649,21 +2644,21 @@ __LOGO_SPRITE__
               <span class="mem-av" style="background:#584f9e" aria-hidden="true"><img src="data:image/webp;base64,__AV_DR__" alt="" width="36" height="36" decoding="async"></span>
               <div>
                 <p class="mem-nm">Dev Raman <span class="mem-guest">Guest</span> <em>14:12</em></p>
-                <p>Meridian is asking about Fund IV. Do you want that introduction again?</p>
+                <p>Halo Compute closes next week. Do you want the introduction again?</p>
               </div>
             </li>
             <li class="mem-t">
               <span class="mem-av" style="background:#3d5a6c" aria-hidden="true"><img src="data:image/webp;base64,__AV_MF__" alt="" width="36" height="36" decoding="async"></span>
               <div>
                 <p class="mem-nm">Marcus Feld <em>14:16</em></p>
-                <p>We anchored them in Fund III. I do not remember what we agreed on reporting.</p>
+                <p>We passed in January 2025. I do not remember the reason we gave.</p>
               </div>
             </li>
             <li class="mem-t">
               <span class="mem-av" style="background:#6a4b63" aria-hidden="true"><img src="data:image/webp;base64,__AV_AL__" alt="" width="36" height="36" decoding="async"></span>
               <div>
                 <p class="mem-nm">Anna Lindqvist <em>14:18</em></p>
-                <p>I was not on that raise. Is the side letter written down anywhere?</p>
+                <p>I was not on that deal. Is the memo written down anywhere?</p>
               </div>
             </li>
             <!-- what the send button posts. The mention is plain accent text here
@@ -2673,7 +2668,7 @@ __LOGO_SPRITE__
               <span class="mem-av" style="background:#6a4b63" aria-hidden="true"><img src="data:image/webp;base64,__AV_AL__" alt="" width="36" height="36" decoding="async"></span>
               <div>
                 <p class="mem-nm">Anna Lindqvist <em>14:19</em></p>
-                <p><span class="mem-ment">@fein</span> What did we agree with Meridian in Fund III, and what changed?</p>
+                <p><span class="mem-ment">@fein</span> Why did we pass on Halo Compute, and what changed?</p>
               </div>
             </li>
             <li class="mem-t mem-reply" id="mem-reply" hidden>
@@ -2682,18 +2677,18 @@ __LOGO_SPRITE__
               </span>
               <div>
                 <p class="mem-nm">fein <span class="mem-app">APP</span> <em>14:19</em></p>
-                <p>You anchored them at $40M in March 2023. Two of the facts behind that relationship are no longer true.</p>
+                <p>You passed in January 2025. Three of the facts behind that decision are no longer true.</p>
                 <ul class="mem-cites">
-                  <li><b>Side letter</b> MFN election and quarterly reporting</li>
-                  <li><b>Annual meeting</b> They now want a co-investment pipeline</li>
-                  <li><b>New position</b> Sofia Berg replaced your contact in June</li>
+                  <li><b>Monday memo</b> Passing for now, no design partners live</li>
+                  <li><b>June update</b> Six design partners live, $2.4M ARR</li>
+                  <li><b>Seed deck</b> Dev Raman is the warmest path in</li>
                 </ul>
               </div>
             </li>
           </ol>
         </div>
         <div class="mem-box" id="mem-box">
-          <p class="mem-q" id="mem-qtext"><span class="mem-at">@fein</span>What did we agree with Meridian in Fund III, and what changed?<span class="mem-caret" aria-hidden="true"></span></p>
+          <p class="mem-q" id="mem-qtext"><span class="mem-at">@fein</span>Why did we pass on Halo Compute, and what changed?<span class="mem-caret" aria-hidden="true"></span></p>
           <p class="mem-ph" id="mem-ph" hidden>Reply&hellip;</p>
           <div class="mem-acts">
             <span class="mem-plus" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></span>
@@ -2720,9 +2715,9 @@ __LOGO_SPRITE__
          top of it, because the press is the sound control. When somebody asks,
          they get the whole thing from the top, narration included, once through
          rather than on a loop. -->
-    <figure class="mem-stage" aria-label="A 26-second walkthrough of fein answering a question from the firm&rsquo;s own record">
+    <figure class="mem-stage" aria-label="A 26-second walkthrough of fein answering the question asked in the thread above">
       <div class="mem-film paused" id="mem-film">
-        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A 26-second narrated walkthrough of fein answering from the firm&rsquo;s own record." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
+        <video id="mem-video" class="mem-video" width="2560" height="1440" aria-label="A 26-second narrated walkthrough of fein answering this question." playsinline muted preload="none" poster="/video/fein-demo-poster.jpg">
           <source src="/video/fein-demo-1440.webm" type='video/webm; codecs="av01.0.12M.08, opus"'>
           <source src="/video/fein-demo-1440.mp4" type='video/mp4; codecs="avc1.640033, mp4a.40.2"'>
         </video>
@@ -2747,14 +2742,14 @@ __LOGO_SPRITE__
              paragraphs saying fein is not one and replaces nothing; the pitch's
              own term names it without the contradiction. -->
         <h2>One shared memory.</h2>
-        <p class="lead">fein answers from every raise the firm has ever run, in seconds.</p>
+        <p class="lead">fein answers from your team&rsquo;s history in seconds.</p>
       </div>
       <div class="featgrid">
         <article class="featcell reveal" id="f-warm">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
             <div class="mock mk-path" aria-hidden="true">
-              <div class="mock-title">Paths to Hallam Partners</div>
+              <div class="mock-title">Paths to Clara Voss</div>
               <div class="pth">
                 <div class="prow"><i class="pseed"></i>Your team</div>
                 <div class="pbr best"><span class="pchip"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · 14 shared meetings</span><b class="mtag strong">Strong</b></span></div>
@@ -2764,8 +2759,8 @@ __LOGO_SPRITE__
             </div>
           </div>
           <div class="featcap">
-            <h3>The warmest path to any allocator</h3>
-            <p>fein reads who meets and emails whom, weighs each hop, and names the person at your firm who should make the call.</p>
+            <h3>The warmest path to any founder or LP</h3>
+            <p>fein reads who meets and emails whom, weighs each hop, and names the best person to introduce you.</p>
           </div>
         </article>
         <article class="featcell reveal" id="f-brief">
@@ -2778,35 +2773,35 @@ __LOGO_SPRITE__
                 <div class="dslot"><span>9:00</span></div>
                 <div class="dslot"><span>9:30</span></div>
                 <div class="devt">
-                  <p class="devt-t">Meridian re-up<b class="mtag strong">Brief</b></p>
-                  <p class="dfact"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Sofia Berg</b> · new since Fund III</span></p>
+                  <p class="devt-t">Meridian follow-on<b class="mtag strong">Brief</b></p>
+                  <p class="dfact"><svg class="tlogo"><use href="#l-gmail"/></svg><span><b>Clara Voss</b> · owes the data room</span></p>
                   <p class="dfact"><svg class="tlogo"><use href="#l-gcal"/></svg><span><b>Anna Lindqvist</b> · joining from your side</span></p>
-                  <p class="dfact"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · co-investment, from the last call</span></p>
+                  <p class="dfact"><svg class="tlogo"><use href="#l-granola"/></svg><span><b>Open</b> · valuation, from the last call</span></p>
                 </div>
                 <i class="dnow"></i>
               </div>
             </div>
           </div>
           <div class="featcap">
-            <h3>A brief before every LP call</h3>
-            <p>Who is in the room, how your firm knows them, and what is still open. Ready before the call starts.</p>
+            <h3>A brief before every meeting</h3>
+            <p>Who is in the room, how your team knows them, and what is still open. Ready before the call starts.</p>
           </div>
         </article>
         <article class="featcell reveal" id="f-pass">
           <div class="featart" aria-hidden="true">
             <span class="featghost"></span>
             <div class="mock mk-under mk-memo" aria-hidden="true">
-              <div class="mm-h"><svg class="tlogo"><use href="#l-gdrive"/></svg><span>Calder · diligence call</span><b>p.2</b></div>
+              <div class="mm-h"><svg class="tlogo"><use href="#l-gdrive"/></svg><span>Meridian · investment memo</span><b>p.2</b></div>
               <p class="mm-l"></p>
               <p class="mm-l l2"></p>
-              <p class="mm-hit"><mark>Send the ESG policy and two audited statements.</mark> <b>Asked</b>, Nov 2024.</p>
+              <p class="mm-hit"><mark>Single customer is 78% of revenue.</mark> <b>We passed</b>, April 2024.</p>
               <p class="mm-l l3"></p>
-              <div class="mm-f"><svg class="tlogo"><use href="#l-gcal"/></svg><span>ESG policy sent · statements still open</span><b class="mtag strong">Open</b></div>
+              <div class="mm-f"><svg class="tlogo"><use href="#l-gcal"/></svg><span>Anna met them twice · three new logos since</span><b class="mtag strong">Update</b></div>
             </div>
           </div>
           <div class="featcap">
-            <h3>Every promise, open until it is closed</h3>
-            <p>An LP asks for something on a call. fein files it to that LP, and keeps it open until somebody closes it.</p>
+            <h3>The reason you passed, in one question</h3>
+            <p>A company comes back for its next round. fein shows the memo, the meeting, and the reason it gave.</p>
           </div>
         </article>
         <article class="featcell reveal" id="f-cold">
@@ -2835,8 +2830,8 @@ __LOGO_SPRITE__
             </div>
           </div>
           <div class="featcap">
-            <h3>LP relationships going quiet, seen first</h3>
-            <p>fein learns each relationship&rsquo;s own rhythm, then flags the ones that drift from it, years before the raise makes it urgent.</p>
+            <h3>Relationships going cold, seen first</h3>
+            <p>fein learns each relationship&rsquo;s rhythm, then flags the ones that drift from it.</p>
           </div>
         </article>
       </div>
@@ -2875,11 +2870,11 @@ __LOGO_SPRITE__
   <section id="how" class="band" aria-labelledby="how-h">
     <div class="wrap">
       <div class="head reveal">
-        <h2 id="how-h">Three steps, and your IR desk runs none of them.</h2>
+        <h2 id="how-h">Three steps, and your team runs none of them.</h2>
       </div>
       <div class="why3" data-reveal-group="90">
-        <div class="wcard reveal"><span class="wstep">01</span><h3>Everything your firm already uses</h3><p>Inbox, calendar, Drive, LinkedIn, and CRM, read continuously. Nobody logs anything.</p></div>
-        <div class="wcard reveal"><span class="wstep">02</span><h3>One LP, not a hundred duplicates</h3><p>Every copy of a contact resolves to one identity, scored from meetings, replies, and shared documents.</p></div>
+        <div class="wcard reveal"><span class="wstep">01</span><h3>Everything your team already uses</h3><p>Inbox, calendar, Drive, LinkedIn, and CRM, read continuously. Nobody logs anything.</p></div>
+        <div class="wcard reveal"><span class="wstep">02</span><h3>One person, not a hundred duplicates</h3><p>Every copy of a contact resolves to one identity, scored from meetings, replies, and shared documents.</p></div>
         <div class="wcard reveal"><span class="wstep">03</span><h3>Wherever your team asks</h3><p>One MCP endpoint for Claude, ChatGPT, Gemini, and Cursor. The same answer every time.</p></div>
       </div>
     </div>
@@ -2912,7 +2907,7 @@ __LOGO_SPRITE__
   <section id="change" class="band" aria-labelledby="change-h">
     <div class="change-head">
       <h2 id="change-h">Every fact keeps the sentence it came from.</h2>
-      <p class="sub">One record per LP. Dated, sourced, and never overwritten.</p>
+      <p class="sub">One record per company. Dated, sourced, and never overwritten.</p>
     </div>
 
     <div class="plates">
@@ -2920,9 +2915,9 @@ __LOGO_SPRITE__
       <figure class="plate reveal">
         <div class="rec">
           <div class="rec-top">
-            <div class="rec-name">Meridian Pension</div>
-            <span class="rec-kind">limited partner</span>
-            <span class="rec-meta">first seen 8 Nov 2022</span>
+            <div class="rec-name">Halo Compute</div>
+            <span class="rec-kind">company</span>
+            <span class="rec-meta">first seen 8 Nov 2024</span>
           </div>
           <ol class="rec-list">
 
@@ -2931,49 +2926,49 @@ __LOGO_SPRITE__
                  still carrying the document it came from -->
             <li class="rec-i">
               <div class="rec-m">
-                <p class="rec-fact">Will look at <b>Fund IV</b>.</p>
-                <p class="rec-quote">We would look at Fund IV, but we want a co-investment pipeline alongside it.</p>
+                <p class="rec-fact">Opening a <b>$30M Series A</b>.</p>
+                <p class="rec-quote">We are opening a $30M Series A.</p>
               </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Meridian Pension, annual meeting</span><em>14 Mar 2026</em></p>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Halo Compute, June update</span><em>2 Jun 2026</em></p>
               <div class="rec-prev">
                 <div class="rec-m">
-                  <p class="rec-fact"><s>Full on buyout this vintage.</s><span class="rec-sup">superseded 14 Mar 2026</span></p>
-                  <p class="rec-quote">We are full on buyout for this vintage.</p>
+                  <p class="rec-fact"><s>Raising a $4M seed.</s><span class="rec-sup">superseded 2 Jun 2026</span></p>
+                  <p class="rec-quote">They are raising a $4M seed.</p>
                 </div>
-                <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Meridian, Fund III review</span><em>9 Sep 2024</em></p>
+                <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Halo Compute, seed deck</span><em>8 Nov 2024</em></p>
               </div>
             </li>
 
             <li class="rec-i">
               <div class="rec-m">
-                <p class="rec-fact"><b>Sofia Berg</b> is head of private markets. <span class="rec-new">new record</span></p>
-                <p class="rec-quote">Head of Private Markets at Meridian Pension.</p>
+                <p class="rec-fact"><b>Priya Nayar</b> is VP Engineering. <span class="rec-new">new record</span></p>
+                <p class="rec-quote">VP Engineering at Halo Compute.</p>
               </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Sofia Berg, new position</span><em>3 Jun 2026</em></p>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-linkedin"/></svg>Priya Nayar, new position</span><em>3 Jun 2025</em></p>
             </li>
 
             <li class="rec-i">
               <div class="rec-m">
-                <p class="rec-fact">Anchored <b>Fund III</b> at $40M.</p>
-                <p class="rec-quote">Meridian confirms $40M into Fund III as anchor.</p>
+                <p class="rec-fact">Two <b>ex-Anthropic</b> infra engineers.</p>
+                <p class="rec-quote">Both founders are ex-Anthropic infra.</p>
               </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fund III close, Meridian</span><em>2 Mar 2023</em></p>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>Coffee with Halo Compute</span><em>21 Nov 2024</em></p>
             </li>
 
             <li class="rec-i">
               <div class="rec-m">
-                <p class="rec-fact"><b>Marcus Feld</b> owns the relationship.</p>
-                <p class="rec-quote">Marcus Feld, Dev Raman, Meridian introduction.</p>
+                <p class="rec-fact"><b>Marcus Feld</b> owns the conversation.</p>
+                <p class="rec-quote">Marcus Feld, Dev Raman, Halo Compute intro call.</p>
               </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Meridian introduction call</span><em>14 Nov 2022</em></p>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>Halo Compute intro call</span><em>14 Nov 2024</em></p>
             </li>
 
             <li class="rec-i">
               <div class="rec-m">
-                <p class="rec-fact">Introduced by <b>Dev Raman</b>, advisory board.</p>
+                <p class="rec-fact">Introduced by <b>Dev Raman</b>, co-investor.</p>
                 <p class="rec-quote">Marcus, worth twenty minutes.</p>
               </div>
-              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Meridian Pension, first look</span><em>8 Nov 2022</em></p>
+              <p class="rec-doc"><span class="rec-dt"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>Fwd: Halo Compute, seed deck</span><em>8 Nov 2024</em></p>
             </li>
 
           </ol>
@@ -2984,14 +2979,14 @@ __LOGO_SPRITE__
         <div class="ask">
           <div class="ask-bar">
             <svg class="mag" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
-            <p class="ask-q">Who do we still need to warm before Fund IV opens?<span class="ask-caret" aria-hidden="true"></span></p>
+            <p class="ask-q">Who should I bring into Halo Compute&rsquo;s Series A?<span class="ask-caret" aria-hidden="true"></span></p>
             <span class="ask-in">
               <svg class="tlogo" aria-hidden="true"><use href="#l-claude"/></svg>
               <svg class="tlogo" aria-hidden="true"><use href="#l-openai"/></svg>
               <svg class="tlogo" aria-hidden="true"><use href="#l-cursor"/></svg>
             </span>
           </div>
-          <p class="ask-a"><b>Meridian Pension.</b> They anchored Fund III at $40M<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Mar 2023</span>, and asked for a co-investment pipeline before they look at Fund IV<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>14 Mar 2026</span>. The warmest path in is <b>Dev Raman</b>, who made the first introduction<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2022</span>.</p>
+          <p class="ask-a"><b>Northwind Capital.</b> They asked for more AI infrastructure exposure at the March review<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gcal"/></svg>12 Mar 2026</span>, and Halo Compute cleared the design partner objection in June<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>2 Jun 2026</span>. The warmest path in is <b>Dev Raman</b>, who forwarded the deck in 2024<span class="cite"><svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>8 Nov 2024</span>.</p>
           <p class="ask-f">
             <svg class="tlogo" aria-hidden="true"><use href="#l-gmail"/></svg>
             <svg class="tlogo" aria-hidden="true"><use href="#l-granola"/></svg>
@@ -3095,8 +3090,8 @@ __LOGO_SPRITE__
   <section id="crm" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <h2>Your CRM stays. It becomes one input.</h2>
-        <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph your firm holds. Nothing migrates and your team enters no new data. The CRM keeps doing its job as a source. The graph becomes the record of what the firm knows, and it stays current even when the CRM does not, because it reads what your team writes anyway.</p>
+        <h2>It sits on top of the systems you run today.</h2>
+        <p class="lead">fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.</p>
         <div class="sec-cta">
           <a class="arrowlink" href="/demo">Ask about your stack <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
@@ -3121,8 +3116,8 @@ __LOGO_SPRITE__
   <section id="security" class="band">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <h2>Point AI at your private data. Without handing it to anyone.</h2>
-        <p class="lead">An IR desk holds the most sensitive record the firm has: what each LP committed, what each one was promised, and every word said to get there. fein reads your inbox, calendar, and CRM on your own servers, masks personal data on the way in, and writes down every change it makes. Nothing leaves your infrastructure, and you can read all of the code before you run it.</p>
+        <h2>Built for security. Ready for compliance.</h2>
+        <p class="lead">fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers, masks personal data on the way in, and writes down every change it makes. You can read all of the code.</p>
         <div class="sec-cta">
           <a class="arrowlink" href="https://github.com/clippycommits/fein" target="_blank" rel="noopener">Read the source code <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a>
         </div>
@@ -3139,19 +3134,6 @@ __LOGO_SPRITE__
   </section>
 
 
-  <!-- THE CANCELLATION LINE. The one sentence no hosted competitor in this
-       category can write, so it gets a band rather than an FAQ answer. It is
-       the proof of the security band above: self-hosting only means ownership
-       if nothing of ours has to keep running for the graph to work. Reuses the
-       .stance band under the fold, deliberately, so the page opens and closes
-       its argument in the same voice. -->
-  <section id="cancel" class="band stance" aria-label="What happens if you cancel">
-    <div class="wrap">
-      <p class="stance-line"><b>If you cancel, nothing stops.</b> The software, the graph, and every connector run on your servers under a licence we cannot revoke. The record of who your firm knows and why it decided what it decided stays yours, and it keeps answering. What stops is the upkeep.</p>
-    </div>
-  </section>
-
-
   <!-- THE DESKS: one ruled row per desk the examples above do not speak for,
        each closing on its own page. The rule for this copy: talk about the
        reader's desk, never about the page. An earlier lead here explained the
@@ -3161,13 +3143,13 @@ __LOGO_SPRITE__
   <section id="desks" class="band" aria-labelledby="desks-h">
     <div class="wrap secgrid">
       <div class="head reveal">
-        <h2 id="desks-h">Not only the IR desk.</h2>
-        <p class="lead">The record belongs to the firm, not to the desk that made it, and neither do the answers stop at one team. Each desk has its own page.</p>
+        <h2 id="desks-h">Not only the deal team.</h2>
+        <p class="lead">The record fein reads belongs to the whole firm, and so do the answers. Each desk has its own page.</p>
       </div>
       <ul class="stack-list" data-reveal-group="70">
-        <li class="reveal"><span class="sl">Deal teams</span><p>Every intermediary who sends the firm deals, ranked from real signal, owned by a named partner, and flagged when it goes quiet. <a class="arrowlink" href="/private-equity">fein for private equity <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
+        <li class="reveal"><span class="sl">Fundraising and LP relations</span><p>Every LP conversation, commitment, and promise becomes one record, warm before the next raise opens. <a class="arrowlink" href="/fundraising">fein for fundraising <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
         <li class="reveal"><span class="sl">Portfolio support</span><p>Open board asks, promised introductions, and founder requests, answered from the record the firm already makes. <a class="arrowlink" href="/portfolio">fein for portfolio teams <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
-        <li class="reveal"><span class="sl">Security and IT</span><p>Self-hosted, open source, and auditable end to end. The page a security review can be run against before anything is connected. <a class="arrowlink" href="/security">Security at fein <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
+        <li class="reveal"><span class="sl">Private equity</span><p>Every intermediary who sends the firm deals, ranked from real signal, owned by a named partner, and flagged when it goes quiet. <a class="arrowlink" href="/private-equity">fein for private equity <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p></li>
       </ul>
     </div>
   </section>
@@ -3192,8 +3174,8 @@ __LOGO_SPRITE__
         <!-- "We&nbsp;charge" is bound so the balancer breaks at the full stop
              ("The software is free. / We charge for the setup.") instead of
              stranding "We" at the end of the first line -->
-        <h2>We do not charge for access to your own data.</h2>
-        <p class="lead">fein is open source under Apache 2.0. Clone it and run it for nothing, forever. What we charge for is the build and the upkeep: every source connected, years of duplicate contacts resolved, a working graph in 14 days.</p>
+        <h2>The software is free. We&nbsp;charge for the setup.</h2>
+        <p class="lead">fein is open source under Apache 2.0. Clone it and run it for nothing, forever. Or we set it up for you: every source connected, years of duplicate contacts resolved, a working graph in 14 days.</p>
       </div>
       <div class="fork" data-reveal-group="90">
         <div class="fork-card reveal">
@@ -3202,7 +3184,7 @@ __LOGO_SPRITE__
                cards read as one decision with two doors. -->
           <span class="fork-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7L10 12L5 17"/><path d="M13 17H19"/></svg></span>
           <h3>Clone it and go</h3>
-          <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
+          <div class="fork-price"><b>Free</b><span class="per">forever</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier.</span></li>
             <li><span class="tk">&rarr;</span><span>One context graph of email, calendar, notes, and CRM.</span></li>
@@ -3218,13 +3200,13 @@ __LOGO_SPRITE__
         <div class="fork-card pick reveal">
           <img class="fork-face" src="data:image/webp;base64,__AV_DH__" alt="Daniel Hull" width="48" height="48" decoding="async" loading="lazy">
           <h3>A forward-deployed engineer</h3>
-          <div class="fork-price"><b>$5,000</b><span class="per">once, then from $250 a month</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a one-time build, then a monthly plan</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls with Daniel.</span></li>
             <li><span class="tk">&rarr;</span><span>Daniel connects each source and reads your history back.</span></li>
             <li><span class="tk">&rarr;</span><span>Years of duplicate contacts resolved into one record each.</span></li>
             <li><span class="tk">&rarr;</span><span>New connectors, fixes, and upgrades handled for you.</span></li>
-            <li><span class="tk">&rarr;</span><span>From $250 a month, set by how much we keep doing.</span></li>
+            <li><span class="tk">&rarr;</span><span>A monthly plan, set by how much we keep doing.</span></li>
           </ul>
           <!-- the action here was "See what the fortnight covers", pointing at
                /deploy. It is the one column with something we can do for the
@@ -3258,7 +3240,7 @@ __LOGO_SPRITE__
       <div class="fgrid">
         <div class="fbrand">
           <a class="brand" href="#home">fein</a>
-          <p>The open-source context graph that private capital firms own.</p>
+          <p>The open-source memory layer for private capital teams.</p>
         </div>
         <nav class="fcol" aria-label="Footer product">
           <b>Product</b>

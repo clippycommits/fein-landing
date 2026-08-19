@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fein pricing &middot; free to self-host, or from $250 a month</title>
-<meta name="description" content="fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup is $5,000 once, then $250, $500, or $750 a month depending on how much we keep doing. Never per seat.">
+<title>fein pricing &middot; free to self-host, or fully managed</title>
+<meta name="description" content="fein is Apache 2.0 licensed and free to run yourself, forever. Managed setup and upkeep are quoted on a short call, set by how much we keep doing. Never per seat.">
 <link rel="canonical" href="https://fein.vc/pricing">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="color-scheme" content="dark">
@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="fein">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="fein pricing">
-<meta property="og:description" content="Free to self-host, forever. Or $5,000 once, then $250, $500, or $750 a month. Never per seat.">
+<meta property="og:description" content="Free to self-host, forever. Or a managed build and upkeep, quoted on a call. Never per seat.">
 <meta property="og:url" content="https://fein.vc/pricing">
 <meta property="og:image" content="https://fein.vc/og.png">
 <meta property="og:image:type" content="image/png">
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="fein · the memory layer for private capital">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fein pricing">
-<meta name="twitter:description" content="Free to self-host, forever. Or $5,000 once, then $250, $500, or $750 a month. Never per seat.">
+<meta name="twitter:description" content="Free to self-host, forever. Or a managed build and upkeep, quoted on a call. Never per seat.">
 <meta name="twitter:image" content="https://fein.vc/og.png">
 <meta name="twitter:image:alt" content="fein · the memory layer for private capital">
 
@@ -46,6 +46,9 @@ __STYLE__
   .plans{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(.8rem,1.4vw,1.1rem)}
   .plans .fork-card{padding:clamp(1.15rem,1.8vw,1.55rem)}
   .plans .fork-price b{font-size:clamp(1.45rem,2.3vw,1.85rem)}
+  /* four across is narrower than the two-card fork, so the worded price steps
+     down again: "Talk to us" has to hold one line at 1024px. */
+  .plans .fork-price b.ask{font-size:clamp(1.05rem,1.5vw,1.22rem)}
   .plans .fork-card>p{font-size:.92rem}
   .plans .fork-card li{font-size:.9rem}
   .plans .fork-card li.lead-in{color:var(--fg-3)}
@@ -109,7 +112,7 @@ __LOGO_SPRITE__
     <div class="grain-overlay on-dark"></div>
     <div class="wrap" id="content" tabindex="-1">
       <h1>Simple pricing. One plan is free.</h1>
-      <p>The software is open source under Apache 2.0 and free to run yourself, forever. Or we build it into your stack for $5,000 once, then you pick how much we keep doing. Never per seat.</p>
+      <p>The software is open source under Apache 2.0 and free to run yourself, forever. Or we build it into your stack and you pick how much we keep doing after that. We quote it on a short call. Never per seat.</p>
     </div>
   </section>
 
@@ -121,7 +124,7 @@ __LOGO_SPRITE__
         <div class="fork-card reveal">
           <h3>Self-hosted</h3>
           <p>The full platform on your own servers.</p>
-          <div class="fork-price"><b>$0</b><span class="per">free forever</span></div>
+          <div class="fork-price"><b>Free</b><span class="per">forever</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Every feature</b>, with no paid tier.</span></li>
             <li><span class="tk">&rarr;</span><span>The context graph and the memory that keeps it current.</span></li>
@@ -135,10 +138,10 @@ __LOGO_SPRITE__
         <div class="fork-card reveal">
           <h3>Core</h3>
           <p>We build it, then keep it running.</p>
-          <div class="fork-price"><b>$250</b><span class="per">per month, after setup</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Self-hosted, plus:</b></span></li>
-            <li><span class="tk">&rarr;</span><span><b>Built into your stack in 14 days.</b> $5,000 once.</span></li>
+            <li><span class="tk">&rarr;</span><span><b>Built into your stack in 14 days.</b> A one-time build.</span></li>
             <li><span class="tk">&rarr;</span><span>Every source connected, duplicates resolved, full history read back.</span></li>
             <li><span class="tk">&rarr;</span><span>Connectors repaired after each upstream API change.</span></li>
             <li><span class="tk">&rarr;</span><span>Updates and security patches applied for you.</span></li>
@@ -150,7 +153,7 @@ __LOGO_SPRITE__
         <div class="fork-card pick reveal">
           <h3>Plus</h3>
           <p>We keep it running, and keep it growing.</p>
-          <div class="fork-price"><b>$500</b><span class="per">per month, after setup</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Core, plus:</b></span></li>
             <li><span class="tk">&rarr;</span><span><b>New answers built</b> when your team asks new questions.</span></li>
@@ -163,7 +166,7 @@ __LOGO_SPRITE__
         <div class="fork-card reveal">
           <h3>Pro</h3>
           <p>An engineer on call for your whole stack.</p>
-          <div class="fork-price"><b>$750</b><span class="per">per month, after setup</span></div>
+          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a monthly plan, after setup</span></div>
           <ul>
             <li class="lead-in"><span class="tk">&rarr;</span><span><b>Everything in Plus, plus:</b></span></li>
             <li><span class="tk">&rarr;</span><span><b>New connectors built</b> when you adopt new tools.</span></li>
@@ -174,7 +177,7 @@ __LOGO_SPRITE__
         </div>
 
       </div>
-      <p class="pnote">Every paid plan starts with the <b>$5,000 build, once</b>. <b>An annual plan, paid in advance, costs 15% less.</b> Otherwise it is month to month, no lock-in.</p>
+      <p class="pnote">Every paid plan starts with a <b>one-time build</b>. <b>An annual plan, paid in advance, costs less.</b> Otherwise it is month to month, no lock-in.</p>
     </div>
   </section>
 
@@ -191,10 +194,10 @@ __LOGO_SPRITE__
               <!-- visually empty corner: this column holds feature names, not
                    plans, so the label lives on the sr-only span alone -->
               <th scope="col"><span class="sr-only">Feature</span></th>
-              <th scope="col">Self-hosted<span class="per">$0</span></th>
-              <th scope="col">Core<span class="per">$250 / mo</span></th>
-              <th scope="col">Plus<span class="per">$500 / mo</span></th>
-              <th scope="col">Pro<span class="per">$750 / mo</span></th>
+              <th scope="col">Self-hosted<span class="per">free</span></th>
+              <th scope="col">Core<span class="per">talk to us</span></th>
+              <th scope="col">Plus<span class="per">talk to us</span></th>
+              <th scope="col">Pro<span class="per">talk to us</span></th>
             </tr>
           </thead>
           <tbody>
@@ -205,7 +208,7 @@ __LOGO_SPRITE__
             <tr class="grp"><td colspan="5">Setup</td></tr>
             <tr><td>Built into your stack in 14 days</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
             <tr><td>Every source connected, history read back</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>One-time build fee</td><td class="nil">&ndash;</td><td>$5,000</td><td>$5,000</td><td>$5,000</td></tr>
+            <tr><td>One-time build</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
             <tr class="grp"><td colspan="5">Upkeep</td></tr>
             <tr><td>Connectors repaired after upstream API changes</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
             <tr><td>Updates and security patches applied</td><td class="no">Your team</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
@@ -215,8 +218,8 @@ __LOGO_SPRITE__
             <tr><td>A named engineer who knows your stack</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="nil">&ndash;</td><td class="yes">&check;</td></tr>
             <tr class="grp"><td colspan="5">Support</td></tr>
             <tr><td>Response time</td><td class="no">Community</td><td>2 business days</td><td>Next business day</td><td>Same day</td></tr>
-            <tr><td>30-day full refund, build fee included</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
-            <tr><td>Price locked for as long as you stay</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr><td>30-day full refund, the build included</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
+            <tr><td>Your rate locked for as long as you stay</td><td class="nil">&ndash;</td><td class="yes">&check;</td><td class="yes">&check;</td><td class="yes">&check;</td></tr>
           </tbody>
         </table>
       </div>
@@ -246,8 +249,8 @@ __LOGO_SPRITE__
           <p>No. Every person at the firm, and every agent they run, can query the graph at one price.</p>
         </details>
         <details>
-          <summary>We are a small fund. Is the build fee negotiable?</summary>
-          <p>No. The work is the same for every firm. If the fee is out of reach, run it yourself for free.</p>
+          <summary>We are a small fund. Is the build negotiable?</summary>
+          <p>No. The work is the same for every firm. If it is out of reach, run it yourself for free: it is the same software, and we will point you at the docs.</p>
         </details>
       </div>
     </div>
@@ -258,7 +261,7 @@ __LOGO_SPRITE__
       <div class="deploy-cta reveal">
         <div>
           <b>Not sure which column you are in?</b>
-          <p>Book a 20-minute call. We look at your stack and tell you which plan fits.</p>
+          <p>Book a 20-minute call. We look at your stack, tell you which plan fits, and quote it there.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-white" href="/demo">Get a demo</a>
@@ -290,7 +293,7 @@ __LOGO_SPRITE__
         </nav>
         <nav class="fcol" aria-label="Footer use cases">
           <b>Use cases</b>
-          <a href="/">LP relations and the raise</a>
+          <a href="/">Deal sourcing</a>
           <a href="/fundraising">Fundraising</a>
           <a href="/portfolio">Portfolio</a>
           <a href="/private-equity">Private equity</a>
