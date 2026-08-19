@@ -552,6 +552,7 @@ fs.writeFileSync(path.join(out, "robots.txt"), robots);
 fs.writeFileSync(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url><loc>${SITE}/</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image><video:video><video:thumbnail_loc>${SITE}/video/fein-demo-poster.jpg</video:thumbnail_loc><video:title>${VIDEO_NAME}</video:title><video:description>${VIDEO_DESC}</video:description><video:content_loc>${SITE}/video/fein-demo-1440.mp4</video:content_loc><video:duration>26</video:duration><video:publication_date>${VIDEO_UPLOADED}</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video></url>
+  <url><loc>${SITE}/warm-capital-map</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/pricing</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/deploy</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
   <url><loc>${SITE}/self-host</loc><lastmod>${LASTMOD}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>${SITE}/og.png</image:loc></image:image></url>
@@ -716,7 +717,7 @@ const CHANGE_JS = sliceBetween(rest, "/*change-replay:start*/", "/*change-replay
 // /pe is retired in favour of /private-equity (vercel.json 301s the old path).
 const LEAD_STAGE = sliceBetween(rest, "<!--lead-stage:start-->", "<!--lead-stage:end-->", "lead-stage");
 const LEAD_JS = sliceBetween(rest, "/*lead-stage-js:start*/", "/*lead-stage-js:end*/", "lead-stage-js");
-["private-equity", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
+["warm-capital-map", "private-equity", "fundraising", "portfolio", "demo", "self-host", "deploy", "pricing", "security", "integrations"].forEach(function (slug) {
   let page = fs.readFileSync(path.join("pages", slug + ".html"), "utf8")
     .split("__STYLE__").join(styleBlock)
     .split("__LOGO_SPRITE__").join(spriteAll)
@@ -829,6 +830,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 - [Managed setup](${SITE}/deploy): the paid path. A forward deployed engineer builds fein into the firm's stack in 14 days
 - [Pricing](${SITE}/pricing): both paths priced against each other, with the three monthly plans
 - [fein for private equity](${SITE}/private-equity): the page for private equity firms
+- [The Warm Capital Map](${SITE}/warm-capital-map): the offer for a firm with a fund opening. Every allocator the firm already knows, ranked, built in 14 days
 - [fein for fundraising](${SITE}/fundraising): the page for LP relations and the next raise
 - [fein for portfolio teams](${SITE}/portfolio): the page for platform and portfolio support
 - [Security](${SITE}/security): self-hosted, open source, auditable. The page for a security review
