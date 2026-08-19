@@ -1,14 +1,16 @@
 # fein
 
-> fein is an open-source context graph that an investment firm owns and the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure, so the record belongs to the firm and not to a vendor. If the firm cancels, nothing stops: the software and the graph keep running. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.
+> fein is an open-source agent for investor relations and the raise, owned by the firm that runs it. It serves private equity firms and venture capital firms. It reads the firm's email, calendar, notes, and CRM, and resolves them into one context graph of every relationship the firm has. From that graph it keeps the fundraise current. It lists every LP and every consultant the firm has spoken to, scored from real signals rather than a guess, and names the partner who owns each relationship. It holds every ask an LP made and every commitment the firm made, open until it is closed, with the meeting or email it came from. It finds the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors. It flags each relationship that drifts from its own rhythm, years before the raise makes it urgent. It answers due diligence questions from the answers the firm has already given. It serves all of this to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint, and each answer arrives with its source document attached. fein is self-hosted on the firm's own infrastructure, so the record belongs to the firm and not to a vendor. If the firm cancels, nothing stops: the software and the graph keep running. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A firm can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.
 
 Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.txt
 
 ## What fein does
-- Find the warmest introduction to a founder, an LP, or an operator. See who should make it.
-- Prepare for meetings. See who is in the room, how you know them, and what you last discussed.
-- Recall every company the team saw, and the exact reason it passed.
-- Flag relationships that go cold, by each contact's own cadence.
+- List every LP and consultant the firm has spoken to, scored from real signal, with the partner who owns each one named.
+- Find the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors.
+- Hold every LP ask and every commitment open until it is closed, with the meeting or email it came from.
+- Flag each LP relationship that drifts from its own rhythm, years before the raise makes it urgent.
+- Answer a due diligence question from the answers the firm has already given, with the source document behind each line.
+- Prepare for an LP call. See who is in the room, how the firm knows them, and what is still open.
 
 ## How it works
 - fein reads your existing systems: email, calendar, Google Drive, LinkedIn, and CRMs like Attio and Affinity. It builds the context graph automatically. You keep no CRM up to date by hand.
@@ -26,14 +28,14 @@ Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.tx
 - Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel.
 
 ## For private equity
-- fein serves private equity firms as well as venture capital firms. The page for private equity is https://fein.vc/private-equity.
+- fein serves private equity firms and venture capital firms. IR desks at both raise from the same allocators. The page for private equity deal teams is https://fein.vc/private-equity.
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
 - fein lists every intermediary who sends the firm deals. It scores each relationship from real signal. It names the person at the firm who owns each relationship. It flags the relationships that go quiet.
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
 - It works with DealCloud, Affinity, Salesforce, and Attio. Nothing migrates. The CRM stays as a source and the graph becomes the record the firm owns.
 
 ## For fundraising
-- fein serves the fundraising and LP relations side of a firm as well as the deal side. The page for fundraising is https://fein.vc/fundraising.
+- Fundraising and LP relations is what the front page of the site is about: https://fein.vc/. A longer page for an IR desk is at https://fein.vc/fundraising.
 - fein lists every LP the firm has ever spoken to, scored from real signal, with the partner who owns each relationship named.
 - It flags each LP relationship that drifts away from its own rhythm, years before the raise makes it urgent.
 - It files every LP ask and every commitment to the LP it belongs to, with the meeting or email it came from, and keeps it open until it is closed.

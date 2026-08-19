@@ -1,4 +1,4 @@
-# fein · the context graph your firm owns
+# fein · every LP relationship, warm before the raise
 # AI assistants welcome. Summary: https://fein.vc/llms.txt · Full page: https://fein.vc/llms-full.txt
 
 User-agent: *

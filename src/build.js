@@ -2,15 +2,15 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE = "https://fein.vc";
-const TITLE = "fein · the context graph your firm owns";
+const TITLE = "fein · every LP relationship, warm before the raise";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD.
 // Both are written in Simplified Technical English, one idea to a sentence, and
 // both hold the approved terms: "your team" for the customer, "context graph"
 // for the structure, "source document" for provenance, and "owns" for the
 // custody claim the pitch now rests on. Never swap in a synonym
 // here, because these two strings are what an answer engine quotes back.
-const DESC = "fein resolves your team's email, calendar, notes, and CRM into one context graph your firm owns. It runs on your own servers and answers in Claude, ChatGPT, and Cursor.";
-const DESC_LONG = "fein resolves your team's email, calendar, notes, and CRM into one context graph your firm owns. It runs on your own servers and answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Open source, self-hosted, live in 14 days. If you cancel, nothing stops.";
+const DESC = "fein keeps every LP relationship, commitment, and warm path current, from the email and calendar your firm already runs. It is self-hosted and answers in Claude.";
+const DESC_LONG = "fein keeps every LP relationship, commitment, and warm path current, from the email, calendar, and CRM your firm already runs. It answers in Claude, ChatGPT, and Cursor, and each answer carries its source document. Open source, self-hosted, live in 14 days. If you cancel, nothing stops.";
 const LASTMOD = "2026-08-15";
 // The same date, written for humans. LASTMOD stays ISO for machines (sitemap,
 // meta, JSON-LD, datetime attributes); the legal pages print this one in their
@@ -146,7 +146,7 @@ function spriteOf(names) {
 // the answer can be asked in, and the citation on every claim. All of those
 // marks paint above the fold, so they ship in the head sprite rather than the
 // end-of-body one. The guard below is what tells you when this list is stale.
-const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "affinity", "slack", "claude", "openai", "cursor", "whatsapp"];
+const SPRITE_EARLY = ["github", "gmail", "granola", "linkedin", "gcal", "gdrive", "affinity", "slack", "claude", "openai", "cursor", "whatsapp"];
 const spriteHero = spriteOf(SPRITE_EARLY);
 const spriteRest = spriteOf(Object.keys(LOGOS).filter(k => SPRITE_EARLY.indexOf(k) < 0));
 
@@ -272,7 +272,7 @@ const ld = {
       isPartOf: { "@id": SITE + "/#webpage" },
       about: { "@id": SITE + "/#app" }
     },
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the context graph your firm owns", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: [REPO_URL], knowsAbout: ["venture capital", "private equity", "limited partner relations", "relationship intelligence", "entity resolution", "knowledge graphs", "Model Context Protocol"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "every LP relationship, warm before the raise", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: [REPO_URL], knowsAbout: ["private equity", "venture capital", "investor relations", "limited partner relations", "fund raising", "due diligence questionnaires", "relationship intelligence", "entity resolution", "knowledge graphs", "Model Context Protocol"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, video: { "@id": SITE + "/#demo-film" }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -285,7 +285,7 @@ const ld = {
       softwareHelp: { "@type": "CreativeWork", url: SITE + "/self-host" },
       softwareRequirements: "Docker, self-hosted on the team's own infrastructure",
       offers: OFFERS_ALL,
-      keywords: "venture capital, private equity, relationship intelligence, warm introductions, deal memory, meeting preparation, LP relations, context graph, MCP endpoint, open source",
+      keywords: "investor relations, LP relations, fund raising, private equity, venture capital, limited partners, allocators, warm introductions, DDQ, meeting preparation, context graph, MCP endpoint, open source",
       audience: { "@type": "Audience", audienceType: ["Venture capital teams", "Private equity teams", "Fundraising and LP relations teams", "Portfolio and platform teams"] }
     }
   ]
@@ -321,12 +321,12 @@ const headMeta = `<meta charset="utf-8">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the context graph your firm owns">
+<meta property="og:image:alt" content="fein · every LP relationship, warm before the raise">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
 <meta name="twitter:image" content="${SITE}/og.png">
-<meta name="twitter:image:alt" content="fein · the context graph your firm owns">`;
+<meta name="twitter:image:alt" content="fein · every LP relationship, warm before the raise">`;
 
 // GoatCounter retired Aug 2026: Vercel Web Analytics is the one counter now.
 const analytics = `<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
@@ -536,7 +536,7 @@ fs.writeFileSync(path.join(out, "404.html"), notFound);
 
 // robots.txt — welcome AI answer engines explicitly
 const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "GoogleOther", "Applebot", "Applebot-Extended", "Bingbot", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
-const robots = `# fein · the context graph your firm owns
+const robots = `# fein · every LP relationship, warm before the raise
 # AI assistants welcome. Summary: ${SITE}/llms.txt · Full page: ${SITE}/llms-full.txt
 
 User-agent: *
@@ -747,7 +747,7 @@ const LEAD_JS = sliceBetween(rest, "/*lead-stage-js:start*/", "/*lead-stage-js:e
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is an open-source context graph that an investment firm owns and the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure, so the record belongs to the firm and not to a vendor. If the firm cancels, nothing stops: the software and the graph keep running. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
+const LLMS_SUMMARY = `> fein is an open-source agent for investor relations and the raise, owned by the firm that runs it. It serves private equity firms and venture capital firms. It reads the firm's email, calendar, notes, and CRM, and resolves them into one context graph of every relationship the firm has. From that graph it keeps the fundraise current. It lists every LP and every consultant the firm has spoken to, scored from real signals rather than a guess, and names the partner who owns each relationship. It holds every ask an LP made and every commitment the firm made, open until it is closed, with the meeting or email it came from. It finds the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors. It flags each relationship that drifts from its own rhythm, years before the raise makes it urgent. It answers due diligence questions from the answers the firm has already given. It serves all of this to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint, and each answer arrives with its source document attached. fein is self-hosted on the firm's own infrastructure, so the record belongs to the firm and not to a vendor. If the firm cancels, nothing stops: the software and the graph keep running. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A firm can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup costs $5,000 once, then a monthly plan set by how much we keep doing, from $250 each month. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -755,10 +755,12 @@ ${LLMS_SUMMARY}
 Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 
 ## What fein does
-- Find the warmest introduction to a founder, an LP, or an operator. See who should make it.
-- Prepare for meetings. See who is in the room, how you know them, and what you last discussed.
-- Recall every company the team saw, and the exact reason it passed.
-- Flag relationships that go cold, by each contact's own cadence.
+- List every LP and consultant the firm has spoken to, scored from real signal, with the partner who owns each one named.
+- Find the warm path to an allocator the firm has never met, through existing LPs, founders, and co-investors.
+- Hold every LP ask and every commitment open until it is closed, with the meeting or email it came from.
+- Flag each LP relationship that drifts from its own rhythm, years before the raise makes it urgent.
+- Answer a due diligence question from the answers the firm has already given, with the source document behind each line.
+- Prepare for an LP call. See who is in the room, how the firm knows them, and what is still open.
 
 ## How it works
 - fein reads your existing systems: email, calendar, Google Drive, LinkedIn, and CRMs like Attio and Affinity. It builds the context graph automatically. You keep no CRM up to date by hand.
@@ -776,14 +778,14 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - Portfolio and back office: Carta, Standard Metrics, Google Sheets, Excel.
 
 ## For private equity
-- fein serves private equity firms as well as venture capital firms. The page for private equity is ${SITE}/private-equity.
+- fein serves private equity firms and venture capital firms. IR desks at both raise from the same allocators. The page for private equity deal teams is ${SITE}/private-equity.
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
 - fein lists every intermediary who sends the firm deals. It scores each relationship from real signal. It names the person at the firm who owns each relationship. It flags the relationships that go quiet.
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
 - It works with DealCloud, Affinity, Salesforce, and Attio. Nothing migrates. The CRM stays as a source and the graph becomes the record the firm owns.
 
 ## For fundraising
-- fein serves the fundraising and LP relations side of a firm as well as the deal side. The page for fundraising is ${SITE}/fundraising.
+- Fundraising and LP relations is what the front page of the site is about: ${SITE}/. A longer page for an IR desk is at ${SITE}/fundraising.
 - fein lists every LP the firm has ever spoken to, scored from real signal, with the partner who owns each relationship named.
 - It flags each LP relationship that drifts away from its own rhythm, years before the raise makes it urgent.
 - It files every LP ask and every commitment to the LP it belongs to, with the meeting or email it came from, and keeps it open until it is closed.
@@ -838,7 +840,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 // llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
 // Every line here restates visible site copy; keep it in sync when copy changes.
-fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the context graph your firm owns
+fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · every LP relationship, warm before the raise
 
 ${LLMS_SUMMARY}
 
@@ -846,9 +848,9 @@ Updated: ${LASTMOD}. This file mirrors the full content of ${SITE}/ for AI assis
 
 ## What fein is
 
-fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.
+fein is an agent for investor relations and the raise. It reads your firm's email, calendar, notes, and CRM, and builds one context graph of every relationship the firm has. From it, fein keeps each LP, each consultant, each commitment, and each warm path current. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.
 
-You add no new CRM. Your team logs nothing. The context graph builds itself from the record your team already makes.
+The next fund is raised in the two years before it opens, and the record of those two years sits in four partners' inboxes. fein reads that record. You add no new CRM. Your team logs nothing. The context graph builds itself from the record the firm already makes.
 
 It reads and answers in the tools you already use: Gmail, Google Calendar, Drive, Attio, LinkedIn, Granola, Notion, Slack, Claude, ChatGPT, Gemini, Cursor, Perplexity, and Copilot.
 
@@ -862,7 +864,7 @@ What it shows: a partner asks "Who is the warmest path into Halo Compute, and wh
 
 ## What changes when a fact stops being true
 
-fein holds one live record per company and retires facts that stop being true rather than overwriting them. A retired fact keeps the dates it was true between, so the history stays queryable: you can ask what the firm believed at the moment it made a decision, not only what is true now. Nobody opens a CRM to correct a title, and no stale row survives because the person who knew was on holiday.
+fein holds one live record per LP and per company, and retires facts that stop being true rather than overwriting them. A retired fact keeps the dates it was true between, so the history stays queryable: you can ask what the firm believed at the moment it made a decision, not only what is true now. Nobody opens a CRM to correct a title, and no stale row survives because the person who knew was on holiday.
 
 ## How it works: nobody enters data, the graph builds itself
 
@@ -883,21 +885,21 @@ A connector gives an assistant a search box into one tool at a time. fein gives 
 - What comes back. Connector alone: a paraphrase of some documents. It is as good as whatever was retrieved that time. Ask twice, get two answers. With fein: deterministic. The same question gets the same answer, every time. The document behind each line is one click away.
 - Where it runs. Connector alone: your data leaves your firm. It goes to whichever vendor owns the connector. With fein: yours. It runs on your own servers. You can read all of the code. It sends nothing to us.
 
-## What you get: four questions your team asks every week
+## What you get: four questions an IR desk asks every week
 
-The warm introduction. The brief before the meeting. The reason you passed. The relationship that goes quiet. fein answers each one from your team's history, in seconds.
+The warm path to an allocator. The brief before the LP call. The promise that is still open. The relationship that has gone quiet. fein answers each one from the firm's own history, in seconds.
 
-### Your team already has the introduction you need.
-Ask for the warmest path to a founder or an LP. fein reads the real graph of who meets and emails whom. It weighs each hop. It names the best person to make the introduction. This is not only the person who knows them.
+### Your firm already has the introduction it needs.
+Ask for the warmest path to an allocator, a consultant, or a gatekeeper. fein reads the real graph of who meets and emails whom, across existing LPs, founders, and co-investors. It weighs each hop. It names the person at your firm who should make the call. This is not only the person who knows them.
 
-### Get a brief before each meeting.
-fein shows the attendees, how you know each of them, and what was open. It gets this from your calendar and inbox. It is on your screen before the meeting starts.
+### Get a brief before each LP call.
+fein shows who is in the room, how the firm knows each of them, what was committed, and what is still open. It gets this from your calendar and inbox. It is on your screen before the call starts.
 
-### Ask one question to see why you passed.
-A company can come back for its next round. Then fein shows the meeting, the memo, and the exact reason in seconds. It traces each line to its source document.
+### Every promise stays open until it is closed.
+An LP asks for a policy, a statement, or a co-investment slot on a call. fein files that ask to the LP it belongs to, with the meeting or email it came from, and keeps it open until somebody closes it.
 
-### Relationships go cold. fein sees it first.
-fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it. It uses dates and intervals, not a guess.
+### LP relationships go quiet. fein sees it first.
+fein learns the rhythm of each relationship from your real history. Then it flags the ones that drift away from it, years before the raise makes it urgent. It uses dates and intervals, not a guess.
 
 ## Your CRM stays: it sits on top of the systems you run today
 
@@ -913,7 +915,7 @@ fein works with 30+ tools. It reads your CRM and everything around it, then reso
 
 ## Security: ${SITE}/security
 
-Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.
+An IR desk holds the most sensitive record the firm has: what each LP committed, what each one was promised, and every word said to get there. Your data never leaves your servers. fein reads your inbox, calendar, and CRM to do its work. It does this on your own servers. You can read all of the code.
 
 - Always self-hosted. It runs on your infrastructure. It sends nothing to us.
 - Open source, end to end. Every line that touches your data is public. Read it before you run it.
@@ -932,7 +934,7 @@ We deploy fein in two weeks. Then it works on its own. Your only part is two sho
 
 ## For private equity: ${SITE}/private-equity
 
-fein serves private equity firms as well as venture capital firms. The page at ${SITE}/private-equity describes the same product in the language a deal team uses.
+fein serves private equity firms and venture capital firms. The page at ${SITE}/private-equity describes the same product in the language a deal team uses, for the intermediary relationships that bring the firm deals rather than the LP relationships that fund it.
 
 An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them, and the record of those relationships sits in ten thousand emails. Four problems follow from that. Coverage is a guess, because the CRM shows one picture and the inbox shows another. Relationships go quiet in silence, and the firm learns this when the next deal goes to a competitor. Ownership leaves when a partner leaves, because what the partner knew was never written down. Deal history is not searchable, because the memo, the reason, and the intermediary sit in three systems and one person's memory.
 
@@ -942,7 +944,7 @@ fein works with DealCloud, Affinity, Salesforce, and Attio. It reads the CRM and
 
 ## For fundraising: ${SITE}/fundraising
 
-fein serves the fundraising and LP relations side of a firm as well as the deal side. The page at ${SITE}/fundraising describes the same product in the language an IR desk uses.
+Fundraising and LP relations is what the front page of the site is about. The page at ${SITE}/fundraising goes further into the four problems an IR desk has, in its own language.
 
 The next fund is raised in the two years before it opens, and the record of the firm's LP relationships sits in four partners' inboxes. Four problems follow from that. Coverage is a partner's memory, rebuilt by hand when the raise opens. Promises made to LPs quietly expire, and the LP remembers. Quiet is invisible until it is expensive, because an anchor drifts from quarterly contact to nothing and the firm learns it when the re-up conversation starts cold. The last raise is not searchable, because who passed and the stated reason sit in threads three years old.
 
