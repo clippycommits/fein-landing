@@ -1617,10 +1617,9 @@
      to leave for GitHub and never came back.
 
      Two cards, because there are exactly two ways to have fein and the reader is
-     choosing between them, not reading a feature list. Figures came off both
-     cards when pricing moved to a conversation; the free column still says
-     "Free" in words, because the claim only works if it is stated in the same
-     units as the other column, and "Talk to us" is those units. The paid card is the one
+     choosing between them, not reading a feature list. Both carry a price, and
+     the free one carries $0 rather than a dash, because the claim only works if
+     it is stated in the same units as the other column. The paid card is the one
      with the accent border: not because the free path is a lesser product -- it
      is the same binary -- but because it is the only column with an action we
      can take on the reader's behalf. */
@@ -1663,10 +1662,6 @@
      same baseline however long the paragraph above them runs */
   .fork-price{margin-top:clamp(1.1rem,2.2vw,1.5rem);padding-top:clamp(1.1rem,2.2vw,1.4rem);border-top:1px solid var(--line);display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
   .fork-price b{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.15rem);font-weight:500;letter-spacing:-.03em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
-  /* a worded price ("Talk to us") in the numeral size overruns a narrow card,
-     so it drops to the interface face a step down: still the loudest line in
-     the card, no longer pretending to be a figure. */
-  .fork-price b.ask{font-family:var(--font);font-size:clamp(1.2rem,2vw,1.5rem);font-weight:650;letter-spacing:-.022em}
   .fork-price .per{font-size:.92rem;color:var(--fg-3)}
   /* align-content:start because the list is the row that takes the slack: left to
      itself a stretched grid hands that slack to its own gaps, and the column with
@@ -2607,7 +2602,7 @@
         <div class="fork-card reveal">
           <h3>Self-hosted</h3>
           <p>The whole platform on your own servers. No trial, no seat count, no call with us.</p>
-          <div class="fork-price"><b>Free</b><span class="per">forever</span></div>
+          <div class="fork-price"><b>$0</b><span class="per">forever</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Every feature.</b> There is no paid tier of the software.</span></li>
             <li><span class="tk">&rarr;</span><span>Your engineers do the setup, the credentials and the backfill.</span></li>
@@ -2617,7 +2612,7 @@
         <div class="fork-card pick reveal">
           <h3>Managed setup</h3>
           <p>A forward-deployed engineer builds fein into your stack and stays on it.</p>
-          <div class="fork-price"><b class="ask">Talk to us</b><span class="per">a one-time build, then a monthly plan</span></div>
+          <div class="fork-price"><b>$5,000</b><span class="per">once, then from $250 a month</span></div>
           <ul>
             <li><span class="tk">&rarr;</span><span><b>Live in 14 days.</b> Your part is two short calls.</span></li>
             <li><span class="tk">&rarr;</span><span>Connectors kept working through every upstream API change.</span></li>
@@ -2626,7 +2621,7 @@
         </div>
       </div>
 
-      <p class="pnote">The monthly plan is set by how much we keep doing after the setup, and never per seat. Every person at your firm can query the graph, and so can every agent they run. <b>An annual plan, paid in advance, costs less.</b> <a class="arrowlink" href="/pricing">See the plans <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
+      <p class="pnote">The monthly plan is set by how much we keep doing after the setup, from $250, and never per seat. Every person at your firm can query the graph, and so can every agent they run. <b>An annual plan, paid in advance, costs 15% less.</b> <a class="arrowlink" href="/pricing">See the plans <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12H18"/><path d="M12 6L18 12L12 18"/></svg></span></a></p>
 
       <div class="offer reveal">
         <h3>We take five firms this quarter.</h3>
