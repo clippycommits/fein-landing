@@ -393,12 +393,47 @@
   /* works-with strip: slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
-  /* the proof band: client names as quiet text, not a logo wall. One muted
-     centred paragraph so it reads as a fact stated once. The segment pages
-     inherit these rules through the injected stylesheet. */
+  /* the proof band: client names set as wordmarks. Still text -- every name is
+     a real character in the DOM, so the band is selectable, translatable and
+     legible to a crawler in a way an image wall never is -- but each name is
+     typeset as its own mark rather than run together in a sentence.
+     No third-party logo files: a wordmark we set ourselves states the fact
+     without republishing a trademark nobody licensed to us.
+
+     Four voices, and only four. The temptation with 48 names is 48 bespoke
+     treatments, which is not a system, it is noise; the discipline is that a
+     mark inherits .cmark and adds exactly one voice class. All four are cut
+     from the three faces the page already loads, so the whole band costs
+     0 extra bytes on the wire:
+       (default) grotesk caps   -- Geist, the institutional voice
+       .wm-low   lowercase tight -- Inter, the modern/startup voice
+       .wm-mono  mono caps       -- Geist Mono, the technical voice
+       .wm-light hairline caps   -- Geist 300, the boutique/design voice
+     The segment pages inherit these rules through the injected stylesheet. */
   .proof-band{text-align:center}
   .proof-band .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase}
-  .proof-names{margin:1.2rem auto 0;max-width:56rem;font-size:.87rem;line-height:2;color:var(--fg-3);text-wrap:balance}
+  /* centre-wrapped rather than a grid: 48 marks on a ruled grid reads as a
+     table of vendors, the same names ragged-centred read as a wall of marks.
+     column-gap carries most of the separation so short marks (RGB, Portal)
+     do not float; row-gap is tighter so the block still reads as one band. */
+  .cwall{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
+         gap:1.5rem 2.5rem;margin:2rem auto 0;max-width:62rem;padding:0;list-style:none}
+  .cmark{font-family:var(--display);font-size:1rem;font-weight:600;line-height:1.15;
+         text-transform:uppercase;letter-spacing:.045em;color:var(--fg-2);
+         white-space:nowrap;transition:color .2s ease}
+  .cwall:hover .cmark{color:var(--dim)}
+  .cwall .cmark:hover{color:var(--fg)}
+  .cmark.wm-low{font-family:var(--font);text-transform:lowercase;font-weight:650;
+                letter-spacing:-.032em;font-size:1.08rem}
+  .cmark.wm-mono{font-family:var(--mono);font-weight:500;letter-spacing:.075em;font-size:.87rem}
+  .cmark.wm-light{font-weight:300;letter-spacing:.155em;font-size:.92rem}
+  @media (max-width:640px){
+    .cwall{gap:1.15rem 1.6rem;max-width:32rem}
+    .cmark{font-size:.9rem}
+    .cmark.wm-low{font-size:.97rem}
+    .cmark.wm-mono{font-size:.78rem;letter-spacing:.055em}
+    .cmark.wm-light{font-size:.83rem;letter-spacing:.12em}
+  }
   /* the strip's one exit: a quiet centred link under the marquee, to the page
      that lists every tool and makes the one-endpoint argument in full */
   .works .works-more{margin:1.2rem auto 0;width:fit-content;color:var(--fg-3);font-size:.9rem;display:flex}
@@ -2491,7 +2526,56 @@
   <section id="clients" class="band proof-band" aria-label="Firms the team behind fein has worked with">
     <div class="wrap">
       <p class="lab reveal">proud to have worked with</p>
-      <p class="proof-names reveal">Ace Ventures &middot; Albion VC &middot; Anorak VC &middot; Arc Investors &middot; Auster Capital &middot; Backed VC &middot; Bain Capital Ventures &middot; Blue Cloud Ventures &middot; Bonfire Ventures &middot; Bread and Butter Ventures &middot; Breakers VC &middot; Cash App &middot; Connect Ventures &middot; Crane VC &middot; Culina Health &middot; Discord &middot; Dynamo Ventures &middot; Fintech Collective &middot; Fiori VC &middot; Friedkin International &middot; Graduate VC &middot; Hardware Club &middot; In Motion Ventures &middot; Karman VC &middot; Las Olas VC &middot; Long Journey Ventures &middot; Marathon Management Partners &middot; Markd VC &middot; Mass Mutual Ventures &middot; Midas AI &middot; Monte Carlo Capital &middot; ONE VC &middot; Originx &middot; Outlander VC &middot; Palo Alto Staffing &middot; Play VC &middot; Portal &middot; Prudence VC &middot; Regeneration Ventures &middot; RGB &middot; Singularity Capital &middot; Standup Ventures &middot; Tera VC &middot; The Council &middot; Ultratech Capital &middot; Union Square Ventures &middot; University of Michigan &middot; Wilden Design</p>
+      <ul class="cwall reveal">
+        <li class="cmark wm-light">Ace Ventures</li>
+        <li class="cmark wm-light">Albion VC</li>
+        <li class="cmark wm-low">Anorak VC</li>
+        <li class="cmark">Arc Investors</li>
+        <li class="cmark">Auster Capital</li>
+        <li class="cmark wm-low">Backed VC</li>
+        <li class="cmark">Bain Capital Ventures</li>
+        <li class="cmark wm-mono">Blue Cloud Ventures</li>
+        <li class="cmark wm-light">Bonfire Ventures</li>
+        <li class="cmark wm-light">Bread and Butter Ventures</li>
+        <li class="cmark wm-low">Breakers VC</li>
+        <li class="cmark wm-low">Cash App</li>
+        <li class="cmark wm-light">Connect Ventures</li>
+        <li class="cmark wm-low">Crane VC</li>
+        <li class="cmark wm-low">Culina Health</li>
+        <li class="cmark wm-low">Discord</li>
+        <li class="cmark wm-mono">Dynamo Ventures</li>
+        <li class="cmark">Fintech Collective</li>
+        <li class="cmark wm-light">Fiori VC</li>
+        <li class="cmark">Friedkin International</li>
+        <li class="cmark wm-low">Graduate VC</li>
+        <li class="cmark wm-mono">Hardware Club</li>
+        <li class="cmark wm-mono">In Motion Ventures</li>
+        <li class="cmark wm-low">Karman VC</li>
+        <li class="cmark wm-light">Las Olas VC</li>
+        <li class="cmark wm-light">Long Journey Ventures</li>
+        <li class="cmark">Marathon Management Partners</li>
+        <li class="cmark wm-low">Markd VC</li>
+        <li class="cmark">Mass Mutual Ventures</li>
+        <li class="cmark wm-low">Midas AI</li>
+        <li class="cmark">Monte Carlo Capital</li>
+        <li class="cmark wm-low">ONE VC</li>
+        <li class="cmark wm-mono">Originx</li>
+        <li class="cmark wm-light">Outlander VC</li>
+        <li class="cmark wm-mono">Palo Alto Staffing</li>
+        <li class="cmark wm-low">Play VC</li>
+        <li class="cmark wm-low">Portal</li>
+        <li class="cmark">Prudence VC</li>
+        <li class="cmark wm-mono">Regeneration Ventures</li>
+        <li class="cmark wm-mono">RGB</li>
+        <li class="cmark">Singularity Capital</li>
+        <li class="cmark wm-low">Standup Ventures</li>
+        <li class="cmark wm-low">Tera VC</li>
+        <li class="cmark">The Council</li>
+        <li class="cmark">Ultratech Capital</li>
+        <li class="cmark">Union Square Ventures</li>
+        <li class="cmark">University of Michigan</li>
+        <li class="cmark wm-light">Wilden Design</li>
+      </ul>
     </div>
   </section>
 

@@ -391,12 +391,47 @@
   /* works-with strip: slow marquee behind soft masks; pauses on hover */
   .works{padding:clamp(4rem,8vw,6.5rem) 0 0;text-align:center;position:relative;z-index:2}
   .works .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase;padding:0 24px}
-  /* the proof band: client names as quiet text, not a logo wall. One muted
-     centred paragraph so it reads as a fact stated once. The segment pages
-     inherit these rules through the injected stylesheet. */
+  /* the proof band: client names set as wordmarks. Still text -- every name is
+     a real character in the DOM, so the band is selectable, translatable and
+     legible to a crawler in a way an image wall never is -- but each name is
+     typeset as its own mark rather than run together in a sentence.
+     No third-party logo files: a wordmark we set ourselves states the fact
+     without republishing a trademark nobody licensed to us.
+
+     Four voices, and only four. The temptation with 48 names is 48 bespoke
+     treatments, which is not a system, it is noise; the discipline is that a
+     mark inherits .cmark and adds exactly one voice class. All four are cut
+     from the three faces the page already loads, so the whole band costs
+     0 extra bytes on the wire:
+       (default) grotesk caps   -- Geist, the institutional voice
+       .wm-low   lowercase tight -- Inter, the modern/startup voice
+       .wm-mono  mono caps       -- Geist Mono, the technical voice
+       .wm-light hairline caps   -- Geist 300, the boutique/design voice
+     The segment pages inherit these rules through the injected stylesheet. */
   .proof-band{text-align:center}
   .proof-band .lab{font-family:var(--font);font-size:.8rem;color:var(--fg-3);font-weight:500;letter-spacing:0;text-transform:lowercase}
-  .proof-names{margin:1.2rem auto 0;max-width:56rem;font-size:.87rem;line-height:2;color:var(--fg-3);text-wrap:balance}
+  /* centre-wrapped rather than a grid: 48 marks on a ruled grid reads as a
+     table of vendors, the same names ragged-centred read as a wall of marks.
+     column-gap carries most of the separation so short marks (RGB, Portal)
+     do not float; row-gap is tighter so the block still reads as one band. */
+  .cwall{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
+         gap:1.5rem 2.5rem;margin:2rem auto 0;max-width:62rem;padding:0;list-style:none}
+  .cmark{font-family:var(--display);font-size:1rem;font-weight:600;line-height:1.15;
+         text-transform:uppercase;letter-spacing:.045em;color:var(--fg-2);
+         white-space:nowrap;transition:color .2s ease}
+  .cwall:hover .cmark{color:var(--dim)}
+  .cwall .cmark:hover{color:var(--fg)}
+  .cmark.wm-low{font-family:var(--font);text-transform:lowercase;font-weight:650;
+                letter-spacing:-.032em;font-size:1.08rem}
+  .cmark.wm-mono{font-family:var(--mono);font-weight:500;letter-spacing:.075em;font-size:.87rem}
+  .cmark.wm-light{font-weight:300;letter-spacing:.155em;font-size:.92rem}
+  @media (max-width:640px){
+    .cwall{gap:1.15rem 1.6rem;max-width:32rem}
+    .cmark{font-size:.9rem}
+    .cmark.wm-low{font-size:.97rem}
+    .cmark.wm-mono{font-size:.78rem;letter-spacing:.055em}
+    .cmark.wm-light{font-size:.83rem;letter-spacing:.12em}
+  }
   /* the strip's one exit: a quiet centred link under the marquee, to the page
      that lists every tool and makes the one-endpoint argument in full */
   .works .works-more{margin:1.2rem auto 0;width:fit-content;color:var(--fg-3);font-size:.9rem;display:flex}
