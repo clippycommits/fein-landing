@@ -2,14 +2,15 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE = "https://fein.vc";
-const TITLE = "fein · the memory layer for private capital";
+const TITLE = "fein · the context graph your firm owns";
 // DESC: search-snippet length (~160 chars). DESC_LONG: link previews + JSON-LD.
 // Both are written in Simplified Technical English, one idea to a sentence, and
 // both hold the approved terms: "your team" for the customer, "context graph"
-// for the structure, "source document" for provenance. Never swap in a synonym
+// for the structure, "source document" for provenance, and "owns" for the
+// custody claim the pitch now rests on. Never swap in a synonym
 // here, because these two strings are what an answer engine quotes back.
-const DESC = "fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor.";
-const DESC_LONG = "fein reads your team's email, calendar, notes, and CRM. It builds one context graph of every relationship your team has. It answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Self-hosted, open source, live in 14 days.";
+const DESC = "fein resolves your team's email, calendar, notes, and CRM into one context graph your firm owns. It runs on your own servers and answers in Claude, ChatGPT, and Cursor.";
+const DESC_LONG = "fein resolves your team's email, calendar, notes, and CRM into one context graph your firm owns. It runs on your own servers and answers in Claude, ChatGPT, and Cursor. Each answer carries its source document. Open source, self-hosted, live in 14 days. If you cancel, nothing stops.";
 const LASTMOD = "2026-08-15";
 // The same date, written for humans. LASTMOD stays ISO for machines (sitemap,
 // meta, JSON-LD, datetime attributes); the legal pages print this one in their
@@ -174,8 +175,8 @@ const rest = body.slice(sEnd);
 // which is why there is no FAQPage in the JSON-LD: that markup requires the
 // answers to be visible on the page it is served from. ----
 const faqs = [
-  ["What exactly is fein?", "fein is your firm's memory layer. It reads your email, calendar, notes, and CRM. It resolves them into one context graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself."],
-  ["How is this different from Affinity or Attio?", "A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry."],
+  ["What exactly is fein?", "fein is your firm's own context graph. It reads your email, calendar, notes, and CRM. It resolves them into one record of every relationship the firm has and every decision it made. It answers over MCP in Claude, ChatGPT, and Cursor. It runs on your infrastructure, so the record belongs to the firm and not to a vendor. It is not a CRM that you fill in. It maintains itself."],
+  ["How is this different from Affinity or Attio?", "Affinity and Attio are products you rent. Your firm's history lives in their database, on their servers, priced at their renewal. fein is an asset you own. It reads Affinity or Attio and keeps them, but the resolved graph of everyone your firm knows and every decision it made runs on your own infrastructure under an open source licence. It stays current automatically and needs no new data entry. Ask a hosted CRM what happens to your relationship graph if you leave. With fein, nothing stops."],
   ["What does it cost?", "Running it yourself is free forever: the software is Apache 2.0 and there is no paid tier. The paid offer is a one-time build into your stack, then a monthly plan set by how much we keep doing after that. We quote both on a short call, because the build depends on how many sources and how much history a firm has. There is no per-seat pricing."],
   ["Can't we build this ourselves?", "Yes. It is open source, so you can clone it. The monthly fee pays for the engineer who keeps it current. Then your engineer can build on top of it."],
   ["What happens if we cancel?", "Nothing stops. It runs on your servers. The graph, the connectors, and every answer stay yours."],
@@ -250,7 +251,7 @@ const ld = {
       isPartOf: { "@id": SITE + "/#webpage" },
       about: { "@id": SITE + "/#app" }
     },
-    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the memory layer for private capital", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: [REPO_URL], knowsAbout: ["venture capital", "private equity", "limited partner relations", "relationship intelligence", "entity resolution", "knowledge graphs", "Model Context Protocol"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
+    { "@type": "Organization", "@id": SITE + "/#org", name: "fein", alternateName: "Fein", url: SITE + "/", description: DESC_LONG, slogan: "the context graph your firm owns", email: "sales@fein.vc", logo: SITE + "/icon-512.png", image: SITE + "/og.png", sameAs: [REPO_URL], knowsAbout: ["venture capital", "private equity", "limited partner relations", "relationship intelligence", "entity resolution", "knowledge graphs", "Model Context Protocol"], contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "sales@fein.vc", url: SITE + "/demo" } },
     { "@type": "WebSite", "@id": SITE + "/#website", url: SITE + "/", name: "fein", description: DESC, inLanguage: "en", publisher: { "@id": SITE + "/#org" } },
     { "@type": "WebPage", "@id": SITE + "/#webpage", url: SITE + "/", name: TITLE, description: DESC, isPartOf: { "@id": SITE + "/#website" }, about: { "@id": SITE + "/#app" }, mainEntity: { "@id": SITE + "/#app" }, primaryImageOfPage: { "@type": "ImageObject", contentUrl: SITE + "/og.png", width: 1200, height: 630 }, video: { "@id": SITE + "/#demo-film" }, datePublished: "2026-08-07", dateModified: LASTMOD, inLanguage: "en" },
     {
@@ -298,12 +299,12 @@ const headMeta = `<meta charset="utf-8">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="fein · the memory layer for private capital">
+<meta property="og:image:alt" content="fein · the context graph your firm owns">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${TITLE}">
 <meta name="twitter:description" content="${DESC}">
 <meta name="twitter:image" content="${SITE}/og.png">
-<meta name="twitter:image:alt" content="fein · the memory layer for private capital">`;
+<meta name="twitter:image:alt" content="fein · the context graph your firm owns">`;
 
 // GoatCounter retired Aug 2026: Vercel Web Analytics is the one counter now.
 const analytics = `<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
@@ -513,7 +514,7 @@ fs.writeFileSync(path.join(out, "404.html"), notFound);
 
 // robots.txt — welcome AI answer engines explicitly
 const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "Claude-Web", "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended", "Google-CloudVertexBot", "Google-NotebookLM", "GoogleAgent-Mariner", "GoogleOther", "Applebot", "Applebot-Extended", "Bingbot", "Bytespider", "CCBot", "Amazonbot", "Meta-ExternalAgent", "Meta-ExternalFetcher", "cohere-ai", "cohere-training-data-crawler", "AI2Bot", "DuckAssistBot", "YouBot", "MistralAI-User", "DeepSeekBot", "Diffbot", "Timpibot", "omgilibot", "Webzio-Extended", "kagi-fetcher"];
-const robots = `# fein · the memory layer for private capital
+const robots = `# fein · the context graph your firm owns
 # AI assistants welcome. Summary: ${SITE}/llms.txt · Full page: ${SITE}/llms-full.txt
 
 User-agent: *
@@ -723,7 +724,7 @@ const LEAD_JS = sliceBetween(rest, "/*lead-stage-js:start*/", "/*lead-stage-js:e
 });
 
 // llms.txt — structured summary for AI crawlers (llms-full.txt carries the whole page)
-const LLMS_SUMMARY = `> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup is a one-time build, then a monthly plan set by how much we keep doing. We do not publish figures: both depend on how many sources and how much history a firm has, so we quote them on a short call. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
+const LLMS_SUMMARY = `> fein is an open-source context graph that an investment firm owns and the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure, so the record belongs to the firm and not to a vendor. If the firm cancels, nothing stops: the software and the graph keep running. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup is a one-time build, then a monthly plan set by how much we keep doing. We do not publish figures: both depend on how many sources and how much history a firm has, so we quote them on a short call. There is no per-seat pricing. The paid offer is setup and upkeep, never access.`;
 fs.writeFileSync(path.join(out, "llms.txt"), `# fein
 
 ${LLMS_SUMMARY}
@@ -743,7 +744,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 
 ## Your CRM stays
 - fein works with 30+ tools. It reads the CRM and everything around it, then resolves the whole picture into one graph.
-- It replaces no system, migrates no data, and asks the team for no new data entry. If the CRM is out of date, fein is still current, because it reads the record the team makes anyway.
+- Nothing migrates and the team enters no new data. The CRM keeps doing its job as a source, and the graph becomes the record of what the firm knows. If the CRM is out of date, fein is still current, because it reads the record the team makes anyway.
 - CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable.
 - Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365.
 - Files and data rooms: Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend.
@@ -756,7 +757,7 @@ Updated: ${LASTMOD}. Full page content in Markdown: ${SITE}/llms-full.txt
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
 - fein lists every intermediary who sends the firm deals. It scores each relationship from real signal. It names the person at the firm who owns each relationship. It flags the relationships that go quiet.
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
-- It works with DealCloud, Affinity, Salesforce, and Attio. It replaces no system and migrates no data.
+- It works with DealCloud, Affinity, Salesforce, and Attio. Nothing migrates. The CRM stays as a source and the graph becomes the record the firm owns.
 
 ## For fundraising
 - fein serves the fundraising and LP relations side of a firm as well as the deal side. The page for fundraising is ${SITE}/fundraising.
@@ -814,7 +815,7 @@ ${faqs.map(([q, a]) => `### ${q}\n${a}`).join("\n\n")}
 
 // llms-full.txt — the whole page, mirrored in Markdown for AI answer engines.
 // Every line here restates visible site copy; keep it in sync when copy changes.
-fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the memory layer for private capital
+fs.writeFileSync(path.join(out, "llms-full.txt"), `# fein · the context graph your firm owns
 
 ${LLMS_SUMMARY}
 
@@ -877,7 +878,7 @@ fein learns the rhythm of each relationship from your real history. Then it flag
 
 ## Your CRM stays: it sits on top of the systems you run today
 
-fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph. It replaces no system, migrates no data, and asks your team for no new data entry. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.
+fein works with 30+ tools. It reads your CRM and everything around it, then resolves the whole picture into one graph your firm holds. Nothing migrates and your team enters no new data. The CRM keeps doing its job as a source, and the graph becomes the record of what the firm knows. If your CRM is out of date, fein is still current, because it reads the record your team makes anyway.
 
 - CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable
 - Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365
@@ -914,7 +915,7 @@ An intermediary is a banker, a broker, an accountant, or a lawyer who brings a f
 
 fein answers four questions for a deal team. It lists every intermediary who sends the firm deals, scored from real signal, with the owner of each relationship named. It flags each relationship that drifts away from its own rhythm, with the last contact and the colleague who must make the call. It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line. It finds the shortest real path to a management team, a seller, an operator, or an LP, and names the best colleague to make the introduction.
 
-fein works with DealCloud, Affinity, Salesforce, and Attio. It reads the CRM and everything around it. It replaces no system, it migrates no data, and it asks the team for no new data entry.
+fein works with DealCloud, Affinity, Salesforce, and Attio. It reads the CRM and everything around it. Nothing migrates and the team enters no new data. The CRM stays as a source and the graph becomes the record the firm owns.
 
 ## For fundraising: ${SITE}/fundraising
 
@@ -975,7 +976,7 @@ fs.writeFileSync(path.join(out, "favicon.svg"), `<svg xmlns="http://www.w3.org/2
 
 // web manifest
 fs.writeFileSync(path.join(out, "site.webmanifest"), JSON.stringify({
-  name: "fein", short_name: "fein", description: "The memory layer for private capital.",
+  name: "fein", short_name: "fein", description: "The context graph your firm owns.",
   start_url: "/", display: "standalone", background_color: "#08090A", theme_color: "#08090A",
   icons: [
     { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -1004,7 +1005,7 @@ text{font-family:'Geist','Helvetica Neue',Arial,sans-serif}
 </g>
 <text x="92" y="150" fill="#8f8f8f" font-size="22" font-weight="500" letter-spacing="4">OPEN SOURCE · SELF-HOSTED</text>
 <text x="84" y="330" fill="#ffffff" font-size="200" font-weight="600" letter-spacing="-8">fein</text>
-<text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The memory layer for private capital.</text>
+<text x="92" y="410" fill="#c9c9c9" font-size="38" font-weight="400">The context graph your firm owns.</text>
 <text x="92" y="458" fill="#7d7d7d" font-size="25" font-weight="400">Warm intros · meeting prep · deal memory, inside Claude &amp; ChatGPT</text>
 <text x="92" y="560" fill="#ededed" font-size="26" font-weight="500">fein.vc</text>
 </g>

@@ -1,6 +1,6 @@
 # fein
 
-> fein is the memory layer for an investment team. It is an open-source context graph that the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup is a one-time build, then a monthly plan set by how much we keep doing. We do not publish figures: both depend on how many sources and how much history a firm has, so we quote them on a short call. There is no per-seat pricing. The paid offer is setup and upkeep, never access.
+> fein is an open-source context graph that an investment firm owns and the whole team can query. It serves venture capital teams and private equity teams. It reads the team's email, calendar, notes, and CRM. It builds one context graph of every relationship the team has. The context graph shows who knows whom, and how strongly. fein scores this from real signals, not a guess. It serves the context graph to AI tools like Claude, ChatGPT, and Cursor over one MCP endpoint. Each answer arrives with its source document attached: warm introductions, meeting preparation, deal history, and the reason the team passed. AI tools traverse a deterministic map. They do not scrape documents and guess. fein is self-hosted on the team's own infrastructure, so the record belongs to the firm and not to a vendor. If the firm cancels, nothing stops: the software and the graph keep running. It is open source under Apache 2.0. There are two ways to have fein, and they are the same software. A team can clone the repository and run it themselves for nothing, forever: there is no paid tier of the software and no feature held back to make one. Or fein can be deployed for them by a forward deployed engineer, who connects every source, resolves duplicate people, reads the full history back, and hands over a working graph on day 14. That managed setup is a one-time build, then a monthly plan set by how much we keep doing. We do not publish figures: both depend on how many sources and how much history a firm has, so we quote them on a short call. There is no per-seat pricing. The paid offer is setup and upkeep, never access.
 
 Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.txt
 
@@ -17,7 +17,7 @@ Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.tx
 
 ## Your CRM stays
 - fein works with 30+ tools. It reads the CRM and everything around it, then resolves the whole picture into one graph.
-- It replaces no system, migrates no data, and asks the team for no new data entry. If the CRM is out of date, fein is still current, because it reads the record the team makes anyway.
+- Nothing migrates and the team enters no new data. The CRM keeps doing its job as a source, and the graph becomes the record of what the firm knows. If the CRM is out of date, fein is still current, because it reads the record the team makes anyway.
 - CRM and deal systems: DealCloud, Affinity, Salesforce, Attio, HubSpot, Airtable.
 - Email and calendar: Gmail, Google Calendar, Outlook, Microsoft 365.
 - Files and data rooms: Google Drive, SharePoint, OneDrive, Dropbox, Box, DocSend.
@@ -30,7 +30,7 @@ Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.tx
 - An intermediary is a banker, a broker, an accountant, or a lawyer who brings a firm deals. A private equity firm has thousands of them. Their record sits in the firm's email.
 - fein lists every intermediary who sends the firm deals. It scores each relationship from real signal. It names the person at the firm who owns each relationship. It flags the relationships that go quiet.
 - It shows which intermediary sent each deal, what the team said, and the exact reason the firm passed, with the source document for each line.
-- It works with DealCloud, Affinity, Salesforce, and Attio. It replaces no system and migrates no data.
+- It works with DealCloud, Affinity, Salesforce, and Attio. Nothing migrates. The CRM stays as a source and the graph becomes the record the firm owns.
 
 ## For fundraising
 - fein serves the fundraising and LP relations side of a firm as well as the deal side. The page for fundraising is https://fein.vc/fundraising.
@@ -67,10 +67,10 @@ Updated: 2026-08-15. Full page content in Markdown: https://fein.vc/llms-full.tx
 ## FAQ
 
 ### What exactly is fein?
-fein is your firm's memory layer. It reads your email, calendar, notes, and CRM. It resolves them into one context graph. It answers over MCP in Claude, ChatGPT, and Cursor. It is not a CRM that you fill in. It maintains itself.
+fein is your firm's own context graph. It reads your email, calendar, notes, and CRM. It resolves them into one record of every relationship the firm has and every decision it made. It answers over MCP in Claude, ChatGPT, and Cursor. It runs on your infrastructure, so the record belongs to the firm and not to a vendor. It is not a CRM that you fill in. It maintains itself.
 
 ### How is this different from Affinity or Attio?
-A CRM is a database that your team fills in by hand. fein reads your CRM and everything around it. It resolves this into one graph. The graph stays current automatically. fein answers where your team already works. It sits on top of the CRM. It needs no new data entry.
+Affinity and Attio are products you rent. Your firm's history lives in their database, on their servers, priced at their renewal. fein is an asset you own. It reads Affinity or Attio and keeps them, but the resolved graph of everyone your firm knows and every decision it made runs on your own infrastructure under an open source licence. It stays current automatically and needs no new data entry. Ask a hosted CRM what happens to your relationship graph if you leave. With fein, nothing stops.
 
 ### What does it cost?
 Running it yourself is free forever: the software is Apache 2.0 and there is no paid tier. The paid offer is a one-time build into your stack, then a monthly plan set by how much we keep doing after that. We quote both on a short call, because the build depends on how many sources and how much history a firm has. There is no per-seat pricing.

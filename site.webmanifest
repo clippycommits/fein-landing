@@ -1,7 +1,7 @@
 {
   "name": "fein",
   "short_name": "fein",
-  "description": "The memory layer for private capital.",
+  "description": "The context graph your firm owns.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#08090A",
