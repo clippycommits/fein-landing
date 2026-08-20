@@ -88,6 +88,8 @@ export function originOk(request) {
   if (!o) return false;
   try {
     const h = new URL(o).hostname;
+    // fein.vc is the only domain that serves the site and its forms. The old
+    // domain 301s to it at the edge, so no page ever loads to post from it.
     return h === "fein.vc" || h === "www.fein.vc" || h === "localhost" || h.endsWith(".vercel.app");
   } catch {
     return false;

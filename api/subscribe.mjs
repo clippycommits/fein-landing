@@ -17,7 +17,7 @@ const wantsJson = (request) => (request.headers.get("accept") ?? "").includes("a
 const page = (body) =>
   new Response(
     `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">` +
-      `<title>80x</title><body style="margin:0;background:#fff;color:#111;font:400 17px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">` +
+      `<title>fein</title><body style="margin:0;background:#fff;color:#111;font:400 17px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">` +
       `<main style="max-width:880px;margin:0 auto;padding:48px 32px"><p>${body}</p>` +
       `<p style="font-size:15px"><a href="/" style="color:#111;text-underline-offset:3px">Back</a></p></main>`,
     { status: 200, headers: { "content-type": "text/html; charset=utf-8" } },
@@ -68,8 +68,8 @@ export async function POST(request) {
       from: cfg("MAIL_FROM"),
       to: [cfg("NOTIFY_TO")],
       reply_to: email, // hit reply to answer them directly
-      subject: `80x enquiry: ${email}`,
-      text: `${email} asked to be contacted, from the 80x landing page.\n\nReply to this mail to answer them.\n\nip: ${ip}`,
+      subject: `fein enquiry: ${email}`,
+      text: `${email} asked to be contacted, from the fein landing page.\n\nReply to this mail to answer them.\n\nip: ${ip}`,
     });
   } catch (err) {
     // The address is already in the event log, so a send failure is not a lost

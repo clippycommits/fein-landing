@@ -1,6 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "80x.ai" }], "destination": "https://fein.vc/:path*", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.80x.ai" }], "destination": "https://fein.vc/:path*", "permanent": true },
     { "source": "/pe", "destination": "/private-equity", "permanent": true },
     { "source": "/pe/:path*", "destination": "/private-equity", "permanent": true }
   ],
