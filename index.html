@@ -23,6 +23,7 @@
     --fg:#111;
     --grey:#767676;
     --line:#e8e8e8;
+    --blue:#2563eb;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -56,19 +57,7 @@
   .list li{break-inside:avoid;white-space:nowrap}
 
   .contact{margin-top:24px;font-size:15px}
-  .contact a{color:var(--fg);text-decoration-thickness:1px;text-underline-offset:3px}
-  .contact summary{display:inline-block;cursor:pointer;list-style:none;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-  .contact summary::-webkit-details-marker{display:none}
-  .contact[open] summary{display:none}
-  .form{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
-  .form input[type=email]{font:inherit;color:var(--fg);background:none;border:0;border-bottom:1px solid var(--fg);border-radius:0;padding:1px 0;width:250px;max-width:100%}
-  .form input[type=email]::placeholder{color:#aaa}
-  .form input[type=email]:focus{outline:none;border-bottom-width:2px;padding-bottom:0}
-  .form button{font:inherit;color:var(--fg);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-  .form button[disabled]{color:var(--grey);cursor:default}
-  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-  .fine{margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--grey);max-width:430px}
-  .fine a{color:var(--grey)}
+  .contact a{color:var(--blue)}
 
   @media (max-height:800px){
     main{padding:32px}
@@ -139,15 +128,7 @@
 <main>
   <div class="lead"><h1>80x is a small group of software engineers for hire.</h1> <span class="dark">We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East.</span> The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.</div>
 
-  <details class="contact">
-    <summary>Get in touch</summary>
-    <form class="form" action="/api/subscribe" method="post">
-      <input type="email" name="email" placeholder="you@fund.com" autocomplete="email" spellcheck="false" required aria-label="Your email address">
-      <button type="submit">Send</button>
-      <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-    </form>
-    <p class="fine">This site is protected by reCAPTCHA and the 80x <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a> apply.</p>
-  </details>
+  <p class="contact"><a href="https://cal.com/daniel-hull-tezr2c/fein-intro" target="_blank" rel="noopener">Book a call</a></p>
 
   <div class="clients">
     <h2 class="clients-label">Clients</h2>
@@ -157,44 +138,5 @@
   </div>
 </main>
 
-<script>
-(function () {
-  var box = document.querySelector('.contact');
-  if (!box) return;
-  var form = box.querySelector('form'), opened = Date.now();
-  box.addEventListener('toggle', function () {
-    if (!box.open) return;
-    opened = Date.now();
-    var field = form.querySelector('input[type=email]');
-    if (field) field.focus();
-  });
-  form.addEventListener('submit', function (ev) {
-    ev.preventDefault();
-    var button = form.querySelector('button');
-    button.disabled = true;
-    button.textContent = 'Sending';
-    fetch('/api/subscribe', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', accept: 'application/json' },
-      body: JSON.stringify({ email: form.email.value.trim(), website: form.website.value, t: Date.now() - opened })
-    }).then(function (res) {
-      return res.json().catch(function () { return {}; }).then(function (data) {
-        if (!res.ok) throw new Error(data.error || 'That did not send.');
-        box.innerHTML = '<p>Thanks. We will be in touch.</p>';
-      });
-    }).catch(function (err) {
-      button.disabled = false;
-      button.textContent = 'Send';
-      var note = form.parentNode.querySelector('.said');
-      if (!note) {
-        note = document.createElement('p');
-        note.className = 'fine said';
-        form.parentNode.insertBefore(note, form.nextSibling);
-      }
-      note.textContent = err.message + ' Please try again.';
-    });
-  });
-})();
-</script>
 </body>
 </html>
