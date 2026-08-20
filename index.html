@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1f49d1">
 <title>80x &middot; software engineering for venture capital</title>
 <link rel="canonical" href="https://80x.vc/">
 <meta name="description" content="80x is a small group of software engineers for hire. We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East. The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.">
@@ -20,16 +21,18 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
   :root{
-    --fg:#111;
-    --grey:#767676;
-    --line:#e8e8e8;
-    --blue:#2563eb;
+    color-scheme:dark;
+    --bg:#1f49d1;
+    --fg:#fff;
+    --grey:#ced7f5;
+    --line:rgba(255,255,255,.28);
+    --link:#fff;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
-    background:#fff;
+    background:var(--bg);
     color:var(--fg);
     font:400 17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -57,7 +60,7 @@
   .list li{break-inside:avoid;white-space:nowrap}
 
   .contact{margin-top:24px;font-size:15px}
-  .contact a{color:var(--blue);text-underline-offset:3px}
+  .contact a{color:var(--link);text-underline-offset:3px}
 
   @media (max-height:800px){
     main{padding:32px}
