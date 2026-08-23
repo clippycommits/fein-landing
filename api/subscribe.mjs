@@ -5,6 +5,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 // The landing page posts JSON via fetch. A visitor with JavaScript off gets a
 // native form POST instead, so the body may be urlencoded and the reply has to
 // be a page rather than JSON. Both paths run the same guards.
+//
+// `intent` picks the notification. Absent (the original subscribe field) it is
+// a plain "contact me"; "info-pack" is the homepage's "Receive an Information
+// Pack" button, and for now only tells us to send it by hand.
 async function readBody(request) {
   const ct = request.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return await request.json().catch(() => ({}));
@@ -44,6 +48,8 @@ export async function POST(request) {
 
   const email = String(body.email ?? "").trim().toLowerCase();
   if (!EMAIL_RE.test(email)) return fail(request, "Enter a valid email address.", 400);
+  const pack = String(body.intent ?? "") === "info-pack";
+  const thanks = pack ? "Thanks. The information pack will be on its way." : "Thanks. We will be in touch.";
 
   const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
   // Backstop for when Upstash is absent and the Redis caps below never trip.
@@ -57,26 +63,28 @@ export async function POST(request) {
     }
   } catch { /* fail open: Redis being down must not cost a lead */ }
 
-  await logEvent({ type: "subscribe", email, ip });
+  await logEvent({ type: pack ? "info-pack" : "subscribe", email, ip });
 
   if (!cfg("RESEND_API_KEY")) {
     console.error("subscribe received but RESEND_API_KEY is missing; no email sent");
-    return wantsJson(request) ? json({ ok: true, mailed: false }) : page("Thanks. We will be in touch.");
+    return wantsJson(request) ? json({ ok: true, mailed: false }) : page(thanks);
   }
   try {
     await resend("/emails", {
       from: cfg("MAIL_FROM"),
       to: [cfg("NOTIFY_TO")],
       reply_to: email, // hit reply to answer them directly
-      subject: `fein enquiry: ${email}`,
-      text: `${email} asked to be contacted, from the fein landing page.\n\nReply to this mail to answer them.\n\nip: ${ip}`,
+      subject: pack ? "Request Information Pack" : `fein enquiry: ${email}`,
+      text: pack
+        ? `${email} asked to receive the information pack, from the fein homepage.\n\nReply to this mail to send it to them.\n\nip: ${ip}`
+        : `${email} asked to be contacted, from the fein landing page.\n\nReply to this mail to answer them.\n\nip: ${ip}`,
     });
   } catch (err) {
     // The address is already in the event log, so a send failure is not a lost
     // lead. Tell the visitor it worked rather than asking them to retype it.
     console.error("subscribe send failed:", err.message);
     await logEvent({ type: "subscribe-send-error", email, error: err.message });
-    return wantsJson(request) ? json({ ok: true, mailed: false }) : page("Thanks. We will be in touch.");
+    return wantsJson(request) ? json({ ok: true, mailed: false }) : page(thanks);
   }
-  return wantsJson(request) ? json({ ok: true, mailed: true }) : page("Thanks. We will be in touch.");
+  return wantsJson(request) ? json({ ok: true, mailed: true }) : page(thanks);
 }

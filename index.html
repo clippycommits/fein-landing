@@ -58,6 +58,17 @@
 
   .contact{margin-top:24px;font-size:15px}
   .contact a{color:var(--blue);text-underline-offset:3px}
+  .contact button{font:inherit;color:var(--blue);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+  .pack{margin-top:14px;font-size:15px}
+  .pack form{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .pack input[type=email]{font:inherit;flex:1 1 200px;max-width:280px;padding:7px 10px;color:var(--fg);background:#fff;border:1px solid var(--line);border-radius:6px}
+  .pack input[type=email]:focus{outline:none;border-color:var(--blue)}
+  .pack .send{font:inherit;padding:7px 14px;color:#fff;background:var(--blue);border:1px solid var(--blue);border-radius:6px;cursor:pointer}
+  .pack .send:disabled{opacity:.6;cursor:default}
+  .pack .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .pack .note{margin-top:8px;font-size:14px;color:var(--grey)}
+  .pack .err{color:#c62f21}
 
   @media (max-height:800px){
     main{padding:32px}
@@ -116,7 +127,7 @@
       "name": "fein",
       "isPartOf": { "@id": "https://fein.vc/#website" },
       "about": { "@id": "https://fein.vc/#organization" },
-      "dateModified": "2026-08-20",
+      "dateModified": "2026-08-22",
       "inLanguage": "en"
     }
   ]
@@ -128,7 +139,17 @@
 <main>
   <div class="lead"><h1>fein is a small group of software engineers for hire.</h1> <span class="dark">We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East.</span> The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.</div>
 
-  <p class="contact"><a href="https://cal.com/daniel-hull-tezr2c/fein-intro" target="_blank" rel="noopener">Book a call</a></p>
+  <p class="contact"><a href="https://cal.com/daniel-hull-tezr2c/fein-intro" target="_blank" rel="noopener">Book a call</a> &nbsp;&middot;&nbsp; <button type="button" id="pack-open" aria-controls="pack" aria-expanded="false">Receive an Information Pack</button></p>
+
+  <div class="pack" id="pack" hidden>
+    <form id="pack-form" method="post" action="/api/subscribe" novalidate>
+      <input type="hidden" name="intent" value="info-pack">
+      <input class="hp" id="pack-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input id="pack-email" name="email" type="email" placeholder="you@fund.com" autocomplete="email" inputmode="email" required aria-label="Your email">
+      <button type="submit" class="send" id="pack-send">Send</button>
+    </form>
+    <p class="note" id="pack-note" hidden></p>
+  </div>
 
   <div class="clients">
     <h2 class="clients-label">Clients</h2>
@@ -137,6 +158,26 @@
     </ul>
   </div>
 </main>
+
+<script>(function(){var d=document;
+var open=d.getElementById("pack-open"),box=d.getElementById("pack"),form=d.getElementById("pack-form"),email=d.getElementById("pack-email"),send=d.getElementById("pack-send"),note=d.getElementById("pack-note");
+if(!open||!form)return;
+var openedAt=0;
+open.addEventListener("click",function(){
+  if(box.hidden){box.hidden=false;open.setAttribute("aria-expanded","true");openedAt=Date.now();setTimeout(function(){email.focus()},60)}
+  else{box.hidden=true;open.setAttribute("aria-expanded","false")}
+});
+function say(msg,bad){note.textContent=msg;note.className="note"+(bad?" err":"");note.hidden=false}
+form.addEventListener("submit",function(e){e.preventDefault();
+  var v=email.value.trim();
+  if(!v||v.indexOf("@")<1){say("Enter your email so the pack can reach you.",true);email.focus();return}
+  note.hidden=true;send.disabled=true;send.textContent="Sending\u2026";
+  fetch("/api/subscribe",{method:"POST",headers:{"content-type":"application/json",accept:"application/json"},body:JSON.stringify({email:v,intent:"info-pack",website:d.getElementById("pack-hp").value,t:Date.now()-openedAt})})
+  .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok)throw new Error(j.error||"");return j})})
+  .then(function(){form.hidden=true;say("Thanks. The information pack will be on its way to "+v+".",false)})
+  .catch(function(err){send.disabled=false;send.textContent="Send";var m=(err&&err.message)||"";say(/^[A-Z]/.test(m)?m:"That did not send. Try again, or email sales@fein.vc.",true)});
+});
+})();</script>
 
 </body>
 </html>
