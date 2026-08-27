@@ -91,7 +91,7 @@
     stop();
   }
   // The assistant's own words arrive typed, two characters a tick.
-  async function typeInto(el, text, ms = 10) {
+  async function typeInto(el, text, ms = 8) {
     if (fast) { el.textContent = text; return; }
     el.classList.add("typing");
     for (let i = 2; i <= text.length && !fast; i += 2) { el.textContent = text.slice(0, i); scroll(); await sleep(ms); }
@@ -361,6 +361,31 @@
     });
   }
 
+  /* ---- slash commands ----------------------------------------------------- */
+  const MENU_HINT = "enter to select · ↑↓ to move · 1–3 to jump";
+  const contactMenu = () => openMenu(COPY.ask, COPY.options, MENU_HINT, (i) => [bookCall, infoPack, askQuestion][i]());
+  const COMMANDS = {
+    // /contact: the address, and the 1/2/3 menu again
+    contact() {
+      aiTurn(`Write to ${mailto()}, or pick one below.`);
+      if (coarse) { contactMenu(); return; }
+      if (mainMenu) mainMenu.box.classList.add("done");
+      mainMenu = contactMenu();
+    },
+  };
+  // A line starting with "/" is a command. Returns true when it was handled.
+  function command(text) {
+    const m = /^\/(\w+)/.exec(text);
+    if (!m) return false;
+    const run = COMMANDS[m[1].toLowerCase()];
+    userTurn(text);
+    if (!run) { aiTurn(`No such command. Try <b>/contact</b>.`); return true; }
+    if (menu) menu.box.classList.add("done");
+    menu = null; setState("busy");
+    run();
+    return true;
+  }
+
   /* ---- input -------------------------------------------------------------- */
   input.addEventListener("input", sync);
   input.addEventListener("keydown", (e) => {
@@ -391,6 +416,7 @@
         const text = v.trim();
         clear();
         if (menu.free) { const m = menu; menu = null; setState("busy"); return m.free(text); }
+        if (command(text)) return;
         userTurn(text);
         aiTurn(`Best answered on a call: press <b>1</b>, or write to ${mailto()}.`);
       }
@@ -400,7 +426,9 @@
       e.preventDefault();
       const text = v.trim();
       if (!text) return;
-      clear(); userTurn(text);
+      clear();
+      if (command(text)) return;
+      userTurn(text);
       aiTurn(`Best answered on a call: tap <b>book a call</b> below, or write to ${mailto()}.`);
       return;
     }
@@ -481,7 +509,7 @@
       await sayWho();
       await sleep(500);
       await think(550);
-      mainMenu = openMenu(COPY.ask, COPY.options, "enter to select · ↑↓ to move · 1–3 to jump", (i) => [bookCall, infoPack, askQuestion][i]());
+      mainMenu = contactMenu();
     }
     ready = true;
     fast = reduce; // a tap that skipped the intro should not skip everything after it
