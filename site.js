@@ -43,16 +43,15 @@
     { key: "name", ask: "Your name?" },
     { key: "email", ask: "Work email?", email: true },
     { key: "fund", ask: "Fund or firm?" },
-    { key: "note", ask: "What's the problem?", optional: true,
+    { key: "note", ask: "What's the problem? (all that apply)", optional: true, multi: true,
       choices: [
         "Deal sourcing and pipeline",
         "Diligence",
         "Portfolio data and monitoring",
         "LP reporting and fundraising",
         "AI agents on the fund's own data",
-        "Something else",
       ],
-      other: "Go on, in a sentence." },
+      other: "Something else" },
   ];
   const PACK_STEPS = [{ key: "email", ask: "Work email?", email: true }];
   const QUESTION_STEPS = [
@@ -83,6 +82,14 @@
     const stop = spinner(label);
     await sleep(ms);
     stop();
+  }
+  // The assistant's own words arrive typed, two characters a tick.
+  async function typeInto(el, text, ms = 8) {
+    if (fast) { el.textContent = text; return; }
+    el.classList.add("typing");
+    for (let i = 2; i <= text.length && !fast; i += 2) { el.textContent = text.slice(0, i); scroll(); await sleep(ms); }
+    el.textContent = text;
+    el.classList.remove("typing");
   }
   async function typePrompt(text, ms = 30) {
     for (let i = 1; i <= text.length && !fast; i++) { typed.textContent = text.slice(0, i); await sleep(ms); }
@@ -115,23 +122,62 @@
   /* ---- the prompt: menus and short forms ------------------------------ */
   let state = "intro"; // intro | menu | form | busy
   let menu = null, mainMenu = null, form = null, sel = 0;
-  const sync = () => { typed.textContent = input.value; };
+  const sync = () => {
+    if (state === "menu" && menu?.multi) {
+      if (input.value && sel !== menu.otherIndex) select(menu.otherIndex);
+      const row = rowsOf(menu)[menu.otherIndex];
+      row.querySelector(".free").textContent = input.value;
+      row.classList.toggle("on", !!input.value);
+      typed.textContent = "";
+      return;
+    }
+    typed.textContent = input.value;
+  };
   const clear = () => { input.value = ""; sync(); };
   const focus = () => { if (!coarse) input.focus({ preventScroll: true }); };
+  const focusHard = () => input.focus({ preventScroll: true });
 
-  function openMenu(question, labels, hint, onPick) {
-    const opts = labels.map((l, i) => `<div class="opt" data-i="${i}"><span class="chev">❯</span><span class="lbl">${i + 1}. ${esc(l)}</span></div>`).join("");
-    const box = aiTurn(`<div class="ask"><div class="q">${esc(question)}</div><div class="opts">${opts}</div><div class="hint">${esc(hint)}</div></div>`).querySelector(".ask");
-    menu = { box, labels, onPick };
+  // A select box. Single: enter or a number picks one (onPick). Multi: space
+  // or a number toggles, the last label is "something else" and takes typed
+  // text on its own line, a "Done" row (or enter) confirms (onDone).
+  function openMenu(question, labels, hint, onPick, opts = {}) {
+    const multi = !!opts.multi;
+    const rows = labels.map((l, i) => {
+      const other = multi && i === labels.length - 1;
+      return `<div class="opt" data-i="${i}"><span class="chev">❯</span><span class="lbl">${multi ? '<span class="box"></span>' : ""}${i + 1}. ${esc(l)}${other ? '<span class="free"></span>' : ""}</span></div>`;
+    });
+    if (multi) rows.push(`<div class="opt go" data-i="${labels.length}"><span class="chev">❯</span><span class="lbl">↵ Done</span></div>`);
+    const box = aiTurn(`<div class="ask"><div class="q">${esc(question)}</div><div class="opts">${rows.join("")}</div><div class="hint">${esc(hint)}</div></div>`).querySelector(".ask");
+    menu = { box, labels, onPick, multi, otherIndex: multi ? labels.length - 1 : -1, doneIndex: multi ? labels.length : -1, checked: new Set(), onDone: opts.onDone };
     state = "menu";
     select(0);
     return menu;
   }
   function arm(m) { menu = m; state = "menu"; select(0); }
+  const rowsOf = (m) => $$(".opt", m.box);
   function select(n) {
     if (!menu) return;
-    sel = (n + menu.labels.length) % menu.labels.length;
-    $$(".opt", menu.box).forEach((e, i) => e.classList.toggle("sel", i === sel));
+    const rows = rowsOf(menu);
+    sel = (n + rows.length) % rows.length;
+    rows.forEach((e, i) => e.classList.toggle("sel", i === sel));
+  }
+  function toggle(i) {
+    if (!menu?.multi || i === menu.doneIndex) return;
+    if (i === menu.otherIndex) { select(i); focusHard(); return; }
+    if (menu.checked.has(i)) menu.checked.delete(i); else menu.checked.add(i);
+    rowsOf(menu)[i].classList.toggle("on", menu.checked.has(i));
+    select(i);
+  }
+  function confirmMulti() {
+    const m = menu;
+    const picks = [...m.checked].sort((a, b) => a - b).map((i) => m.labels[i]);
+    const text = input.value.trim();
+    if (text) picks.push(text);
+    clear();
+    m.box.classList.add("done");
+    menu = null; state = "busy";
+    resultTurn(picks.length ? esc(picks.join(" · ")) : "(skipped)");
+    m.onDone(picks.length ? picks.join("; ") : null);
   }
   function pick(i) {
     const m = menu;
@@ -151,6 +197,11 @@
     // A step with choices is a select box; the last choice, or just typing,
     // gives a free answer.
     const f = form;
+    if (s.multi) {
+      openMenu(s.ask, [...s.choices, s.other], "space or a number to tick · type for something else · enter when done", null,
+        { multi: true, onDone: (v) => { form = f; accept(v); } });
+      return;
+    }
     const m = openMenu(s.ask, s.choices, "enter to select · ↑↓ to move · or type your own", (i) => {
       form = f;
       if (s.other && i === s.choices.length - 1) { state = "form"; aiTurn(esc(s.other)); return; }
@@ -295,6 +346,18 @@
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const v = input.value;
     if (e.key === "Escape") { clear(); cancel(); return; }
+    if (state === "menu" && menu.multi) {
+      const onOther = sel === menu.otherIndex;
+      if (e.key === "ArrowDown" || e.key === "Tab") { select(sel + 1); e.preventDefault(); return; }
+      if (e.key === "ArrowUp") { select(sel - 1); e.preventDefault(); return; }
+      if (e.key === "Enter") { e.preventDefault(); confirmMulti(); return; }
+      if (!onOther || !v) {
+        if (e.key === " ") { e.preventDefault(); if (sel === menu.doneIndex) confirmMulti(); else toggle(sel); return; }
+        if (!v && /^[1-9]$/.test(e.key) && +e.key <= menu.labels.length) { e.preventDefault(); toggle(+e.key - 1); return; }
+      }
+      if (e.key.length === 1 && !onOther) select(menu.otherIndex); // typing is "something else"
+      return;
+    }
     if (state === "menu") {
       const n = menu.labels.length;
       if (e.key === "ArrowDown" || (e.key === "j" && !v)) { select(sel + 1); e.preventDefault(); return; }
@@ -317,7 +380,14 @@
   document.addEventListener("pointerdown", (e) => {
     if (!ready) { fast = true; return; }
     const opt = e.target.closest(".opt");
-    if (opt && state === "menu" && menu && menu.box.contains(opt)) { e.preventDefault(); pick(+opt.dataset.i); focus(); return; }
+    if (opt && state === "menu" && menu && menu.box.contains(opt)) {
+      e.preventDefault();
+      const i = +opt.dataset.i;
+      if (!menu.multi) { pick(i); focus(); return; }
+      if (i === menu.doneIndex) confirmMulti(); else toggle(i);
+      return;
+    }
+    if (e.target.closest(".prompt")) { focusHard(); return; }  // a tap on the prompt opens the keyboard
     if (!e.target.closest("a")) focus();
   });
   T.addEventListener("mouseover", (e) => {
@@ -328,13 +398,22 @@
     if (ready && document.activeElement !== input && !e.metaKey && !e.ctrlKey && !e.target.closest("a")) focus();
   });
 
+  // On a phone the keyboard covers the bottom of the layout viewport; size the
+  // terminal to what is actually visible so the prompt stays in view.
+  if (window.visualViewport) {
+    const term = $(".term");
+    const fit = () => { term.style.height = `${Math.round(visualViewport.height)}px`; window.scrollTo(0, 0); scroll(); };
+    visualViewport.addEventListener("resize", fit);
+  }
+
   /* ---- the replay ----------------------------------------------------------- */
   async function run() {
     $$(".static", T).forEach((n) => n.remove());
     await sleep(400);
     await typePrompt(COPY.q1); userTurn(COPY.q1);
     await think(700);
-    aiTurn(COPY.a1.map((p) => `<p>${esc(p)}</p>`).join(""));
+    const first = aiTurn("<p></p><p></p>");
+    for (const [i, p] of $$("p", first).entries()) await typeInto(p, COPY.a1[i]);
     await sleep(600);
 
     await typePrompt(COPY.q2); userTurn(COPY.q2);
