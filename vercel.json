@@ -5,8 +5,8 @@
     { "source": "/", "has": [{ "type": "host", "value": "www.80x.ai" }], "destination": "https://fein.vc/", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "host", "value": "80x.ai" }], "destination": "https://fein.vc/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "host", "value": "www.80x.ai" }], "destination": "https://fein.vc/:path*", "permanent": true },
-    { "source": "/pe", "destination": "/private-equity", "permanent": true },
-    { "source": "/pe/:path*", "destination": "/private-equity", "permanent": true }
+    { "source": "/:slug(self-host|pricing|deploy|demo|security|integrations|private-equity|fundraising|portfolio|privacy|terms|b|pe|deck|video|llms\\.txt|llms-full\\.txt|site\\.webmanifest|og\\.png)", "destination": "/", "permanent": true },
+    { "source": "/:slug(self-host|pricing|deploy|demo|security|integrations|private-equity|fundraising|portfolio|privacy|terms|b|pe|deck|video)/:path*", "destination": "/", "permanent": true }
   ],
   "headers": [
     {
@@ -21,40 +21,15 @@
       ]
     },
     {
-      "source": "/(favicon.svg|favicon.ico|apple-touch-icon.png|icon-192.png|icon-512.png|icon-512-maskable.png|og.png|logo.svg|logo.png|logo-128.png|site.webmanifest)",
+      "source": "/(favicon.svg|favicon.ico|apple-touch-icon.png|logo.svg|logo.png|logo-128.png)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
       ]
     },
     {
-      "source": "/video/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }
-      ]
-    },
-    {
-      "source": "/deck/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" },
-        { "key": "X-Robots-Tag", "value": "noindex" }
-      ]
-    },
-    {
-      "source": "/(robots.txt|sitemap.xml|llms.txt|llms-full.txt)",
+      "source": "/(robots.txt|sitemap.xml)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
-      ]
-    },
-    {
-      "source": "/(llms.txt|llms-full.txt)",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "googlebot: noindex" }
-      ]
-    },
-    {
-      "source": "/b/:path*",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex" }
       ]
     }
   ]
