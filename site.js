@@ -19,7 +19,9 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const coarse = matchMedia("(pointer: coarse)").matches;
+  // Touch devices get the visible prompt row and tap-first boxes. The head
+  // script sets the class from (pointer: coarse); ?coarse forces it for tests.
+  const coarse = document.documentElement.classList.contains("coarse");
   const T0 = Date.now();
   let fast = reduce, ready = false;
   const sleep = (ms) => (fast ? Promise.resolve() : new Promise((r) => setTimeout(r, ms)));
@@ -62,7 +64,11 @@
   /* ---- rendering ----------------------------------------------------- */
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const scroll = () => { T.scrollTop = T.scrollHeight; };
-  const el = (cls, html) => { const d = document.createElement("div"); d.className = "turn " + cls; d.innerHTML = html; T.appendChild(d); scroll(); return d; };
+  const reveal = (d) => {
+    if (d.offsetHeight > T.clientHeight - 8) T.scrollTop = d.getBoundingClientRect().top - T.getBoundingClientRect().top + T.scrollTop - 4;
+    else scroll();
+  };
+  const el = (cls, html) => { const d = document.createElement("div"); d.className = "turn " + cls; d.innerHTML = html; T.appendChild(d); reveal(d); return d; };
   const userTurn = (t) => el("user", `<span class="chev">›</span><div class="body">${esc(t)}</div>`);
   const aiTurn = (html) => el("ai", `<span class="dot">●</span><div class="body">${html}</div>`);
   const toolTurn = (fn, arg) => el("ai tool", `<span class="dot">●</span><div class="body"><span class="fn">${esc(fn)}</span><span class="muted">(${esc(arg)})</span></div>`);
@@ -92,10 +98,11 @@
     el.classList.remove("typing");
   }
   async function typePrompt(text, ms = 30) {
-    for (let i = 1; i <= text.length && !fast; i++) { typed.textContent = text.slice(0, i); await sleep(ms); }
-    typed.textContent = text;
+    const show = (t) => { typed.textContent = t; if (coarse) input.value = t; };
+    for (let i = 1; i <= text.length && !fast; i++) { show(text.slice(0, i)); await sleep(ms); }
+    show(text);
     await sleep(180);
-    typed.textContent = "";
+    show("");
   }
 
   // `ls`-style columns: fill down, then across, as many columns as fit.
@@ -109,6 +116,8 @@
     const width = Math.floor(T.clientWidth / chW) - 3;
     const longest = Math.max(...items.map((s) => s.length));
     const cols = Math.max(1, Math.floor((width + 2) / (longest + 2)));
+    // One column would be a wall; a narrow terminal gets `ls -m`, comma-wrapped.
+    if (cols === 1) return `<div class="lsm">${items.map((it) => `<span class="pending">${esc(it)}</span>`).join(", ")}</div>`;
     const rows = Math.ceil(items.length / cols);
     const cells = [];
     for (let c = 0; c < cols; c++)
@@ -136,6 +145,8 @@
   const clear = () => { input.value = ""; sync(); };
   const focus = () => { if (!coarse) input.focus({ preventScroll: true }); };
   const focusHard = () => input.focus({ preventScroll: true });
+  const hintFor = (h) => (coarse ? h.replace(/enter to select · ↑↓ to move( · 1–3 to jump)?/, "tap to choose").replace(/space or a number to tick · type for something else · enter when done/, "tap to tick · type for something else · Done when finished") : h);
+  const placeholder = (t) => { input.placeholder = t; };
 
   // A select box. Single: enter or a number picks one (onPick). Multi: space
   // or a number toggles, the last label is "something else" and takes typed
@@ -147,10 +158,12 @@
       return `<div class="opt" data-i="${i}"><span class="chev">❯</span><span class="lbl">${multi ? '<span class="box"></span>' : ""}${i + 1}. ${esc(l)}${other ? '<span class="free"></span>' : ""}</span></div>`;
     });
     if (multi) rows.push(`<div class="opt go" data-i="${labels.length}"><span class="chev">❯</span><span class="lbl">↵ Done</span></div>`);
-    const box = aiTurn(`<div class="ask"><div class="q">${esc(question)}</div><div class="opts">${rows.join("")}</div><div class="hint">${esc(hint)}</div></div>`).querySelector(".ask");
+    const box = aiTurn(`<div class="ask"><div class="q">${esc(question)}</div><div class="opts">${rows.join("")}</div><div class="hint">${esc(hintFor(hint))}</div></div>`).querySelector(".ask");
     menu = { box, labels, onPick, multi, otherIndex: multi ? labels.length - 1 : -1, doneIndex: multi ? labels.length : -1, checked: new Set(), onDone: opts.onDone };
     state = "menu";
     select(0);
+    placeholder(multi ? "Something else…" : "tap an option, or type here");
+    if (coarse && !multi) input.blur(); // put the keyboard away while choosing
     return menu;
   }
   function arm(m) { menu = m; state = "menu"; select(0); }
@@ -193,7 +206,7 @@
   function askStep() {
     const s = form.steps[form.i];
     input.inputMode = s.email ? "email" : "text";
-    if (!s.choices) return aiTurn(esc(s.ask));
+    if (!s.choices) { placeholder(s.ask.replace(/\s*\(.*\)$/, "")); return aiTurn(esc(s.ask)); }
     // A step with choices is a select box; the last choice, or just typing,
     // gives a free answer.
     const f = form;
@@ -234,8 +247,10 @@
     arm(mainMenu);
   }
   function done() {
-    aiTurn(`Anything else? <span class="muted">1 · 2 · 3</span>`);
+    aiTurn(`Anything else? <span class="muted">${coarse ? "tap an option above" : "1 · 2 · 3"}</span>`);
     arm(mainMenu);
+    placeholder("tap an option, or type here");
+    if (coarse) input.blur();
   }
 
   async function api(path, body) {
@@ -383,10 +398,11 @@
     if (opt && state === "menu" && menu && menu.box.contains(opt)) {
       e.preventDefault();
       const i = +opt.dataset.i;
-      if (!menu.multi) { pick(i); focus(); return; }
+      if (!menu.multi) { pick(i); if (state === "form") focusHard(); else focus(); return; }
       if (i === menu.doneIndex) confirmMulti(); else toggle(i);
       return;
     }
+    if (e.target.closest("#send")) { e.preventDefault(); input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true })); return; }
     if (e.target.closest(".prompt")) { focusHard(); return; }  // a tap on the prompt opens the keyboard
     if (!e.target.closest("a")) focus();
   });
@@ -404,6 +420,7 @@
     const term = $(".term");
     const fit = () => { term.style.height = `${Math.round(visualViewport.height)}px`; window.scrollTo(0, 0); scroll(); };
     visualViewport.addEventListener("resize", fit);
+    visualViewport.addEventListener("scroll", () => window.scrollTo(0, 0));
   }
 
   /* ---- the replay ----------------------------------------------------------- */
@@ -427,6 +444,7 @@
     mainMenu = openMenu(COPY.ask, COPY.options, "enter to select · ↑↓ to move · 1–3 to jump", (i) => [bookCall, infoPack, askQuestion][i]());
     ready = true;
     clear(); cur.classList.add("blink"); focus();
+    placeholder("tap an option, or type here");
   }
   run();
 })();

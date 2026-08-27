@@ -132,9 +132,40 @@ b { font-weight: 700; }
 .status .sep { color: var(--dim); margin: 0 1ch; }
 .status .row2 .accent { font-weight: 500; }
 
+.lsm { white-space: normal; color: var(--ink); }
+.lsm span.pending { visibility: hidden; }
+.prompt .send { display: none; }
+.prompt input::placeholder { color: var(--dim); opacity: 1; }
+
+/* ---- touch: a visible prompt row, roomy boxes ------------------------- */
+.coarse .prompt { display: flex; align-items: center; gap: 1ch; padding: .3lh 0; }
+.coarse .prompt .typed, .coarse .prompt .cur { display: none; }
+.coarse .prompt input {
+  position: static; flex: 1 1 auto; width: auto; height: auto; opacity: 1; min-width: 0;
+  background: transparent; color: var(--ink); font: inherit; font-size: 16px; line-height: 1.4;
+  outline: none; caret-color: var(--accent); padding: .35em 0; -webkit-appearance: none; border-radius: 0;
+}
+.coarse .prompt .send {
+  display: block; flex: none; font: inherit; font-size: 16px; line-height: 1;
+  color: var(--muted); background: transparent; border: 1px solid var(--dim); border-radius: 4px;
+  padding: .45em .8em; -webkit-appearance: none;
+}
+.coarse .prompt .send:active { color: #000; background: var(--accent); border-color: var(--accent); }
+.coarse .opt { padding: .3em 0; }
+.coarse .opt .lbl { padding: .1em .5ch; }
+.coarse .ask { padding: .6lh 1.25ch; }
+.coarse .status .row2 .muted { display: none; }
+
 @media (prefers-reduced-motion: reduce) { .prompt .cur.blink { animation: none; } }
 @media (max-width: 640px) {
-  .term { padding: 1lh 1.5ch .75lh; }
-  .hdr { gap: 1.5ch; }
+  body { font-size: 13px; }
+  .term { padding: .8lh 1.25ch .5lh; }
+  .hdr { gap: 1.25ch; }
+  .hdr .logo { width: 2.6lh; height: 2.6lh; }
+  .tip { margin-top: .6lh; }
+  .transcript { margin-top: .8lh; }
   .mode { display: none; }
+  .status { padding-top: .35lh; }
+  .status .row1 { color: var(--dim); white-space: nowrap; }
+  .status .long { display: none; }
 }

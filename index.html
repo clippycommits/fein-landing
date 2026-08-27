@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>fein &middot; software engineering for venture capital</title>
 <link rel="canonical" href="https://fein.vc/">
 <meta name="description" content="fein is a small group of software engineers for hire. We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East. The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.">
@@ -26,7 +26,7 @@
 <link rel="preload" href="/fonts/GeistMono-VF-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/site.css">
 <meta name="color-scheme" content="dark">
-<script>document.documentElement.classList.add("js")</script>
+<script>(function(d){d.classList.add("js");if(matchMedia("(pointer: coarse)").matches||/[?&]coarse/.test(location.search))d.classList.add("coarse")})(document.documentElement)</script>
 
 <script type="application/ld+json">
 {
@@ -108,9 +108,9 @@
   <script type="application/json" id="clients-data">["Ace Ventures", "Albion VC", "Anorak VC", "Arc Investors", "Auster Capital", "Backed VC", "Bain Capital Ventures", "Blue Cloud Ventures", "Bonfire Ventures", "Bread and Butter Ventures", "Breakers VC", "Cash App", "Commix Capital", "Connect Ventures", "Crane VC", "Culina Health", "Discord", "Dynamo Ventures", "Fintech Collective", "Fiori VC", "Friedkin International", "Graduate VC", "Hardware Club", "In Motion Ventures", "Karman VC", "Las Olas VC", "Long Journey Ventures", "Marathon Partners", "Markd VC", "Mass Mutual Ventures", "Midas AI", "Monte Carlo Capital", "ONE VC", "Originx", "Outlander VC", "Outset Capital", "Palo Alto Staffing", "Play VC", "Portal", "Prudence VC", "Rallyday Partners", "RGB", "Singularity Capital", "Standup Ventures", "Tera VC", "The Council", "Torus Capital", "Ultratech Capital", "Union Square Ventures", "University of Michigan", "Wilden Design"]</script>
 
   <div class="mode">◉ enquiries open · /contact</div>
-  <div class="prompt" id="prompt"><span class="chev">›</span><span class="typed" id="typed"></span><span class="cur" id="cur">▋</span><input id="input" type="text" enterkeyhint="send" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="prompt"></div>
+  <div class="prompt" id="prompt"><span class="chev">›</span><span class="typed" id="typed"></span><span class="cur" id="cur">▋</span><input id="input" type="text" enterkeyhint="send" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="prompt"><button type="button" class="send" id="send" aria-label="send">↵</button></div>
   <footer class="status">
-    <div class="row1">© 2026 Cereal Milk LLC, trading as fein<span class="sep">|</span><a href="/terms">Terms &amp; Privacy</a></div>
+    <div class="row1">© 2026 Cereal Milk LLC<span class="long">, trading as fein</span><span class="sep">|</span><a href="/terms">Terms &amp; Privacy</a></div>
     <div class="row2"><span class="accent">▸▸ replies within a day</span> <span class="muted">(1–3 to choose · enter to send · esc to cancel)</span></div>
   </footer>
 </div>
