@@ -64,15 +64,15 @@
   const scroll = () => { T.scrollTop = T.scrollHeight; };
   const el = (cls, html) => { const d = document.createElement("div"); d.className = "turn " + cls; d.innerHTML = html; T.appendChild(d); scroll(); return d; };
   const userTurn = (t) => el("user", `<span class="chev">›</span><div class="body">${esc(t)}</div>`);
-  const aiTurn = (html) => el("ai", `<span class="dot">⏺</span><div class="body">${html}</div>`);
-  const toolTurn = (fn, arg) => el("ai tool", `<span class="dot">⏺</span><div class="body"><span class="fn">${esc(fn)}</span><span class="muted">(${esc(arg)})</span></div>`);
+  const aiTurn = (html) => el("ai", `<span class="dot">●</span><div class="body">${html}</div>`);
+  const toolTurn = (fn, arg) => el("ai tool", `<span class="dot">●</span><div class="body"><span class="fn">${esc(fn)}</span><span class="muted">(${esc(arg)})</span></div>`);
   const resultTurn = (html) => el("result", `<span class="elbow">⎿</span><div class="body">${html}</div>`);
   const linkText = (u) => esc(String(u).replace(/^https?:\/\//, ""));
   const mailto = (subject) => `<a href="mailto:sales@fein.vc${subject ? `?subject=${encodeURIComponent(subject)}` : ""}">sales@fein.vc</a>`;
 
   function spinner(label) {
     const d = el("spin", `<span class="dot">·</span><div class="body muted">${esc(label)}</div>`);
-    const g = ["·", "✢", "✳", "✶", "✻", "✽"];
+    const g = ["·", "✢", "✶", "✻", "✽"];
     let i = 0;
     const iv = setInterval(() => { d.firstChild.textContent = g[++i % g.length]; }, 90);
     return () => { clearInterval(iv); d.remove(); };
