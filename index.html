@@ -23,77 +23,11 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<style>
-  :root{
-    --fg:#111;
-    --grey:#767676;
-    --line:#e8e8e8;
-    --blue:#2563eb;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    background:#fff;
-    color:var(--fg);
-    font:400 17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;
-    -webkit-text-size-adjust:100%;
-    display:flex;
-    align-items:center;
-  }
-  main{
-    width:100%;
-    max-width:880px;
-    margin:0 auto;
-    padding:48px 32px;
-  }
+<link rel="preload" href="/fonts/GeistMono-VF-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/site.css">
+<meta name="color-scheme" content="dark">
+<script>document.documentElement.classList.add("js")</script>
 
-  p{margin:0}
-  a{color:inherit}
-
-  .mark{display:block;width:32px;height:32px;margin:0 0 28px}
-  .mark svg{display:block;width:100%;height:100%}
-
-  .lead{max-width:660px;color:var(--grey)}
-  .lead h1{display:inline;font:inherit;color:var(--fg);margin:0}
-  .lead .dark{color:var(--fg)}
-
-  .clients{margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
-  .clients-label{font:inherit;font-size:14px;color:var(--grey);margin:0 0 20px}
-  .list{columns:4;column-gap:24px;font-size:14px;line-height:1.9;margin:0;padding:0;list-style:none}
-  .list li{break-inside:avoid;white-space:nowrap}
-
-  .contact{margin-top:24px;font-size:15px}
-  .contact a{color:var(--blue);text-underline-offset:3px}
-  .contact button{font:inherit;color:var(--blue);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-
-  .pack{margin-top:14px;font-size:15px}
-  .pack form{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-  .pack input[type=email]{font:inherit;flex:1 1 200px;max-width:280px;padding:7px 10px;color:var(--fg);background:#fff;border:1px solid var(--line);border-radius:6px}
-  .pack input[type=email]:focus{outline:none;border-color:var(--blue)}
-  .pack .send{font:inherit;padding:7px 14px;color:#fff;background:var(--blue);border:1px solid var(--blue);border-radius:6px;cursor:pointer}
-  .pack .send:disabled{opacity:.6;cursor:default}
-  .pack .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-  .pack .note{margin-top:8px;font-size:14px;color:var(--grey)}
-  .pack .err{color:#c62f21}
-
-  @media (max-height:800px){
-    main{padding:32px}
-    .mark{margin-bottom:22px}
-    .clients{margin-top:36px;padding-top:24px}
-    .list{line-height:1.75}
-    .contact{margin-top:20px}
-  }
-  @media (max-width:880px){ .list{columns:3} }
-  @media (max-width:680px){ .list{columns:2} }
-  @media (max-width:620px){
-    body{height:auto;align-items:flex-start;font-size:16px}
-    main{padding:32px 20px 48px}
-    .list{column-gap:20px}
-  }
-  @media (max-width:480px){ .list{columns:1} }
-</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -146,51 +80,40 @@
 <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="Rq9a39Z06rpcgKWK" data-version="062024"></script>
 </head>
 <body>
+<div class="term">
+  <header class="hdr">
+    <a class="logo" href="/" aria-label="fein"><svg viewBox="0 0 1080 1080" aria-hidden="true" focusable="false"><rect width="1080" height="1080" fill="#EF0000"/><path fill="#fff" d="M366.3 503.3V525.4H272V503.3ZM303.5 663.5V482Q303.5 468.1 310 458.8Q316.6 449.5 327 444.7Q337.5 440 349.1 440Q358.3 440 364.3 441.5Q370.3 443 373.2 444.3L366 466.4Q364 465.6 360.8 464.8Q357.5 463.9 352.1 463.9Q340.2 463.9 334.8 470Q329.3 476.1 329.3 487.7V663.5ZM459.1 666.9Q435.9 666.9 419.1 656.6Q402.2 646.3 393.1 627.8Q384 609.4 384 584.7Q384 560.1 392.9 541.3Q401.8 522.5 418.1 511.9Q434.3 501.3 456.1 501.3Q468.9 501.3 481.3 505.5Q493.6 509.8 503.7 519.2Q513.8 528.5 519.9 543.9Q525.9 559.2 525.9 581.4V592.2H401.5V570.4H512L500 578.4Q500 562.6 495 550.4Q490.1 538.1 480.3 531.2Q470.6 524.2 456.1 524.2Q441.6 524.2 431.3 531.3Q421 538.4 415.6 549.8Q410.1 561.2 410.1 574.2V588.7Q410.1 606.5 416.3 618.9Q422.4 631.3 433.5 637.6Q444.6 644 459.3 644Q468.7 644 476.5 641.3Q484.2 638.6 489.8 633.1Q495.4 627.5 498.4 619.4L523.3 626.3Q519.6 638.3 510.7 647.5Q501.8 656.6 488.7 661.8Q475.6 666.9 459.1 666.9ZM562.8 663.5V503.3H588.6V663.5ZM575.9 477.1Q568.6 477.1 563.3 472.1Q558 467.1 558 460.1Q558 452.9 563.3 448Q568.6 443 575.9 443Q583.3 443 588.6 448Q593.9 452.9 593.9 460.1Q593.9 467.1 588.6 472.1Q583.3 477.1 575.9 477.1ZM659.7 567.5V663.5H633.9V503.3H658.7L658.8 542.2H655.3Q662.6 519.9 676.1 510.6Q689.6 501.3 707.8 501.3Q724 501.3 736.2 508Q748.4 514.6 755.2 528Q762 541.4 762 561.8V663.5H736.2V563.9Q736.2 545.5 726.5 535Q716.9 524.5 700.1 524.5Q688.6 524.5 679.5 529.5Q670.3 534.6 665 544.2Q659.7 553.8 659.7 567.5Z"/></svg></a>
+    <div>
+      <div class="l1"><b>fein</b><span>formerly 80x</span></div>
+      <h1 class="l2">Software engineering for venture capital</h1>
+      <div class="l3">~/fein.vc</div>
+    </div>
+  </header>
+  <p class="tip"><span class="bar">│</span>51 funds served across the US, Europe and the Middle East · /clients</p>
 
-<main>
-  <a class="mark" href="https://fein.vc/" aria-label="fein"><svg viewBox="0 0 1080 1080" aria-hidden="true" focusable="false"><rect width="1080" height="1080" fill="#EF0000"/><path fill="#fff" d="M366.3 503.3V525.4H272V503.3ZM303.5 663.5V482Q303.5 468.1 310 458.8Q316.6 449.5 327 444.7Q337.5 440 349.1 440Q358.3 440 364.3 441.5Q370.3 443 373.2 444.3L366 466.4Q364 465.6 360.8 464.8Q357.5 463.9 352.1 463.9Q340.2 463.9 334.8 470Q329.3 476.1 329.3 487.7V663.5ZM459.1 666.9Q435.9 666.9 419.1 656.6Q402.2 646.3 393.1 627.8Q384 609.4 384 584.7Q384 560.1 392.9 541.3Q401.8 522.5 418.1 511.9Q434.3 501.3 456.1 501.3Q468.9 501.3 481.3 505.5Q493.6 509.8 503.7 519.2Q513.8 528.5 519.9 543.9Q525.9 559.2 525.9 581.4V592.2H401.5V570.4H512L500 578.4Q500 562.6 495 550.4Q490.1 538.1 480.3 531.2Q470.6 524.2 456.1 524.2Q441.6 524.2 431.3 531.3Q421 538.4 415.6 549.8Q410.1 561.2 410.1 574.2V588.7Q410.1 606.5 416.3 618.9Q422.4 631.3 433.5 637.6Q444.6 644 459.3 644Q468.7 644 476.5 641.3Q484.2 638.6 489.8 633.1Q495.4 627.5 498.4 619.4L523.3 626.3Q519.6 638.3 510.7 647.5Q501.8 656.6 488.7 661.8Q475.6 666.9 459.1 666.9ZM562.8 663.5V503.3H588.6V663.5ZM575.9 477.1Q568.6 477.1 563.3 472.1Q558 467.1 558 460.1Q558 452.9 563.3 448Q568.6 443 575.9 443Q583.3 443 588.6 448Q593.9 452.9 593.9 460.1Q593.9 467.1 588.6 472.1Q583.3 477.1 575.9 477.1ZM659.7 567.5V663.5H633.9V503.3H658.7L658.8 542.2H655.3Q662.6 519.9 676.1 510.6Q689.6 501.3 707.8 501.3Q724 501.3 736.2 508Q748.4 514.6 755.2 528Q762 541.4 762 561.8V663.5H736.2V563.9Q736.2 545.5 726.5 535Q716.9 524.5 700.1 524.5Q688.6 524.5 679.5 529.5Q670.3 534.6 665 544.2Q659.7 553.8 659.7 567.5Z"/></svg></a>
-
-  <div class="lead"><h1>fein is a small group of software engineers for hire.</h1> <span class="dark">We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East.</span> The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.</div>
-
-  <p class="contact"><a href="https://cal.com/daniel-hull-tezr2c/fein-intro" target="_blank" rel="noopener">Book a call</a> &nbsp;&middot;&nbsp; <button type="button" id="pack-open" aria-controls="pack" aria-expanded="false">Receive an information pack</button></p>
-
-  <div class="pack" id="pack" hidden>
-    <form id="pack-form" method="post" action="/api/subscribe" novalidate>
-      <input type="hidden" name="intent" value="info-pack">
-      <input class="hp" id="pack-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <input id="pack-email" name="email" type="email" placeholder="you@fund.com" autocomplete="email" inputmode="email" required aria-label="Your email">
-      <button type="submit" class="send" id="pack-send">Send</button>
-    </form>
-    <p class="note" id="pack-note" hidden></p>
+  <div class="transcript" id="transcript">
+    <div class="static">
+      <div class="turn user"><span class="chev">›</span><div class="body">what does fein do?</div></div>
+      <div class="turn ai"><span class="dot">⏺</span><div class="body"><p>fein is a small group of software engineers for hire. We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East.</p><p>The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.</p></div></div>
+      <div class="turn user"><span class="chev">›</span><div class="body">who have you worked with?</div></div>
+      <div class="turn ai tool"><span class="dot">⏺</span><div class="body"><span class="fn">Bash</span><span class="muted">(ls clients/)</span></div></div>
+      <div class="turn result"><span class="elbow">⎿</span><div class="body">Ace Ventures, Albion VC, Anorak VC, Arc Investors, Auster Capital, Backed VC, Bain Capital Ventures, Blue Cloud Ventures, Bonfire Ventures, Bread and Butter Ventures, Breakers VC, Cash App, Commix Capital, Connect Ventures, Crane VC, Culina Health, Discord, Dynamo Ventures, Fintech Collective, Fiori VC, Friedkin International, Graduate VC, Hardware Club, In Motion Ventures, Karman VC, Las Olas VC, Long Journey Ventures, Marathon Partners, Markd VC, Mass Mutual Ventures, Midas AI, Monte Carlo Capital, ONE VC, Originx, Outlander VC, Outset Capital, Palo Alto Staffing, Play VC, Portal, Prudence VC, Rallyday Partners, RGB, Singularity Capital, Standup Ventures, Tera VC, The Council, Torus Capital, Ultratech Capital, Union Square Ventures, University of Michigan, Wilden Design</div></div>
+      <div class="turn ai"><span class="dot">⏺</span><div class="body"><div class="ask"><div class="q">Have a problem in your fund that nobody has solved yet?</div><div class="opts">
+        <div class="opt"><span class="chev">❯</span><span class="lbl">1. <a href="https://cal.com/daniel-hull-tezr2c/fein-intro" target="_blank" rel="noopener">Book a call</a></span></div>
+        <div class="opt"><span class="chev">❯</span><span class="lbl">2. <a href="mailto:sales@fein.vc?subject=Information%20pack">Receive an information pack</a></span></div>
+        <div class="opt"><span class="chev">❯</span><span class="lbl">3. <a href="mailto:sales@fein.vc">Ask a question</a></span></div>
+      </div></div></div></div>
+    </div>
   </div>
+  <script type="application/json" id="clients-data">["Ace Ventures", "Albion VC", "Anorak VC", "Arc Investors", "Auster Capital", "Backed VC", "Bain Capital Ventures", "Blue Cloud Ventures", "Bonfire Ventures", "Bread and Butter Ventures", "Breakers VC", "Cash App", "Commix Capital", "Connect Ventures", "Crane VC", "Culina Health", "Discord", "Dynamo Ventures", "Fintech Collective", "Fiori VC", "Friedkin International", "Graduate VC", "Hardware Club", "In Motion Ventures", "Karman VC", "Las Olas VC", "Long Journey Ventures", "Marathon Partners", "Markd VC", "Mass Mutual Ventures", "Midas AI", "Monte Carlo Capital", "ONE VC", "Originx", "Outlander VC", "Outset Capital", "Palo Alto Staffing", "Play VC", "Portal", "Prudence VC", "Rallyday Partners", "RGB", "Singularity Capital", "Standup Ventures", "Tera VC", "The Council", "Torus Capital", "Ultratech Capital", "Union Square Ventures", "University of Michigan", "Wilden Design"]</script>
 
-  <div class="clients">
-    <h2 class="clients-label">Clients</h2>
-    <ul class="list">
-      <li>Ace Ventures</li><li>Albion VC</li><li>Anorak VC</li><li>Arc Investors</li><li>Auster Capital</li><li>Backed VC</li><li>Bain Capital Ventures</li><li>Blue Cloud Ventures</li><li>Bonfire Ventures</li><li>Bread and Butter Ventures</li><li>Breakers VC</li><li>Cash App</li><li>Commix Capital</li><li>Connect Ventures</li><li>Crane VC</li><li>Culina Health</li><li>Discord</li><li>Dynamo Ventures</li><li>Fintech Collective</li><li>Fiori VC</li><li>Friedkin International</li><li>Graduate VC</li><li>Hardware Club</li><li>In Motion Ventures</li><li>Karman VC</li><li>Las Olas VC</li><li>Long Journey Ventures</li><li>Marathon Partners</li><li>Markd VC</li><li>Mass Mutual Ventures</li><li>Midas AI</li><li>Monte Carlo Capital</li><li>ONE VC</li><li>Originx</li><li>Outlander VC</li><li>Outset Capital</li><li>Palo Alto Staffing</li><li>Play VC</li><li>Portal</li><li>Prudence VC</li><li>Rallyday Partners</li><li>RGB</li><li>Singularity Capital</li><li>Standup Ventures</li><li>Tera VC</li><li>The Council</li><li>Torus Capital</li><li>Ultratech Capital</li><li>Union Square Ventures</li><li>University of Michigan</li><li>Wilden Design</li>
-    </ul>
-  </div>
-</main>
-
-<script>(function(){var d=document;
-var open=d.getElementById("pack-open"),box=d.getElementById("pack"),form=d.getElementById("pack-form"),email=d.getElementById("pack-email"),send=d.getElementById("pack-send"),note=d.getElementById("pack-note");
-if(!open||!form)return;
-var openedAt=0;
-open.addEventListener("click",function(){
-  if(box.hidden){box.hidden=false;open.setAttribute("aria-expanded","true");openedAt=Date.now();setTimeout(function(){email.focus()},60)}
-  else{box.hidden=true;open.setAttribute("aria-expanded","false")}
-});
-function say(msg,bad){note.textContent=msg;note.className="note"+(bad?" err":"");note.hidden=false}
-form.addEventListener("submit",function(e){e.preventDefault();
-  var v=email.value.trim();
-  if(!v||v.indexOf("@")<1){say("Enter your email so the pack can reach you.",true);email.focus();return}
-  note.hidden=true;send.disabled=true;send.textContent="Sending\u2026";
-  fetch("/api/subscribe",{method:"POST",headers:{"content-type":"application/json",accept:"application/json"},body:JSON.stringify({email:v,intent:"info-pack",website:d.getElementById("pack-hp").value,t:Date.now()-openedAt})})
-  .then(function(r){return r.json().catch(function(){return {}}).then(function(j){if(!r.ok)throw new Error(j.error||"");return j})})
-  .then(function(){form.hidden=true;say("Thanks. The information pack will be on its way to "+v+".",false)})
-  .catch(function(err){send.disabled=false;send.textContent="Send";var m=(err&&err.message)||"";say(/^[A-Z]/.test(m)?m:"That did not send. Try again, or email sales@fein.vc.",true)});
-});
-})();</script>
-
+  <div class="mode">◉ enquiries open · /contact</div>
+  <div class="prompt" id="prompt"><span class="chev">›</span><span class="typed" id="typed"></span><span class="cur" id="cur">▋</span><input id="input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="prompt"></div>
+  <footer class="status">
+    <div class="row1">© 2026 Cereal Milk LLC, trading as fein<span class="sep">|</span><a href="/terms">Terms &amp; Privacy</a></div>
+    <div class="row2"><span class="accent">▶▶ replies within a day</span> <span class="muted">(1–3 to choose · enter to send · esc to cancel)</span></div>
+  </footer>
+</div>
+<script src="/site.js" defer></script>
 </body>
 </html>

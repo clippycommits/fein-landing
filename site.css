@@ -1,0 +1,131 @@
+/* fein.vc — one Claude Code session, in fein's palette.
+   Apple devices render this in SF Mono through ui-monospace (the terminal's
+   own face); everywhere else, Geist Mono (OFL), self-hosted. Black ground,
+   ink, muted ink, one yellow. */
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url(/fonts/GeistMono-VF-latin.woff2) format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url(/fonts/GeistMono-VF-latin-ext.woff2) format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  --bg: #0b0b0b;
+  --ink: #e4e2dd;
+  --muted: #8a8884;
+  --dim: #3a3835;
+  --accent: #ffd23f;
+  --fein-red: #ef0000;
+  --font: ui-monospace, "SF Mono", "Geist Mono", Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+html { background: var(--bg); }
+body {
+  overflow: hidden;                       /* the terminal never scrolls; its transcript does */
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: clamp(12px, 1.5vh, 14px);    /* sized so a session fits the viewport */
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
+}
+::selection { background: var(--accent); color: #000; }
+a { color: inherit; text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 3px; }
+@media (hover: hover) { a:hover { color: var(--accent); text-decoration-color: currentColor; } }
+b { font-weight: 700; }
+.muted { color: var(--muted); }
+.dim { color: var(--dim); }
+.accent { color: var(--accent); }
+
+.term {
+  height: 100dvh;
+  display: flex; flex-direction: column;
+  padding: 1.6lh 2.5ch 1lh;
+}
+
+/* ---- header: mark, name, two lines, like the CLI banner ------------- */
+.hdr { display: flex; gap: 2.5ch; align-items: flex-start; }
+.hdr .logo { width: 3lh; height: 3lh; flex: none; }
+.hdr .logo svg { display: block; width: 100%; height: 100%; }
+.hdr .l1 b { font-weight: 700; }
+.hdr .l1 span { color: var(--muted); margin-left: 1ch; }
+.hdr .l2, .hdr .l3 { color: var(--muted); }
+.tip { margin-top: 1lh; color: var(--muted); }
+.tip .bar { color: var(--dim); margin-right: 1ch; }
+
+/* ---- transcript ------------------------------------------------------ */
+.js .transcript .static { display: none; }     /* the script replays it */
+.ask.done .hint { visibility: hidden; }
+.hdr h1 { font: inherit; }
+.transcript {
+  flex: 1 1 0; min-height: 0;
+  overflow-y: auto; scrollbar-width: none;
+  margin-top: 1lh;
+}
+.transcript::-webkit-scrollbar { display: none; }
+.turn { display: flex; gap: 1ch; }
+.turn > :first-child { flex: none; width: 1ch; }
+.turn .body { min-width: 0; flex: 1 1 auto; }
+.turn.user, .turn.ai, .turn.spin { margin-top: 1lh; }
+.turn:first-child { margin-top: 0; }
+.turn.result { margin-top: 0; }
+.turn.user .chev { color: var(--muted); }
+.turn.ai .dot { color: var(--ink); }
+.turn.ai.tool .dot { color: var(--muted); }
+.turn.spin .dot { color: var(--accent); }
+.turn.result .elbow { color: var(--dim); }
+.turn.result .body { color: var(--muted); }
+.body p + p { margin-top: 1lh; }
+.fn { font-weight: 500; }
+
+/* ls-style column output */
+.ls { display: grid; grid-auto-flow: column; column-gap: 2ch; color: var(--ink); white-space: nowrap; }
+.ls span { display: block; }
+.ls span.pending { visibility: hidden; }
+
+/* ---- the question box (AskUserQuestion) ------------------------------ */
+.ask {
+  border: 1px solid var(--dim); border-radius: 4px;
+  padding: .5lh 1.5ch; width: min(100%, 78ch);
+}
+.ask .q { font-weight: 500; }
+.ask .opts { margin-top: 1lh; }
+.opt { display: flex; gap: 1ch; cursor: pointer; }
+.opt .chev { color: var(--accent); visibility: hidden; width: 1ch; }
+.opt.sel .chev { visibility: visible; }
+.opt .lbl { padding: 0 .5ch; }
+.opt.sel .lbl { background: var(--accent); color: #000; }
+.ask .hint { margin-top: 1lh; color: var(--dim); }
+
+/* ---- bottom chrome: mode line, prompt, status ------------------------ */
+.mode { text-align: right; color: var(--muted); padding: .2lh 0 .4lh; }
+.prompt {
+  position: relative;
+  border-top: 1px solid var(--dim); border-bottom: 1px solid var(--dim);
+  padding: .5lh 0; white-space: pre-wrap; word-break: break-word;
+}
+.prompt .chev { margin-right: 1ch; }
+.prompt .cur { color: var(--muted); }
+.prompt .cur.blink { animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.prompt input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; border: 0; padding: 0; }
+.status { padding-top: .5lh; color: var(--muted); }
+.status .sep { color: var(--dim); margin: 0 1ch; }
+.status .row2 .accent { font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) { .prompt .cur.blink { animation: none; } }
+@media (max-width: 640px) {
+  .term { padding: 1lh 1.5ch .75lh; }
+  .hdr { gap: 1.5ch; }
+  .mode { display: none; }
+}

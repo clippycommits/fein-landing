@@ -43,7 +43,8 @@ export async function POST(request) {
   // What they ticked on the form, read back off the notes the modal prefilled.
   // A lead who typed over that field just loses the line, which is why nothing
   // downstream requires it.
-  const interests = (String(p.responses?.notes?.value ?? "").match(/Interested in:\s*(.+)/) ?? [])[1] ?? null;
+  const notes = String(p.responses?.notes?.value ?? "").trim();
+  const interests = (notes.match(/Interested in:\s*(.+)/) ?? [])[1] ?? null;
   const lead = { first: name.split(" ")[0] || null, last: null, email, interests };
 
   // What the drip send loop looks like for one booking; CREATED and
@@ -148,7 +149,7 @@ export async function POST(request) {
         subject: `fein call booked: ${name || email}${when ? ` on ${when}` : ""}`,
         text: `${name || email} booked${when ? ` for ${when}` : ""}.\nEvent: ${p.title ?? ""}${
           interests ? `\nInterested in: ${interests}` : ""
-        }\n\nThey have the invite from cal.com and one mail from Olivia asking what they want fein to answer on the call. ${queued}${
+        }${notes && !interests ? `\n\n${notes}` : ""}\n\nThey have the invite from cal.com and one mail from Olivia asking what they want fein to answer on the call. ${queued}${
           email ? `\nRebook link: ${callUrl(lead)}` : ""}`,
       });
     } catch (err) {

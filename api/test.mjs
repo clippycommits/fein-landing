@@ -15,6 +15,10 @@ Object.assign(process.env, {
   MAIL_FROM: "fein site <system@fein.vc>",
   UPSTASH_REDIS_REST_URL: "https://redis.test",
   UPSTASH_REDIS_REST_TOKEN: "tok_test",
+  CALCOM_API_KEY: "cal_test",
+  CALCOM_EVENT_TYPE_ID: "6589108",
+  CALCOM_BASE_URL: "https://cal.test",
+  SLOT_SECRET: "slot_test",
 });
 
 let failures = 0;
@@ -26,9 +30,25 @@ const ok = (cond, label) => {
 // ---- fake Resend + Upstash behind global fetch ----------------------------
 const sent = [];          // Resend calls
 const kv = new Map();     // Upstash state
+const calCalls = [];       // cal.com calls
 globalThis.fetch = async (url, init = {}) => {
   const u = String(url);
   const body = init.body ? JSON.parse(init.body) : undefined;
+  if (u.startsWith("https://cal.test")) {
+    const path = u.slice("https://cal.test".length);
+    calCalls.push({ path, method: init.method ?? "GET", body, version: init.headers?.["cal-api-version"] });
+    if (path.startsWith("/slots?")) {
+      return Response.json({ status: "success", data: {
+        "2030-01-06": ["2030-01-06T08:00:00.000Z", "2030-01-06T09:00:00.000Z", "2030-01-06T13:00:00.000Z", "2030-01-06T15:30:00.000Z"].map((start) => ({ start })),
+        "2030-01-07": ["2030-01-07T10:00:00.000Z", "2030-01-07T14:00:00.000Z"].map((start) => ({ start })),
+      } });
+    }
+    if (path === "/bookings") {
+      if (body.start === "2030-01-07T14:00:00.000Z") return Response.json({ status: "error", error: { message: "User either already has booking at this time or is not available" } }, { status: 400 });
+      return Response.json({ status: "success", data: { uid: "bk_test", start: body.start, end: body.start, meetingUrl: "https://meet.google.com/abc" } });
+    }
+    return Response.json({ status: "error" }, { status: 404 });
+  }
   if (u.startsWith("https://resend.test")) {
     const path = u.slice("https://resend.test".length);
     // GET /emails is what a booking uses to find its own pending mail, so the
@@ -426,6 +446,86 @@ console.log("Who every mail comes from:");
   // The HTML part carries them as &#39;, which is what renders in a client.
   ok(external.every((m) => SPOKEN.test(String(m.html ?? m.text).replace(/&#39;/g, "'"))),
     "including the HTML part, which is the one a reader actually sees");
+}
+
+
+// ---- the homepage terminal: slots and bookings ------------------------------
+console.log("Booking from the terminal:");
+{
+  const { signSlot, slotOk, offer, slotLabel } = await import("./_calcom.mjs");
+  const { GET: slots } = await import("./slots.mjs");
+  const { POST: book } = await import("./book.mjs");
+
+  const start = "2030-01-06T09:00:00.000Z";
+  const token = signSlot(start);
+  ok(slotOk(start, token), "a start we offered, with its token, is accepted");
+  ok(!slotOk("2030-01-06T09:30:00.000Z", token), "the same token does not cover a different start");
+  ok(!slotOk(start, token.replace(/.$/, (c) => (c === "0" ? "1" : "0"))), "a tampered token is refused");
+  ok(!slotOk(start, signSlot(start, Date.now() - 31 * 60_000)), "an offer older than half an hour has expired");
+  ok(!slotOk(start, "") && !slotOk(start, undefined), "no token, no booking");
+
+  const all = ["2030-01-06T08:00:00.000Z", "2030-01-06T09:00:00.000Z", "2030-01-06T13:00:00.000Z", "2030-01-06T15:30:00.000Z", "2030-01-07T10:00:00.000Z", "2030-01-07T14:00:00.000Z"];
+  const picked = offer(all, { tz: "Europe/London" });
+  ok(picked.length === 4, `the offer is short: ${picked.length} of ${all.length} open times`);
+  ok(picked[0] === "2030-01-06T09:00:00.000Z" && picked[1] === "2030-01-06T15:30:00.000Z",
+    "a morning and an afternoon per day, in the visitor's own zone");
+  // The same openings seen from Bali are 16:00 to 23:30 and 18:00, 22:00:
+  // only the two afternoon-in-Bali starts are within working hours there.
+  const bali = offer(all, { tz: "Asia/Makassar" });
+  ok(bali.length === 1 && bali[0] === "2030-01-06T08:00:00.000Z",
+    `nothing is offered at midnight in the visitor's zone: ${bali.length} start for Bali, at 16:00 local`);
+  ok(offer(["2030-01-06T23:00:00.000Z"], { tz: "Europe/London" }).length === 0, "a day with only an 11pm opening is skipped");
+  ok(slotLabel(start, "Europe/London") === "Sun 6 Jan, 09:00", `labelled for a person: ${slotLabel(start, "Europe/London")}`);
+  ok(slotLabel(start, "America/New_York") === "Sun 6 Jan, 04:00", "and shifted with the zone");
+
+  const offered = await (await slots(new Request("https://fein.vc/api/slots?tz=Europe/London"))).json();
+  ok(offered.slots.length === 4 && offered.slots.every((s) => slotOk(s.start, s.token)), "/api/slots signs every start it offers");
+  ok(offered.fallback === "https://cal.com/daniel/fein-intro", "and carries the public calendar as the fallback");
+  ok(!offered.slots.some((s) => s.start === "2030-01-06T08:00:00.000Z"), "an 8am start is not offered when there is a 9am");
+
+  const post = (b, origin = "https://fein.vc") => book(new Request("https://fein.vc/api/book", {
+    method: "POST", headers: { "content-type": "application/json", origin, "x-forwarded-for": "10.0.0.9" },
+    body: JSON.stringify(b),
+  }));
+  const good = { name: "Priya Nair", email: "priya@meridianwealth.example", fund: "Meridian", note: "LP reporting", start, token, tz: "Europe/London", t: 9000, website: "" };
+  let r = await post({ ...good, website: "http://spam.example" });
+  ok(r.status === 200 && (await r.json()).booked === false, "honeypot filled: fake success, nothing booked");
+  r = await post({ ...good, t: 900 });
+  ok(r.status === 400, "answered faster than a person could: refused");
+  r = await post(good, "https://evil.example");
+  ok(r.status === 403, "posted from another site: refused");
+  r = await post({ ...good, token: "nope" });
+  ok(r.status === 400 && (await r.json()).retry === true, "a start we did not offer: refused, and the terminal is told to pick again");
+  r = await post({ ...good, email: "priya" });
+  ok(r.status === 400, "a bad email: refused");
+  r = await post({ ...good, note: "see http://a.example http://b.example http://c.example" });
+  ok(r.status === 400, "link-stuffed notes: refused");
+
+  const before = calCalls.length;
+  r = await post(good);
+  const j = await r.json();
+  ok(r.status === 200 && j.booked === true && j.uid === "bk_test", "a real answer books");
+  const created = calCalls.slice(before).find((c) => c.path === "/bookings");
+  ok(created?.version === "2024-08-13" && created.body.eventTypeId === 6589108 && created.body.attendee.email === good.email,
+    "through cal.com's bookings API, for the intro event type, with the attendee");
+  ok(/Fund: Meridian/.test(created.body.bookingFieldsResponses.notes) && /Problem: LP reporting/.test(created.body.bookingFieldsResponses.notes),
+    "the fund and the problem ride on the invite notes");
+  ok(j.when === "Sun 6 Jan, 09:00" && j.meetingUrl === "https://meet.google.com/abc", "and the terminal gets the time and the Meet link back");
+  ok(!sent.slice(-3).some((s) => s.body?.to?.[0] === good.email), "nothing is mailed from here: cal.com's webhook does that");
+
+  const takenStart = "2030-01-07T14:00:00.000Z";
+  r = await post({ ...good, start: takenStart, token: signSlot(takenStart) });
+  const tj = await r.json();
+  ok(r.status === 409 && tj.retry === true && tj.fallback === "https://cal.com/daniel/fein-intro",
+    "a slot taken meanwhile: pick again, with the public calendar as the way out");
+
+  // Per-IP caps, tighter than the enquiry's: three an hour.
+  let last;
+  for (let i = 0; i < 3; i++) last = await post(good);
+  ok(last.status === 429, "the fourth booking in an hour from one address is refused");
+
+  const h = await (await health(new Request("https://fein.vc/api/health"))).json();
+  ok(h.booking === "cal.com api", "health reports the calendar is wired");
 }
 
 if (failures) { console.error(`\n${failures} LEAD TEST(S) FAILED`); process.exit(1); }
