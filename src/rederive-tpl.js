@@ -95,6 +95,14 @@ for (const [token, file] of Object.entries(AVATARS)) {
   tpl = tpl.split(b).join("__" + token + "__");
 }
 
+// ---- 5b. the inlined fein tile back to its placeholder ----
+// Mirror of build.js's BRAND_MARK: the nav, the footer and the bot avatar all
+// carry the same inline SVG, hence split/join.
+const LOGO_SVG = fs.readFileSync("logo.svg", "utf8");
+const BRAND_MARK = `<svg class="mark" viewBox="0 0 1080 1080" aria-hidden="true" focusable="false"><rect width="1080" height="1080" fill="${(LOGO_SVG.match(/<rect[^>]*fill="(#[0-9A-Fa-f]{6})"/) || [])[1]}"/>${(LOGO_SVG.match(/<path[^>]*\/>/) || [])[0]}</svg>`;
+if (!tpl.includes(BRAND_MARK)) throw new Error("__BRAND_MARK__: the inlined logo.svg was not found in index.html (logo.svg regenerated since the last build?)");
+tpl = tpl.split(BRAND_MARK).join("__BRAND_MARK__");
+
 // ---- 6. splice back what the home page deliberately does not ship ----
 // Replay build.js's removals against the old template, recording the text each
 // one took and the 48-char seam it left, then undo them on the derived body,
@@ -129,7 +137,7 @@ for (let k = CUTS.length - 1; k >= 0; k--) {
 }
 
 // ---- 7. guards, then write ----
-["__LOGO_SPRITE__", "__GEIST_SANS_B64__", "__GEIST_MONO_B64__", "__INTER_B64__", "__AV_DR__", "__AV_MF__", "__AV_AL__", "__AV_DH__", "/*change-replay:start*/", "<!--fein-nav:html:start-->", "/*fein-nav:css:start*/"].forEach(function (need) {
+["__LOGO_SPRITE__", "__BRAND_MARK__", "__GEIST_SANS_B64__", "__GEIST_MONO_B64__", "__INTER_B64__", "__AV_DR__", "__AV_MF__", "__AV_AL__", "__AV_DH__", "/*change-replay:start*/", "<!--fein-nav:html:start-->", "/*fein-nav:css:start*/"].forEach(function (need) {
   if (!tpl.includes(need)) throw new Error("re-derived template is missing " + need);
 });
 if (/intercomSettings|data-goatcounter|_vercel/.test(tpl)) throw new Error("an analytics or chat append survived into the template");

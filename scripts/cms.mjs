@@ -38,7 +38,7 @@ const PIPELINE = [
 // same pair rederive-tpl.js strips: analytics must not run in preview
 const GOAT_RE = /\s*<script data-goatcounter[\s\S]*?<\/script>\s*<script>[^<]*goatcounter[\s\S]*?<\/script>/g;
 
-const STATIC_OK = { "/favicon.svg": "image/svg+xml", "/og.png": "image/png", "/site.webmanifest": "application/manifest+json", "/robots.txt": "text/plain", "/llms.txt": "text/plain", "/404.html": "text/html" };
+const STATIC_OK = { "/favicon.svg": "image/svg+xml", "/logo.svg": "image/svg+xml", "/logo.png": "image/png", "/og.png": "image/png", "/site.webmanifest": "application/manifest+json", "/robots.txt": "text/plain", "/llms.txt": "text/plain", "/404.html": "text/html" };
 
 function git(...args) {
   return execFileSync("git", args, { cwd: ROOT, encoding: "utf8" });

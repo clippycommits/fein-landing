@@ -6,6 +6,7 @@ The deployed `index.html` is generated: do not edit it by hand.
 - `build.js`: inlines fonts/logos, emits `../index.html` plus the sub-pages and robots/sitemap/llms/favicon/manifest (run `node build.js` from this directory with the output dir set to `..`)
 - `404.html`: the not-found page; the root `404.html` is built from it (fonts inlined, chat launcher patched in), so edit it here, never at the root
 - `logos/`: brand marks inlined into the SVG sprite
+- `logo.png`: the fein tile as the brand was supplied (1080x1080, #EF0000, white "fein"); `logo.svg` is the same tile as a font-free vector, regenerated from `Inter.woff2` by `uv run --with fonttools --with brotli python scripts/logo-svg.py`. `build.js` inlines it at every `__BRAND_MARK__` (nav, footer, the bot avatar in #memory), writes `../favicon.svg` (rounded corners) and `../logo.svg`, and embeds it in `og.svg`; `node scripts/icons.mjs` (after `build.js`) rasterises the icons, `../logo.png` / `../logo-128.png` for email signatures, and `../og.png`
 
 Built from the fundgraph/fein project. Design: Vercel-black system (Geist, #000
 ground, monochrome + one quiet blue accent), Aug 2026. The acid-chartreuse
