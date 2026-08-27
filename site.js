@@ -38,6 +38,7 @@
       "The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.",
     ],
     q2: "who have you worked with?",
+    hi: "Ask about fein, or tap a question below.",
     ask: "Have a problem in your fund that nobody has solved yet?",
     options: ["Book a call", "Receive an information pack", "Ask a question"],
   };
@@ -129,7 +130,9 @@
   }
 
   /* ---- the prompt: menus and short forms ------------------------------ */
-  let state = "intro"; // intro | menu | form | busy
+  let state = "intro"; // intro | idle | menu | form | busy
+  const chips = $("#chips");
+  const setState = (v) => { state = v; if (chips) chips.hidden = !(coarse && v === "idle"); };
   let menu = null, mainMenu = null, form = null, sel = 0;
   const sync = () => {
     if (state === "menu" && menu?.multi) {
@@ -160,13 +163,13 @@
     if (multi) rows.push(`<div class="opt go" data-i="${labels.length}"><span class="chev">❯</span><span class="lbl">↵ Done</span></div>`);
     const box = aiTurn(`<div class="ask"><div class="q">${esc(question)}</div><div class="opts">${rows.join("")}</div><div class="hint">${esc(hintFor(hint))}</div></div>`).querySelector(".ask");
     menu = { box, labels, onPick, multi, otherIndex: multi ? labels.length - 1 : -1, doneIndex: multi ? labels.length : -1, checked: new Set(), onDone: opts.onDone };
-    state = "menu";
+    setState("menu");
     select(0);
     placeholder(multi ? "Something else…" : "tap an option, or type here");
     if (coarse && !multi) input.blur(); // put the keyboard away while choosing
     return menu;
   }
-  function arm(m) { menu = m; state = "menu"; select(0); }
+  function arm(m) { menu = m; setState("menu"); select(0); }
   const rowsOf = (m) => $$(".opt", m.box);
   function select(n) {
     if (!menu) return;
@@ -188,7 +191,7 @@
     if (text) picks.push(text);
     clear();
     m.box.classList.add("done");
-    menu = null; state = "busy";
+    menu = null; setState("busy");
     resultTurn(picks.length ? esc(picks.join(" · ")) : "(skipped)");
     m.onDone(picks.length ? picks.join("; ") : null);
   }
@@ -198,11 +201,11 @@
     resultTurn(esc(m.labels[i]));
     m.box.classList.add("done");
     menu = null;
-    state = "busy";
+    setState("busy");
     m.onPick(i);
   }
 
-  function startForm(steps, onDone) { form = { steps, i: 0, answers: {}, onDone }; state = "form"; askStep(); }
+  function startForm(steps, onDone) { form = { steps, i: 0, answers: {}, onDone }; setState("form"); askStep(); }
   function askStep() {
     const s = form.steps[form.i];
     input.inputMode = s.email ? "email" : "text";
@@ -217,7 +220,7 @@
     }
     const m = openMenu(s.ask, s.choices, "enter to select · ↑↓ to move · or type your own", (i) => {
       form = f;
-      if (s.other && i === s.choices.length - 1) { state = "form"; aiTurn(esc(s.other)); return; }
+      if (s.other && i === s.choices.length - 1) { setState("form"); aiTurn(esc(s.other)); return; }
       accept(s.choices[i]);
     });
     m.free = (v) => { form = f; m.box.classList.add("done"); userTurn(v); accept(v); };
@@ -235,7 +238,7 @@
     form.i += 1;
     if (form.i < form.steps.length) return askStep();
     const f = form;
-    form = null; state = "busy"; input.inputMode = "text";
+    form = null; setState("busy"); input.inputMode = "text";
     f.onDone(f.answers);
   }
   function cancel() {
@@ -244,13 +247,17 @@
     resultTurn("cancelled");
     form = null; input.inputMode = "text";
     if (menu && menu !== mainMenu) menu.box.classList.add("done");
-    arm(mainMenu);
+    idle();
+  }
+  function idle() {
+    if (mainMenu) { arm(mainMenu); placeholder("tap an option, or type here"); return; }
+    setState("idle");
+    placeholder("ask fein…");
+    if (coarse) input.blur();
   }
   function done() {
-    aiTurn(`Anything else? <span class="muted">${coarse ? "tap an option above" : "1 · 2 · 3"}</span>`);
-    arm(mainMenu);
-    placeholder("tap an option, or type here");
-    if (coarse) input.blur();
+    aiTurn(`Anything else? <span class="muted">${mainMenu ? "1 · 2 · 3" : "tap below"}</span>`);
+    idle();
   }
 
   async function api(path, body) {
@@ -383,10 +390,18 @@
         if (!v.trim()) return pick(sel);
         const text = v.trim();
         clear();
-        if (menu.free) { const m = menu; menu = null; state = "busy"; return m.free(text); }
+        if (menu.free) { const m = menu; menu = null; setState("busy"); return m.free(text); }
         userTurn(text);
         aiTurn(`Best answered on a call: press <b>1</b>, or write to ${mailto()}.`);
       }
+      return;
+    }
+    if (state === "idle" && e.key === "Enter") {
+      e.preventDefault();
+      const text = v.trim();
+      if (!text) return;
+      clear(); userTurn(text);
+      aiTurn(`Best answered on a call: tap <b>book a call</b> below, or write to ${mailto()}.`);
       return;
     }
     if (state === "form" && e.key === "Enter") { e.preventDefault(); const val = v.trim(); clear(); answer(val); return; }
@@ -423,28 +438,55 @@
     visualViewport.addEventListener("scroll", () => window.scrollTo(0, 0));
   }
 
-  /* ---- the replay ----------------------------------------------------------- */
-  async function run() {
-    $$(".static", T).forEach((n) => n.remove());
-    await sleep(400);
+  /* ---- the two answers ----------------------------------------------------- */
+  async function sayWhat() {
     await typePrompt(COPY.q1); userTurn(COPY.q1);
     await think(700);
     const first = aiTurn("<p></p><p></p>");
     for (const [i, p] of $$("p", first).entries()) await typeInto(p, COPY.a1[i]);
-    await sleep(600);
-
+  }
+  async function sayWho() {
     await typePrompt(COPY.q2); userTurn(COPY.q2);
     await think(550);
     toolTurn("Bash", "ls clients/");
     const r = resultTurn(lsGrid(names));
     for (const cell of $$(".pending", r)) { cell.classList.remove("pending"); await sleep(12); }
-    await sleep(500);
+  }
 
-    await think(550);
-    mainMenu = openMenu(COPY.ask, COPY.options, "enter to select · ↑↓ to move · 1–3 to jump", (i) => [bookCall, infoPack, askQuestion][i]());
+  // On a phone the questions are chips above the prompt: each sends itself.
+  const ACTIONS = {
+    what: async () => { await sayWhat(); idle(); },
+    who: async () => { await sayWho(); idle(); },
+    call: () => { userTurn("book a call"); bookCall(); focusHard(); },
+    pack: () => { userTurn("information pack"); infoPack(); focusHard(); },
+    ask: () => { userTurn("ask a question"); askQuestion(); focusHard(); },
+  };
+  $$(".chip").forEach((ch) => ch.addEventListener("click", () => {
+    if (state !== "idle") return;
+    ch.classList.add("used");
+    setState("busy");
+    ACTIONS[ch.dataset.act]?.();
+  }));
+
+  /* ---- the replay ----------------------------------------------------------- */
+  async function run() {
+    $$(".static", T).forEach((n) => n.remove());
+    if (coarse) {
+      await sleep(300);
+      await typeInto($("p", aiTurn("<p></p>")), COPY.hi, 10);
+    } else {
+      await sleep(400);
+      await sayWhat();
+      await sleep(600);
+      await sayWho();
+      await sleep(500);
+      await think(550);
+      mainMenu = openMenu(COPY.ask, COPY.options, "enter to select · ↑↓ to move · 1–3 to jump", (i) => [bookCall, infoPack, askQuestion][i]());
+    }
     ready = true;
+    fast = reduce; // a tap that skipped the intro should not skip everything after it
     clear(); cur.classList.add("blink"); focus();
-    placeholder("tap an option, or type here");
+    idle();
   }
   run();
 })();

@@ -156,6 +156,20 @@ b { font-weight: 700; }
 .coarse .ask { padding: .6lh 1.25ch; }
 .coarse .status .row2 .muted { display: none; }
 
+/* chips: the questions, one tap each (phones only) */
+.chips { display: none; }
+.coarse .chips { display: flex; flex-wrap: wrap; gap: .5lh .75ch; padding: .5lh 0 .4lh; }
+.chips[hidden] { display: none; }
+.chip {
+  flex: none; font: inherit; font-size: 13px; line-height: 1;
+  color: var(--ink); background: transparent; border: 1px solid var(--dim); border-radius: 999px;
+  padding: .55em 1.1ch; -webkit-appearance: none; white-space: nowrap;
+}
+.chip::before { content: "› "; color: var(--accent); }
+.chip.used { color: var(--muted); }
+.chip:active { color: #000; background: var(--accent); border-color: var(--accent); }
+.chip:active::before { color: #000; }
+
 @media (prefers-reduced-motion: reduce) { .prompt .cur.blink { animation: none; } }
 @media (max-width: 640px) {
   body { font-size: 13px; }
