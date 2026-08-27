@@ -35,7 +35,7 @@
     q1: "what does fein do?",
     a1: [
       "fein is a small group of software engineers for hire. We work on the problems in venture capital that nobody has solved yet, across the US, Europe and the Middle East.",
-      "The data infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.",
+      "We build the infrastructure, analytics and agents behind how a fund sources deals, runs diligence, tracks its portfolio, raises capital and reports to LPs.",
     ],
     q2: "who have you worked with?",
     hi: "Ask about fein, or tap a question below.",
@@ -91,7 +91,7 @@
     stop();
   }
   // The assistant's own words arrive typed, two characters a tick.
-  async function typeInto(el, text, ms = 8) {
+  async function typeInto(el, text, ms = 10) {
     if (fast) { el.textContent = text; return; }
     el.classList.add("typing");
     for (let i = 2; i <= text.length && !fast; i += 2) { el.textContent = text.slice(0, i); scroll(); await sleep(ms); }
