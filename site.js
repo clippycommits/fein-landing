@@ -43,7 +43,16 @@
     { key: "name", ask: "Your name?" },
     { key: "email", ask: "Work email?", email: true },
     { key: "fund", ask: "Fund or firm?" },
-    { key: "note", ask: "The problem, in a sentence? (enter to skip)", optional: true },
+    { key: "note", ask: "What's the problem?", optional: true,
+      choices: [
+        "Deal sourcing and pipeline",
+        "Diligence",
+        "Portfolio data and monitoring",
+        "LP reporting and fundraising",
+        "AI agents on the fund's own data",
+        "Something else",
+      ],
+      other: "Go on, in a sentence." },
   ];
   const PACK_STEPS = [{ key: "email", ask: "Work email?", email: true }];
   const QUESTION_STEPS = [
@@ -137,15 +146,28 @@
   function startForm(steps, onDone) { form = { steps, i: 0, answers: {}, onDone }; state = "form"; askStep(); }
   function askStep() {
     const s = form.steps[form.i];
-    aiTurn(esc(s.ask));
     input.inputMode = s.email ? "email" : "text";
+    if (!s.choices) return aiTurn(esc(s.ask));
+    // A step with choices is a select box; the last choice, or just typing,
+    // gives a free answer.
+    const f = form;
+    const m = openMenu(s.ask, s.choices, "enter to select · ↑↓ to move · or type your own", (i) => {
+      form = f;
+      if (s.other && i === s.choices.length - 1) { state = "form"; aiTurn(esc(s.other)); return; }
+      accept(s.choices[i]);
+    });
+    m.free = (v) => { form = f; m.box.classList.add("done"); userTurn(v); accept(v); };
   }
+  // Free text at the prompt, for the current step.
   function answer(v) {
     const s = form.steps[form.i];
     if (!v && !s.optional) return resultTurn("required");
     if (v && s.email && !EMAIL_RE.test(v)) { userTurn(v); return resultTurn("that doesn't look like an email, try again"); }
     userTurn(v || "(skipped)");
-    form.answers[s.key] = v || null;
+    accept(v || null);
+  }
+  function accept(v) {
+    form.answers[form.steps[form.i].key] = v;
     form.i += 1;
     if (form.i < form.steps.length) return askStep();
     const f = form;
@@ -281,7 +303,10 @@
       if (e.key === "Enter") {
         e.preventDefault();
         if (!v.trim()) return pick(sel);
-        userTurn(v.trim()); clear();
+        const text = v.trim();
+        clear();
+        if (menu.free) { const m = menu; menu = null; state = "busy"; return m.free(text); }
+        userTurn(text);
         aiTurn(`Best answered on a call: press <b>1</b>, or write to ${mailto()}.`);
       }
       return;
